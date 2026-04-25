@@ -1,194 +1,355 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>YL美單接龍訂購表單</title>
 
 <style>
+:root{
+  --green:#5f7f5f;
+  --dark:#3f5f45;
+  --cream:#fffaf1;
+  --gold:#c8a978;
+  --light:#edf4ea;
+  --text:#2f332f;
+  --muted:#777;
+  --border:#e6dcc8;
+}
+*{box-sizing:border-box}
 body{
-  font-family:"Microsoft JhengHei",sans-serif;
-  background:#f6f4ee;
   margin:0;
-  padding-bottom:140px;
+  font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;
+  background:linear-gradient(180deg,#fffaf1,#f3efe5);
+  color:var(--text);
+  padding-bottom:190px;
 }
-.container{
-  max-width:600px;
-  margin:auto;
+.wrap{max-width:760px;margin:auto;padding:16px}
+.hero{
+  background:linear-gradient(135deg,var(--dark),var(--green));
+  color:white;
+  border-radius:24px;
+  padding:24px 18px;
+  margin-bottom:16px;
+}
+.hero h1{margin:0 0 8px;font-size:24px}
+.hero p{margin:0;font-size:14px;opacity:.92}
+.section{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:22px;
   padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 8px 20px rgba(63,95,69,.08);
 }
-h1{
-  background:#5f7f5f;
-  color:#fff;
-  padding:16px;
-  border-radius:16px;
-}
-.card{
-  background:#fff;
-  padding:14px;
-  border-radius:14px;
-  margin-bottom:12px;
-}
-input,textarea,select{
+h2{font-size:19px;color:var(--dark);margin:0 0 12px}
+label{font-weight:bold;margin:10px 0 5px;display:block}
+input,select,textarea{
   width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #ddd;
-  margin-top:6px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:13px;
+  font-size:16px;
 }
+textarea{min-height:90px}
 .product{
-  border:1px solid #ddd;
-  padding:10px;
-  border-radius:12px;
+  border:1px solid var(--border);
+  background:#fffdf8;
+  border-radius:18px;
+  padding:13px;
   margin-bottom:10px;
 }
+.product-top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+.name{font-weight:900;color:var(--dark)}
+.price{
+  background:var(--light);
+  color:var(--dark);
+  border-radius:999px;
+  padding:5px 10px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.meta{font-size:13px;color:var(--muted);margin:6px 0}
+.row{
+  display:grid;
+  grid-template-columns:80px 1fr 90px;
+  gap:8px;
+  align-items:center;
+}
+.subtotal{text-align:right;font-weight:900;color:var(--dark)}
+.check{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:8px;
+}
+.check input{width:auto;margin-top:4px}
 .summary{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:#fff;
+  background:rgba(255,250,241,.97);
+  border-top:1px solid var(--border);
+  box-shadow:0 -8px 24px rgba(0,0,0,.08);
+}
+.summary-inner{
+  max-width:760px;
+  margin:auto;
+  padding:12px 16px;
+}
+.summary-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 12px;
+  font-size:14px;
+}
+.summary-grid div{
+  display:flex;
+  justify-content:space-between;
+}
+.total{
+  background:var(--dark);
+  color:white;
+  border-radius:16px;
   padding:12px;
-  border-top:2px solid #ddd;
+  margin:10px 0;
+  display:flex;
+  justify-content:space-between;
+  font-weight:900;
 }
 button{
   width:100%;
-  padding:14px;
-  background:#c8a978;
   border:none;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:bold;
+  background:linear-gradient(135deg,#d7b46a,#c8a978);
+  color:#2f2618;
+  padding:15px;
+  border-radius:16px;
+  font-size:17px;
+  font-weight:900;
+}
+.success{
+  display:none;
+  text-align:center;
+  background:white;
+  border-radius:24px;
+  padding:32px 18px;
+}
+@media(max-width:430px){
+  .row{grid-template-columns:65px 1fr}
+  .subtotal{grid-column:1/-1;text-align:left}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-<h1>YL美單接龍訂購表單</h1>
+<div class="wrap" id="page">
+  <div class="hero">
+    <h1>🌿 YL美單接龍訂購表單</h1>
+    <p>請填寫資料與商品數量，系統會自動計算金額與 PV。送出後會依接龍順序確認訂單。</p>
+  </div>
 
-<form id="form"
-action="https://docs.google.com/forms/d/e/1FAIpQLSfM46IIgyNwNR-mSkk8k1K4h3cbVMA22vuF_piPZvVPtjC4kw/formResponse"
-method="POST"
-target="hidden_iframe">
+  <form id="orderForm"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSfM46IIgyNwNR-mSkk8k1K4h3cbVMA22vuF_piPZvVPtjC4kw/formResponse"
+    method="POST"
+    target="hidden_iframe">
 
-<!-- ⚠️ 把下面 entry.xxxx 改成你的表單ID -->
+    <div class="section">
+      <h2>基本資料</h2>
 
-<div class="card">
-<label>名字 / 暱稱 *</label>
-<input name="entry.xxxxx1" required>
+      <label>名字 / 暱稱 *</label>
+      <input name="entry.2061640866" required placeholder="請輸入名字或暱稱">
 
-<label>聯絡方式 *</label>
-<input name="entry.xxxxx2" required>
+      <label>聯絡方式 *</label>
+      <input name="entry.1056863373" required placeholder="Line ID / 電話 / IG">
 
-<label>是否願意等待 *</label>
-<select name="entry.xxxxx3" required>
-<option value="">請選擇</option>
-<option>可以等</option>
-<option>無法等待</option>
-</select>
+      <label>Email</label>
+      <input name="emailAddress" type="email" placeholder="可填寫 Email，方便通知">
 
-<label>備註</label>
-<textarea name="entry.xxxxx4"></textarea>
-</div>
+      <label>是否明白美單不可取消，願意等待湊團省運代購？ *</label>
+      <select name="entry.1510799457" required>
+        <option value="">請選擇</option>
+        <option value="✅ 可以等">✅ 可以等</option>
+        <option value="❌ 想先購（願意自行分散運費）">❌ 想先購（願意自行分散運費）</option>
+      </select>
 
-<div class="card">
-<h3>商品訂購</h3>
+      <input type="hidden" name="entry.1950925140" value="明白">
+    </div>
 
-<div class="product">
-寧夏紅隨手包 $4500
-<input type="number" min="0" value="0" class="qty" data-price="4500">
-</div>
+    <div class="section">
+      <h2>商品訂購區</h2>
+      <div id="products"></div>
+    </div>
 
-<div class="product">
-防禦套組A $8800
-<input type="number" min="0" value="0" class="qty" data-price="8800">
-</div>
+    <div class="section">
+      <h2>其他單品</h2>
+      <p style="font-size:14px;color:#777;">其他單品將人工確認計算，可填商品名稱、數量、金額、PV。</p>
+      <textarea name="entry.962325365" id="otherItem" placeholder="例如：商品名稱 / 數量 / 金額 / PV / 備註"></textarea>
+    </div>
 
-<div class="product">
-防禦套組B $14440
-<input type="number" min="0" value="0" class="qty" data-price="14440">
-</div>
+    <div class="section">
+      <h2>送出前確認</h2>
 
-<div class="product">
-痘痘膏 $1112 (PV29.25)
-<input type="number" min="0" value="0" class="qty" data-price="1112" data-pv="29.25">
-</div>
+      <label class="check">
+        <input type="checkbox" required>
+        <span>我明白美單送出後不可取消。</span>
+      </label>
 
-<div class="product">
-有機枸杞乾 $1140
-<input type="number" min="0" value="0" class="qty" data-price="1140">
-</div>
+      <label class="check">
+        <input type="checkbox" required name="entry.990721932" value="1">
+        <span>我明白匯款帳號將於確認後提供，匯款後需回傳匯款日期與帳號後五碼。</span>
+      </label>
 
-<div class="product">
-咳嗽三寶 $2910
-<input type="number" min="0" value="0" class="qty" data-price="2910">
-</div>
+      <label class="check">
+        <input type="checkbox" required name="entry.14570848" value="1">
+        <span>我明白本預購單需經確認後才正式成立。</span>
+      </label>
 
-<div class="product">
-咳嗽膏（需人工確認）
-<input type="number" min="0" value="0" class="qty">
-</div>
+      <label class="check">
+        <input type="checkbox" required>
+        <span>金額如有誤差，仍依群組公告規則為主。</span>
+      </label>
+    </div>
 
-<div class="product">
-盜賊潤喉糖 白 $920
-<input type="number" min="0" value="0" class="qty" data-price="920">
-</div>
+    <button type="submit">送出美單訂購資料</button>
+  </form>
 
-<div class="product">
-盜賊潤喉糖 黃 $850
-<input type="number" min="0" value="0" class="qty" data-price="850">
-</div>
-
-</div>
-
-<div class="card">
-<h3>確認聲明</h3>
-<label><input type="checkbox" required> 不可取消</label><br>
-<label><input type="checkbox" required> 需等待確認</label><br>
-<label><input type="checkbox" required> 匯款後回報</label><br>
-<label><input type="checkbox" required> 以群組為準</label>
-</div>
-
-<input type="hidden" id="total" name="entry.xxxxx5">
-
-<button type="submit">送出美單訂購資料</button>
-
-</form>
-
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-
+  <div class="success" id="success">
+    <h2>謝謝您的填寫！</h2>
+    <p>我們會依照接龍順序與商品狀況確認訂單。<br>
+    確認後將提供匯款帳號，請完成匯款後回傳匯款日期與帳號後五碼。</p>
+  </div>
 </div>
 
 <div class="summary">
-總金額：<span id="money">0</span>
+  <div class="summary-inner">
+    <div class="summary-grid">
+      <div><span>商品總金額</span><strong id="sumMoney">$0</strong></div>
+      <div><span>商品總數量</span><strong id="sumQty">0</strong></div>
+      <div><span>PV 合計</span><strong id="sumPV">0</strong></div>
+      <div><span>需人工確認</span><strong id="manualCount">0</strong></div>
+    </div>
+    <div class="total">
+      <span>訂單總金額</span>
+      <span id="grandTotal">$0</span>
+    </div>
+  </div>
 </div>
 
-<script>
-let qtys=document.querySelectorAll(".qty");
-let total=0;
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
-function calc(){
-  total=0;
-  qtys.forEach(q=>{
-    let p=q.dataset.price;
-    if(p){
-      total+=q.value*p;
-    }
-  });
-  document.getElementById("money").innerText=total;
-  document.getElementById("total").value=total;
+<script>
+const products = [
+  {name:"寧夏紅隨手包", price:4500, pv:0, entry:"entry.1302584334"},
+  {name:"防禦套組A", price:8800, pv:0, entry:"entry.1477804728"},
+  {name:"防禦套組B", price:14440, pv:0, entry:"entry.639673888"},
+  {name:"痘痘膏", price:1112, pv:29.25, entry:"entry.235779650"},
+  {name:"有機枸杞乾", price:1140, pv:0, entry:"entry.1002608674"},
+  {name:"咳嗽三寶", price:2910, pv:0, entry:"entry.1432145142"},
+  {name:"咳嗽膏", price:null, pv:0, entry:"entry.1337767647"},
+  {name:"盜賊潤喉糖 白", price:920, pv:0, entry:"entry.1281542311"},
+  {name:"盜賊潤喉糖 黃", price:850, pv:0, entry:"entry.226288285"},
+  {name:"寵物沐浴乳 Animal Scents Shampoo", price:null, pv:0, entry:"entry.177948175"},
+  {name:"超級鎂", price:1320, pv:0, entry:"entry.1940726949"},
+  {name:"Mind Wise", price:3050, pv:0, entry:"entry.1527846664"},
+  {name:"每日健康套裝", price:5100, pv:0, entry:"entry.569773321"},
+  {name:"寧夏勁", price:1780, pv:0, entry:"entry.235850156"},
+  {name:"超級強防禦組", price:4140, pv:0, entry:"entry.764943748"},
+  {name:"健康防禦組", price:4270, pv:0, entry:"entry.1666360742"},
+  {name:"黑薑", price:null, pv:0, entry:"entry.1410644875", note:"3瓶一單位"},
+  {name:"超級維他命B", price:910, pv:0, entry:"entry.739442878"},
+  {name:"痠痛軟膏", price:1881, pv:49.5, entry:"entry.428393057"},
+  {name:"亮眼修護眼霜", price:2204, pv:49.25, entry:"entry.1183600988"},
+  {name:"膠原胜肽精華", price:3002, pv:67, entry:"entry.2120108876"}
+];
+
+const productBox = document.getElementById("products");
+
+function money(n){
+  return "$" + Math.round(n).toLocaleString("zh-TW");
 }
 
-qtys.forEach(q=>q.addEventListener("input",calc));
+function render(){
+  productBox.innerHTML = products.map((p,i)=>`
+    <div class="product">
+      <div class="product-top">
+        <div>
+          <div class="name">${i+1}. ${p.name}</div>
+          <div class="meta">
+            ${p.price ? "單價：" + money(p.price) : "單價：需人工確認"}
+            ${p.pv ? "｜PV：" + p.pv : ""}
+            ${p.note ? "｜" + p.note : ""}
+          </div>
+        </div>
+        <div class="price">${p.price ? money(p.price) : "人工確認"}</div>
+      </div>
+      <div class="row">
+        <label>數量</label>
+        <input type="number" min="0" step="1" value="0" name="${p.entry}" class="qty" data-index="${i}">
+        <div class="subtotal" id="sub${i}">$0</div>
+      </div>
+    </div>
+  `).join("");
+}
 
-document.getElementById("form").addEventListener("submit",()=>{
-  alert("已送出，我們會與您確認訂單");
+function calc(){
+  let total = 0;
+  let qtyTotal = 0;
+  let pvTotal = 0;
+  let manual = 0;
+
+  document.querySelectorAll(".qty").forEach(input=>{
+    const i = input.dataset.index;
+    const qty = Number(input.value || 0);
+    const p = products[i];
+
+    qtyTotal += qty;
+
+    if(p.price){
+      const sub = qty * p.price;
+      total += sub;
+      document.getElementById("sub"+i).innerText = money(sub);
+    }else{
+      document.getElementById("sub"+i).innerText = qty > 0 ? "需人工確認" : "需人工確認";
+      if(qty > 0) manual += qty;
+    }
+
+    if(p.pv){
+      pvTotal += qty * p.pv;
+    }
+  });
+
+  document.getElementById("sumMoney").innerText = money(total);
+  document.getElementById("sumQty").innerText = qtyTotal;
+  document.getElementById("sumPV").innerText = pvTotal.toFixed(2).replace(".00","");
+  document.getElementById("manualCount").innerText = manual;
+  document.getElementById("grandTotal").innerText = money(total);
+}
+
+render();
+calc();
+
+document.addEventListener("input", e=>{
+  if(e.target.classList.contains("qty")) calc();
+});
+
+document.getElementById("orderForm").addEventListener("submit",()=>{
+  setTimeout(()=>{
+    document.getElementById("orderForm").style.display="none";
+    document.querySelector(".summary").style.display="none";
+    document.getElementById("success").style.display="block";
+    window.scrollTo({top:0,behavior:"smooth"});
+  },600);
 });
 </script>
 
 </body>
 </html>
-```
