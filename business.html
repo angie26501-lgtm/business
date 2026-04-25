@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動量管理系統 | 馥芸財富管理學苑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f3f4f6; }
+        .tab-active { border-bottom: 4px solid #4f46e5; color: #4f46e5; font-weight: bold; }
+        .architect-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #4338ca 50%, #6d28d9 100%); }
+    </style>
+</head>
+<body class="pb-20">
+
+    <header class="architect-gradient text-white py-10 px-6 shadow-xl text-center">
+        <h1 class="text-3xl font-bold">馥芸財富管理學苑</h1>
+        <p class="mt-2 opacity-90">AI 賦能財務建築師 — 成功方程式導航系統</p>
+    </header>
+
+    <nav class="bg-white sticky top-0 z-50 shadow-md mb-6">
+        <div class="max-w-6xl mx-auto flex justify-around">
+            <button onclick="showTab('tab-prp')" id="btn-prp" class="py-4 px-2 text-sm md:text-base tab-active">PRP 績效週報</button>
+            <button onclick="showTab('tab-month')" id="btn-month" class="py-4 px-2 text-sm md:text-base">月活動紀錄</button>
+            <button onclick="showTab('tab-goal')" id="btn-goal" class="py-4 px-2 text-sm md:text-base">成功方程式</button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4">
+
+        <section id="tab-prp" class="tab-content space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-3xl shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 text-indigo-900 border-b pb-2">本週實際達成</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-500">新訪 (位)</label>
+                            <input type="number" id="act_new" class="w-full p-2 bg-gray-50 rounded-lg border-none" value="0">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500">需求面談 (位)</label>
+                            <input type="number" id="act_ff" class="w-full p-2 bg-gray-50 rounded-lg border-none" value="0">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500">建議書&促成 (位)</label>
+                            <input type="number" id="act_pd" class="w-full p-2 bg-gray-50 rounded-lg border-none" value="0">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500">完成 FYC</label>
+                            <input type="number" id="act_fyc" class="w-full p-2 bg-gray-50 rounded-lg border-none" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-lg">
+                    <h2 class="text-xl font-bold mb-4 text-indigo-900 border-b pb-2">檢討與回饋 (考古題區)</h2>
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium">1. 最滿意的 2 件事？為什麼？</label>
+                        <textarea id="feedback_1" class="w-full p-2 bg-indigo-50/50 rounded-lg text-sm" rows="2"></textarea>
+                        <label class="block text-sm font-medium">2. 無法解決的反對問題？</label>
+                        <textarea id="feedback_2" class="w-full p-2 bg-indigo-50/50 rounded-lg text-sm" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-month" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-3xl shadow-lg overflow-x-auto">
+                <h2 class="text-xl font-bold mb-4 text-indigo-900 flex justify-between items-center">
+                    <span>每月活動紀錄表</span>
+                    <span class="text-xs font-normal text-gray-400">CALL-APO-FF-PD-C-S-R</span>
+                </h2>
+                <table class="w-full text-center border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-xs">
+                            <th class="p-2 border">類別</th>
+                            <th class="p-2 border">CALL (關係)</th>
+                            <th class="p-2 border">APO (首談)</th>
+                            <th class="p-2 border">FF (需面)</th>
+                            <th class="p-2 border">PD (建議)</th>
+                            <th class="p-2 border">C (簽約)</th>
+                            <th class="p-2 border">R (轉介)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-sm">
+                            <td class="p-2 border font-bold">本週目標</td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="10"></td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="5"></td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="3"></td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="2"></td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="1"></td>
+                            <td class="p-2 border"><input type="number" class="w-12 text-center" value="2"></td>
+                        </tr>
+                        <tr class="text-sm bg-indigo-50">
+                            <td class="p-2 border font-bold">實際達成</td>
+                            <td class="p-2 border"><input type="number" id="m_call" class="w-12 text-center bg-transparent" value="0"></td>
+                            <td class="p-2 border"><input type="number" id="m_apo" class="w-12 text-center bg-transparent" value="0"></td>
+                            <td class="p-2 border"><input type="number" id="m_ff" class="w-12 text-center bg-transparent" value="0"></td>
+                            <td class="p-2 border"><input type="number" id="m_pd" class="w-12 text-center bg-transparent" value="0"></td>
+                            <td class="p-2 border"><input type="number" id="m_c" class="w-12 text-center bg-transparent" value="0"></td>
+                            <td class="p-2 border"><input type="number" id="m_r" class="w-12 text-center bg-transparent" value="0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-indigo-900 text-white p-6 rounded-3xl shadow-xl">
+                <h3 class="font-bold mb-4 flex items-center"><i class="fas fa-tools mr-2 text-yellow-400"></i> 本週分享專業觀念</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>財富水庫</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>帆船理論</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>創富三階段</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>三盞燈風險</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>通貨膨脹</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>籃子理論</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>財務三角</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" class="rounded"> <span>賓士圖</span></label>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-goal" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-3xl shadow-lg border-t-8 border-indigo-600">
+                <h2 class="text-2xl font-bold mb-6 text-center">🎯 您的成功方程式</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block font-bold text-gray-700">希望每月收入</label>
+                            <input type="number" id="goal_income" class="w-full p-4 text-2xl font-bold text-indigo-600 border-2 border-indigo-100 rounded-2xl" value="40000">
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <p class="text-sm text-gray-500">對應目標 (FYC)</p>
+                            <p id="calc_fyc" class="text-3xl font-black text-indigo-800">73,000</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <h3 class="font-bold border-l-4 border-indigo-500 pl-2">每月行動標竿</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li class="flex justify-between"><span>成交件數：</span><span class="font-bold">4 件</span></li>
+                            <li class="flex justify-between"><span>建議書：</span><span class="font-bold">8 份</span></li>
+                            <li class="flex justify-between"><span>名單建立關係：</span><span class="font-bold">40 位</span></li>
+                            <li class="flex justify-between"><span>潛在名單數量：</span><span class="font-bold">100 位</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md shadow-2xl z-50">
+            <div class="max-w-6xl mx-auto">
+                <button onclick="saveAllData()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-indigo-700 transition active:scale-95">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i> 同步並儲存所有數據
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function showTab(tabId) {
+            // 隱藏所有內容
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 顯示目標內容
+            document.getElementById(tabId).classList.remove('hidden');
+            // 更新頁籤樣式
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('tab-active'));
+            document.getElementById('btn-' + tabId.split('-')[1]).classList.add('tab-active');
+        }
+
+        function saveAllData() {
+            const data = {
+                act_new: document.getElementById('act_new').value,
+                act_ff: document.getElementById('act_ff').value,
+                act_pd: document.getElementById('act_pd').value,
+                act_fyc: document.getElementById('act_fyc').value,
+                fb1: document.getElementById('feedback_1').value,
+                fb2: document.getElementById('feedback_2').value,
+                m_call: document.getElementById('m_call').value,
+                goal: document.getElementById('goal_income').value,
+                time: new Date().toISOString()
+            };
+            
+            localStorage.setItem('fuyun_system_data', JSON.stringify(data));
+            alert('✅ 所有活動紀錄與成功方程式數據已安全儲存！');
+        }
+
+        // 自動計算邏輯 (範例比例)
+        document.getElementById('goal_income').addEventListener('input', function(e) {
+            const income = e.target.value;
+            document.getElementById('calc_fyc').innerText = Math.round(income * 1.825).toLocaleString();
+        });
+
+        // 初始加載
+        window.onload = function() {
+            const saved = JSON.parse(localStorage.getItem('fuyun_system_data'));
+            if(saved) {
+                document.getElementById('act_new').value = saved.act_new || 0;
+                document.getElementById('feedback_1').value = saved.fb1 || '';
+                document.getElementById('goal_income').value = saved.goal || 40000;
+            }
+        };
+    </script>
+</body>
+</html>
