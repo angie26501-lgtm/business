@@ -3,188 +3,298 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>網頁生成指示詞｜Voice Prompt</title>
+  <title>AI 網頁生成器｜語音與文字版</title>
   <style>
     body {
       margin: 0;
       font-family: "Noto Sans TC", Arial, sans-serif;
-      background: #f6f8fb;
+      background: #f5f7fb;
       color: #1f2937;
-      line-height: 1.8;
     }
+
     .container {
-      max-width: 960px;
+      max-width: 1100px;
       margin: auto;
       padding: 40px 20px;
     }
+
     .hero {
       background: linear-gradient(135deg, #1f3a5f, #2f6f5e);
       color: white;
       padding: 40px;
       border-radius: 24px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
     }
+
     .hero h1 {
       margin: 0 0 12px;
-      font-size: 32px;
+      font-size: 34px;
     }
+
     .hero p {
       margin: 0;
-      opacity: 0.95;
+      opacity: .95;
+      line-height: 1.8;
     }
+
     .card {
       background: white;
       border-radius: 20px;
       padding: 28px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+      resize: vertical;
+      box-sizing: border-box;
+      line-height: 1.7;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: .25s;
+      color: white;
+      background: #2f6f5e;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      background: #244f45;
+    }
+
+    .secondary {
+      background: #1f3a5f;
+    }
+
+    .danger {
+      background: #9f1239;
+    }
+
     pre {
       background: #0f172a;
       color: #e5e7eb;
-      padding: 24px;
+      padding: 22px;
       border-radius: 16px;
-      overflow-x: auto;
       white-space: pre-wrap;
-      font-size: 15px;
+      overflow-x: auto;
+      line-height: 1.7;
+      font-size: 14px;
     }
-    button {
-      background: #2f6f5e;
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      border-radius: 999px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.25s;
-      margin-bottom: 16px;
-    }
-    button:hover {
-      background: #244f45;
-      transform: translateY(-2px);
-    }
-    .note {
+
+    .hint {
       color: #6b7280;
       font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media(max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="container">
+
     <section class="hero">
-      <h1>網頁生成指示詞</h1>
-      <p>可用於說話或打字下指令，讓 AI 自動生成完整可使用的 HTML 網頁。</p>
+      <h1>AI 網頁生成器</h1>
+      <p>
+        你可以用打字或語音說出需求，例如：「幫我做一個活動量管理網頁」。<br>
+        系統會自動整理成完整 AI 指示詞，讓你複製到 ChatGPT、Claude 或 Manus 生成 HTML 網頁。
+      </p>
     </section>
 
+    <div class="grid">
+      <section class="card">
+        <label for="userInput">請輸入或用語音說出你想做的網頁</label>
+        <textarea id="userInput" placeholder="例如：幫我做一個活動量管理網頁，要可以輸入 CALL、APO、FF、PD、成交，並統計每天活動量。"></textarea>
+
+        <div class="buttons">
+          <button onclick="startVoice()">🎤 語音輸入</button>
+          <button onclick="generatePrompt()">生成 AI 指示詞</button>
+          <button class="danger" onclick="clearAll()">清空</button>
+        </div>
+
+        <p class="hint">
+          語音功能需使用 Chrome 瀏覽器。若無法使用，可直接打字輸入。
+        </p>
+      </section>
+
+      <section class="card">
+        <label>快速範例</label>
+        <div class="buttons">
+          <button class="secondary" onclick="setExample('幫我做一個活動量管理網頁，要可以輸入 CALL、APO、FF、PD、成交、服務、轉介紹，並統計每日與每月活動量。')">活動量管理</button>
+
+          <button class="secondary" onclick="setExample('幫我做一個保險報價單網頁，適合診所客戶使用，要有產險公司、保額、保費、保障內容與建議方案。')">保險報價單</button>
+
+          <button class="secondary" onclick="setExample('幫我做一個訂購表單網頁，要可以填姓名、電話、商品、數量、金額，並能產生訂單摘要。')">訂購表單</button>
+
+          <button class="secondary" onclick="setExample('幫我做一個個人品牌頁，主題是財務顧問，要有自我介紹、服務項目、案例、預約諮詢按鈕。')">個人品牌頁</button>
+        </div>
+      </section>
+    </div>
+
     <section class="card">
-      <button onclick="copyPrompt()">一鍵複製指示詞</button>
-      <p class="note">複製後可直接貼到 ChatGPT、Claude、Manus 使用。</p>
+      <label>產生的 AI 指示詞</label>
+      <pre id="output">請先輸入需求，然後點選「生成 AI 指示詞」。</pre>
 
-      <pre id="promptText">你是一位專業的前端工程師＋UI/UX設計師＋產品經理
+      <div class="buttons">
+        <button onclick="copyPrompt()">一鍵複製指示詞</button>
+      </div>
 
-我會用「說話或簡短文字」描述需求，
-請你自動補齊所有細節，生成一個「完整可直接使用的網頁（HTML）」。
+      <p class="hint">
+        複製後貼到 ChatGPT、Claude 或 Manus，即可生成完整 HTML 網頁。
+      </p>
+    </section>
+
+  </div>
+
+  <script>
+    function setExample(text) {
+      document.getElementById("userInput").value = text;
+    }
+
+    function generatePrompt() {
+      const need = document.getElementById("userInput").value.trim();
+
+      if (!need) {
+        alert("請先輸入或語音說出你想做的網頁需求");
+        return;
+      }
+
+      const prompt = `你是一位專業的前端工程師＋UI/UX設計師＋產品經理。
+
+請根據以下需求，幫我生成一個完整可直接使用的 HTML 網頁。
+
+【我的需求】
+${need}
 
 ━━━━━━━━━━━━━━━━━━
-【理解規則（很重要）】
+【請你自動補齊】
 ━━━━━━━━━━━━━━━━━━
 
-1. 若我描述很簡單（例如：做一個活動量表）
-👉 你要自動補齊：
-- 完整頁面結構
-- 文案內容
-- UI設計
-- 所有功能
-
-2. 預設幫我做到：
-- 專業感（像品牌網站）
-- 好看（現代UI）
-- 好用（流程簡單）
-
-3. 若沒有特別說明，請預設：
-- 適合手機使用（RWD）
-- 有CTA按鈕（提升轉換）
-- 有基本互動效果
+1. 完整頁面結構
+2. 專業文案
+3. UI/UX 設計
+4. 表單或互動功能
+5. 適合手機、平板、電腦使用的 RWD 響應式設計
 
 ━━━━━━━━━━━━━━━━━━
-【我可能會這樣下指令】
+【設計風格】
 ━━━━━━━━━━━━━━━━━━
 
-例如：
-- 做一個活動量管理頁
-- 幫我做保險報價單網頁
-- 做一個訂購表單
-- 做一個個人品牌頁
+請使用：
+- 專業、現代、乾淨的品牌網站風格
+- 卡片式設計
+- 清楚的區塊分層
+- 柔和陰影
+- 按鈕 hover 效果
+- 適合對外展示的質感
 
-👉 你要自動理解用途並補齊全部內容
+若需求與財務顧問、保險、報價、活動量管理有關，
+請預設使用「高端金融質感＋溫暖陪伴」風格，
+主色可使用深藍、草本綠、金色點綴。
+
+━━━━━━━━━━━━━━━━━━
+【功能需求】
+━━━━━━━━━━━━━━━━━━
+
+請依照情境自動加入適合功能，例如：
+- 表單輸入
+- localStorage 暫存資料
+- 統計數字
+- 清單顯示
+- 一鍵複製
+- 匯出摘要
+- 返回頂部
+- 平滑滾動
+- CTA 行動按鈕
 
 ━━━━━━━━━━━━━━━━━━
 【輸出要求】
 ━━━━━━━━━━━━━━━━━━
 
-請直接輸出：
+請直接輸出一份完整 HTML。
+請把 CSS 和 JavaScript 都寫在同一份 HTML 裡。
+程式碼要可以直接複製貼上使用。
+請加上清楚註解。`;
 
-1️⃣ 完整 HTML（含 CSS + JS）
-2️⃣ 可以直接貼上使用
-3️⃣ 程式碼有清楚註解
+      document.getElementById("output").innerText = prompt;
+    }
 
-━━━━━━━━━━━━━━━━━━
-【設計要求】
-━━━━━━━━━━━━━━━━━━
-
-請自動做到：
-
-- 卡片式設計
-- 陰影與層次
-- 現代感配色
-- 按鈕 hover 效果
-- 區塊分明
-
-━━━━━━━━━━━━━━━━━━
-【功能預設（若適合就加）】
-━━━━━━━━━━━━━━━━━━
-
-☑ 表單輸入
-☑ 資料暫存（localStorage）
-☑ 基本統計或顯示
-☑ 按鈕互動
-☑ 平滑滾動
-☑ 返回頂部
-
-━━━━━━━━━━━━━━━━━━
-【進階優化（非常重要🔥）】
-━━━━━━━━━━━━━━━━━━
-
-請幫我同時做到：
-
-1. 使用者操作流程最佳化（簡單直覺）
-2. 文案貼近使用情境（不要死板）
-3. 畫面像「可以對外用的專業網站」
-4. 有轉換力（讓人想點、想填、想用）
-
-━━━━━━━━━━━━━━━━━━
-【如果我有補充條件】
-━━━━━━━━━━━━━━━━━━
-
-我會再加：
-- 風格（例如：金融感／溫暖感）
-- 顏色
-- 特定功能
-
-👉 你要整合，不要衝突</pre>
-    </section>
-  </div>
-
-  <script>
     function copyPrompt() {
-      const text = document.getElementById("promptText").innerText;
+      const text = document.getElementById("output").innerText;
       navigator.clipboard.writeText(text).then(() => {
-        alert("已複製指示詞，可以直接貼到 AI 使用！");
+        alert("已複製，可貼到 ChatGPT、Claude 或 Manus 使用！");
       });
     }
-  </script>
 
+    function clearAll() {
+      document.getElementById("userInput").value = "";
+      document.getElementById("output").innerText = "請先輸入需求，然後點選「生成 AI 指示詞」。";
+    }
+
+    function startVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        alert("你的瀏覽器不支援語音輸入，建議使用 Chrome。");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "zh-TW";
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("userInput").value = transcript;
+      };
+
+      recognition.onerror = function() {
+        alert("語音辨識失敗，請再試一次或改用打字輸入。");
+      };
+    }
+  </script>
 </body>
 </html>
