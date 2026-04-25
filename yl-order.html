@@ -1,355 +1,188 @@
+```html
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YL美單接龍訂購表單</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YL美單接龍訂購</title>
 
 <style>
-:root{
-  --green:#5f7f5f;
-  --dark:#3f5f45;
-  --cream:#fffaf1;
-  --gold:#c8a978;
-  --light:#edf4ea;
-  --text:#2f332f;
-  --muted:#777;
-  --border:#e6dcc8;
-}
-*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;
-  background:linear-gradient(180deg,#fffaf1,#f3efe5);
-  color:var(--text);
-  padding-bottom:190px;
+  font-family:"Microsoft JhengHei",sans-serif;
+  background:#f6f4ee;
+  padding-bottom:180px;
 }
-.wrap{max-width:760px;margin:auto;padding:16px}
+.wrap{max-width:680px;margin:auto;padding:16px}
 .hero{
-  background:linear-gradient(135deg,var(--dark),var(--green));
+  background:linear-gradient(135deg,#3f5f45,#5f7f5f);
   color:white;
-  border-radius:24px;
-  padding:24px 18px;
-  margin-bottom:16px;
+  padding:20px;
+  border-radius:20px;
 }
-.hero h1{margin:0 0 8px;font-size:24px}
-.hero p{margin:0;font-size:14px;opacity:.92}
 .section{
   background:white;
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 8px 20px rgba(63,95,69,.08);
+  margin-top:14px;
+  padding:14px;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.08);
 }
-h2{font-size:19px;color:var(--dark);margin:0 0 12px}
-label{font-weight:bold;margin:10px 0 5px;display:block}
 input,select,textarea{
   width:100%;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:13px;
-  font-size:16px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-top:6px;
 }
-textarea{min-height:90px}
 .product{
-  border:1px solid var(--border);
-  background:#fffdf8;
-  border-radius:18px;
-  padding:13px;
-  margin-bottom:10px;
-}
-.product-top{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-}
-.name{font-weight:900;color:var(--dark)}
-.price{
-  background:var(--light);
-  color:var(--dark);
-  border-radius:999px;
-  padding:5px 10px;
-  font-weight:bold;
-  white-space:nowrap;
-}
-.meta{font-size:13px;color:var(--muted);margin:6px 0}
-.row{
-  display:grid;
-  grid-template-columns:80px 1fr 90px;
-  gap:8px;
-  align-items:center;
-}
-.subtotal{text-align:right;font-weight:900;color:var(--dark)}
-.check{
-  display:flex;
-  gap:8px;
-  align-items:flex-start;
+  border:1px solid #eee;
+  border-radius:12px;
   padding:10px;
-  border:1px solid var(--border);
-  border-radius:14px;
   margin-bottom:8px;
 }
-.check input{width:auto;margin-top:4px}
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 .summary{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:rgba(255,250,241,.97);
-  border-top:1px solid var(--border);
-  box-shadow:0 -8px 24px rgba(0,0,0,.08);
-}
-.summary-inner{
-  max-width:760px;
-  margin:auto;
-  padding:12px 16px;
-}
-.summary-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px 12px;
-  font-size:14px;
-}
-.summary-grid div{
-  display:flex;
-  justify-content:space-between;
-}
-.total{
-  background:var(--dark);
-  color:white;
-  border-radius:16px;
+  background:white;
   padding:12px;
-  margin:10px 0;
-  display:flex;
-  justify-content:space-between;
-  font-weight:900;
+  border-top:2px solid #ddd;
 }
 button{
   width:100%;
+  padding:14px;
+  background:#c8a978;
   border:none;
-  background:linear-gradient(135deg,#d7b46a,#c8a978);
-  color:#2f2618;
-  padding:15px;
-  border-radius:16px;
-  font-size:17px;
-  font-weight:900;
-}
-.success{
-  display:none;
-  text-align:center;
-  background:white;
-  border-radius:24px;
-  padding:32px 18px;
-}
-@media(max-width:430px){
-  .row{grid-template-columns:65px 1fr}
-  .subtotal{grid-column:1/-1;text-align:left}
+  border-radius:12px;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap" id="page">
-  <div class="hero">
-    <h1>🌿 YL美單接龍訂購表單</h1>
-    <p>請填寫資料與商品數量，系統會自動計算金額與 PV。送出後會依接龍順序確認訂單。</p>
-  </div>
+<div class="wrap">
+<div class="hero">
+<h2>🌿 YL美單接龍訂購</h2>
+<p>填寫後我們會依序確認訂單</p>
+</div>
 
-  <form id="orderForm"
-    action="https://docs.google.com/forms/d/e/1FAIpQLSfM46IIgyNwNR-mSkk8k1K4h3cbVMA22vuF_piPZvVPtjC4kw/formResponse"
-    method="POST"
-    target="hidden_iframe">
+<form id="form"
+action="https://docs.google.com/forms/d/e/1FAIpQLSfM46IIgyNwNR-mSkk8k1K4h3cbVMA22vuF_piPZvVPtjC4kw/formResponse"
+method="POST"
+target="hidden_iframe">
 
-    <div class="section">
-      <h2>基本資料</h2>
+<div class="section">
 
-      <label>名字 / 暱稱 *</label>
-      <input name="entry.2061640866" required placeholder="請輸入名字或暱稱">
+名字
+<input name="entry.2061640866" required>
 
-      <label>聯絡方式 *</label>
-      <input name="entry.1056863373" required placeholder="Line ID / 電話 / IG">
+聯絡方式
+<input name="entry.1056863373" required>
 
-      <label>Email</label>
-      <input name="emailAddress" type="email" placeholder="可填寫 Email，方便通知">
+Email
+<input name="emailAddress">
 
-      <label>是否明白美單不可取消，願意等待湊團省運代購？ *</label>
-      <select name="entry.1510799457" required>
-        <option value="">請選擇</option>
-        <option value="✅ 可以等">✅ 可以等</option>
-        <option value="❌ 想先購（願意自行分散運費）">❌ 想先購（願意自行分散運費）</option>
-      </select>
+<select name="entry.1510799457" required>
+<option value="">是否願意等待</option>
+<option value="✅ 可以等">可以等</option>
+<option value="❌ 想先購">想先購</option>
+</select>
 
-      <input type="hidden" name="entry.1950925140" value="明白">
-    </div>
+<input type="hidden" name="entry.1950925140" value="明白">
 
-    <div class="section">
-      <h2>商品訂購區</h2>
-      <div id="products"></div>
-    </div>
+</div>
 
-    <div class="section">
-      <h2>其他單品</h2>
-      <p style="font-size:14px;color:#777;">其他單品將人工確認計算，可填商品名稱、數量、金額、PV。</p>
-      <textarea name="entry.962325365" id="otherItem" placeholder="例如：商品名稱 / 數量 / 金額 / PV / 備註"></textarea>
-    </div>
+<div class="section">
+<h3>商品</h3>
+<div id="products"></div>
+</div>
 
-    <div class="section">
-      <h2>送出前確認</h2>
+<div class="section">
+<h3>其他單品</h3>
+<textarea name="entry.1922080120"></textarea>
+</div>
 
-      <label class="check">
-        <input type="checkbox" required>
-        <span>我明白美單送出後不可取消。</span>
-      </label>
+<div class="section">
+<label><input type="checkbox" required>不可取消</label><br>
+<label><input type="checkbox" required name="entry.962325365" value="1">匯款回報</label><br>
+<label><input type="checkbox" required name="entry.990721932" value="1">訂單確認</label><br>
+<label><input type="checkbox" required name="entry.14570848" value="1">依群組規則</label>
+</div>
 
-      <label class="check">
-        <input type="checkbox" required name="entry.990721932" value="1">
-        <span>我明白匯款帳號將於確認後提供，匯款後需回傳匯款日期與帳號後五碼。</span>
-      </label>
+<button>送出訂單</button>
 
-      <label class="check">
-        <input type="checkbox" required name="entry.14570848" value="1">
-        <span>我明白本預購單需經確認後才正式成立。</span>
-      </label>
+</form>
 
-      <label class="check">
-        <input type="checkbox" required>
-        <span>金額如有誤差，仍依群組公告規則為主。</span>
-      </label>
-    </div>
+<iframe name="hidden_iframe" style="display:none"></iframe>
 
-    <button type="submit">送出美單訂購資料</button>
-  </form>
-
-  <div class="success" id="success">
-    <h2>謝謝您的填寫！</h2>
-    <p>我們會依照接龍順序與商品狀況確認訂單。<br>
-    確認後將提供匯款帳號，請完成匯款後回傳匯款日期與帳號後五碼。</p>
-  </div>
 </div>
 
 <div class="summary">
-  <div class="summary-inner">
-    <div class="summary-grid">
-      <div><span>商品總金額</span><strong id="sumMoney">$0</strong></div>
-      <div><span>商品總數量</span><strong id="sumQty">0</strong></div>
-      <div><span>PV 合計</span><strong id="sumPV">0</strong></div>
-      <div><span>需人工確認</span><strong id="manualCount">0</strong></div>
-    </div>
-    <div class="total">
-      <span>訂單總金額</span>
-      <span id="grandTotal">$0</span>
-    </div>
-  </div>
+總金額：<span id="total">0</span>
 </div>
 
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-
 <script>
-const products = [
-  {name:"寧夏紅隨手包", price:4500, pv:0, entry:"entry.1302584334"},
-  {name:"防禦套組A", price:8800, pv:0, entry:"entry.1477804728"},
-  {name:"防禦套組B", price:14440, pv:0, entry:"entry.639673888"},
-  {name:"痘痘膏", price:1112, pv:29.25, entry:"entry.235779650"},
-  {name:"有機枸杞乾", price:1140, pv:0, entry:"entry.1002608674"},
-  {name:"咳嗽三寶", price:2910, pv:0, entry:"entry.1432145142"},
-  {name:"咳嗽膏", price:null, pv:0, entry:"entry.1337767647"},
-  {name:"盜賊潤喉糖 白", price:920, pv:0, entry:"entry.1281542311"},
-  {name:"盜賊潤喉糖 黃", price:850, pv:0, entry:"entry.226288285"},
-  {name:"寵物沐浴乳 Animal Scents Shampoo", price:null, pv:0, entry:"entry.177948175"},
-  {name:"超級鎂", price:1320, pv:0, entry:"entry.1940726949"},
-  {name:"Mind Wise", price:3050, pv:0, entry:"entry.1527846664"},
-  {name:"每日健康套裝", price:5100, pv:0, entry:"entry.569773321"},
-  {name:"寧夏勁", price:1780, pv:0, entry:"entry.235850156"},
-  {name:"超級強防禦組", price:4140, pv:0, entry:"entry.764943748"},
-  {name:"健康防禦組", price:4270, pv:0, entry:"entry.1666360742"},
-  {name:"黑薑", price:null, pv:0, entry:"entry.1410644875", note:"3瓶一單位"},
-  {name:"超級維他命B", price:910, pv:0, entry:"entry.739442878"},
-  {name:"痠痛軟膏", price:1881, pv:49.5, entry:"entry.428393057"},
-  {name:"亮眼修護眼霜", price:2204, pv:49.25, entry:"entry.1183600988"},
-  {name:"膠原胜肽精華", price:3002, pv:67, entry:"entry.2120108876"}
+const data=[
+["寧夏紅隨手包",4500,"entry.1302584334"],
+["防禦套組A",8800,"entry.1477804728"],
+["防禦套組B",14440,"entry.639673888"],
+["痘痘膏",1112,"entry.235779650"],
+["有機枸杞乾",1140,"entry.1002608674"],
+["咳嗽三寶",2910,"entry.1432145142"],
+["咳嗽膏",null,"entry.1337767647"],
+["潤喉糖白",920,"entry.1281542311"],
+["潤喉糖黃",850,"entry.226288285"],
+["寵物沐浴乳",null,"entry.177948175"],
+["超級鎂",1320,"entry.1940726949"],
+["Mind Wise",3050,"entry.1527846664"],
+["每日健康",5100,"entry.569773321"],
+["寧夏勁",1780,"entry.235850156"],
+["超強防禦",4140,"entry.764943748"],
+["健康防禦",4270,"entry.1666360742"],
+["黑薑",null,"entry.1410644875"],
+["維他命B",910,"entry.739442878"],
+["痠痛膏",1881,"entry.428393057"],
+["眼霜",2204,"entry.1183600988"],
+["膠原",3002,"entry.2120108876"]
 ];
 
-const productBox = document.getElementById("products");
-
-function money(n){
-  return "$" + Math.round(n).toLocaleString("zh-TW");
-}
-
-function render(){
-  productBox.innerHTML = products.map((p,i)=>`
-    <div class="product">
-      <div class="product-top">
-        <div>
-          <div class="name">${i+1}. ${p.name}</div>
-          <div class="meta">
-            ${p.price ? "單價：" + money(p.price) : "單價：需人工確認"}
-            ${p.pv ? "｜PV：" + p.pv : ""}
-            ${p.note ? "｜" + p.note : ""}
-          </div>
-        </div>
-        <div class="price">${p.price ? money(p.price) : "人工確認"}</div>
-      </div>
-      <div class="row">
-        <label>數量</label>
-        <input type="number" min="0" step="1" value="0" name="${p.entry}" class="qty" data-index="${i}">
-        <div class="subtotal" id="sub${i}">$0</div>
-      </div>
-    </div>
-  `).join("");
-}
+let html="";
+data.forEach((p,i)=>{
+html+=`
+<div class="product">
+<div class="row">
+<b>${p[0]}</b>
+<span>${p[1]? "$"+p[1]:"需確認"}</span>
+</div>
+<input type="number" min="0" value="0" class="qty" data-i="${i}" name="${p[2]}">
+</div>`;
+});
+document.getElementById("products").innerHTML=html;
 
 function calc(){
-  let total = 0;
-  let qtyTotal = 0;
-  let pvTotal = 0;
-  let manual = 0;
-
-  document.querySelectorAll(".qty").forEach(input=>{
-    const i = input.dataset.index;
-    const qty = Number(input.value || 0);
-    const p = products[i];
-
-    qtyTotal += qty;
-
-    if(p.price){
-      const sub = qty * p.price;
-      total += sub;
-      document.getElementById("sub"+i).innerText = money(sub);
-    }else{
-      document.getElementById("sub"+i).innerText = qty > 0 ? "需人工確認" : "需人工確認";
-      if(qty > 0) manual += qty;
-    }
-
-    if(p.pv){
-      pvTotal += qty * p.pv;
-    }
-  });
-
-  document.getElementById("sumMoney").innerText = money(total);
-  document.getElementById("sumQty").innerText = qtyTotal;
-  document.getElementById("sumPV").innerText = pvTotal.toFixed(2).replace(".00","");
-  document.getElementById("manualCount").innerText = manual;
-  document.getElementById("grandTotal").innerText = money(total);
+let total=0;
+document.querySelectorAll(".qty").forEach(q=>{
+let i=q.dataset.i;
+let price=data[i][1];
+if(price) total+=price*q.value;
+});
+document.getElementById("total").innerText=total;
 }
 
-render();
-calc();
+document.addEventListener("input",calc);
 
-document.addEventListener("input", e=>{
-  if(e.target.classList.contains("qty")) calc();
-});
-
-document.getElementById("orderForm").addEventListener("submit",()=>{
-  setTimeout(()=>{
-    document.getElementById("orderForm").style.display="none";
-    document.querySelector(".summary").style.display="none";
-    document.getElementById("success").style.display="block";
-    window.scrollTo({top:0,behavior:"smooth"});
-  },600);
+document.getElementById("form").addEventListener("submit",()=>{
+alert("已送出，我們會與你確認");
 });
 </script>
 
 </body>
 </html>
+```
