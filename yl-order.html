@@ -1,0 +1,194 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YL美單接龍訂購表單</title>
+
+<style>
+body{
+  font-family:"Microsoft JhengHei",sans-serif;
+  background:#f6f4ee;
+  margin:0;
+  padding-bottom:140px;
+}
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:16px;
+}
+h1{
+  background:#5f7f5f;
+  color:#fff;
+  padding:16px;
+  border-radius:16px;
+}
+.card{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:12px;
+}
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-top:6px;
+}
+.product{
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+.summary{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  padding:12px;
+  border-top:2px solid #ddd;
+}
+button{
+  width:100%;
+  padding:14px;
+  background:#c8a978;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>YL美單接龍訂購表單</h1>
+
+<form id="form"
+action="https://docs.google.com/forms/d/e/1FAIpQLSfM46IIgyNwNR-mSkk8k1K4h3cbVMA22vuF_piPZvVPtjC4kw/formResponse"
+method="POST"
+target="hidden_iframe">
+
+<!-- ⚠️ 把下面 entry.xxxx 改成你的表單ID -->
+
+<div class="card">
+<label>名字 / 暱稱 *</label>
+<input name="entry.xxxxx1" required>
+
+<label>聯絡方式 *</label>
+<input name="entry.xxxxx2" required>
+
+<label>是否願意等待 *</label>
+<select name="entry.xxxxx3" required>
+<option value="">請選擇</option>
+<option>可以等</option>
+<option>無法等待</option>
+</select>
+
+<label>備註</label>
+<textarea name="entry.xxxxx4"></textarea>
+</div>
+
+<div class="card">
+<h3>商品訂購</h3>
+
+<div class="product">
+寧夏紅隨手包 $4500
+<input type="number" min="0" value="0" class="qty" data-price="4500">
+</div>
+
+<div class="product">
+防禦套組A $8800
+<input type="number" min="0" value="0" class="qty" data-price="8800">
+</div>
+
+<div class="product">
+防禦套組B $14440
+<input type="number" min="0" value="0" class="qty" data-price="14440">
+</div>
+
+<div class="product">
+痘痘膏 $1112 (PV29.25)
+<input type="number" min="0" value="0" class="qty" data-price="1112" data-pv="29.25">
+</div>
+
+<div class="product">
+有機枸杞乾 $1140
+<input type="number" min="0" value="0" class="qty" data-price="1140">
+</div>
+
+<div class="product">
+咳嗽三寶 $2910
+<input type="number" min="0" value="0" class="qty" data-price="2910">
+</div>
+
+<div class="product">
+咳嗽膏（需人工確認）
+<input type="number" min="0" value="0" class="qty">
+</div>
+
+<div class="product">
+盜賊潤喉糖 白 $920
+<input type="number" min="0" value="0" class="qty" data-price="920">
+</div>
+
+<div class="product">
+盜賊潤喉糖 黃 $850
+<input type="number" min="0" value="0" class="qty" data-price="850">
+</div>
+
+</div>
+
+<div class="card">
+<h3>確認聲明</h3>
+<label><input type="checkbox" required> 不可取消</label><br>
+<label><input type="checkbox" required> 需等待確認</label><br>
+<label><input type="checkbox" required> 匯款後回報</label><br>
+<label><input type="checkbox" required> 以群組為準</label>
+</div>
+
+<input type="hidden" id="total" name="entry.xxxxx5">
+
+<button type="submit">送出美單訂購資料</button>
+
+</form>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+</div>
+
+<div class="summary">
+總金額：<span id="money">0</span>
+</div>
+
+<script>
+let qtys=document.querySelectorAll(".qty");
+let total=0;
+
+function calc(){
+  total=0;
+  qtys.forEach(q=>{
+    let p=q.dataset.price;
+    if(p){
+      total+=q.value*p;
+    }
+  });
+  document.getElementById("money").innerText=total;
+  document.getElementById("total").value=total;
+}
+
+qtys.forEach(q=>q.addEventListener("input",calc));
+
+document.getElementById("form").addEventListener("submit",()=>{
+  alert("已送出，我們會與您確認訂單");
+});
+</script>
+
+</body>
+</html>
+```
