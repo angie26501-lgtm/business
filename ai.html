@@ -33,20 +33,20 @@
       浩茂AI科技 × 馥芸財富學苑
     </p>
 
-    <h1 class="mt-5 text-3xl md:text-5xl font-black text-slate-900">
+    <h1 class="mt-5 text-3xl md:text-5xl font-black">
       AI課程學習平台
     </h1>
 
-    <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
-      用AI，讓專業被放大，讓成果被看見。
+    <p class="mt-4 text-slate-600">
+      用AI，讓專業被放大，讓成果被看見
     </p>
   </section>
 
-  <!-- 🔐 1150425（加密區） -->
+  <!-- 🔐 1150425 -->
   <section class="mb-10">
     <h2 class="text-2xl font-black mb-5">📅 1150425 課程影片（需輸入密碼）</h2>
 
-    <!-- 密碼輸入 -->
+    <!-- 密碼區 -->
     <div id="lockBox" class="bg-white rounded-3xl shadow p-6 text-center">
       <p class="mb-3 font-bold">🔒 此區需輸入密碼觀看</p>
 
@@ -65,42 +65,48 @@
       <p id="errorMsg" class="text-red-500 mt-2 hidden">密碼錯誤</p>
     </div>
 
-    <!-- 影片（隱藏） -->
-    <div id="videoBox" class="hidden mt-6 grid md:grid-cols-2 gap-6">
+    <!-- 影片 -->
+    <div id="videoBox" class="hidden mt-6">
 
-      <div class="bg-white rounded-3xl shadow p-5">
-        <h3 class="font-black mb-3">課程影片 1</h3>
-        <div class="aspect-video rounded-2xl overflow-hidden">
-          <iframe class="w-full h-full"
-            src="https://www.youtube.com/embed/t23ksbBSbGs"
-            allowfullscreen></iframe>
+      <!-- 登出 -->
+      <button onclick="logoutCourse()"
+        class="mb-4 px-4 py-2 bg-gray-200 rounded-xl text-sm">
+        🔓 重新鎖定
+      </button>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="bg-white rounded-3xl shadow p-5">
+          <h3 class="font-black mb-3">課程影片 1</h3>
+          <div class="aspect-video rounded-2xl overflow-hidden">
+            <iframe class="w-full h-full"
+              src="https://www.youtube.com/embed/t23ksbBSbGs"
+              allowfullscreen></iframe>
+          </div>
         </div>
-      </div>
 
-      <div class="bg-white rounded-3xl shadow p-5">
-        <h3 class="font-black mb-3">課程影片 2</h3>
-        <div class="aspect-video rounded-2xl overflow-hidden">
-          <iframe class="w-full h-full"
-            src="https://www.youtube.com/embed/L7tsTpxsVig"
-            allowfullscreen></iframe>
+        <div class="bg-white rounded-3xl shadow p-5">
+          <h3 class="font-black mb-3">課程影片 2</h3>
+          <div class="aspect-video rounded-2xl overflow-hidden">
+            <iframe class="w-full h-full"
+              src="https://www.youtube.com/embed/L7tsTpxsVig"
+              allowfullscreen></iframe>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 
-  <!-- 1150426（開放） -->
+  <!-- 1150426 -->
   <section class="mb-10">
     <h2 class="text-2xl font-black mb-5">📅 1150426 課程影片</h2>
 
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-3xl shadow p-5">
-        <h3 class="font-black mb-3">課程影片</h3>
-        <div class="aspect-video rounded-2xl overflow-hidden">
-          <iframe class="w-full h-full"
-            src="https://www.youtube.com/embed/bqRVQX-1g1E"
-            allowfullscreen></iframe>
-        </div>
+    <div class="bg-white rounded-3xl shadow p-5">
+      <div class="aspect-video rounded-2xl overflow-hidden">
+        <iframe class="w-full h-full"
+          src="https://www.youtube.com/embed/bqRVQX-1g1E"
+          allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -112,39 +118,53 @@
     <div class="space-y-4">
       <div class="p-4 rounded-2xl bg-emerald-50">
         <p class="font-black">任務一｜AI工具整理</p>
-        <p class="text-sm text-slate-600">列出你最常用的3個AI工具</p>
+        <p class="text-sm">列出你最常用的3個AI工具</p>
       </div>
 
       <div class="p-4 rounded-2xl bg-emerald-50">
         <p class="font-black">任務二｜服務定位</p>
-        <p class="text-sm text-slate-600">我幫助誰？解決什麼問題？</p>
+        <p class="text-sm">我幫助誰？解決什麼問題？</p>
       </div>
 
       <div class="p-4 rounded-2xl bg-emerald-50">
         <p class="font-black">任務三｜一頁式介紹</p>
-        <p class="text-sm text-slate-600">用Gamma或AI完成</p>
+        <p class="text-sm">用AI或Gamma完成</p>
       </div>
     </div>
   </section>
 
-  <footer class="text-center text-sm text-slate-500 py-8">
-    © 馥芸財富學苑｜AI課程平台
-  </footer>
-
 </main>
 
-<!-- 🔥 密碼功能 -->
+<!-- 🔥 密碼系統 -->
 <script>
+const PASSWORD = "0425";
+
+// 自動登入
+window.onload = function () {
+  if (localStorage.getItem("course_1150425") === "true") {
+    unlockContent();
+  }
+};
+
 function checkPassword() {
   const input = document.getElementById("passwordInput").value;
-  const correctPassword = "0425"; // 👉 改這裡
 
-  if (input === correctPassword) {
-    document.getElementById("lockBox").style.display = "none";
-    document.getElementById("videoBox").classList.remove("hidden");
+  if (input === PASSWORD) {
+    localStorage.setItem("course_1150425", "true");
+    unlockContent();
   } else {
     document.getElementById("errorMsg").classList.remove("hidden");
   }
+}
+
+function unlockContent() {
+  document.getElementById("lockBox").style.display = "none";
+  document.getElementById("videoBox").classList.remove("hidden");
+}
+
+function logoutCourse() {
+  localStorage.removeItem("course_1150425");
+  location.reload();
 }
 </script>
 
