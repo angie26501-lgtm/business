@@ -1,33 +1,91 @@
-你是一位資深前端工程師、UI/UX 設計師與產品經理。
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活動量管理｜每日回報</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-請幫我生成一個「活動量管理｜每日回報系統」的完整 HTML 單頁網頁，可直接貼到 GitHub Pages 的 index.html 使用。
+<body class="bg-gradient-to-br from-emerald-50 to-amber-50 min-h-screen text-gray-800">
 
-【一、專案目的】
+<div class="max-w-3xl mx-auto p-6">
 
-這個網頁是給「馥芸財富學苑」團隊每日回報活動量使用。
-目標是讓夥伴每天用 3 分鐘完成紀錄，並把資料送到 Google 表單，再自動進入 Google Sheet 做統計。
+  <h1 class="text-3xl font-black text-center mb-2">
+    活動量管理｜每日回報
+  </h1>
 
-【二、品牌與視覺風格】
+  <p class="text-center text-gray-500 mb-6">
+    每天 3 分鐘，讓努力被看見
+  </p>
 
-請保留高質感、乾淨、專業、溫暖的金融品牌風格。
+  <!-- 原始表單 -->
+  <div class="text-center mb-6">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform"
+       target="_blank"
+       class="inline-block bg-white border px-5 py-3 rounded-xl shadow font-bold text-emerald-700">
+       🔗 開啟原始 Google 表單
+    </a>
+  </div>
 
-設計調性：
-- 草本綠 × 奶茶金 × 米白底
-- 高端但不冰冷
-- 卡片式設計
-- 大圓角
-- 柔和陰影
-- 手機版優先
-- 表單欄位清楚易懂
-- 不要只有 placeholder，所有欄位都必須有標題
+  <form id="form" class="bg-white rounded-3xl p-6 shadow space-y-6">
 
-【三、Google 表單串接設定】
+    <div>
+      <label class="font-bold">日期</label>
+      <input id="date" type="date" class="w-full p-3 rounded-xl border mt-1" required>
+    </div>
 
-請直接內建以下 CONFIG：
+    <div>
+      <label class="font-bold">姓名</label>
+      <input id="name" type="text" placeholder="請輸入姓名" class="w-full p-3 rounded-xl border mt-1" required>
+    </div>
 
+    <div>
+      <label class="font-bold">活動量</label>
+      <div class="grid grid-cols-2 gap-3 mt-2">
+
+        <input id="call" type="number" min="0" value="0" placeholder="CALL 建立關係" class="p-3 rounded-xl border">
+        <input id="apo" type="number" min="0" value="0" placeholder="APO 約訪" class="p-3 rounded-xl border">
+
+        <input id="ff" type="number" min="0" value="0" placeholder="FF 需求面談" class="p-3 rounded-xl border">
+        <input id="pd" type="number" min="0" value="0" placeholder="PD 建議書" class="p-3 rounded-xl border">
+
+        <input id="c" type="number" min="0" value="0" placeholder="C 成交" class="p-3 rounded-xl border">
+        <input id="s" type="number" min="0" value="0" placeholder="S 服務" class="p-3 rounded-xl border">
+
+        <input id="r" type="number" min="0" value="0" placeholder="R 轉介紹" class="p-3 rounded-xl border">
+        <input id="policy" type="number" min="0" value="0" placeholder="送保單" class="p-3 rounded-xl border">
+
+      </div>
+    </div>
+
+    <div>
+      <label class="font-bold">業績</label>
+      <input id="cases" type="number" min="0" value="0" placeholder="成交件數" class="w-full p-3 rounded-xl border mt-2">
+      <input id="fyc" type="number" min="0" value="0" placeholder="FYC" class="w-full p-3 rounded-xl border mt-2">
+      <input id="fyp" type="number" min="0" value="0" placeholder="FYP" class="w-full p-3 rounded-xl border mt-2">
+    </div>
+
+    <div>
+      <label class="font-bold">今日重點 / 備註</label>
+      <textarea id="note" placeholder="今天的重點與追蹤事項" class="w-full p-3 rounded-xl border mt-1"></textarea>
+    </div>
+
+    <button class="w-full bg-emerald-700 text-white p-4 rounded-xl font-bold">
+      ☁️ 送出
+    </button>
+
+    <div id="msg" class="text-center text-green-600 font-bold hidden">
+      ✅ 已送出
+    </div>
+
+  </form>
+
+</div>
+
+<script>
 const CONFIG = {
   formAction: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse",
-  formViewUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform",
   entries: {
     date: "entry.919879348",
     name: "entry.337035848",
@@ -46,134 +104,38 @@ const CONFIG = {
   }
 };
 
-【四、頁面結構】
+// 今日日期
+document.getElementById("date").value = new Date().toISOString().split("T")[0];
 
-請建立以下區塊：
+// 送出
+document.getElementById("form").addEventListener("submit",e=>{
+  e.preventDefault();
 
-1. Header 主視覺區
-標題：
-活動量管理｜每日回報系統
+  const name = document.getElementById("name").value;
+  if(!name){
+    alert("請填寫姓名");
+    return;
+  }
 
-副標：
-每天 3 分鐘，讓努力被看見，讓成交變得可追蹤。
+  const formData = new FormData();
 
-按鈕：
-- 「📝 開始填寫」：點擊後滑到表單區
-- 「🔗 開啟原始 Google 表單」：連到 CONFIG.formViewUrl，target="_blank"
+  Object.keys(CONFIG.entries).forEach(key=>{
+    const el = document.getElementById(key);
+    if(el){
+      formData.append(CONFIG.entries[key],el.value);
+    }
+  });
 
-2. 即時統計卡片區
-顯示：
-- 今日總活動量
-- CALL → APO
-- APO → FF
-- PD → C
+  fetch(CONFIG.formAction,{
+    method:"POST",
+    mode:"no-cors",
+    body:formData
+  });
 
-3. 快速填寫表單區
-表單需清楚分成：
-- 基本資料
-- 活動量
-- 業績數據
-- 今日重點
+  document.getElementById("msg").classList.remove("hidden");
 
-4. 活動量定義區
-列出：
-- CALL：建立關係
-- APO：約訪
-- FF：需求面談
-- PD：建議書
-- C：成交
-- S：服務
-- R：轉介紹
-- 送保單：保單交付
+});
+</script>
 
-5. Footer
-文字：
-© 馥芸財富學苑｜活動量管理系統
-
-【五、表單欄位】
-
-請建立以下欄位，每個欄位都要有 label：
-
-基本資料：
-1. 日期
-- type="date"
-- 預設今天日期
-- 可手動修改
-- 必填
-
-2. 姓名
-- type="text"
-- placeholder：請輸入姓名
-- 必填
-
-活動量：
-3. CALL 建立關係
-4. APO 約訪
-5. FF 需求面談
-6. PD 建議書
-7. C 成交
-8. S 服務
-9. R 轉介紹
-10. 送保單
-
-業績數據：
-11. 成交件數
-12. FYC
-13. FYP
-
-今日重點：
-14. 今日重點 / 備註
-- textarea
-- placeholder：請記錄今日重點、客戶回饋、明日追蹤事項
-
-【六、功能需求】
-
-1. Google Form 送出
-- 使用 fetch POST 到 CONFIG.formAction
-- mode: "no-cors"
-- 不跳頁
-- 成功後顯示：
-  「✅ 已成功送出，資料已進入 Google Sheet」
-- 送出後保留姓名與日期
-- 數字欄位歸零
-- 備註清空
-
-2. 本機暫存 localStorage
-- 使用者輸入時自動暫存
-- 重新整理頁面或關閉後再打開，資料仍保留
-- 顯示提示：「已啟用本機暫存」
-- 提供「清除暫存」按鈕
-- 送出成功後自動清除暫存
-
-3. 即時計算
-請即時更新：
-- 今日總活動量 = CALL + APO + FF + PD + C + S + R + 送保單
-- CALL → APO = APO / CALL
-- APO → FF = FF / APO
-- PD → C = C / PD
-
-分母為 0 時顯示 0%。
-
-4. 防呆設計
-- 所有數字欄位 type="number"
-- 所有數字欄位 min="0"
-- 所有數字欄位預設值為 0
-- 不允許負數，若輸入負數，自動改回 0
-- 姓名未填時不可送出，並 alert：「請先填寫姓名」
-
-【七、技術要求】
-
-- 請輸出單一完整 HTML
-- 可使用 Tailwind CDN
-- CSS 寫在 <style>
-- JavaScript 寫在 <script>
-- 不要使用其他外部套件
-- 不要省略任何程式碼
-- 需可直接貼到 GitHub Pages 的 index.html 使用
-
-【八、輸出格式】
-
-請只輸出完整 HTML 程式碼。
-不要解釋。
-不要分段說明。
-不要省略。
+</body>
+</html>
