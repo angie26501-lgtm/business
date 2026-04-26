@@ -1,29 +1,29 @@
-你是一位專業前端工程師、UI/UX 設計師與產品經理。
+你是一位資深前端工程師、UI/UX 設計師與產品經理。
 
-請幫我生成一個「活動量管理每日回報系統」的完整 HTML 單頁網頁，需可直接貼到 GitHub Pages 的 index.html 使用。
+請幫我生成一個「活動量管理｜每日回報系統」的完整 HTML 單頁網頁，可直接貼到 GitHub Pages 的 index.html 使用。
 
-【一、設計目標】
+【一、專案目的】
 
-我要保留高質感、乾淨、專業的金融品牌風格，適合「馥芸財富學苑」團隊使用。
+這個網頁是給「馥芸財富學苑」團隊每日回報活動量使用。
+目標是讓夥伴每天用 3 分鐘完成紀錄，並把資料送到 Google 表單，再自動進入 Google Sheet 做統計。
 
-整體風格：
-- 溫暖專業
+【二、品牌與視覺風格】
+
+請保留高質感、乾淨、專業、溫暖的金融品牌風格。
+
+設計調性：
 - 草本綠 × 奶茶金 × 米白底
+- 高端但不冰冷
 - 卡片式設計
-- 圓角、柔和陰影
-- 手機版也要好用
+- 大圓角
+- 柔和陰影
+- 手機版優先
+- 表單欄位清楚易懂
+- 不要只有 placeholder，所有欄位都必須有標題
 
-【二、Google 表單串接】
+【三、Google 表單串接設定】
 
-請內建以下 Google Form 設定：
-
-表單填寫網址：
-https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform
-
-formResponse 送出網址：
-https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse
-
-CONFIG：
+請直接內建以下 CONFIG：
 
 const CONFIG = {
   formAction: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse",
@@ -46,106 +46,37 @@ const CONFIG = {
   }
 };
 
-【三、欄位設計】
+【四、頁面結構】
 
-請設計清楚可讀的表單欄位，不要只放 placeholder，必須每個欄位都有標題。
+請建立以下區塊：
 
-欄位包含：
-
-1. 日期
-- 預設今天日期
-- 可手動修改
-
-2. 姓名
-- 必填
-- placeholder：請輸入姓名
-
-3. 活動量欄位
-每個欄位都要有清楚標籤與說明：
-- CALL 建立關係
-- APO 約訪
-- FF 需求面談
-- PD 建議書
-- C 成交
-- S 服務
-- R 轉介紹
-- 送保單
-
-4. 業績數據
-- 成交件數
-- FYC
-- FYP
-
-5. 今日重點 / 備註
-- 段落文字欄位
-- placeholder：請記錄今日重點、客戶回饋、明日追蹤事項
-
-【四、功能需求】
-
-1. 送出功能
-- 使用 fetch POST 到 Google Form formResponse
-- mode 使用 no-cors
-- 送出後不跳頁
-- 顯示成功訊息：「✅ 已成功送出，資料已進入 Google Sheet」
-- 送出後保留姓名與日期
-- 數字欄位歸零
-- 備註清空
-
-2. 原始表單入口
-頁面上方需提供一個按鈕：
-「🔗 開啟原始 Google 表單」
-點擊後開啟 CONFIG.formViewUrl，並用 target="_blank"
-
-3. 本機暫存功能
-請使用 localStorage：
-- 使用者輸入時自動暫存
-- 重新整理頁面或關閉後再打開，資料仍保留
-- 顯示提示：「已啟用本機暫存」
-- 提供「清除暫存」按鈕
-- 送出成功後自動清除暫存
-
-4. 自動計算
-頁面需即時顯示：
-- 今日總活動量 = CALL + APO + FF + PD + C + S + R + 送保單
-- CALL → APO 轉換率
-- APO → FF 轉換率
-- PD → C 成交率
-
-分母為 0 時顯示 0%。
-
-5. 防呆設計
-- 所有數字欄位 min="0"
-- 預設值為 0
-- 不允許輸入負數
-- 姓名未填時不可送出，並提醒：「請先填寫姓名」
-
-【五、頁面區塊】
-
-請包含以下區塊：
-
-1. Header 主視覺
+1. Header 主視覺區
 標題：
 活動量管理｜每日回報系統
 
 副標：
 每天 3 分鐘，讓努力被看見，讓成交變得可追蹤。
 
-2. 快速填寫表單區
-清楚分類：
-- 基本資料
-- 活動量
-- 業績數據
-- 今日重點
+按鈕：
+- 「📝 開始填寫」：點擊後滑到表單區
+- 「🔗 開啟原始 Google 表單」：連到 CONFIG.formViewUrl，target="_blank"
 
-3. 即時統計卡片
+2. 即時統計卡片區
 顯示：
 - 今日總活動量
 - CALL → APO
 - APO → FF
 - PD → C
 
+3. 快速填寫表單區
+表單需清楚分成：
+- 基本資料
+- 活動量
+- 業績數據
+- 今日重點
+
 4. 活動量定義區
-簡短說明：
+列出：
 - CALL：建立關係
 - APO：約訪
 - FF：需求面談
@@ -159,17 +90,88 @@ const CONFIG = {
 文字：
 © 馥芸財富學苑｜活動量管理系統
 
-【六、技術要求】
+【五、表單欄位】
+
+請建立以下欄位，每個欄位都要有 label：
+
+基本資料：
+1. 日期
+- type="date"
+- 預設今天日期
+- 可手動修改
+- 必填
+
+2. 姓名
+- type="text"
+- placeholder：請輸入姓名
+- 必填
+
+活動量：
+3. CALL 建立關係
+4. APO 約訪
+5. FF 需求面談
+6. PD 建議書
+7. C 成交
+8. S 服務
+9. R 轉介紹
+10. 送保單
+
+業績數據：
+11. 成交件數
+12. FYC
+13. FYP
+
+今日重點：
+14. 今日重點 / 備註
+- textarea
+- placeholder：請記錄今日重點、客戶回饋、明日追蹤事項
+
+【六、功能需求】
+
+1. Google Form 送出
+- 使用 fetch POST 到 CONFIG.formAction
+- mode: "no-cors"
+- 不跳頁
+- 成功後顯示：
+  「✅ 已成功送出，資料已進入 Google Sheet」
+- 送出後保留姓名與日期
+- 數字欄位歸零
+- 備註清空
+
+2. 本機暫存 localStorage
+- 使用者輸入時自動暫存
+- 重新整理頁面或關閉後再打開，資料仍保留
+- 顯示提示：「已啟用本機暫存」
+- 提供「清除暫存」按鈕
+- 送出成功後自動清除暫存
+
+3. 即時計算
+請即時更新：
+- 今日總活動量 = CALL + APO + FF + PD + C + S + R + 送保單
+- CALL → APO = APO / CALL
+- APO → FF = FF / APO
+- PD → C = C / PD
+
+分母為 0 時顯示 0%。
+
+4. 防呆設計
+- 所有數字欄位 type="number"
+- 所有數字欄位 min="0"
+- 所有數字欄位預設值為 0
+- 不允許負數，若輸入負數，自動改回 0
+- 姓名未填時不可送出，並 alert：「請先填寫姓名」
+
+【七、技術要求】
 
 - 請輸出單一完整 HTML
+- 可使用 Tailwind CDN
 - CSS 寫在 <style>
 - JavaScript 寫在 <script>
-- 可使用 Tailwind CDN
 - 不要使用其他外部套件
 - 不要省略任何程式碼
 - 需可直接貼到 GitHub Pages 的 index.html 使用
 
-【七、輸出格式】
+【八、輸出格式】
 
 請只輸出完整 HTML 程式碼。
 不要解釋。
