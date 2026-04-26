@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>活動量管理｜每日回報</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: "Noto Sans TC", sans-serif; }
+  </style>
 </head>
 
 <body class="bg-gradient-to-br from-emerald-50 to-amber-50 min-h-screen text-gray-800">
 
 <div class="max-w-3xl mx-auto p-6">
 
+  <!-- Header -->
   <h1 class="text-3xl font-black text-center mb-2">
     活動量管理｜每日回報
   </h1>
@@ -23,60 +28,97 @@
   <div class="text-center mb-6">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform"
        target="_blank"
-       class="inline-block bg-white border px-5 py-3 rounded-xl shadow font-bold text-emerald-700">
+       class="inline-block bg-white border px-5 py-3 rounded-xl shadow font-bold text-emerald-700 hover:bg-gray-50">
        🔗 開啟原始 Google 表單
     </a>
   </div>
 
+  <!-- 表單 -->
   <form id="form" class="bg-white rounded-3xl p-6 shadow space-y-6">
 
+    <!-- 日期 -->
     <div>
-      <label class="font-bold">日期</label>
+      <label class="font-bold">📅 日期</label>
       <input id="date" type="date" class="w-full p-3 rounded-xl border mt-1" required>
     </div>
 
+    <!-- 姓名 -->
     <div>
-      <label class="font-bold">姓名</label>
+      <label class="font-bold">👤 姓名</label>
       <input id="name" type="text" placeholder="請輸入姓名" class="w-full p-3 rounded-xl border mt-1" required>
     </div>
 
+    <!-- 活動量 -->
     <div>
-      <label class="font-bold">活動量</label>
+      <label class="font-bold">📊 活動量</label>
+
       <div class="grid grid-cols-2 gap-3 mt-2">
 
-        <input id="call" type="number" min="0" value="0" placeholder="CALL 建立關係" class="p-3 rounded-xl border">
-        <input id="apo" type="number" min="0" value="0" placeholder="APO 約訪" class="p-3 rounded-xl border">
+        <div>
+          <label class="text-sm font-bold text-gray-600">CALL 建立關係</label>
+          <input id="call" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
 
-        <input id="ff" type="number" min="0" value="0" placeholder="FF 需求面談" class="p-3 rounded-xl border">
-        <input id="pd" type="number" min="0" value="0" placeholder="PD 建議書" class="p-3 rounded-xl border">
+        <div>
+          <label class="text-sm font-bold text-gray-600">APO 約訪</label>
+          <input id="apo" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
 
-        <input id="c" type="number" min="0" value="0" placeholder="C 成交" class="p-3 rounded-xl border">
-        <input id="s" type="number" min="0" value="0" placeholder="S 服務" class="p-3 rounded-xl border">
+        <div>
+          <label class="text-sm font-bold text-gray-600">FF 需求面談</label>
+          <input id="ff" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
 
-        <input id="r" type="number" min="0" value="0" placeholder="R 轉介紹" class="p-3 rounded-xl border">
-        <input id="policy" type="number" min="0" value="0" placeholder="送保單" class="p-3 rounded-xl border">
+        <div>
+          <label class="text-sm font-bold text-gray-600">PD 建議書</label>
+          <input id="pd" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-gray-600">C 成交</label>
+          <input id="c" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-gray-600">S 服務</label>
+          <input id="s" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-gray-600">R 轉介紹</label>
+          <input id="r" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
+
+        <div>
+          <label class="text-sm font-bold text-gray-600">送保單</label>
+          <input id="policy" type="number" min="0" value="0" class="w-full p-3 rounded-xl border mt-1">
+        </div>
 
       </div>
     </div>
 
+    <!-- 業績 -->
     <div>
-      <label class="font-bold">業績</label>
+      <label class="font-bold">💰 業績數據</label>
+
       <input id="cases" type="number" min="0" value="0" placeholder="成交件數" class="w-full p-3 rounded-xl border mt-2">
       <input id="fyc" type="number" min="0" value="0" placeholder="FYC" class="w-full p-3 rounded-xl border mt-2">
       <input id="fyp" type="number" min="0" value="0" placeholder="FYP" class="w-full p-3 rounded-xl border mt-2">
     </div>
 
+    <!-- 備註 -->
     <div>
-      <label class="font-bold">今日重點 / 備註</label>
-      <textarea id="note" placeholder="今天的重點與追蹤事項" class="w-full p-3 rounded-xl border mt-1"></textarea>
+      <label class="font-bold">📝 今日重點 / 備註</label>
+      <textarea id="note" placeholder="請記錄今日重點與追蹤事項" class="w-full p-3 rounded-xl border mt-1"></textarea>
     </div>
 
-    <button class="w-full bg-emerald-700 text-white p-4 rounded-xl font-bold">
-      ☁️ 送出
+    <!-- 按鈕 -->
+    <button class="w-full bg-emerald-700 text-white p-4 rounded-xl font-bold text-lg">
+      ☁️ 送出活動量
     </button>
 
     <div id="msg" class="text-center text-green-600 font-bold hidden">
-      ✅ 已送出
+      ✅ 已成功送出，資料已進入 Google Sheet
     </div>
 
   </form>
@@ -104,15 +146,14 @@ const CONFIG = {
   }
 };
 
-// 今日日期
+// 預設今天
 document.getElementById("date").value = new Date().toISOString().split("T")[0];
 
 // 送出
 document.getElementById("form").addEventListener("submit",e=>{
   e.preventDefault();
 
-  const name = document.getElementById("name").value;
-  if(!name){
+  if(!document.getElementById("name").value){
     alert("請填寫姓名");
     return;
   }
@@ -133,7 +174,6 @@ document.getElementById("form").addEventListener("submit",e=>{
   });
 
   document.getElementById("msg").classList.remove("hidden");
-
 });
 </script>
 
