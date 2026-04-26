@@ -1,66 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>活動量管理｜馥芸財富學苑</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+你是一位專業前端工程師、UI/UX 設計師與產品經理。
 
-<body class="bg-gradient-to-br from-emerald-50 to-amber-50 min-h-screen text-gray-800">
+請幫我生成一個「活動量管理每日回報系統」的完整 HTML 單頁網頁，需可直接貼到 GitHub Pages 的 index.html 使用。
 
-<div class="max-w-3xl mx-auto p-6">
+【一、設計目標】
 
-  <h1 class="text-3xl font-black text-center mb-4">
-    活動量每日回報
-  </h1>
+我要保留高質感、乾淨、專業的金融品牌風格，適合「馥芸財富學苑」團隊使用。
 
-  <!-- 🔗 原始表單入口（已幫你加入） -->
-  <div class="text-center mb-6">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform" 
-       target="_blank"
-       class="inline-block bg-white border px-5 py-3 rounded-xl shadow font-bold text-emerald-700 hover:bg-gray-50">
-       🔗 開啟原始 Google 表單
-    </a>
-  </div>
+整體風格：
+- 溫暖專業
+- 草本綠 × 奶茶金 × 米白底
+- 卡片式設計
+- 圓角、柔和陰影
+- 手機版也要好用
 
-  <form id="form" class="bg-white rounded-3xl p-6 shadow space-y-4">
+【二、Google 表單串接】
 
-    <input id="date" type="date" class="w-full p-3 rounded-xl border" required>
-    <input id="name" type="text" placeholder="姓名" class="w-full p-3 rounded-xl border" required>
+請內建以下 Google Form 設定：
 
-    <div class="grid grid-cols-2 gap-3">
-      <input id="call" type="number" value="0" class="p-3 rounded-xl border" placeholder="CALL">
-      <input id="apo" type="number" value="0" class="p-3 rounded-xl border" placeholder="APO">
-      <input id="ff" type="number" value="0" class="p-3 rounded-xl border" placeholder="FF">
-      <input id="pd" type="number" value="0" class="p-3 rounded-xl border" placeholder="PD">
-      <input id="c" type="number" value="0" class="p-3 rounded-xl border" placeholder="C">
-      <input id="s" type="number" value="0" class="p-3 rounded-xl border" placeholder="S">
-      <input id="r" type="number" value="0" class="p-3 rounded-xl border" placeholder="R">
-      <input id="policy" type="number" value="0" class="p-3 rounded-xl border" placeholder="送保單">
-    </div>
+表單填寫網址：
+https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform
 
-    <input id="cases" type="number" value="0" placeholder="成交件數" class="w-full p-3 rounded-xl border">
-    <input id="fyc" type="number" value="0" placeholder="FYC" class="w-full p-3 rounded-xl border">
-    <input id="fyp" type="number" value="0" placeholder="FYP" class="w-full p-3 rounded-xl border">
+formResponse 送出網址：
+https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse
 
-    <textarea id="note" placeholder="備註" class="w-full p-3 rounded-xl border"></textarea>
+CONFIG：
 
-    <button class="w-full bg-emerald-700 text-white p-4 rounded-xl font-bold">
-      ☁️ 送出
-    </button>
-
-    <div id="msg" class="text-center text-green-600 font-bold hidden">
-      ✅ 已送出
-    </div>
-
-  </form>
-
-</div>
-
-<script>
 const CONFIG = {
   formAction: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse",
+  formViewUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform",
   entries: {
     date: "entry.919879348",
     name: "entry.337035848",
@@ -79,66 +46,132 @@ const CONFIG = {
   }
 };
 
-const KEY = "activity_draft";
+【三、欄位設計】
 
-// 👉 自動今天日期
-const today = new Date().toISOString().split("T")[0];
-if(!document.getElementById("date").value){
-  document.getElementById("date").value = today;
-}
+請設計清楚可讀的表單欄位，不要只放 placeholder，必須每個欄位都有標題。
 
-// 👉 載入暫存
-function load(){
-  const data = JSON.parse(localStorage.getItem(KEY)||"{}");
-  Object.keys(data).forEach(k=>{
-    if(document.getElementById(k)){
-      document.getElementById(k).value = data[k];
-    }
-  });
-}
-load();
+欄位包含：
 
-// 👉 儲存暫存
-document.querySelectorAll("input,textarea").forEach(el=>{
-  el.addEventListener("input",()=>{
-    const data = {};
-    document.querySelectorAll("input,textarea").forEach(i=>{
-      data[i.id]=i.value;
-    });
-    localStorage.setItem(KEY,JSON.stringify(data));
-  });
-});
+1. 日期
+- 預設今天日期
+- 可手動修改
 
-// 👉 送出
-document.getElementById("form").addEventListener("submit",e=>{
-  e.preventDefault();
+2. 姓名
+- 必填
+- placeholder：請輸入姓名
 
-  const formData = new FormData();
+3. 活動量欄位
+每個欄位都要有清楚標籤與說明：
+- CALL 建立關係
+- APO 約訪
+- FF 需求面談
+- PD 建議書
+- C 成交
+- S 服務
+- R 轉介紹
+- 送保單
 
-  Object.keys(CONFIG.entries).forEach(key=>{
-    const el = document.getElementById(key);
-    if(el){
-      formData.append(CONFIG.entries[key],el.value);
-    }
-  });
+4. 業績數據
+- 成交件數
+- FYC
+- FYP
 
-  fetch(CONFIG.formAction,{
-    method:"POST",
-    mode:"no-cors",
-    body:formData
-  });
+5. 今日重點 / 備註
+- 段落文字欄位
+- placeholder：請記錄今日重點、客戶回饋、明日追蹤事項
 
-  localStorage.removeItem(KEY);
+【四、功能需求】
 
-  document.getElementById("msg").classList.remove("hidden");
+1. 送出功能
+- 使用 fetch POST 到 Google Form formResponse
+- mode 使用 no-cors
+- 送出後不跳頁
+- 顯示成功訊息：「✅ 已成功送出，資料已進入 Google Sheet」
+- 送出後保留姓名與日期
+- 數字欄位歸零
+- 備註清空
 
-  document.querySelectorAll("input").forEach(el=>{
-    if(el.type==="number") el.value=0;
-  });
+2. 原始表單入口
+頁面上方需提供一個按鈕：
+「🔗 開啟原始 Google 表單」
+點擊後開啟 CONFIG.formViewUrl，並用 target="_blank"
 
-  document.getElementById("note").value="";
-});
-</script>
+3. 本機暫存功能
+請使用 localStorage：
+- 使用者輸入時自動暫存
+- 重新整理頁面或關閉後再打開，資料仍保留
+- 顯示提示：「已啟用本機暫存」
+- 提供「清除暫存」按鈕
+- 送出成功後自動清除暫存
 
-</body>
-</html>
+4. 自動計算
+頁面需即時顯示：
+- 今日總活動量 = CALL + APO + FF + PD + C + S + R + 送保單
+- CALL → APO 轉換率
+- APO → FF 轉換率
+- PD → C 成交率
+
+分母為 0 時顯示 0%。
+
+5. 防呆設計
+- 所有數字欄位 min="0"
+- 預設值為 0
+- 不允許輸入負數
+- 姓名未填時不可送出，並提醒：「請先填寫姓名」
+
+【五、頁面區塊】
+
+請包含以下區塊：
+
+1. Header 主視覺
+標題：
+活動量管理｜每日回報系統
+
+副標：
+每天 3 分鐘，讓努力被看見，讓成交變得可追蹤。
+
+2. 快速填寫表單區
+清楚分類：
+- 基本資料
+- 活動量
+- 業績數據
+- 今日重點
+
+3. 即時統計卡片
+顯示：
+- 今日總活動量
+- CALL → APO
+- APO → FF
+- PD → C
+
+4. 活動量定義區
+簡短說明：
+- CALL：建立關係
+- APO：約訪
+- FF：需求面談
+- PD：建議書
+- C：成交
+- S：服務
+- R：轉介紹
+- 送保單：保單交付
+
+5. Footer
+文字：
+© 馥芸財富學苑｜活動量管理系統
+
+【六、技術要求】
+
+- 請輸出單一完整 HTML
+- CSS 寫在 <style>
+- JavaScript 寫在 <script>
+- 可使用 Tailwind CDN
+- 不要使用其他外部套件
+- 不要省略任何程式碼
+- 需可直接貼到 GitHub Pages 的 index.html 使用
+
+【七、輸出格式】
+
+請只輸出完整 HTML 程式碼。
+不要解釋。
+不要分段說明。
+不要省略。
