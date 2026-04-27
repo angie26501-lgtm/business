@@ -1,425 +1,48 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>活動量管理｜每日回報</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; }
-  </style>
-</head>
-
-<body class="bg-gradient-to-br from-emerald-50 via-white to-amber-50 min-h-screen text-slate-800">
-
-<main class="max-w-3xl mx-auto p-5 md:p-8">
-
-  <section class="text-center mb-8">
-    <p class="inline-block bg-emerald-900 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow">
-      馥芸財富學苑｜團隊活動量管理
-    </p>
-
-    <h1 class="mt-5 text-3xl md:text-4xl font-black">
-      活動量管理｜每日回報
-    </h1>
-
-    <p class="mt-3 text-slate-500">
-      每天 3 分鐘，讓努力被看見，讓成交變得可追蹤。
-    </p>
-
-    <div class="mt-5">
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/viewform"
-         target="_blank"
-         class="inline-block bg-white border border-emerald-100 px-5 py-3 rounded-2xl shadow font-bold text-emerald-700 hover:bg-emerald-50 transition">
-        🔗 開啟原始 Google 表單
-      </a>
-    </div>
-  </section>
-
-  <section class="grid grid-cols-3 gap-3 mb-6">
-    <div class="bg-white rounded-2xl shadow p-4 text-center">
-      <p class="text-xs text-slate-500">今日總活動量</p>
-      <p id="totalActivity" class="text-2xl font-black text-emerald-800">0</p>
-    </div>
-    <div class="bg-white rounded-2xl shadow p-4 text-center">
-      <p class="text-xs text-slate-500">CALL → APO</p>
-      <p id="callApoRate" class="text-2xl font-black text-emerald-800">0%</p>
-    </div>
-    <div class="bg-white rounded-2xl shadow p-4 text-center">
-      <p class="text-xs text-slate-500">PD → C</p>
-      <p id="pdCRate" class="text-2xl font-black text-amber-700">0%</p>
-    </div>
-  </section>
-
-  <form id="form" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl space-y-7">
-
-    <section>
-      <h2 class="text-xl font-black mb-4">一、基本資料</h2>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block font-bold mb-1">📅 日期</label>
-          <input id="date" type="date" class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-emerald-200 outline-none" required>
-        </div>
-
-        <div>
-          <label class="block font-bold mb-1">👤 姓名</label>
-          <input id="name" type="text" placeholder="請輸入姓名" class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-emerald-200 outline-none" required>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-xl font-black mb-1">二、活動量</h2>
-      <p class="text-sm text-slate-500 mb-4">左側是活動項目，右側填今日完成數量。未執行請填 0。</p>
-
-      <div class="space-y-3">
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">CALL 建立關係</p>
-            <p class="text-sm text-slate-500">主動聯繫、寒暄、建立互動</p>
-          </div>
-          <input id="call" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">APO 約訪</p>
-            <p class="text-sm text-slate-500">成功約定面談或溝通時間</p>
-          </div>
-          <input id="apo" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">FF 需求面談</p>
-            <p class="text-sm text-slate-500">了解需求、家庭狀況與財務目標</p>
-          </div>
-          <input id="ff" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">PD 建議書</p>
-            <p class="text-sm text-slate-500">完成規劃說明或方案建議</p>
-          </div>
-          <input id="pd" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">C 成交</p>
-            <p class="text-sm text-slate-500">完成成交或正式承作</p>
-          </div>
-          <input id="c" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">S 服務</p>
-            <p class="text-sm text-slate-500">保單服務、客戶關懷、售後追蹤</p>
-          </div>
-          <input id="s" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">R 轉介紹</p>
-            <p class="text-sm text-slate-500">取得名單、推薦或轉介紹機會</p>
-          </div>
-          <input id="r" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-        <div class="flex items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4">
-          <div>
-            <p class="font-black">送保單</p>
-            <p class="text-sm text-slate-500">完成保單交付與內容說明</p>
-          </div>
-          <input id="policy" type="number" min="0" value="0" class="w-24 text-center p-3 rounded-xl border font-black text-lg">
-        </div>
-
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-xl font-black mb-4">三、業績數據</h2>
-
-      <div class="space-y-4">
-        <div>
-          <label class="block font-bold mb-1">成交件數</label>
-          <input id="cases" type="number" min="0" value="0" class="w-full p-3 rounded-xl border">
-        </div>
-
-        <div>
-          <label class="block font-bold mb-1">FYC</label>
-          <input id="fyc" type="number" min="0" value="0" class="w-full p-3 rounded-xl border">
-        </div>
-
-        <div>
-          <label class="block font-bold mb-1">FYP</label>
-          <input id="fyp" type="number" min="0" value="0" class="w-full p-3 rounded-xl border">
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2 class="text-xl font-black mb-4">四、今日重點 / 備註</h2>
-      <textarea id="note" rows="4" placeholder="請記錄今日重點、客戶回饋、明日追蹤事項"
-        class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-emerald-200 outline-none"></textarea>
-    </section>
-
-    <div class="flex flex-col sm:flex-row gap-3">
-      <button type="submit" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white p-4 rounded-2xl font-black text-lg shadow transition">
-        ☁️ 送出活動量
-      </button>
-
-      <button type="button" id="clearDraftBtn" class="sm:w-40 bg-white border p-4 rounded-2xl font-bold text-slate-600 shadow hover:bg-slate-50">
-        清除暫存
-      </button>
-    </div>
-
-    <div id="msg" class="hidden text-center text-green-700 font-bold bg-green-50 border border-green-200 rounded-2xl py-3">
-      ✅ 已成功送出，資料已進入 Google Sheet
-    </div>
-
-    <p id="draftMsg" class="text-center text-sm text-slate-500">
-      已啟用本機暫存，未送出前資料不會因重新整理而消失。
-    </p>
-
-  </form>
-
-  <footer class="text-center text-sm text-slate-500 py-8">
-    © 馥芸財富學苑｜活動量管理系統
-  </footer>
-
-</main>
-
 <script>
-const CONFIG = {
-  formAction: "https://docs.google.com/forms/d/e/1FAIpQLSfIWCo6ywRDfgpm9UUSPjGFA8pe2bB5e1m46r4sSrHQrz5H6A/formResponse",
-  entries: {
-    date: "entry.919879348",
-    name: "entry.337035848",
-    call: "entry.151478796",
-    apo: "entry.2016416450",
-    ff: "entry.328881420",
-    pd: "entry.136604677",
-    c: "entry.1402626868",
-    s: "entry.1839597626",
-    r: "entry.2137473605",
-    policy: "entry.286475001",
-    cases: "entry.1425354552",
-    fyc: "entry.845303929",
-    fyp: "entry.1289571681",
-    note: "entry.1999587977"
-  }
-};
+const form = document.getElementById("activityForm");
+const nums = [...document.querySelectorAll(".num")];
 
-const STORAGE_KEY = "fuyun_activity_draft_v2";
-
-const fieldIds = [
-  "date", "name", "call", "apo", "ff", "pd", "c", "s", "r",
-  "policy", "cases", "fyc", "fyp", "note"
-];
-
-const numberIds = [
-  "call", "apo", "ff", "pd", "c", "s", "r",
-  "policy", "cases", "fyc", "fyp"
-];
-
-function todayString() {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+// 🔥 防呆數字
+function n(name){
+  const val = Number(form[name].value || 0);
+  return val < 0 ? 0 : val;
 }
 
-function getValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : "";
+// 🔥 百分比
+function pct(a,b){
+  if(!b || b === 0) return "0%";
+  return Math.round((a/b)*100) + "%";
 }
 
-function setValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.value = value;
+// 🔥 核心計算（優化版）
+function updateStats(){
+
+  const call = n("call");
+  const apo = n("apo");
+  const ff  = n("ff");
+  const pd  = n("pd");
+  const c   = n("c");
+  const s   = n("s");
+  const r   = n("r");
+  const policy = n("policy");
+
+  // 👉 總活動量（核心KPI）
+  const total = call + apo + ff + pd + c + s + r + policy;
+
+  // 👉 更新畫面
+  document.getElementById("totalScore").textContent = total;
+
+  // 👉 轉換率
+  document.getElementById("rateCallApo").textContent = pct(apo, call);
+  document.getElementById("ratePdC").textContent = pct(c, pd);
 }
 
-function getNumber(id) {
-  const value = Number(getValue(id) || 0);
-  return value < 0 ? 0 : value;
-}
-
-function percent(numerator, denominator) {
-  if (!denominator) return "0%";
-  return Math.round((numerator / denominator) * 100) + "%";
-}
-
-function updateSummary() {
-  const total =
-    getNumber("call") +
-    getNumber("apo") +
-    getNumber("ff") +
-    getNumber("pd") +
-    getNumber("c") +
-    getNumber("s") +
-    getNumber("r") +
-    getNumber("policy");
-
-  document.getElementById("totalActivity").textContent = total;
-  document.getElementById("callApoRate").textContent = percent(getNumber("apo"), getNumber("call"));
-  document.getElementById("pdCRate").textContent = percent(getNumber("c"), getNumber("pd"));
-}
-
-function saveDraft() {
-  const draft = {};
-  fieldIds.forEach(id => {
-    draft[id] = getValue(id);
-  });
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
-  document.getElementById("draftMsg").textContent = "已自動暫存於本機。";
-}
-
-function loadDraft() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-
-  if (!saved) {
-    setValue("date", todayString());
-    updateSummary();
-    return;
-  }
-
-  try {
-    const draft = JSON.parse(saved);
-    fieldIds.forEach(id => {
-      if (draft[id] !== undefined) setValue(id, draft[id]);
-    });
-  } catch (e) {
-    setValue("date", todayString());
-  }
-
-  if (!getValue("date")) setValue("date", todayString());
-  updateSummary();
-}
-
-function clearDraft() {
-  localStorage.removeItem(STORAGE_KEY);
-
-  fieldIds.forEach(id => {
-    if (id === "date") {
-      setValue(id, todayString());
-    } else if (numberIds.includes(id)) {
-      setValue(id, 0);
-    } else {
-      setValue(id, "");
-    }
-  });
-
-  updateSummary();
-  document.getElementById("msg").classList.add("hidden");
-  document.getElementById("draftMsg").textContent = "已清除本機暫存。";
-}
-
-function normalizeNumberInputs() {
-  numberIds.forEach(id => {
-    const value = Number(getValue(id) || 0);
-    if (value < 0) setValue(id, 0);
-  });
-}
-
-function collectData() {
-  normalizeNumberInputs();
-
-  return {
-    date: getValue("date") || todayString(),
-    name: getValue("name").trim(),
-    call: getNumber("call"),
-    apo: getNumber("apo"),
-    ff: getNumber("ff"),
-    pd: getNumber("pd"),
-    c: getNumber("c"),
-    s: getNumber("s"),
-    r: getNumber("r"),
-    policy: getNumber("policy"),
-    cases: getNumber("cases"),
-    fyc: getNumber("fyc"),
-    fyp: getNumber("fyp"),
-    note: getValue("note")
-  };
-}
-
-function submitToGoogleForm(data) {
-  const formData = new FormData();
-
-  Object.keys(CONFIG.entries).forEach(key => {
-    if (CONFIG.entries[key] && data[key] !== undefined) {
-      formData.append(CONFIG.entries[key], data[key]);
-    }
-  });
-
-  return fetch(CONFIG.formAction, {
-    method: "POST",
-    mode: "no-cors",
-    body: formData
-  });
-}
-
-document.getElementById("form").addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const data = collectData();
-
-  if (!data.name) {
-    alert("請先填寫姓名");
-    return;
-  }
-
-  await submitToGoogleForm(data);
-
-  localStorage.removeItem(STORAGE_KEY);
-  document.getElementById("msg").classList.remove("hidden");
-  document.getElementById("draftMsg").textContent = "送出成功，暫存已清除。";
-
-  const keepName = data.name;
-  const keepDate = data.date;
-
-  fieldIds.forEach(id => {
-    if (id === "date") {
-      setValue(id, keepDate);
-    } else if (id === "name") {
-      setValue(id, keepName);
-    } else if (numberIds.includes(id)) {
-      setValue(id, 0);
-    } else {
-      setValue(id, "");
-    }
-  });
-
-  updateSummary();
+// 🔥 即時監聽（更順）
+nums.forEach(el => {
+  el.addEventListener("input", updateStats);
+  el.addEventListener("change", updateStats);
 });
 
-document.getElementById("clearDraftBtn").addEventListener("click", clearDraft);
-
-fieldIds.forEach(id => {
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  el.addEventListener("input", () => {
-    normalizeNumberInputs();
-    updateSummary();
-    saveDraft();
-  });
-
-  el.addEventListener("change", () => {
-    normalizeNumberInputs();
-    updateSummary();
-    saveDraft();
-  });
-});
-
-loadDraft();
+// 🔥 初始化
+updateStats();
 </script>
-
-</body>
-</html>
