@@ -6,111 +6,211 @@
   <title>財顧芸｜馥芸財富學苑入口頁</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+    body { font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; }
+    .soft-bg {
+      background:
+        radial-gradient(circle at 15% 5%, rgba(212, 175, 55, 0.22), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(22, 101, 52, 0.18), transparent 30%),
+        linear-gradient(135deg, #fbf6ed 0%, #fffdf8 42%, #eaf5ee 100%);
     }
     .glass {
       background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+    }
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      width: 100%;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 16px 18px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.055);
+      transition: all .22s ease;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .link-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.11);
+      border-color: rgba(16, 185, 129, .35);
+    }
+    .arrow {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ecfdf5;
+      color: #047857;
+      font-weight: 900;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .section-title h2 {
+      font-size: 1.08rem;
+      font-weight: 900;
+      color: #064e3b;
+    }
+    .tag {
+      font-size: 11px;
+      letter-spacing: .08em;
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      padding: 4px 9px;
+      border-radius: 999px;
+      white-space: nowrap;
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-[#f7f1e8] via-[#fffaf3] to-[#e8f3ec] text-slate-800">
+<body class="soft-bg min-h-screen text-slate-800">
 
-  <main class="max-w-3xl mx-auto px-5 py-8 md:py-12">
+  <main class="max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-10">
 
-    <!-- Header -->
-    <section class="text-center mb-8">
-      <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-emerald-700 to-amber-400 shadow-xl flex items-center justify-center text-white text-3xl font-bold">
-        芸
+    <!-- Hero -->
+    <section class="relative overflow-hidden rounded-[34px] bg-gradient-to-br from-slate-950 via-emerald-950 to-emerald-800 text-white shadow-2xl p-7 md:p-10 mb-7">
+      <div class="absolute -right-16 -top-16 w-52 h-52 rounded-full bg-amber-300/20 blur-2xl"></div>
+      <div class="absolute -left-16 bottom-0 w-56 h-56 rounded-full bg-emerald-300/12 blur-2xl"></div>
+
+      <div class="relative grid md:grid-cols-[auto_1fr] gap-6 items-center">
+        <div class="mx-auto md:mx-0 w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-emerald-500 shadow-xl flex items-center justify-center text-white text-4xl font-black border border-white/30">
+          芸
+        </div>
+
+        <div class="text-center md:text-left">
+          <p class="text-xs md:text-sm tracking-[0.32em] text-amber-200 font-semibold">AI × 財務 × 生活陪跑</p>
+          <h1 class="mt-3 text-3xl md:text-5xl font-black tracking-tight">財顧芸｜馥芸財富學苑</h1>
+          <p class="mt-4 text-white/82 leading-relaxed text-sm md:text-base">
+            幸福財務陪跑｜家族生活顧問｜AI賦能財務建築師<br class="hidden md:block">
+            把生活、財務、學習與健康，整理成更安心的下一步。
+          </p>
+        </div>
       </div>
-      <p class="mt-5 text-sm tracking-[0.28em] text-emerald-700 font-semibold">AI × 財務 × 生活陪跑</p>
-      <h1 class="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">財顧芸｜馥芸財富學苑</h1>
-      <p class="mt-3 text-slate-600 leading-relaxed">
-        幸福財務陪跑｜家族生活顧問｜AI賦能財務建築師<br>
-        把生活、財務、學習與健康，整理成更安心的下一步。
-      </p>
-    </section>
 
-    <!-- Main CTA -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-6 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">官方入口</h2>
-      <a href="https://lin.ee/yBVjjlK" target="_blank" class="block w-full rounded-2xl bg-gradient-to-r from-emerald-700 to-emerald-500 text-white p-5 shadow-lg hover:scale-[1.02] transition">
-        <div class="text-xl font-bold">加入 Line@ 官方群組</div>
-        <div class="text-sm opacity-90 mt-1">禮包＋活動訊息＋影片＋圖卡</div>
-      </a>
-    </section>
-
-    <!-- AI -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-6 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">AI 陪跑與工具</h2>
-      <div class="space-y-3">
-        <a href="https://angie26501-lgtm.github.io/active/ai-1150504.html" target="_blank" class="link-card">365AI浩茂 陪跑</a>
-      </div>
-    </section>
-
-    <!-- Courses -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-6 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">課程活動與講座報名</h2>
-      <div class="space-y-3">
-        <a href="https://reurl.cc/da8M36" target="_blank" class="link-card">手作及講座報名</a>
-        <a href="https://reurl.cc/9n82R8" target="_blank" class="link-card">兒童親子財商桌遊招生資訊</a>
-        <a href="https://forms.gle/M22upNhvh7HPLLbYA" target="_blank" class="link-card">台灣版財富自由桌遊體驗講座</a>
-        <a href="https://reurl.cc/gYAjj7" target="_blank" class="link-card">財富人生的三個錦囊妙計講座</a>
-        <a href="https://reurl.cc/pYXk74" target="_blank" class="link-card">金錢整理工作坊</a>
-        <a href="https://reurl.cc/da8M36" target="_blank" class="link-card opacity-70">理財小富翁親子財商桌遊派對｜已截止</a>
+      <div class="relative mt-7 grid md:grid-cols-3 gap-3">
+        <a href="https://lin.ee/yBVjjlK" target="_blank" class="rounded-2xl bg-white text-emerald-950 p-4 text-center font-black shadow-lg hover:bg-amber-50 transition">
+          加入 Line@ 官方群組
+          <div class="text-xs text-slate-500 mt-1 font-semibold">禮包＋活動訊息＋影片＋圖卡</div>
+        </a>
+        <a href="https://angie26501-lgtm.github.io/active/ai-1150504.html" target="_blank" class="rounded-2xl bg-emerald-500/90 text-white p-4 text-center font-black shadow-lg hover:bg-emerald-400 transition">
+          365AI浩茂 陪跑
+          <div class="text-xs text-white/80 mt-1 font-semibold">AI 工具與陪跑入口</div>
+        </a>
+        <a href="mailto:3172share@gmail.com" class="rounded-2xl bg-amber-300 text-slate-950 p-4 text-center font-black shadow-lg hover:bg-amber-200 transition">
+          歡迎講座邀約
+          <div class="text-xs text-slate-700 mt-1 font-semibold">3172share@gmail.com</div>
+        </a>
       </div>
     </section>
 
-    <!-- Assessment -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-6 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">生活與理財陪跑評估</h2>
-      <div class="space-y-3">
-        <a href="https://reurl.cc/z5Xxpk" target="_blank" class="link-card">生活與理財陪跑問卷評估</a>
-        <a href="https://forms.gle/tNNGemhKww9DfzQE9" target="_blank" class="link-card">補充評估表單</a>
+    <!-- Quick nav -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-7">
+      <a href="#courses" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">課程活動</a>
+      <a href="#assessment" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">問卷評估</a>
+      <a href="#social" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">FB 粉專</a>
+      <a href="#podcast" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">Podcast</a>
+    </section>
+
+    <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 items-start">
+
+      <!-- Left column -->
+      <div class="space-y-6">
+
+        <section id="courses" class="glass rounded-[28px] shadow-xl p-5 md:p-6">
+          <div class="section-title">
+            <h2>課程活動與講座報名</h2>
+            <span class="tag">COURSES</span>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-3">
+            <a href="https://reurl.cc/da8M36" target="_blank" class="link-card"><span>手作及講座報名</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/9n82R8" target="_blank" class="link-card"><span>兒童親子財商桌遊招生資訊</span><span class="arrow">›</span></a>
+            <a href="https://forms.gle/M22upNhvh7HPLLbYA" target="_blank" class="link-card"><span>台灣版財富自由桌遊體驗講座</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/gYAjj7" target="_blank" class="link-card"><span>財富人生的三個錦囊妙計講座</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/pYXk74" target="_blank" class="link-card md:col-span-2"><span>金錢整理工作坊</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/da8M36" target="_blank" class="link-card md:col-span-2 opacity-65"><span>理財小富翁親子財商桌遊派對｜已截止</span><span class="arrow">›</span></a>
+          </div>
+        </section>
+
+        <section id="assessment" class="glass rounded-[28px] shadow-xl p-5 md:p-6">
+          <div class="section-title">
+            <h2>生活與理財陪跑評估</h2>
+            <span class="tag">ASSESSMENT</span>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-3">
+            <a href="https://reurl.cc/z5Xxpk" target="_blank" class="link-card"><span>生活與理財陪跑問卷評估</span><span class="arrow">›</span></a>
+            <a href="https://forms.gle/tNNGemhKww9DfzQE9" target="_blank" class="link-card"><span>補充評估表單</span><span class="arrow">›</span></a>
+          </div>
+        </section>
+
       </div>
-    </section>
 
-    <!-- Invitation -->
-    <section class="rounded-3xl shadow-xl p-5 mb-6 bg-gradient-to-br from-slate-900 to-emerald-950 text-white">
-      <h2 class="text-lg font-bold mb-2">歡迎講座邀約</h2>
-      <p class="text-sm opacity-90 mb-4">財務規劃、AI應用、親子財商、生活理財陪跑等主題，歡迎來信洽詢。</p>
-      <a href="mailto:3172share@gmail.com" class="block w-full rounded-2xl bg-white text-emerald-900 text-center font-bold p-4 hover:bg-amber-50 transition">
-        3172share@gmail.com
-      </a>
-    </section>
+      <!-- Right column -->
+      <aside class="space-y-6">
 
-    <!-- Facebook -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-6 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">FB 粉專</h2>
-      <div class="space-y-3">
-        <a href="https://www.facebook.com/IFA.Fans/" target="_blank" class="link-card">財顧芸</a>
-        <a href="https://reurl.cc/NxDVO6" target="_blank" class="link-card">哈佛文教｜昇學用品</a>
-        <a href="https://reurl.cc/WOWlbe" target="_blank" class="link-card">葡眾健康計劃補給讚</a>
-        <a href="https://reurl.cc/x3Xne1" target="_blank" class="link-card">勁量琪琪的魔法芳療研究室</a>
-      </div>
-    </section>
+        <section class="glass rounded-[28px] shadow-xl p-5 md:p-6">
+          <div class="section-title">
+            <h2>官方與 AI 入口</h2>
+            <span class="tag">MAIN</span>
+          </div>
+          <div class="space-y-3">
+            <a href="https://lin.ee/yBVjjlK" target="_blank" class="link-card"><span>Line@ 官方群組</span><span class="arrow">›</span></a>
+            <a href="https://angie26501-lgtm.github.io/active/ai-1150504.html" target="_blank" class="link-card"><span>365AI浩茂 陪跑</span><span class="arrow">›</span></a>
+          </div>
+        </section>
 
-    <!-- Podcast -->
-    <section class="glass rounded-3xl shadow-xl p-5 mb-10 border border-white/70">
-      <h2 class="text-lg font-bold text-emerald-900 mb-4">Podcast</h2>
-      <a href="https://3172shre.firstory.io/episodes" target="_blank" class="block w-full rounded-2xl bg-gradient-to-r from-amber-500 to-amber-300 text-slate-900 p-5 shadow-lg hover:scale-[1.02] transition">
-        <div class="text-xl font-bold">斜槓媽青春陪跑實驗室</div>
-        <div class="text-sm opacity-80 mt-1">收聽最新集數</div>
-      </a>
-    </section>
+        <section id="social" class="glass rounded-[28px] shadow-xl p-5 md:p-6">
+          <div class="section-title">
+            <h2>FB 粉專</h2>
+            <span class="tag">FACEBOOK</span>
+          </div>
+          <div class="space-y-3">
+            <a href="https://www.facebook.com/IFA.Fans/" target="_blank" class="link-card"><span>財顧芸</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/NxDVO6" target="_blank" class="link-card"><span>哈佛文教｜昇學用品</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/WOWlbe" target="_blank" class="link-card"><span>葡眾健康計劃補給讚</span><span class="arrow">›</span></a>
+            <a href="https://reurl.cc/x3Xne1" target="_blank" class="link-card"><span>勁量琪琪的魔法芳療研究室</span><span class="arrow">›</span></a>
+          </div>
+        </section>
 
-    <footer class="text-center text-xs text-slate-500 leading-relaxed pb-6">
+        <section id="podcast" class="rounded-[28px] shadow-xl p-5 md:p-6 bg-gradient-to-br from-amber-300 via-amber-200 to-white border border-amber-100">
+          <div class="section-title">
+            <h2 class="!text-slate-900">Podcast</h2>
+            <span class="text-[11px] tracking-wider bg-white/70 text-slate-700 border border-white px-3 py-1 rounded-full">AUDIO</span>
+          </div>
+          <div class="space-y-3">
+            <a href="https://3172shre.firstory.io/episodes" target="_blank" class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
+              <div class="text-xl font-black text-slate-900">心海羅盤・幸福航行誌</div>
+              <div class="text-sm text-emerald-700 font-bold mt-1">幸福財務領航員｜財顧芸</div>
+              <div class="text-sm text-slate-600 mt-1 font-semibold">Firstory 收聽最新集數 ›</div>
+            </a>
+            <a href="https://open.spotify.com/show/1us537rWraGs4qdY8beG5a?si=a1c9ab03a0cb4043" target="_blank" class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
+              <div class="text-xl font-black text-slate-900">心海羅盤・幸福航行誌｜Spotify</div>
+              <div class="text-sm text-emerald-700 font-bold mt-1">幸福財務領航員｜財顧芸</div>
+              <div class="text-sm text-slate-600 mt-1 font-semibold">前往 Spotify 收聽 ›</div>
+            </a>
+          </div>
+        </section>
+
+      </aside>
+    </div>
+
+    <footer class="mt-10 mb-4 text-center text-xs text-slate-500 leading-relaxed">
       © 財顧芸｜馥芸財富學苑<br>
       願每一次整理，都是走向更安心生活的開始。
     </footer>
 
   </main>
-
-  <script>
-    document.querySelectorAll('.link-card').forEach(el => {
-      el.className = 'block w-full rounded-2xl bg-white border border-slate-100 p-4 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition font-semibold text-slate-800';
-    });
-  </script>
 </body>
 </html>
