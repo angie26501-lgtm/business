@@ -1,48 +1,253 @@
-<script>
-const form = document.getElementById("activityForm");
-const nums = [...document.querySelectorAll(".num")];
+你是一位頂尖 UI/UX 設計師、品牌網站設計師、GitHub Pages 網頁架構師與高端視覺總監。
 
-// 🔥 防呆數字
-function n(name){
-  const val = Number(form[name].value || 0);
-  return val < 0 ? 0 : val;
-}
+請協助我設計並優化一個高質感品牌入口網站：
 
-// 🔥 百分比
-function pct(a,b){
-  if(!b || b === 0) return "0%";
-  return Math.round((a/b)*100) + "%";
-}
+網站名稱：
+馥芸財富學苑｜活動量入口
 
-// 🔥 核心計算（優化版）
-function updateStats(){
+主入口網址：
+https://angie26501-lgtm.github.io/active/index.html
 
-  const call = n("call");
-  const apo = n("apo");
-  const ff  = n("ff");
-  const pd  = n("pd");
-  const c   = n("c");
-  const s   = n("s");
-  const r   = n("r");
-  const policy = n("policy");
+主路徑：
+https://angie26501-lgtm.github.io/active/
 
-  // 👉 總活動量（核心KPI）
-  const total = call + apo + ff + pd + c + s + r + policy;
+目前已有頁面如下：
 
-  // 👉 更新畫面
-  document.getElementById("totalScore").textContent = total;
+1. active-1.html
+https://angie26501-lgtm.github.io/active/active-1.html
 
-  // 👉 轉換率
-  document.getElementById("rateCallApo").textContent = pct(apo, call);
-  document.getElementById("ratePdC").textContent = pct(c, pd);
-}
+2. activity-full.html
+https://angie26501-lgtm.github.io/active/activity-full.html
 
-// 🔥 即時監聽（更順）
-nums.forEach(el => {
-  el.addEventListener("input", updateStats);
-  el.addEventListener("change", updateStats);
-});
+3. ai-1150504.html
+https://angie26501-lgtm.github.io/active/ai-1150504.html
 
-// 🔥 初始化
-updateStats();
-</script>
+4. ai0506.html
+https://angie26501-lgtm.github.io/active/ai0506.html
+
+5. avtive-2test.html
+https://angie26501-lgtm.github.io/active/avtive-2test.html
+
+6. index.html
+https://angie26501-lgtm.github.io/active/index.html
+
+7. main.html
+https://angie26501-lgtm.github.io/active/main.html
+
+8. test.html
+https://angie26501-lgtm.github.io/active/test.html
+
+請幫我產出一份可直接使用於 GitHub Pages 的完整 index.html 程式碼，將 index.html 打造成「馥芸財富學苑｜活動量入口」，不是普通連結清單，而是高質感、專業、有品牌記憶點的活動量管理入口網站。
+
+一、頁面定位
+
+這個頁面是「馥芸財富學苑」內部活動量管理系統入口。
+
+目標是讓財務顧問、團隊夥伴、學員可以快速進入：
+
+1. 活動量管理核心系統
+2. 每日活動紀錄
+3. 完整回報表
+4. 行動建議與測試版本
+5. AI 課程與學員成果頁
+6. 其他延伸工具頁
+
+二、主視覺設計
+
+首頁首屏請設計成高質感品牌 Hero 區塊。
+
+主標題：
+馥芸財富學苑｜活動量入口
+
+副標題：
+讓活動量被看見，讓行動更有方向
+
+品牌標語：
+每日三訪是必然｜從紀錄開始，累積成果
+
+輔助文案：
+把每天的努力，整理成可以追蹤、可以檢視、可以成長的專業行動系統。
+
+主視覺感覺：
+高端金融 × 溫暖陪跑 × 草本療癒 × 專業管理
+
+三、視覺風格
+
+請使用「財顧芸｜馥芸財富學苑」品牌風格：
+
+整體色系：
+- 草本綠
+- 深墨綠
+- 奶茶金
+- 米白底
+- 暖白卡片
+- 黑白灰作為文字輔助
+
+視覺元素：
+- 圓角卡片
+- 柔和陰影
+- 玻璃霧面感
+- 3D 按鍵感
+- 細緻金色線條
+- 漸層背景
+- 品牌徽章感
+- 專業但溫暖
+- 高端但不冰冷
+
+整體不能像普通表格或連結清單，要像一個「品牌工具入口網站」。
+
+四、版面美化要求
+
+請把版面設計得更漂亮、更有層次：
+
+1. 首屏使用左右雙欄設計
+   - 左側：品牌主標、副標、說明文字、快速 CTA
+   - 右側：活動量系統重點卡片，例如「今日行動」「活動紀錄」「成果追蹤」
+
+2. 桌機版卡片使用 3 欄排列
+3. 平板版卡片使用 2 欄排列
+4. 手機版卡片使用 1 欄排列
+5. 每張卡片要有：
+   - 小圖示或編號
+   - 分類標籤
+   - 頁面名稱
+   - 一句亮點說明
+   - 適合使用情境
+   - 明顯的進入按鈕
+
+6. 按鈕請做成 3D 按鍵感：
+   - 有陰影
+   - hover 時微微上浮
+   - 主按鈕使用草本綠
+   - 重要按鈕使用奶茶金
+
+7. 區塊之間要有留白與層次，不要擁擠
+8. 字體要清楚、好閱讀
+9. 手機版按鈕要夠大，好點擊
+10. 不要讓左邊空白過多，整體視覺要平衡
+
+五、內容分類
+
+請將頁面分成以下區塊：
+
+第一區：核心系統
+放入：
+- test.html
+- main.html
+- active-1.html
+
+第二區：每日紀錄與回報
+放入：
+- activity-full.html
+- avtive-2test.html
+
+第三區：AI 學習與成果
+放入：
+- ai-1150504.html
+- ai0506.html
+
+第四區：入口與延伸
+放入：
+- index.html
+- 其他可預留新增頁面的位置
+
+六、卡片文案方向
+
+請為每個連結設計專業、清楚、溫暖的卡片文案。
+
+卡片文案請不要太長，要讓使用者一眼看懂用途。
+
+可使用以下語氣：
+
+- 進入主系統，開始記錄今日活動量
+- 適合每日快速回報與團隊追蹤
+- 從 CALL、APO、FF 到成交，完整掌握行動進度
+- 讓每一次拜訪與服務，都成為可累積的成果
+- 整合 AI 學習成果，延伸專業輸出能力
+
+七、密碼保護需求
+
+請為 index.html 活動量入口加入簡易密碼保護功能。
+
+需求如下：
+
+1. 使用者進入頁面時，先顯示「密碼登入畫面」
+2. 輸入正確密碼後，才可以看到活動量入口內容
+3. 登入畫面也要設計得漂亮，不能陽春
+4. 登入畫面要符合品牌風格：
+   - 草本綠
+   - 奶茶金
+   - 米白底
+   - 圓角卡片
+   - 柔和陰影
+   - 高端、專業、溫暖
+
+登入畫面文字：
+
+主標題：
+馥芸財富學苑
+
+副標題：
+活動量入口
+
+提示文字：
+請輸入課程或團隊專屬密碼
+
+按鈕文字：
+進入系統
+
+密碼設定：
+yun888
+
+功能要求：
+1. 密碼正確後，請用 sessionStorage 記住本次登入狀態
+2. 同一次瀏覽期間，不需要重複輸入密碼
+3. 請加入「登出」按鈕
+4. 點擊登出後，清除 sessionStorage，並回到密碼登入畫面
+5. 若密碼錯誤，請顯示：
+密碼不正確，請再試一次
+6. 請用前端 JavaScript 完成，不需要後端資料庫
+7. 請在程式碼中加入清楚註解，方便日後修改密碼
+
+提醒：
+GitHub Pages 是靜態網頁，這種密碼保護屬於簡易前端保護，適合一般課程入口、團隊入口使用，不適合存放高度機密資料。
+
+八、連結要求
+
+請保留所有既有連結，不要刪除任何入口。
+
+所有連結如下，請務必放入頁面中：
+
+https://angie26501-lgtm.github.io/active/active-1.html
+https://angie26501-lgtm.github.io/active/activity-full.html
+https://angie26501-lgtm.github.io/active/ai-1150504.html
+https://angie26501-lgtm.github.io/active/ai0506.html
+https://angie26501-lgtm.github.io/active/avtive-2test.html
+https://angie26501-lgtm.github.io/active/index.html
+https://angie26501-lgtm.github.io/active/main.html
+https://angie26501-lgtm.github.io/active/test.html
+
+特別注意：
+avtive-2test.html 是目前既有檔名，雖然看起來像拼字錯誤，但請不要自動更正，請保留原檔名連結。
+
+九、輸出內容
+
+請輸出以下內容：
+
+1. 頁面設計規劃說明
+2. 分區命名
+3. 每個連結的卡片文案
+4. 完整 HTML + CSS + JavaScript 程式碼
+5. 程式碼必須可以直接複製成 index.html 使用
+6. 不要省略任何程式碼
+7. 不要只給片段，請給完整可執行版本
+
+十、技術要求
+
+請使用純 HTML + CSS + JavaScript。
+不要使用需要安裝套件的框架。
+可以使用 CSS 變數管理品牌色。
+請確保手機、平板、桌機都能正常顯示。
+請確保所有按鈕連結都能正常點擊。
+請讓程式碼結構清楚、好維護。
+請讓整體呈現像高質感品牌入口網站。
