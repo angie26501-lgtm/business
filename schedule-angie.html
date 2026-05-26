@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財顧芸 Angie｜2026 行程總覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f4f0;
+    --bg3: #eeedea;
+    --text: #1a1a1a;
+    --text2: #6b6b6b;
+    --text3: #aaaaaa;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --bg2: #242424;
+      --bg3: #2e2e2e;
+      --text: #f0eeea;
+      --text2: #a0a0a0;
+      --text3: #606060;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+    }
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  /* Hero */
+  .hero {
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 5px;
+  }
+
+  .hero-badge {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--bg2);
+    color: var(--text2);
+    border: 0.5px solid var(--border);
+    white-space: nowrap;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+
+  /* Alert */
+  .alert-bar {
+    background: #fdf3e3;
+    border: 0.5px solid #f0c87a;
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+    font-size: 13px;
+    color: #7a4f0a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .alert-bar { background: #2e2000; border-color: #7a5500; color: #f0c87a; }
+  }
+
+  .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Tabs */
+  .month-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .tab-btn:hover {
+    background: var(--bg2);
+    color: var(--text);
+  }
+
+  .tab-btn.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: transparent;
+  }
+
+  /* Month view */
+  .month-view { display: none; }
+  .month-view.active { display: block; }
+
+  /* Week group */
+  .week-group { margin-bottom: 1.75rem; }
+
+  .week-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+
+  /* Day row */
+  .day-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    padding: 10px 8px;
+    border-top: 0.5px solid var(--border);
+    align-items: start;
+    border-radius: 8px;
+    transition: background 0.12s;
+  }
+
+  .day-row:hover { background: var(--bg2); }
+
+  .day-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1px;
+  }
+
+  .day-num {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .day-num.today {
+    background: var(--text);
+    color: var(--bg);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .day-num.holiday { color: #D85A30; }
+
+  .day-num.empty-num { color: var(--text3); }
+
+  .day-weekday {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 3px;
+  }
+
+  /* Events */
+  .day-events { padding-left: 6px; }
+
+  .event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 2.5px 0;
+  }
+
+  .event-time {
+    font-size: 11px;
+    color: var(--text3);
+    min-width: 36px;
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+
+  .event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .dot-red    { background: #E24B4A; }
+  .dot-green  { background: #1D9E75; }
+  .dot-blue   { background: #378ADD; }
+  .dot-amber  { background: #EF9F27; }
+  .dot-pink   { background: #D4537E; }
+
+  .event-name {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .event-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  .tag-vip       { background: #fdf0d0; color: #8a5200; }
+  .tag-important { background: #fce8e8; color: #a32d2d; }
+  .tag-community { background: #e2eefa; color: #1a5fa5; }
+  .tag-birthday  { background: #fce8f2; color: #993556; }
+
+  @media (prefers-color-scheme: dark) {
+    .tag-vip       { background: #3a2800; color: #f0c060; }
+    .tag-important { background: #380000; color: #f08080; }
+    .tag-community { background: #002240; color: #70b0f0; }
+    .tag-birthday  { background: #380025; color: #f090b8; }
+  }
+
+  .empty-note { font-size: 12px; color: var(--text3); padding-top: 4px; }
+
+  /* Legend */
+  .legend {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="hero">
+    <div>
+      <div class="hero-title">財顧芸 Angie｜2026 行程</div>
+      <div class="hero-sub">陳芸琪｜5月 — 8月 完整行程總覽</div>
+    </div>
+    <div class="hero-badge">最後更新：2026.05.26</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">個月行程</div></div>
+    <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">VIP 講座</div></div>
+    <div class="stat-card"><div class="stat-num">每週</div><div class="stat-label">羅東會場</div></div>
+    <div class="stat-card"><div class="stat-num">每月</div><div class="stat-label">救國團培訓</div></div>
+  </div>
+
+  <div class="alert-bar">
+    <span class="alert-icon">⚠️</span>
+    <span><strong>衝突提醒：</strong>6/16（一）行程密集：年中策劃會報（全天）＋ VIP講座13:30 ＋ 讀書會12:30 ＋ 包班20:00，請提前確認安排。</span>
+  </div>
+
+  <div class="month-tabs">
+    <button class="tab-btn active" onclick="showMonth('m5',this)">5月</button>
+    <button class="tab-btn" onclick="showMonth('m6',this)">6月</button>
+    <button class="tab-btn" onclick="showMonth('m7',this)">7月</button>
+    <button class="tab-btn" onclick="showMonth('m8',this)">8月</button>
+  </div>
+
+  <!-- ===== 5月 ===== -->
+  <div id="m5" class="month-view active">
+    <div class="week-group">
+      <div class="week-label">5月 第四週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num today">26</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">17:00</span><span class="event-dot dot-green"></span><span class="event-name">WG</span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務<span class="event-tag tag-community">社區</span></span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">02:00</span><span class="event-dot dot-red"></span><span class="event-name">吟貞<span class="event-tag tag-important">⚠ 深夜</span></span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">綠點</span></div>
+          <div class="event-item"><span class="event-time">17:00</span><span class="event-dot dot-green"></span><span class="event-name">WG</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">29</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:00</span><span class="event-dot dot-green"></span><span class="event-name">瀚亞早會</span></div>
+          <div class="event-item"><span class="event-time">13:00</span><span class="event-dot dot-red"></span><span class="event-name">頂尖</span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場 🎤 制度簡介<span class="event-tag tag-important">上台</span></span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num empty-num">30</div><div class="day-weekday">六</div></div>
+        <div class="day-events"><span class="empty-note">休息日 🟢</span></div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">31</div><div class="day-weekday">日</div></div>
+        <div class="day-events"><span class="empty-note">休息日 🟢</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6月 ===== -->
+  <div id="m6" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">1</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">2</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">3</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">08:50</span><span class="event-dot dot-red"></span><span class="event-name">頂尖卡位</span></div>
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-red"></span><span class="event-name">婦女協會講座</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">5</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">13:30</span><span class="event-dot dot-amber"></span><span class="event-name">VIP講座｜陳有忠－國際金融情勢暨外匯市場展望<span class="event-tag tag-vip">VIP</span></span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-red"></span><span class="event-name">365線上課程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">6</div><div class="day-weekday">六</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-red"></span><span class="event-name">青青</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">8</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">10</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-red"></span><span class="event-name">婦女協會講座</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">12</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">15</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-green"></span><span class="event-name">包班</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">13:30</span><span class="event-dot dot-amber"></span><span class="event-name">VIP講座｜顏大峰－手機攝影實戰篇<span class="event-tag tag-vip">VIP</span></span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">17</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">客說會（羅東宜蘭）</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">19</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">節日</span><span class="event-dot dot-red"></span><span class="event-name">端午節 🎋</span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-green"></span><span class="event-name">羅東理財規劃</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">22</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">24</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">13:30</span><span class="event-dot dot-amber"></span><span class="event-name">VIP講座｜宋忠興－遺囑信託：高資產客戶財富傳承的核心工具<span class="event-tag tag-vip">VIP</span></span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-red"></span><span class="event-name">馬祖 + 夏研 🏝️</span></div>
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">26</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-red"></span><span class="event-name">馬祖 🏝️</span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">27</div><div class="day-weekday">六</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-red"></span><span class="event-name">馬祖 🏝️</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 7月 ===== -->
+  <div id="m7" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">6</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">7</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">09:00</span><span class="event-dot dot-red"></span><span class="event-name">救國團A班</span></div>
+          <div class="event-item"><span class="event-time">10:40</span><span class="event-dot dot-red"></span><span class="event-name">救國團B班</span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">8</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">13:00</span><span class="event-dot dot-red"></span><span class="event-name">財顧課程</span></div>
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-red"></span><span class="event-name">婦女協會講座</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">10</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">13</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">14</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">09:00</span><span class="event-dot dot-red"></span><span class="event-name">救國團A班</span></div>
+          <div class="event-item"><span class="event-time">10:40</span><span class="event-dot dot-red"></span><span class="event-name">救國團B班</span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">15</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-red"></span><span class="event-name">婦女協會講座</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-amber"></span><span class="event-name">年中策劃會報<span class="event-tag tag-important">重要</span></span></div>
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-green"></span><span class="event-name">包班</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">17</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">20</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">21</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">09:00</span><span class="event-dot dot-red"></span><span class="event-name">救國團A班</span></div>
+          <div class="event-item"><span class="event-time">10:40</span><span class="event-dot dot-red"></span><span class="event-name">救國團B班</span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">22</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-red"></span><span class="event-name">婦女協會講座</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">24</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">29</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">30</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">15:00</span><span class="event-dot dot-green"></span><span class="event-name">牙醫 🦷</span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">31</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">16:00</span><span class="event-dot dot-blue"></span><span class="event-name">暑期三營-神威 開始 🏕️</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8月 ===== -->
+  <div id="m8" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週（含暑期三營）</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">1</div><div class="day-weekday">六</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-blue"></span><span class="event-name">暑期三營-神威 🏕️</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">2</div><div class="day-weekday">日</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-blue"></span><span class="event-name">暑期三營-神威 🏕️</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">3</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">智逸生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">5</div><div class="day-weekday">三</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-red"></span><span class="event-name">365線上課程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">6</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">康軒欣宏生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">7</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">寶貝晏好 / 林雅娟 / 岳母農曆生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">10</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">老哥農曆生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">13</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">14</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">新生陳銘俊生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">17</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">劉北元</span></div>
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">20</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">吳秀蘭 / 何昶毅生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+          <div class="event-item"><span class="event-time">20:00</span><span class="event-dot dot-green"></span><span class="event-name">包班</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">21</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">24</div><div class="day-weekday">一</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">19:00</span><span class="event-dot dot-green"></span><span class="event-name">台北會場</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">二</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">21:00</span><span class="event-dot dot-blue"></span><span class="event-name">孝廉里守望相助勤務</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">四</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">全天</span><span class="event-dot dot-pink"></span><span class="event-name">康軒林哲偉生日 🎂<span class="event-tag tag-birthday">生日</span></span></div>
+          <div class="event-item"><span class="event-time">12:30</span><span class="event-dot dot-red"></span><span class="event-name">線上兒商讀書會</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">五</div></div>
+        <div class="day-events">
+          <div class="event-item"><span class="event-time">14:00</span><span class="event-dot dot-red"></span><span class="event-name">客說會（羅東宜蘭）</span></div>
+          <div class="event-item"><span class="event-time">18:30</span><span class="event-dot dot-green"></span><span class="event-name">羅東會場</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#E24B4A"></span>重要 / 工作</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>例行 / 約定</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>社區服務</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#EF9F27"></span>VIP 講座</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日紀念</div>
+  </div>
+
+  <div class="footer">
+    財顧芸 Angie 陳芸琪｜2026 行程總覽｜5月－8月
+  </div>
+
+</div>
+
+<script>
+function showMonth(id, btn) {
+  document.querySelectorAll('.month-view').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
