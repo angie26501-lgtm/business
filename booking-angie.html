@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財顧芸 Angie｜預約諮詢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeedea;
+    --text: #1a1a1a; --text2: #6b6b6b; --text3: #aaaaaa;
+    --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.15);
+    --green: #1D9E75; --green-light: #e8f8f2;
+    --radius: 10px;
+  }
+  body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .page-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 2rem 1rem 1.5rem; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border2); }
+  .hero-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #1D9E75, #378ADD); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 1rem; }
+  .hero-title { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; color: var(--text); }
+  .hero-sub { font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.6; }
+  .hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+  .hero-tag { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border2); }
+
+  /* 說明 */
+  .info-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1.5rem; }
+  @media(max-width:480px){ .info-row { grid-template-columns: 1fr; } }
+  .info-card { background: var(--bg2); border-radius: var(--radius); padding: 14px; text-align: center; }
+  .info-icon { font-size: 20px; margin-bottom: 6px; }
+  .info-label { font-size: 12px; font-weight: 500; color: var(--text); }
+  .info-note { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+  /* 月份切換 */
+  .month-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 18px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .tab-btn:hover { background: var(--bg2); color: var(--text); }
+  .tab-btn.active { background: var(--text); color: #fff; border-color: transparent; }
+
+  /* 月份視圖 */
+  .month-view { display: none; }
+  .month-view.active { display: block; }
+  .week-group { margin-bottom: 1.5rem; }
+  .week-label { font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: 1.5px; margin-bottom: 6px; padding-left: 2px; }
+
+  /* 日期列 */
+  .day-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; padding: 10px 8px; border-top: 0.5px solid var(--border); border-radius: 8px; align-items: start; }
+  .day-date { display: flex; flex-direction: column; align-items: center; }
+  .day-num { font-size: 22px; font-weight: 500; line-height: 1; color: var(--text); }
+  .day-num.today { background: var(--text); color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .day-num.holiday { color: #D85A30; }
+  .day-weekday { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .day-slots { padding-left: 8px; display: flex; flex-direction: column; gap: 5px; }
+
+  /* 忙碌灰階 */
+  .slot-busy { display: flex; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 7px; background: var(--bg2); opacity: 0.55; }
+  .slot-busy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
+  .slot-busy-text { font-size: 12px; color: var(--text3); }
+
+  /* 可預約 */
+  .slot-open { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-radius: 8px; background: var(--green-light); border: 0.5px solid #a0ddc0; cursor: pointer; transition: all 0.15s; }
+  .slot-open:hover { background: #d0f2e6; border-color: var(--green); }
+  .slot-open-left { display: flex; align-items: center; gap: 8px; }
+  .slot-open-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .slot-open-text { font-size: 13px; color: #0f5e3a; font-weight: 500; }
+  .slot-open-time { font-size: 11px; color: #3a9e70; margin-top: 1px; }
+  .btn-book { font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: none; background: var(--green); color: #fff; cursor: pointer; white-space: nowrap; transition: background 0.15s; text-decoration: none; display: inline-block; }
+  .btn-book:hover { background: #178a62; }
+
+  /* 手動額外空檔 */
+  .slot-extra { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-radius: 8px; background: #fff8e6; border: 0.5px solid #f0d080; cursor: pointer; transition: all 0.15s; }
+  .slot-extra:hover { background: #fff0c0; }
+  .slot-extra-dot { width: 8px; height: 8px; border-radius: 50%; background: #E9A020; flex-shrink: 0; }
+  .slot-extra-text { font-size: 13px; color: #7a5000; font-weight: 500; }
+  .slot-extra-time { font-size: 11px; color: #c08000; margin-top: 1px; }
+  .btn-book-extra { font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: none; background: #E9A020; color: #fff; cursor: pointer; white-space: nowrap; transition: background 0.15s; text-decoration: none; display: inline-block; }
+  .btn-book-extra:hover { background: #c08000; }
+
+  /* 休息日 */
+  .slot-rest { font-size: 12px; color: var(--text3); padding: 4px 0; }
+
+  /* 凡例 */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 1.5rem 0 1rem; padding: 12px 14px; background: var(--bg2); border-radius: var(--radius); }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* CTA */
+  .cta-bar { background: linear-gradient(135deg, #1D9E75, #178a62); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 1.5rem; }
+  .cta-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 14px; }
+  .btn-cta { display: inline-block; font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 500; padding: 9px 24px; border-radius: 24px; background: #fff; color: #1D9E75; text-decoration: none; transition: all 0.15s; }
+  .btn-cta:hover { background: #f0fdf8; }
+
+  .footer { margin-top: 2rem; font-size: 11px; color: var(--text3); text-align: center; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-avatar">💼</div>
+    <div class="hero-title">財顧芸 Angie 陳芸琪</div>
+    <div class="hero-sub">專業財務顧問｜保險規劃 × 退休規劃 × 財富傳承<br>陪伴您面對人生每一個重要決定</div>
+    <div class="hero-tags">
+      <span class="hero-tag">📍 宜蘭 / 台北</span>
+      <span class="hero-tag">⏱ 60分鐘諮詢</span>
+      <span class="hero-tag">💬 免費初次諮詢</span>
+    </div>
+  </div>
+
+  <!-- 資訊卡 -->
+  <div class="info-row">
+    <div class="info-card">
+      <div class="info-icon">🗓️</div>
+      <div class="info-label">固定開放時段</div>
+      <div class="info-note">每週二、四<br>14:00 – 16:00</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⏱</div>
+      <div class="info-label">諮詢時間</div>
+      <div class="info-note">每次約 60 分鐘<br>線上 / 面談皆可</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">💬</div>
+      <div class="info-label">預約方式</div>
+      <div class="info-note">填寫線上表單<br>24小時內回覆</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <div class="cta-title">立即預約免費諮詢</div>
+    <div class="cta-sub">選擇下方空檔或直接填寫表單，Angie 將在 24 小時內與您確認</div>
+    <a class="btn-cta" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">📋 填寫預約表單</a>
+  </div>
+
+  <!-- 凡例 -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>固定開放（週二、四）</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>額外開放空檔</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#cccccc"></span>已有行程（無法預約）</div>
+  </div>
+
+  <!-- 月份切換 -->
+  <div class="month-tabs">
+    <button class="tab-btn active" onclick="showMonth('m5',this)">5月</button>
+    <button class="tab-btn" onclick="showMonth('m6',this)">6月</button>
+    <button class="tab-btn" onclick="showMonth('m7',this)">7月</button>
+    <button class="tab-btn" onclick="showMonth('m8',this)">8月</button>
+  </div>
+
+  <!-- ===== 5月 ===== -->
+  <div id="m5" class="month-view active">
+    <div class="week-group">
+      <div class="week-label">5月 第四週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num today">26</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">17:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">17:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">29</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">30</div><div class="day-weekday">六</div></div>
+        <div class="day-slots"><div class="slot-rest">休息日</div></div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">31</div><div class="day-weekday">日</div></div>
+        <div class="day-slots"><div class="slot-rest">休息日</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6月 ===== -->
+  <div id="m6" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">1</div><div class="day-weekday">一</div></div>
+        <div class="day-slots"><div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div></div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">2</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/2 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">3</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">08:50 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/4 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">5</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">20:00 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">8</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/9 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">10</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/11 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">12</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:30–15:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">15</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">20:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">17</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/18 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">19</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">端午節 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">22</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/23 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">24</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 有行程（馬祖）</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">26</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 有行程（馬祖）</span></div>
+        </div>
+      </div>
+
+      <!-- 手動額外空檔範例 -->
+      <div class="day-row" id="extra-620">
+        <div class="day-date"><div class="day-num holiday">20</div><div class="day-weekday">六</div></div>
+        <div class="day-slots">
+          <div class="slot-extra">
+            <div class="slot-open-left"><span class="slot-extra-dot"></span><div><div class="slot-extra-text">✨ 額外開放空檔</div><div class="slot-extra-time">10:00 – 12:00（手動新增）</div></div></div>
+            <a class="btn-book-extra" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 7月 ===== -->
+  <div id="m7" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">7</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:40 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/9 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">14</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:40 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 年中策劃會報</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">21</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/21 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/23 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('7/28 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">30</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8月 ===== -->
+  <div id="m8" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/4 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">6</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/6 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/11 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">13</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/13 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/18 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">20</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/20 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/25 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/27 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    財顧芸 Angie 陳芸琪｜預約諮詢頁面｜2026年5月－8月<br>
+    <span style="margin-top:4px;display:block;">⚠️ 網站管理員：請將所有「https://forms.gle/8y5AGE5bEpML7SvMA」替換為實際 Google 表單網址</span>
+  </div>
+
+</div>
+
+<script>
+function showMonth(id, btn) {
+  document.querySelectorAll('.month-view').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function goBook(slot) {
+  // 可自定義：帶入預選時段到表單
+  console.log('預約時段：' + slot);
+}
+</script>
+</body>
+</html>
