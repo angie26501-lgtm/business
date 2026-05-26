@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -116,6 +115,25 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);text-align:center;}
+/* YEAR VIEW */
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:600px){.year-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:380px){.year-grid{grid-template-columns:1fr;}}
+.year-month-card{background:var(--bg2);border-radius:var(--radius);padding:10px;cursor:pointer;transition:background .15s;}
+.year-month-card:hover{background:var(--bg3);}
+.year-month-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid var(--border);}
+.year-mini-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.year-mini-header{font-size:8px;color:var(--text3);text-align:center;padding:2px 0;}
+.year-mini-cell{font-size:9px;text-align:center;padding:2px 1px;border-radius:3px;color:var(--text2);min-height:16px;position:relative;}
+.year-mini-cell.has-event{background:#e8f8f2;color:var(--green);font-weight:500;}
+.year-mini-cell.has-bday{background:#fce8f2;color:var(--pink);}
+.year-mini-cell.has-holiday{background:#fce8e8;color:var(--red);font-weight:500;}
+.year-mini-cell.is-today{background:var(--text);color:#fff;border-radius:50%;}
+.year-mini-cell.other-m{color:var(--text3);background:transparent;}
+.year-event-dots{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;margin-top:4px;}
+.year-event-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
+.year-month-summary{margin-top:6px;}
+.year-summary-item{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;padding:1px 0;}
 </style>
 </head>
 <body>
@@ -140,9 +158,10 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="who-btn" id="wb-holiday" onclick="setWho('holiday',this)">🇹🇼 假日</button>
   </div>
   <div class="view-mode" id="view-mode-bar">
-    <button class="mode-btn active" id="mb-month" onclick="setMode('month',this)">月</button>
-    <button class="mode-btn" id="mb-week" onclick="setMode('week',this)">週</button>
     <button class="mode-btn" id="mb-day" onclick="setMode('day',this)">日</button>
+    <button class="mode-btn" id="mb-week" onclick="setMode('week',this)">週</button>
+    <button class="mode-btn active" id="mb-month" onclick="setMode('month',this)">月</button>
+    <button class="mode-btn" id="mb-year" onclick="setMode('year',this)">年</button>
   </div>
 </div>
 
@@ -221,7 +240,85 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 // ============================================================
 // 行程資料
 // ============================================================
-var EVENTS = [
+var EVENTS = [];
+var _EVENTS_LOADED = false;
+var API_URL =  + API_URL + ;
+
+function loadEventsFromSheet(callback) {
+  if (_EVENTS_LOADED) { callback(); return; }
+  
+  // 顯示載入中
+  document.getElementById('calendar-area').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text2);">⏳ 載入行程中...</div>';
+  
+  var script = document.createElement('script');
+  var callbackName = 'sheetCallback_' + Date.now();
+  
+  window[callbackName] = function(data) {
+    // 從試算表載入成功
+    if (Array.isArray(data) && data.length > 0) {
+      EVENTS = data.map(function(row) {
+        return {
+          date: row.date || '',
+          who:  row.who  || 'angie',
+          time: row.time || '',
+          name: row.name || ''
+        };
+      });
+      _EVENTS_LOADED = true;
+      console.log('✅ 從試算表載入 ' + EVENTS.length + ' 筆行程');
+    } else {
+      // 試算表無資料，使用內建備份
+      loadBackupEvents();
+    }
+    document.head.removeChild(script);
+    delete window[callbackName];
+    callback();
+  };
+
+  // JSONP 方式呼叫（避免 CORS 問題）
+  script.onerror = function() {
+    console.warn('⚠️ 試算表載入失敗，使用內建資料');
+    loadBackupEvents();
+    document.head.removeChild(script);
+    callback();
+  };
+
+  // 使用 fetch 方式
+  fetch(API_URL)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (Array.isArray(data) && data.length > 0) {
+        EVENTS = data.map(function(row) {
+          return {
+            date: (row.date||'').toString().trim(),
+            who:  (row.who ||'angie').toString().trim(),
+            time: (row.time||'').toString().trim(),
+            name: (row.name||'').toString().trim()
+          };
+        });
+        _EVENTS_LOADED = true;
+        console.log('✅ 從試算表載入 ' + EVENTS.length + ' 筆行程');
+      } else {
+        loadBackupEvents();
+      }
+      callback();
+    })
+    .catch(function(err){
+      console.warn('⚠️ 試算表載入失敗，使用內建資料', err);
+      loadBackupEvents();
+      callback();
+    });
+}
+
+function loadBackupEvents() {
+  _EVENTS_LOADED = true;
+  EVENTS = BACKUP_EVENTS;
+  console.log('📦 使用內建備份資料 ' + EVENTS.length + ' 筆');
+}
+
+
+// 內建備份行程資料（試算表無法連線時使用）
+var BACKUP_EVENTS = [
   // 5月
   {date:'2026-05-26',who:'angie',time:'17:00',name:'WG'},
   {date:'2026-05-26',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
@@ -238,18 +335,16 @@ var EVENTS = [
   {date:'2026-06-01',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-06-02',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-06-03',who:'angie',time:'08:50',name:'頂尖卡位'},
-  {date:'2026-06-03',who:'angie',time:'15:00',name:'婦女協會講座'},
-  {date:'2026-06-03',who:'angie',time:'15:00',name:'女人要有錢 第1堂'},
+  {date:'2026-06-03',who:'angie',time:'15:00',name:'女人要有錢 第1堂｜婦女協會'},
   {date:'2026-06-04',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-06-05',who:'angie',time:'13:30',name:'VIP講座 陳有忠'},
-  {date:'2026-06-05',who:'angie',time:'18:30',name:'羅東會場'},
+  {date:'2026-06-05',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-06-05',who:'angie',time:'20:00',name:'365線上課程'},
   {date:'2026-06-06',who:'angie',time:'19:00',name:'青青'},
   {date:'2026-06-08',who:'angie',time:'14:00',name:'劉北元'},
   {date:'2026-06-08',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-06-09',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-06-10',who:'angie',time:'15:00',name:'婦女協會講座'},
-  {date:'2026-06-10',who:'angie',time:'15:00',name:'女人要有錢 第2堂'},
+  {date:'2026-06-10',who:'angie',time:'15:00',name:'女人要有錢 第2堂｜婦女協會'},
   {date:'2026-06-11',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-06-12',who:'angie',time:'10:30',name:'雨滴精油與按摩教學'},
   {date:'2026-06-12',who:'kenny',time:'18:30',name:'羅東會場'},
@@ -259,7 +354,7 @@ var EVENTS = [
   {date:'2026-06-16',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-06-17',who:'angie',time:'14:00',name:'客說會（羅東宜蘭）'},
   {date:'2026-06-18',who:'angie',time:'12:30',name:'線上兒商讀書會'},
-  {date:'2026-06-19',who:'angie',time:'節日',name:'端午節 🎋'},
+  {date:'2026-06-19',who:'holiday',time:'節日',name:'端午節 🎋'},
   {date:'2026-06-19',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-06-19',who:'angie',time:'19:00',name:'錢滾錢講座 黃冠蓉'},
   {date:'2026-06-19',who:'angie',time:'20:00',name:'羅東理財規劃'},
@@ -286,15 +381,14 @@ var EVENTS = [
   {date:'2026-07-07',who:'angie',time:'10:40',name:'救國團B班'},
   {date:'2026-07-07',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-07-08',who:'angie',time:'13:00',name:'財顧課程'},
-  {date:'2026-07-08',who:'angie',time:'15:00',name:'婦女協會講座'},
+  {date:'2026-07-08',who:'angie',time:'15:00',name:'女人要有錢 系列｜婦女協會'},
   {date:'2026-07-09',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-07-10',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-07-13',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-07-14',who:'angie',time:'09:00',name:'救國團A班'},
   {date:'2026-07-14',who:'angie',time:'10:40',name:'救國團B班'},
   {date:'2026-07-14',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-07-15',who:'angie',time:'15:00',name:'婦女協會講座'},
-  {date:'2026-07-15',who:'angie',time:'15:00',name:'女人要有錢 第4堂'},
+  {date:'2026-07-15',who:'angie',time:'15:00',name:'女人要有錢 第4堂｜婦女協會'},
   {date:'2026-07-16',who:'angie',time:'全天',name:'年中策劃會報'},
   {date:'2026-07-16',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-07-16',who:'angie',time:'20:00',name:'包班'},
@@ -304,8 +398,7 @@ var EVENTS = [
   {date:'2026-07-21',who:'angie',time:'09:00',name:'救國團A班'},
   {date:'2026-07-21',who:'angie',time:'10:40',name:'救國團B班'},
   {date:'2026-07-21',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-07-22',who:'angie',time:'15:00',name:'婦女協會講座'},
-  {date:'2026-07-22',who:'angie',time:'15:00',name:'女人要有錢 第5堂'},
+  {date:'2026-07-22',who:'angie',time:'15:00',name:'女人要有錢 第5堂｜婦女協會'},
   {date:'2026-07-23',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-07-24',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-07-27',who:'angie',time:'13:00',name:'公勝 AI 包班'},
@@ -374,13 +467,13 @@ var EVENTS = [
   {date:'2026-09-22',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-09-23',who:'angie',time:'13:30',name:'公勝財顧財經M平方'},
   {date:'2026-09-24',who:'angie',time:'12:30',name:'線上兒商讀書會'},
-  {date:'2026-09-25',who:'angie',time:'節日',name:'中秋節 🌕'},
+  {date:'2026-09-25',who:'holiday',time:'節日',name:'中秋節 🌕'},
   {date:'2026-09-25',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-09-25',who:'bday', time:'全天',name:'🎂 光度朱嘉莉 / 陳忠駿生日'},
-  {date:'2026-09-26',who:'angie',time:'節日',name:'中秋節補假'},
+  {date:'2026-09-26',who:'holiday',time:'節日',name:'中秋節補假'},
   {date:'2026-09-26',who:'bday', time:'全天',name:'🎂 許勝弘生日'},
   {date:'2026-09-27',who:'bday', time:'全天',name:'🎂 陳志勇生日'},
-  {date:'2026-09-28',who:'angie',time:'節日',name:'孔子誕辰紀念日 📚'},
+  {date:'2026-09-28',who:'holiday',time:'節日',name:'孔子誕辰紀念日 📚'},
   {date:'2026-09-28',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-09-29',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
 ];
@@ -633,7 +726,8 @@ function renderBday(){
 // NAV
 // ============================================================
 function updateNavLabel(){
-  if(curMode==='month') document.getElementById('nav-label').textContent=curYear+'年'+(curMonth+1)+'月';
+  if(curMode==='year') document.getElementById('nav-label').textContent=curYear+'年';
+  else if(curMode==='month') document.getElementById('nav-label').textContent=curYear+'年'+(curMonth+1)+'月';
   else if(curMode==='week'){
     var base=new Date(curYear,curMonth,curDay);
     var dow=base.getDay();
@@ -646,18 +740,88 @@ function updateNavLabel(){
 }
 
 function navPrev(){
-  if(curMode==='month'){ curMonth--; if(curMonth<0){curMonth=11;curYear--;} }
+  if(curMode==='year'){ curYear--; }
+  else if(curMode==='month'){ curMonth--; if(curMonth<0){curMonth=11;curYear--;} }
   else if(curMode==='week'){ var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()-7); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   else { var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()-1); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   updateNavLabel(); render();
 }
 function navNext(){
-  if(curMode==='month'){ curMonth++; if(curMonth>11){curMonth=0;curYear++;} }
+  if(curMode==='year'){ curYear++; }
+  else if(curMode==='month'){ curMonth++; if(curMonth>11){curMonth=0;curYear++;} }
   else if(curMode==='week'){ var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()+7); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   else { var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()+1); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   updateNavLabel(); render();
 }
 function goToday(){ curYear=2026;curMonth=4;curDay=26; updateNavLabel(); render(); }
+
+
+// ============================================================
+// YEAR VIEW
+// ============================================================
+function renderYear(){
+  var y = curYear;
+  var html = '<div class="year-grid">';
+  
+  for(var m=0; m<=11; m++){
+    var firstDay = new Date(y,m,1).getDay();
+    var daysInMonth = new Date(y,m+1,0).getDate();
+    var startOffset = (firstDay+6)%7;
+    
+    html += '<div class="year-month-card" onclick="goMonth('+m+')">';
+    html += '<div class="year-month-title">'+(m+1)+'月';
+    
+    // 計算該月事件數
+    var monthEvents=0, monthBday=0, monthHoli=0;
+    for(var d2=1;d2<=daysInMonth;d2++){
+      var ds2=dateStr(y,m,d2);
+      var evs2=EVENTS.filter(function(e){return e.date===ds2;});
+      if(evs2.some(function(e){return e.who==='bday';})) monthBday++;
+      if(HOLIDAYS[ds2]) monthHoli++;
+      if(evs2.some(function(e){return e.who==='angie'||e.who==='kenny';})) monthEvents++;
+    }
+    html += ' <span style="font-size:10px;color:var(--text3);font-family:'Noto Sans TC',sans-serif;">';
+    if(monthEvents) html += monthEvents+'件 ';
+    if(monthBday) html += '🎂'+monthBday+' ';
+    if(monthHoli) html += '🎉'+monthHoli;
+    html += '</span></div>';
+    
+    // Mini calendar
+    html += '<div class="year-mini-grid">';
+    ['一','二','三','四','五','六','日'].forEach(function(d3){
+      html += '<div class="year-mini-header">'+d3+'</div>';
+    });
+    
+    // blank cells
+    for(var i=0;i<startOffset;i++) html+='<div class="year-mini-cell other-m"></div>';
+    
+    for(var d=1;d<=daysInMonth;d++){
+      var ds=dateStr(y,m,d);
+      var evs=EVENTS.filter(function(e){return e.date===ds;});
+      var hasBday=evs.some(function(e){return e.who==='bday';});
+      var hasHoli=!!HOLIDAYS[ds];
+      var hasAngie=evs.some(function(e){return e.who==='angie'||e.who==='kenny';});
+      var isTod=(y===2026&&m===4&&d===26);
+      
+      var cls='year-mini-cell';
+      if(isTod) cls+=' is-today';
+      else if(hasHoli) cls+=' has-holiday';
+      else if(hasBday) cls+=' has-bday';
+      else if(hasAngie) cls+=' has-event';
+      
+      html += '<div class="'+cls+'">'+d+'</div>';
+    }
+    html += '</div>'; // end mini-grid
+    html += '</div>'; // end month-card
+  }
+  html += '</div>';
+  document.getElementById('calendar-area').innerHTML = html;
+}
+
+function goMonth(m){
+  curMonth=m;
+  setMode('month', document.getElementById('mb-month'));
+}
 
 // ============================================================
 // RENDER
@@ -677,7 +841,8 @@ function render(){
 
   if(curMode==='month') renderMonth();
   else if(curMode==='week') renderWeek();
-  else renderDay();
+  else if(curMode==='day') renderDay();
+  else if(curMode==='year') renderYear();
 }
 
 function setWho(w, btn){
@@ -697,7 +862,15 @@ function setMode(m, btn){
 
 // INIT
 updateNavLabel();
-render();
+loadEventsFromSheet(function(){
+  render();
+});
+
+// 每5分鐘自動重新載入試算表
+setInterval(function(){
+  _EVENTS_LOADED = false;
+  loadEventsFromSheet(function(){ render(); });
+}, 5 * 60 * 1000);
 </script>
 </body>
 </html>
