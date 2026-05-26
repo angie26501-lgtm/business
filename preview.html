@@ -238,8 +238,10 @@ function parseCSV(text) {
     } else if (ch === ',' && !inQuotes) {
       row.push(cell); cell = '';
     } else if ((ch === '
-' || ch === '') && !inQuotes) {
-      if (ch === '' && next === '
+' || ch === '
+') && !inQuotes) {
+      if (ch === '
+' && next === '
 ') i++;
       row.push(cell);
       if (row.some(function(v) { return String(v).trim() !== ''; })) rows.push(row);
