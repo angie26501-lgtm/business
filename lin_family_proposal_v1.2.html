@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -1222,6 +1223,416 @@ body {
       不用多花一塊錢——解約現價456萬全數躉繳大水庫（被保險人：女兒），年化約6%每年配息25～27萬；月配息直接繳小水庫保費（被保險人：林醫師），3年繳費完成後預留遺產稅源，身故保額直達配偶或女兒。
     </div>
   </div>
+
+  <!-- ===== 家庭時間軸 ===== -->
+  <div class="sec-label" style="margin-top:24px;">一家三口・現金流時間軸</div>
+
+  <style>
+  .ftl-wrap {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px 28px;
+    box-shadow: 0 2px 16px var(--shadow);
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .ftl-grid {
+    min-width: 720px;
+    position: relative;
+  }
+
+  /* 年份列 */
+  .ftl-years {
+    display: grid;
+    grid-template-columns: 80px repeat(9, 1fr);
+    margin-bottom: 4px;
+  }
+  .ftl-year-label { font-size: 0; } /* spacer */
+  .ftl-year {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    padding: 4px 0;
+  }
+  .ftl-year.now {
+    color: var(--green);
+    font-weight: 700;
+  }
+  .ftl-year.key { color: var(--gold); }
+
+  /* 成員列 */
+  .ftl-row {
+    display: grid;
+    grid-template-columns: 80px repeat(9, 1fr);
+    margin-bottom: 6px;
+    align-items: center;
+  }
+
+  .ftl-member {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 8px;
+  }
+  .ftl-member-icon {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .ftl-member-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .ftl-member-role {
+    font-size: 9px;
+    color: var(--ink-muted);
+  }
+
+  /* 年齡格 */
+  .ftl-cell {
+    text-align: center;
+    padding: 6px 3px;
+    border-radius: 8px;
+    margin: 0 2px;
+    position: relative;
+    cursor: default;
+    transition: transform 0.15s;
+  }
+  .ftl-cell:hover { transform: scale(1.05); }
+
+  .ftl-age {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .ftl-cell-label {
+    font-size: 9px;
+    line-height: 1.3;
+    color: var(--ink-soft);
+  }
+
+  /* 色彩 */
+  .ftl-cell.normal { background: var(--cream-dark); }
+  .ftl-cell.now-col {
+    background: var(--green-pale);
+    border: 1.5px solid #90c0a0;
+  }
+  .ftl-cell.event-red {
+    background: var(--red-pale);
+    border: 1.5px solid #e8c0c0;
+  }
+  .ftl-cell.event-gold {
+    background: var(--gold-pale);
+    border: 1.5px solid #d4ae60;
+  }
+  .ftl-cell.event-blue {
+    background: var(--blue-pale);
+    border: 1.5px solid #8ab4d8;
+  }
+  .ftl-cell.event-green {
+    background: var(--green-pale);
+    border: 1.5px solid #90c0a0;
+  }
+  .ftl-cell.event-dark {
+    background: var(--ink);
+  }
+  .ftl-cell.event-dark .ftl-age { color: var(--gold-light); }
+  .ftl-cell.event-dark .ftl-cell-label { color: rgba(255,255,255,0.6); }
+
+  /* 現金流列 */
+  .ftl-cashflow {
+    display: grid;
+    grid-template-columns: 80px repeat(9, 1fr);
+    margin-top: 10px;
+    border-top: 1.5px dashed var(--border);
+    padding-top: 10px;
+  }
+  .ftl-cf-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    padding-right: 8px;
+    display: flex;
+    align-items: center;
+  }
+  .ftl-cf-cell {
+    margin: 0 2px;
+    border-radius: 6px;
+    padding: 5px 3px;
+    text-align: center;
+    font-size: 9.5px;
+    line-height: 1.4;
+  }
+  .ftl-cf-cell.cf-out {
+    background: #fdf0f0;
+    border: 1px solid #f0c0c0;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .ftl-cf-cell.cf-in {
+    background: var(--green-pale);
+    border: 1px solid #90c0a0;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .ftl-cf-cell.cf-both {
+    background: var(--gold-pale);
+    border: 1px solid #d4ae60;
+    color: #7a5500;
+    font-weight: 500;
+  }
+  .ftl-cf-cell.cf-empty {
+    background: transparent;
+  }
+  .ftl-cf-cell.cf-key {
+    background: var(--ink);
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* 圖例 */
+  .ftl-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--border);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  </style>
+
+  <div class="ftl-wrap">
+   <div class="ftl-grid">
+
+    <!-- 年份列 -->
+    <div class="ftl-years">
+      <div class="ftl-year-label"></div>
+      <div class="ftl-year now">2026<br>現在</div>
+      <div class="ftl-year key">2027</div>
+      <div class="ftl-year key">2028</div>
+      <div class="ftl-year">2030</div>
+      <div class="ftl-year">2032</div>
+      <div class="ftl-year">2035</div>
+      <div class="ftl-year">2040</div>
+      <div class="ftl-year">2045</div>
+      <div class="ftl-year">2050+</div>
+    </div>
+
+    <!-- 林醫師 -->
+    <div class="ftl-row">
+      <div class="ftl-member">
+        <div class="ftl-member-icon">👨‍⚕️</div>
+        <div class="ftl-member-name">林醫師</div>
+        <div class="ftl-member-role">先生</div>
+      </div>
+      <div class="ftl-cell now-col">
+        <div class="ftl-age" style="color:var(--green);">69</div>
+        <div class="ftl-cell-label">解約<br>投保</div>
+      </div>
+      <div class="ftl-cell event-gold">
+        <div class="ftl-age" style="color:var(--gold);">70</div>
+        <div class="ftl-cell-label">小水庫<br>繳費中</div>
+      </div>
+      <div class="ftl-cell event-gold">
+        <div class="ftl-age" style="color:var(--gold);">71</div>
+        <div class="ftl-cell-label">小水庫<br>繳費完</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">73</div>
+        <div class="ftl-cell-label">退休<br>生活</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">75</div>
+        <div class="ftl-cell-label">醫療險<br>注意</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">78</div>
+        <div class="ftl-cell-label">小水庫<br>回本</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">83</div>
+        <div class="ftl-cell-label">持續<br>成長</div>
+      </div>
+      <div class="ftl-cell event-dark">
+        <div class="ftl-age">88</div>
+        <div class="ftl-cell-label">安心<br>交棒</div>
+      </div>
+      <div class="ftl-cell event-dark">
+        <div class="ftl-age" style="color:rgba(255,255,255,0.4);">—</div>
+        <div class="ftl-cell-label">傳承<br>啟動</div>
+      </div>
+    </div>
+
+    <!-- 林太太 -->
+    <div class="ftl-row">
+      <div class="ftl-member">
+        <div class="ftl-member-icon">👩‍🏫</div>
+        <div class="ftl-member-name">林太太</div>
+        <div class="ftl-member-role">太太</div>
+      </div>
+      <div class="ftl-cell now-col">
+        <div class="ftl-age" style="color:var(--green);">55</div>
+        <div class="ftl-cell-label">鐘點<br>收入</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">56</div>
+        <div class="ftl-cell-label">持續<br>收入</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">57</div>
+        <div class="ftl-cell-label"></div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">59</div>
+        <div class="ftl-cell-label"></div>
+      </div>
+      <div class="ftl-cell event-blue">
+        <div class="ftl-age" style="color:var(--blue);">61</div>
+        <div class="ftl-cell-label">配息<br>補充</div>
+      </div>
+      <div class="ftl-cell event-blue">
+        <div class="ftl-age" style="color:var(--blue);">64</div>
+        <div class="ftl-cell-label">退休<br>規劃</div>
+      </div>
+      <div class="ftl-cell event-green">
+        <div class="ftl-age" style="color:var(--green);">69</div>
+        <div class="ftl-cell-label">受益<br>人保障</div>
+      </div>
+      <div class="ftl-cell event-green">
+        <div class="ftl-age" style="color:var(--green);">74</div>
+        <div class="ftl-cell-label">持續<br>照顧</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">79</div>
+        <div class="ftl-cell-label">安養<br>無憂</div>
+      </div>
+    </div>
+
+    <!-- 女兒 -->
+    <div class="ftl-row">
+      <div class="ftl-member">
+        <div class="ftl-member-icon">👧</div>
+        <div class="ftl-member-name">女兒</div>
+        <div class="ftl-member-role">獨生女</div>
+      </div>
+      <div class="ftl-cell now-col">
+        <div class="ftl-age" style="color:var(--green);">18</div>
+        <div class="ftl-cell-label">赴美<br>留學</div>
+      </div>
+      <div class="ftl-cell event-blue">
+        <div class="ftl-age" style="color:var(--blue);">19</div>
+        <div class="ftl-cell-label">大學<br>二年級</div>
+      </div>
+      <div class="ftl-cell event-blue">
+        <div class="ftl-age" style="color:var(--blue);">20</div>
+        <div class="ftl-cell-label">大學<br>三年級</div>
+      </div>
+      <div class="ftl-cell event-gold">
+        <div class="ftl-age" style="color:#7a5500;">22</div>
+        <div class="ftl-cell-label">🎓大學<br>畢業</div>
+      </div>
+      <div class="ftl-cell normal">
+        <div class="ftl-age">24</div>
+        <div class="ftl-cell-label">就業<br>起步</div>
+      </div>
+      <div class="ftl-cell event-green">
+        <div class="ftl-age" style="color:var(--green);">27</div>
+        <div class="ftl-cell-label">大水庫<br>受益人</div>
+      </div>
+      <div class="ftl-cell event-green">
+        <div class="ftl-age" style="color:var(--green);">32</div>
+        <div class="ftl-cell-label">財富<br>累積</div>
+      </div>
+      <div class="ftl-cell event-dark">
+        <div class="ftl-age">37</div>
+        <div class="ftl-cell-label">傳承<br>接棒</div>
+      </div>
+      <div class="ftl-cell event-dark">
+        <div class="ftl-age">42</div>
+        <div class="ftl-cell-label">完整<br>繼承</div>
+      </div>
+    </div>
+
+    <!-- 現金流列 -->
+    <div class="ftl-cashflow">
+      <div class="ftl-cf-label">💰<br>現金流</div>
+      <div class="ftl-cf-cell cf-both">
+        解約<br>450萬<br>→躉繳
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        配息<br>25～27萬<br>繳保費
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        配息<br>持續<br>保費完
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        月配息<br>約21,000<br>自由用
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        月配息<br>退休<br>補充
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        月配息<br>持續<br>入帳
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        大水庫<br>本金<br>滾動
+      </div>
+      <div class="ftl-cf-cell cf-key">
+        小水庫<br>稅源<br>到位
+      </div>
+      <div class="ftl-cf-cell cf-in">
+        女兒<br>完整<br>繼承
+      </div>
+    </div>
+
+   </div><!-- ftl-grid -->
+
+   <!-- 圖例 -->
+   <div class="ftl-legend">
+     <div class="legend-item">
+       <div class="legend-dot" style="background:var(--green-pale);border:1px solid #90c0a0;"></div>
+       現在・啟動時機
+     </div>
+     <div class="legend-item">
+       <div class="legend-dot" style="background:var(--gold-pale);border:1px solid #d4ae60;"></div>
+       重要里程碑
+     </div>
+     <div class="legend-item">
+       <div class="legend-dot" style="background:var(--blue-pale);border:1px solid #8ab4d8;"></div>
+       女兒成長・收益期
+     </div>
+     <div class="legend-item">
+       <div class="legend-dot" style="background:var(--green-pale);border:1px solid #90c0a0;"></div>
+       配息持續入帳
+     </div>
+     <div class="legend-item">
+       <div class="legend-dot" style="background:var(--ink);"></div>
+       傳承交棒・小水庫啟動
+     </div>
+     <div class="legend-item">
+       <div class="legend-dot" style="background:#fdf0f0;border:1px solid #f0c0c0;"></div>
+       資金流出（投入）
+     </div>
+   </div>
+
+  </div><!-- ftl-wrap -->
 
   <div class="pg-nav">
     <button class="btn btn-outline" onclick="goPage(2)">← 背景簡介</button>
