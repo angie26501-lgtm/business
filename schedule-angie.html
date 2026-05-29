@@ -769,7 +769,9 @@ function renderMonth(){
     var isHoli=HOLIDAYS[ds];
     var isTod=isToday(cy,cm,cell.d)&&cell.cur;
     var cls='month-cell'+(cell.cur?'':' other-month')+(isTod?' today-cell':'');
-    html+='<div class="'+cls+'">';
+    (function(cd,cm2,cy2,isCur){
+      html+='<div class="'+cls+'" '+(isCur?'onclick="goDay('+cd+','+cm2+','+cy2+')"':'')+' >';
+    })(cell.d, cm, cy, cell.cur);
     html+='<div class="cell-num'+(isHoli?' holiday-num':'')+'">';
     if(isTod) html+='<div style="background:var(--text);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;">'+cell.d+'</div>';
     else html+=cell.d;
@@ -990,6 +992,11 @@ function renderYear(){
   }
   html += '</div>';
   document.getElementById('calendar-area').innerHTML = html;
+}
+
+function goDay(d,m,y){
+  curDay=d; curMonth=m; curYear=y;
+  setMode('day', document.getElementById('mb-day'));
 }
 
 function goMonth(m){
