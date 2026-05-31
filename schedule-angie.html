@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -112,7 +111,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .bday-note{font-size:11px;color:var(--text2);margin-top:2px;}
 
 /* LEGEND */
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin:1.25rem 0;padding:10px 14px;background:var(--bg2);border-radius:var(--radius);}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 1rem;padding:10px 14px;background:var(--bg2);border-radius:var(--radius);position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);text-align:center;}
@@ -148,6 +147,20 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .year-mini-cell.has-holiday{background:#fce8e8;color:var(--red);font-weight:500;}
 .year-mini-cell.is-today{background:var(--text);color:#fff;border-radius:50%;}
 .year-mini-cell.other-m{color:var(--text3);background:transparent;}
+
+/* ====== QUARTER VIEW ====== */
+.quarter-wrap{display:flex;flex-direction:column;gap:14px;}
+.quarter-month{background:var(--bg2);border-radius:var(--radius);padding:10px 14px;}
+.quarter-month-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;padding-bottom:6px;border-bottom:0.5px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.quarter-month-title:hover{color:var(--green);}
+.qm-count{font-size:11px;color:var(--text3);font-weight:400;}
+.q-row{display:flex;align-items:center;gap:8px;padding:4px 2px;font-size:12px;border-bottom:0.5px solid var(--border);}
+.q-row:last-child{border-bottom:none;}
+.q-date{min-width:62px;color:var(--text2);font-size:11px;flex-shrink:0;}
+.q-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.q-time{color:var(--text3);font-size:11px;flex-shrink:0;min-width:36px;}
+.q-name{color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.q-empty{font-size:12px;color:var(--text3);padding:6px 2px;}
 .year-event-dots{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;margin-top:4px;}
 .year-event-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
 .year-month-summary{margin-top:6px;}
@@ -179,6 +192,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="mode-btn" id="mb-day" onclick="setMode('day',this)">日</button>
     <button class="mode-btn" id="mb-week" onclick="setMode('week',this)">週</button>
     <button class="mode-btn active" id="mb-month" onclick="setMode('month',this)">月</button>
+    <button class="mode-btn" id="mb-quarter" onclick="setMode('quarter',this)">季</button>
     <button class="mode-btn" id="mb-year" onclick="setMode('year',this)">年</button>
   </div>
 </div>
@@ -191,6 +205,14 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="today-btn" onclick="goToday()">今天</button>
   </div>
   <button class="nav-btn" onclick="navNext()">›</button>
+</div>
+
+<div class="legend" id="main-legend">
+  <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Angie</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Kenny</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>家族</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#D0202A"></span>假日</div>
 </div>
 
 <!-- CALENDAR AREA -->
@@ -242,13 +264,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
-<div class="legend" id="main-legend">
-  <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Angie</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Kenny</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>家族</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#D0202A"></span>假日</div>
-</div>
+
 
 
 <!-- 功能選單 -->
@@ -492,6 +508,8 @@ var BACKUP_EVENTS = [
   {date:'2026-05-29',who:'angie',time:'13:00',name:'頂尖'},
   {date:'2026-05-29',who:'angie',time:'18:30',name:'羅東會場'},
   {date:'2026-05-29',who:'kenny',time:'18:30',name:'🎤 制度簡介'},
+  {date:'2026-05-31',who:'angie',time:'09:00',name:'探望婆婆'},
+  {date:'2026-05-31',who:'angie',time:'14:00',name:'桃園市集'},
   // 6月
   {date:'2026-06-01',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-06-02',who:'angie',time:'10:00',name:'⏰ 公勝報名開放｜七月VIP講座報名'},
@@ -580,77 +598,114 @@ var BACKUP_EVENTS = [
   {date:'2026-08-02',who:'angie',time:'全天',name:'暑期三營-神威 🏕️'},
   {date:'2026-08-03',who:'angie',time:'14:00',name:'劉北元'},
   {date:'2026-08-03',who:'angie',time:'19:00',name:'台北會場'},
-  {date:'2026-08-04',who:'bday', time:'全天',name:'🎂 智逸生日'},
   {date:'2026-08-04',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-08-05',who:'angie',time:'20:00',name:'365線上課程'},
-  {date:'2026-08-06',who:'bday', time:'全天',name:'🎂 康軒欣宏生日'},
   {date:'2026-08-06',who:'angie',time:'12:30',name:'線上兒商讀書會'},
-  {date:'2026-08-07',who:'bday', time:'全天',name:'🎂 寶貝晏好 / 林雅娟 / 岳母農曆生日'},
   {date:'2026-08-07',who:'kenny',time:'18:30',name:'羅東會場'},
-  {date:'2026-08-10',who:'bday', time:'全天',name:'🎂 老哥農曆生日'},
   {date:'2026-08-10',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-08-11',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-08-12',who:'bday', time:'全天',name:'🎂 南屏方世齡 / 明玉生日'},
   {date:'2026-08-13',who:'angie',time:'12:30',name:'線上兒商讀書會'},
-  {date:'2026-08-14',who:'bday', time:'全天',name:'🎂 新生陳銘俊生日'},
   {date:'2026-08-14',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-08-17',who:'angie',time:'14:00',name:'劉北元'},
   {date:'2026-08-17',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-08-18',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-08-20',who:'bday', time:'全天',name:'🎂 吳秀蘭 / 何昶毅生日'},
   {date:'2026-08-20',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-08-20',who:'angie',time:'20:00',name:'包班'},
   {date:'2026-08-21',who:'kenny',time:'18:30',name:'羅東會場'},
-  {date:'2026-08-22',who:'bday', time:'全天',name:'🎂 林詮榮 / 謝元杰 / 玉佳生日'},
-  {date:'2026-08-23',who:'bday', time:'全天',name:'🎂 何純良 / 葉翠瑛生日'},
   {date:'2026-08-24',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-08-25',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-08-27',who:'angie',time:'14:00',name:'客說會（羅東宜蘭）'},
-  {date:'2026-08-27',who:'bday', time:'全天',name:'🎂 康軒林哲偉生日'},
   {date:'2026-08-27',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-08-27',who:'angie',time:'14:00',name:'客說會（羅東宜蘭）'},
   {date:'2026-08-28',who:'kenny',time:'18:30',name:'羅東會場'},
   // 9月
-  {date:'2026-08-31',who:'bday', time:'全天',name:'🎂 賴乃嫚 / 莊蕙瑜生日'},
   {date:'2026-09-01',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-09-03',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-09-04',who:'kenny',time:'18:30',name:'羅東會場'},
-  {date:'2026-09-05',who:'bday', time:'全天',name:'🎂 林佳臻 / 朱娃娃生日'},
   {date:'2026-09-05',who:'angie',time:'20:00',name:'365線上課程'},
   {date:'2026-09-07',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-09-08',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-09-09',who:'bday', time:'全天',name:'🎂 黃輝鍊生日'},
   {date:'2026-09-10',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-09-10',who:'angie',time:'20:00',name:'包班'},
   {date:'2026-09-11',who:'kenny',time:'18:30',name:'羅東會場'},
   {date:'2026-09-14',who:'angie',time:'14:00',name:'劉北元'},
   {date:'2026-09-14',who:'angie',time:'19:00',name:'台北會場'},
-  {date:'2026-09-14',who:'bday', time:'全天',name:'🎂 裒人修志生日'},
   {date:'2026-09-15',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-09-17',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-09-18',who:'kenny',time:'18:30',name:'羅東會場'},
-  {date:'2026-09-19',who:'bday', time:'全天',name:'🎂 潘文芬生日'},
   {date:'2026-09-21',who:'angie',time:'19:00',name:'台北會場'},
-  {date:'2026-09-21',who:'bday', time:'全天',name:'🎂 梁弄菊生日'},
   {date:'2026-09-22',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-09-23',who:'angie',time:'13:30',name:'公勝財顧財經M平方'},
   {date:'2026-09-24',who:'angie',time:'12:30',name:'線上兒商讀書會'},
   {date:'2026-09-25',who:'holiday',time:'節日',name:'中秋節 🌕'},
   {date:'2026-09-25',who:'kenny',time:'18:30',name:'羅東會場'},
-  {date:'2026-09-25',who:'bday', time:'全天',name:'🎂 光度朱嘉莉 / 陳忠駿生日'},
   {date:'2026-09-26',who:'holiday',time:'節日',name:'中秋節補假'},
-  {date:'2026-09-26',who:'bday', time:'全天',name:'🎂 許勝弘生日'},
-  {date:'2026-09-27',who:'bday', time:'全天',name:'🎂 陳志勇生日'},
   {date:'2026-09-28',who:'holiday',time:'節日',name:'孔子誕辰紀念日 📚'},
   {date:'2026-09-28',who:'angie',time:'19:00',name:'台北會場'},
   {date:'2026-09-29',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
-  {date:'2026-05-31',who:'angie',time:'09:00',name:'探望婆婆'},
-  {date:'2026-05-31',who:'angie',time:'14:00',name:'桃園市集'},
+  // 10月
+  {date:'2026-10-01',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-10-01',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-02',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-10-05',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-10-06',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-06',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-10-07',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-10-08',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-10-08',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-09',who:'holiday',time:'節日',name:'國慶日補假'},
+  {date:'2026-10-09',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-10-10',who:'holiday',time:'節日',name:'國慶日 🎉'},
+  {date:'2026-10-12',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-10-13',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-13',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-10-14',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-10-15',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-10-15',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-16',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-10-19',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-10-20',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-20',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-10-21',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-10-22',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-10-22',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-23',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-10-25',who:'holiday',time:'節日',name:'臺灣光復節 🇹🇼'},
+  {date:'2026-10-26',who:'holiday',time:'節日',name:'臺灣光復節補假'},
+  {date:'2026-10-26',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-10-27',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-27',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-10-28',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-10-29',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-10-29',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-10-30',who:'kenny',time:'18:30',name:'羅東會場'},
+  // 11月
+  {date:'2026-11-02',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-11-03',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-03',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-11-04',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-11-05',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-11-05',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-06',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-11-09',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-11-10',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-10',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
   {date:'2026-11-11',who:'angie',time:'15:00',name:'女人要有錢｜蘇澳'},
+  {date:'2026-11-12',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-11-12',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-13',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-11-16',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-11-17',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-17',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
+  {date:'2026-11-19',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-11-19',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-20',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-11-23',who:'angie',time:'19:00',name:'台北會場'},
+  {date:'2026-11-24',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-24',who:'kenny',time:'21:00',name:'孝廉里守望相助勤務'},
+  {date:'2026-11-26',who:'angie',time:'12:30',name:'線上兒商讀書會'},
+  {date:'2026-11-26',who:'angie',time:'17:00',name:'WG'},
+  {date:'2026-11-27',who:'kenny',time:'18:30',name:'羅東會場'},
+  {date:'2026-11-30',who:'angie',time:'19:00',name:'台北會場'},
 ];
 
 // 假日
@@ -786,11 +841,12 @@ function renderMonth(){
     var evs=getEventsForDate(ds);
     var shown=0;
     evs.forEach(function(e){
-      if(shown>=2){return;}
-      html+='<div class="cell-event"><span class="cell-dot" style="background:'+dotColor(e.who)+'"></span><span class="cell-title">'+e.time!=='全天'&&e.time!=='節日'?e.time+' ':''+''+e.name+'</span></div>';
+      if(shown>=3){return;}
+      var tprefix=(e.time!=='全天'&&e.time!=='節日')?(e.time+' '):'';
+      html+='<div class="cell-event"><span class="cell-dot" style="background:'+dotColor(e.who)+'"></span><span class="cell-title">'+tprefix+e.name+'</span></div>';
       shown++;
     });
-    if(evs.length>2) html+='<div class="cell-more">+還有'+(evs.length-2)+'項</div>';
+    if(evs.length>3) html+='<div class="cell-more">+還有'+(evs.length-3)+'項</div>';
     html+='</div>';
   });
   html+='</div>';
@@ -905,6 +961,10 @@ function renderBday(){
 // ============================================================
 function updateNavLabel(){
   if(curMode==='year') document.getElementById('nav-label').textContent=curYear+'年';
+  else if(curMode==='quarter'){
+    var q=Math.floor(curMonth/3);
+    document.getElementById('nav-label').textContent=curYear+'年 第'+(q+1)+'季（'+(q*3+1)+'–'+(q*3+3)+'月）';
+  }
   else if(curMode==='month') document.getElementById('nav-label').textContent=curYear+'年'+(curMonth+1)+'月';
   else if(curMode==='week'){
     var base=new Date(curYear,curMonth,curDay);
@@ -919,6 +979,7 @@ function updateNavLabel(){
 
 function navPrev(){
   if(curMode==='year'){ curYear--; }
+  else if(curMode==='quarter'){ var q=Math.floor(curMonth/3)-1; if(q<0){q=3;curYear--;} curMonth=q*3; }
   else if(curMode==='month'){ curMonth--; if(curMonth<0){curMonth=11;curYear--;} }
   else if(curMode==='week'){ var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()-7); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   else { var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()-1); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
@@ -926,6 +987,7 @@ function navPrev(){
 }
 function navNext(){
   if(curMode==='year'){ curYear++; }
+  else if(curMode==='quarter'){ var q=Math.floor(curMonth/3)+1; if(q>3){q=0;curYear++;} curMonth=q*3; }
   else if(curMode==='month'){ curMonth++; if(curMonth>11){curMonth=0;curYear++;} }
   else if(curMode==='week'){ var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()+7); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
   else { var d=new Date(curYear,curMonth,curDay); d.setDate(d.getDate()+1); curYear=d.getFullYear();curMonth=d.getMonth();curDay=d.getDate(); }
@@ -996,6 +1058,41 @@ function renderYear(){
   document.getElementById('calendar-area').innerHTML = html;
 }
 
+// ============================================================
+// QUARTER VIEW
+// ============================================================
+function renderQuarter(){
+  var y=curYear;
+  var q=Math.floor(curMonth/3);
+  var startM=q*3;
+  var wk=['日','一','二','三','四','五','六'];
+  var html='<div class="quarter-wrap">';
+  for(var mi=0;mi<3;mi++){
+    var m=startM+mi;
+    var daysInMonth=new Date(y,m+1,0).getDate();
+    var rows='', count=0;
+    for(var d=1;d<=daysInMonth;d++){
+      var ds=dateStr(y,m,d);
+      var evs=getEventsForDate(ds);
+      var w=wk[new Date(y,m,d).getDay()];
+      evs.forEach(function(e){
+        var tprefix=(e.time!=='全天'&&e.time!=='節日')?e.time:'';
+        rows+='<div class="q-row"><span class="q-date">'+(m+1)+'/'+d+'（'+w+'）</span>'
+            + '<span class="q-dot" style="background:'+dotColor(e.who)+'"></span>'
+            + '<span class="q-time">'+tprefix+'</span>'
+            + '<span class="q-name">'+e.name+'</span></div>';
+        count++;
+      });
+    }
+    if(!rows) rows='<div class="q-empty">本月無行程</div>';
+    html+='<div class="quarter-month">'
+        + '<div class="quarter-month-title" onclick="goMonth('+m+')"><span>'+(m+1)+'月</span><span class="qm-count">'+count+' 項 ›</span></div>'
+        + rows + '</div>';
+  }
+  html+='</div>';
+  document.getElementById('calendar-area').innerHTML=html;
+}
+
 function goDay(d,m,y){
   curDay=d; curMonth=m; curYear=y;
   setMode('day', document.getElementById('mb-day'));
@@ -1026,6 +1123,7 @@ function render(){
   if(curMode==='month') renderMonth();
   else if(curMode==='week') renderWeek();
   else if(curMode==='day') renderDay();
+  else if(curMode==='quarter') renderQuarter();
   else if(curMode==='year') renderYear();
 }
 
