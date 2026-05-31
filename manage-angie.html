@@ -227,9 +227,11 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   <div class="qnav">
     <button onclick="jumpTo('sec-schedule')">📅 行程</button>
     <button onclick="jumpTo('sec-manage')">✏️ 管理</button>
+    <button onclick="window.open('https://angie26501-lgtm.github.io/active/','_blank')">🚪 活動量</button>
     <button onclick="jumpTo('sec-todo')">✅ 待辦</button>
     <button onclick="jumpTo('sec-gs')">🏢 照會</button>
-    <button onclick="jumpTo('sec-act')">📊 活動量</button>
+    <button onclick="jumpTo('sec-act')">📊 紀錄</button>
+    <button onclick="window.open('https://angie26501-lgtm.github.io/active/fuyun-academy.html','_blank')">🎓 學苑</button>
     <button onclick="window.open('kenny-angie.html','_blank')">👨 Kenny</button>
   </div>
   <div class="legend" id="main-legend">
@@ -429,6 +431,13 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
       <span class="menu-card-icon" id="icon-gs">▼</span>
     </div>
     <div class="menu-card-body" id="body-gs">
+      <div onclick="window.open('lecture-angie.html','_blank')" style="margin:10px 14px;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,#1a2744,#2d4373);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(26,39,68,0.25);">
+        <div>
+          <div style="font-size:14px;font-weight:600;">📋 講座進階管理</div>
+          <div style="font-size:11px;color:#c9a35a;margin-top:2px;">卡片檢視・倒數・加入日曆・複製邀約</div>
+        </div>
+        <span style="font-size:18px;color:#e0c184;">→</span>
+      </div>
       <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">近期講座</div>
       <div class="menu-item" onclick="window.open('https://angie26501-lgtm.github.io/business/booking-angie.html','_blank')">
         <span class="menu-dot" style="background:#EF9F27;"></span>
@@ -464,12 +473,29 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 </div>
 
 
+<!-- 🎓 馥芸財富學苑入口 -->
+<div onclick="window.open('https://angie26501-lgtm.github.io/active/fuyun-academy.html','_blank')" style="margin-bottom:1.25rem;padding:18px 20px;border-radius:var(--radius);background:linear-gradient(135deg,#6b4e2e,#a07636 55%,#c9a35a);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 18px rgba(160,118,54,0.3);">
+  <div>
+    <div style="font-size:16px;font-weight:700;letter-spacing:0.5px;">🎓 馥芸財富學苑</div>
+    <div style="font-size:12px;color:#f3e9d4;margin-top:3px;">課程活動總覽・合作講座・過往實績・學員作品</div>
+  </div>
+  <span style="font-size:20px;color:#fff;opacity:0.9;">→</span>
+</div>
+
+
 <div class="card sec-anchor" id="sec-act" style="margin-top:0;">
   <div class="chdr" onclick="togAct()">
     <div class="chtitle"><i class="ti ti-chart-bar" aria-hidden="true" style="font-size:17px;color:#E24B4A;"></i>活動量管理</div>
     <i class="ti ti-chevron-down" aria-hidden="true" id="ic-act" style="font-size:15px;color:var(--color-text-tertiary);transition:transform .2s;"></i>
   </div>
   <div class="cbody" id="bd-act" style="display:none;">
+    <div onclick="window.open('https://angie26501-lgtm.github.io/active/','_blank')" style="margin:10px 14px;padding:14px 16px;border-radius:12px;background:linear-gradient(135deg,#2B3D52,#3A5470);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(43,61,82,0.25);">
+      <div>
+        <div style="font-size:14px;font-weight:600;">🚪 活動量入口總站</div>
+        <div style="font-size:11px;color:#C8A95A;margin-top:2px;">主系統・每日回報・AI學習成果（需密碼）</div>
+      </div>
+      <span style="font-size:18px;color:#C8A95A;">→</span>
+    </div>
     <div id="act-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 14px;"></div>
     <div style="padding:0 14px 8px;">
       <div style="display:flex;gap:5px;flex-wrap:wrap;" id="act-filter">
