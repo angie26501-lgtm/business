@@ -112,7 +112,15 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .bday-note{font-size:11px;color:var(--text2);margin-top:2px;}
 
 /* LEGEND */
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 1rem;padding:10px 14px;background:var(--bg2);border-radius:var(--radius);position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:0;padding:8px 14px;background:transparent;}
+/* ====== 置頂快速導覽列 ====== */
+.sticky-nav{position:sticky;top:0;z-index:60;background:var(--bg);margin:0 -1rem 1rem;padding:8px 1rem 4px;box-shadow:0 3px 14px rgba(0,0,0,0.07);}
+.qnav{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
+.qnav::-webkit-scrollbar{display:none;}
+.qnav button{font-family:'Noto Sans TC',sans-serif;flex:0 0 auto;font-size:13px;font-weight:500;padding:8px 15px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .12s;}
+.qnav button:hover{background:var(--bg3);color:var(--text);}
+.qnav button.qn-manage{background:var(--green);color:#fff;border-color:transparent;}
+.sec-anchor{scroll-margin-top:108px;}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
 .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);text-align:center;}
@@ -179,8 +187,19 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   <div class="hero-badge" id="today-badge"></div>
 </div>
 
+<!-- 置頂圖例 -->
+<div class="sticky-nav">
+  <div class="legend" id="main-legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Angie</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Kenny</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>家族</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#D0202A"></span>假日</div>
+  </div>
+</div>
+
 <!-- TOP BAR -->
-<div class="top-bar">
+<div class="top-bar sec-anchor" id="sec-schedule">
   <div class="who-tabs">
     <button class="who-btn active" id="wb-all" onclick="setWho('all',this)">📋 總表</button>
     <button class="who-btn" id="wb-angie" onclick="setWho('angie',this)">👩 Angie</button>
@@ -206,14 +225,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="today-btn" onclick="goToday()">今天</button>
   </div>
   <button class="nav-btn" onclick="navNext()">›</button>
-</div>
-
-<div class="legend" id="main-legend">
-  <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Angie</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#378ADD"></span>Kenny</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>家族</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#D0202A"></span>假日</div>
 </div>
 
 <!-- CALENDAR AREA -->
@@ -267,148 +278,6 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 
 
 
-
-<!-- 功能選單 -->
-<div class="menu-grid">
-
-  <!-- 待辦事項 -->
-  <div class="menu-card" style="grid-column:1/-1;">
-    <div class="menu-card-header" onclick="toggleMenu('todo')">
-      <span class="menu-card-title">📋 待辦事項</span>
-      <span class="menu-card-icon" id="icon-todo">▼</span>
-    </div>
-    <div class="menu-card-body" id="body-todo">
-      <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">品牌建立</div>
-      <div class="menu-item" id="todo-1" onclick="toggleTodo(1)">
-        <div class="chk-box" id="chk-1"></div>
-        <span class="menu-item-text">製作女孩大學畢業影片（傳承）</span>
-        <span class="menu-badge" style="background:#E1F5EE;color:#085041;">品牌</span>
-      </div>
-      <div class="menu-item" id="todo-9" onclick="toggleTodo(9)">
-        <div class="chk-box" id="chk-9"></div>
-        <span class="menu-item-text">製作個人網頁</span>
-        <span class="menu-badge" style="background:#E1F5EE;color:#085041;">品牌</span>
-      </div>
-      <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">業務推進</div>
-      <div class="menu-item" id="todo-8" onclick="toggleTodo(8)">
-        <div class="chk-box" id="chk-8"></div>
-        <span class="menu-item-text">投資型保單簡報定稿及演練</span>
-        <span class="menu-badge" style="background:#E6F1FB;color:#0C447C;">業務</span>
-      </div>
-      <div class="menu-item" id="todo-2" onclick="toggleTodo(2)">
-        <div class="chk-box" id="chk-2"></div>
-        <span class="menu-item-text">MDRT業績進度追踪</span>
-        <span class="menu-badge" style="background:#E6F1FB;color:#0C447C;">業務</span>
-      </div>
-      <div class="menu-item" id="todo-3" onclick="toggleTodo(3)">
-        <div class="chk-box" id="chk-3"></div>
-        <span class="menu-item-text">增員進度及定聯追踪</span>
-        <span class="menu-badge" style="background:#E6F1FB;color:#0C447C;">業務</span>
-      </div>
-      <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">客戶管理</div>
-      <div class="menu-item" id="todo-4" onclick="toggleTodo(4)">
-        <div class="chk-box" id="chk-4"></div>
-        <span class="menu-item-text">新契約進度及定聯追踪</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">客戶</span>
-      </div>
-      <div class="menu-item" id="todo-5" onclick="toggleTodo(5)">
-        <div class="chk-box" id="chk-5"></div>
-        <span class="menu-item-text">續保及保戶照會進度及定聯追踪</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">客戶</span>
-      </div>
-      <div class="menu-item" id="todo-6" onclick="toggleTodo(6)">
-        <div class="chk-box" id="chk-6"></div>
-        <span class="menu-item-text">客戶定聯進度及定聯追踪</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">客戶</span>
-      </div>
-      <div class="menu-item" id="todo-7" onclick="toggleTodo(7)">
-        <div class="chk-box" id="chk-7"></div>
-        <span class="menu-item-text">特定節日祝福定聯</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">客戶</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 公勝照會 -->
-  <div class="menu-card" style="grid-column:1/-1;">
-    <div class="menu-card-header" onclick="toggleMenu('gs')">
-      <span class="menu-card-title">🏢 公勝照會</span>
-      <span class="menu-card-icon" id="icon-gs">▼</span>
-    </div>
-    <div class="menu-card-body" id="body-gs">
-      <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">近期講座</div>
-      <div class="menu-item" onclick="window.open('https://angie26501-lgtm.github.io/business/booking-angie.html','_blank')">
-        <span class="menu-dot" style="background:#EF9F27;"></span>
-        <span class="menu-item-text">7/3 VIP講座 京盛宇｜全世界最好的茶</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">VIP</span>
-      </div>
-      <div class="menu-item" onclick="window.open('https://angie26501-lgtm.github.io/business/booking-angie.html','_blank')">
-        <span class="menu-dot" style="background:#EF9F27;"></span>
-        <span class="menu-item-text">7/24 VIP講座 劉育誠｜海外資產傳承</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">VIP</span>
-      </div>
-      <div class="menu-item" onclick="window.open('https://angie26501-lgtm.github.io/business/booking-angie.html','_blank')">
-        <span class="menu-dot" style="background:#EF9F27;"></span>
-        <span class="menu-item-text">7/30 VIP講座 陳品橙｜不動產傳富策略</span>
-        <span class="menu-badge" style="background:#FAEEDA;color:#633806;">VIP</span>
-      </div>
-      <div style="padding:6px 14px 4px;font-size:10px;color:var(--text3);letter-spacing:1px;">快速連結</div>
-      <div class="menu-item" onclick="window.open('https://angie26501-lgtm.github.io/business/booking-angie.html','_blank')">
-        <span class="menu-dot" style="background:#1D9E75;"></span>
-        <span class="menu-item-text">預約諮詢頁面</span>
-      </div>
-      <div class="menu-item" onclick="window.open('https://forms.gle/8y5AGE5bEpML7SvMA','_blank')">
-        <span class="menu-dot" style="background:#1D9E75;"></span>
-        <span class="menu-item-text">Google 預約表單</span>
-      </div>
-      <div class="menu-item" onclick="window.open('https://docs.google.com/spreadsheets/d/1KGO0LuV5gm7EnfdabxfBda9kTHfTRMlnUlmV8bHUs24','_blank')">
-        <span class="menu-dot" style="background:#378ADD;"></span>
-        <span class="menu-item-text">行程後台試算表</span>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-<div class="card" style="margin-top:0;">
-  <div class="chdr" onclick="togAct()">
-    <div class="chtitle"><i class="ti ti-chart-bar" aria-hidden="true" style="font-size:17px;color:#E24B4A;"></i>活動量管理</div>
-    <i class="ti ti-chevron-down" aria-hidden="true" id="ic-act" style="font-size:15px;color:var(--color-text-tertiary);transition:transform .2s;"></i>
-  </div>
-  <div class="cbody" id="bd-act" style="display:none;">
-    <div id="act-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 14px;"></div>
-    <div style="padding:0 14px 8px;">
-      <div style="display:flex;gap:5px;flex-wrap:wrap;" id="act-filter">
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:var(--color-text-primary);color:var(--color-background-primary);cursor:pointer;" onclick="filterAct('all',this)">全部</button>
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;" onclick="filterAct('visit',this)">拜訪</button>
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;" onclick="filterAct('contract',this)">新契約</button>
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;" onclick="filterAct('recruit',this)">增員</button>
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;" onclick="filterAct('call',this)">定聯</button>
-        <button style="font-size:11px;padding:3px 8px;border-radius:12px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;" onclick="filterAct('mdrt',this)">MDRT</button>
-      </div>
-    </div>
-    <div id="act-list" style="padding:0 0 8px;"></div>
-    <div style="padding:8px 14px 10px;border-top:0.5px solid var(--color-border-tertiary);">
-      <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;">新增活動紀錄</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
-        <input type="date" id="act-date" style="font-size:12px;" />
-        <select id="act-type" style="font-size:12px;">
-          <option value="visit">客戶拜訪</option>
-          <option value="contract">新契約</option>
-          <option value="recruit">增員面談</option>
-          <option value="call">電話定聯</option>
-          <option value="mdrt">MDRT業績</option>
-        </select>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-        <input type="text" id="act-name" placeholder="姓名" style="font-size:12px;" />
-        <input type="text" id="act-note" placeholder="備註" style="font-size:12px;" />
-      </div>
-      <button onclick="addAct()" style="width:100%;font-size:12px;font-weight:500;padding:7px;border-radius:var(--border-radius-md);border:none;background:#1D9E75;color:#fff;cursor:pointer;">+ 新增記錄</button>
-    </div>
-  </div>
-</div>
 
 <div class="footer">財顧芸 Angie 陳芸琪 & Kenny｜2026 行程總覽｜5月－9月</div>
 
@@ -995,6 +864,12 @@ function navNext(){
   updateNavLabel(); render();
 }
 function goToday(){ curYear=TODAY_Y;curMonth=TODAY_M;curDay=TODAY_D; updateNavLabel(); render(); }
+
+// 置頂導覽列：平滑捲動到指定區塊
+function jumpTo(id){
+  var el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
 
 
 // ============================================================
