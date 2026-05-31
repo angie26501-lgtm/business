@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenny 行事曆</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#fff;--bg2:#f4f7fb;--bg3:#e9eff7;
+  --text:#1a1a1a;--text2:#6b6b6b;--text3:#aaa;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.15);
+  --green:#1D9E75;--blue:#378ADD;--red:#E24B4A;--amber:#EF9F27;--pink:#D4537E;
+  --radius:10px;
+}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.page-wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem 5rem;}
+
+.hero{padding-bottom:1rem;border-bottom:0.5px solid var(--border2);margin-bottom:1.25rem;}
+.hero-title{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;color:var(--blue);}
+.hero-sub{font-size:13px;color:var(--text2);margin-top:4px;}
+.hero-links{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+.hero-links a{font-size:12px;color:var(--text2);text-decoration:none;padding:5px 13px;border:0.5px solid var(--border2);border-radius:20px;}
+.hero-links a:hover{background:var(--bg2);color:var(--text);}
+.hero-links a.primary{background:var(--blue);color:#fff;border-color:transparent;}
+
+.card{background:var(--bg2);border-radius:var(--radius);padding:16px;margin-bottom:1.25rem;}
+.card-title{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+.kenny-tag{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:#fff;background:var(--blue);padding:6px 13px;border-radius:20px;}
+
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
+.field input[type=text],.field input[type=date]{
+  width:100%;font-family:'Noto Sans TC',sans-serif;font-size:14px;padding:10px 12px;
+  border:0.5px solid var(--border2);border-radius:8px;background:var(--bg);color:var(--text);
+}
+.field input:focus{outline:none;border-color:var(--blue);}
+.time-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.time-chip{font-size:12px;padding:5px 11px;border-radius:16px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;}
+.time-chip:hover{background:var(--bg3);}
+.btn-row{display:flex;gap:8px;margin-top:6px;}
+.btn{font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;border:none;cursor:pointer;flex:1;transition:opacity .12s;}
+.btn:hover{opacity:.88;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-ghost{background:var(--bg3);color:var(--text2);flex:0 0 auto;}
+
+.status{font-size:13px;padding:10px 14px;border-radius:8px;margin-bottom:1rem;display:none;}
+.status.show{display:block;}
+.status.ok{background:#ddeeff;color:#1a5fa5;}
+.status.err{background:#fce8e8;color:#a32d2d;}
+.status.wait{background:var(--bg2);color:var(--text2);}
+
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+.toolbar input{flex:1;min-width:140px;font-family:'Noto Sans TC',sans-serif;font-size:13px;padding:8px 12px;border:0.5px solid var(--border2);border-radius:8px;background:var(--bg);}
+.seg{display:flex;gap:3px;}
+.seg button{font-family:'Noto Sans TC',sans-serif;font-size:12px;padding:7px 11px;border:0.5px solid var(--border2);border-radius:7px;background:var(--bg);color:var(--text2);cursor:pointer;white-space:nowrap;}
+.seg button.active{background:var(--text);color:#fff;border-color:transparent;}
+
+.month-label{font-size:13px;font-weight:600;color:var(--text2);margin:10px 0 6px;}
+.ev{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:8px;margin-bottom:6px;}
+.ev.readonly{opacity:.82;}
+.ev-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ev-main{flex:1;min-width:0;}
+.ev-name{font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.ev-act{display:flex;gap:4px;flex-shrink:0;}
+.ev-act button{border:none;background:var(--bg3);width:32px;height:32px;border-radius:7px;cursor:pointer;font-size:14px;}
+.ev-act button:hover{background:var(--border2);}
+.ev-view{font-size:10px;color:var(--text3);flex-shrink:0;padding:0 4px;}
+.empty{text-align:center;color:var(--text3);font-size:13px;padding:2rem 0;}
+.loading{text-align:center;color:var(--text2);font-size:13px;padding:2rem 0;}
+.footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);text-align:center;}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="hero">
+    <div class="hero-title">👨 Kenny 行事曆</div>
+    <div class="hero-sub">新增自己的行程・檢視 Angie 的完整行事曆</div>
+    <div class="hero-links">
+      <a class="primary" href="schedule-angie.html">📅 看完整行事曆</a>
+      <a href="#" onclick="loadEvents();return false;">🔄 重新整理</a>
+    </div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <!-- 新增（鎖定 Kenny）-->
+  <div class="card">
+    <div class="card-title" id="form-title">➕ 新增我的行程</div>
+
+    <div class="field">
+      <label>類別</label>
+      <span class="kenny-tag">👨 Kenny（固定為你自己）</span>
+    </div>
+
+    <div class="field">
+      <label>日期</label>
+      <input type="date" id="f-date">
+    </div>
+
+    <div class="field">
+      <label>時間</label>
+      <input type="text" id="f-time" placeholder="例如 18:30（全天請填「全天」）">
+      <div class="time-chips" id="time-chips"></div>
+    </div>
+
+    <div class="field">
+      <label>行程名稱</label>
+      <input type="text" id="f-name" placeholder="例如 羅東會場">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">新增</button>
+      <button class="btn btn-ghost" id="cancel-btn" onclick="resetForm()" style="display:none;">取消</button>
+    </div>
+  </div>
+
+  <!-- 清單 -->
+  <div class="card">
+    <div class="card-title">📋 行事曆</div>
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="搜尋名稱或日期…" oninput="renderList()">
+      <div class="seg">
+        <button id="seg-mine" class="active" onclick="setFilter('mine')">👨 我的</button>
+        <button id="seg-angie" onclick="setFilter('angie')">👩 Angie</button>
+        <button id="seg-all" onclick="setFilter('all')">全部</button>
+      </div>
+    </div>
+    <div id="list"><div class="loading">載入中…</div></div>
+  </div>
+
+  <div class="footer">Kenny 行事曆｜你只能編輯自己的行程，Angie 的行程僅供檢視</div>
+</div>
+
+<script>
+// ====== 設定 ======
+var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqeIgZgw5l5owg/exec';
+var MY_WHO = 'kenny';   // 本頁鎖定身分
+
+var COLORS = {angie:'#1D9E75',kenny:'#378ADD',bday:'#D4537E',family:'#E9A020',holiday:'#D0202A'};
+var WHO_LABEL = {angie:'👩 Angie',kenny:'👨 Kenny',bday:'🎂 生日',family:'🏠 家族',holiday:'🇹🇼 假日'};
+var TIME_CHIPS = ['全天','08:30','12:30','18:30','19:00','21:00'];
+
+var EVENTS = [];
+var filter = 'mine';
+var editRow = null;
+var editExpect = null;
+
+function dotColor(w){ return COLORS[w] || '#999'; }
+function whoLabel(w){ return WHO_LABEL[w] || w; }
+function todayStr(){
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+}
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ====== 初始化 ======
+function initForm(){
+  var tc=document.getElementById('time-chips'); tc.innerHTML='';
+  TIME_CHIPS.forEach(function(t){
+    var c=document.createElement('div');
+    c.className='time-chip'; c.textContent=t;
+    c.onclick=function(){ document.getElementById('f-time').value=t; };
+    tc.appendChild(c);
+  });
+  document.getElementById('f-date').value=todayStr();
+}
+
+function showStatus(msg, type){
+  var s=document.getElementById('status');
+  s.textContent=msg; s.className='status show '+type;
+}
+function hideStatus(){ document.getElementById('status').className='status'; }
+
+// ====== 載入 ======
+function loadEvents(){
+  document.getElementById('list').innerHTML='<div class="loading">載入中…</div>';
+  fetch(API_URL+'?sheet=EVENTS&t='+Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(data){ EVENTS = Array.isArray(data)?data:[]; renderList(); })
+    .catch(function(){ document.getElementById('list').innerHTML='<div class="empty">讀取失敗，請按🔄重新整理</div>'; });
+}
+
+// ====== 篩選 ======
+function setFilter(f){
+  filter=f;
+  document.getElementById('seg-mine').classList.toggle('active', f==='mine');
+  document.getElementById('seg-angie').classList.toggle('active', f==='angie');
+  document.getElementById('seg-all').classList.toggle('active', f==='all');
+  renderList();
+}
+
+function renderList(){
+  var kw=(document.getElementById('search').value||'').trim().toLowerCase();
+  var today=todayStr();
+  var list=EVENTS.filter(function(e){
+    if(!e.date) return false;
+    if(e.date < today) return false;                 // 只看今天起的行程
+    if(filter==='mine' && e.who!==MY_WHO) return false;
+    if(filter==='angie' && e.who===MY_WHO) return false;
+    if(kw){
+      var hay=((e.name||'')+' '+(e.date||'')).toLowerCase();
+      if(hay.indexOf(kw)<0) return false;
+    }
+    return true;
+  });
+  list.sort(function(a,b){
+    if(a.date!==b.date) return a.date<b.date?-1:1;
+    return (a.time||'')<(b.time||'')?-1:1;
+  });
+
+  var box=document.getElementById('list');
+  if(list.length===0){ box.innerHTML='<div class="empty">沒有符合的行程</div>'; return; }
+
+  var wk=['日','一','二','三','四','五','六'];
+  var html=''; var curMonth='';
+  list.forEach(function(e){
+    var mlabel=e.date.slice(0,7);
+    if(mlabel!==curMonth){
+      curMonth=mlabel;
+      var parts=mlabel.split('-');
+      html+='<div class="month-label">'+parts[0]+'年 '+parseInt(parts[1],10)+'月</div>';
+    }
+    var w='';
+    var dp=e.date.split('-');
+    if(dp.length===3){ var dt=new Date(+dp[0],+dp[1]-1,+dp[2]); w='（'+wk[dt.getDay()]+'）'; }
+    var timeTxt=(e.time && e.time!=='全天' && e.time!=='節日')?e.time:(e.time||'');
+    var isMine=(e.who===MY_WHO);
+    var actHtml = isMine
+      ? '<div class="ev-act"><button title="修改" onclick="startEdit('+e._row+')">✏️</button><button title="刪除" onclick="delEvent('+e._row+')">🗑️</button></div>'
+      : '<span class="ev-view">檢視</span>';
+    html+='<div class="ev'+(isMine?'':' readonly')+'">'
+        + '<span class="ev-dot" style="background:'+dotColor(e.who)+'"></span>'
+        + '<div class="ev-main"><div class="ev-name">'+esc(e.name)+'</div>'
+        + '<div class="ev-meta">'+e.date.slice(5).replace("-","/")+w+'　'+esc(timeTxt)+'　'+whoLabel(e.who)+'</div></div>'
+        + actHtml + '</div>';
+  });
+  box.innerHTML=html;
+}
+
+function findByRow(rn){
+  for(var i=0;i<EVENTS.length;i++){ if(EVENTS[i]._row===rn) return EVENTS[i]; }
+  return null;
+}
+
+// ====== 新增 / 修改（一律限定 Kenny）======
+function submitForm(){
+  var date=document.getElementById('f-date').value.trim();
+  var time=document.getElementById('f-time').value.trim();
+  var name=document.getElementById('f-name').value.trim();
+  if(!date){ showStatus('⚠️ 請選日期','err'); return; }
+  if(!name){ showStatus('⚠️ 請填行程名稱','err'); return; }
+
+  var row={date:date, who:MY_WHO, time:time, name:name};   // who 固定 kenny
+
+  if(editRow){
+    var e=findByRow(editRow);
+    if(!e || e.who!==MY_WHO){ showStatus('⚠️ 只能修改自己的行程','err'); resetForm(); return; }
+    postAction({action:'update', rowNum:editRow, row:row, expect:editExpect}, '已修改');
+  } else {
+    postAction({action:'add', row:row}, '已新增');
+  }
+}
+
+function startEdit(rn){
+  var e=findByRow(rn);
+  if(!e) return;
+  if(e.who!==MY_WHO){ showStatus('⚠️ Angie 的行程僅供檢視，不能修改','err'); return; }
+  editRow=rn;
+  editExpect={date:e.date, who:e.who, time:e.time, name:e.name};
+  document.getElementById('f-date').value=e.date;
+  document.getElementById('f-time').value=e.time;
+  document.getElementById('f-name').value=e.name;
+  document.getElementById('form-title').textContent='✏️ 修改我的行程';
+  document.getElementById('submit-btn').textContent='儲存修改';
+  document.getElementById('cancel-btn').style.display='';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetForm(){
+  editRow=null; editExpect=null;
+  document.getElementById('f-date').value=todayStr();
+  document.getElementById('f-time').value='';
+  document.getElementById('f-name').value='';
+  document.getElementById('form-title').textContent='➕ 新增我的行程';
+  document.getElementById('submit-btn').textContent='新增';
+  document.getElementById('cancel-btn').style.display='none';
+}
+
+function delEvent(rn){
+  var e=findByRow(rn);
+  if(!e) return;
+  if(e.who!==MY_WHO){ showStatus('⚠️ Angie 的行程僅供檢視，不能刪除','err'); return; }
+  if(!confirm('確定刪除這筆行程？\n\n'+e.date+'  '+e.time+'  '+e.name)) return;
+  postAction({action:'delete', rowNum:rn, expect:{date:e.date,who:e.who,time:e.time,name:e.name}}, '已刪除');
+}
+
+// ====== 送出 ======
+function postAction(payload, okMsg){
+  showStatus('處理中…','wait');
+  fetch(API_URL, {
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r){ return r.text(); })
+  .then(function(t){ var res=null; try{res=JSON.parse(t);}catch(e){} finishAction(res, okMsg); })
+  .catch(function(){ finishAction(null, okMsg); });
+}
+
+function finishAction(res, okMsg){
+  if(res && res.ok===false && res.error){ showStatus('⚠️ '+res.error,'err'); return; }
+  showStatus('✅ '+okMsg+'，更新中…','ok');
+  resetForm();
+  setTimeout(function(){ loadEvents(); setTimeout(hideStatus,1500); }, 900);
+}
+
+// ====== 啟動 ======
+initForm();
+loadEvents();
+</script>
+</body>
+</html>
