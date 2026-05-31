@@ -140,7 +140,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 
 <script>
 // ====== 設定 ======
-var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqeIgZgw5l5owg/exec';
+var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqelgZgw5l5owg/exec';
 var MY_WHO = 'kenny';   // 本頁鎖定身分
 
 var COLORS = {angie:'#1D9E75',kenny:'#378ADD',bday:'#D4537E',family:'#E9A020',holiday:'#D0202A'};
@@ -233,7 +233,7 @@ function renderList(){
     var timeTxt=(e.time && e.time!=='全天' && e.time!=='節日')?e.time:(e.time||'');
     var isMine=(e.who===MY_WHO);
     var actHtml = isMine
-      ? '<div class="ev-act"><button title="修改" onclick="startEdit('+e._row+')">✏️</button><button title="刪除" onclick="delEvent('+e._row+')">🗑️</button></div>'
+      ? '<div class="ev-act"><button title="刪除" onclick="delEvent('+e._row+')">🗑️ 刪除</button></div>'
       : '<span class="ev-view">檢視</span>';
     html+='<div class="ev'+(isMine?'':' readonly')+'">'
         + '<span class="ev-dot" style="background:'+dotColor(e.who)+'"></span>'
@@ -249,7 +249,7 @@ function findByRow(rn){
   return null;
 }
 
-// ====== 新增 / 修改（一律限定 Kenny）======
+// ====== 新增（一律限定 Kenny 自己）======
 function submitForm(){
   var date=document.getElementById('f-date').value.trim();
   var time=document.getElementById('f-time').value.trim();
@@ -258,29 +258,7 @@ function submitForm(){
   if(!name){ showStatus('⚠️ 請填行程名稱','err'); return; }
 
   var row={date:date, who:MY_WHO, time:time, name:name};   // who 固定 kenny
-
-  if(editRow){
-    var e=findByRow(editRow);
-    if(!e || e.who!==MY_WHO){ showStatus('⚠️ 只能修改自己的行程','err'); resetForm(); return; }
-    postAction({action:'update', rowNum:editRow, row:row, expect:editExpect}, '已修改');
-  } else {
-    postAction({action:'add', row:row}, '已新增');
-  }
-}
-
-function startEdit(rn){
-  var e=findByRow(rn);
-  if(!e) return;
-  if(e.who!==MY_WHO){ showStatus('⚠️ Angie 的行程僅供檢視，不能修改','err'); return; }
-  editRow=rn;
-  editExpect={date:e.date, who:e.who, time:e.time, name:e.name};
-  document.getElementById('f-date').value=e.date;
-  document.getElementById('f-time').value=e.time;
-  document.getElementById('f-name').value=e.name;
-  document.getElementById('form-title').textContent='✏️ 修改我的行程';
-  document.getElementById('submit-btn').textContent='儲存修改';
-  document.getElementById('cancel-btn').style.display='';
-  window.scrollTo({top:0,behavior:'smooth'});
+  postAction({action:'add', row:row}, '已新增');
 }
 
 function resetForm(){
