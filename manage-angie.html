@@ -1277,19 +1277,7 @@ function toggleTodo(id) {
   }
 }
 
-// INIT
-updateNavLabel();
-mgrInit();
-loadEventsFromSheet(function(){
-  render();
-  mgrRenderList();
-});
-
-// 每5分鐘自動重新載入試算表
-setInterval(function(){
-  _EVENTS_LOADED = false;
-  loadEventsFromSheet(function(){ render(); mgrRenderList(); });
-}, 5 * 60 * 1000);
+// INIT 已移到檔案最後（確保所有變數都已就緒）
 
 var actAPI = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqelgZgw5l5owg/exec?sheet=ACTIVITY';
 var actData = [];
@@ -1495,6 +1483,22 @@ function mgrFinish(res,okMsg){
     loadEventsFromSheet(function(){ render(); mgrRenderList(); setTimeout(mgHideStatus,1500); });
   },900);
 }
+
+// ============================================================
+// INIT（放最後：確保 MG_WHO 等所有變數都已賦值再執行）
+// ============================================================
+updateNavLabel();
+mgrInit();
+loadEventsFromSheet(function(){
+  render();
+  mgrRenderList();
+});
+
+// 每5分鐘自動重新載入試算表
+setInterval(function(){
+  _EVENTS_LOADED = false;
+  loadEventsFromSheet(function(){ render(); mgrRenderList(); });
+}, 5 * 60 * 1000);
 
 </script>
 </body>
