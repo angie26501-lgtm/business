@@ -174,6 +174,41 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .year-event-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0;}
 .year-month-summary{margin-top:6px;}
 .year-summary-item{font-size:10px;color:var(--text2);display:flex;align-items:center;gap:4px;padding:1px 0;}
+/* ====== 行程管理區塊 ====== */
+.mg-card{background:var(--bg2);border-radius:var(--radius);padding:16px;margin-bottom:1.25rem;}
+.mg-title{font-size:15px;font-weight:600;margin-bottom:12px;}
+.mg-status{font-size:13px;padding:10px 14px;border-radius:8px;margin-bottom:10px;display:none;}
+.mg-status.show{display:block;}
+.mg-status.ok{background:#e8f8f2;color:#0f5e3a;}
+.mg-status.err{background:#fce8e8;color:#a32d2d;}
+.mg-status.wait{background:var(--bg3);color:var(--text2);}
+.mg-field{margin-bottom:12px;}
+.mg-field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500;}
+.mg-field input{width:100%;font-family:'Noto Sans TC',sans-serif;font-size:14px;padding:10px 12px;border:0.5px solid var(--border2);border-radius:8px;background:var(--bg);color:var(--text);}
+.mg-field input:focus{outline:none;border-color:var(--green);}
+.mg-who{display:flex;gap:6px;flex-wrap:wrap;}
+.mg-who-opt{font-size:13px;padding:7px 13px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;}
+.mg-who-opt.sel{color:#fff;border-color:transparent;}
+.mg-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.mg-chip{font-size:12px;padding:5px 11px;border-radius:16px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text2);cursor:pointer;}
+.mg-btnrow{display:flex;gap:8px;margin:6px 0 16px;}
+.mg-btn{font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:500;padding:11px 18px;border-radius:8px;border:none;cursor:pointer;flex:1;}
+.mg-btn-primary{background:var(--green);color:#fff;}
+.mg-btn-ghost{background:var(--bg3);color:var(--text2);flex:0 0 auto;}
+.mg-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;border-top:0.5px solid var(--border);padding-top:14px;}
+.mg-toolbar input{flex:1;min-width:140px;font-size:13px;padding:8px 12px;border:0.5px solid var(--border2);border-radius:8px;background:var(--bg);font-family:'Noto Sans TC',sans-serif;}
+.mg-seg{display:flex;gap:3px;}
+.mg-seg button{font-family:'Noto Sans TC',sans-serif;font-size:12px;padding:7px 12px;border:0.5px solid var(--border2);border-radius:7px;background:var(--bg);color:var(--text2);cursor:pointer;}
+.mg-seg button.active{background:var(--text);color:#fff;border-color:transparent;}
+.mg-mlabel{font-size:13px;font-weight:600;color:var(--text2);margin:10px 0 6px;}
+.mg-ev{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:0.5px solid var(--border);border-radius:8px;margin-bottom:6px;}
+.mg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.mg-main{flex:1;min-width:0;}
+.mg-name{font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mg-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.mg-act{display:flex;gap:4px;flex-shrink:0;}
+.mg-act button{border:none;background:var(--bg3);width:32px;height:32px;border-radius:7px;cursor:pointer;font-size:14px;}
+.mg-empty{text-align:center;color:var(--text3);font-size:13px;padding:1.5rem 0;}
 </style>
 </head>
 <body>
@@ -181,20 +216,21 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 
 <div class="hero">
   <div>
-    <div class="hero-title">財顧芸 Angie｜2026 行程</div>
-    <div class="hero-sub">陳芸琪 & Kenny｜5月 — 9月</div>
+    <div class="hero-title">財顧芸 Angie｜總控制台</div>
+    <div class="hero-sub">行事曆 ・ 待辦 ・ 照會 ・ 活動量 ・ 行程管理</div>
   </div>
   <div class="hero-badge" id="today-badge"></div>
 </div>
 
-<!-- 置頂快速導覽列 -->
+<!-- 置頂導覽列 -->
 <div class="sticky-nav">
   <div class="qnav">
     <button onclick="jumpTo('sec-schedule')">📅 行程</button>
+    <button onclick="jumpTo('sec-manage')">✏️ 管理</button>
     <button onclick="jumpTo('sec-todo')">✅ 待辦</button>
     <button onclick="jumpTo('sec-gs')">🏢 照會</button>
     <button onclick="jumpTo('sec-act')">📊 活動量</button>
-    <button class="qn-manage" onclick="window.open('manage-angie.html','_blank')">✏️ 新增/管理</button>
+    <button onclick="window.open('kenny-angie.html','_blank')">👨 Kenny</button>
   </div>
   <div class="legend" id="main-legend">
     <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>Angie</div>
@@ -284,6 +320,45 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 </div>
 
 
+
+
+
+<!-- ✏️ 行程管理 -->
+<div class="mg-card sec-anchor" id="sec-manage">
+  <div class="mg-title" id="mg-form-title">✏️ 新增行程</div>
+  <div id="mg-status" class="mg-status"></div>
+
+  <div class="mg-field">
+    <label>日期</label>
+    <input type="date" id="mg-date">
+  </div>
+  <div class="mg-field">
+    <label>類別</label>
+    <div class="mg-who" id="mg-who"></div>
+  </div>
+  <div class="mg-field">
+    <label>時間</label>
+    <input type="text" id="mg-time" placeholder="例如 19:00（全天請填「全天」）">
+    <div class="mg-chips" id="mg-chips"></div>
+  </div>
+  <div class="mg-field">
+    <label>行程名稱</label>
+    <input type="text" id="mg-name" placeholder="例如 台北會場">
+  </div>
+  <div class="mg-btnrow">
+    <button class="mg-btn mg-btn-primary" id="mg-submit" onclick="mgrSubmit()">新增</button>
+    <button class="mg-btn mg-btn-ghost" id="mg-cancel" onclick="mgrReset()" style="display:none;">取消</button>
+  </div>
+
+  <div class="mg-toolbar">
+    <input type="text" id="mg-search" placeholder="搜尋名稱或日期…" oninput="mgrRenderList()">
+    <div class="mg-seg">
+      <button id="mg-seg-up" class="active" onclick="mgrScope('upcoming')">即將到來</button>
+      <button id="mg-seg-all" onclick="mgrScope('all')">全部</button>
+    </div>
+  </div>
+  <div id="mg-list"><div class="mg-empty">載入中…</div></div>
+</div>
 
 
 <!-- 功能選單 -->
@@ -428,6 +503,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
+
 <div class="footer">財顧芸 Angie 陳芸琪 & Kenny｜2026 行程總覽｜5月－9月</div>
 
 </div><!-- end page-wrap -->
@@ -457,7 +533,8 @@ function loadEventsFromSheet(callback) {
           date: row.date || '',
           who:  row.who  || 'angie',
           time: row.time || '',
-          name: row.name || ''
+          name: row.name || '',
+          _row: row._row
         };
       });
       _EVENTS_LOADED = true;
@@ -489,7 +566,8 @@ function loadEventsFromSheet(callback) {
             date: (row.date||'').toString().trim(),
             who:  (row.who ||'angie').toString().trim(),
             time: (row.time||'').toString().trim(),
-            name: (row.name||'').toString().trim()
+            name: (row.name||'').toString().trim(),
+            _row: row._row
           };
         });
         _EVENTS_LOADED = true;
@@ -1201,14 +1279,16 @@ function toggleTodo(id) {
 
 // INIT
 updateNavLabel();
+mgrInit();
 loadEventsFromSheet(function(){
   render();
+  mgrRenderList();
 });
 
 // 每5分鐘自動重新載入試算表
 setInterval(function(){
   _EVENTS_LOADED = false;
-  loadEventsFromSheet(function(){ render(); });
+  loadEventsFromSheet(function(){ render(); mgrRenderList(); });
 }, 5 * 60 * 1000);
 
 var actAPI = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqeIgZgw5l5owg/exec?sheet=ACTIVITY';
@@ -1279,6 +1359,141 @@ function addAct(){
   document.getElementById('act-name').value='';
   document.getElementById('act-note').value='';
   renderAct();
+}
+
+
+// ============================================================
+// 行程管理（新增 / 修改 / 刪除）
+// ============================================================
+var MG_WHO = [
+  {v:'angie',label:'👩 Angie',c:'#1D9E75'},
+  {v:'kenny',label:'👨 Kenny',c:'#378ADD'},
+  {v:'bday',label:'🎂 生日',c:'#D4537E'},
+  {v:'family',label:'🏠 家族',c:'#E9A020'},
+  {v:'holiday',label:'🇹🇼 假日',c:'#D0202A'}
+];
+var MG_CHIPS=['全天','08:30','12:30','14:00','17:00','18:30','19:00','21:00'];
+var mgSelWho='angie', mgEditRow=null, mgEditExpect=null, mgScopeVal='upcoming';
+
+function mgWhoColor(w){for(var i=0;i<MG_WHO.length;i++)if(MG_WHO[i].v===w)return MG_WHO[i].c;return '#999';}
+function mgWhoLabel(w){for(var i=0;i<MG_WHO.length;i++)if(MG_WHO[i].v===w)return MG_WHO[i].label;return w;}
+function mgToday(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function mgEsc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function mgrInit(){
+  var wb=document.getElementById('mg-who'); if(!wb) return; wb.innerHTML='';
+  MG_WHO.forEach(function(o){
+    var b=document.createElement('div'); b.className='mg-who-opt'; b.textContent=o.label; b.setAttribute('data-v',o.v);
+    b.onclick=function(){ mgSelectWho(o.v); }; wb.appendChild(b);
+  });
+  mgSelectWho('angie');
+  var cb=document.getElementById('mg-chips'); cb.innerHTML='';
+  MG_CHIPS.forEach(function(t){
+    var c=document.createElement('div'); c.className='mg-chip'; c.textContent=t;
+    c.onclick=function(){ document.getElementById('mg-time').value=t; }; cb.appendChild(c);
+  });
+  document.getElementById('mg-date').value=mgToday();
+}
+function mgSelectWho(v){
+  mgSelWho=v;
+  document.querySelectorAll('.mg-who-opt').forEach(function(b){
+    if(b.getAttribute('data-v')===v){b.classList.add('sel');b.style.background=mgWhoColor(v);}
+    else{b.classList.remove('sel');b.style.background='';}
+  });
+}
+function mgStatus(msg,t){var s=document.getElementById('mg-status');s.textContent=msg;s.className='mg-status show '+t;}
+function mgHideStatus(){document.getElementById('mg-status').className='mg-status';}
+
+function mgrScope(s){
+  mgScopeVal=s;
+  document.getElementById('mg-seg-up').classList.toggle('active',s==='upcoming');
+  document.getElementById('mg-seg-all').classList.toggle('active',s==='all');
+  mgrRenderList();
+}
+
+function mgrRenderList(){
+  var box=document.getElementById('mg-list'); if(!box) return;
+  var kw=(document.getElementById('mg-search').value||'').trim().toLowerCase();
+  var today=mgToday();
+  var list=EVENTS.filter(function(e){
+    if(!e.date) return false;
+    if(mgScopeVal==='upcoming' && e.date<today) return false;
+    if(kw){var hay=((e.name||'')+' '+(e.date||'')).toLowerCase(); if(hay.indexOf(kw)<0) return false;}
+    return true;
+  });
+  list.sort(function(a,b){ if(a.date!==b.date)return a.date<b.date?-1:1; return (a.time||'')<(b.time||'')?-1:1; });
+  if(list.length===0){ box.innerHTML='<div class="mg-empty">沒有符合的行程</div>'; return; }
+  var wk=['日','一','二','三','四','五','六']; var html=''; var cm='';
+  list.forEach(function(e){
+    var ml=e.date.slice(0,7);
+    if(ml!==cm){cm=ml;var p=ml.split('-');html+='<div class="mg-mlabel">'+p[0]+'年 '+parseInt(p[1],10)+'月</div>';}
+    var w=''; var dp=e.date.split('-');
+    if(dp.length===3){var dt=new Date(+dp[0],+dp[1]-1,+dp[2]);w='（'+wk[dt.getDay()]+'）';}
+    var tt=(e.time && e.time!=='全天' && e.time!=='節日')?e.time:(e.time||'');
+    var canEdit=(e._row!=null);
+    var act=canEdit?('<div class="mg-act"><button title="修改" onclick="mgrEdit('+e._row+')">✏️</button><button title="刪除" onclick="mgrDelete('+e._row+')">🗑️</button></div>'):'';
+    html+='<div class="mg-ev"><span class="mg-dot" style="background:'+mgWhoColor(e.who)+'"></span>'
+        +'<div class="mg-main"><div class="mg-name">'+mgEsc(e.name)+'</div>'
+        +'<div class="mg-meta">'+e.date.slice(5).replace("-","/")+w+'　'+mgEsc(tt)+'　'+mgWhoLabel(e.who)+'</div></div>'
+        +act+'</div>';
+  });
+  box.innerHTML=html;
+}
+
+function mgFindByRow(rn){for(var i=0;i<EVENTS.length;i++)if(EVENTS[i]._row===rn)return EVENTS[i];return null;}
+
+function mgrSubmit(){
+  var date=document.getElementById('mg-date').value.trim();
+  var time=document.getElementById('mg-time').value.trim();
+  var name=document.getElementById('mg-name').value.trim();
+  if(!date){mgStatus('⚠️ 請選日期','err');return;}
+  if(!name){mgStatus('⚠️ 請填行程名稱','err');return;}
+  var row={date:date,who:mgSelWho,time:time,name:name};
+  if(mgEditRow){ mgrPost({action:'update',rowNum:mgEditRow,row:row,expect:mgEditExpect},'已修改'); }
+  else { mgrPost({action:'add',row:row},'已新增'); }
+}
+function mgrEdit(rn){
+  var e=mgFindByRow(rn); if(!e) return;
+  mgEditRow=rn; mgEditExpect={date:e.date,who:e.who,time:e.time,name:e.name};
+  document.getElementById('mg-date').value=e.date;
+  document.getElementById('mg-time').value=e.time;
+  document.getElementById('mg-name').value=e.name;
+  mgSelectWho(e.who);
+  document.getElementById('mg-form-title').textContent='✏️ 修改行程';
+  document.getElementById('mg-submit').textContent='儲存修改';
+  document.getElementById('mg-cancel').style.display='';
+  document.getElementById('sec-manage').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function mgrReset(){
+  mgEditRow=null; mgEditExpect=null;
+  document.getElementById('mg-date').value=mgToday();
+  document.getElementById('mg-time').value='';
+  document.getElementById('mg-name').value='';
+  mgSelectWho('angie');
+  document.getElementById('mg-form-title').textContent='✏️ 新增行程';
+  document.getElementById('mg-submit').textContent='新增';
+  document.getElementById('mg-cancel').style.display='none';
+}
+function mgrDelete(rn){
+  var e=mgFindByRow(rn); if(!e) return;
+  if(!confirm('確定刪除？\n\n'+e.date+'  '+e.time+'  '+e.name)) return;
+  mgrPost({action:'delete',rowNum:rn,expect:{date:e.date,who:e.who,time:e.time,name:e.name}},'已刪除');
+}
+function mgrPost(payload,okMsg){
+  mgStatus('處理中…','wait');
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+   .then(function(r){return r.text();})
+   .then(function(t){var res=null;try{res=JSON.parse(t);}catch(e){}mgrFinish(res,okMsg);})
+   .catch(function(){mgrFinish(null,okMsg);});
+}
+function mgrFinish(res,okMsg){
+  if(res && res.ok===false && res.error){ mgStatus('⚠️ '+res.error,'err'); return; }
+  mgStatus('✅ '+okMsg+'，更新中…','ok');
+  mgrReset();
+  setTimeout(function(){
+    _EVENTS_LOADED=false;
+    loadEventsFromSheet(function(){ render(); mgrRenderList(); setTimeout(mgHideStatus,1500); });
+  },900);
 }
 
 </script>
