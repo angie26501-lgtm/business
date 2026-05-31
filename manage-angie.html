@@ -514,7 +514,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 // ============================================================
 var EVENTS = [];
 var _EVENTS_LOADED = false;
-var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqeIgZgw5l5owg/exec';
+var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqelgZgw5l5owg/exec';
 
 function loadEventsFromSheet(callback) {
   if (_EVENTS_LOADED) { callback(); return; }
@@ -1291,7 +1291,7 @@ setInterval(function(){
   loadEventsFromSheet(function(){ render(); mgrRenderList(); });
 }, 5 * 60 * 1000);
 
-var actAPI = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqeIgZgw5l5owg/exec?sheet=ACTIVITY';
+var actAPI = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqelgZgw5l5owg/exec?sheet=ACTIVITY';
 var actData = [];
 var actFilter = 'all';
 function togAct(){
