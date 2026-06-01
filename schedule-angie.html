@@ -204,6 +204,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 
 <!-- TOP BAR -->
 <div class="top-bar sec-anchor" id="sec-schedule">
+  <div style="font-size:11px;color:var(--text3);padding:0 2px 5px;">可複選 ✓ 同時看多類，點「總表」回到全部</div>
   <div class="who-tabs">
     <button class="who-btn active" id="wb-all" onclick="setWho('all',this)">📋 總表</button>
     <button class="who-btn" id="wb-angie" onclick="setWho('angie',this)">👩 Angie</button>
@@ -628,6 +629,8 @@ var TODAY_Y = today.getFullYear(), TODAY_M = today.getMonth(), TODAY_D = today.g
 var curYear=TODAY_Y, curMonth=TODAY_M, curDay=TODAY_D; // month 0-indexed，預設停在今天
 var curMode='month';
 var curWho='all';
+var selectedWho=[];
+function matchWho(who){ return selectedWho.length===0 || selectedWho.indexOf(who)>=0; }
 var WEEKDAYS=['日','一','二','三','四','五','六'];
 var WEEKDAYS_EN=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -661,8 +664,7 @@ function dayEventClass(who){
 function getEventsForDate(dateStr){
   return EVENTS.filter(function(e){
     if(e.date!==dateStr) return false;
-    if(curWho==='all') return true;
-    return e.who===curWho;
+    return matchWho(e.who);
   });
 }
 
@@ -992,7 +994,8 @@ function goMonth(m){
 // RENDER
 // ============================================================
 function render(){
-  var isSpecial=(curWho==='bday'||curWho==='family'||curWho==='holiday');
+  var soloSpecial = (selectedWho.length===1 && (selectedWho[0]==='bday'||selectedWho[0]==='family'||selectedWho[0]==='holiday')) ? selectedWho[0] : null;
+  var isSpecial=!!soloSpecial;
   document.getElementById('calendar-area').style.display=isSpecial?'none':'';
   document.getElementById('nav-bar').style.display=isSpecial?'none':'';
   document.getElementById('view-mode-bar').style.display=isSpecial?'none':'';
@@ -1000,9 +1003,9 @@ function render(){
   ['special-bday','special-family','special-holiday'].forEach(function(id){
     document.getElementById(id).style.display='none';
   });
-  if(curWho==='bday'){ renderBday(); document.getElementById('special-bday').style.display=''; return; }
-  if(curWho==='family'){ document.getElementById('special-family').style.display=''; return; }
-  if(curWho==='holiday'){ document.getElementById('special-holiday').style.display=''; return; }
+  if(soloSpecial==='bday'){ renderBday(); document.getElementById('special-bday').style.display=''; return; }
+  if(soloSpecial==='family'){ document.getElementById('special-family').style.display=''; return; }
+  if(soloSpecial==='holiday'){ document.getElementById('special-holiday').style.display=''; return; }
 
   if(curMode==='month') renderMonth();
   else if(curMode==='week') renderWeek();
@@ -1011,12 +1014,24 @@ function render(){
   else if(curMode==='year') renderYear();
 }
 
+var WHO_CLS={angie:'angie-on',kenny:'kenny-on',bday:'bday-on',family:'family-on',holiday:'holiday-on',band:'band-on'};
 function setWho(w, btn){
-  curWho=w;
-  document.querySelectorAll('.who-btn').forEach(function(b){ b.className='who-btn'; });
-  var clsMap={all:'active',angie:'angie-on',kenny:'kenny-on',bday:'bday-on',family:'family-on',holiday:'holiday-on',band:'band-on'};
-  btn.className='who-btn '+clsMap[w];
+  if(w==='all'){ selectedWho=[]; }
+  else {
+    var i=selectedWho.indexOf(w);
+    if(i>=0) selectedWho.splice(i,1);
+    else selectedWho.push(w);
+  }
+  refreshWhoButtons();
   render();
+}
+function refreshWhoButtons(){
+  var allBtn=document.getElementById('wb-all');
+  if(allBtn) allBtn.className='who-btn'+(selectedWho.length===0?' active':'');
+  Object.keys(WHO_CLS).forEach(function(w){
+    var b=document.getElementById('wb-'+w);
+    if(b) b.className='who-btn'+(selectedWho.indexOf(w)>=0?(' '+WHO_CLS[w]):'');
+  });
 }
 
 function setMode(m, btn){
