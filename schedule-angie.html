@@ -38,6 +38,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .who-btn.bday-on{background:var(--pink);color:#fff;border-color:transparent;}
 .who-btn.family-on{background:#E9A020;color:#fff;border-color:transparent;}
 .who-btn.holiday-on{background:#D0202A;color:#fff;border-color:transparent;}
+.who-btn.band-on{background:#8B5CF6;color:#fff;border-color:transparent;}
 
 /* VIEW MODE */
 .view-mode{display:flex;gap:4px;}
@@ -83,6 +84,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .we-bday{background:#fce8f2;color:#993556;}
 .we-family{background:#fff0d0;color:#8a6000;}
 .we-holiday{background:#fce8e8;color:#a32d2d;}
+.we-band{background:#efe9fc;color:#5b3aa8;}
 
 /* ====== DAY VIEW ====== */
 .day-view-wrap{display:grid;grid-template-columns:50px 1fr;gap:1px;background:var(--border);}
@@ -96,6 +98,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 .de-bday{background:#fce8f2;color:#993556;border-left:3px solid var(--pink);}
 .de-family{background:#fff0d0;color:#8a6000;border-left:3px solid #E9A020;}
 .de-holiday{background:#fce8e8;color:#a32d2d;border-left:3px solid var(--red);}
+.de-band{background:#efe9fc;color:#5b3aa8;border-left:3px solid #8B5CF6;}
 
 /* ====== SPECIAL VIEWS ====== */
 .special-view{display:none;}
@@ -195,6 +198,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <div class="legend-item"><span class="legend-dot" style="background:#D4537E"></span>生日</div>
     <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>家族</div>
     <div class="legend-item"><span class="legend-dot" style="background:#D0202A"></span>假日</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#8B5CF6"></span>帶狀活動</div>
   </div>
 </div>
 
@@ -207,6 +211,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
     <button class="who-btn" id="wb-bday" onclick="setWho('bday',this)">🎂 生日</button>
     <button class="who-btn" id="wb-family" onclick="setWho('family',this)">👨‍👩‍👧‍👦 家族</button>
     <button class="who-btn" id="wb-holiday" onclick="setWho('holiday',this)">🇹🇼 假日</button>
+    <button class="who-btn" id="wb-band" onclick="setWho('band',this)">🔄 帶狀活動</button>
   </div>
   <div class="view-mode" id="view-mode-bar">
     <button class="mode-btn" id="mb-day" onclick="setMode('day',this)">日</button>
@@ -633,6 +638,7 @@ function dotColor(who){
   if(who==='kenny') return '#378ADD';
   if(who==='bday')  return '#D4537E';
   if(who==='family')return '#E9A020';
+  if(who==='band')  return '#8B5CF6';
   return '#D0202A';
 }
 function eventClass(who){
@@ -640,6 +646,7 @@ function eventClass(who){
   if(who==='kenny') return 'we-kenny';
   if(who==='bday')  return 'we-bday';
   if(who==='family')return 'we-family';
+  if(who==='band')  return 'we-band';
   return 'we-holiday';
 }
 function dayEventClass(who){
@@ -647,6 +654,7 @@ function dayEventClass(who){
   if(who==='kenny') return 'de-kenny';
   if(who==='bday')  return 'de-bday';
   if(who==='family')return 'de-family';
+  if(who==='band')  return 'de-band';
   return 'de-holiday';
 }
 
@@ -1006,7 +1014,7 @@ function render(){
 function setWho(w, btn){
   curWho=w;
   document.querySelectorAll('.who-btn').forEach(function(b){ b.className='who-btn'; });
-  var clsMap={all:'active',angie:'angie-on',kenny:'kenny-on',bday:'bday-on',family:'family-on',holiday:'holiday-on'};
+  var clsMap={all:'active',angie:'angie-on',kenny:'kenny-on',bday:'bday-on',family:'family-on',holiday:'holiday-on',band:'band-on'};
   btn.className='who-btn '+clsMap[w];
   render();
 }
