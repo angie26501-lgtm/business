@@ -129,6 +129,7 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
       <div class="seg">
         <button id="seg-mine" class="active" onclick="setFilter('mine')">👨 我的</button>
         <button id="seg-angie" onclick="setFilter('angie')">👩 Angie</button>
+        <button id="seg-band" onclick="setFilter('band')">🔄 帶狀</button>
         <button id="seg-all" onclick="setFilter('all')">全部</button>
       </div>
     </div>
@@ -143,8 +144,8 @@ body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text
 var API_URL = 'https://script.google.com/macros/s/AKfycbz6Mds98dspbED8gbN6ppnM0nQkOXqzWThw6J0Bv25U6PGL0r1nCDamQqelgZgw5l5owg/exec';
 var MY_WHO = 'kenny';   // 本頁鎖定身分
 
-var COLORS = {angie:'#1D9E75',kenny:'#378ADD',bday:'#D4537E',family:'#E9A020',holiday:'#D0202A'};
-var WHO_LABEL = {angie:'👩 Angie',kenny:'👨 Kenny',bday:'🎂 生日',family:'🏠 家族',holiday:'🇹🇼 假日'};
+var COLORS = {angie:'#1D9E75',kenny:'#378ADD',bday:'#D4537E',family:'#E9A020',holiday:'#D0202A',band:'#8B5CF6'};
+var WHO_LABEL = {angie:'👩 Angie',kenny:'👨 Kenny',bday:'🎂 生日',family:'🏠 家族',holiday:'🇹🇼 假日',band:'🔄 帶狀活動'};
 var TIME_CHIPS = ['全天','08:30','12:30','18:30','19:00','21:00'];
 
 var EVENTS = [];
@@ -192,6 +193,7 @@ function setFilter(f){
   filter=f;
   document.getElementById('seg-mine').classList.toggle('active', f==='mine');
   document.getElementById('seg-angie').classList.toggle('active', f==='angie');
+  var sb=document.getElementById('seg-band'); if(sb) sb.classList.toggle('active', f==='band');
   document.getElementById('seg-all').classList.toggle('active', f==='all');
   renderList();
 }
@@ -204,6 +206,7 @@ function renderList(){
     if(e.date < today) return false;                 // 只看今天起的行程
     if(filter==='mine' && e.who!==MY_WHO) return false;
     if(filter==='angie' && e.who===MY_WHO) return false;
+    if(filter==='band' && e.who!=='band') return false;
     if(kw){
       var hay=((e.name||'')+' '+(e.date||'')).toLowerCase();
       if(hay.indexOf(kw)<0) return false;
