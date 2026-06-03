@@ -299,6 +299,38 @@ body{
 /* ---------- 手機版 ---------- */
 .overlay{ display:none; }
 
+/* 學員溫室 — 專屬入口（與肥料花圃區隔） */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  margin:4px 2px;
+}
+.greenhouse{
+  display:block;
+  text-decoration:none;
+  border-radius:16px;
+  padding:14px 15px;
+  background:linear-gradient(135deg,rgba(207,154,74,.28),rgba(244,227,194,.16));
+  border:1px solid rgba(207,154,74,.5);
+  color:#fdf4e6;
+  transition:.2s ease;
+}
+.greenhouse:hover{
+  transform:translateY(-2px);
+  border-color:rgba(244,227,194,.85);
+  box-shadow:0 12px 24px rgba(0,0,0,.22);
+}
+.greenhouse .gh-top{ display:flex;align-items:center;gap:10px; }
+.greenhouse .gh-ico{
+  width:34px;height:34px;flex:none;border-radius:10px;
+  background:rgba(255,255,255,.16);
+  display:flex;align-items:center;justify-content:center;font-size:1.15rem;
+}
+.greenhouse .gh-title{ font-weight:900;font-size:.95rem;line-height:1.2; }
+.greenhouse .gh-sub{ font-size:.68rem;color:#e7d3a8;letter-spacing:.04em;margin-top:1px; }
+.greenhouse .gh-desc{ font-size:.72rem;color:#f1e6cd;margin-top:9px;line-height:1.55;opacity:.9; }
+.greenhouse .gh-lock{ font-size:.66rem;color:#e7d3a8;margin-top:8px;display:flex;align-items:center;gap:5px; }
+
 @media(max-width:860px){
   .layout{ grid-template-columns:1fr; }
 
@@ -371,6 +403,23 @@ body{
         <button data-filter="water" onclick="filterCards(this,'water')"><span class="ico">💧</span><span class="txt">灌溉肥</span><span class="count" data-count="water"></span></button>
         <button data-filter="bloom" onclick="filterCards(this,'bloom')"><span class="ico">🌸</span><span class="txt">開花肥</span><span class="count" data-count="bloom"></span></button>
       </nav>
+    </div>
+
+    <div>
+      <div class="menu-label">專屬空間 · 細心栽培</div>
+      <div class="divider"></div>
+      <!-- 學員專區：把 href 的 # 換成福氣協會學員專區的網址 -->
+      <a class="greenhouse" href="#" target="_blank">
+        <div class="gh-top">
+          <span class="gh-ico">🏡</span>
+          <div>
+            <div class="gh-title">學員溫室</div>
+            <div class="gh-sub">福氣協會 · 學員專區</div>
+          </div>
+        </div>
+        <div class="gh-desc">已報名學員的專屬培育空間，課程、資源與進度都在這裡。</div>
+        <div class="gh-lock">🔒 學員限定入口</div>
+      </a>
     </div>
 
     <div class="sidebar-foot">
