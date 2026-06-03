@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -7,18 +8,23 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
       font-size: clamp(16px,1.8vw,19px);
+      --emerald-deep:#064e3b;
+      --emerald:#059669;
+      --gold:#d8b45a;
+      --rose:#e8a598;
+      --blossom:#f7d9cf;
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{ box-sizing:border-box; }
 
-    html{
-      scroll-behavior:smooth;
-    }
+    html{ scroll-behavior:smooth; }
 
     body{
       font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
@@ -26,11 +32,28 @@
       letter-spacing:.02em;
     }
 
+    .font-serif-tc{
+      font-family:"Noto Serif TC",serif;
+    }
+
     .soft-bg{
       background:
-      radial-gradient(circle at 10% 10%, rgba(217,180,90,.18), transparent 28%),
-      radial-gradient(circle at 90% 0%, rgba(16,185,129,.12), transparent 30%),
+      radial-gradient(circle at 8% 6%, rgba(217,180,90,.20), transparent 30%),
+      radial-gradient(circle at 92% 2%, rgba(16,185,129,.14), transparent 32%),
+      radial-gradient(circle at 78% 92%, rgba(232,165,152,.16), transparent 34%),
       linear-gradient(135deg,#fffdf8 0%,#f8fafc 45%,#eefbf4 100%);
+      position:relative;
+    }
+
+    /* 細緻顆粒紋理，增加質感 */
+    .soft-bg::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.4;
+      mix-blend-mode:soft-light;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
     }
 
     .glass{
@@ -41,7 +64,7 @@
 
     .hero-title{
       font-size:clamp(2.2rem,6vw,4.2rem);
-      line-height:1.1;
+      line-height:1.12;
     }
 
     .hero-sub{
@@ -60,7 +83,7 @@
       border:1px solid #e5e7eb;
       padding:18px 20px;
       box-shadow:0 10px 24px rgba(15,23,42,.06);
-      transition:.22s ease;
+      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
       font-weight:800;
       color:#1e293b;
     }
@@ -76,6 +99,20 @@
       border:2px solid rgba(217,180,90,.5);
     }
 
+    /* 財富花園專屬玫瑰花園色卡 */
+    .garden-card{
+      background:linear-gradient(135deg,#fff1ec 0%,#fde7df 46%,#fff7f3 100%);
+      border:2px solid rgba(232,165,152,.55);
+    }
+    .garden-card:hover{
+      border-color:#e8a598;
+      box-shadow:0 18px 32px rgba(216,120,100,.16);
+    }
+    .garden-card .arrow{
+      background:#fdeae3;
+      color:#c2624e;
+    }
+
     .arrow{
       width:38px;
       height:38px;
@@ -88,7 +125,9 @@
       font-size:1.2rem;
       font-weight:900;
       flex:none;
+      transition:transform .22s ease;
     }
+    .link-card:hover .arrow{ transform:translateX(3px); }
 
     .section-title{
       display:flex;
@@ -98,9 +137,11 @@
     }
 
     .section-title h2{
-      font-size:clamp(1.3rem,3vw,1.7rem);
-      font-weight:950;
+      font-family:"Noto Serif TC",serif;
+      font-size:clamp(1.35rem,3vw,1.75rem);
+      font-weight:900;
       color:#064e3b;
+      letter-spacing:.01em;
     }
 
     .tag{
@@ -122,13 +163,12 @@
       color:white;
       padding:30px;
       box-shadow:0 24px 50px rgba(6,78,59,.28);
-      transition:.25s ease;
+      transition:transform .25s ease, box-shadow .25s ease;
     }
-
     .main-cta:hover{
       transform:translateY(-4px);
+      box-shadow:0 30px 60px rgba(6,78,59,.34);
     }
-
     .main-cta::before{
       content:"";
       position:absolute;
@@ -140,9 +180,36 @@
       right:-60px;
     }
 
+    /* 財富花園大型入口 */
+    .garden-cta{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      background:linear-gradient(135deg,#b04a4a 0%,#d97a5e 46%,#e8b06a 100%);
+      color:white;
+      padding:30px;
+      box-shadow:0 24px 50px rgba(176,74,74,.26);
+      transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .garden-cta:hover{
+      transform:translateY(-4px);
+      box-shadow:0 30px 60px rgba(176,74,74,.32);
+    }
+    .garden-cta::before{
+      content:"🌸";
+      position:absolute;
+      font-size:140px;
+      line-height:1;
+      top:-26px;
+      right:-10px;
+      opacity:.16;
+      transform:rotate(-12deg);
+    }
+
     .main-title{
+      font-family:"Noto Serif TC",serif;
       font-size:clamp(1.6rem,4vw,2.6rem);
-      font-weight:950;
+      font-weight:900;
       line-height:1.25;
     }
 
@@ -151,32 +218,41 @@
       opacity:.92;
     }
 
+    /* 載入漸進動畫 */
+    @keyframes rise{
+      from{ opacity:0; transform:translateY(18px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+    .reveal{
+      opacity:0;
+      animation:rise .7s cubic-bezier(.22,.61,.36,1) forwards;
+    }
+    @media (prefers-reduced-motion:reduce){
+      .reveal{ animation:none; opacity:1; }
+    }
+
     @media(max-width:640px){
-
-      .link-card{
-        align-items:flex-start;
-      }
-
-      .arrow{
-        margin-top:2px;
-      }
+      .link-card{ align-items:flex-start; }
+      .arrow{ margin-top:2px; }
+      .garden-cta::before{ font-size:110px; }
     }
   </style>
 </head>
 
 <body class="soft-bg min-h-screen text-slate-800">
 
-<main class="max-w-7xl mx-auto px-4 py-5 md:px-6 lg:px-8 md:py-8">
+<main class="max-w-7xl mx-auto px-4 py-5 md:px-6 lg:px-8 md:py-8 relative">
 
   <!-- HERO -->
-  <section class="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-emerald-950 to-emerald-800 text-white shadow-2xl p-7 md:p-10 mb-7">
+  <section class="reveal relative overflow-hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-emerald-950 to-emerald-800 text-white shadow-2xl p-7 md:p-10 mb-7" style="animation-delay:.05s">
 
     <div class="absolute -right-16 -top-16 w-52 h-52 rounded-full bg-amber-300/20 blur-2xl"></div>
     <div class="absolute -left-16 bottom-0 w-56 h-56 rounded-full bg-emerald-300/12 blur-2xl"></div>
+    <div class="absolute right-10 bottom-6 w-40 h-40 rounded-full bg-rose-300/10 blur-2xl"></div>
 
     <div class="relative grid md:grid-cols-[auto_1fr] gap-6 items-center">
 
-      <div class="mx-auto md:mx-0 w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-emerald-500 shadow-xl flex items-center justify-center text-white text-4xl font-black border border-white/30">
+      <div class="mx-auto md:mx-0 w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-emerald-500 shadow-xl flex items-center justify-center text-white text-4xl font-black border border-white/30 font-serif-tc">
         芸
       </div>
 
@@ -185,7 +261,7 @@
           AI × 財務 × 生活陪跑
         </p>
 
-        <h1 class="mt-3 font-black tracking-tight hero-title">
+        <h1 class="mt-3 font-serif-tc font-black tracking-tight hero-title">
           財顧芸｜馥芸財富學苑
         </h1>
 
@@ -207,7 +283,6 @@
         <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-5 items-center">
 
           <div>
-
             <div class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-4 py-2 text-xs font-black tracking-[0.18em]">
               MAIN ENTRANCE
             </div>
@@ -219,7 +294,6 @@
             <div class="main-text">
               課程資訊、活動連結、學習資源，一站式進入。
             </div>
-
           </div>
 
           <div class="hidden md:flex w-20 h-20 rounded-full bg-white text-emerald-800 items-center justify-center text-4xl font-black shadow-xl">
@@ -227,43 +301,61 @@
           </div>
 
         </div>
+      </a>
 
+      <!-- 財富花園 大型入口 -->
+      <a href="https://angie26501-lgtm.github.io/active/seed.html"
+         target="_blank"
+         class="garden-cta md:col-span-3">
+
+        <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-5 items-center">
+
+          <div>
+            <div class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-4 py-2 text-xs font-black tracking-[0.18em]">
+              🌸 WEALTH GARDEN
+            </div>
+
+            <div class="main-title mt-4">
+              財富花園｜女人要有錢
+            </div>
+
+            <div class="main-text">
+              為女性打造的財富成長園地，從一顆種子開始，陪你長成豐盛的人生。
+            </div>
+          </div>
+
+          <div class="hidden md:flex w-20 h-20 rounded-full bg-white text-rose-700 items-center justify-center text-4xl font-black shadow-xl">
+            ›
+          </div>
+
+        </div>
       </a>
 
       <!-- 三格 -->
       <a href="https://lin.ee/yBVjjlK"
          target="_blank"
-         class="rounded-2xl bg-white text-emerald-950 p-4 text-center font-black shadow-lg hover:bg-amber-50 transition">
-
+         class="rounded-2xl bg-white text-emerald-950 p-4 text-center font-black shadow-lg hover:bg-amber-50 hover:-translate-y-0.5 transition">
         加入 Line@ 官方群組
-
         <div class="text-xs text-slate-500 mt-1 font-semibold">
           禮包＋活動訊息＋影片＋圖卡
         </div>
-
       </a>
 
       <a href="https://angie26501-lgtm.github.io/active/demoactive.html"
          target="_blank"
-         class="rounded-2xl bg-emerald-500/90 text-white p-4 text-center font-black shadow-lg hover:bg-emerald-400 transition">
-
+         class="rounded-2xl bg-emerald-500/90 text-white p-4 text-center font-black shadow-lg hover:bg-emerald-400 hover:-translate-y-0.5 transition">
         DEMO 展示版
-
         <div class="text-xs text-white/80 mt-1 font-semibold">
           活動量管理樣板參考
         </div>
-
       </a>
 
       <a href="mailto:3172share@gmail.com"
-         class="rounded-2xl bg-amber-300 text-slate-950 p-4 text-center font-black shadow-lg hover:bg-amber-200 transition">
-
+         class="rounded-2xl bg-amber-300 text-slate-950 p-4 text-center font-black shadow-lg hover:bg-amber-200 hover:-translate-y-0.5 transition">
         歡迎講座邀約
-
         <div class="text-xs text-slate-700 mt-1 font-semibold">
           3172share@gmail.com
         </div>
-
       </a>
 
     </div>
@@ -271,21 +363,25 @@
   </section>
 
   <!-- QUICK -->
-  <section class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-7">
+  <section class="reveal grid grid-cols-2 md:grid-cols-5 gap-3 mb-7" style="animation-delay:.18s">
 
-    <a href="#courses" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">
+    <a href="#garden" class="glass rounded-2xl p-4 text-center shadow font-bold text-rose-700 hover:-translate-y-0.5 transition">
+      財富花園
+    </a>
+
+    <a href="#courses" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
       課程活動
     </a>
 
-    <a href="#podcast" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">
+    <a href="#podcast" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
       Podcast
     </a>
 
-    <a href="#social" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">
+    <a href="#social" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
       FB 粉專
     </a>
 
-    <a href="#youtube" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900">
+    <a href="#youtube" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
       YouTube
     </a>
 
@@ -296,8 +392,30 @@
     <!-- LEFT -->
     <div class="space-y-6">
 
+      <!-- 財富花園 區塊 -->
+      <section id="garden" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.26s">
+
+        <div class="section-title">
+          <h2 style="color:#b04a4a">🌸 財富花園｜女人要有錢</h2>
+          <span class="tag" style="background:#fdeae3;color:#c2624e;border-color:#f7d9cf">GARDEN</span>
+        </div>
+
+        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+          為女性量身打造的財富學習園地，從理財觀念、金錢整理到財務自由，
+          一步步陪你把財富的種子，灌溉成屬於自己的豐盛花園。
+        </p>
+
+        <a href="https://angie26501-lgtm.github.io/active/seed.html"
+           target="_blank"
+           class="link-card garden-card">
+          <span>🌷 進入財富花園｜女人要有錢</span>
+          <span class="arrow">›</span>
+        </a>
+
+      </section>
+
       <!-- 課程 -->
-      <section id="courses" class="glass rounded-[32px] shadow-2xl p-5 md:p-6">
+      <section id="courses" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.34s">
 
         <div class="section-title">
           <h2>課程活動與講座報名</h2>
@@ -309,10 +427,8 @@
           <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
              target="_blank"
              class="link-card highlight-card md:col-span-2">
-
             <span>🌿 馥芸財富學苑｜學苑課程入口</span>
             <span class="arrow">›</span>
-
           </a>
 
           <a href="https://reurl.cc/da8M36" target="_blank" class="link-card">
@@ -350,7 +466,7 @@
     <aside class="space-y-5">
 
       <!-- 官方 -->
-      <section class="glass rounded-[32px] shadow-2xl p-5 md:p-6">
+      <section class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.30s">
 
         <div class="section-title">
           <h2>官方與 AI 入口</h2>
@@ -362,28 +478,29 @@
           <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
              target="_blank"
              class="link-card highlight-card">
-
             <span>🌟 馥芸財富學苑｜學苑課程入口</span>
             <span class="arrow">›</span>
+          </a>
 
+          <a href="https://angie26501-lgtm.github.io/active/seed.html"
+             target="_blank"
+             class="link-card garden-card">
+            <span>🌸 財富花園｜女人要有錢</span>
+            <span class="arrow">›</span>
           </a>
 
           <a href="https://angie26501-lgtm.github.io/active/demoactive.html"
              target="_blank"
              class="link-card">
-
             <span>活動量管理 DEMO 展示版</span>
             <span class="arrow">›</span>
-
           </a>
 
           <a href="https://lin.ee/yBVjjlK"
              target="_blank"
              class="link-card">
-
             <span>Line@ 官方群組</span>
             <span class="arrow">›</span>
-
           </a>
 
         </div>
@@ -392,7 +509,7 @@
 
       <!-- PODCAST -->
       <section id="podcast"
-               class="rounded-[28px] shadow-xl p-5 md:p-6 bg-gradient-to-br from-amber-300 via-amber-200 to-white border border-amber-100">
+               class="reveal rounded-[28px] shadow-xl p-5 md:p-6 bg-gradient-to-br from-amber-300 via-amber-200 to-white border border-amber-100" style="animation-delay:.38s">
 
         <div class="section-title">
           <h2 class="!text-slate-900">Podcast 節目</h2>
@@ -404,29 +521,23 @@
           <a href="https://3172shre.firstory.io/episodes"
              target="_blank"
              class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
-
-            <div class="text-2xl font-black text-slate-900">
+            <div class="text-2xl font-black text-slate-900 font-serif-tc">
               斜槓媽青春陪跑實驗室
             </div>
-
             <div class="text-sm text-emerald-700 font-bold mt-1">
               生活 × 成長 × 財務陪跑
             </div>
-
           </a>
 
           <a href="https://open.spotify.com/show/1us537rWraGs4qdY8beG5a?si=a1c9ab03a0cb4043"
              target="_blank"
              class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
-
-            <div class="text-2xl font-black text-slate-900">
+            <div class="text-2xl font-black text-slate-900 font-serif-tc">
               心海羅盤・幸福航行誌
             </div>
-
             <div class="text-sm text-emerald-700 font-bold mt-1">
               幸福財務領航員｜財顧芸
             </div>
-
           </a>
 
         </div>
@@ -434,7 +545,7 @@
       </section>
 
       <!-- FB -->
-      <section id="social" class="glass rounded-[28px] shadow-xl p-5 md:p-6">
+      <section id="social" class="reveal glass rounded-[28px] shadow-xl p-5 md:p-6" style="animation-delay:.44s">
 
         <div class="section-title">
           <h2>FB 粉專</h2>
@@ -463,7 +574,7 @@
       </section>
 
       <!-- YOUTUBE -->
-      <section id="youtube" class="glass rounded-[32px] shadow-2xl p-5 md:p-6">
+      <section id="youtube" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.50s">
 
         <div class="section-title">
           <h2>財顧芸 YouTube 影音學習館</h2>
@@ -473,15 +584,12 @@
         <a href="https://www.youtube.com/@IFA-Fans"
            target="_blank"
            class="block rounded-2xl bg-gradient-to-r from-red-600 to-rose-500 text-white p-5 shadow-lg hover:scale-[1.02] transition mb-4">
-
-          <div class="text-2xl font-black">
+          <div class="text-2xl font-black font-serif-tc">
             財顧芸 YT 頻道
           </div>
-
           <div class="text-sm text-white/85 mt-1 font-semibold">
             財務規劃 × 保險觀念 × 財商教育影音內容
           </div>
-
         </a>
 
       </section>
