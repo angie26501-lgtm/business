@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>財富花園｜女人要有錢 — 肥料花圃</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#26342b;
+  --moss:#3f6b4f;
+  --leaf:#5b9a6b;
+  --leaf-soft:#e6f3e9;
+  --soil:#7c5a3a;
+  --soil-soft:#f3ead9;
+  --gold:#c79a4a;
+  --rose:#cf7f73;
+  --rose-soft:#fbe6e0;
+  --blossom:#fdf4ee;
+  --paper:#fffdf8;
+  --line:#e7e2d6;
+  --sidebar-w:268px;
+  font-size:clamp(15px,1.6vw,17px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+  line-height:1.75;
+  letter-spacing:.01em;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(91,154,107,.10), transparent 32%),
+    radial-gradient(circle at 100% 8%, rgba(207,127,115,.10), transparent 30%),
+    linear-gradient(165deg,#fffdf8 0%,#f5f8f1 60%,#eef6ee 100%);
+  min-height:100vh;
+}
+
+.serif{ font-family:"Noto Serif TC",serif; }
+
+/* ---------- 版面骨架 ---------- */
+.layout{
+  display:grid;
+  grid-template-columns:var(--sidebar-w) 1fr;
+  min-height:100vh;
+}
+
+/* ---------- 左側固定選單 ---------- */
+.sidebar{
+  position:sticky;
+  top:0;
+  align-self:start;
+  height:100vh;
+  overflow-y:auto;
+  background:linear-gradient(180deg,#0f3322 0%,#16432c 55%,#1d4d34 100%);
+  color:#eaf3ec;
+  padding:26px 20px 30px;
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand .seed{
+  width:46px;height:46px;flex:none;
+  border-radius:50% 50% 50% 12px;
+  background:radial-gradient(circle at 35% 30%,#9fd8ab,#4f8a60);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.brand h1{
+  font-size:1.18rem;
+  font-weight:900;
+  line-height:1.25;
+}
+.brand p{
+  font-size:.7rem;
+  letter-spacing:.16em;
+  color:#9ec9a8;
+  margin-top:2px;
+}
+
+.menu-label{
+  font-size:.68rem;
+  letter-spacing:.22em;
+  color:#7fae8b;
+  font-weight:800;
+  padding-left:4px;
+}
+
+.nav{ display:flex; flex-direction:column; gap:6px; }
+.nav button{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  text-align:left;
+  background:transparent;
+  border:1px solid transparent;
+  color:#dcebdf;
+  padding:11px 13px;
+  border-radius:14px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:.95rem;
+  font-weight:700;
+  transition:.18s ease;
+}
+.nav button .ico{ font-size:1.15rem; width:24px; text-align:center; flex:none; }
+.nav button .txt{ flex:1; }
+.nav button .count{
+  font-size:.72rem;
+  background:rgba(255,255,255,.12);
+  padding:2px 9px;
+  border-radius:999px;
+  font-weight:800;
+}
+.nav button:hover{
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.10);
+}
+.nav button.active{
+  background:linear-gradient(135deg,rgba(159,216,171,.22),rgba(207,154,74,.20));
+  border-color:rgba(159,216,171,.45);
+  color:#fff;
+}
+
+.sidebar-foot{
+  margin-top:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.back-link{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color:#eaf3ec;
+  text-decoration:none;
+  padding:11px 14px;
+  border-radius:14px;
+  font-size:.85rem;
+  font-weight:700;
+  transition:.18s ease;
+}
+.back-link:hover{ background:rgba(255,255,255,.16); }
+.sidebar-foot small{ color:#7fae8b; font-size:.66rem; text-align:center; line-height:1.6; }
+
+/* ---------- 右側內容 ---------- */
+.content{ padding:30px clamp(18px,4vw,46px) 60px; }
+
+.topbar{
+  display:none; /* 桌機隱藏，手機顯示 */
+}
+
+/* 介紹區 */
+.intro{
+  position:relative;
+  overflow:hidden;
+  border-radius:28px;
+  padding:30px clamp(22px,3.5vw,40px);
+  margin-bottom:26px;
+  background:linear-gradient(135deg,#1d4d34 0%,#3f6b4f 50%,#c79a4a 130%);
+  color:#fff;
+  box-shadow:0 22px 46px rgba(29,77,52,.26);
+}
+.intro::after{
+  content:"🌱";
+  position:absolute;
+  right:-6px;bottom:-22px;
+  font-size:150px;
+  opacity:.14;
+  transform:rotate(-8deg);
+}
+.intro .eyebrow{
+  font-size:.72rem;letter-spacing:.26em;font-weight:800;color:#f4e3c2;
+}
+.intro h2{
+  font-size:clamp(1.5rem,3.4vw,2.3rem);
+  font-weight:900;
+  margin:8px 0 10px;
+  line-height:1.25;
+}
+.intro p{
+  max-width:60ch;
+  color:rgba(255,255,255,.9);
+  font-size:.96rem;
+}
+
+/* 肥料說明小圖例 */
+.legend{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:16px;
+}
+.legend span{
+  font-size:.74rem;font-weight:700;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.22);
+  padding:5px 11px;border-radius:999px;
+}
+
+.section-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;margin:6px 2px 18px;flex-wrap:wrap;
+}
+.section-head h3{
+  font-size:clamp(1.2rem,2.4vw,1.5rem);
+  font-weight:900;color:var(--moss);
+}
+.section-head .hint{ font-size:.82rem;color:#8a9389; }
+
+/* 卡片網格 */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(248px,1fr));
+  gap:18px;
+}
+
+.card{
+  display:flex;flex-direction:column;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 24px rgba(63,107,79,.07);
+  transition:transform .22s ease, box-shadow .22s ease;
+  animation:rise .5s backwards;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 36px rgba(63,107,79,.14);
+}
+.card .thumb{
+  position:relative;
+  aspect-ratio:16/10;
+  background:linear-gradient(135deg,var(--leaf-soft),#fff);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.6rem;
+  border-bottom:1px solid var(--line);
+}
+.card .chip{
+  position:absolute;top:10px;left:10px;
+  font-size:.7rem;font-weight:800;
+  padding:4px 10px;border-radius:999px;
+  background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;gap:5px;
+}
+.card .body{ padding:15px 16px 17px; display:flex;flex-direction:column;gap:8px;flex:1; }
+.card .body h4{
+  font-family:"Noto Serif TC",serif;
+  font-size:1.04rem;font-weight:700;line-height:1.4;color:var(--ink);
+}
+.card .body p{ font-size:.84rem;color:#6b746c;line-height:1.65;flex:1; }
+.card .meta{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.74rem;color:#9aa39a;margin-top:2px;
+}
+.card .meta a{
+  color:var(--rose);font-weight:800;text-decoration:none;
+}
+.card .meta a:hover{ text-decoration:underline; }
+
+/* 各肥料主題色 */
+.t-mind .thumb{ background:linear-gradient(135deg,#fff4d9,#fff); }
+.t-mind .chip{ color:#b8862a; }
+.t-tidy .thumb{ background:linear-gradient(135deg,#eaf6ec,#fff); }
+.t-tidy .chip{ color:#3f8a55; }
+.t-guard .thumb{ background:linear-gradient(135deg,#e6f0fb,#fff); }
+.t-guard .chip{ color:#3d6fb0; }
+.t-water .thumb{ background:linear-gradient(135deg,#e3f4f3,#fff); }
+.t-water .chip{ color:#2c8c84; }
+.t-bloom .thumb{ background:linear-gradient(135deg,#fbe6e0,#fff); }
+.t-bloom .chip{ color:#c2624e; }
+
+.empty{
+  text-align:center;color:#9aa39a;padding:50px 0;font-size:.9rem;
+  display:none;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(16px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media (prefers-reduced-motion:reduce){ .card{animation:none;} }
+
+/* ---------- 手機版 ---------- */
+.overlay{ display:none; }
+
+@media(max-width:860px){
+  .layout{ grid-template-columns:1fr; }
+
+  .sidebar{
+    position:fixed;
+    top:0;left:0;
+    width:84%;max-width:320px;
+    z-index:50;
+    transform:translateX(-105%);
+    transition:transform .28s ease;
+    height:100vh;
+  }
+  .sidebar.open{ transform:translateX(0); }
+
+  .overlay{
+    display:block;
+    position:fixed;inset:0;
+    background:rgba(15,51,34,.45);
+    backdrop-filter:blur(2px);
+    z-index:40;
+    opacity:0;pointer-events:none;
+    transition:opacity .28s ease;
+  }
+  .overlay.show{ opacity:1;pointer-events:auto; }
+
+  .topbar{
+    display:flex;align-items:center;gap:12px;
+    position:sticky;top:0;z-index:30;
+    background:rgba(255,253,248,.9);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    padding:12px 16px;margin:-30px -18px 22px;
+  }
+  .topbar .burger{
+    width:42px;height:42px;flex:none;
+    border:1px solid var(--line);border-radius:12px;
+    background:#fff;font-size:1.3rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .topbar .tt{ font-family:"Noto Serif TC",serif;font-weight:900;color:var(--moss);font-size:1.05rem; }
+  .content{ padding:30px 18px 60px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="layout">
+
+  <!-- ============ 左側固定選單 ============ -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="seed">🌷</div>
+      <div>
+        <h1 class="serif">財富花園</h1>
+        <p>女人要有錢</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="menu-label">肥料花圃 · 養分分類</div>
+      <nav class="nav" id="nav">
+        <button class="active" data-filter="all"   onclick="filterCards(this,'all')"><span class="ico">🌾</span><span class="txt">全部肥料</span><span class="count" data-count="all"></span></button>
+        <button data-filter="mind"  onclick="filterCards(this,'mind')"><span class="ico">🌱</span><span class="txt">觀念肥</span><span class="count" data-count="mind"></span></button>
+        <button data-filter="tidy"  onclick="filterCards(this,'tidy')"><span class="ico">🪴</span><span class="txt">整理肥</span><span class="count" data-count="tidy"></span></button>
+        <button data-filter="guard" onclick="filterCards(this,'guard')"><span class="ico">🛡️</span><span class="txt">護根肥</span><span class="count" data-count="guard"></span></button>
+        <button data-filter="water" onclick="filterCards(this,'water')"><span class="ico">💧</span><span class="txt">灌溉肥</span><span class="count" data-count="water"></span></button>
+        <button data-filter="bloom" onclick="filterCards(this,'bloom')"><span class="ico">🌸</span><span class="txt">開花肥</span><span class="count" data-count="bloom"></span></button>
+      </nav>
+    </div>
+
+    <div class="sidebar-foot">
+      <a class="back-link" href="https://angie26501-lgtm.github.io/active/index.html" target="_blank">
+        <span>← 回入口頁</span><span>🏡</span>
+      </a>
+      <a class="back-link" href="https://www.facebook.com/IFA.Fans/" target="_blank">
+        <span>財顧芸 FB 粉專</span><span>📘</span>
+      </a>
+      <small>© 財顧芸｜馥芸財富學苑<br>每一包肥料，都讓財富多長一吋</small>
+    </div>
+
+  </aside>
+
+  <!-- ============ 右側內容 ============ -->
+  <main class="content">
+
+    <!-- 手機版頂列 -->
+    <div class="topbar">
+      <button class="burger" onclick="openMenu()">☰</button>
+      <span class="tt">🌷 財富花園</span>
+    </div>
+
+    <!-- 介紹區 -->
+    <section class="intro">
+      <div class="eyebrow">WEALTH GARDEN · 肥料花圃</div>
+      <h2 class="serif">把每一篇文章，<br>都種進你的財富花園</h2>
+      <p>這裡收集財顧芸在粉專分享的文章與圖卡，每一則都是一包「肥料」。
+         挑選你現在最需要的養分，灌溉自己的財富花園，慢慢長成豐盛的人生。</p>
+      <div class="legend">
+        <span>🌱 觀念肥</span>
+        <span>🪴 整理肥</span>
+        <span>🛡️ 護根肥</span>
+        <span>💧 灌溉肥</span>
+        <span>🌸 開花肥</span>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h3 id="sectionTitle">全部肥料</h3>
+      <span class="hint">點左側選單，篩選你需要的養分</span>
+    </div>
+
+    <!-- ====== 卡片網格 ======
+         新增一篇文章 = 複製一個 <article class="card t-XXX"> ... </article>
+         t-mind=觀念肥 / t-tidy=整理肥 / t-guard=護根肥 / t-water=灌溉肥 / t-bloom=開花肥
+         data-cat 要對應分類；thumb 之後可換成 <img src="圖卡網址">
+    -->
+    <section class="grid" id="grid">
+
+      <article class="card t-mind" data-cat="mind">
+        <div class="thumb">🌱<span class="chip">🌱 觀念肥</span></div>
+        <div class="body">
+          <h4>有錢，是一種選擇</h4>
+          <p>女人理財的第一步，不是先存多少錢，而是先相信自己值得擁有財富。</p>
+          <div class="meta"><span>FB · 圖卡</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-tidy" data-cat="tidy">
+        <div class="thumb">🪴<span class="chip">🪴 整理肥</span></div>
+        <div class="body">
+          <h4>金錢整理三步驟</h4>
+          <p>把錢從哪裡來、花到哪裡去、剩下多少，先看清楚，財務焦慮自然減半。</p>
+          <div class="meta"><span>FB · 文章</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-guard" data-cat="guard">
+        <div class="thumb">🛡️<span class="chip">🛡️ 護根肥</span></div>
+        <div class="body">
+          <h4>保險，是花園的防風牆</h4>
+          <p>還沒開花前，先把根顧好。一張對的保單，讓意外來時不用砍掉重練。</p>
+          <div class="meta"><span>FB · 圖卡</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-water" data-cat="water">
+        <div class="thumb">💧<span class="chip">💧 灌溉肥</span></div>
+        <div class="body">
+          <h4>定期定額，像每天澆水</h4>
+          <p>不必一次澆很多，重點是不間斷。時間會幫你把小水滴變成大樹。</p>
+          <div class="meta"><span>FB · 文章</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-bloom" data-cat="bloom">
+        <div class="thumb">🌸<span class="chip">🌸 開花肥</span></div>
+        <div class="body">
+          <h4>豐盛，是過好每一天</h4>
+          <p>財富不只是數字，而是讓你能安心陪伴家人、做喜歡的事的底氣。</p>
+          <div class="meta"><span>FB · 圖卡</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-mind" data-cat="mind">
+        <div class="thumb">🌱<span class="chip">🌱 觀念肥</span></div>
+        <div class="body">
+          <h4>先付錢給自己</h4>
+          <p>薪水一進帳，先撥一筆給未來的自己，再開始花剩下的。順序對了，存錢就不難。</p>
+          <div class="meta"><span>FB · 圖卡</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-tidy" data-cat="tidy">
+        <div class="thumb">🪴<span class="chip">🪴 整理肥</span></div>
+        <div class="body">
+          <h4>一個帳戶，一個任務</h4>
+          <p>生活、夢想、緊急預備金分開放，錢有了名字，就不會不小心花掉。</p>
+          <div class="meta"><span>FB · 文章</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-water" data-cat="water">
+        <div class="thumb">💧<span class="chip">💧 灌溉肥</span></div>
+        <div class="body">
+          <h4>複利，是花園的魔法</h4>
+          <p>今天種下的種子，越早種、長越久，未來的樹蔭就越大。</p>
+          <div class="meta"><span>FB · 圖卡</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+      <article class="card t-bloom" data-cat="bloom">
+        <div class="thumb">🌸<span class="chip">🌸 開花肥</span></div>
+        <div class="body">
+          <h4>留一點預算給快樂</h4>
+          <p>理財不是苦行，記得替自己留下「開花預算」，日子才走得長久。</p>
+          <div class="meta"><span>FB · 文章</span><a href="#" target="_blank">看全文 ›</a></div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="empty" id="empty">這個花圃還沒施肥，先看看其他養分吧 🌿</div>
+
+  </main>
+</div>
+
+<script>
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const labels = { all:'全部肥料', mind:'觀念肥', tidy:'整理肥', guard:'護根肥', water:'灌溉肥', bloom:'開花肥' };
+
+  // 計算每個花圃的數量
+  function updateCounts(){
+    const counts = { all: cards.length, mind:0, tidy:0, guard:0, water:0, bloom:0 };
+    cards.forEach(c => counts[c.dataset.cat]++);
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      el.textContent = counts[el.dataset.count];
+    });
+  }
+
+  function filterCards(btn, cat){
+    document.querySelectorAll('#nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sectionTitle').textContent = labels[cat];
+
+    let shown = 0, i = 0;
+    cards.forEach(c=>{
+      const ok = (cat === 'all' || c.dataset.cat === cat);
+      c.style.display = ok ? 'flex' : 'none';
+      if(ok){ c.style.animationDelay = (i++ * 0.04) + 's'; shown++; }
+    });
+    document.getElementById('empty').style.display = shown ? 'none' : 'block';
+    if(window.innerWidth <= 860) closeMenu();
+  }
+
+  // 手機選單
+  function openMenu(){ document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+  function closeMenu(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+  updateCounts();
+</script>
+
+</body>
+</html>
