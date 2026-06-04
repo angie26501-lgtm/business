@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>財顧工具箱｜財顧芸 · 馥芸財富學苑</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#26342b;
+  --moss:#3f6b4f;
+  --leaf:#5b9a6b;
+  --leaf-soft:#e6f3e9;
+  --soil:#7c5a3a;
+  --gold:#c79a4a;
+  --rose:#cf7f73;
+  --rose-soft:#fbe6e0;
+  --paper:#fffdf8;
+  --line:#e7e2d6;
+  font-size:clamp(15px,1.6vw,17px);
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  color:var(--ink); line-height:1.75; letter-spacing:.01em;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(91,154,107,.10), transparent 32%),
+    radial-gradient(circle at 100% 6%, rgba(207,154,74,.10), transparent 30%),
+    linear-gradient(165deg,#fffdf8 0%,#f5f8f1 60%,#eef6ee 100%);
+  min-height:100vh;
+}
+.serif{ font-family:"Noto Serif TC",serif; }
+
+/* ============ 密碼閘門 ============ */
+.gate{
+  position:fixed; inset:0; z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(91,154,107,.25), transparent 45%),
+    linear-gradient(160deg,#0f3322 0%,#16432c 55%,#1d4d34 100%);
+}
+.gate.hide{ opacity:0; pointer-events:none; transition:opacity .4s ease; }
+.gate-card{
+  width:100%; max-width:380px; text-align:center;
+  background:rgba(255,253,248,.96); border:1px solid rgba(255,255,255,.4);
+  border-radius:26px; padding:38px 30px 32px;
+  box-shadow:0 30px 60px rgba(0,0,0,.35);
+  animation:rise .5s backwards;
+}
+.gate-seed{
+  width:62px;height:62px;margin:0 auto 16px;
+  border-radius:50% 50% 50% 14px;
+  background:radial-gradient(circle at 35% 30%,#9fd8ab,#4f8a60);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.9rem; box-shadow:0 10px 22px rgba(15,51,34,.3);
+}
+.gate-card h1{ font-size:1.4rem; font-weight:900; color:var(--moss); }
+.gate-card .sub{ font-size:.78rem; letter-spacing:.16em; color:var(--gold); font-weight:800; margin-top:4px; }
+.gate-card .hint{ font-size:.85rem; color:#7a847b; margin:16px 0 18px; }
+.pw-row{ display:flex; gap:9px; }
+.pw-row input{
+  flex:1; font-family:inherit; font-size:1.05rem; text-align:center; letter-spacing:.3em;
+  padding:13px 14px; border:1.5px solid var(--line); border-radius:14px;
+  background:#fff; color:var(--ink); outline:none; transition:.18s ease;
+}
+.pw-row input:focus{ border-color:var(--leaf); box-shadow:0 0 0 4px rgba(91,154,107,.15); }
+.pw-row button{
+  flex:none; font-family:inherit; font-weight:800; font-size:.95rem; color:#fff; cursor:pointer;
+  padding:0 20px; border:none; border-radius:14px;
+  background:linear-gradient(135deg,var(--leaf),var(--moss));
+  transition:.18s ease;
+}
+.pw-row button:hover{ filter:brightness(1.07); transform:translateY(-1px); }
+.gate-err{ color:var(--rose); font-size:.8rem; font-weight:700; margin-top:12px; min-height:1.1em; opacity:0; transition:.18s; }
+.gate-err.show{ opacity:1; }
+.gate-foot{ font-size:.66rem; color:#9aa39a; margin-top:20px; line-height:1.6; }
+
+/* ============ 主體 ============ */
+.app{ opacity:0; }
+.app.ready{ opacity:1; transition:opacity .4s ease .1s; }
+.wrap{ max-width:1040px; margin:0 auto; padding:34px clamp(18px,4vw,40px) 60px; }
+
+.hero{
+  position:relative; overflow:hidden;
+  border-radius:28px; padding:32px clamp(22px,3.5vw,42px);
+  background:linear-gradient(135deg,#1d4d34 0%,#3f6b4f 50%,#c79a4a 135%);
+  color:#fff; box-shadow:0 22px 46px rgba(29,77,52,.24); margin-bottom:30px;
+}
+.hero::after{
+  content:"🧰"; position:absolute; right:-4px; bottom:-22px;
+  font-size:140px; opacity:.14; transform:rotate(-8deg);
+}
+.hero .eyebrow{ font-size:.72rem; letter-spacing:.24em; font-weight:800; color:#f4e3c2; }
+.hero h2{ font-size:clamp(1.5rem,3.4vw,2.2rem); font-weight:900; margin:8px 0 8px; line-height:1.25; }
+.hero p{ max-width:56ch; color:rgba(255,255,255,.9); font-size:.95rem; }
+.hero .who{
+  display:inline-flex; align-items:center; gap:8px; margin-top:14px;
+  font-size:.76rem; font-weight:700; color:#f4e3c2;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22);
+  padding:6px 13px; border-radius:999px;
+}
+
+/* 區段標題 */
+.cat-head{
+  display:flex; align-items:center; gap:10px;
+  margin:30px 2px 14px;
+}
+.cat-head .bar{ width:5px; height:22px; border-radius:99px; flex:none; }
+.cat-head h3{ font-size:1.12rem; font-weight:900; color:var(--moss); }
+.cat-head .tag{
+  font-size:.68rem; font-weight:800; letter-spacing:.1em; color:#9aa39a;
+  margin-left:auto; background:#f1f0e9; padding:3px 10px; border-radius:999px;
+}
+.c-client .bar{ background:linear-gradient(180deg,var(--leaf),var(--moss)); }
+.c-work   .bar{ background:linear-gradient(180deg,#5b8bc4,#3a6aa6); }
+.c-admin  .bar{ background:linear-gradient(180deg,var(--gold),var(--soil)); }
+
+/* 工具卡網格 */
+.grid{
+  display:grid; gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+}
+.tool{
+  display:flex; flex-direction:column; gap:10px;
+  background:var(--paper); border:1px solid var(--line); border-radius:20px;
+  padding:20px 20px 18px; text-decoration:none; color:inherit;
+  box-shadow:0 10px 24px rgba(63,107,79,.07);
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  position:relative; overflow:hidden;
+  animation:rise .5s backwards;
+}
+.tool:hover{ transform:translateY(-4px); box-shadow:0 20px 38px rgba(63,107,79,.15); border-color:var(--leaf); }
+.tool .top{ display:flex; align-items:center; gap:13px; }
+.tool .ico{
+  width:50px;height:50px;flex:none;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+}
+.tool .t-title{ font-family:"Noto Serif TC",serif; font-weight:700; font-size:1.08rem; line-height:1.35; }
+.tool .desc{ font-size:.85rem; color:#6b746c; line-height:1.65; flex:1; }
+.tool .foot{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:2px; padding-top:11px; border-top:1px dashed var(--line);
+}
+.tool .host{ font-size:.7rem; color:#9aa39a; letter-spacing:.02em; }
+.tool .go{ font-size:.82rem; font-weight:800; color:var(--rose); }
+.tool .badge{
+  position:absolute; top:14px; right:14px;
+  font-size:.62rem; font-weight:800; letter-spacing:.06em;
+  padding:3px 9px; border-radius:999px;
+}
+/* 主題色 */
+.k-client .ico{ background:var(--leaf-soft); }
+.k-work   .ico{ background:#e6f0fb; }
+.k-admin  .ico{ background:#f6ecd6; }
+.badge.lock{ background:#f6ecd6; color:#a87f2e; border:1px solid rgba(199,154,74,.4); }
+
+.app-foot{
+  text-align:center; margin-top:40px; padding-top:24px;
+  border-top:1px solid var(--line); color:#9aa39a; font-size:.72rem; line-height:1.7;
+}
+.app-foot .lock-out{
+  display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+  color:var(--moss); font-weight:700; margin-bottom:12px;
+  background:var(--leaf-soft); border:1px solid rgba(91,154,107,.3);
+  padding:8px 16px; border-radius:999px; font-size:.78rem;
+  transition:.18s ease;
+}
+.app-foot .lock-out:hover{ background:#d8edda; }
+
+@keyframes rise{ from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+@media(prefers-reduced-motion:reduce){ .tool,.gate-card{animation:none;} }
+
+@media(max-width:560px){
+  .pw-row{ flex-direction:column; }
+  .pw-row button{ padding:13px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ 密碼閘門 ============ -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="gate-seed">🌷</div>
+    <h1 class="serif">財顧工具箱</h1>
+    <div class="sub">FUYUN · ADVISOR TOOLKIT</div>
+    <p class="hint">請輸入密碼,進入財顧芸的專屬工具入口</p>
+    <div class="pw-row">
+      <input id="pw" type="password" inputmode="numeric" placeholder="密碼" autocomplete="off"
+             onkeydown="if(event.key==='Enter')unlock()" />
+      <button onclick="unlock()">進入 →</button>
+    </div>
+    <div class="gate-err" id="err">密碼不正確,再試一次 🌿</div>
+    <div class="gate-foot">© 財顧芸｜馥芸財富學苑 · 女人要有錢</div>
+  </div>
+</div>
+
+<!-- ============ 主體 ============ -->
+<div class="app" id="app">
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="eyebrow">FUYUN WEALTH · 財顧工具箱</div>
+      <h2 class="serif">一個入口,<br>打開所有財顧工具</h2>
+      <p>把試算、視覺化、話術與後台都收在這裡。需要哪一個,點開就用,不必再到處找連結。</p>
+      <span class="who">👩‍💼 財顧芸 · 陳芸琪｜馥芸財富學苑</span>
+    </section>
+
+    <!-- 客戶試算工具 -->
+    <div class="cat-head c-client">
+      <span class="bar"></span><h3>客戶試算工具</h3><span class="tag">面對客戶 · 可分享</span>
+    </div>
+    <section class="grid">
+      <a class="tool k-client" href="https://angie26501-lgtm.github.io/business/5goal.html" target="_blank" rel="noopener">
+        <div class="top">
+          <div class="ico">🎯</div>
+          <div class="t-title">五大財務目標 · 需求分析</div>
+        </div>
+        <div class="desc">勾選人生五大目標,設定年齡、年限與報酬率,即時算出每月該存多少、距理想還差多少缺口。</div>
+        <div class="foot"><span class="host">business/5goal.html</span><span class="go">開啟 ↗</span></div>
+      </a>
+
+      <a class="tool k-client" href="https://angie26501-lgtm.github.io/business/cal.html" target="_blank" rel="noopener">
+        <div class="top">
+          <div class="ico">🧮</div>
+          <div class="t-title">人生財務計算機</div>
+        </div>
+        <div class="desc">13 項試算工具集,用「系統」而不是「產品」解決財務問題,把抽象目標算成清楚的每一步。</div>
+        <div class="foot"><span class="host">business/cal.html</span><span class="go">開啟 ↗</span></div>
+      </a>
+
+      <a class="tool k-client" href="https://angie26501-lgtm.github.io/business/appletree.html" target="_blank" rel="noopener">
+        <div class="top">
+          <div class="ico">🍎</div>
+          <div class="t-title">蘋果樹 · 理財三根基</div>
+        </div>
+        <div class="desc">用一棵蘋果樹看懂收支、信用、風險三根基,把財務目標當果實放上去,可存圖、印 PDF。</div>
+        <div class="foot"><span class="host">business/appletree.html</span><span class="go">開啟 ↗</span></div>
+      </a>
+    </section>
+
+    <!-- 顧問工作工具 -->
+    <div class="cat-head c-work">
+      <span class="bar"></span><h3>顧問工作工具</h3><span class="tag">內部使用 · 含話術</span>
+    </div>
+    <section class="grid">
+      <a class="tool k-work" href="https://angie26501-lgtm.github.io/active/saybenz.html" target="_blank" rel="noopener">
+        <div class="top">
+          <div class="ico">📊</div>
+          <div class="t-title">賓士圖財顧工具箱</div>
+        </div>
+        <div class="desc">賓士圖風險需求規劃法的整合工具,內含話術與金額口徑範例,面談時依個案調整使用。</div>
+        <div class="foot"><span class="host">active/saybenz.html</span><span class="go">開啟 ↗</span></div>
+      </a>
+    </section>
+
+    <!-- 網站管理 -->
+    <div class="cat-head c-admin">
+      <span class="bar"></span><h3>網站管理</h3><span class="tag">後台 · 需登入</span>
+    </div>
+    <section class="grid">
+      <a class="tool k-admin" href="https://manage.wix.com/dashboard/bf417052-b7bc-417e-891f-646fd0bbed5f/home?referralInfo=my-sites" target="_blank" rel="noopener">
+        <span class="badge lock">🔒 需登入</span>
+        <div class="top">
+          <div class="ico">⚙️</div>
+          <div class="t-title">Wix 網站後台</div>
+        </div>
+        <div class="desc">進入 Wix 管理後台,編輯網站內容、查看流量與設定。需先登入你的 Wix 帳號。</div>
+        <div class="foot"><span class="host">manage.wix.com</span><span class="go">開啟 ↗</span></div>
+      </a>
+    </section>
+
+    <div class="app-foot">
+      <div><span class="lock-out" onclick="relock()">🔒 鎖定工具箱</span></div>
+      © 財顧芸｜陳芸琪 · 馥芸財富學苑<br>女人要有錢 · 財富花園 🌿
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const PW = "333";
+  const gate = document.getElementById('gate');
+  const app  = document.getElementById('app');
+  const pw   = document.getElementById('pw');
+  const err  = document.getElementById('err');
+
+  function unlock(){
+    if(pw.value.trim() === PW){
+      gate.classList.add('hide');
+      app.classList.add('ready');
+      err.classList.remove('show');
+    }else{
+      err.classList.add('show');
+      pw.value = '';
+      pw.focus();
+    }
+  }
+  function relock(){
+    app.classList.remove('ready');
+    gate.classList.remove('hide');
+    pw.value = '';
+    setTimeout(()=>pw.focus(), 200);
+  }
+  // 開頁聚焦密碼框
+  window.addEventListener('load', ()=> pw.focus());
+</script>
+
+</body>
+</html>
