@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>蘋果樹 · 理財三根基｜女人要有錢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  :root{--green:#1f4a2e;--green2:#2f5d3f;--gold:#9a7621;--goldL:#c9a24b;--cream:#f6f1e4;--ink:#2a3320;--soft:#5b7a60;}
+  body{font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;color:var(--ink);
+    background:radial-gradient(120% 60% at 50% 0%,#2a5232,#1f4a2e 60%,#163522);min-height:100vh;padding:20px 14px 40px;}
+  .wrap{max-width:480px;margin:0 auto;}
+  .serif{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;}
+
+  .head{text-align:center;color:var(--cream);margin-bottom:14px;}
+  .head .t{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:27px;font-weight:900;line-height:1.3;}
+  .head .t .g{color:var(--goldL);}
+  .head .s{font-size:15.5px;color:#dcd2b6;margin-top:8px;line-height:1.75;}
+
+  .scene{position:relative;background:linear-gradient(#eef4ea,#f6f1e4 62%);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.22);}
+  svg{display:block;width:100%;height:auto;}
+  .hot{cursor:pointer;transition:opacity .3s,filter .3s;transform-origin:center;}
+  .scene.sel .hot:not(.on){opacity:.42;}
+  .hot.on{filter:drop-shadow(0 0 7px rgba(201,162,75,.95)) drop-shadow(0 0 14px rgba(201,162,75,.55));}
+
+  /* apples on the tree */
+  .tree-apples{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;}
+  .tapple{position:absolute;transform:translate(-50%,-50%);width:66px;height:70px;cursor:pointer;pointer-events:auto;
+    animation:grow .4s cubic-bezier(.2,1.3,.5,1) both;}
+  .tapple .stem{position:absolute;left:50%;top:0;width:4px;height:9px;background:#6a4124;border-radius:2px;transform:translateX(-130%) rotate(-12deg);}
+  .tapple .leaf{position:absolute;left:50%;top:1px;width:17px;height:9px;background:linear-gradient(#74ba6c,#4e9150);border-radius:0 92% 0 92%;transform:rotate(22deg);}
+  .tapple .tbody{position:absolute;left:0;top:8px;width:66px;height:60px;border-radius:50% 50% 50% 50%/56% 56% 47% 47%;
+    background:radial-gradient(circle at 34% 27%,#f17b70,#cf4338 60%,#ad2f29);
+    box-shadow:0 3px 8px rgba(110,20,15,.32),inset -4px -6px 10px rgba(110,20,15,.42),inset 4px 4px 8px rgba(255,255,255,.22);}
+  .tapple .ttx{position:absolute;left:0;top:8px;width:66px;height:60px;display:flex;align-items:center;justify-content:center;text-align:center;
+    color:#fff;font-weight:900;line-height:1.12;padding:0 5px;text-shadow:0 1px 2px rgba(110,20,15,.85);}
+  .tapple:active{transform:translate(-50%,-50%) scale(.93);}
+  .tapple.sel .tbody{box-shadow:0 0 0 3px var(--goldL),0 4px 10px rgba(0,0,0,.3),inset -4px -6px 10px rgba(110,20,15,.42);}
+  .tapple .pen{position:absolute;right:-2px;bottom:4px;width:20px;height:20px;border-radius:50%;background:var(--cream);
+    font-size:11px;line-height:20px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,.3);}
+
+  .cap{text-align:center;color:#e9e0c6;font-size:14.5px;line-height:1.8;margin:13px 4px 0;}
+  .cap b{color:var(--goldL);}
+
+  /* add row */
+  .addrow{display:flex;gap:8px;margin-top:12px;}
+  .addrow input{flex:1;font-size:16.5px;padding:12px 13px;border:2px solid var(--goldL);border-radius:13px;font-family:inherit;color:var(--ink);outline:none;background:#fff;min-width:0;}
+  .addrow button{background:var(--green);color:var(--cream);border:none;border-radius:13px;padding:0 17px;font-size:16.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;}
+  .addrow button:disabled{opacity:.5;}
+
+  /* soft CTA */
+  .cta{margin-top:12px;background:linear-gradient(135deg,#fbf6ea,#f3ead2);border:2px solid var(--goldL);border-radius:16px;
+    padding:15px 16px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.18);}
+  .cta.show{animation:rise .5s ease both;}
+  .cta .q{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:17px;font-weight:900;color:var(--green);}
+  .cta .b{display:inline-block;margin-top:10px;background:var(--gold);color:#fff;text-decoration:none;font-weight:700;
+    font-size:16px;padding:11px 20px;border-radius:24px;box-shadow:0 4px 12px rgba(154,118,33,.4);}
+  .cta .s{font-size:13.5px;color:var(--soft);margin-top:9px;line-height:1.6;}
+
+  /* foundation buttons */
+  .btns{display:flex;gap:8px;margin-top:16px;}
+  .pill{flex:1;background:var(--cream);border:2px solid transparent;border-radius:15px;padding:11px 6px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 4px 12px rgba(0,0,0,.16);}
+  .pill .ic{font-size:23px;line-height:1;}
+  .pill .nm{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-weight:900;color:var(--green);font-size:16px;margin-top:5px;}
+  .pill .sub{font-size:12.5px;color:var(--soft);margin-top:2px;}
+  .pill.on{border-color:var(--goldL);background:#fffdf6;transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.22);}
+
+  .detail{background:var(--cream);border-radius:18px;margin-top:14px;padding:18px 18px 20px;box-shadow:0 8px 24px rgba(0,0,0,.18);}
+  .detail .dh{display:flex;align-items:center;gap:11px;margin-bottom:10px;}
+  .detail .dh .dic{font-size:30px;}
+  .detail .dh .dt{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:21px;font-weight:900;color:var(--green);}
+  .detail .dh .dt small{display:block;font-family:"Noto Sans TC",sans-serif;font-size:13px;color:var(--gold);font-weight:700;margin-top:2px;}
+  .detail .meta{background:#efe7d2;border-left:4px solid var(--goldL);border-radius:8px;padding:9px 12px;font-size:15.5px;color:#4a3c1f;font-weight:500;margin-bottom:11px;}
+  .detail .meta b{color:var(--gold);}
+  .detail p{font-size:16px;line-height:1.85;color:#33402b;}
+  .detail .tip{margin-top:11px;background:#fff;border:1.5px solid #e4d8b4;border-radius:12px;padding:11px 13px;font-size:15px;color:var(--green2);line-height:1.7;}
+  .detail .tip .lab{font-weight:900;color:var(--green);}
+  .intro{font-size:16px;line-height:1.9;color:#33402b;}
+  .intro .g{color:var(--gold);font-weight:700;}
+
+  /* editor modal */
+  .mask{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(22,40,28,.55);display:flex;align-items:center;justify-content:center;padding:22px;z-index:50;}
+  .mask[hidden]{display:none;}
+  .ecard{background:var(--cream);border-radius:20px;padding:20px 18px;width:100%;max-width:340px;box-shadow:0 16px 40px rgba(0,0,0,.4);animation:rise .25s ease both;}
+  .ecard .eh{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:19px;font-weight:900;color:var(--green);text-align:center;}
+  .ecard input{width:100%;font-size:18px;padding:12px 13px;border:2px solid var(--goldL);border-radius:12px;font-family:inherit;color:var(--ink);outline:none;background:#fff;margin-top:13px;text-align:center;}
+  .ebtns{display:flex;gap:9px;margin-top:14px;}
+  .ebtns button{flex:1;border:none;border-radius:12px;padding:12px 0;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .esave{background:var(--green);color:var(--cream);}
+  .edel{background:#fff;color:#b1302a;border:1.6px solid #e0b3ad !important;}
+  .ecancel{display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--soft);font-size:14.5px;cursor:pointer;font-family:inherit;text-decoration:underline;}
+  .ecta{margin-top:15px;padding-top:14px;border-top:1px dashed var(--goldL);text-align:center;}
+  .ecta .q{font-size:14.5px;color:var(--green);font-weight:700;line-height:1.6;}
+  .ecta a{display:inline-block;margin-top:8px;background:var(--gold);color:#fff;text-decoration:none;font-weight:700;font-size:14.5px;padding:9px 16px;border-radius:20px;}
+
+  /* 三根基地基 */
+  .base{background:linear-gradient(#efe7d2,#e7dbc0);border-radius:16px;margin-top:14px;padding:14px 12px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18);border-top:4px solid #b98c5a;}
+  .base-h{text-align:center;font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:17px;font-weight:900;color:var(--green);margin-bottom:11px;}
+  .base-h .g{color:var(--gold);}
+  .bcards{display:flex;gap:9px;}
+  .bcard{flex:1;background:#fff;border:2px solid transparent;border-radius:13px;padding:12px 6px;text-align:center;cursor:pointer;transition:.2s;box-shadow:0 3px 9px rgba(0,0,0,.12);}
+  .bcard .ic{font-size:24px;line-height:1;}
+  .bcard .bn{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-weight:900;color:var(--green);font-size:16px;margin-top:6px;}
+  .bcard .bt{display:inline-block;margin-top:6px;font-size:11.5px;color:#fff;background:var(--goldL);border-radius:10px;padding:2px 9px;font-weight:700;}
+  .bcard.on{border-color:var(--goldL);background:#fffdf6;transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,.2);}
+  /* 列印/存檔 選單 */
+  .toolbar{background:var(--cream);border-radius:16px;margin-top:14px;padding:14px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,.18);}
+  .tb-h{font-family:"Noto Serif TC","Noto Serif CJK TC",serif;font-size:16px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .tb-btns{display:flex;gap:9px;}
+  .tb-btns button{flex:1;background:var(--green);color:var(--cream);border:none;border-radius:12px;padding:13px 6px;font-size:15.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .tb-btns button:last-child{background:var(--gold);}
+  /* 截圖時隱藏控制項 */
+  body.shooting .toolbar, body.shooting .addrow, body.shooting .cta, body.shooting .detail, body.shooting .cap, body.shooting .tapple .pen{display:none !important;}
+  /* 列印樣式 */
+  @media print{
+    body{background:#fff !important;padding:0 !important;}
+    .head .t, .head .s{color:#1f4a2e !important;}
+    .head .t .g{color:#9a7621 !important;}
+    .toolbar, .addrow, .cta, .detail, .cap, .mask, .tapple .pen{display:none !important;}
+    .scene, .scene *, .tapple, .tapple *, .base, .base *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .scene{box-shadow:none !important;}
+    .base{box-shadow:none !important;break-inside:avoid;border:1px solid #d9cba6;}
+    .wrap{max-width:100% !important;}
+    .foot{color:#5b7a60 !important;}
+  }
+  .foot{text-align:center;color:#dcd2b6;font-size:13.5px;margin-top:16px;line-height:1.7;}
+
+  @keyframes grow{from{opacity:0;transform:translate(-50%,-50%) scale(.2)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="t">一棵蘋果樹，<br>看懂<span class="g">理財三根基</span></div>
+    <div class="s">樹上的果實＝你的目標；樹下的<b style="color:#c9a24b">三根基</b>（收支·信用·風險），<br>讓果實長得出來 👇</div>
+  </div>
+
+  <div class="scene" id="scene">
+    <svg viewBox="0 0 400 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="蘋果樹">
+      <defs>
+        <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c79a64"/><stop offset="1" stop-color="#9c7444"/></linearGradient>
+        <linearGradient id="bark" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a653a"/><stop offset=".5" stop-color="#7e4f2c"/><stop offset="1" stop-color="#6a4124"/></linearGradient>
+        <radialGradient id="crown" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#6aae62"/><stop offset="1" stop-color="#3c7a3c"/></radialGradient>
+        <radialGradient id="sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="332" cy="74" r="62" fill="url(#sun)"/>
+      <circle cx="332" cy="74" r="24" fill="#f4d678"/>
+      <rect x="0" y="330" width="400" height="140" fill="url(#soil)"/>
+      <path d="M0,330 Q100,318 200,330 T400,330 L400,344 L0,344 Z" fill="#5a9a4f"/>
+      <path d="M0,330 Q100,318 200,330 T400,330" fill="none" stroke="#4d8a45" stroke-width="2"/>
+
+      <g class="hot" id="g-root" tabindex="0">
+        <path d="M200,336 C188,372 150,388 120,430 C146,400 178,392 196,360 Z" fill="#7a5230"/>
+        <path d="M200,336 C212,374 250,390 282,432 C254,402 222,392 204,360 Z" fill="#714b2c"/>
+        <path d="M200,338 C198,380 196,410 200,452 C204,410 202,380 200,338 Z" fill="#82592f"/>
+        <path d="M196,344 C176,366 150,372 112,386" fill="none" stroke="#6b4626" stroke-width="6" stroke-linecap="round"/>
+        <path d="M204,344 C226,366 254,372 290,384" fill="none" stroke="#6b4626" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <g class="hot" id="g-trunk" tabindex="0">
+        <path d="M183,334 C181,300 178,260 184,214 C186,205 214,205 216,214 C222,260 219,300 217,334 Z" fill="url(#bark)"/>
+        <path d="M191,326 C190,290 190,250 196,220" fill="none" stroke="#5e3a20" stroke-width="2.4" opacity=".6"/>
+        <path d="M207,328 C208,292 208,252 203,222" fill="none" stroke="#5e3a20" stroke-width="2.2" opacity=".5"/>
+        <path d="M186,250 C170,238 158,240 150,232" fill="none" stroke="#6a4124" stroke-width="7" stroke-linecap="round"/>
+        <path d="M214,244 C232,232 246,236 256,226" fill="none" stroke="#6a4124" stroke-width="7" stroke-linecap="round"/>
+      </g>
+      <g id="canopy">
+        <ellipse cx="200" cy="150" rx="118" ry="86" fill="url(#crown)"/>
+        <ellipse cx="132" cy="158" rx="62" ry="56" fill="url(#crown)"/>
+        <ellipse cx="268" cy="158" rx="62" ry="56" fill="url(#crown)"/>
+        <ellipse cx="200" cy="104" rx="72" ry="58" fill="url(#crown)"/>
+        <ellipse cx="165" cy="120" rx="40" ry="32" fill="#73b86a" opacity=".55"/>
+        <ellipse cx="245" cy="135" rx="36" ry="28" fill="#73b86a" opacity=".5"/>
+      </g>
+      <g class="hot" id="g-fence" tabindex="0">
+        <g fill="#d8b87e" stroke="#b8945a" stroke-width="2">
+          <path d="M64,352 l0,-44 l7,-9 l7,9 l0,44 Z"/><path d="M118,356 l0,-46 l7,-9 l7,9 l0,46 Z"/>
+          <path d="M172,358 l0,-48 l7,-9 l7,9 l0,48 Z"/><path d="M226,358 l0,-48 l7,-9 l7,9 l0,48 Z"/>
+          <path d="M280,356 l0,-46 l7,-9 l7,9 l0,46 Z"/><path d="M322,352 l0,-44 l7,-9 l7,9 l0,44 Z"/>
+        </g>
+        <rect x="58" y="320" width="288" height="8" rx="3" fill="#cfae72" stroke="#b8945a" stroke-width="1.5"/>
+        <rect x="58" y="340" width="288" height="8" rx="3" fill="#cfae72" stroke="#b8945a" stroke-width="1.5"/>
+      </g>
+    </svg>
+    <div class="tree-apples" id="treeApples"></div>
+  </div>
+
+  <div class="base">
+    <div class="base-h">🌳 撐起這棵樹的 · 理財<span class="g">三根基</span></div>
+    <div class="bcards">
+      <div class="bcard" data-k="root"><div class="ic">🌿</div><div class="bn">收支管理</div><div class="bt">樹根</div></div>
+      <div class="bcard" data-k="trunk"><div class="ic">🪵</div><div class="bn">信用管理</div><div class="bt">樹幹</div></div>
+      <div class="bcard" data-k="fence"><div class="ic">🛡️</div><div class="bn">風險管理</div><div class="bt">防護</div></div>
+    </div>
+  </div>
+
+  <div class="detail" id="detail">
+    <div class="intro">這棵樹站在<span class="g">三根基</span>上：穩的<span class="g">樹根</span>（收支）、挺的<span class="g">樹幹</span>（信用）、圍上的<span class="g">防護</span>（風險）。<br>點上面三個，一個一個認識它。</div>
+  </div>
+
+  <div class="cap">🍎 樹上的果實＝你的<b>財務目標</b>（也是第一堂的五顆種子）。<br><b>點一下果實</b>可以修改或刪除。</div>
+
+  <div class="addrow">
+    <input id="goalinput" type="text" maxlength="14" placeholder="種下一個你自己的目標…例如：出國旅行">
+    <button id="addbtn">加上去 🍎</button>
+  </div>
+
+  <div class="cta" id="cta" hidden>
+    <div class="q">🌱 想知道這顆果實，要怎麼種得出來？</div>
+    <a class="b" id="ctaBtn" href="https://lin.ee/6Tm8pI7" target="_blank" rel="noopener">預約 15 分鐘財務健診 →</a>
+    <div class="s">琪琪老師陪你把目標，變成可以一步步執行的數字。</div>
+  </div>
+
+  <div class="toolbar">
+    <div class="tb-h">把你的財富果樹存起來 🌳</div>
+    <div class="tb-btns">
+      <button id="btnPrint">🖨️ 列印 / 存成 PDF</button>
+      <button id="btnImg">📷 存成圖片</button>
+    </div>
+  </div>
+
+  <div class="foot">琪琪老師 · 馥芸財富學苑　｜　女人要有錢 · 財富花園 🌿</div>
+</div>
+
+<!-- editor -->
+<div class="mask" id="mask" hidden>
+  <div class="ecard">
+    <div class="eh">🍎 這顆果實</div>
+    <input id="ecInput" type="text" maxlength="14">
+    <div class="ebtns">
+      <button class="esave" id="ecSave">儲存修改</button>
+      <button class="edel" id="ecDel">刪除</button>
+    </div>
+    <button class="ecancel" id="ecCancel">取消</button>
+    <div class="ecta">
+      <div class="q">🌱 想知道這顆果實要怎麼種？</div>
+      <a href="https://lin.ee/6Tm8pI7" target="_blank" rel="noopener">預約 15 分鐘財務健診 →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- 三根基說明 ---------- */
+  var DATA={
+    root:{ic:"🌿",t:"樹根 · 收支管理",s:"管好進出的錢",
+      meta:"樹根扎得穩，<b>養分（收入）</b>才留得住。",
+      p:"知道錢從哪來、花到哪去；先存再花，每個月留下一點結餘。樹根有存到養分，整棵樹才長得起來——<b>有結餘，後面才談得下去。</b>",
+      tip:"<span class='lab'>怎麼做：</span>分清「需要」和「想要」；每個月先撥一筆存起來，再花剩下的。"},
+    trunk:{ic:"🪵",t:"樹幹 · 信用管理",s:"管好借與還",
+      meta:"樹幹是支撐，<b>信用</b>是你的財務脊樑。",
+      p:"好債（像房貸）幫你長得更高；壞債（卡循環、到處借周轉）會從裡面把樹幹蛀空。信用顧好，<b>需要時銀行才願意挺你。</b>",
+      tip:"<span class='lab'>怎麼做：</span>遠離循環利息、量力而為、按時還款。"},
+    fence:{ic:"🛡️",t:"防護 · 風險管理",s:"守住辛苦種的花園",
+      meta:"圍上籬笆、撐起傘，<b>颱風</b>來了樹才不會倒。",
+      p:"先備好「<b>安心底</b>」（緊急預備金，約 3～6 個月生活費），再加上基本的醫療和家庭保障，把自己扛不起的風險先轉嫁出去。",
+      tip:"<span class='lab'>怎麼做：</span>先存安心底；用保險顧住生病、意外這種大風雨。"}
+  };
+  var MAP={root:"g-root",trunk:"g-trunk",fence:"g-fence"};
+  var scene=document.getElementById('scene'), detail=document.getElementById('detail');
+  function render(k){var d=DATA[k];
+    detail.innerHTML='<div class="dh"><div class="dic">'+d.ic+'</div><div class="dt">'+d.t+'<small>'+d.s+'</small></div></div>'+
+      '<div class="meta">'+d.meta+'</div><p>'+d.p+'</p><div class="tip">'+d.tip+'</div>';
+    detail.style.animation='none'; void detail.offsetWidth; detail.style.animation='fade .35s ease';}
+  function select(k){
+    scene.classList.add('sel');
+    document.querySelectorAll('.hot').forEach(function(g){g.classList.remove('on');});
+    var g=document.getElementById(MAP[k]); if(g)g.classList.add('on');
+    document.querySelectorAll('.bcard').forEach(function(b){b.classList.toggle('on',b.dataset.k===k);});
+    render(k); detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  document.querySelectorAll('.bcard').forEach(function(b){b.addEventListener('click',function(){select(b.dataset.k);});});
+  Object.keys(MAP).forEach(function(k){var g=document.getElementById(MAP[k]); if(!g)return;
+    g.addEventListener('click',function(){select(k);});
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();select(k);}});});
+
+  /* ---------- 樹上的果實（目標）---------- */
+  var SLOTS=[{x:50,y:21},{x:32,y:31},{x:68,y:31},{x:40,y:43},{x:61,y:44},{x:23,y:38},{x:77,y:38},{x:50,y:33},{x:29,y:24},{x:71,y:24}];
+  var apples=[{t:"醫療保障"},{t:"家庭保障"},{t:"子女教育"},{t:"財務自由"},{t:"資產傳承"}];
+  var treeEl=document.getElementById('treeApples');
+  function fontFor(t){var n=t.length; if(n<=3)return 12.5; if(n<=4)return 11.5; if(n<=6)return 10.2; return 9.2;}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function draw(){
+    treeEl.innerHTML='';
+    apples.forEach(function(a,i){
+      if(i>=SLOTS.length) return;
+      var s=SLOTS[i];
+      var d=document.createElement('div'); d.className='tapple'; d.style.left=s.x+'%'; d.style.top=s.y+'%'; d.dataset.i=i;
+      d.innerHTML='<span class="stem"></span><span class="leaf"></span><span class="tbody"></span>'+
+        '<span class="ttx" style="font-size:'+fontFor(a.t)+'px">'+esc(a.t)+'</span><span class="pen">✎</span>';
+      d.addEventListener('click',function(){openEditor(i);});
+      treeEl.appendChild(d);
+    });
+    addbtn.disabled = apples.length>=SLOTS.length;
+  }
+
+  /* editor */
+  var mask=document.getElementById('mask'), ecInput=document.getElementById('ecInput'); var editIdx=-1;
+  function openEditor(i){editIdx=i; ecInput.value=apples[i].t; mask.hidden=false; setTimeout(function(){ecInput.focus();},50);}
+  function closeEditor(){mask.hidden=true; editIdx=-1;}
+  document.getElementById('ecSave').addEventListener('click',function(){
+    var v=ecInput.value.trim(); if(v && editIdx>-1){apples[editIdx].t=v; draw();} closeEditor();});
+  document.getElementById('ecDel').addEventListener('click',function(){
+    if(editIdx>-1){apples.splice(editIdx,1); draw();} closeEditor();});
+  document.getElementById('ecCancel').addEventListener('click',closeEditor);
+  ecInput.addEventListener('keydown',function(e){if(e.key==='Enter'){document.getElementById('ecSave').click();}});
+  mask.addEventListener('click',function(e){if(e.target===mask)closeEditor();});
+
+  /* add */
+  var input=document.getElementById('goalinput'), addbtn=document.getElementById('addbtn'), cta=document.getElementById('cta');
+  function addGoal(){var v=input.value.trim(); if(!v)return;
+    if(apples.length>=SLOTS.length){return;}
+    apples.push({t:v}); draw(); input.value=''; input.focus();
+    cta.hidden=false; cta.classList.remove('show'); void cta.offsetWidth; cta.classList.add('show');
+    cta.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  addbtn.addEventListener('click',addGoal);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addGoal();}});
+
+  /* ---------- 列印 / 存圖 ---------- */
+  document.getElementById('btnPrint').addEventListener('click',function(){window.print();});
+  document.getElementById('btnImg').addEventListener('click',function(){
+    if(typeof html2canvas==='undefined'){window.print();return;}
+    document.body.classList.add('shooting');
+    html2canvas(document.querySelector('.wrap'),{backgroundColor:'#1f4a2e',scale:2}).then(function(c){
+      document.body.classList.remove('shooting');
+      var a=document.createElement('a'); a.download='我的財富果樹.png'; a.href=c.toDataURL('image/png'); a.click();
+    }).catch(function(){document.body.classList.remove('shooting');window.print();});
+  });
+
+  draw();
+</script>
+</body></html>
