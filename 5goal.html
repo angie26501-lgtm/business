@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五大財務目標．需求分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#f6f1e6;
+    --ivory-2:#efe7d6;
+    --ink:#1c1a15;
+    --ink-soft:#4a463c;
+    --muted:#8a8270;
+    --emerald:#1f4d3f;
+    --emerald-deep:#143830;
+    --gold:#b8893d;
+    --gold-soft:#d9b878;
+    --line:#d8cfba;
+    --card:#fffdf8;
+    --shadow:0 18px 40px -22px rgba(28,26,21,.45);
+    --r:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC",sans-serif;
+    background:
+      radial-gradient(120% 90% at 12% -10%, #fdfaf2 0%, rgba(253,250,242,0) 55%),
+      radial-gradient(90% 70% at 95% 0%, #ece2cd 0%, rgba(236,226,205,0) 50%),
+      var(--ivory);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .serif{font-family:"Noto Serif TC",serif}
+
+  /* ===== grain / texture overlay ===== */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+
+  /* ===== HERO ===== */
+  header.hero{padding:74px 0 30px;position:relative}
+  .kicker{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:13px;letter-spacing:.28em;color:var(--emerald);
+    text-transform:uppercase;font-weight:500;margin-bottom:22px;
+    opacity:0;animation:rise .8s .05s forwards;
+  }
+  .kicker::before{content:"";width:34px;height:1.5px;background:var(--gold)}
+  h1.title{
+    font-family:"Noto Serif TC",serif;font-weight:900;
+    font-size:clamp(38px,6.4vw,72px);line-height:1.08;letter-spacing:.01em;
+    color:var(--ink);margin-bottom:18px;
+  }
+  h1.title span{color:var(--emerald);position:relative;white-space:nowrap}
+  h1.title span::after{
+    content:"";position:absolute;left:0;right:0;bottom:.08em;height:.34em;
+    background:linear-gradient(90deg,var(--gold-soft),rgba(217,184,120,0));z-index:-1;
+  }
+  .hero .line{overflow:hidden}
+  .hero .line>*{opacity:0;transform:translateY(110%);animation:rise .9s forwards}
+  .lead{
+    max-width:640px;font-size:clamp(15px,1.7vw,18px);color:var(--ink-soft);
+    opacity:0;animation:rise .9s .35s forwards;
+  }
+  .lead b{color:var(--ink);font-weight:700}
+
+  /* ===== controls bar ===== */
+  .panel{
+    margin-top:42px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--r);box-shadow:var(--shadow);padding:26px 28px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;
+    opacity:0;animation:rise .9s .5s forwards;
+  }
+  .panel .field-label{font-size:13px;color:var(--muted);letter-spacing:.05em;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline}
+  .panel .field-label em{font-style:normal;font-family:"Noto Serif TC",serif;font-weight:700;color:var(--emerald);font-size:20px}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;
+    background:linear-gradient(90deg,var(--emerald) var(--p,40%),var(--ivory-2) var(--p,40%));
+    outline:none;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+    background:var(--gold);border:3px solid #fffdf8;box-shadow:0 2px 8px rgba(184,137,61,.5);cursor:grab;
+  }
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--gold);border:3px solid #fffdf8;cursor:grab}
+  .scale{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:7px}
+  .agewrap{display:flex;gap:0;align-items:stretch;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--ivory)}
+  .agewrap input{flex:1;border:none;background:transparent;font-size:18px;font-family:"Noto Serif TC",serif;font-weight:700;color:var(--ink);padding:11px 14px;outline:none;width:100%}
+  .agewrap .suf{display:flex;align-items:center;padding:0 16px;background:var(--emerald);color:#f3ead4;font-size:13px;font-weight:500}
+
+  /* ===== section heading ===== */
+  .sec-head{margin:60px 0 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .sec-head h2{font-family:"Noto Serif TC",serif;font-size:clamp(24px,3.2vw,32px);font-weight:700}
+  .sec-head h2 small{display:block;font-family:"Noto Sans TC";font-size:13px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:6px}
+  .sec-head .hint{font-size:13px;color:var(--muted)}
+
+  /* ===== goal cards ===== */
+  .goals{display:grid;gap:18px;margin-top:26px}
+  .goal{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    overflow:hidden;transition:.45s cubic-bezier(.22,1,.36,1);position:relative;
+    opacity:0;transform:translateY(24px);
+  }
+  .goal.in{opacity:1;transform:none}
+  .goal::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--line);transition:.4s}
+  .goal.on{box-shadow:var(--shadow);border-color:var(--gold-soft)}
+  .goal.on::before{background:linear-gradient(var(--emerald),var(--gold))}
+  .goal-head{display:flex;align-items:center;gap:18px;padding:22px 26px;cursor:pointer;user-select:none}
+  .num{
+    font-family:"Noto Serif TC",serif;font-weight:900;font-size:30px;line-height:1;
+    color:var(--ivory-2);width:54px;text-align:center;flex-shrink:0;transition:.4s;
+    -webkit-text-stroke:1px var(--line);
+  }
+  .goal.on .num{color:var(--emerald);-webkit-text-stroke:0}
+  .goal-titles{flex:1}
+  .goal-titles h3{font-family:"Noto Serif TC",serif;font-size:20px;font-weight:700;letter-spacing:.02em}
+  .goal-titles p{font-size:13px;color:var(--muted);margin-top:2px}
+  /* toggle */
+  .tog{width:52px;height:30px;border-radius:99px;background:var(--ivory-2);position:relative;flex-shrink:0;transition:.35s;border:1px solid var(--line)}
+  .tog::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.18);transition:.35s cubic-bezier(.4,1.4,.5,1)}
+  .goal.on .tog{background:var(--emerald);border-color:var(--emerald)}
+  .goal.on .tog::after{left:25px;background:var(--gold-soft)}
+
+  .goal-body{max-height:0;opacity:0;transition:.5s cubic-bezier(.22,1,.36,1)}
+  .goal.on .goal-body{max-height:380px;opacity:1}
+  .goal-body-inner{padding:4px 26px 26px 80px;border-top:1px dashed var(--line);margin:0 26px 0 26px;padding-left:54px}
+  .inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+  .inp{display:flex;flex-direction:column;gap:7px}
+  .inp label{font-size:12px;color:var(--muted);letter-spacing:.04em}
+  .inp .box{display:flex;align-items:center;border:1px solid var(--line);border-radius:11px;background:var(--ivory);overflow:hidden}
+  .inp .box:focus-within{border-color:var(--emerald);background:#fff}
+  .inp .box input{border:none;background:transparent;outline:none;width:100%;padding:10px 12px;font-size:16px;font-family:"Noto Serif TC",serif;font-weight:700;color:var(--ink)}
+  .inp .box .u{padding:0 12px;font-size:12px;color:var(--muted);white-space:nowrap}
+  .goal-result{
+    margin-top:20px;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    padding:14px 18px;background:linear-gradient(100deg,#f4efe1,#fbf7ec);border-radius:12px;
+  }
+  .goal-result .lab{font-size:13px;color:var(--ink-soft)}
+  .goal-result .val{font-family:"Noto Serif TC",serif;font-weight:900;font-size:26px;color:var(--emerald)}
+  .goal-result .val small{font-size:14px;font-weight:500;color:var(--muted)}
+
+  /* ===== summary ===== */
+  .summary{
+    margin-top:64px;background:linear-gradient(150deg,var(--emerald-deep),var(--emerald) 70%);
+    border-radius:26px;padding:46px 40px;color:#f1e8d4;position:relative;overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(20,56,48,.7);
+  }
+  .summary::after{content:"";position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(217,184,120,.22),transparent 70%)}
+  .summary h2{font-family:"Noto Serif TC",serif;font-size:clamp(22px,3vw,30px);font-weight:700;color:#fdf6e6;margin-bottom:4px;position:relative}
+  .summary .sub{color:#bcc9bf;font-size:14px;margin-bottom:30px;position:relative}
+  .sum-grid{display:grid;grid-template-columns:300px 1fr;gap:42px;align-items:center;position:relative}
+  .donut-wrap{display:flex;flex-direction:column;align-items:center;gap:16px}
+  .donut{position:relative;width:230px;height:230px}
+  .donut svg{transform:rotate(-90deg)}
+  .donut .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .donut .center .cap{font-size:12px;letter-spacing:.16em;color:#9fb0a4}
+  .donut .center .big{font-family:"Noto Serif TC",serif;font-weight:900;font-size:34px;color:#fdf6e6;line-height:1.1}
+  .donut .center .small{font-size:12px;color:#9fb0a4}
+  .legend{display:grid;gap:13px}
+  .legend .row{display:flex;align-items:center;gap:12px;font-size:14px}
+  .legend .dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+  .legend .nm{flex:1;color:#e7ddc9}
+  .legend .pc{font-family:"Noto Serif TC",serif;font-weight:700;color:#fff}
+  .legend .am{color:#9fb0a4;font-size:13px;min-width:88px;text-align:right}
+  .empty-note{color:#a9b8ac;font-size:14px;padding:30px 0;text-align:center;grid-column:1/-1}
+
+  .insight{margin-top:32px;padding-top:26px;border-top:1px solid rgba(255,255,255,.13);position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .insight .it .k{font-size:12px;color:#9fb0a4;letter-spacing:.1em;margin-bottom:6px}
+  .insight .it .v{font-family:"Noto Serif TC",serif;font-weight:700;font-size:22px;color:#fdf6e6}
+  .insight .it .v small{font-size:13px;font-weight:400;color:#bcc9bf}
+
+  /* ===== CTA ===== */
+  .cta{margin:56px 0 30px;background:var(--card);border:1px solid var(--gold-soft);border-radius:22px;padding:44px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 100% at 50% 0%,rgba(217,184,120,.14),transparent 60%)}
+  .cta .badge{font-size:12px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;position:relative}
+  .cta h2{font-family:"Noto Serif TC",serif;font-size:clamp(24px,3.4vw,34px);font-weight:700;margin:12px 0 14px;position:relative}
+  .cta p{max-width:520px;margin:0 auto 26px;color:var(--ink-soft);position:relative}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;background:var(--emerald);color:#f6efdd;
+    text-decoration:none;font-weight:700;font-size:16px;padding:15px 34px;border-radius:99px;
+    position:relative;transition:.3s;box-shadow:0 12px 26px -12px rgba(31,77,63,.8);
+  }
+  .btn:hover{background:var(--emerald-deep);transform:translateY(-2px);box-shadow:0 18px 30px -12px rgba(31,77,63,.9)}
+  .btn .arr{transition:.3s}
+  .btn:hover .arr{transform:translateX(4px)}
+  footer{padding:30px 0 56px;text-align:center;color:var(--muted);font-size:13px;line-height:1.9}
+  footer .brand{font-family:"Noto Serif TC",serif;color:var(--emerald);font-weight:700;font-size:15px}
+
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* toast */
+  .toast{
+    position:fixed;left:50%;bottom:34px;
+    transform:translate(-50%,140%);
+    background:var(--emerald-deep);color:#f3ead4;padding:15px 24px;border-radius:14px;
+    box-shadow:0 18px 40px -16px rgba(20,56,48,.8);z-index:50;max-width:min(440px,90vw);
+    font-size:14px;line-height:1.6;border:1px solid rgba(217,184,120,.35);
+    transition:transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .toast.show{transform:translate(-50%,0)}
+  .toast b{color:var(--gold-soft)}
+
+  @media(max-width:880px){
+    .panel{grid-template-columns:1fr;gap:24px}
+    .sum-grid{grid-template-columns:1fr;gap:28px}
+    .donut-wrap{order:-1}
+    .insight{grid-template-columns:1fr;gap:16px}
+  }
+  @media(max-width:560px){
+    header.hero{padding:54px 0 20px}
+    .inputs{grid-template-columns:1fr;gap:13px}
+    .goal-body-inner{padding-left:26px;margin:0 18px}
+    .goal-head{padding:18px 18px;gap:12px}
+    .num{width:40px;font-size:24px}
+    .summary,.cta{padding:32px 22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="kicker">財富藍圖檢測　Financial Blueprint</div>
+    <div class="line"><h1 class="title">人生五大<span>財務目標</span></h1></div>
+    <div class="line"><h1 class="title serif" style="font-size:clamp(28px,4.6vw,52px);font-weight:700;color:var(--ink-soft);margin-bottom:24px">需求分析｜你準備好了嗎？</h1></div>
+    <p class="lead">每一個人生階段，都藏著一筆「該被看見」的數字。勾選你正在意的目標，填入心中的藍圖，這裡會即時算出——<b>每個月該為未來存下多少</b>，以及距離理想還有多遠的缺口。</p>
+
+    <!-- global controls -->
+    <div class="panel">
+      <div>
+        <div class="field-label"><span>預期年化報酬率</span><em id="rateVal">5.0%</em></div>
+        <input type="range" id="rate" min="0" max="10" step="0.5" value="5">
+        <div class="scale"><span>0%（存款）</span><span>5%（穩健配置）</span><span>10%（積極）</span></div>
+      </div>
+      <div>
+        <div class="field-label"><span>你目前的年齡</span></div>
+        <div class="agewrap">
+          <input type="number" id="age" value="35" min="18" max="80">
+          <span class="suf">歲</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- GOALS -->
+  <div class="sec-head">
+    <h2 class="serif">五大目標檢測<small>點選開關，啟動你在意的目標</small></h2>
+    <span class="hint">金額以「萬元」為單位</span>
+  </div>
+
+  <div class="goals" id="goals"></div>
+
+  <!-- SUMMARY -->
+  <section class="summary" id="summary">
+    <h2 class="serif">你的每月財富配置</h2>
+    <div class="sub">依照目前選擇的目標、年限與報酬率即時試算</div>
+    <div class="sum-grid" id="sumGrid">
+      <div class="donut-wrap">
+        <div class="donut">
+          <svg width="230" height="230" viewBox="0 0 230 230">
+            <circle cx="115" cy="115" r="92" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="26"/>
+            <g id="donutSegs"></g>
+          </svg>
+          <div class="center">
+            <div class="cap">每月共需準備</div>
+            <div class="big"><span id="totalMonthly">0</span></div>
+            <div class="small">新台幣 / 月</div>
+          </div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="insight" id="insight"></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="badge">馥芸財富學苑</div>
+    <h2 class="serif">數字會說話，但藍圖需要陪伴</h2>
+    <p>試算只是起點。想知道如何把這些目標化為一步步可執行的計畫、讓資金配置更有效率？預約一次免費的財務藍圖諮詢，讓專業陪你走得更穩。</p>
+    <a class="btn" href="https://forms.gle/AJL75D4iwFcMAXTn7" target="_blank" rel="noopener" id="ctaBtn">預約免費財務諮詢 <span class="arr">→</span></a>
+  </section>
+
+  <footer>
+    <div class="brand">馥芸財富學苑</div>
+    本工具僅供財務規劃概念試算與教育用途，數字結果為簡化模型推估，不構成投資建議。<br>實際規劃請依個人狀況與專業顧問評估為準。
+  </footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== data ===== */
+const GOALS = [
+  {id:'emg',  name:'緊急預備金', desc:'生活的安全氣囊，建議備妥 6 個月支出', target:30,  years:2,  cur:5,   color:'#d9b878'},
+  {id:'home', name:'購屋置產',   desc:'人生第一桶不動產的頭期款',          target:300, years:8,  cur:50,  color:'#c89b5a'},
+  {id:'edu',  name:'子女教育金', desc:'為孩子的大學與未來鋪路',            target:500, years:18, cur:0,   color:'#8fae8f'},
+  {id:'ret',  name:'退休規劃',   desc:'打造不依賴薪水的第二人生',          target:2000,years:30, cur:100, color:'#5e8d76'},
+  {id:'leg',  name:'財富傳承',   desc:'把愛與資產，安穩交給下一代',        target:1000,years:25, cur:0,   color:'#3f6e58'},
+];
+const state = GOALS.map((g,i)=>({...g, on:(i===0||i===3)})); // 預設啟動緊急金與退休
+let rate = 5;
+
+const TWD = n => Math.round(n).toLocaleString('en-US');
+
+/* 年金未來值反推每月提撥：FV = PV(1+i)^N + PMT[((1+i)^N -1)/i] */
+function monthlyNeed(g){
+  const FV = g.target*10000, PV = g.cur*10000;
+  const N = Math.max(1, g.years*12);
+  const i = (rate/100)/12;
+  if(i===0) return Math.max(0,(FV-PV)/N);
+  const factor = Math.pow(1+i,N);
+  const pmt = (FV - PV*factor) / ((factor-1)/i);
+  return Math.max(0, pmt);
+}
+
+/* ===== render goal cards ===== */
+const goalsEl = document.getElementById('goals');
+state.forEach((g,idx)=>{
+  const el = document.createElement('div');
+  el.className = 'goal'+(g.on?' on':'');
+  el.style.animationDelay = (idx*90)+'ms';
+  el.innerHTML = `
+    <div class="goal-head" data-i="${idx}">
+      <div class="num">0${idx+1}</div>
+      <div class="goal-titles"><h3>${g.name}</h3><p>${g.desc}</p></div>
+      <div class="tog"></div>
+    </div>
+    <div class="goal-body"><div class="goal-body-inner">
+      <div class="inputs">
+        <div class="inp"><label>目標金額</label><div class="box"><input type="number" data-f="target" data-i="${idx}" value="${g.target}"><span class="u">萬</span></div></div>
+        <div class="inp"><label>達成年限</label><div class="box"><input type="number" data-f="years" data-i="${idx}" value="${g.years}"><span class="u">年</span></div></div>
+        <div class="inp"><label>已準備金額</label><div class="box"><input type="number" data-f="cur" data-i="${idx}" value="${g.cur}"><span class="u">萬</span></div></div>
+      </div>
+      <div class="goal-result">
+        <span class="lab">為達成此目標，建議每月準備</span>
+        <span class="val">$<span data-m="${idx}">0</span> <small>元 / 月</small></span>
+      </div>
+    </div></div>`;
+  goalsEl.appendChild(el);
+});
+
+/* reveal on scroll */
+const io = new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.goal').forEach(g=>io.observe(g));
+
+/* toggle */
+goalsEl.addEventListener('click',e=>{
+  const head = e.target.closest('.goal-head'); if(!head) return;
+  const i = +head.dataset.i; state[i].on = !state[i].on;
+  head.closest('.goal').classList.toggle('on',state[i].on);
+  recalc();
+});
+/* inputs */
+goalsEl.addEventListener('input',e=>{
+  const f = e.target.dataset.f; if(!f) return;
+  const i = +e.target.dataset.i;
+  state[i][f] = Math.max(0, +e.target.value||0);
+  recalc();
+});
+
+/* global controls */
+const rateEl = document.getElementById('rate');
+function setRateBar(){rateEl.style.setProperty('--p',(rate/10*100)+'%')}
+rateEl.addEventListener('input',e=>{
+  rate = +e.target.value;
+  document.getElementById('rateVal').textContent = rate.toFixed(1)+'%';
+  setRateBar(); recalc();
+});
+setRateBar();
+
+/* ===== donut ===== */
+const R=92, C=2*Math.PI*R;
+function renderDonut(active,total){
+  const segs = document.getElementById('donutSegs'); segs.innerHTML='';
+  let offset=0;
+  if(total<=0) return;
+  active.forEach(g=>{
+    const frac = g.m/total;
+    const len = frac*C;
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',115);c.setAttribute('cy',115);c.setAttribute('r',R);
+    c.setAttribute('fill','none');c.setAttribute('stroke',g.color);c.setAttribute('stroke-width',26);
+    c.setAttribute('stroke-dasharray',`${len} ${C-len}`);
+    c.setAttribute('stroke-dashoffset',-offset);
+    c.style.transition='stroke-dasharray .7s cubic-bezier(.22,1,.36,1), stroke-dashoffset .7s cubic-bezier(.22,1,.36,1)';
+    segs.appendChild(c);
+    offset+=len;
+  });
+}
+
+/* animated number */
+function animateNum(el,to){
+  const from = +(el.dataset._v||0); el.dataset._v=to;
+  const start=performance.now(),dur=600;
+  function step(t){
+    const p=Math.min(1,(t-start)/dur), e=1-Math.pow(1-p,3);
+    el.textContent = TWD(from+(to-from)*e);
+    if(p<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ===== recalc everything ===== */
+function recalc(){
+  let total=0; const active=[];
+  state.forEach((g,i)=>{
+    const m = monthlyNeed(g);
+    document.querySelector(`[data-m="${i}"]`).textContent = TWD(m);
+    if(g.on){ total+=m; active.push({...g,m}); }
+  });
+
+  animateNum(document.getElementById('totalMonthly'),total);
+  renderDonut(active,total);
+
+  // legend
+  const lg = document.getElementById('legend');
+  if(active.length===0){
+    lg.innerHTML = `<div class="empty-note">尚未選擇任何目標<br>點選上方任一目標的開關，開始你的財富藍圖。</div>`;
+  }else{
+    lg.innerHTML = active.map(g=>{
+      const pc = total>0?Math.round(g.m/total*100):0;
+      return `<div class="row"><span class="dot" style="background:${g.color}"></span>
+        <span class="nm">${g.name}</span><span class="pc">${pc}%</span>
+        <span class="am">$${TWD(g.m)}/月</span></div>`;
+    }).join('');
+  }
+
+  // insights
+  const age=+document.getElementById('age').value||0;
+  const yearlyTotal=total*12;
+  const biggest = active.slice().sort((a,b)=>b.m-a.m)[0];
+  const ins = document.getElementById('insight');
+  if(active.length===0){ ins.innerHTML=''; return; }
+  ins.innerHTML = `
+    <div class="it"><div class="k">每年累積投入</div><div class="v">$${TWD(yearlyTotal)} <small>元</small></div></div>
+    <div class="it"><div class="k">佔比最高目標</div><div class="v">${biggest.name} <small>${Math.round(biggest.m/total*100)}%</small></div></div>
+    <div class="it"><div class="k">啟動目標數</div><div class="v">${active.length} <small>/ 5 項　現齡 ${age} 歲</small></div></div>`;
+}
+
+document.getElementById('age').addEventListener('input',recalc);
+
+/* ===== 帶分析結果進表單：複製到剪貼簿 ===== */
+function buildSummary(){
+  const age=+document.getElementById('age').value||0;
+  let total=0; const lines=[];
+  state.forEach(g=>{ if(g.on){ const m=monthlyNeed(g); total+=m; lines.push({n:g.name,m}); }});
+  if(lines.length===0) return null;
+  const rows = lines.sort((a,b)=>b.m-a.m)
+    .map(g=>`・${g.name}　$${TWD(g.m)}/月（${Math.round(g.m/total*100)}%）`).join('\n');
+  return `【我的財務目標分析結果】\n`+
+    `年齡：${age} 歲　預期年化報酬率：${rate.toFixed(1)}%\n`+
+    `每月共需準備：$${TWD(total)} 元　／　每年累積投入：$${TWD(total*12)} 元\n\n`+
+    `啟動目標（${lines.length}/5）：\n${rows}\n\n`+
+    `（由「五大財務目標需求分析」自動產生）`;
+}
+function showToast(html){
+  const t=document.getElementById('toast'); t.innerHTML=html; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),5200);
+}
+document.getElementById('ctaBtn').addEventListener('click',()=>{
+  const txt=buildSummary();
+  if(!txt){ showToast('還沒有選擇任何目標，先勾選你在意的目標再試算吧。'); return; }
+  try{
+    navigator.clipboard.writeText(txt);
+    showToast('已將你的分析結果<b>複製到剪貼簿</b>，在表單的備註欄直接貼上即可，方便顧問為你預先準備建議。');
+  }catch(e){
+    showToast('表單已開啟，可手動填寫你的需求。');
+  }
+}); // 不阻擋預設行為，連結照常開啟表單
+
+recalc();
+</script>
+</body>
+</html>
