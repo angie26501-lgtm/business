@@ -1,0 +1,690 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>財富花園｜全文閱讀 — 肥料花圃</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#26342b;
+  --moss:#3f6b4f;
+  --leaf:#5b9a6b;
+  --leaf-soft:#e6f3e9;
+  --soil:#7c5a3a;
+  --soil-soft:#f3ead9;
+  --gold:#c79a4a;
+  --rose:#cf7f73;
+  --rose-soft:#fbe6e0;
+  --blossom:#fdf4ee;
+  --paper:#fffdf8;
+  --line:#e7e2d6;
+  --sidebar-w:268px;
+  font-size:clamp(15px,1.6vw,17px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  color:var(--ink);
+  line-height:1.85;
+  letter-spacing:.01em;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(91,154,107,.10), transparent 32%),
+    radial-gradient(circle at 100% 8%, rgba(207,127,115,.10), transparent 30%),
+    linear-gradient(165deg,#fffdf8 0%,#f5f8f1 60%,#eef6ee 100%);
+  min-height:100vh;
+}
+
+.serif{ font-family:"Noto Serif TC",serif; }
+
+/* ---------- 版面骨架 ---------- */
+.layout{
+  display:grid;
+  grid-template-columns:var(--sidebar-w) 1fr;
+  min-height:100vh;
+}
+
+/* ---------- 左側固定選單 ---------- */
+.sidebar{
+  position:sticky; top:0; align-self:start;
+  height:100vh; overflow-y:auto;
+  background:linear-gradient(180deg,#0f3322 0%,#16432c 55%,#1d4d34 100%);
+  color:#eaf3ec;
+  padding:26px 18px 30px;
+  display:flex; flex-direction:column; gap:20px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.brand{ display:flex; align-items:center; gap:12px; }
+.brand .seed{
+  width:46px;height:46px;flex:none;
+  border-radius:50% 50% 50% 12px;
+  background:radial-gradient(circle at 35% 30%,#9fd8ab,#4f8a60);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem; box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.brand h1{ font-size:1.18rem; font-weight:900; line-height:1.25; }
+.brand p{ font-size:.7rem; letter-spacing:.16em; color:#9ec9a8; margin-top:2px; }
+
+.menu-label{
+  font-size:.66rem; letter-spacing:.22em; color:#7fae8b;
+  font-weight:800; padding-left:4px; margin-bottom:8px;
+}
+
+/* 目錄群組 */
+.toc-group{ margin-bottom:6px; }
+.toc-cat{
+  display:flex; align-items:center; gap:8px;
+  font-size:.72rem; font-weight:800; color:#9ec9a8;
+  padding:4px 6px 6px; letter-spacing:.04em;
+}
+.toc{ display:flex; flex-direction:column; gap:3px; }
+.toc button{
+  display:flex; align-items:center; gap:10px;
+  width:100%; text-align:left;
+  background:transparent; border:1px solid transparent;
+  color:#dcebdf; padding:8px 11px; border-radius:12px;
+  cursor:pointer; font-family:inherit; font-size:.86rem;
+  font-weight:600; line-height:1.4; transition:.16s ease;
+}
+.toc button .dot{
+  width:7px;height:7px;border-radius:50%;flex:none;
+  background:rgba(255,255,255,.35);
+}
+.toc button:hover{ background:rgba(255,255,255,.07); }
+.toc button.active{
+  background:linear-gradient(135deg,rgba(159,216,171,.22),rgba(207,154,74,.18));
+  border-color:rgba(159,216,171,.40); color:#fff; font-weight:700;
+}
+.toc button.active .dot{ background:#9fd8ab; box-shadow:0 0 0 3px rgba(159,216,171,.25); }
+
+.divider{
+  height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  margin:6px 2px;
+}
+.sidebar-foot{ margin-top:auto; display:flex; flex-direction:column; gap:10px; }
+.back-link{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+  color:#eaf3ec; text-decoration:none;
+  padding:11px 14px; border-radius:14px;
+  font-size:.85rem; font-weight:700; transition:.18s ease;
+}
+.back-link:hover{ background:rgba(255,255,255,.16); }
+.sidebar-foot small{ color:#7fae8b; font-size:.66rem; text-align:center; line-height:1.6; }
+
+/* ---------- 右側內容 ---------- */
+.content{ padding:0 0 60px; }
+.reader{ max-width:760px; margin:0 auto; padding:34px clamp(18px,4vw,46px) 0; }
+
+/* 手機頂列 */
+.topbar{ display:none; }
+
+/* 麵包屑 */
+.crumb{
+  display:flex; align-items:center; gap:8px;
+  font-size:.78rem; color:#8a9389; margin-bottom:18px; flex-wrap:wrap;
+}
+.crumb a{ color:var(--moss); text-decoration:none; font-weight:700; }
+.crumb a:hover{ text-decoration:underline; }
+.crumb .sep{ opacity:.5; }
+
+/* 文章 Hero */
+.hero{
+  position:relative; overflow:hidden;
+  border-radius:26px; padding:30px clamp(22px,3.5vw,40px) 32px;
+  color:#fff; margin-bottom:30px;
+  box-shadow:0 22px 46px rgba(29,77,52,.20);
+}
+.hero::after{
+  position:absolute; right:-8px; bottom:-26px;
+  font-size:150px; opacity:.16; transform:rotate(-8deg); pointer-events:none;
+}
+.hero .eyebrow{
+  display:inline-flex; align-items:center; gap:7px;
+  font-size:.72rem; letter-spacing:.16em; font-weight:800;
+  background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.22);
+  padding:5px 12px; border-radius:999px;
+}
+.hero h2{
+  font-size:clamp(1.7rem,4vw,2.5rem); font-weight:900;
+  line-height:1.28; margin:14px 0 10px;
+}
+.hero .lead{ max-width:54ch; color:rgba(255,255,255,.92); font-size:.96rem; }
+
+/* 主題色 hero */
+.t-mind  .hero{ background:linear-gradient(135deg,#caa23f 0%,#dcb863 55%,#7c5a3a 135%); }
+.t-mind  .hero::after{ content:"🌱"; }
+.t-tidy  .hero{ background:linear-gradient(135deg,#2f7a48 0%,#4f9a66 55%,#1d4d34 135%); }
+.t-tidy  .hero::after{ content:"🪴"; }
+.t-guard .hero{ background:linear-gradient(135deg,#3a6aa6 0%,#5b8bc4 55%,#274a73 135%); }
+.t-guard .hero::after{ content:"🛡️"; }
+.t-water .hero{ background:linear-gradient(135deg,#1f8a82 0%,#3aa79e 55%,#155f59 135%); }
+.t-water .hero::after{ content:"💧"; }
+.t-bloom .hero{ background:linear-gradient(135deg,#cf7f73 0%,#e29a90 55%,#a14b3c 135%); }
+.t-bloom .hero::after{ content:"🌸"; }
+
+/* 內文區塊 */
+.block{ margin-bottom:26px; animation:rise .5s backwards; }
+.block-label{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:"Noto Serif TC",serif; font-weight:700;
+  font-size:1.05rem; color:var(--moss);
+  padding-bottom:9px; margin-bottom:14px;
+  border-bottom:2px solid var(--leaf-soft);
+}
+.block-label .ico{ font-size:1.15rem; }
+
+.story p{ margin-bottom:.55em; color:#3d4a40; font-size:1rem; }
+.story p:last-child{ margin-bottom:0; }
+
+/* 財商知識 — 公式卡 */
+.knowledge{
+  background:var(--paper); border:1px solid var(--line);
+  border-radius:18px; padding:22px clamp(18px,3vw,26px);
+  box-shadow:0 10px 24px rgba(63,107,79,.06);
+}
+.knowledge p{ margin-bottom:.5em; color:#3d4a40; }
+.knowledge p:last-child{ margin-bottom:0; }
+.formula{
+  display:inline-block; font-weight:800; color:var(--moss);
+  background:var(--leaf-soft); border:1px dashed rgba(63,107,79,.35);
+  padding:7px 15px; border-radius:12px; margin:5px 0;
+  font-size:1.02rem; letter-spacing:.02em;
+}
+.formula.muted{ color:#9aa39a; background:#f4f2ec; border-color:var(--line); }
+.steplist{ list-style:none; display:flex; flex-direction:column; gap:9px; margin:6px 0; }
+.steplist li{
+  display:flex; align-items:flex-start; gap:11px;
+  font-weight:600; color:#3d4a40;
+}
+.steplist li .n{
+  width:26px;height:26px;flex:none;border-radius:50%;
+  background:linear-gradient(135deg,var(--leaf),var(--moss));
+  color:#fff; font-size:.82rem; font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* 財顧芸提醒 — 簽名引言 */
+.reminder{
+  position:relative;
+  background:linear-gradient(135deg,var(--blossom),#fff);
+  border:1px solid var(--rose-soft);
+  border-left:4px solid var(--rose);
+  border-radius:16px; padding:24px 26px 22px;
+}
+.reminder::before{
+  content:"❝"; position:absolute; top:6px; left:14px;
+  font-family:"Noto Serif TC",serif; font-size:3rem;
+  color:var(--rose); opacity:.25; line-height:1;
+}
+.reminder .qlabel{
+  font-size:.7rem; letter-spacing:.18em; font-weight:800;
+  color:var(--rose); margin-bottom:8px;
+}
+.reminder p{
+  font-family:"Noto Serif TC",serif; font-size:1.18rem;
+  font-weight:600; color:var(--ink); line-height:1.7;
+}
+.reminder .sign{
+  margin-top:14px; display:flex; align-items:center; gap:9px;
+  font-size:.8rem; color:var(--soil); font-weight:700;
+}
+.reminder .sign .seal{
+  width:30px;height:30px;border-radius:50% 50% 50% 9px;
+  background:radial-gradient(circle at 35% 30%,#f2dca0,var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem; box-shadow:0 4px 10px rgba(199,154,74,.35);
+}
+
+/* AI 指示詞 — 種子包 */
+.prompt-pack{
+  background:linear-gradient(170deg,#16432c,#1d4d34);
+  border-radius:18px; padding:20px 20px 18px; color:#eaf3ec;
+  box-shadow:0 14px 30px rgba(15,51,34,.25);
+}
+.prompt-pack .pp-head{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:12px; flex-wrap:wrap;
+}
+.prompt-pack .pp-title{
+  display:flex; align-items:center; gap:8px;
+  font-weight:800; font-size:.92rem; color:#9fd8ab; letter-spacing:.04em;
+}
+.copy-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  color:#eaf3ec; font-family:inherit; font-size:.78rem; font-weight:700;
+  padding:6px 13px; border-radius:999px; cursor:pointer; transition:.16s ease;
+}
+.copy-btn:hover{ background:rgba(255,255,255,.22); }
+.copy-btn.done{ background:rgba(159,216,171,.28); border-color:rgba(159,216,171,.6); color:#fff; }
+.prompt-pack .pp-text{
+  background:rgba(0,0,0,.18); border:1px solid rgba(255,255,255,.10);
+  border-radius:12px; padding:14px 16px;
+  font-size:.9rem; line-height:1.7; color:#dcebdf;
+  white-space:pre-wrap; word-break:break-word;
+}
+.prompt-pack .pp-tip{
+  font-size:.7rem; color:#7fae8b; margin-top:9px;
+  display:flex; align-items:center; gap:5px;
+}
+
+/* 文末導覽 */
+.pager{
+  display:flex; gap:12px; margin-top:36px;
+  border-top:1px solid var(--line); padding-top:24px; flex-wrap:wrap;
+}
+.pager a{
+  flex:1; min-width:200px; text-decoration:none;
+  background:var(--paper); border:1px solid var(--line); border-radius:16px;
+  padding:14px 16px; transition:.18s ease;
+  display:flex; flex-direction:column; gap:3px;
+}
+.pager a:hover{ transform:translateY(-3px); box-shadow:0 14px 28px rgba(63,107,79,.12); border-color:var(--leaf); }
+.pager a.next{ text-align:right; align-items:flex-end; }
+.pager a.disabled{ opacity:.4; pointer-events:none; }
+.pager .dir{ font-size:.72rem; font-weight:800; color:var(--rose); letter-spacing:.08em; }
+.pager .nm{ font-family:"Noto Serif TC",serif; font-weight:700; color:var(--ink); font-size:1rem; }
+
+.garden-back{
+  text-align:center; margin-top:26px;
+}
+.garden-back a{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--moss); text-decoration:none; font-weight:800; font-size:.9rem;
+  background:var(--leaf-soft); border:1px solid rgba(91,154,107,.3);
+  padding:11px 22px; border-radius:999px; transition:.18s ease;
+}
+.garden-back a:hover{ background:#d8edda; }
+
+@keyframes rise{ from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+@media (prefers-reduced-motion:reduce){ .block{animation:none;} }
+
+.overlay{ display:none; }
+
+/* ---------- 手機版 ---------- */
+@media(max-width:860px){
+  .layout{ grid-template-columns:1fr; }
+  .sidebar{
+    position:fixed; top:0; left:0;
+    width:84%; max-width:320px; z-index:50;
+    transform:translateX(-105%); transition:transform .28s ease; height:100vh;
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .overlay{
+    display:block; position:fixed; inset:0;
+    background:rgba(15,51,34,.45); backdrop-filter:blur(2px);
+    z-index:40; opacity:0; pointer-events:none; transition:opacity .28s ease;
+  }
+  .overlay.show{ opacity:1; pointer-events:auto; }
+  .topbar{
+    display:flex; align-items:center; gap:12px;
+    position:sticky; top:0; z-index:30;
+    background:rgba(255,253,248,.92); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line); padding:12px 16px;
+  }
+  .topbar .burger{
+    width:42px;height:42px;flex:none;
+    border:1px solid var(--line);border-radius:12px;
+    background:#fff;font-size:1.3rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .topbar .tt{ font-family:"Noto Serif TC",serif;font-weight:900;color:var(--moss);font-size:1.05rem; }
+  .reader{ padding:24px 18px 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="layout">
+
+  <!-- ============ 左側目錄 ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="seed">🌷</div>
+      <div>
+        <h1 class="serif">財富花園</h1>
+        <p>全文閱讀</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="menu-label">肥料花圃 · 全文目錄</div>
+      <div id="toc"></div>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="divider"></div>
+      <a class="back-link" href="seed-2.html">
+        <span>← 回肥料花圃</span><span>🌾</span>
+      </a>
+      <a class="back-link" href="https://www.facebook.com/IFA.Fans/" target="_blank">
+        <span>財顧芸 FB 粉專</span><span>📘</span>
+      </a>
+      <small>© 財顧芸｜馥芸財富學苑<br>每一篇文章，都讓財富多長一吋</small>
+    </div>
+  </aside>
+
+  <!-- ============ 右側內容 ============ -->
+  <main class="content">
+    <div class="topbar">
+      <button class="burger" onclick="openMenu()">☰</button>
+      <span class="tt">🌷 財富花園 · 全文</span>
+    </div>
+    <div class="reader" id="reader"></div>
+  </main>
+</div>
+
+<script>
+/* ====== 文章資料：新增一篇 = 在陣列加一個物件 ======
+   cat: mind 觀念肥 / tidy 整理肥 / guard 護根肥 / water 灌溉肥 / bloom 開花肥
+   story: 段落陣列；knowledge: 由 {type, text} 組成（type: 'p' 段落 / 'formula' 公式 / 'formula-muted' 對照組公式 / 'steps' 步驟陣列）
+   reminder: 字串；prompt: 字串或 null（沒有就不顯示） */
+const CATS = {
+  mind:  { name:'觀念肥', ico:'🌱' },
+  tidy:  { name:'整理肥', ico:'🪴' },
+  guard: { name:'護根肥', ico:'🛡️' },
+  water: { name:'灌溉肥', ico:'💧' },
+  bloom: { name:'開花肥', ico:'🌸' },
+};
+
+const ARTICLES = [
+  {
+    id:'a1', cat:'mind', title:'有錢，是一種選擇',
+    lead:'女人理財的第一步，不是先存多少錢，而是先相信自己值得擁有財富。',
+    story:[
+      '阿美總覺得自己賺得不夠多。',
+      '每次看到朋友出國、換車、買房，都覺得：「等我有錢就好了。」',
+      '直到有一天她發現，一位收入只有她一半的同事，居然已經存下人生第一桶金。',
+      '原來差別不在收入，而在選擇。',
+    ],
+    knowledge:[
+      { type:'p', text:'很多人以為：' },
+      { type:'formula-muted', text:'有錢 = 高收入' },
+      { type:'p', text:'其實真正的公式是：' },
+      { type:'formula', text:'收入 － 支出 ＝ 財富' },
+      { type:'p', text:'而不是「收入越高＝越有錢」。財富，是一連串選擇累積的結果。' },
+    ],
+    reminder:'你今天做的每一個金錢選擇，都在決定未來的自己會過什麼樣的人生。',
+    prompt:'一位50歲女性站在花園入口，左邊是購物袋，右邊是正在發芽的小樹苗，夕陽灑落，溫暖療癒，高級雜誌感，herbal green、champagne gold、financial wellness storytelling、premium lifestyle photography',
+  },
+  {
+    id:'a2', cat:'mind', title:'先付錢給自己',
+    lead:'薪水一進帳，先撥一筆給未來的自己，再開始花剩下的。順序對了，存錢就不難。',
+    story:[
+      '志明每個月薪水進來後，房貸扣掉、信用卡扣掉、生活費扣掉，月底剩不到 500 元。',
+      '他一直以為自己存不了錢。',
+      '直到改變一個習慣——薪水一進帳，先轉 10%。',
+      '一年後，竟存下人生第一筆緊急預備金。',
+    ],
+    knowledge:[
+      { type:'p', text:'很多人是：' },
+      { type:'formula-muted', text:'收入 － 支出 ＝ 存款' },
+      { type:'p', text:'真正有效的是：' },
+      { type:'formula', text:'收入 － 存款 ＝ 支出' },
+      { type:'p', text:'先存再花，而不是花完才存。' },
+    ],
+    reminder:'理財不是等有錢才開始，而是開始存錢後，才慢慢變有錢。',
+    prompt:'女性將第一顆金幣放進花盆，嫩芽開始發光成長，溫暖晨光，高質感理財教育插畫，財富花園概念',
+  },
+  {
+    id:'a3', cat:'tidy', title:'金錢整理三步驟',
+    lead:'把錢從哪裡來、花到哪裡去、剩下多少，先看清楚，財務焦慮自然減半。',
+    story:[
+      '有位客戶告訴我：「老師，我明明收入不錯，可是月底總覺得錢不見了。」',
+      '後來我們一起整理帳戶，才發現——',
+      '不是賺太少，而是不知道錢跑去哪。',
+    ],
+    knowledge:[
+      { type:'steps', text:['錢從哪裡來','花到哪裡去','剩下多少'] },
+      { type:'p', text:'先看清楚，才有機會改變。' },
+    ],
+    reminder:'財務焦慮很多時候不是沒錢，而是不知道自己的錢在哪裡。',
+    prompt:'財顧芸與小綠芽整理帳本，桌面出現資產負債圖表，花園中的雜草逐漸整理成整齊花圃，溫暖專業風格',
+  },
+  {
+    id:'a4', cat:'tidy', title:'一個帳戶，一個任務',
+    lead:'生活、夢想、緊急預備金分開放，錢有了名字，就不會不小心花掉。',
+    story:[
+      '有位媽媽把所有錢都放在同一個帳戶。',
+      '旅遊基金、保費、生活費、教育金，全部混在一起。',
+      '結果每次提款，都不知道動到哪一筆錢。',
+    ],
+    knowledge:[
+      { type:'p', text:'錢最怕沒有名字。當帳戶有了任務：' },
+      { type:'steps', text:['生活帳戶','夢想帳戶','退休帳戶','緊急預備金帳戶'] },
+      { type:'p', text:'管理就變得簡單。' },
+    ],
+    reminder:'給每一筆錢一個家，金錢就不容易迷路。',
+    prompt:null,
+  },
+  {
+    id:'a5', cat:'guard', title:'保險，是花園的防風牆',
+    lead:'還沒開花前，先把根顧好。一張對的保單，讓意外來時不用砍掉重練。',
+    story:[
+      '一位朋友努力存了十年，卻因為一次重大疾病，幾個月就花掉大半積蓄。',
+      '真正讓人財務受傷的，往往不是投資失利，而是意外與疾病。',
+    ],
+    knowledge:[
+      { type:'p', text:'保險不是讓你賺錢，而是避免人生重來。' },
+      { type:'p', text:'先守住財富，再追求增長。' },
+    ],
+    reminder:'花園長得再漂亮，沒有圍牆，一場暴風雨就可能全部摧毀。',
+    prompt:'暴風雨中的花園，藍色防護牆保護樹木與花朵，財顧芸撐傘陪伴家庭，安全感與溫暖感並存',
+  },
+  {
+    id:'a6', cat:'water', title:'定期定額，像每天澆水',
+    lead:'不必一次澆很多，重點是不間斷。時間會幫你把小水滴變成大樹。',
+    story:[
+      '很多人投資喜歡等最低點，但市場永遠比想像更難預測。',
+      '反而是持續投入的人，最後收穫最多。',
+    ],
+    knowledge:[
+      { type:'p', text:'投資最大的力量，不是猜對高低點，而是時間。' },
+      { type:'formula', text:'時間 ＋ 紀律 ＝ 財富成長的關鍵' },
+    ],
+    reminder:'澆水不用一次倒一桶。每天一點點，反而長得最好。',
+    prompt:'每天固定澆水的小樹苗逐漸長成大樹，時間軸穿越四季，溫暖投資教育插畫，高級理財品牌風格',
+  },
+  {
+    id:'a7', cat:'water', title:'複利，是花園的魔法',
+    lead:'今天種下的種子，越早種、長越久，未來的樹蔭就越大。',
+    story:[
+      '兩個朋友，一個 25 歲開始投資，一個 35 歲開始投資。',
+      '每月投入相同金額，退休時差距可能高達數百萬。',
+    ],
+    knowledge:[
+      { type:'p', text:'複利不是暴富，而是讓時間替你工作。' },
+      { type:'p', text:'愈早開始，時間愈值錢。' },
+    ],
+    reminder:'世界上最厲害的投資家，其實是時間。',
+    prompt:'巨大財富樹從小種子逐年成長，樹上結滿金色果實，四季流轉，夢幻但專業的財富花園風格',
+  },
+  {
+    id:'a8', cat:'bloom', title:'豐盛，是過好每一天',
+    lead:'財富不只是數字，而是讓你能安心陪伴家人、做喜歡的事的底氣。',
+    story:[
+      '有位退休客戶跟我說：「以前總覺得存到多少錢才安心。」',
+      '退休後才發現，真正重要的是——',
+      '有時間陪家人，有健康做喜歡的事。',
+    ],
+    knowledge:[
+      { type:'p', text:'財富不是帳戶數字，而是人生選擇權。' },
+    ],
+    reminder:'理財的終點，不是成為最有錢的人，而是成為最自在的人。',
+    prompt:null,
+  },
+  {
+    id:'a9', cat:'bloom', title:'留一點預算給快樂',
+    lead:'理財不是苦行，記得替自己留下「開花預算」，日子才走得長久。',
+    story:[
+      '有些人很會存錢，卻捨不得花錢。',
+      '等到退休才發現，健康已經不允許自己完成夢想。',
+    ],
+    knowledge:[
+      { type:'p', text:'財務規劃不是苦行僧，而是找到平衡：' },
+      { type:'formula', text:'現在的快樂 ⟷ 未來的安全' },
+    ],
+    reminder:'人生不是只為了存錢，而是讓金錢幫助你活出想要的人生。',
+    prompt:'三代同堂在花園野餐，盛開花海與夕陽光影，幸福人生、退休自由、溫暖陪伴、高級生活感、財富花園品牌風格',
+  },
+];
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ---- 建立左側目錄（依肥料分類分組） ---- */
+function buildTOC(){
+  const order = ['mind','tidy','guard','water','bloom'];
+  const toc = document.getElementById('toc');
+  let html = '';
+  order.forEach(cat=>{
+    const items = ARTICLES.filter(a=>a.cat===cat);
+    if(!items.length) return;
+    html += `<div class="toc-group">
+      <div class="toc-cat"><span>${CATS[cat].ico}</span><span>${CATS[cat].name}</span></div>
+      <div class="toc">`;
+    items.forEach(a=>{
+      html += `<button data-id="${a.id}" onclick="showArticle('${a.id}',true)">
+        <span class="dot"></span><span>${esc(a.title)}</span></button>`;
+    });
+    html += `</div></div>`;
+  });
+  toc.innerHTML = html;
+}
+
+/* ---- 知識區塊渲染 ---- */
+function renderKnowledge(blocks){
+  let h = '';
+  blocks.forEach(b=>{
+    if(b.type==='p') h += `<p>${esc(b.text)}</p>`;
+    else if(b.type==='formula') h += `<div class="formula">${esc(b.text)}</div>`;
+    else if(b.type==='formula-muted') h += `<div class="formula muted">${esc(b.text)}</div>`;
+    else if(b.type==='steps'){
+      h += '<ul class="steplist">';
+      b.text.forEach((s,i)=> h += `<li><span class="n">${i+1}</span><span>${esc(s)}</span></li>`);
+      h += '</ul>';
+    }
+  });
+  return h;
+}
+
+/* ---- 顯示文章 ---- */
+function showArticle(id, scrollTop){
+  const idx = ARTICLES.findIndex(a=>a.id===id);
+  if(idx<0) return;
+  const a = ARTICLES[idx];
+  const cat = CATS[a.cat];
+
+  const storyHTML = a.story.map(p=>`<p>${esc(p)}</p>`).join('');
+  const promptHTML = a.prompt ? `
+    <div class="block prompt-pack" style="animation-delay:.18s">
+      <div class="pp-head">
+        <div class="pp-title"><span>🎨</span><span>AI 生成指示詞</span></div>
+        <button class="copy-btn" onclick="copyPrompt(this)" data-prompt="${esc(a.prompt)}">⧉ 複製指示詞</button>
+      </div>
+      <div class="pp-text">${esc(a.prompt)}</div>
+      <div class="pp-tip">🌿 貼進 Midjourney／Leonardo AI／DALL·E，即可生成這篇的圖卡</div>
+    </div>` : '';
+
+  const prev = idx>0 ? ARTICLES[idx-1] : null;
+  const next = idx<ARTICLES.length-1 ? ARTICLES[idx+1] : null;
+  const pagerHTML = `
+    <div class="pager">
+      ${prev ? `<a class="prev" href="#${prev.id}" onclick="showArticle('${prev.id}',true)"><span class="dir">‹ 上一篇</span><span class="nm">${esc(prev.title)}</span></a>`
+             : `<a class="prev disabled"><span class="dir">‹ 上一篇</span><span class="nm">已是第一篇</span></a>`}
+      ${next ? `<a class="next" href="#${next.id}" onclick="showArticle('${next.id}',true)"><span class="dir">下一篇 ›</span><span class="nm">${esc(next.title)}</span></a>`
+             : `<a class="next disabled"><span class="dir">下一篇 ›</span><span class="nm">已是最後一篇</span></a>`}
+    </div>
+    <div class="garden-back"><a href="seed-2.html">🌾 回肥料花圃，挑下一包養分</a></div>`;
+
+  document.getElementById('reader').innerHTML = `
+    <article class="t-${a.cat}">
+      <div class="crumb">
+        <a href="seed-2.html">肥料花圃</a><span class="sep">›</span>
+        <span>${cat.ico} ${cat.name}</span><span class="sep">›</span>
+        <span style="color:var(--ink);font-weight:700">${esc(a.title)}</span>
+      </div>
+
+      <header class="hero">
+        <span class="eyebrow">${cat.ico} ${cat.name}</span>
+        <h2 class="serif">${esc(a.title)}</h2>
+        <p class="lead">${esc(a.lead)}</p>
+      </header>
+
+      <section class="block story">
+        <div class="block-label"><span class="ico">🌿</span> 生活故事</div>
+        ${storyHTML}
+      </section>
+
+      <section class="block">
+        <div class="block-label"><span class="ico">💡</span> 財商知識</div>
+        <div class="knowledge">${renderKnowledge(a.knowledge)}</div>
+      </section>
+
+      <section class="block">
+        <div class="block-label"><span class="ico">🌷</span> 財顧芸提醒</div>
+        <div class="reminder">
+          <div class="qlabel">YUN'S NOTE</div>
+          <p>${esc(a.reminder)}</p>
+          <div class="sign"><span class="seal">芸</span> 財顧芸｜馥芸財富學苑</div>
+        </div>
+      </section>
+
+      ${promptHTML}
+      ${pagerHTML}
+    </article>`;
+
+  // 同步目錄高亮
+  document.querySelectorAll('#toc button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.id===id);
+  });
+
+  if(location.hash !== '#'+id) history.replaceState(null,'','#'+id);
+  if(scrollTop){ window.scrollTo({top:0,behavior:'smooth'}); }
+  if(window.innerWidth<=860) closeMenu();
+}
+
+/* ---- 複製指示詞 ---- */
+function copyPrompt(btn){
+  const txt = btn.dataset.prompt;
+  navigator.clipboard?.writeText(txt).then(()=>{
+    const old = btn.textContent;
+    btn.textContent = '✓ 已複製';
+    btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent = old; btn.classList.remove('done'); },1800);
+  }).catch(()=>{
+    // 後備：選取文字
+    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta);
+    ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
+    btn.textContent='✓ 已複製'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent='⧉ 複製指示詞'; btn.classList.remove('done'); },1800);
+  });
+}
+
+/* ---- 手機選單 ---- */
+function openMenu(){ document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+function closeMenu(){ document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+/* ---- 初始化 ---- */
+buildTOC();
+const startId = location.hash.replace('#','');
+showArticle(ARTICLES.some(a=>a.id===startId) ? startId : ARTICLES[0].id, false);
+window.addEventListener('hashchange', ()=>{
+  const id = location.hash.replace('#','');
+  if(ARTICLES.some(a=>a.id===id)) showArticle(id, true);
+});
+</script>
+
+</body>
+</html>
