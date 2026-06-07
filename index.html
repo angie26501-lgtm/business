@@ -2,608 +2,847 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>財顧芸｜馥芸財富學苑入口頁</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>財顧芸｜馥芸財富學苑入口頁</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      font-size: clamp(16px,1.8vw,19px);
-      --emerald-deep:#064e3b;
-      --emerald:#059669;
-      --gold:#d8b45a;
-      --rose:#e8a598;
-      --blossom:#f7d9cf;
-    }
+<style>
+  :root{
+    /* 整體字級放大，高資產客戶閱讀更舒適 */
+    font-size: clamp(17px, 1.9vw, 21px);
 
-    *{ box-sizing:border-box; }
+    --ink:#16241f;          /* 深墨綠：主文字 */
+    --forest:#0d3a2c;       /* 森林綠 */
+    --forest-deep:#072a20;  /* 更深森林綠 */
+    --emerald:#0f6b4f;      /* 翡翠綠 */
+    --gold:#c2a25a;         /* 香檳金 */
+    --gold-soft:#e7d6a8;    /* 淺金 */
+    --ivory:#f7f3ea;        /* 象牙底 */
+    --paper:#fffdf8;        /* 紙白 */
+    --rose:#b6694f;         /* 玫瑰陶土：財富花園 */
+    --rose-soft:#f3ddd2;
+  }
 
-    html{ scroll-behavior:smooth; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
 
-    body{
-      font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
-      line-height:1.7;
-      letter-spacing:.02em;
-    }
+  body{
+    font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink);
+    line-height:1.75;
+    letter-spacing:.015em;
+    background:var(--ivory);
+  }
 
-    .font-serif-tc{
-      font-family:"Noto Serif TC",serif;
-    }
+  .font-serif-tc{ font-family:"Noto Serif TC",serif; }
 
-    .soft-bg{
-      background:
-      radial-gradient(circle at 8% 6%, rgba(217,180,90,.20), transparent 30%),
-      radial-gradient(circle at 92% 2%, rgba(16,185,129,.14), transparent 32%),
-      radial-gradient(circle at 78% 92%, rgba(232,165,152,.16), transparent 34%),
-      linear-gradient(135deg,#fffdf8 0%,#f8fafc 45%,#eefbf4 100%);
-      position:relative;
-    }
+  /* 象牙底＋極淡金綠光暈，沉穩不喧鬧 */
+  .lux-bg{
+    position:relative;
+    background:
+      radial-gradient(circle at 6% 4%, rgba(194,162,90,.10), transparent 30%),
+      radial-gradient(circle at 96% 0%, rgba(15,107,79,.07), transparent 34%),
+      linear-gradient(180deg,#fbf8f1 0%,#f7f3ea 60%,#f3eee2 100%);
+  }
+  .lux-bg::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none;
+    opacity:.30; mix-blend-mode:soft-light;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
 
-    /* 細緻顆粒紋理，增加質感 */
-    .soft-bg::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.4;
-      mix-blend-mode:soft-light;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-    }
+  .card{
+    background:var(--paper);
+    border:1px solid rgba(194,162,90,.28);
+    box-shadow:0 14px 36px rgba(13,58,44,.07);
+  }
 
-    .glass{
-      background:rgba(255,255,255,.92);
-      backdrop-filter:blur(18px);
-      border:1px solid rgba(255,255,255,.7);
-    }
+  /* 細金線分隔 */
+  .gold-rule{
+    height:1px; width:100%;
+    background:linear-gradient(90deg,transparent,rgba(194,162,90,.55),transparent);
+  }
 
-    .hero-title{
-      font-size:clamp(2.2rem,6vw,4.2rem);
-      line-height:1.12;
-    }
+  .hero-title{ font-size:clamp(2.4rem,6.4vw,4.6rem); line-height:1.1; }
+  .hero-sub{ font-size:clamp(1.05rem,2.2vw,1.25rem); line-height:1.95; }
 
-    .hero-sub{
-      font-size:clamp(1rem,2.2vw,1.15rem);
-      line-height:1.9;
-    }
+  .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:18px; }
+  .section-title h2{
+    font-family:"Noto Serif TC",serif;
+    font-size:clamp(1.5rem,3.2vw,2rem);
+    font-weight:900; color:var(--forest);
+    letter-spacing:.01em;
+  }
+  .eyebrow{
+    font-size:.72rem; letter-spacing:.22em; font-weight:800;
+    padding:6px 14px; border-radius:999px;
+    background:rgba(194,162,90,.14); color:#8a6d2f;
+    border:1px solid rgba(194,162,90,.4);
+    white-space:nowrap;
+  }
 
-    .link-card{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      width:100%;
-      border-radius:22px;
-      background:#fff;
-      border:1px solid #e5e7eb;
-      padding:18px 20px;
-      box-shadow:0 10px 24px rgba(15,23,42,.06);
-      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      font-weight:800;
-      color:#1e293b;
-    }
+  /* 連結卡 */
+  .link-card{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    width:100%; border-radius:18px; background:var(--paper);
+    border:1px solid rgba(22,36,31,.10); padding:20px 22px;
+    box-shadow:0 8px 20px rgba(13,58,44,.05);
+    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    font-weight:800; font-size:1.05rem; color:var(--ink);
+  }
+  .link-card:hover{
+    transform:translateY(-2px);
+    border-color:var(--gold);
+    box-shadow:0 16px 30px rgba(13,58,44,.12);
+  }
+  .arrow{
+    width:42px; height:42px; border-radius:999px; flex:none;
+    background:rgba(15,107,79,.10); color:var(--emerald);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; font-weight:900; transition:transform .22s ease;
+  }
+  .link-card:hover .arrow{ transform:translateX(3px); }
 
-    .link-card:hover{
-      transform:translateY(-2px);
-      border-color:#10b981;
-      box-shadow:0 18px 30px rgba(15,23,42,.10);
-    }
+  .highlight-card{
+    background:linear-gradient(135deg,#fbf6e7 0%,#f4f9f2 100%);
+    border:1.5px solid rgba(194,162,90,.55);
+  }
+  .garden-card{
+    background:linear-gradient(135deg,#fbeee6 0%,#fdf6f1 100%);
+    border:1.5px solid rgba(182,105,79,.45);
+  }
+  .garden-card:hover{ border-color:var(--rose); box-shadow:0 16px 30px rgba(182,105,79,.16); }
+  .garden-card .arrow{ background:rgba(182,105,79,.14); color:var(--rose); }
 
-    .highlight-card{
-      background:linear-gradient(135deg,#fff7ed 0%,#ecfdf5 52%,#fff 100%);
-      border:2px solid rgba(217,180,90,.5);
-    }
+  /* 主入口大卡 */
+  .main-cta{
+    position:relative; overflow:hidden; border-radius:26px;
+    background:linear-gradient(135deg,var(--forest-deep) 0%,var(--emerald) 62%,#15805f 100%);
+    color:#fff; padding:34px;
+    box-shadow:0 28px 56px rgba(7,42,32,.30);
+    transition:transform .25s ease, box-shadow .25s ease;
+    border:1px solid rgba(231,214,168,.25);
+  }
+  .main-cta:hover{ transform:translateY(-4px); box-shadow:0 34px 66px rgba(7,42,32,.38); }
+  .main-cta::before{
+    content:""; position:absolute; width:230px; height:230px;
+    background:radial-gradient(circle,rgba(231,214,168,.30),transparent 70%);
+    border-radius:999px; top:-90px; right:-60px;
+  }
+  .garden-cta{
+    position:relative; overflow:hidden; border-radius:26px;
+    background:linear-gradient(135deg,#8a4334 0%,var(--rose) 55%,#cf8e57 100%);
+    color:#fff; padding:34px;
+    box-shadow:0 28px 56px rgba(138,67,52,.26);
+    transition:transform .25s ease, box-shadow .25s ease;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .garden-cta:hover{ transform:translateY(-4px); box-shadow:0 34px 66px rgba(138,67,52,.34); }
+  .garden-cta::before{
+    content:"🌸"; position:absolute; font-size:150px; line-height:1;
+    top:-30px; right:-12px; opacity:.16; transform:rotate(-12deg);
+  }
 
-    /* 財富花園專屬玫瑰花園色卡 */
-    .garden-card{
-      background:linear-gradient(135deg,#fff1ec 0%,#fde7df 46%,#fff7f3 100%);
-      border:2px solid rgba(232,165,152,.55);
-    }
-    .garden-card:hover{
-      border-color:#e8a598;
-      box-shadow:0 18px 32px rgba(216,120,100,.16);
-    }
-    .garden-card .arrow{
-      background:#fdeae3;
-      color:#c2624e;
-    }
+  .main-title{ font-family:"Noto Serif TC",serif; font-size:clamp(1.7rem,4vw,2.7rem); font-weight:900; line-height:1.25; }
+  .main-text{ margin-top:10px; opacity:.92; font-size:1.05rem; }
 
-    .arrow{
-      width:38px;
-      height:38px;
-      border-radius:999px;
-      background:#ecfdf5;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#047857;
-      font-size:1.2rem;
-      font-weight:900;
-      flex:none;
-      transition:transform .22s ease;
-    }
-    .link-card:hover .arrow{ transform:translateX(3px); }
+  /* 財務計算機 */
+  .calc-wrap{
+    background:linear-gradient(160deg,var(--forest-deep) 0%,var(--forest) 70%,#0a4633 100%);
+    color:#fff; border-radius:30px; overflow:hidden;
+    border:1px solid rgba(231,214,168,.28);
+    box-shadow:0 30px 60px rgba(7,42,32,.30);
+  }
+  .calc-select{
+    appearance:none; -webkit-appearance:none;
+    width:100%; padding:18px 56px 18px 22px; border-radius:16px;
+    background:rgba(255,255,255,.07);
+    border:1.5px solid rgba(231,214,168,.45);
+    color:#fff; font-size:1.15rem; font-weight:800;
+    font-family:"Noto Serif TC",serif; cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' fill='none' stroke='%23e7d6a8' stroke-width='2.4'%3E%3Cpath d='M5 8l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 20px center;
+    transition:border-color .2s ease;
+  }
+  .calc-select:focus{ outline:none; border-color:var(--gold-soft); }
+  .calc-select option{ color:#16241f; }
 
-    .section-title{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:20px;
-    }
+  .field label{ display:block; font-size:.9rem; font-weight:700; color:var(--gold-soft); margin-bottom:8px; letter-spacing:.03em; }
+  .field input{
+    width:100%; padding:15px 16px; border-radius:14px;
+    background:rgba(255,255,255,.95); color:#16241f;
+    border:1px solid rgba(231,214,168,.4); font-size:1.1rem; font-weight:700;
+    transition:box-shadow .2s ease;
+  }
+  .field input:focus{ outline:none; box-shadow:0 0 0 3px rgba(231,214,168,.45); }
 
-    .section-title h2{
-      font-family:"Noto Serif TC",serif;
-      font-size:clamp(1.35rem,3vw,1.75rem);
-      font-weight:900;
-      color:#064e3b;
-      letter-spacing:.01em;
-    }
+  .calc-btn{
+    width:100%; padding:18px; border-radius:16px; cursor:pointer; border:none;
+    background:linear-gradient(135deg,var(--gold) 0%,#d8bd72 100%);
+    color:#3a2c08; font-size:1.2rem; font-weight:900;
+    font-family:"Noto Serif TC",serif; letter-spacing:.05em;
+    box-shadow:0 12px 24px rgba(194,162,90,.32);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .calc-btn:hover{ transform:translateY(-2px); box-shadow:0 18px 32px rgba(194,162,90,.42); }
 
-    .tag{
-      font-size:.76rem;
-      letter-spacing:.08em;
-      padding:5px 12px;
-      border-radius:999px;
-      background:#ecfdf5;
-      color:#047857;
-      border:1px solid #bbf7d0;
-      font-weight:800;
-    }
+  /* 頂部分頁 */
+  .calc-tabs{ display:flex; gap:10px; flex-wrap:wrap; }
+  .calc-tab{
+    flex:1; min-width:150px; padding:16px 18px; border-radius:16px; cursor:pointer;
+    font-family:"Noto Serif TC",serif; font-size:1.15rem; font-weight:900;
+    background:rgba(255,255,255,.06); color:rgba(255,255,255,.7);
+    border:1.5px solid rgba(231,214,168,.28); transition:all .2s ease;
+  }
+  .calc-tab:hover{ background:rgba(255,255,255,.12); }
+  .calc-tab.active{
+    background:linear-gradient(135deg,var(--gold) 0%,#d8bd72 100%); color:#3a2c08;
+    border-color:transparent; box-shadow:0 10px 22px rgba(194,162,90,.3);
+  }
 
-    .main-cta{
-      position:relative;
-      overflow:hidden;
-      border-radius:30px;
-      background:linear-gradient(135deg,#064e3b 0%,#059669 48%,#d8b45a 100%);
-      color:white;
-      padding:30px;
-      box-shadow:0 24px 50px rgba(6,78,59,.28);
-      transition:transform .25s ease, box-shadow .25s ease;
-    }
-    .main-cta:hover{
-      transform:translateY(-4px);
-      box-shadow:0 30px 60px rgba(6,78,59,.34);
-    }
-    .main-cta::before{
-      content:"";
-      position:absolute;
-      width:200px;
-      height:200px;
-      background:rgba(255,255,255,.18);
-      border-radius:999px;
-      top:-70px;
-      right:-60px;
-    }
+  /* 左側直式選單 */
+  .menu-item{
+    display:flex; align-items:center; gap:11px; width:100%; text-align:left;
+    padding:15px 16px; border-radius:14px; cursor:pointer; font-weight:800; font-size:1.02rem;
+    background:rgba(255,255,255,.05); color:rgba(255,255,255,.78);
+    border:1px solid rgba(231,214,168,.2); transition:all .18s ease;
+  }
+  .menu-item:hover{ background:rgba(255,255,255,.11); color:#fff; }
+  .menu-item.active{
+    background:rgba(231,214,168,.16); color:#fff; border-color:var(--gold-soft);
+    box-shadow:inset 4px 0 0 var(--gold-soft);
+  }
+  .menu-item .mi-ico{ font-size:1.2rem; flex:none; }
 
-    /* 財富花園大型入口 */
-    .garden-cta{
-      position:relative;
-      overflow:hidden;
-      border-radius:30px;
-      background:linear-gradient(135deg,#b04a4a 0%,#d97a5e 46%,#e8b06a 100%);
-      color:white;
-      padding:30px;
-      box-shadow:0 24px 50px rgba(176,74,74,.26);
-      transition:transform .25s ease, box-shadow .25s ease;
-    }
-    .garden-cta:hover{
-      transform:translateY(-4px);
-      box-shadow:0 30px 60px rgba(176,74,74,.32);
-    }
-    .garden-cta::before{
-      content:"🌸";
-      position:absolute;
-      font-size:140px;
-      line-height:1;
-      top:-26px;
-      right:-10px;
-      opacity:.16;
-      transform:rotate(-12deg);
-    }
+  /* 學員專區連結鈕 */
+  .member-link{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:18px 20px; border-radius:16px; font-weight:800; font-size:1.05rem;
+    background:rgba(255,255,255,.95); color:var(--forest);
+    box-shadow:0 8px 20px rgba(7,42,32,.18); transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .member-link:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(7,42,32,.26); }
+  .member-link .arrow{ background:rgba(15,107,79,.12); color:var(--emerald); }
 
-    .main-title{
-      font-family:"Noto Serif TC",serif;
-      font-size:clamp(1.6rem,4vw,2.6rem);
-      font-weight:900;
-      line-height:1.25;
-    }
+  .result-panel{
+    background:rgba(255,255,255,.06);
+    border:1px dashed rgba(231,214,168,.45);
+    border-radius:20px; padding:24px;
+  }
+  .result-big{ font-family:"Noto Serif TC",serif; font-size:clamp(2rem,5vw,3rem); font-weight:900; color:var(--gold-soft); line-height:1.1; }
 
-    .main-text{
-      margin-top:8px;
-      opacity:.92;
-    }
+  .reveal{ opacity:0; animation:rise .7s cubic-bezier(.22,.61,.36,1) forwards; }
+  @keyframes rise{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion:reduce){ .reveal{ animation:none; opacity:1; } }
 
-    /* 載入漸進動畫 */
-    @keyframes rise{
-      from{ opacity:0; transform:translateY(18px); }
-      to{ opacity:1; transform:translateY(0); }
-    }
-    .reveal{
-      opacity:0;
-      animation:rise .7s cubic-bezier(.22,.61,.36,1) forwards;
-    }
-    @media (prefers-reduced-motion:reduce){
-      .reveal{ animation:none; opacity:1; }
-    }
+  /* 置頂固定導覽列 */
+  .sticky-nav{
+    position:sticky; top:0; z-index:50;
+    margin-left:-1rem; margin-right:-1rem; padding:10px 1rem;
+    transition:background .25s ease, box-shadow .25s ease, padding .25s ease;
+  }
+  .sticky-nav.pinned{
+    background:rgba(247,243,234,.82);
+    backdrop-filter:blur(14px);
+    box-shadow:0 8px 24px rgba(13,58,44,.10);
+    border-bottom:1px solid rgba(194,162,90,.28);
+  }
+  .nav-inner{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:12px;
+    max-width:80rem; margin:0 auto;
+  }
+  .nav-link{
+    border-radius:16px; padding:15px 8px; text-align:center; font-weight:800;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .nav-link:hover{ transform:translateY(-2px); box-shadow:0 12px 24px rgba(13,58,44,.12); }
+  @media(max-width:768px){
+    .nav-inner{ grid-template-columns:repeat(3,1fr); gap:8px; }
+    .nav-link{ padding:12px 6px; font-size:.95rem; }
+  }
 
-    @media(max-width:640px){
-      .link-card{ align-items:flex-start; }
-      .arrow{ margin-top:2px; }
-      .garden-cta::before{ font-size:110px; }
-    }
-  </style>
+  /* 財富花園 內嵌檢視窗格 */
+  .garden-viewer{
+    border-radius:28px; overflow:hidden;
+    background:var(--paper);
+    border:1.5px solid rgba(182,105,79,.4);
+    box-shadow:0 24px 50px rgba(138,67,52,.18);
+  }
+  .garden-viewer-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:16px 22px; color:#fff;
+    background:linear-gradient(135deg,#8a4334 0%,var(--rose) 60%,#cf8e57 100%);
+  }
+  .garden-viewer iframe{
+    display:block; width:100%; height:78vh; min-height:520px; border:0; background:#fff;
+  }
+  .gv-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:9px 16px; border-radius:999px; cursor:pointer; font-weight:800; font-size:.92rem;
+    background:rgba(255,255,255,.92); color:var(--rose); border:none; text-decoration:none;
+    transition:transform .18s ease;
+  }
+  .gv-btn:hover{ transform:translateY(-1px); }
+
+  @media(max-width:640px){
+    .link-card{ align-items:flex-start; }
+    .arrow{ margin-top:2px; }
+    .main-cta,.garden-cta{ padding:26px; }
+    .garden-cta::before{ font-size:118px; }
+    .garden-viewer iframe{ height:70vh; min-height:440px; }
+  }
+</style>
 </head>
 
-<body class="soft-bg min-h-screen text-slate-800">
+<body class="lux-bg min-h-screen">
 
-<main class="max-w-7xl mx-auto px-4 py-5 md:px-6 lg:px-8 md:py-8 relative">
+<main class="max-w-7xl mx-auto px-4 py-6 md:px-6 lg:px-8 md:py-10 relative">
 
-  <!-- HERO -->
-  <section class="reveal relative overflow-hidden rounded-[36px] bg-gradient-to-br from-slate-950 via-emerald-950 to-emerald-800 text-white shadow-2xl p-7 md:p-10 mb-7" style="animation-delay:.05s">
+  <!-- ===== HERO ===== -->
+  <section class="reveal relative overflow-hidden rounded-[34px] text-white shadow-2xl p-8 md:p-12 mb-8"
+           style="animation-delay:.05s; background:linear-gradient(140deg,#06231a 0%,#0d3a2c 55%,#0f6b4f 100%); border:1px solid rgba(231,214,168,.28)">
 
-    <div class="absolute -right-16 -top-16 w-52 h-52 rounded-full bg-amber-300/20 blur-2xl"></div>
-    <div class="absolute -left-16 bottom-0 w-56 h-56 rounded-full bg-emerald-300/12 blur-2xl"></div>
-    <div class="absolute right-10 bottom-6 w-40 h-40 rounded-full bg-rose-300/10 blur-2xl"></div>
+    <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full" style="background:radial-gradient(circle,rgba(194,162,90,.28),transparent 70%)"></div>
+    <div class="absolute -left-16 bottom-0 w-60 h-60 rounded-full" style="background:radial-gradient(circle,rgba(15,107,79,.30),transparent 70%)"></div>
 
-    <div class="relative grid md:grid-cols-[auto_1fr] gap-6 items-center">
+    <div class="relative grid md:grid-cols-[auto_1fr] gap-7 items-center">
 
-      <div class="mx-auto md:mx-0 w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-emerald-500 shadow-xl flex items-center justify-center text-white text-4xl font-black border border-white/30 font-serif-tc">
+      <div class="mx-auto md:mx-0 w-28 h-28 md:w-32 md:h-32 rounded-full flex items-center justify-center text-white text-5xl font-black font-serif-tc shadow-2xl"
+           style="background:linear-gradient(135deg,#e7d6a8 0%,#c2a25a 55%,#0f6b4f 100%); border:1.5px solid rgba(255,255,255,.35)">
         芸
       </div>
 
       <div class="text-center md:text-left">
-        <p class="text-xs md:text-sm tracking-[0.32em] text-amber-200 font-semibold">
-          AI × 財務 × 生活陪跑
+        <p class="text-xs md:text-sm tracking-[0.34em] font-semibold" style="color:var(--gold-soft)">
+          A I　×　財　務　×　生　活　陪　跑
         </p>
-
-        <h1 class="mt-3 font-serif-tc font-black tracking-tight hero-title">
-          財顧芸｜馥芸財富學苑
+        <h1 class="mt-4 font-serif-tc font-black tracking-tight hero-title">
+          財顧芸<span style="color:var(--gold-soft)">｜</span>馥芸財富學苑
         </h1>
-
-        <p class="mt-4 text-white/82 hero-sub">
-          幸福財務陪跑｜家族生活顧問｜AI賦能財務建築師<br class="hidden md:block">
+        <p class="mt-5 text-white/85 hero-sub">
+          幸福財務陪跑｜家族生活顧問｜AI 賦能財務建築師<br class="hidden md:block">
           把人生、財務與幸福，整理成更安心的樣子。
         </p>
       </div>
-
     </div>
 
+    <div class="relative my-8 gold-rule"></div>
+
     <!-- 主入口 -->
-    <div class="relative mt-7 grid md:grid-cols-3 gap-4">
+    <div class="relative grid md:grid-cols-3 gap-4">
 
-      <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
-         target="_blank"
-         class="main-cta md:col-span-3">
-
+      <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank" class="main-cta md:col-span-3">
         <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-5 items-center">
-
           <div>
-            <div class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-4 py-2 text-xs font-black tracking-[0.18em]">
-              MAIN ENTRANCE
-            </div>
-
-            <div class="main-title mt-4">
-              馥芸財富學苑｜學苑課程入口
-            </div>
-
-            <div class="main-text">
-              課程資訊、活動連結、學習資源，一站式進入。
-            </div>
+            <div class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-[0.2em]"
+                 style="background:rgba(231,214,168,.18); border:1px solid rgba(231,214,168,.4)">MAIN ENTRANCE</div>
+            <div class="main-title mt-4">馥芸財富學苑｜學苑課程入口</div>
+            <div class="main-text">課程資訊、活動連結、學習資源，一站式進入。</div>
           </div>
-
-          <div class="hidden md:flex w-20 h-20 rounded-full bg-white text-emerald-800 items-center justify-center text-4xl font-black shadow-xl">
-            ›
-          </div>
-
+          <div class="hidden md:flex w-20 h-20 rounded-full bg-white items-center justify-center text-4xl font-black shadow-xl" style="color:var(--forest)">›</div>
         </div>
       </a>
 
-      <!-- 財富花園 大型入口 -->
-      <a href="https://angie26501-lgtm.github.io/active/seed.html"
-         target="_blank"
-         class="garden-cta md:col-span-3">
-
+      <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden class="garden-cta md:col-span-3">
         <div class="relative z-10 grid md:grid-cols-[1fr_auto] gap-5 items-center">
-
           <div>
-            <div class="inline-flex items-center gap-2 rounded-full bg-white/20 border border-white/30 px-4 py-2 text-xs font-black tracking-[0.18em]">
-              🌸 WEALTH GARDEN
-            </div>
-
-            <div class="main-title mt-4">
-              財富花園｜女人要有錢
-            </div>
-
-            <div class="main-text">
-              為女性打造的財富成長園地，從一顆種子開始，陪你長成豐盛的人生。
-            </div>
+            <div class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-black tracking-[0.2em]"
+                 style="background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.35)">🌸 WEALTH GARDEN</div>
+            <div class="main-title mt-4">財富花園｜女人要有錢</div>
+            <div class="main-text">為女性打造的財富成長園地，從一顆種子開始，陪你長成豐盛的人生。</div>
           </div>
-
-          <div class="hidden md:flex w-20 h-20 rounded-full bg-white text-rose-700 items-center justify-center text-4xl font-black shadow-xl">
-            ›
-          </div>
-
+          <div class="hidden md:flex w-20 h-20 rounded-full bg-white items-center justify-center text-4xl font-black shadow-xl" style="color:var(--rose)">›</div>
         </div>
       </a>
 
-      <!-- 三格 -->
-      <a href="https://lin.ee/yBVjjlK"
-         target="_blank"
-         class="rounded-2xl bg-white text-emerald-950 p-4 text-center font-black shadow-lg hover:bg-amber-50 hover:-translate-y-0.5 transition">
+      <a href="https://lin.ee/yBVjjlK" target="_blank"
+         class="rounded-2xl bg-white p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition" style="color:var(--forest)">
         加入 Line@ 官方群組
-        <div class="text-xs text-slate-500 mt-1 font-semibold">
-          禮包＋活動訊息＋影片＋圖卡
-        </div>
+        <div class="text-xs mt-1 font-semibold" style="color:#7a8b84">禮包＋活動訊息＋影片＋圖卡</div>
       </a>
 
-      <a href="https://angie26501-lgtm.github.io/active/demoactive.html"
-         target="_blank"
-         class="rounded-2xl bg-emerald-500/90 text-white p-4 text-center font-black shadow-lg hover:bg-emerald-400 hover:-translate-y-0.5 transition">
+      <a href="https://angie26501-lgtm.github.io/active/demoactive.html" target="_blank"
+         class="rounded-2xl p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition text-white"
+         style="background:linear-gradient(135deg,var(--emerald),#15805f)">
         DEMO 展示版
-        <div class="text-xs text-white/80 mt-1 font-semibold">
-          活動量管理樣板參考
-        </div>
+        <div class="text-xs text-white/85 mt-1 font-semibold">活動量管理樣板參考</div>
       </a>
 
       <a href="mailto:3172share@gmail.com"
-         class="rounded-2xl bg-amber-300 text-slate-950 p-4 text-center font-black shadow-lg hover:bg-amber-200 hover:-translate-y-0.5 transition">
+         class="rounded-2xl p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition"
+         style="background:linear-gradient(135deg,var(--gold-soft),var(--gold)); color:#3a2c08">
         歡迎講座邀約
-        <div class="text-xs text-slate-700 mt-1 font-semibold">
-          3172share@gmail.com
-        </div>
+        <div class="text-xs mt-1 font-semibold" style="color:#5a4716">3172share@gmail.com</div>
       </a>
 
     </div>
-
   </section>
 
-  <!-- QUICK -->
-  <section class="reveal grid grid-cols-2 md:grid-cols-5 gap-3 mb-7" style="animation-delay:.18s">
+  <!-- ===== QUICK NAV（置頂） ===== -->
+  <div id="navSentinel"></div>
+  <div id="stickyNav" class="sticky-nav mb-8">
+    <nav class="nav-inner">
+      <a href="#calculator" class="nav-link card" style="color:#8a6d2f">財務計算機</a>
+      <a href="#garden" class="nav-link card" style="color:var(--rose)">財富花園</a>
+      <a href="#courses" class="nav-link card" style="color:var(--forest)">課程活動</a>
+      <a href="#podcast" class="nav-link card" style="color:var(--forest)">Podcast</a>
+      <a href="#social" class="nav-link card" style="color:var(--forest)">FB 粉專</a>
+      <a href="#youtube" class="nav-link card" style="color:var(--forest)">YouTube</a>
+    </nav>
+  </div>
 
-    <a href="#garden" class="glass rounded-2xl p-4 text-center shadow font-bold text-rose-700 hover:-translate-y-0.5 transition">
-      財富花園
-    </a>
-
-    <a href="#courses" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
-      課程活動
-    </a>
-
-    <a href="#podcast" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
-      Podcast
-    </a>
-
-    <a href="#social" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
-      FB 粉專
-    </a>
-
-    <a href="#youtube" class="glass rounded-2xl p-4 text-center shadow font-bold text-emerald-900 hover:-translate-y-0.5 transition">
-      YouTube
-    </a>
-
+  <!-- ===== 財富花園 內嵌檢視窗格（點財富花園會在此出現） ===== -->
+  <section id="gardenViewer" class="garden-viewer mb-8 hidden">
+    <div class="garden-viewer-bar">
+      <div class="font-serif-tc font-black" style="font-size:1.3rem">🌸 財富花園｜女人要有錢</div>
+      <div class="flex items-center gap-2">
+        <a href="https://angie26501-lgtm.github.io/active/seed.html" target="_blank" class="gv-btn">另開分頁 ↗</a>
+        <button id="gardenClose" type="button" class="gv-btn">關閉 ✕</button>
+      </div>
+    </div>
+    <iframe id="gardenFrame" title="財富花園｜女人要有錢" loading="lazy" src="about:blank"></iframe>
   </section>
 
-  <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-5 xl:gap-6 items-start">
+  <!-- ===== 互動面板：財務計算機 / 學員專區 ===== -->
+  <section id="calculator" class="reveal calc-wrap mb-8 p-5 md:p-8" style="animation-delay:.22s">
+
+    <!-- 頂部分頁 -->
+    <div class="calc-tabs">
+      <button class="calc-tab active" data-tab="calc" id="tabCalc">財務計算機</button>
+      <button class="calc-tab" data-tab="member" id="tabMember">學員專區</button>
+    </div>
+
+    <div class="gold-rule my-5"></div>
+
+    <!-- 面板：左側選單 + 右側窗格 -->
+    <div class="grid md:grid-cols-[230px_1fr] gap-5 md:gap-7 items-start">
+
+      <!-- 左側直式選單 -->
+      <nav id="sideMenu" class="space-y-2.5"></nav>
+
+      <!-- 右側窗格 -->
+      <div>
+
+        <!-- 計算機窗格 -->
+        <div id="calcPanel">
+          <div class="grid lg:grid-cols-2 gap-6 items-start">
+            <div class="space-y-5">
+              <div id="calcHeading" class="font-serif-tc font-black text-white" style="font-size:1.4rem">複利成長｜單筆投資</div>
+              <div id="fields" class="space-y-4"></div>
+              <button id="calcBtn" class="calc-btn">立即試算 ›</button>
+            </div>
+            <div class="result-panel">
+              <div class="text-sm font-bold tracking-wider mb-2" style="color:var(--gold-soft)">試算結果</div>
+              <div id="resultBig" class="result-big">—</div>
+              <div id="resultNote" class="text-white/75 mt-3 leading-relaxed" style="font-size:.98rem">請於左側輸入數字後按「立即試算」。</div>
+              <div id="resultBreakdown" class="mt-5 space-y-2 hidden"></div>
+            </div>
+          </div>
+          <p class="text-white/45 text-xs mt-6 leading-relaxed">
+            ※ 本計算機僅供觀念示意與教育用途，數字採單一年化報酬／固定利率假設，未計入通膨、稅負、費用與市場波動，實際結果以正式商品條款與專業規劃為準。
+          </p>
+        </div>
+
+        <!-- 學員專區窗格 -->
+        <div id="memberPanel" class="hidden">
+          <div id="memberTitle" class="font-serif-tc font-black text-white" style="font-size:1.5rem"></div>
+          <div id="memberDesc" class="text-white/75 mt-2 mb-5 leading-relaxed" style="font-size:1.02rem"></div>
+          <div id="memberLinks" class="space-y-3"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 主內容 ===== -->
+  <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
 
     <!-- LEFT -->
     <div class="space-y-6">
 
-      <!-- 財富花園 區塊 -->
-      <section id="garden" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.26s">
-
+      <section id="garden" class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.30s">
         <div class="section-title">
-          <h2 style="color:#b04a4a">🌸 財富花園｜女人要有錢</h2>
-          <span class="tag" style="background:#fdeae3;color:#c2624e;border-color:#f7d9cf">GARDEN</span>
+          <h2 style="color:var(--rose)">🌸 財富花園｜女人要有錢</h2>
+          <span class="eyebrow" style="background:rgba(182,105,79,.12); color:var(--rose); border-color:rgba(182,105,79,.4)">GARDEN</span>
         </div>
-
-        <p class="text-sm text-slate-600 mb-4 leading-relaxed">
-          為女性量身打造的財富學習園地，從理財觀念、金錢整理到財務自由，
-          一步步陪你把財富的種子，灌溉成屬於自己的豐盛花園。
+        <p class="mb-5 leading-relaxed" style="color:#5a655f">
+          為女性量身打造的財富學習園地，從理財觀念、金錢整理到財務自由，一步步陪你把財富的種子，灌溉成屬於自己的豐盛花園。
         </p>
-
-        <a href="https://angie26501-lgtm.github.io/active/seed.html"
-           target="_blank"
-           class="link-card garden-card">
-          <span>🌷 進入財富花園｜女人要有錢</span>
-          <span class="arrow">›</span>
+        <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden class="link-card garden-card">
+          <span>🌷 進入財富花園｜女人要有錢</span><span class="arrow">›</span>
         </a>
-
       </section>
 
-      <!-- 課程 -->
-      <section id="courses" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.34s">
-
+      <section id="courses" class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.36s">
         <div class="section-title">
           <h2>課程活動與講座報名</h2>
-          <span class="tag">COURSES</span>
+          <span class="eyebrow">COURSES</span>
         </div>
-
         <div class="grid md:grid-cols-2 gap-3">
-
-          <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
-             target="_blank"
-             class="link-card highlight-card md:col-span-2">
-            <span>🌿 馥芸財富學苑｜學苑課程入口</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/da8M36" target="_blank" class="link-card">
-            <span>手作及講座報名</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/9n82R8" target="_blank" class="link-card">
-            <span>兒童親子財商桌遊招生資訊</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://forms.gle/M22upNhvh7HPLLbYA" target="_blank" class="link-card">
-            <span>台灣版財富自由桌遊體驗講座</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/gYAjj7" target="_blank" class="link-card">
-            <span>財富人生的三個錦囊妙計講座</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/pYXk74" target="_blank" class="link-card md:col-span-2">
-            <span>金錢整理工作坊</span>
-            <span class="arrow">›</span>
-          </a>
-
+          <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank" class="link-card highlight-card md:col-span-2">
+            <span>🌿 馥芸財富學苑｜學苑課程入口</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/da8M36" target="_blank" class="link-card"><span>手作及講座報名</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/9n82R8" target="_blank" class="link-card"><span>兒童親子財商桌遊招生資訊</span><span class="arrow">›</span></a>
+          <a href="https://forms.gle/M22upNhvh7HPLLbYA" target="_blank" class="link-card"><span>台灣版財富自由桌遊體驗講座</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/gYAjj7" target="_blank" class="link-card"><span>財富人生的三個錦囊妙計講座</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/pYXk74" target="_blank" class="link-card md:col-span-2"><span>金錢整理工作坊</span><span class="arrow">›</span></a>
         </div>
-
       </section>
 
     </div>
 
     <!-- RIGHT -->
-    <aside class="space-y-5">
+    <aside class="space-y-6">
 
-      <!-- 官方 -->
-      <section class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.30s">
-
+      <section class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.34s">
         <div class="section-title">
           <h2>官方與 AI 入口</h2>
-          <span class="tag">MAIN</span>
+          <span class="eyebrow">MAIN</span>
         </div>
-
         <div class="space-y-3">
-
-          <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
-             target="_blank"
-             class="link-card highlight-card">
-            <span>🌟 馥芸財富學苑｜學苑課程入口</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://angie26501-lgtm.github.io/active/seed.html"
-             target="_blank"
-             class="link-card garden-card">
-            <span>🌸 財富花園｜女人要有錢</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://angie26501-lgtm.github.io/active/demoactive.html"
-             target="_blank"
-             class="link-card">
-            <span>活動量管理 DEMO 展示版</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://lin.ee/yBVjjlK"
-             target="_blank"
-             class="link-card">
-            <span>Line@ 官方群組</span>
-            <span class="arrow">›</span>
-          </a>
-
+          <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank" class="link-card highlight-card"><span>🌟 馥芸財富學苑｜學苑課程入口</span><span class="arrow">›</span></a>
+          <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden class="link-card garden-card"><span>🌸 財富花園｜女人要有錢</span><span class="arrow">›</span></a>
+          <a href="https://angie26501-lgtm.github.io/active/demoactive.html" target="_blank" class="link-card"><span>活動量管理 DEMO 展示版</span><span class="arrow">›</span></a>
+          <a href="https://lin.ee/yBVjjlK" target="_blank" class="link-card"><span>Line@ 官方群組</span><span class="arrow">›</span></a>
         </div>
-
       </section>
 
-      <!-- PODCAST -->
-      <section id="podcast"
-               class="reveal rounded-[28px] shadow-xl p-5 md:p-6 bg-gradient-to-br from-amber-300 via-amber-200 to-white border border-amber-100" style="animation-delay:.38s">
-
+      <section id="podcast" class="reveal rounded-[28px] p-6 md:p-8 shadow-xl"
+               style="animation-delay:.40s; background:linear-gradient(135deg,#f1e6c6 0%,#f7efd9 60%,#fffdf8 100%); border:1px solid rgba(194,162,90,.4)">
         <div class="section-title">
-          <h2 class="!text-slate-900">Podcast 節目</h2>
-          <span class="tag">AUDIO</span>
+          <h2>Podcast 節目</h2>
+          <span class="eyebrow">AUDIO</span>
         </div>
-
         <div class="space-y-4">
-
-          <a href="https://3172shre.firstory.io/episodes"
-             target="_blank"
-             class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
-            <div class="text-2xl font-black text-slate-900 font-serif-tc">
-              斜槓媽青春陪跑實驗室
-            </div>
-            <div class="text-sm text-emerald-700 font-bold mt-1">
-              生活 × 成長 × 財務陪跑
-            </div>
+          <a href="https://3172shre.firstory.io/episodes" target="_blank" class="block rounded-2xl bg-white p-5 shadow hover:scale-[1.02] transition">
+            <div class="text-2xl font-black font-serif-tc" style="color:var(--forest)">斜槓媽青春陪跑實驗室</div>
+            <div class="text-sm font-bold mt-1" style="color:var(--emerald)">生活 × 成長 × 財務陪跑</div>
           </a>
-
-          <a href="https://open.spotify.com/show/1us537rWraGs4qdY8beG5a?si=a1c9ab03a0cb4043"
-             target="_blank"
-             class="block rounded-2xl bg-white/85 p-5 shadow hover:scale-[1.02] transition">
-            <div class="text-2xl font-black text-slate-900 font-serif-tc">
-              心海羅盤・幸福航行誌
-            </div>
-            <div class="text-sm text-emerald-700 font-bold mt-1">
-              幸福財務領航員｜財顧芸
-            </div>
+          <a href="https://open.spotify.com/show/1us537rWraGs4qdY8beG5a?si=a1c9ab03a0cb4043" target="_blank" class="block rounded-2xl bg-white p-5 shadow hover:scale-[1.02] transition">
+            <div class="text-2xl font-black font-serif-tc" style="color:var(--forest)">心海羅盤・幸福航行誌</div>
+            <div class="text-sm font-bold mt-1" style="color:var(--emerald)">幸福財務領航員｜財顧芸</div>
           </a>
-
         </div>
-
       </section>
 
-      <!-- FB -->
-      <section id="social" class="reveal glass rounded-[28px] shadow-xl p-5 md:p-6" style="animation-delay:.44s">
-
+      <section id="social" class="reveal card rounded-[28px] p-6 md:p-8" style="animation-delay:.46s">
         <div class="section-title">
           <h2>FB 粉專</h2>
-          <span class="tag">FACEBOOK</span>
+          <span class="eyebrow">FACEBOOK</span>
         </div>
-
         <div class="space-y-3">
-
-          <a href="https://www.facebook.com/IFA.Fans/" target="_blank" class="link-card">
-            <span>財顧芸</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/NxDVO6" target="_blank" class="link-card">
-            <span>哈佛文教｜昇學用品</span>
-            <span class="arrow">›</span>
-          </a>
-
-          <a href="https://reurl.cc/WOWlbe" target="_blank" class="link-card">
-            <span>葡眾健康計劃補給讚</span>
-            <span class="arrow">›</span>
-          </a>
-
+          <a href="https://www.facebook.com/IFA.Fans/" target="_blank" class="link-card"><span>財顧芸</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/NxDVO6" target="_blank" class="link-card"><span>哈佛文教｜昇學用品</span><span class="arrow">›</span></a>
+          <a href="https://reurl.cc/WOWlbe" target="_blank" class="link-card"><span>葡眾健康計劃補給讚</span><span class="arrow">›</span></a>
         </div>
-
       </section>
 
-      <!-- YOUTUBE -->
-      <section id="youtube" class="reveal glass rounded-[32px] shadow-2xl p-5 md:p-6" style="animation-delay:.50s">
-
+      <section id="youtube" class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.52s">
         <div class="section-title">
-          <h2>財顧芸 YouTube 影音學習館</h2>
-          <span class="tag">YOUTUBE</span>
+          <h2>YouTube 影音學習館</h2>
+          <span class="eyebrow">YOUTUBE</span>
         </div>
-
-        <a href="https://www.youtube.com/@IFA-Fans"
-           target="_blank"
-           class="block rounded-2xl bg-gradient-to-r from-red-600 to-rose-500 text-white p-5 shadow-lg hover:scale-[1.02] transition mb-4">
-          <div class="text-2xl font-black font-serif-tc">
-            財顧芸 YT 頻道
-          </div>
-          <div class="text-sm text-white/85 mt-1 font-semibold">
-            財務規劃 × 保險觀念 × 財商教育影音內容
-          </div>
+        <a href="https://www.youtube.com/@IFA-Fans" target="_blank"
+           class="block rounded-2xl text-white p-5 shadow-lg hover:scale-[1.02] transition"
+           style="background:linear-gradient(135deg,#b32d2d,#d24a4a)">
+          <div class="text-2xl font-black font-serif-tc">財顧芸 YT 頻道</div>
+          <div class="text-sm text-white/85 mt-1 font-semibold">財務規劃 × 保險觀念 × 財商教育影音內容</div>
         </a>
-
       </section>
 
     </aside>
-
   </div>
 
-  <footer class="mt-10 mb-4 text-center text-xs text-slate-500 leading-relaxed">
+  <div class="my-10 gold-rule"></div>
+
+  <footer class="mb-4 text-center leading-relaxed" style="color:#7a8b84; font-size:.92rem">
     © 財顧芸｜馥芸財富學苑<br>
     願每一次整理，都是走向更安心生活的開始。
   </footer>
 
 </main>
+
+<script>
+/* ===== 財務計算機 ===== */
+const NT = n => "NT$ " + Math.round(n).toLocaleString("zh-Hant");
+
+const configs = {
+  compound:{
+    fields:[
+      {id:"pv",   label:"投入本金（元）",    val:1000000},
+      {id:"rate", label:"預期年化報酬率（%）", val:6},
+      {id:"yr",   label:"投資年數（年）",      val:20}
+    ],
+    calc:v=>{
+      const fv = v.pv * Math.pow(1+v.rate/100, v.yr);
+      const gain = fv - v.pv;
+      return {
+        big: NT(fv),
+        note:`本金 ${NT(v.pv)} 以年化 ${v.rate}% 複利 ${v.yr} 年後，預估成長為 ${NT(fv)}。`,
+        rows:[["投入本金",NT(v.pv)],["累積獲利",NT(gain)],["期末總值",NT(fv)]]
+      };
+    }
+  },
+  monthly:{
+    fields:[
+      {id:"pmt",  label:"每月投入（元）",      val:10000},
+      {id:"rate", label:"預期年化報酬率（%）", val:6},
+      {id:"yr",   label:"投資年數（年）",      val:20}
+    ],
+    calc:v=>{
+      const i = v.rate/100/12, m = v.yr*12;
+      const fv = i===0 ? v.pmt*m : v.pmt*((Math.pow(1+i,m)-1)/i);
+      const cost = v.pmt*m;
+      return {
+        big: NT(fv),
+        note:`每月投入 ${NT(v.pmt)}，以年化 ${v.rate}% 持續 ${v.yr} 年，預估累積 ${NT(fv)}。`,
+        rows:[["累積投入",NT(cost)],["複利獲利",NT(fv-cost)],["期末總值",NT(fv)]]
+      };
+    }
+  },
+  retire:{
+    fields:[
+      {id:"exp",  label:"退休後每月支出（元）", val:40000},
+      {id:"years",label:"預計退休生活年數（年）", val:25},
+      {id:"rate", label:"退休後資產年化報酬（%）", val:3},
+      {id:"have", label:"目前已準備退休金（元）", val:2000000}
+    ],
+    calc:v=>{
+      const i=v.rate/100, m=v.years*12, mi=i/12;
+      // 退休當下所需總額（年金現值）
+      const need = mi===0 ? v.exp*m : v.exp*(1-Math.pow(1+mi,-m))/mi;
+      const gap = Math.max(0, need - v.have);
+      return {
+        big: NT(need),
+        note: gap>0
+          ? `退休需準備約 ${NT(need)}，目前已備 ${NT(v.have)}，尚有缺口 ${NT(gap)} 需補足。`
+          : `退休需準備約 ${NT(need)}，目前準備 ${NT(v.have)} 已足夠，恭喜！`,
+        rows:[["退休所需總額",NT(need)],["目前已準備",NT(v.have)],["尚需補足缺口",NT(gap)]]
+      };
+    }
+  },
+  loan:{
+    fields:[
+      {id:"amt",  label:"貸款金額（元）",   val:8000000},
+      {id:"rate", label:"年利率（%）",      val:2.2},
+      {id:"yr",   label:"貸款年數（年）",   val:30}
+    ],
+    calc:v=>{
+      const i=v.rate/100/12, n=v.yr*12;
+      const pmt = i===0 ? v.amt/n : v.amt*i/(1-Math.pow(1+i,-n));
+      const total = pmt*n;
+      return {
+        big: NT(pmt) + " / 月",
+        note:`貸款 ${NT(v.amt)}、年利率 ${v.rate}%、期數 ${v.yr} 年，每月本息攤還約 ${NT(pmt)}。`,
+        rows:[["每月月付金",NT(pmt)],["利息總額",NT(total-v.amt)],["還款總額",NT(total)]]
+      };
+    }
+  },
+  cover:{
+    fields:[
+      {id:"income",label:"家庭年支出（元）",     val:800000},
+      {id:"depyr", label:"需照顧家人年數（年）",  val:15},
+      {id:"debt",  label:"房貸／負債餘額（元）",  val:5000000},
+      {id:"edu",   label:"子女教育預備金（元）",  val:2000000},
+      {id:"asset", label:"現有保額＋可動用資產（元）", val:3000000}
+    ],
+    calc:v=>{
+      const need = v.income*v.depyr + v.debt + v.edu;
+      const gap = Math.max(0, need - v.asset);
+      return {
+        big: NT(gap),
+        note: gap>0
+          ? `家庭責任總需求約 ${NT(need)}，扣除現有 ${NT(v.asset)}，建議再補足保障缺口 ${NT(gap)}。`
+          : `家庭責任總需求約 ${NT(need)}，現有保障 ${NT(v.asset)} 已足夠覆蓋。`,
+        rows:[["責任總需求",NT(need)],["現有保障／資產",NT(v.asset)],["建議保障缺口",NT(gap)]]
+      };
+    }
+  }
+};
+
+/* 計算機選單（順序、圖示、名稱） */
+const calcMenu = [
+  {key:"compound", icon:"📈", label:"複利成長"},
+  {key:"monthly",  icon:"💰", label:"定期定額"},
+  {key:"retire",   icon:"🌅", label:"退休缺口"},
+  {key:"loan",     icon:"🏠", label:"貸款月付"},
+  {key:"cover",    icon:"🛡️", label:"保障缺口"}
+];
+const calcFullName = {
+  compound:"複利成長｜單筆投資",
+  monthly:"定期定額｜每月累積",
+  retire:"退休缺口｜退休金試算",
+  loan:"貸款月付｜房貸／信貸",
+  cover:"保障缺口｜壽險需求"
+};
+
+/* 學員專區資料 */
+const member = {
+  course:{ icon:"🎓", label:"課程入口", title:"馥芸財富學苑｜課程入口",
+    desc:"課程資訊、活動連結、學習資源，一站式進入學苑。",
+    links:[["進入學苑課程入口","https://angie26501-lgtm.github.io/active/fuyun-academy.html"]] },
+  garden:{ icon:"🌸", label:"財富花園", title:"財富花園｜女人要有錢",
+    desc:"為女性打造的財富成長園地，從一顆種子開始，陪你長成豐盛的人生。",
+    links:[["進入財富花園","https://angie26501-lgtm.github.io/active/seed.html"]] },
+  community:{ icon:"💬", label:"學習社群", title:"Line@ 官方學習社群",
+    desc:"禮包、活動訊息、影片與圖卡，第一手通知都在這裡。",
+    links:[["加入 Line@ 官方群組","https://lin.ee/yBVjjlK"]] },
+  video:{ icon:"🎧", label:"影音複習", title:"影音與 Podcast 複習區",
+    desc:"財務規劃、保險觀念與財商教育內容，隨時回放複習。",
+    links:[
+      ["YouTube 影音學習館","https://www.youtube.com/@IFA-Fans"],
+      ["斜槓媽青春陪跑實驗室","https://3172shre.firstory.io/episodes"],
+      ["心海羅盤・幸福航行誌","https://open.spotify.com/show/1us537rWraGs4qdY8beG5a?si=a1c9ab03a0cb4043"]
+    ] },
+  consult:{ icon:"📅", label:"專屬諮詢", title:"預約一對一財務規劃",
+    desc:"從觀念試算到正式規劃，與財顧芸預約專屬諮詢時間。",
+    links:[["來信預約講座／諮詢","mailto:3172share@gmail.com"]] }
+};
+const memberMenu = ["course","garden","community","video","consult"];
+
+/* 狀態 */
+let activeTab = "calc";
+let activeCalc = "compound";
+let activeMember = "course";
+
+/* DOM */
+const sideMenu  = document.getElementById("sideMenu");
+const calcPanel = document.getElementById("calcPanel");
+const memberPanel = document.getElementById("memberPanel");
+const calcHeading = document.getElementById("calcHeading");
+const fieldsBox = document.getElementById("fields");
+const bigEl   = document.getElementById("resultBig");
+const noteEl  = document.getElementById("resultNote");
+const breakEl = document.getElementById("resultBreakdown");
+
+/* 渲染左側選單 */
+function renderMenu(){
+  if(activeTab === "calc"){
+    sideMenu.innerHTML = calcMenu.map(m=>`
+      <button class="menu-item ${m.key===activeCalc?'active':''}" data-calc="${m.key}">
+        <span class="mi-ico">${m.icon}</span><span>${m.label}</span>
+      </button>`).join("");
+  }else{
+    sideMenu.innerHTML = memberMenu.map(k=>`
+      <button class="menu-item ${k===activeMember?'active':''}" data-member="${k}">
+        <span class="mi-ico">${member[k].icon}</span><span>${member[k].label}</span>
+      </button>`).join("");
+  }
+}
+
+/* 計算機：輸入欄 */
+function renderFields(){
+  const cfg = configs[activeCalc];
+  calcHeading.textContent = calcFullName[activeCalc];
+  fieldsBox.innerHTML = cfg.fields.map(f=>`
+    <div class="field">
+      <label>${f.label}</label>
+      <input type="number" id="f_${f.id}" value="${f.val}" inputmode="decimal">
+    </div>`).join("");
+  bigEl.textContent = "—";
+  noteEl.textContent = "輸入數字後按「立即試算」。";
+  breakEl.classList.add("hidden");
+}
+
+/* 計算機：試算 */
+function run(){
+  const cfg = configs[activeCalc];
+  const v = {};
+  cfg.fields.forEach(f=> v[f.id] = parseFloat(document.getElementById("f_"+f.id).value) || 0 );
+  const r = cfg.calc(v);
+  bigEl.textContent = r.big;
+  noteEl.textContent = r.note;
+  breakEl.innerHTML = r.rows.map(([k,val])=>`
+    <div class="flex justify-between items-center py-2" style="border-top:1px solid rgba(231,214,168,.18)">
+      <span class="text-white/70">${k}</span>
+      <span class="font-black" style="color:var(--gold-soft)">${val}</span>
+    </div>`).join("");
+  breakEl.classList.remove("hidden");
+}
+
+/* 學員專區：渲染右窗格 */
+function renderMember(){
+  const d = member[activeMember];
+  document.getElementById("memberTitle").textContent = d.title;
+  document.getElementById("memberDesc").textContent = d.desc;
+  document.getElementById("memberLinks").innerHTML = d.links.map(([t,u])=>{
+    const isGarden = u.includes("seed.html");
+    return `<a href="${u}" ${isGarden ? 'data-garden' : 'target="_blank"'} class="member-link">
+      <span>${t}</span><span class="arrow">›</span>
+    </a>`;
+  }).join("");
+}
+
+/* 分頁切換 */
+function setTab(tab){
+  activeTab = tab;
+  document.getElementById("tabCalc").classList.toggle("active", tab==="calc");
+  document.getElementById("tabMember").classList.toggle("active", tab==="member");
+  calcPanel.classList.toggle("hidden", tab!=="calc");
+  memberPanel.classList.toggle("hidden", tab!=="member");
+  renderMenu();
+  if(tab==="calc") renderFields(); else renderMember();
+}
+
+/* 事件：左側選單委派 */
+sideMenu.addEventListener("click", e=>{
+  const btn = e.target.closest(".menu-item");
+  if(!btn) return;
+  if(activeTab==="calc"){
+    activeCalc = btn.dataset.calc;
+    renderMenu(); renderFields();
+  }else{
+    activeMember = btn.dataset.member;
+    renderMenu(); renderMember();
+  }
+});
+
+document.getElementById("tabCalc").addEventListener("click", ()=>setTab("calc"));
+document.getElementById("tabMember").addEventListener("click", ()=>setTab("member"));
+document.getElementById("calcBtn").addEventListener("click", run);
+
+/* ===== 財富花園 內嵌檢視窗格 ===== */
+const gardenViewer = document.getElementById("gardenViewer");
+const gardenFrame  = document.getElementById("gardenFrame");
+const GARDEN_URL = "https://angie26501-lgtm.github.io/active/seed.html";
+
+function openGarden(){
+  if(gardenFrame.src !== GARDEN_URL) gardenFrame.src = GARDEN_URL; // 點擊時才載入
+  gardenViewer.classList.remove("hidden");
+  gardenViewer.scrollIntoView({behavior:"smooth", block:"start"});
+}
+function closeGarden(){
+  gardenViewer.classList.add("hidden");
+  gardenFrame.src = "about:blank"; // 停止載入、釋放資源
+}
+
+/* 任何 data-garden 連結都在下方窗格開啟，不另開分頁 */
+document.addEventListener("click", e=>{
+  const a = e.target.closest("[data-garden]");
+  if(!a) return;
+  e.preventDefault();
+  openGarden();
+});
+document.getElementById("gardenClose").addEventListener("click", closeGarden);
+
+/* ===== 置頂導覽列：捲過後加陰影底色 ===== */
+const stickyNav = document.getElementById("stickyNav");
+const sentinel  = document.getElementById("navSentinel");
+if("IntersectionObserver" in window && sentinel){
+  new IntersectionObserver(([entry])=>{
+    stickyNav.classList.toggle("pinned", !entry.isIntersecting);
+  },{threshold:0}).observe(sentinel);
+}
+
+/* 初始化 */
+setTab("calc");
+</script>
 
 </body>
 </html>
