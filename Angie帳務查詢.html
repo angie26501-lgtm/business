@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -82,6 +83,29 @@
   select.attr.ken{color:var(--ken);border-color:var(--ken);background:rgba(47,111,176,.06);font-weight:600}
   .empty{padding:48px 20px;text-align:center;color:var(--ink-soft)}
   .hint{font-size:11.5px;color:var(--ink-soft);margin-top:13px;line-height:1.7}.hint b{color:var(--teal)}
+  .vt{display:inline-flex;background:var(--line-soft);border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px}
+  .vt button{font-family:inherit;font-size:12px;font-weight:600;border:0;background:transparent;color:var(--ink-soft);padding:5px 12px;border-radius:6px;cursor:pointer}
+  .vt button.on{background:var(--teal);color:#fff}
+  #monthly{padding:6px 14px 14px}
+  .bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line-soft);background:#fbf7ee;font-size:12.5px;color:var(--ink-soft)}
+  .bulkbar .bl{font-weight:600;color:var(--teal)}
+  .bulkbar b{color:var(--ink)}
+  .bbtn{font-family:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:6px 12px;border-radius:8px;cursor:pointer;transition:.15s}
+  .bbtn:hover{border-color:var(--teal)}
+  .bbtn.fam{color:var(--fam);border-color:rgba(122,92,176,.45)}.bbtn.fam:hover{background:rgba(122,92,176,.08)}
+  .bbtn.ken{color:var(--ken);border-color:rgba(47,111,176,.45)}.bbtn.ken:hover{background:rgba(47,111,176,.08)}
+  .mstmt{border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden;background:#fff}
+  .mstmt summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+    padding:12px 15px;background:linear-gradient(180deg,#fffdf8,#f7f2e7);border-bottom:1px solid var(--line-soft)}
+  .mstmt summary::-webkit-details-marker{display:none}
+  .mstmt .mh{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--teal)}
+  .mstmt .mh .cardname{font-family:'Noto Sans TC';font-size:11.5px;color:var(--ink-soft);font-weight:400;margin-left:8px}
+  .mstmt .msum{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px}
+  .mstmt .msum span{color:var(--ink-soft)}.mstmt .msum b{font-variant-numeric:tabular-nums}
+  .mstmt .msum .sp b{color:var(--neg)}.mstmt .msum .pa b{color:var(--pos)}
+  .mstmt table{width:100%}.mstmt thead th{position:static;background:#eef3f0;color:var(--teal);font-weight:600}
+  .mstmt .mtot{padding:9px 15px;text-align:right;font-size:12.5px;border-top:1px solid var(--line-soft);background:#faf8f2}
+  .mstmt .mtot b{color:var(--neg);font-variant-numeric:tabular-nums}
   @media(max-width:640px){.ttl{font-size:23px}.wrap{padding:16px 11px 50px}.memo{max-width:180px}}
 </style>
 </head>
@@ -108,8 +132,15 @@
 
   <div class="panel">
     <div class="filters" id="filters"></div>
+    <div class="bulkbar">
+      <span class="bl">批次套用</span><span>把目前篩選的 <b id="bulkN">0</b> 筆一次設為：</span>
+      <button class="bbtn" onclick="bulkApply('本人')">本人</button>
+      <button class="bbtn fam" onclick="bulkApply('代墊·家庭')">代墊·家庭</button>
+      <button class="bbtn ken" onclick="bulkApply('代墊·KENNY')">代墊·KENNY</button>
+      <span style="color:#9aa">← 先用上方篩選縮小範圍，再一鍵套用；例外再個別改</span>
+    </div>
     <div class="bar">
-      <div>符合 <b id="cnt">0</b> 筆<span id="rangeInfo"></span></div>
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span id="viewToggle"></span><span>符合 <b id="cnt">0</b> 筆<span id="rangeInfo"></span></span></div>
       <div class="actions">
         <button class="btn" onclick="exportCSV()">匯出 CSV（含歸屬）</button>
         <button class="btn" onclick="backupAttr()">備份歸屬</button>
@@ -118,6 +149,7 @@
       </div>
     </div>
     <div class="tblwrap"><table id="tbl"><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+    <div id="monthly" style="display:none"></div>
   </div>
 
   <div class="hint">
@@ -141,10 +173,23 @@ const fmt=n=>(n===0||n==null)?'':n.toLocaleString('en-US');
 const fmtS=n=>(n<0?'-':'')+Math.abs(n).toLocaleString('en-US');
 const esc=s=>(s||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 
-let g='banks', src='', sortKey='date', sortDir='desc';
+let g='banks', src='', sortKey='date', sortDir='desc', cardView='list';
 const F={kw:'',m:'',cat:'',type:'',attr:'',min:'',max:''};
 
 const pool=()=> src ? DATA[g][src] : Object.values(DATA[g]).flat();
+function kwOpts(){
+  const set=new Set();
+  pool().forEach(r=>{
+    if(g==='banks'){
+      if(r.note) set.add(r.note);
+      if(r.memo) set.add(r.memo);
+    }else{
+      let m=(r.memo||'').replace(/（未出帳）/,'').replace(/\(\d+\/\d+期\)/g,'').replace(/[\d,]+/g,' ').replace(/[*＊]/g,' ').replace(/\s+/g,' ').trim();
+      if(m.length>=2) set.add(m);
+    }
+  });
+  return [...set].filter(x=>x&&x.length>=2).sort((a,b)=>a.localeCompare(b,'zh-Hant')).map(x=>`<option value="${esc(x)}">`).join('');
+}
 const months=()=>[...new Set(pool().map(r=>r.m))].sort();
 const cats=()=>[...new Set(pool().map(r=>r.cat))].sort();
 const spendOf=r=> g==='banks' ? (r.out||0) : (r.amt>0?r.amt:0);
@@ -163,7 +208,7 @@ function buildFilters(){
     : `<option value="">全部</option><option value="消費">消費</option><option value="繳款/退款">繳款/退款</option>`;
   const at = `<option value="">全部</option>`+ATTRS.map(a=>`<option>${a}</option>`).join('');
   document.getElementById('filters').innerHTML=`
-    <div class="f grow"><label>關鍵字（摘要 / 註記）</label><input id="kw" placeholder="例如：薪資、安聯、南山保費、World Gym、車貸…" value="${esc(F.kw)}"></div>
+    <div class="f grow"><label>關鍵字（可從選單挑，或直接打字）</label><input id="kw" list="kwlist" placeholder="點一下從清單挑，或輸入：安聯、南山保費、World Gym、車貸…" value="${esc(F.kw)}"><datalist id="kwlist">${kwOpts()}</datalist></div>
     <div class="f"><label>月份</label><select id="m"><option value="">全部</option>${mo}</select></div>
     <div class="f"><label>分類</label><select id="cat"><option value="">全部</option>${ca}</select></div>
     <div class="f"><label>類型</label><select id="type">${ty}</select></div>
@@ -264,14 +309,54 @@ function renderTable(rows){
 }
 function setSort(k){if(sortKey===k)sortDir=sortDir==='asc'?'desc':'asc';else{sortKey=k;sortDir='desc';}render()}
 
+function renderViewToggle(){
+  const vt=document.getElementById('viewToggle');
+  if(g!=='cards'){vt.innerHTML='';return;}
+  vt.innerHTML=`<span class="vt"><button data-v="list" class="${cardView==='list'?'on':''}">明細列表</button><button data-v="monthly" class="${cardView==='monthly'?'on':''}">每月帳單</button></span>`;
+}
+function renderMonthly(rows){
+  const box=document.getElementById('monthly');
+  const bym={};
+  rows.forEach(r=>{(bym[r.m]=bym[r.m]||[]).push(r);});
+  const ms=Object.keys(bym).sort().reverse();
+  if(!ms.length){box.innerHTML='<div class="empty">沒有符合條件的紀錄</div>';return;}
+  box.innerHTML=ms.map((m,i)=>{
+    const items=bym[m].slice().sort((a,b)=>a.spend<b.spend?1:-1);
+    const sp=items.filter(r=>r.amt>0).reduce((s,r)=>s+r.amt,0);
+    const pa=items.filter(r=>r.amt<0).reduce((s,r)=>s-r.amt,0);
+    const cardSet=[...new Set(items.map(r=>r._src))];
+    const rowsHtml=items.map(r=>`<tr>
+      <td class="date">${r.spend}</td>
+      ${src===''?`<td class="src">${esc(r._src)}</td>`:''}
+      <td class="memo">${esc(r.memo)}</td>
+      <td><span class="tag">${esc(r.cat)}</span></td>
+      <td class="c">${attrSel(r)}</td>
+      <td class="c"><span class="tag ${r.amt<0?'pay':''}">${r.kind}</span></td>
+      <td class="r ${r.amt<0?'in':'out'}">${fmtS(r.amt)}</td></tr>`).join('');
+    return `<details class="mstmt" ${i===0?'open':''}>
+      <summary>
+        <div class="mh">${m} 帳單${src===''?`<span class="cardname">${esc(cardSet.join('、'))}</span>`:''}</div>
+        <div class="msum"><span class="sp">消費 <b>${fmt(sp)||0}</b></span><span class="pa">繳款/退款 <b>${fmt(pa)||0}</b></span><span>共 <b>${items.length}</b> 筆</span></div>
+      </summary>
+      <table><thead><tr><th>消費日</th>${src===''?'<th>卡別</th>':''}<th>摘要</th><th>分類</th><th class="c">歸屬</th><th class="c">類型</th><th class="r">金額</th></tr></thead>
+      <tbody>${rowsHtml}</tbody></table>
+      <div class="mtot">本月消費合計　<b>${fmt(sp)||0}</b></div>
+    </details>`;
+  }).join('');
+}
+
 let lastRows=[];
 function render(){
   const rows=sortRows(filtered());lastRows=rows;
-  renderCards(rows);renderSettle(rows);renderTable(rows);
+  renderCards(rows);renderSettle(rows);renderViewToggle();
+  const monthlyOn = g==='cards' && cardView==='monthly';
+  document.querySelector('.tblwrap').style.display = monthlyOn?'none':'';
+  document.getElementById('monthly').style.display = monthlyOn?'block':'none';
+  if(monthlyOn) renderMonthly(rows); else renderTable(rows);
   document.getElementById('cnt').textContent=rows.length.toLocaleString();
+  document.getElementById('bulkN').textContent=rows.length.toLocaleString();
   const ms=months();
   document.getElementById('rangeInfo').textContent=ms.length?`　·　${ms[0]} – ${ms[ms.length-1]}`:'';
-  const tot=Object.values(DATA[g]).flat().length;
   document.getElementById('sub').textContent = (g==='banks'?'銀行存款':'信用卡')+`　${src||'全部'}　共 ${pool().length.toLocaleString()} 筆`;
 }
 
@@ -286,7 +371,18 @@ document.getElementById('chips').addEventListener('click',e=>{
   const b=e.target.closest('.chip');if(!b)return;
   src=b.dataset.src;buildChips();buildFilters();render();
 });
-document.getElementById('tbody').addEventListener('change',e=>{
+function bulkApply(v){
+  const rows=lastRows;
+  if(!rows.length){alert('目前沒有符合篩選的紀錄');return;}
+  if(!confirm(`將目前篩選的 ${rows.length} 筆全部設為「${v}」？\n（之後可再個別調整例外）`))return;
+  rows.forEach(r=>{if(v==='本人')delete ATTRMAP[r.id];else ATTRMAP[r.id]=v;});
+  saveAttr();render();
+}
+document.getElementById('viewToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-v]');if(!b)return;
+  cardView=b.dataset.v;render();
+});
+document.addEventListener('change',e=>{
   const s=e.target.closest('select.attr');if(!s)return;
   const id=s.dataset.id,v=s.value;
   if(v==='本人')delete ATTRMAP[id];else ATTRMAP[id]=v;
