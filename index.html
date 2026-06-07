@@ -457,7 +457,7 @@
     <div class="garden-viewer-bar">
       <div class="font-serif-tc font-black" style="font-size:1.3rem">🌸 財富花園｜女人要有錢</div>
       <div class="flex items-center gap-2">
-        <a href="https://angie26501-lgtm.github.io/active/seed.html" target="_blank" class="gv-btn">另開分頁 ↗</a>
+        <a id="gardenOpenNew" href="https://angie26501-lgtm.github.io/active/seed.html" target="_blank" class="gv-btn">另開分頁 ↗</a>
         <button id="gardenClose" type="button" class="gv-btn">關閉 ✕</button>
       </div>
     </div>
@@ -576,10 +576,13 @@
 /* ===== 財富花園 內嵌檢視窗格 ===== */
 const gardenViewer = document.getElementById("gardenViewer");
 const gardenFrame  = document.getElementById("gardenFrame");
-const GARDEN_URL = "https://angie26501-lgtm.github.io/active/seed.html";
+const gardenOpenNew = document.getElementById("gardenOpenNew");
+const DEFAULT_GARDEN_URL = "https://angie26501-lgtm.github.io/active/seed.html";
 
-function openGarden(){
-  if(gardenFrame.src !== GARDEN_URL) gardenFrame.src = GARDEN_URL; // 點擊時才載入
+function openGarden(url){
+  const target = url || DEFAULT_GARDEN_URL;
+  if(gardenFrame.getAttribute("src") !== target) gardenFrame.src = target; // 點擊時才載入
+  if(gardenOpenNew) gardenOpenNew.href = target;                            // 另開分頁同步當前頁
   gardenViewer.classList.remove("hidden");
   gardenViewer.scrollIntoView({behavior:"smooth", block:"start"});
 }
@@ -588,12 +591,12 @@ function closeGarden(){
   gardenFrame.src = "about:blank"; // 停止載入、釋放資源
 }
 
-/* 任何 data-garden 連結都在下方窗格開啟，不另開分頁 */
+/* 任何 data-garden 連結都在下方窗格開啟，不另開分頁；載入該連結自己的網址 */
 document.addEventListener("click", e=>{
   const a = e.target.closest("[data-garden]");
   if(!a) return;
   e.preventDefault();
-  openGarden();
+  openGarden(a.getAttribute("href"));
 });
 document.getElementById("gardenClose").addEventListener("click", closeGarden);
 
