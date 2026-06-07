@@ -15,7 +15,7 @@
 <style>
   :root{
     /* 整體字級放大，高資產客戶閱讀更舒適 */
-    font-size: clamp(17px, 1.9vw, 21px);
+    font-size: clamp(15px, 1.2vw, 16.5px);
 
     --ink:#16241f;          /* 深墨綠：主文字 */
     --forest:#0d3a2c;       /* 森林綠 */
@@ -69,13 +69,13 @@
     background:linear-gradient(90deg,transparent,rgba(194,162,90,.55),transparent);
   }
 
-  .hero-title{ font-size:clamp(2.4rem,6.4vw,4.6rem); line-height:1.1; }
-  .hero-sub{ font-size:clamp(1.05rem,2.2vw,1.25rem); line-height:1.95; }
+  .hero-title{ font-size:clamp(1.9rem,5vw,3.2rem); line-height:1.15; }
+  .hero-sub{ font-size:clamp(.95rem,1.6vw,1.08rem); line-height:1.9; }
 
   .section-title{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:18px; }
   .section-title h2{
     font-family:"Noto Serif TC",serif;
-    font-size:clamp(1.5rem,3.2vw,2rem);
+    font-size:clamp(1.2rem,2.4vw,1.55rem);
     font-weight:900; color:var(--forest);
     letter-spacing:.01em;
   }
@@ -149,7 +149,7 @@
     top:-30px; right:-12px; opacity:.16; transform:rotate(-12deg);
   }
 
-  .main-title{ font-family:"Noto Serif TC",serif; font-size:clamp(1.7rem,4vw,2.7rem); font-weight:900; line-height:1.25; }
+  .main-title{ font-family:"Noto Serif TC",serif; font-size:clamp(1.35rem,3vw,1.9rem); font-weight:900; line-height:1.25; }
   .main-text{ margin-top:10px; opacity:.92; font-size:1.05rem; }
 
   /* 財務計算機 */
@@ -235,15 +235,62 @@
     border:1px dashed rgba(231,214,168,.45);
     border-radius:20px; padding:24px;
   }
-  .result-big{ font-family:"Noto Serif TC",serif; font-size:clamp(2rem,5vw,3rem); font-weight:900; color:var(--gold-soft); line-height:1.1; }
+  .result-big{ font-family:"Noto Serif TC",serif; font-size:clamp(1.6rem,3.6vw,2.2rem); font-weight:900; color:var(--gold-soft); line-height:1.1; }
 
   .reveal{ opacity:0; animation:rise .7s cubic-bezier(.22,.61,.36,1) forwards; }
   @keyframes rise{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
   @media (prefers-reduced-motion:reduce){ .reveal{ animation:none; opacity:1; } }
 
   /* 置頂固定導覽列 */
+  /* 固定頂部品牌選單列 */
+  :root{ --header-h:66px; }
+  body{ padding-top:var(--header-h); }
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    height:var(--header-h);
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:0 clamp(16px,4vw,44px);
+    background:linear-gradient(135deg,#06231a 0%,#0d3a2c 60%,#0f6b4f 130%);
+    border-bottom:1px solid rgba(231,214,168,.28);
+    box-shadow:0 6px 22px rgba(7,42,32,.20);
+  }
+  .site-brand{
+    font-family:"Noto Serif TC",serif; font-weight:900; cursor:pointer; user-select:none;
+    font-size:clamp(1.12rem,2.4vw,1.5rem); color:#fff; letter-spacing:.05em; white-space:nowrap; flex:none;
+  }
+  .site-brand .b-gold{ color:var(--gold-soft); }
+  .site-nav{
+    display:flex; align-items:center; gap:clamp(12px,2.2vw,30px);
+    overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  }
+  .site-nav::-webkit-scrollbar{ display:none; }
+  .site-nav a{
+    color:rgba(255,255,255,.92); font-weight:800; flex:none;
+    font-size:clamp(.95rem,1.7vw,1.08rem); white-space:nowrap; cursor:pointer;
+    transition:color .18s ease, transform .18s ease;
+  }
+  .site-nav a:hover{ color:var(--gold-soft); }
+  .site-nav a.cta{
+    background:linear-gradient(135deg,var(--gold) 0%,#d8bd72 100%); color:#3a2c08;
+    padding:9px 18px; border-radius:999px; box-shadow:0 6px 16px rgba(194,162,90,.3);
+  }
+  .site-nav a.cta:hover{ color:#3a2c08; transform:translateY(-1px); }
+  @media(max-width:680px){
+    :root{ --header-h:54px; }
+    .site-header{ padding:0 12px; gap:10px; }
+    .site-brand{ font-size:.98rem; letter-spacing:.01em; }
+    .site-nav{ gap:14px; }
+    .site-nav a{ font-size:.85rem; }
+    .site-nav a.cta{ padding:6px 13px; }
+  }
+
+  /* 錨點捲動時讓出固定列＋置頂列高度 */
+  #calculator,#garden,#courses,#podcast,#social,#youtube,#gardenViewer{
+    scroll-margin-top:calc(var(--header-h) + 86px);
+  }
+
   .sticky-nav{
-    position:sticky; top:0; z-index:50;
+    position:sticky; top:var(--header-h); z-index:50;
     margin-left:-1rem; margin-right:-1rem; padding:10px 1rem;
     transition:background .25s ease, box-shadow .25s ease, padding .25s ease;
   }
@@ -254,7 +301,7 @@
     border-bottom:1px solid rgba(194,162,90,.28);
   }
   .nav-inner{
-    display:grid; grid-template-columns:repeat(6,1fr); gap:12px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
     max-width:80rem; margin:0 auto;
   }
   .nav-link{
@@ -301,6 +348,17 @@
 </head>
 
 <body class="lux-bg min-h-screen">
+
+<!-- ===== 固定頂部品牌選單列 ===== -->
+<header class="site-header">
+  <div class="site-brand" id="brandHome" role="button" tabindex="0" title="回首頁"><span class="b-gold">馥芸</span> 財富學苑</div>
+  <nav class="site-nav">
+    <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank">講座課程</a>
+    <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden>財富花園</a>
+    <a href="https://angie26501-lgtm.github.io/active/student.html" target="_blank">學員作品專區</a>
+    <a href="#calculator" class="cta">財務計算機</a>
+  </nav>
+</header>
 
 <main class="max-w-7xl mx-auto px-4 py-6 md:px-6 lg:px-8 md:py-10 relative">
 
@@ -388,9 +446,6 @@
   <div id="navSentinel"></div>
   <div id="stickyNav" class="sticky-nav mb-8">
     <nav class="nav-inner">
-      <a href="#calculator" class="nav-link card" style="color:#8a6d2f">財務計算機</a>
-      <a href="#garden" class="nav-link card" style="color:var(--rose)">財富花園</a>
-      <a href="#courses" class="nav-link card" style="color:var(--forest)">課程活動</a>
       <a href="#podcast" class="nav-link card" style="color:var(--forest)">Podcast</a>
       <a href="#social" class="nav-link card" style="color:var(--forest)">FB 粉專</a>
       <a href="#youtube" class="nav-link card" style="color:var(--forest)">YouTube</a>
@@ -831,13 +886,23 @@ document.addEventListener("click", e=>{
 });
 document.getElementById("gardenClose").addEventListener("click", closeGarden);
 
-/* ===== 置頂導覽列：捲過後加陰影底色 ===== */
+/* ===== 點品牌字回首頁（捲動到最上方） ===== */
+const brandHome = document.getElementById("brandHome");
+if(brandHome){
+  const toTop = ()=> window.scrollTo({top:0, behavior:"smooth"});
+  brandHome.addEventListener("click", toTop);
+  brandHome.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toTop(); } });
+}
+
+/* ===== 置頂導覽列：捲到固定列下方後加陰影底色 ===== */
 const stickyNav = document.getElementById("stickyNav");
 const sentinel  = document.getElementById("navSentinel");
+const siteHeader = document.querySelector(".site-header");
 if("IntersectionObserver" in window && sentinel){
+  const hH = siteHeader ? siteHeader.offsetHeight : 0;
   new IntersectionObserver(([entry])=>{
     stickyNav.classList.toggle("pinned", !entry.isIntersecting);
-  },{threshold:0}).observe(sentinel);
+  },{rootMargin:`-${hH}px 0px 0px 0px`, threshold:0}).observe(sentinel);
 }
 
 /* 初始化 */
