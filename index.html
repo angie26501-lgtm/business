@@ -337,12 +337,57 @@
   }
   .gv-btn:hover{ transform:translateY(-1px); }
 
+  /* ===== 財務藍圖 置頂橫幅 ===== */
+  .blueprint-banner{
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    width:100%; border-radius:22px; padding:18px 26px; margin-bottom:22px;
+    background:linear-gradient(135deg,#06231a 0%,#0d3a2c 55%,#0f6b4f 125%);
+    border:1.5px solid rgba(231,214,168,.55);
+    box-shadow:0 18px 42px rgba(7,42,32,.28);
+    color:#fff; position:relative; overflow:hidden;
+    transition:transform .22s ease, box-shadow .22s ease;
+  }
+  .blueprint-banner::after{
+    content:""; position:absolute; width:200px; height:200px; top:-90px; right:-50px;
+    background:radial-gradient(circle,rgba(231,214,168,.28),transparent 70%); border-radius:999px;
+  }
+  .blueprint-banner:hover{ transform:translateY(-3px); box-shadow:0 26px 54px rgba(7,42,32,.38); }
+  .bp-left{ display:flex; align-items:center; gap:16px; min-width:0; position:relative; z-index:1; }
+  .bp-ico{
+    flex:none; width:52px; height:52px; border-radius:15px; font-size:1.6rem;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+    box-shadow:0 8px 18px rgba(194,162,90,.35);
+  }
+  .bp-eyebrow{ display:block; font-size:.72rem; letter-spacing:.22em; font-weight:800; color:var(--gold-soft); margin-bottom:4px; }
+  .bp-title{ display:block; font-family:"Noto Serif TC",serif; font-weight:900; line-height:1.25; font-size:clamp(1.08rem,2.6vw,1.5rem); }
+  .bp-cta{
+    flex:none; position:relative; z-index:1;
+    display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+    padding:11px 22px; border-radius:999px; font-weight:900; font-family:"Noto Serif TC",serif;
+    background:linear-gradient(135deg,var(--gold) 0%,#d8bd72 100%); color:#3a2c08;
+    box-shadow:0 8px 18px rgba(194,162,90,.34);
+  }
+  .bp-arrow{ font-size:1.2rem; transition:transform .22s ease; }
+  .blueprint-banner:hover .bp-arrow{ transform:translateX(3px); }
+
+  /* 主入口大卡：標題＋說明＋箭頭 */
+  .cta-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+  .cta-arrow{
+    flex:none; width:46px; height:46px; border-radius:999px;
+    display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900;
+    background:rgba(255,255,255,.18); color:#fff; transition:transform .22s ease;
+  }
+  .main-cta:hover .cta-arrow, .garden-cta:hover .cta-arrow{ transform:translateX(3px); }
+
   @media(max-width:640px){
     .link-card{ align-items:flex-start; }
     .arrow{ margin-top:2px; }
     .main-cta,.garden-cta{ padding:26px; }
     .garden-cta::before{ font-size:118px; }
     .garden-viewer iframe{ height:70vh; min-height:440px; }
+    .blueprint-banner{ flex-direction:column; align-items:stretch; text-align:left; padding:20px; }
+    .bp-cta{ justify-content:center; }
   }
 </style>
 </head>
@@ -361,6 +406,19 @@
 </header>
 
 <main class="max-w-7xl mx-auto px-4 py-6 md:px-6 lg:px-8 md:py-10 relative">
+
+  <!-- ===== 財務藍圖 置頂橫幅 ===== -->
+  <a href="https://polite-cetacean-b4m8g82.gamma.site/" target="_blank" rel="noopener"
+     class="reveal blueprint-banner" style="animation-delay:.02s">
+    <span class="bp-left">
+      <span class="bp-ico">📜</span>
+      <span>
+        <span class="bp-eyebrow">認識財顧芸</span>
+        <span class="bp-title">用一張紙，畫出你一生的財務藍圖</span>
+      </span>
+    </span>
+    <span class="bp-cta">了解更多 <span class="bp-arrow">›</span></span>
+  </a>
 
   <!-- ===== HERO ===== -->
   <section class="reveal relative overflow-hidden rounded-[34px] text-white shadow-2xl p-8 md:p-12 mb-8"
@@ -401,13 +459,6 @@
         <div class="text-xs mt-1 font-semibold" style="color:#7a8b84">禮包＋活動訊息＋影片＋圖卡</div>
       </a>
 
-      <a href="https://angie26501-lgtm.github.io/active/demoactive.html" target="_blank"
-         class="rounded-2xl p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition text-white"
-         style="background:linear-gradient(135deg,var(--emerald),#15805f)">
-        DEMO 展示版
-        <div class="text-xs text-white/85 mt-1 font-semibold">活動量管理樣板參考</div>
-      </a>
-
       <a href="mailto:3172share@gmail.com"
          class="rounded-2xl p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition"
          style="background:linear-gradient(135deg,var(--gold-soft),var(--gold)); color:#3a2c08">
@@ -415,8 +466,48 @@
         <div class="text-xs mt-1 font-semibold" style="color:#5a4716">3172share@gmail.com</div>
       </a>
 
+      <a href="https://angie26501-lgtm.github.io/active/demoactive.html" target="_blank"
+         class="rounded-2xl p-5 text-center font-black shadow-lg hover:-translate-y-0.5 transition text-white"
+         style="background:linear-gradient(135deg,var(--emerald),#15805f)">
+        DEMO 展示版
+        <div class="text-xs text-white/85 mt-1 font-semibold">活動量管理樣板參考</div>
+      </a>
+
     </div>
   </section>
+
+  <!-- ===== 兩大主入口 ===== -->
+  <div class="grid md:grid-cols-2 gap-5 mb-6">
+    <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank" class="reveal main-cta" style="animation-delay:.12s">
+      <div class="cta-head">
+        <div>
+          <div class="main-title">🌿 馥芸財富學苑</div>
+          <div class="main-text">學苑課程入口｜課程資訊、活動連結、學習資源，一站式進入。</div>
+        </div>
+        <span class="cta-arrow">›</span>
+      </div>
+    </a>
+
+    <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden class="reveal garden-cta" style="animation-delay:.18s">
+      <div class="cta-head">
+        <div>
+          <div class="main-title">🌸 財富花園｜女人要有錢</div>
+          <div class="main-text">為女性打造的財富成長園地，從一顆種子開始，陪你長成豐盛的人生。</div>
+        </div>
+        <span class="cta-arrow">›</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ===== 次要入口 ===== -->
+  <div class="grid md:grid-cols-2 gap-4 mb-8">
+    <a href="https://angie26501-lgtm.github.io/active/student.html" target="_blank" class="reveal link-card" style="animation-delay:.22s">
+      <span>🎓 學員作品專區</span><span class="arrow">›</span>
+    </a>
+    <a href="https://angie26501-lgtm.github.io/business/cal.html" target="_blank" class="reveal link-card" style="animation-delay:.26s">
+      <span>🧮 財務計算機</span><span class="arrow">›</span>
+    </a>
+  </div>
 
   <!-- ===== QUICK NAV（置頂） ===== -->
   <div id="navSentinel"></div>
@@ -446,27 +537,12 @@
     <!-- LEFT -->
     <div class="space-y-6">
 
-      <section id="garden" class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.30s">
-        <div class="section-title">
-          <h2 style="color:var(--rose)">🌸 財富花園｜女人要有錢</h2>
-          <span class="eyebrow" style="background:rgba(182,105,79,.12); color:var(--rose); border-color:rgba(182,105,79,.4)">GARDEN</span>
-        </div>
-        <p class="mb-5 leading-relaxed" style="color:#5a655f">
-          為女性量身打造的財富學習園地，從理財觀念、金錢整理到財務自由，一步步陪你把財富的種子，灌溉成屬於自己的豐盛花園。
-        </p>
-        <a href="https://angie26501-lgtm.github.io/active/seed.html" data-garden class="link-card garden-card">
-          <span>🌷 進入財富花園｜女人要有錢</span><span class="arrow">›</span>
-        </a>
-      </section>
-
       <section id="courses" class="reveal card rounded-[30px] p-6 md:p-8" style="animation-delay:.36s">
         <div class="section-title">
           <h2>課程活動與講座報名</h2>
           <span class="eyebrow">COURSES</span>
         </div>
         <div class="grid md:grid-cols-2 gap-3">
-          <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html" target="_blank" class="link-card highlight-card md:col-span-2">
-            <span>🌿 馥芸財富學苑｜學苑課程入口</span><span class="arrow">›</span></a>
           <a href="https://reurl.cc/da8M36" target="_blank" class="link-card"><span>手作及講座報名</span><span class="arrow">›</span></a>
           <a href="https://reurl.cc/9n82R8" target="_blank" class="link-card"><span>兒童親子財商桌遊招生資訊</span><span class="arrow">›</span></a>
           <a href="https://forms.gle/M22upNhvh7HPLLbYA" target="_blank" class="link-card"><span>台灣版財富自由桌遊體驗講座</span><span class="arrow">›</span></a>
