@@ -10,103 +10,122 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1d2b2f;--ink-soft:#5f7177;--line:#e3e0d8;--line-soft:#efece4;
-    --paper:#f6f3ec;--card:#fffdf8;--teal:#1f4e5f;--teal-d:#15363f;
-    --pos:#1f7a52;--neg:#b4452e;--gold:#b08a3c;--fam:#7a5cb0;--ken:#2f6fb0;
-    --shadow:0 1px 2px rgba(29,43,47,.06),0 8px 24px rgba(29,43,47,.05);
+    --ink:#22302f;--ink2:#5e7173;--ink3:#93a1a0;
+    --line:#e7e3d8;--line2:#f1ede2;
+    --paper:#f4f1e8;--card:#fffefa;
+    --teal:#1f5460;--teal-d:#143a43;
+    --gold:#b5883b;--pos:#1f7a52;--neg:#b4452e;--fam:#6f56b0;--ken:#2f6fb0;
+    --r:14px;--sh:0 1px 2px rgba(34,48,47,.05),0 10px 30px -12px rgba(34,48,47,.16);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans TC',sans-serif;background:var(--paper);color:var(--ink);
-    background-image:radial-gradient(circle at 12% 0%,rgba(31,78,95,.05),transparent 40%),radial-gradient(circle at 100% 30%,rgba(176,138,60,.05),transparent 35%);
-    min-height:100vh;line-height:1.5;font-size:14px;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1240px;margin:0 auto;padding:24px 18px 64px}
-  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:13px;margin-bottom:16px}
-  .ttl{font-family:'Noto Serif TC',serif;font-size:29px;font-weight:700;letter-spacing:.5px;line-height:1.1}
-  .ttl small{display:block;font-family:'Noto Sans TC';font-size:12px;font-weight:400;color:var(--ink-soft);margin-top:6px}
-  .stamp{font-size:11px;color:var(--ink-soft);text-align:right}.stamp b{color:var(--teal)}
-
-  .seg{display:inline-flex;background:var(--line-soft);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px;margin-bottom:10px}
-  .seg button{font-family:inherit;font-size:14px;font-weight:700;border:0;background:transparent;color:var(--ink-soft);padding:9px 22px;border-radius:8px;cursor:pointer;transition:.18s}
-  .seg button.on{background:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(31,78,95,.3)}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
-  .chip{font-family:inherit;font-size:12.5px;font-weight:500;border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:7px 13px;border-radius:20px;cursor:pointer;transition:.15s}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:'Noto Sans TC',system-ui,sans-serif;color:var(--ink);background:var(--paper);
+    background-image:radial-gradient(1100px 380px at 100% -5%,rgba(31,84,96,.06),transparent),radial-gradient(800px 320px at -8% 6%,rgba(181,136,59,.06),transparent);
+    line-height:1.55;font-size:14px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 72px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .ttl{font-family:'Noto Serif TC',serif;font-size:26px;font-weight:700;letter-spacing:.5px;line-height:1.15}
+  .ttl small{display:block;font-family:'Noto Sans TC';font-size:12px;font-weight:400;color:var(--ink2);margin-top:6px;letter-spacing:0}
+  .stamp{font-size:11px;color:var(--ink3);text-align:right;line-height:1.6}.stamp b{color:var(--teal);font-weight:600}
+  .seclabel{font-size:11px;font-weight:700;letter-spacing:1.6px;color:var(--ink3);text-transform:uppercase;margin:22px 2px 9px}
+  .seg{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px;box-shadow:var(--sh)}
+  .seg button{font:inherit;font-size:14px;font-weight:700;border:0;background:transparent;color:var(--ink2);padding:9px 24px;border-radius:8px;cursor:pointer;transition:.18s}
+  .seg button.on{background:var(--teal);color:#fff;box-shadow:0 3px 10px -3px rgba(31,84,96,.5)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .chip{font:inherit;font-size:12.5px;font-weight:500;border:1px solid var(--line);background:#fff;color:var(--ink2);padding:7px 14px;border-radius:30px;cursor:pointer;transition:.15s}
   .chip:hover{border-color:var(--teal);color:var(--teal)}
   .chip.on{background:var(--teal);color:#fff;border-color:var(--teal);font-weight:700}
-
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:11px;margin:4px 0 12px}
-  .c{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 15px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .c::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+  .c{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);position:relative;overflow:hidden}
+  .c::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--teal)}
   .c.pos::before{background:var(--pos)}.c.neg::before{background:var(--neg)}.c.gold::before{background:var(--gold)}
-  .c .lab{font-size:11.5px;color:var(--ink-soft);margin-bottom:5px}
-  .c .val{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+  .c .lab{font-size:11.5px;color:var(--ink2);margin-bottom:6px}
+  .c .val{font-family:'Noto Serif TC',serif;font-size:23px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.3px}
   .c.pos .val{color:var(--pos)}.c.neg .val{color:var(--neg)}
-
-  .settle{background:linear-gradient(180deg,#fffdf8,#faf6ec);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);padding:13px 16px;margin-bottom:16px}
-  .settle h3{font-family:'Noto Serif TC',serif;font-size:14px;color:var(--teal);margin-bottom:3px}
-  .settle .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:11px}
-  .sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-  .sbox{border:1px solid var(--line);border-radius:10px;padding:10px 13px;background:#fff;position:relative;overflow:hidden}
-  .sbox::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
-  .sbox.self::before{background:var(--ink-soft)}.sbox.fam::before{background:var(--fam)}.sbox.ken::before{background:var(--ken)}
-  .sbox .l{font-size:11.5px;color:var(--ink-soft);margin-bottom:4px}
+  .settle{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:16px 17px;margin-top:11px}
+  .settle h3{font-family:'Noto Serif TC',serif;font-size:15px;color:var(--teal);margin-bottom:4px}
+  .settle .sub{font-size:11.5px;color:var(--ink2);margin-bottom:12px;line-height:1.6}
+  .settle .ratio{font-size:12.5px;color:var(--ink2);margin-bottom:12px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .settle .ratio input{width:58px;font:inherit;font-size:13px;text-align:center;border:1px solid var(--line);border-radius:8px;padding:6px 4px;outline:none;background:#fff}
+  .settle .ratio input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,84,96,.12)}
+  .settle.prep{margin-top:11px}
+  .settle .ratio input#prepaid{width:120px;text-align:right;font-weight:700;color:var(--teal)}
+  .sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}
+  .sbox{border:1px solid var(--line);border-radius:11px;padding:11px 14px;background:#fff;position:relative;overflow:hidden}
+  .sbox::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--ink3)}
+  .sbox.self::before{background:var(--ink3)}.sbox.fam::before{background:var(--fam)}.sbox.ken::before{background:var(--ken)}
+  .sbox .l{font-size:11.5px;color:var(--ink2);margin-bottom:4px}
   .sbox .v{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
   .sbox.fam .v{color:var(--fam)}.sbox.ken .v{color:var(--ken)}
-  .sbox .n{font-size:11px;color:var(--ink-soft);margin-top:3px}
-
-  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
-  .filters{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:flex-end;padding:14px 16px;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,#fffdf8,#faf7f0)}
-  .f{display:flex;flex-direction:column;gap:5px}.f label{font-size:11px;color:var(--ink-soft);font-weight:500}
-  .f input,.f select{font-family:inherit;font-size:13.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none;transition:.15s}
-  .f input:focus,.f select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,78,95,.1)}
-  .f.grow{flex:1;min-width:180px}.f.grow input{width:100%}.f .amt{width:92px}
-  .btn{font-family:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 15px;border-radius:9px;cursor:pointer;transition:.15s;white-space:nowrap}
+  .sbox .n{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.45}
+  .sbox.hero{background:linear-gradient(135deg,#1f5460,#143a43);border-color:#143a43}
+  .sbox.hero::before{display:none}
+  .sbox.hero .l{color:#bfe0dd}.sbox.hero .v{color:#fff;font-size:24px}.sbox.hero .n{color:#9fc7c4}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-top:11px}
+  .filters{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:flex-end;padding:15px 16px;border-bottom:1px solid var(--line2);background:linear-gradient(180deg,#fffefa,#faf7ef)}
+  .f{display:flex;flex-direction:column;gap:5px}.f label{font-size:11px;color:var(--ink2);font-weight:500}
+  .f input,.f select{font:inherit;font-size:13.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;outline:none;transition:.15s}
+  .f input:focus,.f select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,84,96,.12)}
+  .f.grow{flex:1;min-width:190px}.f.grow input{width:100%}.f .amt{width:90px}
+  .btn{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 15px;border-radius:9px;cursor:pointer;transition:.15s;white-space:nowrap}
   .btn:hover{border-color:var(--teal);color:var(--teal)}
-  .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line-soft);font-size:12.5px;color:var(--ink-soft)}
+  .bulkbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 16px;border-bottom:1px solid var(--line2);background:#faf6ec;font-size:12.5px;color:var(--ink2)}
+  .bulkbar .bl{font-weight:700;color:var(--teal)}.bulkbar b{color:var(--ink)}
+  .bbtn{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink2);padding:6px 13px;border-radius:8px;cursor:pointer;transition:.15s}
+  .bbtn:hover{border-color:var(--teal)}
+  .bbtn.fam{color:var(--fam);border-color:rgba(111,86,176,.4)}.bbtn.fam:hover{background:rgba(111,86,176,.08)}
+  .bbtn.ken{color:var(--ken);border-color:rgba(47,111,176,.4)}.bbtn.ken:hover{background:rgba(47,111,176,.08)}
+  .bulkctx{font-size:11.5px;color:var(--teal);background:#fff;border:1px solid var(--line);border-radius:30px;padding:5px 12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line2);font-size:12.5px;color:var(--ink2)}
   .bar b{color:var(--teal)}.bar .actions{display:flex;gap:7px;flex-wrap:wrap}
-
-  .tblwrap{max-height:60vh;overflow:auto}
+  .vt{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px}
+  .vt button{font:inherit;font-size:12px;font-weight:600;border:0;background:transparent;color:var(--ink2);padding:6px 13px;border-radius:6px;cursor:pointer}
+  .vt button.on{background:var(--teal);color:#fff}
+  .tblwrap{max-height:60vh;overflow:auto;-webkit-overflow-scrolling:touch}
   table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
-  thead th{position:sticky;top:0;z-index:2;background:var(--teal);color:#fff;font-weight:500;font-size:12px;padding:10px 11px;text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
-  thead th.r{text-align:right}thead th.c{text-align:center}thead th .ar{opacity:.45;font-size:10px}
-  tbody td{padding:8px 11px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
-  tbody tr:nth-child(even){background:#faf8f2}tbody tr:hover{background:#f1ede3}
+  thead th{position:sticky;top:0;z-index:2;background:var(--teal);color:#fff;font-weight:500;font-size:12px;padding:11px 12px;text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
+  thead th.r{text-align:right}thead th.c{text-align:center}thead th .ar{opacity:.5;font-size:10px;margin-left:2px}
+  tbody td{padding:9px 12px;border-bottom:1px solid var(--line2);vertical-align:middle}
+  tbody tr:nth-child(even){background:#faf8f1}tbody tr:hover{background:#f0ece1}
   td.r{text-align:right;font-weight:500}td.c{text-align:center}
-  td.date{color:var(--ink-soft);white-space:nowrap;font-size:12px}
+  td.date{color:var(--ink2);white-space:nowrap;font-size:12px}
   .out{color:var(--neg)}.in{color:var(--pos)}
-  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:var(--line-soft);color:var(--ink-soft);white-space:nowrap;border:1px solid var(--line)}
+  .tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:30px;background:var(--line2);color:var(--ink2);white-space:nowrap;border:1px solid var(--line)}
   .tag.income{background:rgba(31,122,82,.1);color:var(--pos);border-color:rgba(31,122,82,.25)}
   .tag.pay{background:rgba(180,69,46,.08);color:var(--neg);border-color:rgba(180,69,46,.2)}
   .src{font-size:11px;color:var(--teal);white-space:nowrap}
-  .memo{font-weight:500;max-width:330px}.note{color:var(--ink-soft);font-size:12px;margin-top:1px}
-  select.attr{font-family:inherit;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:4px 6px;background:#fff;color:var(--ink-soft);cursor:pointer;outline:none}
-  select.attr.fam{color:var(--fam);border-color:var(--fam);background:rgba(122,92,176,.06);font-weight:600}
+  .memo{font-weight:500;max-width:340px}.note{color:var(--ink2);font-size:12px;margin-top:1px}
+  .attrcell{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+  select.attr{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:7px;padding:5px 6px;background:#fff;color:var(--ink2);cursor:pointer;outline:none}
+  select.attr.fam{color:var(--fam);border-color:var(--fam);background:rgba(111,86,176,.06);font-weight:600}
   select.attr.ken{color:var(--ken);border-color:var(--ken);background:rgba(47,111,176,.06);font-weight:600}
-  .empty{padding:48px 20px;text-align:center;color:var(--ink-soft)}
-  .hint{font-size:11.5px;color:var(--ink-soft);margin-top:13px;line-height:1.7}.hint b{color:var(--teal)}
-  .vt{display:inline-flex;background:var(--line-soft);border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px}
-  .vt button{font-family:inherit;font-size:12px;font-weight:600;border:0;background:transparent;color:var(--ink-soft);padding:5px 12px;border-radius:6px;cursor:pointer}
-  .vt button.on{background:var(--teal);color:#fff}
-  #monthly{padding:6px 14px 14px}
-  .bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line-soft);background:#fbf7ee;font-size:12.5px;color:var(--ink-soft)}
-  .bulkbar .bl{font-weight:600;color:var(--teal)}
-  .bulkbar b{color:var(--ink)}
-  .bbtn{font-family:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:6px 12px;border-radius:8px;cursor:pointer;transition:.15s}
-  .bbtn:hover{border-color:var(--teal)}
-  .bbtn.fam{color:var(--fam);border-color:rgba(122,92,176,.45)}.bbtn.fam:hover{background:rgba(122,92,176,.08)}
-  .bbtn.ken{color:var(--ken);border-color:rgba(47,111,176,.45)}.bbtn.ken:hover{background:rgba(47,111,176,.08)}
-  .mstmt{border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden;background:#fff}
-  .mstmt summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-    padding:12px 15px;background:linear-gradient(180deg,#fffdf8,#f7f2e7);border-bottom:1px solid var(--line-soft)}
+  .iratio{font-size:11px;color:var(--fam);white-space:nowrap;display:inline-flex;align-items:center;gap:2px}
+  .iratio input.ir{width:44px;font:inherit;font-size:11.5px;text-align:center;border:1px solid rgba(111,86,176,.5);border-radius:6px;padding:3px 2px;outline:none;color:var(--fam)}
+  .iratio input.ir:focus{box-shadow:0 0 0 3px rgba(111,86,176,.14)}
+  .empty{padding:48px 20px;text-align:center;color:var(--ink2)}
+  #monthly{padding:8px 14px 16px}
+  .mstmt{border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden;background:#fff;box-shadow:var(--sh)}
+  .mstmt summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 15px;background:linear-gradient(180deg,#fffefa,#f6f1e6);border-bottom:1px solid var(--line2)}
   .mstmt summary::-webkit-details-marker{display:none}
   .mstmt .mh{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:var(--teal)}
-  .mstmt .mh .cardname{font-family:'Noto Sans TC';font-size:11.5px;color:var(--ink-soft);font-weight:400;margin-left:8px}
-  .mstmt .msum{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px}
-  .mstmt .msum span{color:var(--ink-soft)}.mstmt .msum b{font-variant-numeric:tabular-nums}
+  .mstmt .mh .cardname{font-family:'Noto Sans TC';font-size:11.5px;color:var(--ink2);font-weight:400;margin-left:8px}
+  .mstmt .msum{display:flex;gap:15px;flex-wrap:wrap;font-size:12.5px}
+  .mstmt .msum span{color:var(--ink2)}.mstmt .msum b{font-variant-numeric:tabular-nums}
   .mstmt .msum .sp b{color:var(--neg)}.mstmt .msum .pa b{color:var(--pos)}
-  .mstmt table{width:100%}.mstmt thead th{position:static;background:#eef3f0;color:var(--teal);font-weight:600}
-  .mstmt .mtot{padding:9px 15px;text-align:right;font-size:12.5px;border-top:1px solid var(--line-soft);background:#faf8f2}
+  .mstmt table thead th{position:static;background:#eef3f1;color:var(--teal);font-weight:600}
+  .mstmt .mtot{padding:9px 15px;text-align:right;font-size:12.5px;border-top:1px solid var(--line2);background:#faf8f1}
   .mstmt .mtot b{color:var(--neg);font-variant-numeric:tabular-nums}
-  @media(max-width:640px){.ttl{font-size:23px}.wrap{padding:16px 11px 50px}.memo{max-width:180px}}
+  .hint{font-size:11.5px;color:var(--ink2);margin-top:14px;line-height:1.75}.hint b{color:var(--teal)}
+  @media(max-width:640px){
+    .wrap{padding:16px 11px 56px}
+    .ttl{font-size:22px}
+    .seg{display:flex;width:100%}.seg button{flex:1;padding:10px 0}
+    .cards{grid-template-columns:1fr 1fr;gap:9px}.c .val{font-size:19px}
+    .sgrid{grid-template-columns:1fr 1fr}.sbox.hero{grid-column:1 / -1}
+    .f.grow{min-width:100%}.memo{max-width:150px}tbody td{padding:8px 9px}
+    .bulkctx{white-space:normal}
+  }
+
 </style>
 </head>
 <body>
@@ -116,20 +135,32 @@
     <div class="stamp">資料截止 <b>2026/06/07</b><br>4 帳戶 · 2 張卡</div>
   </header>
 
+  <div class="seclabel">選擇帳戶 / 卡片</div>
   <div class="seg" id="seg">
     <button data-g="banks" class="on">銀行存款</button>
     <button data-g="cards">信用卡</button>
   </div>
   <div class="chips" id="chips"></div>
 
+  <div class="seclabel">本期統計</div>
   <div class="cards" id="cards"></div>
 
+  <div class="seclabel">代墊結算</div>
   <div class="settle">
     <h3>代墊結算（依目前篩選的支出／消費）</h3>
-    <div class="sub">把每筆標成「本人／代墊·家庭／代墊·KENNY」，下面就會算出你替家庭、替 KENNY 各墊了多少。</div>
+    <div class="sub">本人＝你全額負擔；代墊·KENNY＝KENNY 全額；代墊·家庭＝依下方比例由兩人分攤。逐筆要調整就改該筆的「歸屬」。</div>
+    <div class="ratio">家庭分攤比例： ANGIE <input id="rA" type="number" min="0" max="100"> %　／　KENNY <input id="rK" type="number" min="0" max="100"> %</div>
     <div class="sgrid" id="settle"></div>
   </div>
 
+  <div class="settle prep">
+    <h3>家庭預備金（與代墊分開計）</h3>
+    <div class="sub">這 20 萬是你從家庭共同的錢先領出來的，與上方「代墊回收」分開列、不互抵。下面依 6:4 拆出兩人各自應屬的部分供你結算。</div>
+    <div class="ratio">已預支家裡預備金： <input id="prepaid" type="number" min="0" step="1000"> 元</div>
+    <div class="sgrid" id="prepBox"></div>
+  </div>
+
+  <div class="seclabel">明細查詢 · 標記歸屬</div>
   <div class="panel">
     <div class="filters" id="filters"></div>
     <div class="bulkbar">
@@ -137,7 +168,7 @@
       <button class="bbtn" onclick="bulkApply('本人')">本人</button>
       <button class="bbtn fam" onclick="bulkApply('代墊·家庭')">代墊·家庭</button>
       <button class="bbtn ken" onclick="bulkApply('代墊·KENNY')">代墊·KENNY</button>
-      <span style="color:#9aa">← 先用上方篩選縮小範圍，再一鍵套用；例外再個別改</span>
+      <span class="bulkctx" id="bulkCtx"></span>
     </div>
     <div class="bar">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span id="viewToggle"></span><span>符合 <b id="cnt">0</b> 筆<span id="rangeInfo"></span></span></div>
@@ -164,6 +195,16 @@ const ATTRS = ['本人','代墊·家庭','代墊·KENNY'];
 const LS='angie_attr_v2';
 let ATTRMAP={}; try{ATTRMAP=JSON.parse(localStorage.getItem(LS)||'{}')||{}}catch(e){ATTRMAP={}}
 function saveAttr(){try{localStorage.setItem(LS,JSON.stringify(ATTRMAP))}catch(e){}}
+const LSR='angie_ratio_v1';
+let RATIO={a:40,k:60}; try{const o=JSON.parse(localStorage.getItem(LSR)||'null');if(o&&typeof o.a==='number')RATIO=o;}catch(e){}
+function saveRatio(){try{localStorage.setItem(LSR,JSON.stringify(RATIO))}catch(e){}}
+const LSP='angie_prepaid_v1';
+let PREPAID=200000; try{const v=localStorage.getItem(LSP);if(v!==null)PREPAID=+v||0;}catch(e){}
+function savePrepaid(){try{localStorage.setItem(LSP,String(PREPAID))}catch(e){}}
+const LSI='angie_iratio_v1';
+let RATIOMAP={}; try{RATIOMAP=JSON.parse(localStorage.getItem(LSI)||'{}')||{}}catch(e){RATIOMAP={}}
+function saveIRatio(){try{localStorage.setItem(LSI,JSON.stringify(RATIOMAP))}catch(e){}}
+const itemK=r=> (RATIOMAP[r.id]!=null?RATIOMAP[r.id]:RATIO.k);
 const getAttr=id=>ATTRMAP[id]||'本人';
 
 // tag rows with source
@@ -268,18 +309,31 @@ function renderCards(rows){
   document.getElementById('cards').innerHTML=h;
 }
 function renderSettle(rows){
-  const t={'本人':0,'代墊·家庭':0,'代墊·KENNY':0};
-  rows.forEach(r=>{const s=spendOf(r);if(s>0)t[getAttr(r.id)]+=s;});
+  let self=0,fam=0,famK=0,ken=0;
+  rows.forEach(r=>{const s=spendOf(r);if(s<=0)return;const a=getAttr(r.id);
+    if(a==='代墊·KENNY')ken+=s;
+    else if(a==='代墊·家庭'){fam+=s;famK+=s*(itemK(r)/100);}
+    else self+=s;});
+  famK=Math.round(famK); const famA=fam-famK; const recover=famK+ken;
   document.getElementById('settle').innerHTML=`
-    <div class="sbox self"><div class="l">本人支出</div><div class="v">${fmt(t['本人'])||0}</div><div class="n">自己的花費</div></div>
-    <div class="sbox fam"><div class="l">代墊 · 家庭</div><div class="v">${fmt(t['代墊·家庭'])||0}</div><div class="n">替家庭墊付，待結算</div></div>
-    <div class="sbox ken"><div class="l">代墊 · KENNY</div><div class="v">${fmt(t['代墊·KENNY'])||0}</div><div class="n">替 KENNY 墊付，可向其回收</div></div>
-    <div class="sbox"><div class="l">代墊合計（家庭+KENNY）</div><div class="v">${fmt(t['代墊·家庭']+t['代墊·KENNY'])||0}</div><div class="n">本人實際負擔以外</div></div>`;
+    <div class="sbox self"><div class="l">本人支出（你全額）</div><div class="v">${fmt(self)||0}</div><div class="n">自己的花費</div></div>
+    <div class="sbox fam"><div class="l">代墊 · 家庭（總額）</div><div class="v">${fmt(fam)||0}</div><div class="n">分攤後 你 ${fmt(famA)||0}／KENNY ${fmt(famK)||0}</div></div>
+    <div class="sbox ken"><div class="l">代墊 · KENNY（全額）</div><div class="v">${fmt(ken)||0}</div><div class="n">KENNY 全額，可向其回收</div></div>
+    <div class="sbox hero"><div class="l">▶ ANGIE 應向 KENNY 收回</div><div class="v">${fmt(recover)||0}</div><div class="n">家庭 ${fmt(famK)||0} ＋ KENNY全額 ${fmt(ken)||0}</div></div>`;
+  const ra=document.getElementById('rA'),rk=document.getElementById('rK');
+  if(ra&&document.activeElement!==ra)ra.value=RATIO.a;
+  if(rk&&document.activeElement!==rk)rk.value=RATIO.k;
 }
 const arrow=k=>sortKey===k?`<span class="ar">${sortDir==='asc'?'▲':'▼'}</span>`:`<span class="ar">⇅</span>`;
 function attrSel(r){
   const v=getAttr(r.id),cls=v==='代墊·家庭'?'fam':v==='代墊·KENNY'?'ken':'';
   return `<select class="attr ${cls}" data-id="${r.id}">`+ATTRS.map(a=>`<option ${a===v?'selected':''}>${a}</option>`).join('')+`</select>`;
+}
+function attrCell(r){
+  const v=getAttr(r.id);
+  const ov=(RATIOMAP[r.id]!=null)?RATIOMAP[r.id]:'';
+  const ri=`<span class="iratio" data-wrap="${r.id}" style="${v==='代墊·家庭'?'':'display:none'}">K<input class="ir" data-id="${r.id}" type="number" min="0" max="100" placeholder="${RATIO.k}" value="${ov}">%</span>`;
+  return `<div class="attrcell">${attrSel(r)}${ri}</div>`;
 }
 function renderTable(rows){
   const showSrc = src==='';
@@ -291,7 +345,7 @@ function renderTable(rows){
       ${showSrc?`<td class="src">${esc(r._src)}</td>`:''}
       <td><div class="memo">${esc(r.memo)||'—'}</div>${r.note?`<div class="note">${esc(r.note)}</div>`:''}</td>
       <td><span class="tag ${['薪資收入','租金補助','利息','其他存入(含轉入)','薪資/收入','哈佛收入','發票獎金'].includes(r.cat)?'income':''}">${esc(r.cat)}</span></td>
-      <td class="c">${attrSel(r)}</td>
+      <td class="c">${attrCell(r)}</td>
       <td class="r out">${fmt(r.out)}</td>
       <td class="r in">${fmt(r.in)}</td>
       ${showSrc?'':`<td class="r">${fmt(r.bal)}</td>`}</tr>`).join(''):`<tr><td colspan="${showSrc?7:7}"><div class="empty">沒有符合條件的紀錄</div></td></tr>`;
@@ -302,13 +356,23 @@ function renderTable(rows){
       ${showSrc?`<td class="src">${esc(r._src)}</td>`:`<td class="date">${r.post}</td>`}
       <td class="memo">${esc(r.memo)}</td>
       <td><span class="tag">${esc(r.cat)}</span></td>
-      <td class="c">${attrSel(r)}</td>
+      <td class="c">${attrCell(r)}</td>
       <td class="c"><span class="tag ${r.amt<0?'pay':''}">${r.kind}</span></td>
       <td class="r ${r.amt<0?'in':'out'}">${fmtS(r.amt)}</td></tr>`).join(''):`<tr><td colspan="7"><div class="empty">沒有符合條件的紀錄</div></td></tr>`;
   }
 }
 function setSort(k){if(sortKey===k)sortDir=sortDir==='asc'?'desc':'asc';else{sortKey=k;sortDir='desc';}render()}
 
+function renderPrep(){
+  const p=Math.max(0,PREPAID||0);
+  const yours=Math.round(p*RATIO.a/100), kens=p-yours;
+  document.getElementById('prepBox').innerHTML=`
+    <div class="sbox self"><div class="l">已預支家庭預備金</div><div class="v">${fmt(p)||0}</div><div class="n">你先領出的家庭共同錢</div></div>
+    <div class="sbox fam"><div class="l">依 6:4 屬你（40%）</div><div class="v">${fmt(yours)||0}</div><div class="n">這筆裡本來就該你出的</div></div>
+    <div class="sbox ken"><div class="l">依 6:4 屬 KENNY（60%）</div><div class="v">${fmt(kens)||0}</div><div class="n">你多領的、需與 KENNY 結算</div></div>`;
+  const pi=document.getElementById('prepaid');
+  if(pi&&document.activeElement!==pi)pi.value=p;
+}
 function renderViewToggle(){
   const vt=document.getElementById('viewToggle');
   if(g!=='cards'){vt.innerHTML='';return;}
@@ -330,7 +394,7 @@ function renderMonthly(rows){
       ${src===''?`<td class="src">${esc(r._src)}</td>`:''}
       <td class="memo">${esc(r.memo)}</td>
       <td><span class="tag">${esc(r.cat)}</span></td>
-      <td class="c">${attrSel(r)}</td>
+      <td class="c">${attrCell(r)}</td>
       <td class="c"><span class="tag ${r.amt<0?'pay':''}">${r.kind}</span></td>
       <td class="r ${r.amt<0?'in':'out'}">${fmtS(r.amt)}</td></tr>`).join('');
     return `<details class="mstmt" ${i===0?'open':''}>
@@ -348,13 +412,24 @@ function renderMonthly(rows){
 let lastRows=[];
 function render(){
   const rows=sortRows(filtered());lastRows=rows;
-  renderCards(rows);renderSettle(rows);renderViewToggle();
+  renderCards(rows);renderSettle(rows);renderPrep();renderViewToggle();
   const monthlyOn = g==='cards' && cardView==='monthly';
   document.querySelector('.tblwrap').style.display = monthlyOn?'none':'';
   document.getElementById('monthly').style.display = monthlyOn?'block':'none';
   if(monthlyOn) renderMonthly(rows); else renderTable(rows);
   document.getElementById('cnt').textContent=rows.length.toLocaleString();
   document.getElementById('bulkN').textContent=rows.length.toLocaleString();
+  const tyLabel={'in':'存入','out':'支出'};
+  const ctx=[];
+  ctx.push((g==='banks'?'帳戶：':'卡別：')+(src||'全部'));
+  if(F.kw)ctx.push('關鍵字「'+F.kw+'」');
+  if(F.m)ctx.push('月份 '+F.m);
+  if(F.cat)ctx.push('分類 '+F.cat);
+  if(F.type)ctx.push('類型 '+(tyLabel[F.type]||F.type));
+  if(F.attr)ctx.push('歸屬 '+F.attr);
+  if(F.min!=='')ctx.push('≥'+F.min);
+  if(F.max!=='')ctx.push('≤'+F.max);
+  document.getElementById('bulkCtx').textContent='範圍：'+ctx.join('　·　');
   const ms=months();
   document.getElementById('rangeInfo').textContent=ms.length?`　·　${ms[0]} – ${ms[ms.length-1]}`:'';
   document.getElementById('sub').textContent = (g==='banks'?'銀行存款':'信用卡')+`　${src||'全部'}　共 ${pool().length.toLocaleString()} 筆`;
@@ -388,31 +463,57 @@ document.addEventListener('change',e=>{
   if(v==='本人')delete ATTRMAP[id];else ATTRMAP[id]=v;
   saveAttr();
   s.className='attr '+(v==='代墊·家庭'?'fam':v==='代墊·KENNY'?'ken':'');
+  const wrap=document.querySelector(`.iratio[data-wrap="${id}"]`);
+  if(wrap)wrap.style.display = v==='代墊·家庭' ? '' : 'none';
   renderSettle(lastRows);
   if(F.attr)render();
 });
+document.addEventListener('input',e=>{
+  const inp=e.target.closest('input.ir');if(!inp)return;
+  const id=inp.dataset.id, raw=inp.value.trim();
+  if(raw===''){delete RATIOMAP[id];}
+  else{let k=Math.max(0,Math.min(100,+raw||0));RATIOMAP[id]=k;}
+  saveIRatio();renderSettle(lastRows);
+});
 
+function kennyShare(r){const a=getAttr(r.id),s=spendOf(r);if(a==='代墊·KENNY')return s;if(a==='代墊·家庭')return Math.round(s*itemK(r)/100);return 0;}
 function exportCSV(){
   const rows=lastRows,q=v=>`"${String(v??'').replace(/"/g,'""')}"`;let head,lines;
-  if(g==='banks'){head=['日期','帳戶','摘要','註記','分類','歸屬','支出','存入','結餘'];
-    lines=rows.map(r=>[r.dt,r._src,r.memo,r.note,r.cat,getAttr(r.id),r.out||'',r.in||'',r.bal].map(q).join(','));}
-  else{head=['消費日','入帳日','卡別','摘要','分類','歸屬','類型','金額'];
-    lines=rows.map(r=>[r.spend,r.post,r._src,r.memo,r.cat,getAttr(r.id),r.kind,r.amt].map(q).join(','));}
+  if(g==='banks'){head=['日期','帳戶','摘要','註記','分類','歸屬','家庭KENNY%','KENNY分攤額','支出','存入','結餘'];
+    lines=rows.map(r=>[r.dt,r._src,r.memo,r.note,r.cat,getAttr(r.id),getAttr(r.id)==='代墊·家庭'?itemK(r):'',kennyShare(r)||'',r.out||'',r.in||'',r.bal].map(q).join(','));}
+  else{head=['消費日','入帳日','卡別','摘要','分類','歸屬','家庭KENNY%','KENNY分攤額','類型','金額'];
+    lines=rows.map(r=>[r.spend,r.post,r._src,r.memo,r.cat,getAttr(r.id),getAttr(r.id)==='代墊·家庭'?itemK(r):'',kennyShare(r)||'',r.kind,r.amt].map(q).join(','));}
   const csv='\ufeff'+head.map(q).join(',')+'\n'+lines.join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   a.download=`Angie_${g==='banks'?'銀行':'信用卡'}_${src||'全部'}_${rows.length}筆.csv`;a.click();
 }
 function backupAttr(){
+  const payload={attr:ATTRMAP,ratio:RATIO,iratio:RATIOMAP,prepaid:PREPAID};
   const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(ATTRMAP,null,2)],{type:'application/json'}));
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));
   a.download=`Angie_歸屬備份_${new Date().toISOString().slice(0,10)}.json`;a.click();
 }
 function restoreAttr(ev){
   const f=ev.target.files[0];if(!f)return;const rd=new FileReader();
-  rd.onload=()=>{try{const o=JSON.parse(rd.result);Object.assign(ATTRMAP,o);saveAttr();render();alert('已還原 '+Object.keys(o).length+' 筆歸屬設定');}catch(e){alert('檔案格式錯誤')}};
+  rd.onload=()=>{try{const o=JSON.parse(rd.result);
+    if(o&&o.attr){Object.assign(ATTRMAP,o.attr);if(o.ratio&&typeof o.ratio.a==='number')RATIO=o.ratio;if(o.iratio)Object.assign(RATIOMAP,o.iratio);if(typeof o.prepaid==='number')PREPAID=o.prepaid;}
+    else{Object.assign(ATTRMAP,o);} // 舊版：純歸屬對照
+    saveAttr();saveRatio();saveIRatio();savePrepaid();bindRatio();render();
+    alert('已還原歸屬設定');
+  }catch(e){alert('檔案格式錯誤')}};
   rd.readAsText(f);ev.target.value='';
 }
 
+function bindRatio(){
+  const ra=document.getElementById('rA'),rk=document.getElementById('rK');
+  ra.value=RATIO.a; rk.value=RATIO.k;
+  ra.addEventListener('input',()=>{let a=Math.max(0,Math.min(100,+ra.value||0));RATIO.a=a;RATIO.k=100-a;rk.value=RATIO.k;saveRatio();renderSettle(lastRows);renderPrep();});
+  rk.addEventListener('input',()=>{let k=Math.max(0,Math.min(100,+rk.value||0));RATIO.k=k;RATIO.a=100-k;ra.value=RATIO.a;saveRatio();renderSettle(lastRows);renderPrep();});
+  const pi=document.getElementById('prepaid');
+  pi.value=PREPAID;
+  pi.addEventListener('input',()=>{PREPAID=Math.max(0,+pi.value||0);savePrepaid();renderPrep();});
+}
+bindRatio();
 buildChips();buildFilters();render();
 </script>
 </body>
