@@ -1,2122 +1,604 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>林家傳承規劃提案 v1.2｜馥芸財富學苑</title>
+<title>財顧芸 Angie｜預約諮詢</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eeedea;
+    --text: #1a1a1a; --text2: #6b6b6b; --text3: #aaaaaa;
+    --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.15);
+    --green: #1D9E75; --green-light: #e8f8f2;
+    --radius: 10px;
+  }
+  body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .page-wrap { max-width: 680px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
 
-:root {
-  --ink: #181210;
-  --ink-soft: #3a3028;
-  --ink-muted: #7a6f65;
-  --gold: #b8923a;
-  --gold-light: #d4ae60;
-  --gold-pale: #faf0dc;
-  --cream: #faf6ef;
-  --cream-dark: #f0e8d8;
-  --border: #ddd0b8;
-  --red: #8b2020;
-  --red-pale: #fdf2f2;
-  --green: #1a5c3a;
-  --green-pale: #edf6f0;
-  --blue: #1a3a6c;
-  --blue-pale: #eef2fa;
-  --shadow: rgba(26,20,16,0.07);
-  --page-w: 900px;
-}
+  /* Hero */
+  .hero { text-align: center; padding: 2rem 1rem 1.5rem; margin-bottom: 1.5rem; border-bottom: 0.5px solid var(--border2); }
+  .hero-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, #1D9E75, #378ADD); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 1rem; }
+  .hero-title { font-family: 'DM Serif Display', serif; font-size: 26px; font-weight: 400; color: var(--text); }
+  .hero-sub { font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.6; }
+  .hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+  .hero-tag { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border2); }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+  /* 說明 */
+  .info-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1.5rem; }
+  @media(max-width:480px){ .info-row { grid-template-columns: 1fr; } }
+  .info-card { background: var(--bg2); border-radius: var(--radius); padding: 14px; text-align: center; }
+  .info-icon { font-size: 20px; margin-bottom: 6px; }
+  .info-label { font-size: 12px; font-weight: 500; color: var(--text); }
+  .info-note { font-size: 11px; color: var(--text2); margin-top: 3px; }
 
-body {
-  background: #e8e0d4;
-  font-family: 'Noto Sans TC', sans-serif;
-  color: var(--ink);
-}
+  /* 月份切換 */
+  .month-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 18px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .tab-btn:hover { background: var(--bg2); color: var(--text); }
+  .tab-btn.active { background: var(--text); color: #fff; border-color: transparent; }
 
-/* NAV */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: var(--ink);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
-  height: 48px;
-}
-.nav-brand { font-size: 12px; color: var(--gold-light); letter-spacing: 0.1em; }
-.nav-pages { display: flex; gap: 4px; }
-.nav-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  cursor: pointer;
-  transition: background 0.2s;
-  border: none;
-}
-.nav-dot.active { background: var(--gold-light); }
-.nav-version { font-size: 11px; color: rgba(255,255,255,0.4); }
+  /* 月份視圖 */
+  .month-view { display: none; }
+  .month-view.active { display: block; }
+  .week-group { margin-bottom: 1.5rem; }
+  .week-label { font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: 1.5px; margin-bottom: 6px; padding-left: 2px; }
 
-/* PAGES */
-.page {
-  min-height: 100vh;
-  padding: 72px 24px 60px;
-  border-bottom: 3px solid var(--border);
-  display: block;
-}
-/* all pages visible */
-.page-inner {
-  max-width: var(--page-w);
-  margin: 0 auto;
-}
+  /* 日期列 */
+  .day-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; padding: 10px 8px; border-top: 0.5px solid var(--border); border-radius: 8px; align-items: start; }
+  .day-date { display: flex; flex-direction: column; align-items: center; }
+  .day-num { font-size: 22px; font-weight: 500; line-height: 1; color: var(--text); }
+  .day-num.today { background: var(--text); color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .day-num.holiday { color: #D85A30; }
+  .day-weekday { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .day-slots { padding-left: 8px; display: flex; flex-direction: column; gap: 5px; }
 
-/* PAGE HEADER */
-.pg-header {
-  margin-bottom: 32px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 16px;
-}
-.pg-num {
-  font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 0.15em;
-  font-weight: 600;
-}
-.pg-title {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-top: 6px;
-  line-height: 1.3;
-}
-.pg-subtitle {
-  font-size: 13px;
-  color: var(--ink-muted);
-  margin-top: 4px;
-}
-.pg-tag {
-  font-size: 11px;
-  color: var(--ink-muted);
-  text-align: right;
-}
+  /* 忙碌灰階 */
+  .slot-busy { display: flex; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 7px; background: var(--bg2); opacity: 0.55; }
+  .slot-busy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); flex-shrink: 0; }
+  .slot-busy-text { font-size: 12px; color: var(--text3); }
 
-/* CARDS */
-.card {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-}
-.card-sm { padding: 14px 16px; border-radius: 10px; }
+  /* 可預約 */
+  .slot-open { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-radius: 8px; background: var(--green-light); border: 0.5px solid #a0ddc0; cursor: pointer; transition: all 0.15s; }
+  .slot-open:hover { background: #d0f2e6; border-color: var(--green); }
+  .slot-open-left { display: flex; align-items: center; gap: 8px; }
+  .slot-open-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .slot-open-text { font-size: 13px; color: #0f5e3a; font-weight: 500; }
+  .slot-open-time { font-size: 11px; color: #3a9e70; margin-top: 1px; }
+  .btn-book { font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: none; background: var(--green); color: #fff; cursor: pointer; white-space: nowrap; transition: background 0.15s; text-decoration: none; display: inline-block; }
+  .btn-book:hover { background: #178a62; }
 
-/* SECTION LABEL */
-.sec-label {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--gold);
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.sec-label::after { content:''; flex:1; height:0.5px; background:var(--border); }
+  /* 手動額外空檔 */
+  .slot-extra { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-radius: 8px; background: #fff8e6; border: 0.5px solid #f0d080; cursor: pointer; transition: all 0.15s; }
+  .slot-extra:hover { background: #fff0c0; }
+  .slot-extra-dot { width: 8px; height: 8px; border-radius: 50%; background: #E9A020; flex-shrink: 0; }
+  .slot-extra-text { font-size: 13px; color: #7a5000; font-weight: 500; }
+  .slot-extra-time { font-size: 11px; color: #c08000; margin-top: 1px; }
+  .btn-book-extra { font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: none; background: #E9A020; color: #fff; cursor: pointer; white-space: nowrap; transition: background 0.15s; text-decoration: none; display: inline-block; }
+  .btn-book-extra:hover { background: #c08000; }
 
-/* BOTTOM NAV */
-.pg-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 36px;
-  padding-top: 16px;
-  border-top: 0.5px solid var(--border);
-}
-.btn {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: opacity 0.15s, transform 0.1s;
-  font-family: 'Noto Sans TC', sans-serif;
-}
-.btn:active { transform: scale(0.97); }
-.btn-gold { background: var(--gold); color: white; }
-.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--ink-muted); }
-.btn:hover { opacity: 0.85; }
-.pg-indicator { font-size: 12px; color: var(--ink-muted); }
+  /* 休息日 */
+  .slot-rest { font-size: 12px; color: var(--text3); padding: 4px 0; }
 
-/* =================== PAGE 0: COVER =================== */
-#page-0 {
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-}
-#page-0.active { display: flex; }
-.cover-inner { max-width: 600px; }
-.cover-top {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--gold-light);
-  margin-bottom: 20px;
-}
-.cover-title {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 36px;
-  font-weight: 700;
-  color: white;
-  line-height: 1.3;
-  margin-bottom: 12px;
-}
-.cover-title em { color: var(--gold-light); font-style: normal; }
-.cover-sub {
-  font-size: 14px;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.8;
-  margin-bottom: 32px;
-}
-.cover-divider {
-  width: 48px; height: 2px;
-  background: var(--gold);
-  margin: 0 auto 28px;
-}
-.cover-meta {
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  line-height: 2;
-}
-.cover-btn {
-  margin-top: 36px;
-  padding: 14px 40px;
-  background: var(--gold);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: 0.05em;
-  font-family: 'Noto Sans TC', sans-serif;
-  transition: opacity 0.15s;
-}
-.cover-btn:hover { opacity: 0.85; }
+  /* 凡例 */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 1.5rem 0 1rem; padding: 12px 14px; background: var(--bg2); border-radius: var(--radius); }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-/* =================== PAGE 1: FAMILY =================== */
-.family-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
-}
+  /* CTA */
+  .cta-bar { background: linear-gradient(135deg, #1D9E75, #178a62); border-radius: var(--radius); padding: 20px; text-align: center; margin-bottom: 1.5rem; }
+  .cta-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 14px; }
+  .btn-cta { display: inline-block; font-family: 'Noto Sans TC', sans-serif; font-size: 13px; font-weight: 500; padding: 9px 24px; border-radius: 24px; background: #fff; color: #1D9E75; text-decoration: none; transition: all 0.15s; }
+  .btn-cta:hover { background: #f0fdf8; }
 
-.member-card {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-.member-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
-}
-.member-card.husband::before { background: var(--blue); }
-.member-card.wife::before { background: #7a3a6c; }
-.member-card.daughter::before { background: var(--green); }
-
-.member-icon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-  margin-bottom: 12px;
-}
-.husband .member-icon { background: var(--blue-pale); }
-.wife .member-icon { background: #f8f0f8; }
-.daughter .member-icon { background: var(--green-pale); }
-
-.member-name {
-  font-size: 15px; font-weight: 600;
-  color: var(--ink); margin-bottom: 4px;
-}
-.member-role {
-  font-size: 11px; color: var(--ink-muted);
-  margin-bottom: 12px;
-  letter-spacing: 0.05em;
-}
-.member-tag {
-  display: inline-block;
-  font-size: 10px; padding: 2px 8px;
-  border-radius: 20px; margin-bottom: 4px;
-  font-weight: 500;
-}
-.husband .member-tag { background: var(--blue-pale); color: var(--blue); }
-.wife .member-tag { background: #f0e8f8; color: #5a2a5c; }
-.daughter .member-tag { background: var(--green-pale); color: var(--green); }
-
-.member-facts {
-  margin-top: 10px;
-  font-size: 12px;
-  color: var(--ink-soft);
-  line-height: 1.8;
-}
-.member-facts span { color: var(--ink-muted); }
-
-/* Relationship diagram */
-.rel-diagram {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-  margin-bottom: 24px;
-}
-.rel-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: nowrap;
-}
-.rel-node {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-.rel-circle {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  border: 2px solid;
-}
-.rel-circle.h { background: var(--blue-pale); border-color: #8ab4d8; }
-.rel-circle.w { background: #f8f0f8; border-color: #c0a0c0; }
-.rel-circle.d { background: var(--green-pale); border-color: #90c0a0; }
-.rel-name { font-size: 12px; font-weight: 500; color: var(--ink); }
-.rel-age { font-size: 11px; color: var(--ink-muted); }
-
-.rel-line {
-  flex: 1;
-  height: 2px;
-  background: var(--border);
-  position: relative;
-  min-width: 40px;
-  max-width: 80px;
-}
-.rel-line::after {
-  content: attr(data-label);
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  color: var(--ink-muted);
-  white-space: nowrap;
-  background: white;
-  padding: 0 4px;
-}
-.rel-line.down {
-  width: 2px; height: 40px;
-  background: var(--border);
-  min-width: unset;
-  margin: 0 auto;
-}
-
-.rel-wrap-v {
-  display: flex; flex-direction: column; align-items: center;
-}
-
-/* US Citizen badge */
-.us-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #fff8e8;
-  border: 1px solid #e8d89a;
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #7a5500;
-}
-
-/* Key principles */
-.principles-row {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 10px;
-}
-.principle-item {
-  background: var(--cream);
-  border: 0.5px solid var(--border);
-  border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-}
-.principle-icon { font-size: 22px; margin-bottom: 6px; }
-.principle-text { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
-.principle-text strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
-
-/* =================== PAGE 2: BACKGROUND =================== */
-.bg-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-.bg-card {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-}
-.bg-card-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--gold);
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 0.5px solid var(--border);
-}
-.bg-item {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  font-size: 12.5px;
-  color: var(--ink-soft);
-  line-height: 1.6;
-}
-.bg-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-.bg-item strong { color: var(--ink); font-weight: 600; }
-
-.timeline-bar {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-  margin-bottom: 16px;
-}
-.tl-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 14px; }
-.tl-track {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  position: relative;
-  padding: 4px 0;
-}
-.tl-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-.tl-dot {
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  border: 2px solid;
-  background: white;
-  z-index: 1;
-  margin-bottom: 8px;
-}
-.tl-dot.green { border-color: var(--green); background: var(--green); }
-.tl-dot.gold { border-color: var(--gold); }
-.tl-dot.red { border-color: var(--red); }
-.tl-connector {
-  position: absolute;
-  top: 7px;
-  left: 50%; right: -50%;
-  height: 2px;
-  background: var(--border);
-  z-index: 0;
-}
-.tl-label { font-size: 13px; font-weight: 600; color: var(--ink); }
-.tl-sub { font-size: 10px; color: var(--ink-muted); text-align: center; line-height: 1.4; margin-top: 2px; }
-
-/* =================== PAGE 3: FINANCE =================== */
-.finance-hero {
-  background: var(--ink);
-  border-radius: 14px;
-  padding: 24px;
-  margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--ink);
-  overflow: hidden;
-}
-.fh-item {
-  background: var(--ink);
-  padding: 20px;
-  text-align: center;
-}
-.fh-item:not(:last-child) { border-right: 0.5px solid rgba(255,255,255,0.1); }
-.fh-label { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; margin-bottom: 8px; }
-.fh-value {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 26px; font-weight: 700;
-  color: var(--gold-light);
-  margin-bottom: 4px;
-}
-.fh-note { font-size: 11px; color: rgba(255,255,255,0.35); }
-
-.finance-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-.fin-card {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 1px 8px var(--shadow);
-}
-.fin-card-title {
-  font-size: 12px; font-weight: 600;
-  color: var(--ink-muted);
-  letter-spacing: 0.06em;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 0.5px solid var(--border);
-}
-.fin-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 0;
-  font-size: 12.5px;
-  border-bottom: 0.5px solid #f0e8d8;
-}
-.fin-row:last-child { border-bottom: none; }
-.fin-key { color: var(--ink-muted); }
-.fin-val { font-weight: 600; color: var(--ink); }
-.fin-val.red { color: var(--red); }
-.fin-val.green { color: var(--green); }
-.fin-val.gold { color: var(--gold); }
-
-.policy-highlight {
-  background: var(--gold-pale);
-  border: 1px solid #e8d09a;
-  border-radius: 12px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.ph-icon { font-size: 28px; }
-.ph-text { font-size: 12.5px; color: var(--ink-soft); line-height: 1.7; }
-.ph-text strong { color: var(--ink); font-weight: 600; }
-
-/* =================== PAGE 4: BLIND SPOTS =================== */
-.spot-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.spot-card {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 1px 8px var(--shadow);
-  position: relative;
-  overflow: hidden;
-}
-.spot-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-}
-.spot-card.red::before { background: var(--red); }
-.spot-card.gold::before { background: var(--gold); }
-.spot-card.blue::before { background: var(--blue); }
-.spot-card.green::before { background: var(--green); }
-
-.spot-num {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 28px; font-weight: 700;
-  color: #f0e8d8;
-  position: absolute;
-  top: 8px; right: 12px;
-  line-height: 1;
-}
-.spot-icon { font-size: 22px; margin-bottom: 8px; }
-.spot-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
-.spot-body { font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
-.spot-tag {
-  display: inline-block;
-  font-size: 10px; padding: 2px 8px;
-  border-radius: 20px; margin-top: 8px;
-  font-weight: 500;
-}
-.spot-card.red .spot-tag { background: var(--red-pale); color: var(--red); }
-.spot-card.gold .spot-tag { background: var(--gold-pale); color: #7a5500; }
-.spot-card.blue .spot-tag { background: var(--blue-pale); color: var(--blue); }
-.spot-card.green .spot-tag { background: var(--green-pale); color: var(--green); }
-
-/* =================== PAGE 5: PLAN =================== */
-.plan-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.plan-col {
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 1px 8px var(--shadow);
-}
-.plan-col-head {
-  padding: 14px 16px;
-  font-size: 13px; font-weight: 600;
-}
-.plan-col.p1 .plan-col-head { background: var(--blue-pale); color: var(--blue); }
-.plan-col.p2 .plan-col-head { background: var(--gold-pale); color: #7a5500; }
-.plan-col.p3 .plan-col-head { background: var(--green-pale); color: var(--green); }
-.plan-col-body { padding: 14px 16px; }
-.plan-item {
-  display: flex; gap: 8px;
-  align-items: flex-start;
-  font-size: 12px; color: var(--ink-soft);
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-.plan-item:last-child { margin-bottom: 0; }
-.plan-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 6px;
-}
-.plan-col.p1 .plan-dot { background: var(--blue); }
-.plan-col.p2 .plan-dot { background: var(--gold); }
-.plan-col.p3 .plan-dot { background: var(--green); }
-
-.water-box {
-  background: var(--ink);
-  border-radius: 14px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 16px;
-  align-items: center;
-}
-.wb-col { }
-.wb-title { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; margin-bottom: 10px; }
-.wb-item { font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; }
-.wb-item strong { color: var(--gold-light); }
-.wb-arrow {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--gold);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; color: white;
-  flex-shrink: 0;
-}
-
-/* =================== PAGE 6: ACTION =================== */
-.action-timeline {
-  position: relative;
-  margin-bottom: 20px;
-}
-.action-track {
-  position: absolute;
-  left: 22px; top: 0; bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--red), var(--gold), var(--green));
-}
-.action-item {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  padding: 0 0 20px 0;
-  position: relative;
-}
-.action-item:last-child { padding-bottom: 0; }
-.action-circle {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  border: 2px solid;
-}
-.action-item.urgent .action-circle { background: var(--red-pale); border-color: var(--red); color: var(--red); }
-.action-item.soon .action-circle { background: var(--gold-pale); border-color: var(--gold); color: #7a5500; }
-.action-item.later .action-circle { background: var(--green-pale); border-color: var(--green); color: var(--green); }
-
-.action-content {
-  flex: 1;
-  background: white;
-  border: 0.5px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  box-shadow: 0 1px 8px var(--shadow);
-}
-.action-week {
-  font-size: 10px; font-weight: 600;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-.action-item.urgent .action-week { color: var(--red); }
-.action-item.soon .action-week { color: #7a5500; }
-.action-item.later .action-week { color: var(--green); }
-
-.action-tasks { display: flex; flex-direction: column; gap: 8px; }
-.task-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  line-height: 1.6;
-}
-.task-row.red-bg { background: var(--red-pale); }
-.task-row.gold-bg { background: var(--gold-pale); }
-.task-row.green-bg { background: var(--green-pale); }
-.task-check {
-  width: 16px; height: 16px;
-  border: 1.5px solid var(--border);
-  border-radius: 4px;
-  flex-shrink: 0;
-  margin-top: 1px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.task-check.done { background: var(--green); border-color: var(--green); }
-.task-check.done::after { content: '✓'; font-size: 10px; color: white; font-weight: 700; }
-.task-text { color: var(--ink-soft); }
-.task-text.done-text { text-decoration: line-through; color: var(--ink-muted); }
-.task-text strong { color: var(--ink); font-weight: 600; }
-
-/* progress bar */
-.prog-wrap { margin-bottom: 20px; }
-.prog-label { font-size: 11px; color: var(--ink-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
-.prog-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.3s; width: 0%; }
+  .footer { margin-top: 2rem; font-size: 11px; color: var(--text3); text-align: center; padding-top: 1rem; border-top: 0.5px solid var(--border); }
 </style>
 </head>
 <body>
+<div class="page-wrap">
 
-<!-- ===== 密碼保護頁 ===== -->
-<div id="lock-screen" style="
-  position:fixed; top:0; left:0; right:0; bottom:0;
-  background:#181210;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-">
-  <style>
-    .lock-wrap { text-align:center; max-width:360px; width:100%; padding:0 24px; }
-    .lock-logo { font-size:11px; letter-spacing:0.2em; color:#b8923a; margin-bottom:24px; }
-    .lock-divider { width:40px; height:2px; background:#b8923a; margin:0 auto 28px; }
-    .lock-icon { font-size:40px; margin-bottom:16px; }
-    .lock-title {
-      font-family:'Noto Serif TC',serif;
-      font-size:20px; font-weight:600;
-      color:white; margin-bottom:8px;
-    }
-    .lock-sub { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:32px; line-height:1.7; }
-    .lock-input-wrap { position:relative; margin-bottom:12px; }
-    .lock-input {
-      width:100%;
-      padding:14px 48px 14px 16px;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:10px;
-      font-size:16px;
-      color:white;
-      letter-spacing:0.2em;
-      text-align:center;
-      outline:none;
-      transition:border 0.2s;
-      font-family:'Noto Sans TC',sans-serif;
-      box-sizing:border-box;
-    }
-    .lock-input:focus { border-color:#b8923a; }
-    .lock-input::placeholder { color:rgba(255,255,255,0.25); letter-spacing:0.05em; font-size:13px; }
-    .lock-toggle {
-      position:absolute; right:14px; top:50%;
-      transform:translateY(-50%);
-      background:none; border:none;
-      color:rgba(255,255,255,0.3);
-      cursor:pointer; font-size:16px;
-      padding:4px;
-    }
-    .lock-btn {
-      width:100%;
-      padding:14px;
-      background:#b8923a;
-      color:white;
-      border:none;
-      border-radius:10px;
-      font-size:14px;
-      font-weight:600;
-      cursor:pointer;
-      letter-spacing:0.08em;
-      font-family:'Noto Sans TC',sans-serif;
-      transition:opacity 0.15s, transform 0.1s;
-      margin-bottom:16px;
-    }
-    .lock-btn:hover { opacity:0.85; }
-    .lock-btn:active { transform:scale(0.98); }
-    .lock-error {
-      font-size:12px;
-      color:#e88080;
-      margin-bottom:12px;
-      min-height:18px;
-      transition:opacity 0.2s;
-    }
-    .lock-hint { font-size:11px; color:rgba(255,255,255,0.2); line-height:1.7; }
-    .lock-shake {
-      animation: shake 0.4s ease;
-    }
-    @keyframes shake {
-      0%,100%{transform:translateX(0)}
-      20%{transform:translateX(-8px)}
-      40%{transform:translateX(8px)}
-      60%{transform:translateX(-6px)}
-      80%{transform:translateX(6px)}
-    }
-    .lock-attempts {
-      display:flex; justify-content:center; gap:6px;
-      margin-bottom:20px;
-    }
-    .attempt-dot {
-      width:8px; height:8px;
-      border-radius:50%;
-      background:rgba(255,255,255,0.15);
-      transition:background 0.2s;
-    }
-    .attempt-dot.used { background:#e88080; }
-  </style>
-
-  <div class="lock-wrap">
-    <div class="lock-logo">馥芸財富學苑</div>
-    <div class="lock-divider"></div>
-    <div class="lock-icon">🔒</div>
-    <div class="lock-title">林家傳承規劃提案</div>
-    <div class="lock-sub">
-      此文件為專屬財務規劃資料<br>
-      請輸入通行密碼以繼續閱覽
-    </div>
-
-    <div class="lock-attempts">
-      <div class="attempt-dot" id="d1"></div>
-      <div class="attempt-dot" id="d2"></div>
-      <div class="attempt-dot" id="d3"></div>
-    </div>
-
-    <div class="lock-input-wrap">
-      <input
-        class="lock-input"
-        id="lock-input"
-        type="password"
-        placeholder="請輸入密碼"
-        maxlength="20"
-        autocomplete="off"
-        onkeydown="if(event.key==='Enter')checkPw()"
-      />
-      <button class="lock-toggle" onclick="togglePw()" id="toggle-btn" title="顯示/隱藏密碼">👁</button>
-    </div>
-
-    <div class="lock-error" id="lock-error"></div>
-
-    <button class="lock-btn" onclick="checkPw()">確認進入</button>
-
-    <div class="lock-hint">
-      財顧芸｜陳芸琪<br>
-      本文件內容屬客戶個人財務規劃資料，請妥善保管
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-avatar">💼</div>
+    <div class="hero-title">財顧芸 Angie 陳芸琪</div>
+    <div class="hero-sub">專業財務顧問｜保險規劃 × 退休規劃 × 財富傳承<br>陪伴您面對人生每一個重要決定</div>
+    <div class="hero-tags">
+      <span class="hero-tag">📍 宜蘭 / 台北</span>
+      <span class="hero-tag">⏱ 60分鐘諮詢</span>
+      <span class="hero-tag">💬 免費初次諮詢</span>
     </div>
   </div>
+
+  <!-- 資訊卡 -->
+  <div class="info-row">
+    <div class="info-card">
+      <div class="info-icon">🗓️</div>
+      <div class="info-label">固定開放時段</div>
+      <div class="info-note">每週二、四<br>14:00 – 16:00</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⏱</div>
+      <div class="info-label">諮詢時間</div>
+      <div class="info-note">每次約 60 分鐘<br>線上 / 面談皆可</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">💬</div>
+      <div class="info-label">預約方式</div>
+      <div class="info-note">填寫線上表單<br>24小時內回覆</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-bar">
+    <div class="cta-title">立即預約免費諮詢</div>
+    <div class="cta-sub">選擇下方空檔或直接填寫表單，Angie 將在 24 小時內與您確認</div>
+    <a class="btn-cta" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">📋 填寫預約表單</a>
+  </div>
+
+  <!-- 凡例 -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#1D9E75"></span>固定開放（週二、四）</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E9A020"></span>額外開放空檔</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#cccccc"></span>已有行程（無法預約）</div>
+  </div>
+
+  <!-- 月份切換 -->
+  <div class="month-tabs">
+    <button class="tab-btn active" onclick="showMonth('m5',this)">5月</button>
+    <button class="tab-btn" onclick="showMonth('m6',this)">6月</button>
+    <button class="tab-btn" onclick="showMonth('m7',this)">7月</button>
+    <button class="tab-btn" onclick="showMonth('m8',this)">8月</button>
+  </div>
+
+  <!-- ===== 5月 ===== -->
+  <div id="m5" class="month-view active">
+    <div class="week-group">
+      <div class="week-label">5月 第四週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num today">26</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">17:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">17:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">29</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">30</div><div class="day-weekday">六</div></div>
+        <div class="day-slots"><div class="slot-rest">休息日</div></div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">31</div><div class="day-weekday">日</div></div>
+        <div class="day-slots"><div class="slot-rest">休息日</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 6月 ===== -->
+  <div id="m6" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">1</div><div class="day-weekday">一</div></div>
+        <div class="day-slots"><div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div></div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">2</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/2 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">3</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">08:50 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/4 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">5</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">20:00 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">8</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/9 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">10</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/11 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">12</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:30–15:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">18:30 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">15</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">20:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">17</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('6/18 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num holiday">19</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">端午節 有行程</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">22</div><div class="day-weekday">一</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">14:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">19:00 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('6/23 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">24</div><div class="day-weekday">三</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">13:30 有行程</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 有行程（馬祖）</span></div>
+        </div>
+      </div>
+
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">26</div><div class="day-weekday">五</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 有行程（馬祖）</span></div>
+        </div>
+      </div>
+
+      <!-- 手動額外空檔範例 -->
+      <div class="day-row" id="extra-620">
+        <div class="day-date"><div class="day-num holiday">20</div><div class="day-weekday">六</div></div>
+        <div class="day-slots">
+          <div class="slot-extra">
+            <div class="slot-open-left"><span class="slot-extra-dot"></span><div><div class="slot-extra-text">✨ 額外開放空檔</div><div class="slot-extra-time">10:00 – 12:00（手動新增）</div></div></div>
+            <a class="btn-book-extra" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 7月 ===== -->
+  <div id="m7" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">7</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:40 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">9</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/9 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">14</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">10:40 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">16</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">全天 年中策劃會報</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">21</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">09:00 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/21 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">23</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('7/23 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">28</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('7/28 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">30</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">15:00 有行程</span></div>
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">21:00 有行程</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 8月 ===== -->
+  <div id="m8" class="month-view">
+    <div class="week-group">
+      <div class="week-label">第一週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">4</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/4 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">6</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/6 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第二週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">11</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/11 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">13</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/13 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第三週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">18</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/18 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">20</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/20 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">第四週</div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">25</div><div class="day-weekday">二</div></div>
+        <div class="day-slots">
+          <div class="slot-open" onclick="goBook('8/25 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+      <div class="day-row">
+        <div class="day-date"><div class="day-num">27</div><div class="day-weekday">四</div></div>
+        <div class="day-slots">
+          <div class="slot-busy"><span class="slot-busy-dot"></span><span class="slot-busy-text">12:30 有行程</span></div>
+          <div class="slot-open" onclick="goBook('8/27 14:00–16:00')">
+            <div class="slot-open-left"><span class="slot-open-dot"></span><div><div class="slot-open-text">✅ 開放預約</div><div class="slot-open-time">14:00 – 16:00</div></div></div>
+            <a class="btn-book" href="https://forms.gle/8y5AGE5bEpML7SvMA" target="_blank">預約</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    財顧芸 Angie 陳芸琪｜預約諮詢頁面｜2026年5月－8月<br>
+
+  </div>
+
 </div>
 
 <script>
-  // ===== 請修改這裡的密碼 =====
-  const PASS = '0618';
-  // ===========================
-
-  let attempts = 0;
-  const maxAttempts = 3;
-  let locked = false;
-
-  function checkPw() {
-    if (locked) return;
-    const val = document.getElementById('lock-input').value;
-    const errEl = document.getElementById('lock-error');
-    const inputEl = document.getElementById('lock-input');
-
-    if (val === PASS) {
-      // 解鎖動畫
-      errEl.textContent = '';
-      const screen = document.getElementById('lock-screen');
-      screen.style.transition = 'opacity 0.5s';
-      screen.style.opacity = '0';
-      setTimeout(() => { screen.style.display = 'none'; }, 500);
-    } else {
-      attempts++;
-      updateDots();
-      inputEl.value = '';
-      inputEl.classList.add('lock-shake');
-      setTimeout(() => inputEl.classList.remove('lock-shake'), 400);
-
-      if (attempts >= maxAttempts) {
-        locked = true;
-        errEl.textContent = '嘗試次數過多，請重新整理頁面後再試';
-        inputEl.disabled = true;
-        document.querySelector('.lock-btn').disabled = true;
-        document.querySelector('.lock-btn').style.opacity = '0.3';
-      } else {
-        const remain = maxAttempts - attempts;
-        errEl.textContent = `密碼錯誤，還有 ${remain} 次機會`;
-        inputEl.focus();
-      }
-    }
-  }
-
-  function updateDots() {
-    for (let i = 1; i <= attempts && i <= maxAttempts; i++) {
-      const dot = document.getElementById('d' + i);
-      if (dot) dot.classList.add('used');
-    }
-  }
-
-  function togglePw() {
-    const input = document.getElementById('lock-input');
-    const btn = document.getElementById('toggle-btn');
-    if (input.type === 'password') {
-      input.type = 'text';
-      btn.textContent = '🙈';
-    } else {
-      input.type = 'password';
-      btn.textContent = '👁';
-    }
-  }
-
-  // 頁面載入後自動聚焦
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('lock-input').focus();
-    }, 300);
-  });
-</script>
-
-<!-- ===== COVER ===== -->
-<div class="page active" id="page-0" style="background:var(--ink);">
-  <div class="cover-inner">
-    <div class="cover-top">馥芸財富學苑</div>
-    <div class="cover-divider"></div>
-    <div class="cover-title">林家<em>傳承規劃</em><br>提案報告</div>
-    <div class="cover-sub">
-      資產保全・退休現金流・跨代傳承<br>
-      為林醫師家庭量身設計的財富傳承藍圖
-    </div>
-    <div class="cover-meta">
-      財顧｜陳芸琪<br>
-      2026年7月｜版本 v1.2<br>
-      本報告內容僅供規劃參考，實際數據依保單條款為準
-    </div>
-    <button class="cover-btn" onclick="goPage(1)">開始閱覽 →</button>
-  </div>
-</div>
-
-<!-- ===== PAGE 1: FAMILY ===== -->
-<div class="page" id="page-1" style="background:var(--cream);">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 01 / 06</div>
-      <div class="pg-title">家庭成員關係圖</div>
-      <div class="pg-subtitle">林家三口・全員持有美國公民身分</div>
-    </div>
-    <div class="pg-tag">Family Profile</div>
-  </div>
-
-  <!-- Relationship Diagram -->
-  <div class="sec-label">家庭結構</div>
-  <div class="rel-diagram" style="margin-bottom:20px;">
-    <div class="rel-inner">
-      <div class="rel-node">
-        <div class="rel-circle h">👨‍⚕️</div>
-        <div class="rel-name">林醫師</div>
-        <div class="rel-age">69歲・先生</div>
-      </div>
-      <div class="rel-line" data-label="夫妻（財務各自獨立）"></div>
-      <div class="rel-wrap-v">
-        <div class="rel-node">
-          <div class="rel-circle w">👩‍🏫</div>
-          <div class="rel-name">林太太</div>
-          <div class="rel-age">55歲・太太</div>
-        </div>
-        <div class="rel-line down"></div>
-        <div class="rel-node" style="margin-top:8px;">
-          <div class="rel-circle d">👧</div>
-          <div class="rel-name">女兒</div>
-          <div class="rel-age">18歲・獨生女</div>
-        </div>
-      </div>
-      <div style="width:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;margin-left:20px;">
-        <div class="us-badge">🇺🇸 全家美籍</div>
-        <div style="font-size:10px;color:var(--ink-muted);text-align:center;line-height:1.5;">FATCA全球課稅<br>適用</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Member Cards -->
-  <div class="sec-label">成員背景</div>
-  <div class="family-grid">
-    <div class="member-card husband">
-      <div class="member-icon">👨‍⚕️</div>
-      <div class="member-name">林醫師（先生）</div>
-      <div class="member-role">HUSBAND｜要保人・資產主要持有人</div>
-      <span class="member-tag">69歲</span>
-      <span class="member-tag">半退休專科醫師</span>
-      <div class="member-facts">
-        <span>職業：</span>半退休，仍有部分執業收入<br>
-        <span>急迫：</span>70歲高齡投保紅線即將到來
-      </div>
-    </div>
-    <div class="member-card wife">
-      <div class="member-icon">👩‍🏫</div>
-      <div class="member-name">林太太（太太）</div>
-      <div class="member-role">WIFE｜太太</div>
-      <span class="member-tag">55歲</span>
-      <span class="member-tag">半退休講師</span>
-      <div class="member-facts">
-        <span>職業：</span>彈性鐘點收入，半退休<br>
-        <span>財務：</span>與先生財務各自獨立
-      </div>
-    </div>
-    <div class="member-card daughter" style="grid-column:1/-1;">
-      <div class="member-icon">👧</div>
-      <div class="member-name">女兒</div>
-      <div class="member-role">DAUGHTER｜傳承核心對象・保單受益人</div>
-      <span class="member-tag">18歲</span>
-      <span class="member-tag">預計赴美留學4～6年</span>
-      <div class="member-facts">
-        <span>現況：</span>預計今年赴美留學，原為舊保單被保險人
-      </div>
-    </div>
-  </div>
-
-  <!-- Principles -->
-  <div class="sec-label">家庭核心條件</div>
-  <div class="principles-row">
-    <div class="principle-item">
-      <div class="principle-icon">🏠</div>
-      <div class="principle-text"><strong>持有不動產</strong>（依側面了解，實際數量與明細以客戶確認為準）</div>
-    </div>
-    <div class="principle-item">
-      <div class="principle-icon">🇺🇸</div>
-      <div class="principle-text"><strong>美國公民</strong>FATCA全球課稅適用，台美兩地稅務需同步規劃</div>
-    </div>
-    <div class="principle-item">
-      <div class="principle-icon">💰</div>
-      <div class="principle-text"><strong>財務各自獨立</strong>夫妻保單・投資分開管理，各自規劃</div>
-    </div>
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(0)">← 封面</button>
-    <span class="pg-indicator">1 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(2)">背景簡介 →</button>
-  </div>
-</div>
-</div>
-
-<!-- ===== PAGE 2: BACKGROUND ===== -->
-<div class="page" id="page-2" style="background:#f5f0e8;">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 02 / 06</div>
-      <div class="pg-title">個案背景簡介</div>
-      <div class="pg-subtitle">林醫師家庭的現況與核心痛點</div>
-    </div>
-    <div class="pg-tag">Background</div>
-  </div>
-
-  <div class="sec-label">現況痛點</div>
-  <div class="bg-grid">
-    <div class="bg-card">
-      <div class="bg-card-title">⚠ 保單現況</div>
-      <div class="bg-item"><div class="bg-dot"></div>遠雄儲蓄險第5年<strong>未繳保費，已進入墊繳</strong></div>
-      <div class="bg-item"><div class="bg-dot"></div>保單現價 456萬，總繳保費 422萬</div>
-      <div class="bg-item"><div class="bg-dot"></div>墊繳借款利率 3.75%，保單預定利率僅 2.25%</div>
-      <div class="bg-item"><div class="bg-dot"></div><strong>每年淨損利差 -1.5%</strong>，約 6.8萬悄悄消失</div>
-      <div class="bg-item"><div class="bg-dot"></div>資金鎖死無法產生即期現金流</div>
-    </div>
-    <div class="bg-card">
-      <div class="bg-card-title">🏠 不動產佈局</div>
-      <div class="bg-item"><div class="bg-dot"></div>依目前側面了解，<strong>名下持有數筆不動產</strong>，含自用及投資用途</div>
-      <div class="bg-item"><div class="bg-dot"></div>實際持有數量、坐落地點及持有方式，<strong>仍待客戶正式確認後提供精確建議</strong></div>
-      <div class="bg-item"><div class="bg-dot"></div>美國公民持有台灣不動產仍需申報</div>
-      <div class="bg-item"><div class="bg-dot"></div>繼承時需同步規劃台美兩地稅務</div>
-      <div class="bg-item" style="color:var(--gold);font-size:11px;"><div class="bg-dot" style="background:var(--gold);"></div>以下建議方向以目前了解狀況為參考，實際規劃以正確資訊為準</div>
-    </div>
-    <div class="bg-card">
-      <div class="bg-card-title">📋 保障缺口一覽</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--red);"></div><strong>意外險：65歲已到期失效</strong>（完全真空）</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--red);"></div><strong>長照/失能險：一張都沒有</strong>（最大空白）</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--gold);"></div>醫療實支實付：75歲到期斷保</div>
-      <div class="bg-item"><div class="bg-dot"></div>終身壽險100萬：已繳期滿，仍有效</div>
-      <div class="bg-item"><div class="bg-dot"></div>日額型、癌症險：已繳期滿，仍有效</div>
-    </div>
-    <div class="bg-card">
-      <div class="bg-card-title">⏰ 時間壓力</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--red);"></div><strong>七月即將赴美</strong>，在台辦理最後窗口</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--red);"></div><strong>即將邁入70歲</strong>，高齡投保紅線</div>
-      <div class="bg-item"><div class="bg-dot" style="background:var(--gold);"></div>女兒赴美留學 4～6年，傳承架構需先建立</div>
-      <div class="bg-item"><div class="bg-dot"></div>墊繳每拖一天，現價就多損耗一天</div>
-    </div>
-  </div>
-
-  <!-- Timeline -->
-  <div class="sec-label">年齡關卡時間軸</div>
-  <div class="timeline-bar">
-    <div class="tl-track">
-      <div class="tl-item">
-        <div class="tl-dot green"></div>
-        <div class="tl-label" style="color:var(--green);">69歲</div>
-        <div class="tl-sub">現在<br>✓ 全部窗口開啟</div>
-        <div class="tl-connector"></div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot gold"></div>
-        <div class="tl-label" style="color:var(--gold);">70歲</div>
-        <div class="tl-sub">明年<br>⚠ 高齡投保紅線</div>
-        <div class="tl-connector"></div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-label" style="color:var(--red);">75歲</div>
-        <div class="tl-sub">6年後<br>✕ 醫療險斷保</div>
-        <div class="tl-connector"></div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot" style="border-color:var(--ink);"></div>
-        <div class="tl-label">將來</div>
-        <div class="tl-sub">不確定<br>資產流向誰？</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(1)">← 家庭關係</button>
-    <span class="pg-indicator">2 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(3)">財務資訊 →</button>
-  </div>
-</div>
-</div>
-
-<!-- ===== PAGE 3: FINANCE ===== -->
-<div class="page" id="page-3" style="background:var(--cream);">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 03 / 06</div>
-      <div class="pg-title">財務資訊簡介</div>
-      <div class="pg-subtitle">核心保單數據・現金流分析</div>
-    </div>
-    <div class="pg-tag">Financial Overview</div>
-  </div>
-
-  <div class="sec-label">核心保單數據</div>
-  <div class="finance-hero" style="border-radius:14px;margin-bottom:20px;">
-    <div class="fh-item">
-      <div class="fh-label">保單現價</div>
-      <div class="fh-value">456萬</div>
-      <div class="fh-note">2025.5.19 確認</div>
-    </div>
-    <div class="fh-item">
-      <div class="fh-label">總繳保費</div>
-      <div class="fh-value">422萬</div>
-      <div class="fh-note">81.8萬 × 5年</div>
-    </div>
-    <div class="fh-item">
-      <div class="fh-label">帳面損益</div>
-      <div class="fh-value" style="color:#7ecfa0;">+34萬</div>
-      <div class="fh-note">資金重新部署效益更佳</div>
-    </div>
-  </div>
-
-  <div class="finance-grid">
-    <div class="fin-card">
-      <div class="fin-card-title">利率結構分析</div>
-      <div class="fin-row"><span class="fin-key">保單預定利率</span><span class="fin-val">2.25%</span></div>
-      <div class="fin-row"><span class="fin-key">墊繳借款利率</span><span class="fin-val red">3.75%</span></div>
-      <div class="fin-row"><span class="fin-key">每年淨損利差</span><span class="fin-val red">-1.5%</span></div>
-      <div class="fin-row"><span class="fin-key">456萬 × 1.5%</span><span class="fin-val red">每年 -6.8萬</span></div>
-      <div class="fin-row"><span class="fin-key">每月無聲消失</span><span class="fin-val red">約 5,700元</span></div>
-    </div>
-    <div class="fin-card">
-      <div class="fin-card-title">換戶頭效益對比</div>
-      <div class="fin-row"><span class="fin-key">投入本金</span><span class="fin-val">450～456萬</span></div>
-      <div class="fin-row"><span class="fin-key">現在年效益</span><span class="fin-val red">約11萬</span></div>
-      <div class="fin-row"><span class="fin-key">換戶頭後年效益</span><span class="fin-val green">約30萬</span></div>
-      <div class="fin-row"><span class="fin-key">年化報酬</span><span class="fin-val green">約6%</span></div>
-      <div class="fin-row"><span class="fin-key">每月進帳</span><span class="fin-val green">約25,000元</span></div>
-    </div>
-    <div class="fin-card">
-      <div class="fin-card-title">現金流升級（10年視角）</div>
-      <div class="fin-row"><span class="fin-key">現在方案（10年）</span><span class="fin-val red">配息約 110萬</span></div>
-      <div class="fin-row"><span class="fin-key">大水庫配息（10年）</span><span class="fin-val green">約 250～270萬</span></div>
-      <div class="fin-row"><span class="fin-key">10年差距</span><span class="fin-val gold">多出約 140～160萬</span></div>
-      <div class="fin-row"><span class="fin-key">等於女兒留學</span><span class="fin-val">約3～4年生活費</span></div>
-    </div>
-    <div class="fin-card">
-      <div class="fin-card-title">不動產傳承稅務試算（參考）</div>
-      <div class="fin-row"><span class="fin-key">繼承方式</span><span class="fin-val green">土增稅免課</span></div>
-      <div class="fin-row"><span class="fin-key">贈與方式</span><span class="fin-val red">土增稅20～40%</span></div>
-      <div class="fin-row"><span class="fin-key">遺產稅稅率</span><span class="fin-val">10%起</span></div>
-      <div class="fin-row"><span class="fin-key">跨國繼承風險</span><span class="fin-val red">台美兩地均需申報</span></div>
-    </div>
-  </div>
-
-  <div class="policy-highlight">
-    <div class="ph-icon">💡</div>
-    <div class="ph-text">
-      <strong>核心觀念：同樣一筆錢，換個戶頭放</strong><br>
-      不用多花一塊錢——解約現價456萬全數躉繳大水庫（被保險人：女兒），年化約6%每年配息25～27萬；月配息直接繳小水庫保費（被保險人：林醫師），3年繳費完成後預留遺產稅源，身故保額直達配偶或女兒。
-    </div>
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(2)">← 背景簡介</button>
-    <span class="pg-indicator">3 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(4)">傳承盲點 →</button>
-  </div>
-</div>
-</div>
-
-<!-- ===== PAGE 4: BLIND SPOTS ===== -->
-<div class="page" id="page-4" style="background:#f5f0e8;">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 04 / 06</div>
-      <div class="pg-title">可能沒想到的傳承面向</div>
-      <div class="pg-subtitle">六個您可能還沒考慮到的關鍵觀點</div>
-    </div>
-    <div class="pg-tag">Blind Spots</div>
-  </div>
-
-  <div class="sec-label">傳承盲點與風險提醒</div>
-  <div class="spot-grid">
-    <div class="spot-card red">
-      <div class="spot-num">01</div>
-      <div class="spot-icon">🏦</div>
-      <div class="spot-title">資產凍結・活錢不夠用</div>
-      <div class="spot-body">先生過世後，台灣銀行帳戶、房產都會進入繼承程序，家人短期內無法動用。<strong>保單是唯一能在15天內給出活現金的工具</strong>——這筆錢讓女兒繳遺產稅、解凍大水庫，無可取代。</div>
-      <span class="spot-tag">資金流動性風險</span>
-    </div>
-    <div class="spot-card gold">
-      <div class="spot-num">02</div>
-      <div class="spot-icon">📋</div>
-      <div class="spot-title">特留份問題・遺囑不等於全部</div>
-      <div class="spot-body">即使立了遺囑，台灣民法規定繼承人享有「特留份」（應繼份的1/2）。<strong>但保單受益人指定的身故金，不受特留份約束</strong>——這是讓財產精準傳承女兒、不被分割的唯一合法工具。</div>
-      <span class="spot-tag">法律傳承風險</span>
-    </div>
-    <div class="spot-card blue">
-      <div class="spot-num">03</div>
-      <div class="spot-icon">🇺🇸</div>
-      <div class="spot-title">美國公民的跨國稅務陷阱</div>
-      <div class="spot-body">全家美籍，台灣保單、帳戶、股票都在FATCA申報範圍。<strong>2026年後美國遺產稅免稅額可能減半至約700萬美元</strong>，台灣資產（房產＋保單＋股票）加總後可能觸碰門檻，現在是規劃窗口期。</div>
-      <span class="spot-tag">FATCA／跨國稅務</span>
-    </div>
-    <div class="spot-card red">
-      <div class="spot-num">04</div>
-      <div class="spot-icon">🏥</div>
-      <div class="spot-title">長照真空・最貴的風險沒有保障</div>
-      <div class="spot-body">林醫師目前<strong>完全沒有長照險、失能險</strong>。若發生需要長期照護的狀況，每月費用可能達3～8萬，全部自掏腰包。<strong>69歲是最後投保機會</strong>，70歲以後幾乎買不到任何長照相關保障。</div>
-      <span class="spot-tag">高齡照護風險</span>
-    </div>
-    <div class="spot-card green">
-      <div class="spot-num">05</div>
-      <div class="spot-icon">📊</div>
-      <div class="spot-title">保單實質課稅八大樣態</div>
-      <div class="spot-body">本案涉及<strong>高齡投保（70歲紅線）</strong>與<strong>鉅額投保</strong>兩大樣態。現在69歲規劃完全合法站得住腳；<strong>過了70歲，國稅局列重點關注，傳承效果大打折扣</strong>。時機就是現在。</div>
-      <span class="spot-tag">實質課稅風險</span>
-    </div>
-    <div class="spot-card blue">
-      <div class="spot-num">06</div>
-      <div class="spot-icon">💝</div>
-      <div class="spot-title">身故金分期給付・傳承觀念建立</div>
-      <div class="spot-body">保單內建<strong>身故金分期給付功能</strong>：可約定部分一次給付供繳遺產稅，餘額按月發放給女兒，有效隔絕詐騙與不當投資風險，且不需另付信託管理費。<br><br><span style="color:var(--green);font-size:11.5px;font-weight:500;">✦ 這是第一步，也是最重要的一步。隨著家庭資產持續累積，未來可以在這個基礎上，逐步建立更完整的傳承架構——讓每一分努力，都能完整地交到女兒手上。</span></div>
-      <span class="spot-tag">類信託傳承功能</span>
-    </div>
-  </div>
-
-  <!-- 真實案例 -->
-  <div class="sec-label" style="margin-top:24px;">真實案例・讓數字有溫度</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
-
-    <!-- 沈殿霞 -->
-    <div style="background:white;border:0.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);">
-      <div style="background:var(--ink);padding:16px 20px;">
-        <div style="font-size:10px;letter-spacing:0.15em;color:var(--gold-light);margin-bottom:6px;">CASE 01｜信託保護女兒</div>
-        <div style="font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;color:white;">沈殿霞</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">香港女演員・2008年身故・享年62歲</div>
-      </div>
-      <div style="padding:16px 20px;">
-        <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.8;margin-bottom:12px;">
-          留下港幣<strong style="color:var(--ink);">6,000萬元</strong>（約台幣2.5億）遺產。擔心當時<strong style="color:var(--ink);">年僅21歲</strong>的獨生女鄭欣宜無法妥善管理，於身故前設立<strong style="color:var(--ink);">遺囑信託</strong>：
-        </div>
-        <div style="background:var(--gold-pale);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.9;">
-            📌 女兒<strong>35歲前每月只領2萬港幣</strong>生活費<br>
-            📌 <strong>滿35歲</strong>（2022年）才能完整取得財產<br>
-            📌 指定前夫及好友擔任<strong>信託監察人</strong><br>
-            📌 額外動用需取得監察人同意
-          </div>
-        </div>
-        <div style="background:var(--green-pale);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--green);line-height:1.7;">
-          ✦ 結果：鄭欣宜靠自己在香港樂壇創下成績，2021、2022年獲叱咤樂壇女歌手金獎。母親的安排，讓女兒學會了靠自己。
-        </div>
-        <div style="margin-top:12px;padding:10px 14px;background:var(--blue-pale);border-radius:8px;font-size:11.5px;color:var(--blue);line-height:1.7;">
-          💡 <strong>對林醫師的啟示：</strong><br><br>
-          想像4年後，女兒在美國大學畢業典禮上，穿著學士服，驕傲地站在台上——那一刻，她靠自己走到這裡。<br><br>
-          您希望留給她的，不只是一筆數字，而是一種能力：知道錢的重量，懂得珍惜，有獨立負責的底氣。<br><br>
-          財富得以傳承，託付可以安心。讓這些資產在對的時間、以對的方式，交到她手上——而不是在她還沒準備好的時候，一次全給了她。<br><br>
-          <span style="color:var(--green);font-weight:500;">信託或分期給付，不是不信任女兒，是您用最深的愛，為她設計的保護。</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 中山美穗 -->
-    <div style="background:white;border:0.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);">
-      <div style="background:var(--red);padding:16px 20px;">
-        <div style="font-size:10px;letter-spacing:0.15em;color:rgba(255,255,255,0.6);margin-bottom:6px;">CASE 02｜沒有稅源的警示</div>
-        <div style="font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;color:white;">中山美穗</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">日本女演員・2024年底猝逝・享年54歲</div>
-      </div>
-      <div style="padding:16px 20px;">
-        <div style="font-size:12.5px;color:var(--ink-soft);line-height:1.8;margin-bottom:12px;">
-          留下約<strong style="color:var(--ink);">20億日圓</strong>（約台幣4.2億）遺產，包含不動產、版權、著作權等。然而<strong style="color:var(--red);">21歲獨子選擇拋棄繼承</strong>，震驚各界。
-        </div>
-        <div style="background:var(--red-pale);border-radius:10px;padding:12px 14px;margin-bottom:12px;">
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.9;">
-            ❌ <strong>日本遺產稅最高達55%</strong>，需繳約11億日圓稅金<br>
-            ❌ 遺產多為<strong>不動產、版權，無法快速變現</strong><br>
-            ❌ 法律規定<strong>10個月內</strong>必須完成繳稅<br>
-            ❌ <strong>無遺囑、無信託、無壽險、無稅源規劃</strong>
-          </div>
-        </div>
-        <div style="background:var(--red-pale);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--red);line-height:1.7;">
-          ⚠ 結果：看得到的財富，卻沒有繳稅的現金。繼承反而成了負擔，獨子被迫放棄4.2億遺產。
-        </div>
-        <div style="margin-top:12px;padding:10px 14px;background:var(--gold-pale);border-radius:8px;font-size:11.5px;color:#7a5500;line-height:1.7;">
-          💡 <strong>對林醫師的啟示：</strong><br><br>
-          中山美穗的故事，不是遙遠的他人故事。她54歲猝逝，沒有預警，也沒有任何準備。<br><br>
-          她的遺產不是不夠多——而是沒有活現金可以繳稅。房產、版權、著作權，全都看得到，卻拿不出來用。<br><br>
-          台灣遺產稅雖然比日本低，但持有不動產的家庭，同樣面臨「資產多、現金少」的問題。<br><br>
-          <span style="color:var(--red);font-weight:500;">壽險的身故保險金，就是提前準備好的那筆活現金——讓女兒在最需要的時刻，不必賤賣資產，可以從容地把您留下的一切，完整地接住。</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(3)">← 財務資訊</button>
-    <span class="pg-indicator">4 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(5)">規劃建議 →</button>
-  </div>
-</div>
-</div>
-
-<!-- ===== PAGE 5: PLAN ===== -->
-<div class="page" id="page-5" style="background:var(--cream);">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 05 / 06</div>
-      <div class="pg-title">規劃方向及建議</div>
-      <div class="pg-subtitle">三層架構・大小水庫並行</div>
-    </div>
-    <div class="pg-tag">Planning Direction</div>
-  </div>
-
-  <!-- Water tank concept -->
-  <div class="sec-label">大小水庫架構</div>
-  <div class="water-box">
-    <div class="wb-col">
-      <div class="wb-title">大水庫（現有資產）</div>
-      <div class="wb-item">🏠 <strong>持有不動產</strong>（核心財富，實際明細待確認）</div>
-      <div class="wb-item">📈 <strong>股票・基金</strong>（投資資產）</div>
-      <div class="wb-item">🏦 <strong>銀行帳戶</strong>（流動資金）</div>
-      <div class="wb-item" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.4);">⚠ 傳承需過稅務・程序關卡</div>
-    </div>
-    <div class="wb-arrow">🔑</div>
-    <div class="wb-col">
-      <div class="wb-title">小水庫（傳承型壽險）</div>
-      <div class="wb-item">⚡ 以<strong>林醫師為被保險人</strong>，身故觸發理賠</div>
-      <div class="wb-item">🛡 <strong>15天內</strong>活現金直達配偶或女兒</div>
-      <div class="wb-item">💰 <strong>不進遺產</strong>・繳稅・解凍大水庫</div>
-      <div class="wb-item" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.4);">✓ 被保險人≠要保人，死亡保險金才真正不進遺產</div>
-    </div>
-  </div>
-
-  <!-- Three pillars -->
-  <div class="sec-label">四層規劃方向</div>
-  <div class="plan-wrap" style="grid-template-columns:1fr 1fr;">
-    <div class="plan-col p1">
-      <div class="plan-col-head">第一層｜現金流升級（小水庫還本）</div>
-      <div class="plan-col-body">
-        <div class="plan-item"><div class="plan-dot"></div>解約遠雄保單，確認墊繳餘額後決定實拿金額</div>
-        <div class="plan-item"><div class="plan-dot"></div>以<strong>女兒（18歲）為被保險人</strong>躉繳投資型保單，年化約6%</div>
-        <div class="plan-item"><div class="plan-dot"></div>每年配息約25～27萬（每月約21,000元），從每年11萬大幅提升</div>
-        <div class="plan-item"><div class="plan-dot"></div>月配息直接繳小水庫保費（被保險人：林醫師），大水庫養小水庫</div>
-      </div>
-    </div>
-    <div class="plan-col p2">
-      <div class="plan-col-head">第二層｜月配息大水庫（躉繳投資型）</div>
-      <div class="plan-col-body">
-        <div class="plan-item"><div class="plan-dot"></div><strong>450萬台幣躉繳</strong>投資型保單，被保險人：女兒（18歲），繳一次不用再繳</div>
-        <div class="plan-item"><div class="plan-dot"></div>年化約6%，每年配息約25～27萬（每月約21,000元），自動到帳</div>
-        <div class="plan-item"><div class="plan-dot"></div><strong>前3年</strong>→ 月配息直接繳小水庫（豪美368）保費，大水庫養小水庫，幾乎零負擔</div>
-        <div class="plan-item"><div class="plan-dot"></div><strong>3年後・留學期間</strong>→ 小水庫繳費完成，配息撥入林醫師帳戶，再自行安排給女兒留學所需</div>
-        <div class="plan-item"><div class="plan-dot"></div><strong>留學結束後</strong>→ 配息轉為退休補充金，本金持續滾動增值</div>
-      </div>
-    </div>
-    <div class="plan-col p1" style="border-top:2px solid var(--blue);">
-      <div class="plan-col-head">第三層｜傳承架構（真正的小水庫）</div>
-      <div class="plan-col-body">
-        <div class="plan-item"><div class="plan-dot"></div><strong>以林醫師為被保險人</strong>投保壽險，受益人指定配偶或女兒</div>
-        <div class="plan-item"><div class="plan-dot"></div>林醫師身故→觸發死亡保險金→<strong>15天內直達受益人</strong></div>
-        <div class="plan-item"><div class="plan-dot"></div>死亡保險金不進遺產，配偶或女兒第一時間有活現金繳稅</div>
-        <div class="plan-item"><div class="plan-dot"></div>身故金分期給付為概念建立（本案保額有限，未來可視資產規模擴大規劃）</div>
-        <div class="plan-item"><div class="plan-dot"></div>⚠ 69歲→70歲紅線在即，此層須最優先啟動</div>
-      </div>
-    </div>
-    <div class="plan-col p3" style="border-top:2px solid var(--green);">
-      <div class="plan-col-head">第四層｜保障缺口＋跨國安排</div>
-      <div class="plan-col-body">
-        <div class="plan-item"><div class="plan-dot"></div><strong>意外險</strong>：補足65歲到期缺口，69歲仍可承保</div>
-        <div class="plan-item"><div class="plan-dot"></div><strong>長照/失能</strong>：最後窗口，70歲後幾乎買不到</div>
-        <div class="plan-item"><div class="plan-dot"></div>不動產授權書：出發前指定代理人（以目前了解狀況為準）</div>
-        <div class="plan-item"><div class="plan-dot"></div>美國CPA：FATCA・PFIC・Form 709・跨國傳承同步規劃</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 月配息試算 -->
-  <div class="sec-label" style="margin-top:20px;">月配息試算（躉繳投資型保單）</div>
-  <div style="background:white;border:0.5px solid var(--border);border-radius:14px;padding:20px;box-shadow:0 2px 12px var(--shadow);margin-bottom:20px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--ink-muted);margin-bottom:12px;letter-spacing:0.05em;">配息試算（年化4～6%）</div>
-        <table style="width:100%;border-collapse:collapse;font-size:12px;">
-          <tr style="background:var(--cream-dark);">
-            <th style="padding:7px 10px;text-align:left;color:var(--ink-muted);font-weight:500;">躉繳金額</th>
-            <th style="padding:7px 10px;text-align:center;color:var(--ink-muted);font-weight:500;">年化4%</th>
-            <th style="padding:7px 10px;text-align:center;color:var(--gold);font-weight:600;">年化6%</th>
-            <th style="padding:7px 10px;text-align:center;color:var(--green);font-weight:500;">年化6%</th>
-          </tr>
-          <tr style="border-bottom:0.5px solid var(--border);">
-            <td style="padding:7px 10px;color:var(--ink-soft);">300萬</td>
-            <td style="padding:7px 10px;text-align:center;">$10,000</td>
-            <td style="padding:7px 10px;text-align:center;font-weight:600;color:var(--gold);">$12,500</td>
-            <td style="padding:7px 10px;text-align:center;color:var(--green);">$15,000</td>
-          </tr>
-          <tr style="border-bottom:0.5px solid var(--border);background:#fffdf8;">
-            <td style="padding:7px 10px;color:var(--ink);font-weight:600;">450萬 ★</td>
-            <td style="padding:7px 10px;text-align:center;">$13,300</td>
-            <td style="padding:7px 10px;text-align:center;font-weight:700;color:var(--gold);">$22,500</td>
-            <td style="padding:7px 10px;text-align:center;color:var(--green);">$20,000</td>
-          </tr>
-          <tr>
-            <td style="padding:7px 10px;color:var(--ink-soft);">500萬</td>
-            <td style="padding:7px 10px;text-align:center;">$16,700</td>
-            <td style="padding:7px 10px;text-align:center;font-weight:600;color:var(--gold);">$20,800</td>
-            <td style="padding:7px 10px;text-align:center;color:var(--green);">$25,000</td>
-          </tr>
-        </table>
-        <div style="font-size:11px;color:var(--ink-muted);margin-top:8px;">★ 預估方案：450萬・年化6%・每年約25～27萬・每月約20,800～22,500元</div>
-      </div>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--ink-muted);margin-bottom:12px;letter-spacing:0.05em;">三階段使用規劃</div>
-        <div style="background:var(--red-pale);border-radius:10px;padding:12px;margin-bottom:8px;">
-          <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:6px;">🔒 前3年（現在起）</div>
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">月配息約21,000元<br>→ 直接繳小水庫保費<br>大水庫養小水庫，幾乎零負擔</div>
-        </div>
-        <div style="background:var(--blue-pale);border-radius:10px;padding:12px;margin-bottom:8px;">
-          <div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:6px;">🎓 3年後・留學期間</div>
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">小水庫繳費完成<br>月配息全數可用<br>撥入要保人（林醫師）帳戶<br>再自行安排女兒留學費用</div>
-        </div>
-        <div style="background:var(--green-pale);border-radius:10px;padding:12px;">
-          <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:6px;">🏠 留學結束後（長期）</div>
-          <div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">轉為林醫師夫婦退休補充金<br>本金持續在帳戶滾動<br>不需重新規劃，同一張保單</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Felo備註 -->
-  <div class="sec-label">重要備註｜投資型保單遺產風險（參考Felo AI分析，已交叉確認）</div>
-  <div style="background:var(--red-pale);border:1px solid #e8c0c0;border-radius:14px;padding:20px;margin-bottom:20px;">
-    <div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:12px;letter-spacing:0.05em;">⚠ 以下為Felo AI搜尋資料之重點整理，已對照台灣稅法實務補充說明，供參考用途。實際稅務認定建議諮詢專業稅務顧問及美國CPA。</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <div style="background:white;border-radius:10px;padding:14px;">
-        <div style="font-size:11px;font-weight:600;color:var(--red);margin-bottom:8px;">✅ Felo正確、可採用</div>
-        <div style="font-size:12px;color:var(--ink-soft);line-height:1.8;">
-          • 要保人身故→帳戶價值<strong>高度可能計入遺產</strong><br>
-          • 投資連動部分比固定保障部分更易被認定為遺產<br>
-          • 個人資金繳費→更難主張帳戶價值是女兒的資產<br>
-          • 配偶先身故→通常不觸發這張保單計入配偶遺產
-        </div>
-      </div>
-      <div style="background:white;border-radius:10px;padding:14px;">
-        <div style="font-size:11px;font-weight:600;color:var(--gold);margin-bottom:8px;">⚠ Felo未說清楚，需補充</div>
-        <div style="font-size:12px;color:var(--ink-soft);line-height:1.8;">
-          • <strong>2年內贈與視同遺產</strong>（遺贈稅法第15條）：要保人變更後2年內身故，帳戶價值仍計入遺產，且贈與稅已繳，恐雙重課稅<br>
-          • <strong>受益人指定≠帳戶價值不進遺產</strong>：受益人保護的是死亡保險金，帳戶價值是另一回事<br>
-          • <strong>美國端完全未提及</strong>：PFIC認定、Form 709贈與申報、美國遺產稅，均需美國CPA另行確認
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:12px;background:white;border-radius:10px;padding:14px;">
-      <div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:8px;">📋 三種情境遺產風險對照</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:11.5px;">
-        <div style="background:var(--red-pale);border-radius:8px;padding:10px;">
-          <div style="font-weight:600;color:var(--red);margin-bottom:4px;">🔴 林醫師身故（要保人）</div>
-          <div style="color:var(--ink-soft);line-height:1.6;">帳戶價值<strong>高度可能計入遺產</strong><br>受益人指定無保護效果<br>→ 需搭配壽險解決</div>
-        </div>
-        <div style="background:#fffbf0;border-radius:8px;padding:10px;">
-          <div style="font-weight:600;color:var(--gold);margin-bottom:4px;">🟡 要保人變更為女兒</div>
-          <div style="color:var(--ink-soft);line-height:1.6;">視為贈與，需繳贈與稅<br><strong>注意：2年內身故仍計入遺產</strong><br>→ 需與CPA評估時機</div>
-        </div>
-        <div style="background:var(--green-pale);border-radius:8px;padding:10px;">
-          <div style="font-weight:600;color:var(--green);margin-bottom:4px;">🟢 林太太先身故</div>
-          <div style="color:var(--ink-soft);line-height:1.6;">通常不觸發這張保單<br>計入太太遺產<br>→ 風險相對低</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Double choice -->
-  <div class="sec-label">您來選・兩條路都走得通</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-    <div class="card" style="border-left:3px solid #5a8cc0;">
-      <div style="font-size:11px;font-weight:600;color:#2a6090;margin-bottom:8px;">路線 A｜月配息繳小水庫</div>
-      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px;">大水庫配息養小水庫</div>
-      <div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">每月配息約21,000元直接繳豪美368保費，3年繳完，之後配息全數入口袋。不需額外掏錢，架構自動運轉。<br><strong>每月缺口極小，幾乎零負擔</strong></div>
-    </div>
-    <div class="card" style="border-left:3px solid var(--green);">
-      <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:8px;">路線 B｜3年後配息入口袋</div>
-      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px;">小水庫繳完，配息全歸自己</div>
-      <div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">3年後豪美368繳費完成，每月配息約21,000元全數可用——退休生活費、女兒留學補貼、或補充保障缺口，由您決定。<br><strong>彈性最大，錢自己說了算</strong></div>
-    </div>
-  </div>
-
-  <!-- ===== 圖像時間軸 ===== -->
-  <div class="sec-label" style="margin-top:24px;">資金流向・圖像時間軸</div>
-
-  <style>
-  .vtl { position:relative; margin-bottom:28px; }
-
-  /* 頂部倒數警示 */
-  .countdown-bar {
-    background: var(--red);
-    border-radius: 12px;
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-  .cd-left { display:flex; align-items:center; gap:12px; }
-  .cd-num {
-    font-family:'Noto Serif TC',serif;
-    font-size:36px; font-weight:700;
-    color:white; line-height:1;
-  }
-  .cd-label { font-size:12px; color:rgba(255,255,255,0.8); line-height:1.6; }
-  .cd-label strong { color:white; font-size:14px; display:block; }
-  .cd-right { font-size:12px; color:rgba(255,255,255,0.7); text-align:right; line-height:1.8; }
-
-  /* 主時間軸 */
-  .tl-main {
-    position: relative;
-    padding-left: 0;
-  }
-
-  /* 橫向流程圖 */
-  .flow-timeline {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    margin-bottom: 24px;
-    overflow-x: auto;
-  }
-
-  .ft-step {
-    flex: 1;
-    min-width: 160px;
-    position: relative;
-  }
-
-  .ft-step-inner {
-    margin: 0 6px;
-    border-radius: 12px;
-    padding: 16px 14px;
-    height: 100%;
-    position: relative;
-  }
-
-  .ft-step.s0 .ft-step-inner { background: var(--red-pale); border: 1.5px solid #e8c0c0; }
-  .ft-step.s1 .ft-step-inner { background: var(--blue-pale); border: 1.5px solid #8ab4d8; }
-  .ft-step.s2 .ft-step-inner { background: var(--gold-pale); border: 1.5px solid #d4ae60; }
-  .ft-step.s3 .ft-step-inner { background: var(--green-pale); border: 1.5px solid #90c0a0; }
-  .ft-step.s4 .ft-step-inner { background: var(--ink); border: 1.5px solid #444; }
-
-  .ft-arrow {
-    position: absolute;
-    right: -14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 14px solid var(--border);
-    z-index: 2;
-  }
-  .ft-step.s0 .ft-arrow { border-left-color: #e8c0c0; }
-  .ft-step.s1 .ft-arrow { border-left-color: #8ab4d8; }
-  .ft-step.s2 .ft-arrow { border-left-color: #d4ae60; }
-  .ft-step.s3 .ft-arrow { border-left-color: #90c0a0; }
-
-  .ft-num {
-    font-size: 10px; font-weight:700;
-    letter-spacing:0.1em;
-    margin-bottom: 8px;
-  }
-  .ft-step.s0 .ft-num { color: var(--red); }
-  .ft-step.s1 .ft-num { color: var(--blue); }
-  .ft-step.s2 .ft-num { color: #7a5500; }
-  .ft-step.s3 .ft-num { color: var(--green); }
-  .ft-step.s4 .ft-num { color: var(--gold-light); }
-
-  .ft-icon { font-size: 24px; margin-bottom: 8px; }
-  .ft-title { font-size: 13px; font-weight:600; color: var(--ink); margin-bottom: 6px; line-height:1.4; }
-  .ft-step.s4 .ft-title { color: white; }
-  .ft-body { font-size: 11.5px; color: var(--ink-soft); line-height:1.7; }
-  .ft-step.s4 .ft-body { color: rgba(255,255,255,0.7); }
-  .ft-tag {
-    display:inline-block;
-    font-size:10px; font-weight:600;
-    padding: 2px 8px;
-    border-radius:20px;
-    margin-top:8px;
-  }
-  .ft-step.s0 .ft-tag { background:var(--red-pale); color:var(--red); border:1px solid #e8c0c0; }
-  .ft-step.s1 .ft-tag { background:var(--blue-pale); color:var(--blue); border:1px solid #8ab4d8; }
-  .ft-step.s2 .ft-tag { background:var(--gold-pale); color:#7a5500; border:1px solid #d4ae60; }
-  .ft-step.s3 .ft-tag { background:var(--green-pale); color:var(--green); border:1px solid #90c0a0; }
-  .ft-step.s4 .ft-tag { background:rgba(184,147,58,0.2); color:var(--gold-light); border:1px solid rgba(184,147,58,0.4); }
-
-  /* 三階段月配息時間軸 */
-  .phase-tl {
-    background: white;
-    border: 0.5px solid var(--border);
-    border-radius: 14px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 12px var(--shadow);
-  }
-  .phase-tl-title { font-size:13px; font-weight:600; color:var(--ink); margin-bottom:16px; }
-  .phase-track {
-    position: relative;
-    padding-bottom: 8px;
-  }
-  .phase-line {
-    position: absolute;
-    top: 20px; left: 20px; right: 20px;
-    height: 3px;
-    background: linear-gradient(to right, var(--red) 0%, var(--gold) 40%, var(--green) 100%);
-    border-radius: 2px;
-  }
-  .phase-nodes {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-  }
-  .phase-node {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-  }
-  .phase-dot {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    display: flex; align-items:center; justify-content:center;
-    font-size: 16px;
-    border: 2px solid;
-    background: white;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 10px;
-  }
-  .phase-node.p-now .phase-dot { border-color:var(--red); box-shadow:0 0 0 3px rgba(139,32,32,0.12); }
-  .phase-node.p-mid .phase-dot { border-color:var(--gold); }
-  .phase-node.p-end .phase-dot { border-color:var(--green); }
-  .phase-node.p-future .phase-dot { border-color:var(--ink); }
-
-  .phase-period {
-    font-size:10px; font-weight:600;
-    letter-spacing:0.05em;
-    margin-bottom:4px;
-    text-align:center;
-  }
-  .phase-node.p-now .phase-period { color:var(--red); }
-  .phase-node.p-mid .phase-period { color:#7a5500; }
-  .phase-node.p-end .phase-period { color:var(--green); }
-  .phase-node.p-future .phase-period { color:var(--ink-muted); }
-
-  .phase-card {
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 11.5px;
-    line-height: 1.7;
-    text-align: center;
-    max-width: 140px;
-  }
-  .phase-node.p-now .phase-card { background:var(--red-pale); color:var(--ink-soft); }
-  .phase-node.p-mid .phase-card { background:var(--gold-pale); color:var(--ink-soft); }
-  .phase-node.p-end .phase-card { background:var(--green-pale); color:var(--ink-soft); }
-  .phase-node.p-future .phase-card { background:var(--cream-dark); color:var(--ink-soft); }
-  .phase-card strong { color:var(--ink); font-weight:600; display:block; }
-
-  /* 資金對比盒 */
-  .money-flow {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 12px;
-    align-items: center;
-    background: white;
-    border: 0.5px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 2px 12px var(--shadow);
-    margin-bottom: 20px;
-  }
-  .mf-col { }
-  .mf-header {
-    font-size: 11px; font-weight:600;
-    letter-spacing:0.08em;
-    margin-bottom:12px;
-    padding-bottom:8px;
-    border-bottom: 1.5px solid;
-  }
-  .mf-col.big .mf-header { color:var(--blue); border-color:var(--blue); }
-  .mf-col.small .mf-header { color:var(--green); border-color:var(--green); }
-  .mf-row {
-    display:flex; justify-content:space-between;
-    align-items:center;
-    padding: 5px 0;
-    border-bottom: 0.5px solid var(--border);
-    font-size: 12px;
-  }
-  .mf-row:last-child { border-bottom:none; }
-  .mf-key { color:var(--ink-muted); }
-  .mf-val { font-weight:600; }
-  .mf-col.big .mf-val { color:var(--blue); }
-  .mf-col.small .mf-val { color:var(--green); }
-  .mf-connect {
-    display:flex; flex-direction:column;
-    align-items:center; gap:6px;
-  }
-  .mf-arrow-box {
-    background: var(--gold);
-    color: white;
-    border-radius: 8px;
-    padding: 8px 10px;
-    font-size: 11px; font-weight:600;
-    text-align:center;
-    line-height:1.5;
-  }
-  .mf-arrow-down {
-    font-size:20px; color:var(--gold);
-  }
-  </style>
-
-  <!-- 倒數警示 -->
-  <div class="countdown-bar">
-    <div class="cd-left">
-      <div class="cd-num">22</div>
-      <div class="cd-label">
-        <strong>天後即滿70歲</strong>
-        6月18日・高齡投保紅線
-      </div>
-    </div>
-    <div class="cd-right">
-      所有投保必須在<strong style="color:white;">6/18前</strong>完成<br>
-      遠雄解約・核保送件・要保書簽署<br>
-      <strong style="color:white;">現在啟動才來得及</strong>
-    </div>
-  </div>
-
-  <!-- 橫向資金流程圖 -->
-  <div class="flow-timeline">
-    <div class="ft-step s0">
-      <div class="ft-step-inner">
-        <div class="ft-num">STEP 01</div>
-        <div class="ft-icon">📋</div>
-        <div class="ft-title">遠雄保單<br>解約</div>
-        <div class="ft-body">確認墊繳餘額<br>辦理解約手續<br>款項入帳</div>
-        <div class="ft-tag">實拿 450萬</div>
-      </div>
-      <div class="ft-arrow"></div>
-    </div>
-
-    <div class="ft-step s1">
-      <div class="ft-step-inner">
-        <div class="ft-num">STEP 02</div>
-        <div class="ft-icon">🌊</div>
-        <div class="ft-title">大水庫<br>一次躉繳</div>
-        <div class="ft-body">450萬台幣<br>躉繳投資型保單<br>被保險人：女兒<br>繳一次不用再繳</div>
-        <div class="ft-tag">約140,000美元</div>
-      </div>
-      <div class="ft-arrow"></div>
-    </div>
-
-    <div class="ft-step s2">
-      <div class="ft-step-inner">
-        <div class="ft-num">STEP 03</div>
-        <div class="ft-icon">💧</div>
-        <div class="ft-title">月配息<br>自動產生</div>
-        <div class="ft-body">每月自動配息<br>年化約6%<br>每年約25～27萬<br>約20,800～22,500元/月</div>
-        <div class="ft-tag">每月 ≈21,000元</div>
-      </div>
-      <div class="ft-arrow"></div>
-    </div>
-
-    <div class="ft-step s3">
-      <div class="ft-step-inner">
-        <div class="ft-num">STEP 04</div>
-        <div class="ft-icon">🔒</div>
-        <div class="ft-title">小水庫<br>3年繳費</div>
-        <div class="ft-body">月配息直接繳<br>豪美368美元<br>分紅保單<br>被保險人：林醫師</div>
-        <div class="ft-tag">約19,200元/月</div>
-      </div>
-      <div class="ft-arrow"></div>
-    </div>
-
-    <div class="ft-step s4">
-      <div class="ft-step-inner">
-        <div class="ft-num">RESULT</div>
-        <div class="ft-icon">🗝️</div>
-        <div class="ft-title">傳承完成<br>稅源預留</div>
-        <div class="ft-body">林醫師身故後<br>15天內到帳<br>不進遺產<br>解凍大水庫</div>
-        <div class="ft-tag">✅ 零額外支出</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 資金對照 -->
-  <div class="money-flow">
-    <div class="mf-col big">
-      <div class="mf-header">🌊 大水庫｜躉繳投資型保單</div>
-      <div class="mf-row"><span class="mf-key">被保險人</span><span class="mf-val">女兒（18歲）</span></div>
-      <div class="mf-row"><span class="mf-key">躉繳金額</span><span class="mf-val">450萬台幣</span></div>
-      <div class="mf-row"><span class="mf-key">繳費方式</span><span class="mf-val">一次躉繳・不用再繳</span></div>
-      <div class="mf-row"><span class="mf-key">年配息（年化約6%）</span><span class="mf-val">約25～27萬元/年</span></div>
-      <div class="mf-row"><span class="mf-key">本金</span><span class="mf-val">持續在帳戶滾動</span></div>
-      <div class="mf-row"><span class="mf-key">遺產風險</span><span class="mf-val" style="color:var(--red);">⚠ 要保人身故需注意</span></div>
-    </div>
-    <div class="mf-connect">
-      <div class="mf-arrow-box">月配息<br>↓<br>繳保費</div>
-      <div class="mf-arrow-down">↓</div>
-      <div style="font-size:10px;color:var(--ink-muted);text-align:center;">大水庫<br>養小水庫</div>
-    </div>
-    <div class="mf-col small">
-      <div class="mf-header">💧 小水庫｜豪美368分紅保單</div>
-      <div class="mf-row"><span class="mf-key">被保險人</span><span class="mf-val">林醫師（69歲）</span></div>
-      <div class="mf-row"><span class="mf-key">投保金額</span><span class="mf-val">31,000美元</span></div>
-      <div class="mf-row"><span class="mf-key">繳費方式</span><span class="mf-val">月配息繳費・3年完成</span></div>
-      <div class="mf-row"><span class="mf-key">年繳保費</span><span class="mf-val">7,206美元（約19,200元/月）</span></div>
-      <div class="mf-row"><span class="mf-key">第6年回本</span><span class="mf-val" style="color:var(--green);">100.07% ✅</span></div>
-      <div class="mf-row"><span class="mf-key">身故保額</span><span class="mf-val" style="color:var(--green);">約31,000～33,000美元</span></div>
-    </div>
-  </div>
-
-  <!-- 三階段月配息時間軸 -->
-  <div class="phase-tl">
-    <div class="phase-tl-title">月配息三階段使用規劃</div>
-    <div class="phase-track">
-      <div class="phase-line"></div>
-      <div class="phase-nodes">
-        <div class="phase-node p-now">
-          <div class="phase-dot">🎯</div>
-          <div class="phase-period">現在～3年</div>
-          <div class="phase-card">
-            <strong>繳小水庫保費</strong>
-            年配息25～27萬<br>每月約21,000元<br>繳豪美368保費<br>大水庫養小水庫
-          </div>
-        </div>
-        <div class="phase-node p-mid">
-          <div class="phase-dot">✈️</div>
-          <div class="phase-period">3年後～留學期間</div>
-          <div class="phase-card">
-            <strong>女兒留學生活費</strong>
-            小水庫繳費完成<br>月配息全數可用<br>撥入要保人帳戶<br>再安排女兒費用
-          </div>
-        </div>
-        <div class="phase-node p-end">
-          <div class="phase-dot">🏠</div>
-          <div class="phase-period">留學結束後</div>
-          <div class="phase-card">
-            <strong>退休生活補充</strong>
-            月配息轉入<br>林醫師夫婦帳戶<br>穩定現金流<br>本金持續滾動
-          </div>
-        </div>
-        <div class="phase-node p-future">
-          <div class="phase-dot">🗝️</div>
-          <div class="phase-period">林醫師身故時</div>
-          <div class="phase-card">
-            <strong>稅源啟動</strong>
-            小水庫身故保額<br>15天內到帳<br>繳遺產稅<br>大水庫解凍
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(4)">← 傳承盲點</button>
-    <span class="pg-indicator">5 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(6)">行動方案 →</button>
-  </div>
-</div>
-</div>
-
-<!-- ===== PAGE 6: ACTION =====
-<div class="page" id="page-6" style="background:#f5f0e8;">
-<div class="page-inner">
-  <div class="pg-header">
-    <div>
-      <div class="pg-num">PAGE 06 / 06</div>
-      <div class="pg-title">行動方案清單</div>
-      <div class="pg-subtitle">七月出發前・22天倒數</div>
-    </div>
-    <div class="pg-tag">Action Plan</div>
-  </div>
-
-  <div class="prog-wrap">
-    <div class="prog-label">
-      <span>完成進度</span>
-      <span id="prog-text">0 / 8 項已完成</span>
-    </div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
-  </div>
-
-  <div class="action-timeline">
-    <div class="action-track"></div>
-
-    <!-- URGENT -->
-    <div class="action-item urgent">
-      <div class="action-circle">急</div>
-      <div class="action-content">
-        <div class="action-week">🔴 本週～兩週內（不可延後）</div>
-        <div class="action-tasks">
-          <div class="task-row red-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>確認遠雄保單墊繳餘額</strong>——聯繫業務確認解約流程、墊繳借款金額、實際入帳金額。人在台灣辦最省事。</div>
-          </div>
-          <div class="task-row red-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>新保單核保申請送件</strong>——大水庫（被保險人：女兒）及小水庫豪美368（被保險人：林醫師）核保資料備齊送件，出發前完成體檢及要保書簽署。</div>
-          </div>
-          <div class="task-row red-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>不動產授權書辦理</strong>——至地政士辦一般授權書，指定代理人管理名下房產，授權範圍明確列出出租、續約、管理。（實際房產數量與地點以客戶確認為準）</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SOON -->
-    <div class="action-item soon" style="margin-top:16px;">
-      <div class="action-circle">近</div>
-      <div class="action-content">
-        <div class="action-week">🟡 出發前兩週（強烈建議）</div>
-        <div class="action-tasks">
-          <div class="task-row gold-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>各保單受益人統一更新</strong>——現有多筆保單若仍為「法定繼承人」，出發前一次全部改為女兒，避免未來跨國繼承複雜化。</div>
-          </div>
-          <div class="task-row gold-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>意外險投保</strong>——69歲第一類職業仍可承保，補足65歲到期的保障缺口，連同意外醫療一併補足。</div>
-          </div>
-          <div class="task-row gold-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>大額境外匯款設定</strong>——解約款若需匯往美國帳戶，提前與銀行確認資金來源證明文件，申請非居住民帳戶待遇。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- LATER -->
-    <div class="action-item later" style="margin-top:16px;">
-      <div class="action-circle">後</div>
-      <div class="action-content">
-        <div class="action-week">🟢 抵美後安頓（可延後）</div>
-        <div class="action-tasks">
-          <div class="task-row green-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>美國CPA視訊諮詢</strong>——FATCA申報策略、抵美後稅務地位確認、台灣保單及帳戶申報規劃。</div>
-          </div>
-          <div class="task-row green-bg">
-            <div class="task-check" onclick="toggleTask(this)"></div>
-            <div class="task-text"><strong>跨境信託架構評估</strong>——台灣資產傳承美國受益人的中長期規劃，抵美後與當地律師討論，不需出發前倉促決定。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Final message -->
-  <div style="background:var(--ink);border-radius:14px;padding:24px;margin-top:20px;text-align:center;">
-    <div style="font-size:11px;letter-spacing:0.15em;color:var(--gold-light);margin-bottom:10px;">CLOSING MESSAGE</div>
-    <div style="font-family:'Noto Serif TC',serif;font-size:16px;font-weight:600;color:white;line-height:1.8;margin-bottom:8px;">
-      趁69歲・趁身體還好・趁還在台灣<br>
-      <span style="color:var(--gold-light);">三個條件同時成立，就是現在</span>
-    </div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:20px;">
-      不用多花一塊錢，只是把已經有的錢，放到對的地方<br>
-      把這件事做好，您去美國才是真的放心出發
-    </div>
-
-    <!-- 下一步邀請 -->
-    <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(184,147,58,0.3);border-radius:12px;padding:20px 24px;text-align:left;">
-      <div style="font-size:10px;letter-spacing:0.18em;color:var(--gold-light);margin-bottom:12px;text-align:center;">NEXT STEP｜下一步</div>
-      <div style="font-family:'Noto Serif TC',serif;font-size:14px;font-weight:600;color:white;line-height:1.8;margin-bottom:14px;text-align:center;">
-        這份提案，是為您量身準備的<em style="color:var(--gold-light);font-style:normal;">第一張藍圖</em>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:14px;">
-          <div style="font-size:11px;font-weight:600;color:var(--gold-light);margin-bottom:8px;">📋 現在這份提案</div>
-          <div style="font-size:11.5px;color:rgba(255,255,255,0.6);line-height:1.8;">
-            依現有資訊概估<br>
-            方向與架構確認<br>
-            啟動前的觀念溝通
-          </div>
-        </div>
-        <div style="background:rgba(184,147,58,0.12);border:1px solid rgba(184,147,58,0.25);border-radius:10px;padding:14px;">
-          <div style="font-size:11px;font-weight:600;color:var(--gold-light);margin-bottom:8px;">🎯 正式盤點後</div>
-          <div style="font-size:11.5px;color:rgba(255,255,255,0.75);line-height:1.8;">
-            全家資產精確試算<br>
-            遺產稅額精準預估<br>
-            保額、保費客製化<br>
-            台美稅務同步規劃
-          </div>
-        </div>
-      </div>
-      <div style="background:rgba(184,147,58,0.08);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;font-size:12.5px;color:rgba(255,255,255,0.75);line-height:1.8;">
-        正式進入規劃盤點後，我們可以為您做更精細的計算——<br>
-        包含各項資產的正確數字、遺產稅的精準試算、<br>
-        以及每一張保單的最佳化配置。<br>
-        <strong style="color:white;">讓每一分規劃，都真正符合您家庭的需要。</strong>
-      </div>
-    </div>
-
-    <div style="margin-top:16px;font-size:11px;color:rgba(255,255,255,0.25);">
-      財顧芸｜陳芸琪｜馥芸財富學苑<br>
-      本提案內容依目前了解狀況提供參考，實際規劃以正確資訊及保單條款為準
-    </div>
-  </div>
-
-  <div class="pg-nav">
-    <button class="btn btn-outline" onclick="goPage(5)">← 規劃建議</button>
-    <span class="pg-indicator">6 / 6</span>
-    <button class="btn btn-gold" onclick="goPage(0)">回封面 ↑</button>
-  </div>
-</div>
-</div>
-
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-brand">馥芸財富學苑｜林家傳承提案</div>
-  <div class="nav-pages">
-    <button class="nav-dot active" onclick="goPage(0)" title="封面"></button>
-    <button class="nav-dot" onclick="goPage(1)" title="家庭關係"></button>
-    <button class="nav-dot" onclick="goPage(2)" title="背景簡介"></button>
-    <button class="nav-dot" onclick="goPage(3)" title="財務資訊"></button>
-    <button class="nav-dot" onclick="goPage(4)" title="傳承盲點"></button>
-    <button class="nav-dot" onclick="goPage(5)" title="規劃建議"></button>
-    <button class="nav-dot" onclick="goPage(6)" title="行動方案"></button>
-  </div>
-  <div class="nav-version">v1.2</div>
-</nav>
-
-<script>
-let current = 0;
-const total = 7;
-
-function goPage(n) {
-  const el = document.getElementById('page-' + n);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-  document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i===n));
-  current = n;
+function showMonth(id, btn) {
+  document.querySelectorAll('.month-view').forEach(function(el){ el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  if(btn) btn.classList.add('active');
 }
-
-function toggleTask(el) {
-  el.classList.toggle('done');
-  const txt = el.nextElementSibling;
-  txt.classList.toggle('done-text');
-  updateProgress();
-}
-
-function updateProgress() {
-  const total = document.querySelectorAll('.task-check').length;
-  const done = document.querySelectorAll('.task-check.done').length;
-  document.getElementById('prog-text').textContent = done + ' / ' + total + ' 項已完成';
-  document.getElementById('prog-fill').style.width = Math.round(done/total*100) + '%';
+function goBook(slot) {
+  // 可自定義：帶入預選時段到表單
+  console.log('預約時段：' + slot);
 }
 </script>
 </body>
