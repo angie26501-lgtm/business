@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>神助理 - UI SVG 示意圖</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --ink: #172033;
+      --muted: #647084;
+      --line: #d9e0ea;
+      --paper: #ffffff;
+      --nav: #152238;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --amber: #b7791f;
+      --rose: #be3455;
+      --soft-blue: #eaf1ff;
+      --soft-teal: #e8f6f3;
+      --soft-amber: #fff6df;
+      --soft-rose: #fff0f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(1220px, calc(100% - 32px));
+      margin: 28px auto 46px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .note,
+    .stage,
+    .rationale {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .note {
+      padding: 18px 20px;
+    }
+
+    .stage {
+      overflow-x: auto;
+      padding: 14px;
+      box-shadow: 0 16px 36px rgba(23, 32, 51, 0.08);
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      min-width: 1080px;
+      height: auto;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+    }
+
+    .rationale {
+      margin-top: 18px;
+      padding: 20px;
+    }
+
+    .rationale-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .point {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 126px;
+    }
+
+    .point strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .point p {
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      main {
+        width: min(100% - 20px, 1220px);
+        margin-top: 18px;
+      }
+
+      .intro,
+      .rationale-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="intro" aria-label="UI 簡介">
+      <div>
+        <h1>神助理 UI 介面示意圖</h1>
+        <p>第一版先畫「工作台」而不是完整功能頁，目標是讓你快速確認：使用者每天打開系統時，最重要的任務、AI 建議、資料來源和發布狀態應該怎麼排。</p>
+      </div>
+      <aside class="note">
+        <h2>目前假設</h2>
+        <p>神助理是一個幫你管理資料、生成內容、安排任務與發布結果的 AI 後台。等這個介面方向確定後，再拆成登入、儀表板、任務、資料庫、生成器、排程、設定等 HTML 頁面。</p>
+      </aside>
+    </section>
+
+    <section class="stage" aria-label="SVG UI 示意圖">
+      <svg viewBox="0 0 1180 760" role="img" aria-labelledby="mockup-title mockup-desc">
+        <title id="mockup-title">神助理後台工作台 UI 示意圖</title>
+        <desc id="mockup-desc">左側導覽，中間今日工作與生成草稿，右側 AI 建議和發布狀態，底部顯示資料到發布的流程。</desc>
+
+        <defs>
+          <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#172033" flood-opacity="0.12"/>
+          </filter>
+          <style>
+            .screen { fill: #f5f7fb; }
+            .panel { fill: #ffffff; stroke: #d9e0ea; stroke-width: 1.2; }
+            .nav { fill: #152238; }
+            .navItem { fill: rgba(255,255,255,0.08); }
+            .activeNav { fill: #2563eb; }
+            .title { font-size: 24px; font-weight: 700; fill: #172033; letter-spacing: 0; }
+            .h2 { font-size: 16px; font-weight: 700; fill: #172033; letter-spacing: 0; }
+            .body { font-size: 13px; fill: #647084; letter-spacing: 0; }
+            .small { font-size: 11px; fill: #647084; letter-spacing: 0; }
+            .white { fill: #ffffff; }
+            .mutedWhite { fill: #b8c2d1; }
+            .blue { fill: #2563eb; }
+            .teal { fill: #0f766e; }
+            .amber { fill: #b7791f; }
+            .rose { fill: #be3455; }
+            .softBlue { fill: #eaf1ff; }
+            .softTeal { fill: #e8f6f3; }
+            .softAmber { fill: #fff6df; }
+            .softRose { fill: #fff0f4; }
+            .line { stroke: #d9e0ea; stroke-width: 1.2; }
+            .dash { stroke: #b9c4d3; stroke-width: 1.2; stroke-dasharray: 5 5; }
+          </style>
+        </defs>
+
+        <rect class="screen" x="0" y="0" width="1180" height="760" rx="22"/>
+
+        <rect class="nav" x="28" y="28" width="218" height="704" rx="14"/>
+        <text x="58" y="78" class="white" style="font-size: 24px; font-weight: 700;">神助理</text>
+        <text x="58" y="104" class="mutedWhite" style="font-size: 12px;">AI 工作流程中心</text>
+
+        <rect class="activeNav" x="48" y="142" width="178" height="42" rx="8"/>
+        <text x="74" y="168" class="white" style="font-size: 14px; font-weight: 700;">今日工作台</text>
+        <rect class="navItem" x="48" y="196" width="178" height="42" rx="8"/>
+        <text x="74" y="222" class="mutedWhite" style="font-size: 14px;">任務管理</text>
+        <rect class="navItem" x="48" y="250" width="178" height="42" rx="8"/>
+        <text x="74" y="276" class="mutedWhite" style="font-size: 14px;">資料庫</text>
+        <rect class="navItem" x="48" y="304" width="178" height="42" rx="8"/>
+        <text x="74" y="330" class="mutedWhite" style="font-size: 14px;">AI 生成器</text>
+        <rect class="navItem" x="48" y="358" width="178" height="42" rx="8"/>
+        <text x="74" y="384" class="mutedWhite" style="font-size: 14px;">排程發布</text>
+        <rect class="navItem" x="48" y="412" width="178" height="42" rx="8"/>
+        <text x="74" y="438" class="mutedWhite" style="font-size: 14px;">系統設定</text>
+
+        <rect x="48" y="618" width="178" height="86" rx="10" fill="rgba(255,255,255,0.08)"/>
+        <text x="66" y="648" class="white" style="font-size: 13px; font-weight: 700;">今日狀態</text>
+        <circle cx="72" cy="674" r="6" fill="#36d399"/>
+        <text x="88" y="679" class="mutedWhite" style="font-size: 12px;">自動流程正常</text>
+
+        <rect class="panel" x="268" y="28" width="884" height="74" rx="14" filter="url(#shadow)"/>
+        <text x="294" y="63" class="title">今日工作台</text>
+        <text x="294" y="86" class="body">集中處理待辦、AI 草稿、資料更新與發布檢查</text>
+        <rect x="708" y="48" width="242" height="34" rx="8" fill="#f1f4f9" stroke="#d9e0ea"/>
+        <text x="728" y="70" class="small">搜尋任務、會員、內容或資料來源</text>
+        <rect x="966" y="48" width="160" height="34" rx="8" class="blue"/>
+        <text x="1000" y="70" class="white" style="font-size: 13px; font-weight: 700;">新增自動任務</text>
+
+        <rect class="panel" x="268" y="122" width="548" height="214" rx="14" filter="url(#shadow)"/>
+        <text x="294" y="158" class="h2">今日優先處理</text>
+        <text x="294" y="181" class="body">用清楚的狀態列，讓使用者先知道今天要處理什麼。</text>
+
+        <rect x="294" y="208" width="152" height="88" rx="10" class="softBlue"/>
+        <text x="316" y="238" class="blue" style="font-size: 24px; font-weight: 700;">12</text>
+        <text x="316" y="264" class="h2">待審核草稿</text>
+        <text x="316" y="284" class="small">需要人確認語氣與事實</text>
+
+        <rect x="462" y="208" width="152" height="88" rx="10" class="softTeal"/>
+        <text x="484" y="238" class="teal" style="font-size: 24px; font-weight: 700;">8</text>
+        <text x="484" y="264" class="h2">已排程發布</text>
+        <text x="484" y="284" class="small">LINE / FB / 網頁同步</text>
+
+        <rect x="630" y="208" width="152" height="88" rx="10" class="softAmber"/>
+        <text x="652" y="238" class="amber" style="font-size: 24px; font-weight: 700;">3</text>
+        <text x="652" y="264" class="h2">資料需補齊</text>
+        <text x="652" y="284" class="small">來源缺欄位或待確認</text>
+
+        <rect class="panel" x="836" y="122" width="316" height="214" rx="14" filter="url(#shadow)"/>
+        <text x="862" y="158" class="h2">AI 助理建議</text>
+        <text x="862" y="181" class="body">右側固定顯示下一步，減少使用者迷路。</text>
+        <rect x="862" y="208" width="264" height="34" rx="8" class="softBlue"/>
+        <text x="878" y="230" class="body">建議先審核 3 篇高曝光草稿</text>
+        <rect x="862" y="254" width="264" height="34" rx="8" class="softTeal"/>
+        <text x="878" y="276" class="body">會員資料已同步，可生成分眾內容</text>
+        <rect x="862" y="300" width="264" height="34" rx="8" class="softRose"/>
+        <text x="878" y="322" class="body">1 個排程缺少封面圖</text>
+
+        <rect class="panel" x="268" y="356" width="548" height="252" rx="14" filter="url(#shadow)"/>
+        <text x="294" y="392" class="h2">生成草稿佇列</text>
+        <text x="294" y="415" class="body">每一列都能看到資料來源、AI 動作、人工審核與發布目的地。</text>
+
+        <rect x="294" y="442" width="496" height="46" rx="8" fill="#f8fafc" stroke="#d9e0ea"/>
+        <circle cx="318" cy="465" r="8" class="blue"/>
+        <text x="340" y="462" class="h2">每日消息摘要</text>
+        <text x="340" y="480" class="small">資料來源：RSS / Google Sheet / 手動匯入</text>
+        <rect x="650" y="454" width="62" height="22" rx="6" class="softAmber"/>
+        <text x="665" y="469" class="amber" style="font-size: 11px; font-weight: 700;">審核中</text>
+
+        <rect x="294" y="500" width="496" height="46" rx="8" fill="#f8fafc" stroke="#d9e0ea"/>
+        <circle cx="318" cy="523" r="8" class="teal"/>
+        <text x="340" y="520" class="h2">會員分眾推播</text>
+        <text x="340" y="538" class="small">資料來源：會員標籤 / 購買紀錄 / 客服備註</text>
+        <rect x="650" y="512" width="62" height="22" rx="6" class="softTeal"/>
+        <text x="665" y="527" class="teal" style="font-size: 11px; font-weight: 700;">可發布</text>
+
+        <rect x="294" y="558" width="496" height="46" rx="8" fill="#f8fafc" stroke="#d9e0ea"/>
+        <circle cx="318" cy="581" r="8" class="rose"/>
+        <text x="340" y="578" class="h2">客服回覆模板</text>
+        <text x="340" y="596" class="small">資料來源：常見問題 / 歷史對話 / 商品資訊</text>
+        <rect x="650" y="570" width="62" height="22" rx="6" class="softRose"/>
+        <text x="665" y="585" class="rose" style="font-size: 11px; font-weight: 700;">待補圖</text>
+
+        <rect class="panel" x="836" y="356" width="316" height="252" rx="14" filter="url(#shadow)"/>
+        <text x="862" y="392" class="h2">發布與分享預覽</text>
+        <text x="862" y="415" class="body">讓使用者在送出前看見結果會去哪裡。</text>
+        <rect x="862" y="444" width="264" height="52" rx="10" fill="#f8fafc" stroke="#d9e0ea"/>
+        <text x="880" y="466" class="h2">網頁版 HTML</text>
+        <text x="880" y="484" class="small">今日頁面已產生，等待最後確認</text>
+        <rect x="862" y="512" width="124" height="58" rx="10" class="softTeal"/>
+        <text x="884" y="542" class="teal" style="font-size: 14px; font-weight: 700;">LINE</text>
+        <text x="884" y="560" class="small">已排程 20:00</text>
+        <rect x="1002" y="512" width="124" height="58" rx="10" class="softBlue"/>
+        <text x="1024" y="542" class="blue" style="font-size: 14px; font-weight: 700;">Facebook</text>
+        <text x="1024" y="560" class="small">待人工確認</text>
+
+        <rect class="panel" x="268" y="630" width="884" height="102" rx="14" filter="url(#shadow)"/>
+        <text x="294" y="665" class="h2">底層流程</text>
+        <text x="294" y="688" class="body">這條流程之後會對應到真實功能：資料匯入、AI 處理、審核、排程、產出 HTML 與分享。</text>
+
+        <rect x="294" y="704" width="110" height="24" rx="6" class="softBlue"/>
+        <text x="316" y="721" class="blue" style="font-size: 11px; font-weight: 700;">資料來源</text>
+        <line x1="410" y1="716" x2="452" y2="716" class="dash"/>
+        <rect x="456" y="704" width="110" height="24" rx="6" class="softTeal"/>
+        <text x="477" y="721" class="teal" style="font-size: 11px; font-weight: 700;">AI 生成</text>
+        <line x1="572" y1="716" x2="614" y2="716" class="dash"/>
+        <rect x="618" y="704" width="110" height="24" rx="6" class="softAmber"/>
+        <text x="640" y="721" class="amber" style="font-size: 11px; font-weight: 700;">人工審核</text>
+        <line x1="734" y1="716" x2="776" y2="716" class="dash"/>
+        <rect x="780" y="704" width="110" height="24" rx="6" class="softRose"/>
+        <text x="803" y="721" class="rose" style="font-size: 11px; font-weight: 700;">排程發布</text>
+        <line x1="896" y1="716" x2="938" y2="716" class="dash"/>
+        <rect x="942" y="704" width="156" height="24" rx="6" fill="#eef2f7"/>
+        <text x="982" y="721" class="body" style="font-size: 11px; font-weight: 700;">HTML / 社群分享</text>
+      </svg>
+    </section>
+
+    <section class="rationale" aria-label="設計說明">
+      <h2>為什麼這樣設計</h2>
+      <p>這版先把畫面分成「去哪裡、現在做什麼、下一步做什麼、結果會去哪裡」四個問題。這樣你之後要補功能時，每個功能都有明確位置，不會一開始就變成很多按鈕堆在一起。</p>
+      <div class="rationale-grid">
+        <div class="point">
+          <strong>1. 左側固定功能分類</strong>
+          <p>後台工具會反覆使用，左側導覽可以讓任務、資料、生成、排程、設定保持固定位置，使用者不用重新找路。</p>
+        </div>
+        <div class="point">
+          <strong>2. 中間放主要工作流</strong>
+          <p>每天最常做的事放在中央：先看優先事項，再處理草稿佇列。這能幫使用者快速進入工作，不被次要資訊分心。</p>
+        </div>
+        <div class="point">
+          <strong>3. 右側保留 AI 判斷與輸出</strong>
+          <p>AI 建議和發布預覽放右側，像一個隨時陪看的助理。使用者可以邊審稿邊確認下一步與發布結果。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
