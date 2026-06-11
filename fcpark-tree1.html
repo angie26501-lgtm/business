@@ -177,6 +177,12 @@
   }
   .compare b{ color:var(--gold-deep); font-size:20px; }
 
+  /* ---- 果園成長情境圖 ---- */
+  .orchard svg{ width:100%; height:auto; display:block; border-radius:14px; }
+  @keyframes grow{ from{ transform:scale(.12); opacity:0 } to{ transform:scale(1); opacity:1 } }
+  .orchard-cap{ text-align:center; font-size:15px; color:var(--ink-soft); margin-top:8px; line-height:1.6; }
+  .orchard-cap b{ color:var(--gold-deep); }
+
   /* ---- 圖表 ---- */
   .chartwrap svg{ width:100%; height:auto; display:block; }
   .legend{ display:flex; gap:18px; justify-content:center; margin-top:8px; font-size:15px; color:var(--ink-soft); }
@@ -341,14 +347,19 @@
 
   <div class="compare" id="compare"></div>
 
-  <!-- 圖表 -->
+  <!-- 果園成長情境圖 -->
   <div class="card chartwrap">
-    <h2 style="margin-bottom:8px;"><span class="num" style="background:var(--gold)">📈</span>果樹一年一年長大的樣子</h2>
-    <div id="chart"></div>
-    <div class="legend">
-      <span><i style="background:#3E7A52"></i> 妳種下的本金</span>
-      <span><i style="background:#C9A24B"></i> 複利果實</span>
-    </div>
+    <h2 style="margin-bottom:8px;"><span class="num" style="background:var(--gold)">🌳</span>果樹一年一年長大的樣子</h2>
+    <div class="orchard" id="orchard"></div>
+    <div class="orchard-cap">樹越大＝帳戶價值越高（含複利）　·　🍎 金蘋果＝<b>複利長出的果實</b></div>
+    <details class="years" style="margin-top:14px;">
+      <summary>看精確成長曲線（本金 vs 果實）</summary>
+      <div id="chart" style="margin-top:10px;"></div>
+      <div class="legend">
+        <span><i style="background:#3E7A52"></i> 妳種下的本金</span>
+        <span><i style="background:#C9A24B"></i> 複利果實</span>
+      </div>
+    </details>
   </div>
 
   <!-- 年表 -->
@@ -461,6 +472,7 @@ function render(){
   }
 
   drawChart(d.rows, fv);
+  drawOrchard(d.rows, fv);
   drawTree(fruit/Math.max(fv,1), state.years);
   drawTable(d.rows);
 }
@@ -507,6 +519,76 @@ function drawChart(rows, fvMax){
     xs+
     '</svg>';
   document.getElementById('chart').innerHTML=svg;
+}
+
+/* ====== 果園成長情境圖（一年一年長大） ====== */
+function wanShort(n){
+  if(n>=100000000) return (n/100000000).toFixed(1)+'億';
+  var w=n/10000; if(w>=1000) return Math.round(w).toLocaleString('en-US')+'萬';
+  return (w>=10? Math.round(w): w.toFixed(1))+'萬';
+}
+function drawOrchard(rows, fvMax){
+  var Y = rows[rows.length-1].year || 1;
+  var nStops = 6, stops=[];
+  for(var s=0;s<nStops;s++){ stops.push(Math.round(Y*s/(nStops-1))); }
+  stops = stops.filter(function(v,i){ return stops.indexOf(v)===i; });
+  var W=720,H=300, baseY=232, padL=46, padR=46;
+  var n=stops.length, gap=(W-padL-padR)/(n>1?n-1:1);
+  var topPad=62;
+  function xc(yr){ return W*(yr/Y); }
+  function yc(v){ return baseY-(baseY-topPad)*(v/Math.max(fvMax,1)); }
+  var prinLine='', totLine='', greenA='M0 '+baseY+' ', goldA='';
+  rows.forEach(function(r,i){
+    var xp=xc(r.year), yp=yc(r.prin), yt=yc(r.total);
+    prinLine+=(i?'L':'M')+xp.toFixed(1)+' '+yp.toFixed(1)+' ';
+    totLine +=(i?'L':'M')+xp.toFixed(1)+' '+yt.toFixed(1)+' ';
+    greenA  +='L'+xp.toFixed(1)+' '+yp.toFixed(1)+' ';
+    goldA   +=(i?'L':'M')+xp.toFixed(1)+' '+yt.toFixed(1)+' ';
+  });
+  greenA+='L'+W+' '+baseY+' Z';
+  for(var gk=rows.length-1; gk>=0; gk--){ goldA+='L'+xc(rows[gk].year).toFixed(1)+' '+yc(rows[gk].prin).toFixed(1)+' '; }
+  goldA+='Z';
+  // 透明背景 + 原本的複利曲線當淡淡襯底
+  var svg=''+
+    '<circle cx="'+(W-58)+'" cy="50" r="26" fill="#F0DDA0" fill-opacity="0.5"/>'+
+    '<path d="'+greenA+'" fill="#3E7A52" fill-opacity="0.15"/>'+
+    '<path d="'+goldA+'" fill="#C9A24B" fill-opacity="0.20"/>'+
+    '<path d="'+prinLine+'" fill="none" stroke="#3E7A52" stroke-opacity="0.45" stroke-width="1.5"/>'+
+    '<path d="'+totLine+'" fill="none" stroke="#9A7621" stroke-opacity="0.5" stroke-width="1.5"/>'+
+    '<line x1="0" y1="'+baseY+'" x2="'+W+'" y2="'+baseY+'" stroke="#B7CDA8" stroke-width="1.5" stroke-opacity="0.7"/>';
+
+  stops.forEach(function(yr, idx){
+    var r = rows[yr] || rows[rows.length-1];
+    var total=r.total, fruit=Math.max(0,total-r.prin);
+    var cx = padL + gap*idx;
+    var scale = total>0 ? clamp(Math.sqrt(total/Math.max(fvMax,1)), .14, 1) : 0;
+    var apples = clamp(Math.round((fruit/Math.max(fvMax,1))*16), 0, 9);
+    svg += '<g style="transform-box:fill-box;transform-origin:bottom center;animation:grow .55s cubic-bezier(.34,1.3,.5,1) both;animation-delay:'+(idx*90)+'ms">';
+    if(scale<=0){
+      svg += '<ellipse cx="'+cx+'" cy="'+(baseY-3)+'" rx="13" ry="6" fill="#C9B58F"/>'+
+        '<path d="M'+cx+' '+(baseY-5)+' q-10 -18 -2 -30 q10 8 2 30 Z" fill="#6FB07E"/>'+
+        '<path d="M'+cx+' '+(baseY-5)+' q10 -16 4 -26 q-9 7 -4 26 Z" fill="#5C9E6C"/>';
+    } else {
+      var cR=56*scale, trunkH=64*scale, trunkTop=baseY-trunkH, canCY=trunkTop-cR*0.62;
+      svg += '<rect x="'+(cx-7*scale).toFixed(1)+'" y="'+trunkTop.toFixed(1)+'" width="'+(14*scale).toFixed(1)+'" height="'+trunkH.toFixed(1)+'" rx="'+(6*scale).toFixed(1)+'" fill="#7A5A3A"/>'+
+        '<circle cx="'+cx+'" cy="'+canCY.toFixed(1)+'" r="'+cR.toFixed(1)+'" fill="#3E7A52"/>'+
+        '<circle cx="'+(cx-cR*.55).toFixed(1)+'" cy="'+(canCY+cR*.2).toFixed(1)+'" r="'+(cR*.62).toFixed(1)+'" fill="#4C8A60"/>'+
+        '<circle cx="'+(cx+cR*.55).toFixed(1)+'" cy="'+(canCY+cR*.2).toFixed(1)+'" r="'+(cR*.62).toFixed(1)+'" fill="#4C8A60"/>'+
+        '<circle cx="'+cx+'" cy="'+(canCY-cR*.42).toFixed(1)+'" r="'+(cR*.55).toFixed(1)+'" fill="#56986B"/>';
+      var aslots=[[-.5,-.1],[.45,-.18],[-.15,-.5],[.2,-.45],[-.55,.3],[.5,.28],[0,.05],[-.3,.42],[.3,.5]];
+      for(var a=0;a<apples;a++){
+        var ax=cx+aslots[a][0]*cR, ay=canCY+aslots[a][1]*cR;
+        svg+='<circle cx="'+ax.toFixed(1)+'" cy="'+ay.toFixed(1)+'" r="'+(7*scale).toFixed(1)+'" fill="#C9A24B" stroke="#9A7621" stroke-width="1.2"/>'+
+          '<circle cx="'+(ax-2.2*scale).toFixed(1)+'" cy="'+(ay-2.2*scale).toFixed(1)+'" r="'+(2*scale).toFixed(1)+'" fill="#F2E3B6"/>';
+      }
+    }
+    svg += '</g>';
+    svg += '<text x="'+cx+'" y="'+(baseY+26)+'" text-anchor="middle" font-size="17" font-weight="700" fill="#1F4A2E">'+yr+'年</text>';
+    svg += '<text x="'+cx+'" y="'+(baseY+47)+'" text-anchor="middle" font-size="14" fill="#8A8472">'+(total>0? wanShort(total):'種子')+'</text>';
+  });
+
+  document.getElementById('orchard').innerHTML =
+    '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="果樹一年一年長大">'+svg+'</svg>';
 }
 
 /* ====== 花園果樹 ====== */
