@@ -31,6 +31,48 @@
   }
   .wrap{ max-width:760px; margin:0 auto; padding:22px 18px 60px; }
 
+  .backbtn{
+    display:inline-flex; align-items:center; gap:8px; background:#fff;
+    border:2px solid var(--green); color:var(--green); font-size:17px; font-weight:700;
+    padding:11px 20px; border-radius:999px; cursor:pointer; text-decoration:none;
+    margin-bottom:16px; box-shadow:var(--shadow); transition:.12s;
+  }
+  .backbtn:hover{ background:var(--green-pale); }
+  .backbtn:active{ transform:scale(.97); }
+
+  /* ---- 頂部框架（與互動學習單一致） ---- */
+  .topbar{
+    position:sticky; top:0; z-index:50; background:var(--green); color:#fff;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:11px 18px; box-shadow:0 4px 14px rgba(0,0,0,.18);
+  }
+  .topbar .tb-brand{ display:flex; align-items:center; gap:8px; font-size:18px; font-weight:800; letter-spacing:.02em; }
+  .tb-actions{ display:flex; gap:9px; flex-wrap:wrap; }
+  .tb-actions button{
+    display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+    background:#2C5B39; color:#F1E6C8; border:1.5px solid var(--gold); border-radius:999px;
+    padding:9px 15px; font-size:15px; font-weight:700; font-family:inherit; transition:.12s;
+  }
+  .tb-actions button:hover{ background:#346A43; }
+  .tb-actions button:active{ transform:scale(.96); }
+  .notice{
+    background:#FBF3D9; color:#7A5E1B; border-bottom:1px solid #EBD9A6;
+    font-size:14.5px; padding:9px 18px; text-align:center; line-height:1.65;
+  }
+  .notice b{ color:var(--gold-deep); }
+  @media (max-width:560px){
+    .topbar{ justify-content:center; }
+    .topbar .tb-brand{ width:100%; justify-content:center; font-size:17px; }
+    .tb-actions{ justify-content:center; }
+    .tb-actions button{ font-size:14px; padding:8px 13px; }
+  }
+  @media print{
+    .topbar,.notice,.cta,.tb-actions{ display:none !important; }
+    body{ background:#fff; }
+    .card,.result-hero{ box-shadow:none; }
+    .result-hero{ background:#1F4A2E !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
   /* ---- 標頭 ---- */
   .brandbar{
     display:flex; align-items:center; gap:10px;
@@ -241,11 +283,22 @@
 </style>
 </head>
 <body>
+<header class="topbar">
+  <div class="tb-brand">🌱 馥芸財富學苑 · 互動試算機</div>
+  <div class="tb-actions">
+    <button onclick="goBack()">↩ 回上頁</button>
+    <button onclick="window.print()">🖨 列印 / 存成 PDF</button>
+    <button onclick="saveImg()">📷 存成圖片</button>
+    <button onclick="resetAll()">↻ 清除重填</button>
+  </div>
+</header>
+<div class="notice">💻 建議用<b>電腦或平板</b>操作；若用手機，請以瀏覽器「<b>另開新頁</b>」開啟（LINE／FB 內請選「用瀏覽器開啟」），操作才會完整。</div>
+
 <div class="wrap">
 
   <div class="brandbar">
-    <span class="leaf">🌳</span><span>馥芸財富學苑</span>
-    <span class="dot">·</span><span>女人要有錢 · 財富花園</span>
+    <span class="leaf">🌳</span><span>女人要有錢 · 財富花園</span>
+    <span class="dot">·</span><span>第二堂【整地】時間 × 複利</span>
   </div>
   <h1>時間 × 複利<br>讓妳種下的錢，慢慢長成果樹</h1>
   <p class="lede">每個月固定種一點點，交給<b>時間</b>和<b>複利</b>照顧。
@@ -395,6 +448,7 @@
   </footer>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 /* ====== 狀態 ====== */
 var state = { pmt:5000, rate:5, years:20, due:1 };
@@ -684,6 +738,20 @@ document.querySelectorAll('.chips').forEach(function(grp){
     c.addEventListener('click',function(){ state[key]=parseFloat(c.dataset.v); syncInputs(); render(); });
   });
 });
+
+/* ====== 頂部工具列功能 ====== */
+var MENU_URL='https://angie26501-lgtm.github.io/active/generousGarden.html';
+function goBack(){ if(history.length>1){ history.back(); } else { location.href=MENU_URL; } }
+function resetAll(){ state={pmt:5000,rate:5,years:20,due:1}; setDue(1); syncInputs(); render(); }
+function saveImg(){
+  if(typeof html2canvas==='undefined'){ alert('圖片功能還在載入，請稍候 1～2 秒再按一次。'); return; }
+  html2canvas(document.querySelector('.wrap'),{backgroundColor:'#F6F1E4',scale:2,useCORS:true}).then(function(canvas){
+    var a=document.createElement('a');
+    a.download='財富花園_複利試算.png';
+    a.href=canvas.toDataURL('image/png');
+    a.click();
+  }).catch(function(){ alert('存圖時發生問題，請改用「列印 / 存成 PDF」。'); });
+}
 
 syncInputs(); render();
 </script>
