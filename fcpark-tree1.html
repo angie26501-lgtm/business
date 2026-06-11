@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>財富花園 ｜ 時間 × 複利 試算機</title>
+<meta name="description" content="每個月固定種一點，讓時間和複利替妳長出果實。馥芸財富學苑・女人要有錢・財富花園。">
+<style>
+  :root{
+    --green:#1F4A2E;        /* 森林綠 主色 */
+    --green-soft:#3E7A52;   /* 嫩芽綠 */
+    --green-pale:#E7EFE6;   /* 葉色淡底 */
+    --gold:#C9A24B;         /* 金 果實 */
+    --gold-deep:#9A7621;    /* 深金 */
+    --cream:#F6F1E4;        /* 米白 背景 */
+    --ink:#2B2A24;          /* 文字 */
+    --ink-soft:#6A6657;     /* 次文字 */
+    --line:#DED6C2;         /* 分隔線 */
+    --card:#FFFFFF;
+    --radius:20px;
+    --shadow:0 8px 28px rgba(31,74,46,.10);
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:"Noto Sans CJK TC","Noto Sans TC","PingFang TC","Microsoft JhengHei","微軟正黑體",sans-serif;
+    font-size:19px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:760px; margin:0 auto; padding:22px 18px 60px; }
+
+  /* ---- 標頭 ---- */
+  .brandbar{
+    display:flex; align-items:center; gap:10px;
+    color:var(--green); font-weight:700; letter-spacing:.06em;
+    font-size:16px; margin-bottom:6px;
+  }
+  .brandbar .leaf{ font-size:20px; }
+  .brandbar .dot{ color:var(--gold); }
+  h1{
+    font-size:32px; line-height:1.25; margin:.1em 0 .15em;
+    color:var(--green); font-weight:800; letter-spacing:.01em;
+  }
+  .lede{ font-size:19px; color:var(--ink-soft); margin:0 0 18px; }
+  .lede b{ color:var(--gold-deep); }
+
+  /* ---- 花園視覺 ---- */
+  .garden{
+    background:linear-gradient(180deg,#F0F6EE 0%,#E3EEDF 100%);
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px 14px 6px; margin-bottom:18px; box-shadow:var(--shadow);
+  }
+  .garden svg{ width:100%; height:auto; display:block; }
+  .garden .cap{
+    text-align:center; color:var(--green); font-weight:700; font-size:16px;
+    padding:2px 0 8px;
+  }
+  .garden .cap em{ color:var(--gold-deep); font-style:normal; }
+
+  /* ---- 卡片 ---- */
+  .card{
+    background:var(--card); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:20px 18px; margin-bottom:18px;
+  }
+  .card h2{
+    font-size:21px; color:var(--green); margin:0 0 14px;
+    display:flex; align-items:center; gap:9px; font-weight:800;
+  }
+  .card h2 .num{
+    flex:0 0 auto; width:30px; height:30px; border-radius:50%;
+    background:var(--green); color:#fff; font-size:16px;
+    display:grid; place-items:center; font-weight:700;
+  }
+
+  /* ---- 輸入欄 ---- */
+  .field{ margin-bottom:22px; }
+  .field:last-child{ margin-bottom:4px; }
+  .field > label{
+    display:block; font-size:19px; font-weight:700; color:var(--ink);
+    margin-bottom:9px;
+  }
+  .field .hint{ font-size:15px; color:var(--ink-soft); font-weight:400; }
+
+  .stepper{ display:flex; align-items:stretch; gap:10px; }
+  .stepper button{
+    flex:0 0 auto; width:56px; height:56px; border-radius:14px;
+    border:2px solid var(--green); background:#fff; color:var(--green);
+    font-size:30px; font-weight:700; cursor:pointer; line-height:1;
+    transition:background .12s, transform .05s;
+  }
+  .stepper button:active{ transform:scale(.94); }
+  .stepper button:hover{ background:var(--green-pale); }
+  .stepper .val{
+    flex:1 1 auto; min-width:0; position:relative;
+  }
+  .stepper input{
+    width:100%; height:56px; text-align:center;
+    font-size:26px; font-weight:700; color:var(--green);
+    border:2px solid var(--line); border-radius:14px; background:#FCFBF6;
+    -moz-appearance:textfield; padding:0 40px 0 12px;
+  }
+  .stepper input::-webkit-outer-spin-button,
+  .stepper input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .stepper input:focus{ outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,162,75,.28); }
+  .stepper .unit{
+    position:absolute; right:14px; top:50%; transform:translateY(-50%);
+    color:var(--ink-soft); font-size:18px; font-weight:600; pointer-events:none;
+  }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:9px; margin-top:11px; }
+  .chip{
+    border:2px solid var(--line); background:#fff; color:var(--ink);
+    border-radius:999px; padding:9px 16px; font-size:17px; font-weight:600;
+    cursor:pointer; transition:.12s;
+  }
+  .chip small{ color:var(--ink-soft); font-weight:400; }
+  .chip:hover{ border-color:var(--green-soft); }
+  .chip.on{ background:var(--green); border-color:var(--green); color:#fff; }
+  .chip.on small{ color:#D8E6D2; }
+
+  .toggle-row{ display:flex; gap:10px; }
+  .toggle{
+    flex:1 1 0; text-align:center; border:2px solid var(--line); background:#fff;
+    border-radius:14px; padding:12px 6px; font-size:17px; font-weight:700;
+    color:var(--ink); cursor:pointer; transition:.12s;
+  }
+  .toggle small{ display:block; font-size:13px; color:var(--ink-soft); font-weight:400; margin-top:2px; }
+  .toggle.on{ background:var(--green-pale); border-color:var(--green); color:var(--green); }
+  .toggle.on small{ color:var(--green-soft); }
+  .adv-toggle{
+    background:none; border:none; color:var(--green-soft); font-size:16px;
+    font-weight:700; cursor:pointer; padding:6px 0; text-decoration:underline;
+  }
+
+  /* ---- 結果 ---- */
+  .result-hero{
+    background:linear-gradient(160deg,#1F4A2E 0%,#143620 100%);
+    color:#fff; border-radius:var(--radius); padding:26px 22px;
+    text-align:center; box-shadow:var(--shadow); margin-bottom:14px;
+    position:relative; overflow:hidden;
+  }
+  .result-hero .glow{
+    position:absolute; inset:-40% 30% auto auto; width:240px; height:240px;
+    background:radial-gradient(circle,rgba(201,162,75,.45),transparent 70%);
+    pointer-events:none;
+  }
+  .result-hero .k{ font-size:17px; color:#CDE0C7; letter-spacing:.05em; margin-bottom:4px; }
+  .result-hero .big{
+    font-size:clamp(40px,11vw,58px); font-weight:800; line-height:1.05;
+    color:#fff; letter-spacing:-.01em;
+  }
+  .result-hero .big small{ font-size:24px; font-weight:700; margin-left:4px; color:#E9D9AE; }
+  .result-hero .wan{ font-size:21px; color:var(--gold); font-weight:700; margin-top:6px; }
+  .result-hero.pulse .big{ animation:pulse .5s ease; }
+  @keyframes pulse{ 0%{transform:scale(1)} 35%{transform:scale(1.045)} 100%{transform:scale(1)} }
+
+  .split{ display:flex; gap:12px; margin-bottom:14px; }
+  .split .box{
+    flex:1 1 0; background:#fff; border:1px solid var(--line); border-radius:16px;
+    padding:14px 12px; text-align:center;
+  }
+  .split .box .lab{ font-size:16px; color:var(--ink-soft); font-weight:600; }
+  .split .box .lab .ic{ font-size:19px; }
+  .split .box .v{ font-size:24px; font-weight:800; margin-top:3px; line-height:1.15; }
+  .split .seed .v{ color:var(--green); }
+  .split .fruit{ background:#FBF6E9; border-color:#EAD9AE; }
+  .split .fruit .v{ color:var(--gold-deep); }
+  .split .box .pct{ font-size:14px; color:var(--ink-soft); margin-top:1px; }
+
+  .compare{
+    background:var(--green-pale); border:1px solid #CFE0C8; border-radius:16px;
+    padding:14px 16px; font-size:17px; color:var(--green); margin-bottom:6px;
+    line-height:1.6;
+  }
+  .compare b{ color:var(--gold-deep); font-size:20px; }
+
+  /* ---- 圖表 ---- */
+  .chartwrap svg{ width:100%; height:auto; display:block; }
+  .legend{ display:flex; gap:18px; justify-content:center; margin-top:8px; font-size:15px; color:var(--ink-soft); }
+  .legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .legend i{ width:16px; height:16px; border-radius:4px; display:inline-block; }
+
+  /* ---- 表格 ---- */
+  details.years summary{
+    cursor:pointer; font-size:18px; font-weight:700; color:var(--green);
+    padding:6px 0; list-style:none;
+  }
+  details.years summary::-webkit-details-marker{ display:none; }
+  details.years summary::before{ content:"▸ "; color:var(--gold-deep); }
+  details.years[open] summary::before{ content:"▾ "; }
+  .table-scroll{ max-height:340px; overflow:auto; margin-top:10px; border:1px solid var(--line); border-radius:12px; }
+  table{ width:100%; border-collapse:collapse; font-size:16px; }
+  thead th{
+    position:sticky; top:0; background:var(--green); color:#fff; font-weight:700;
+    padding:10px 8px; text-align:center; font-size:15px;
+  }
+  tbody td{ padding:9px 8px; text-align:right; border-top:1px solid var(--line); }
+  tbody td:first-child{ text-align:center; font-weight:700; color:var(--green); }
+  tbody tr:nth-child(even){ background:#FBFAF5; }
+  tbody td.fruitcol{ color:var(--gold-deep); font-weight:700; }
+
+  /* ---- CTA ---- */
+  .cta{
+    background:#fff; border:2px dashed var(--gold); border-radius:var(--radius);
+    padding:22px 18px; text-align:center; box-shadow:var(--shadow);
+  }
+  .cta h3{ font-size:21px; color:var(--green); margin:0 0 6px; font-weight:800; }
+  .cta p{ font-size:17px; color:var(--ink-soft); margin:0 0 16px; line-height:1.6; }
+  .cta a.line{
+    display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+    background:#06C755; color:#fff; font-size:20px; font-weight:800;
+    padding:14px 30px; border-radius:999px; box-shadow:0 6px 16px rgba(6,199,85,.3);
+  }
+  .cta .small{ font-size:14px; color:var(--ink-soft); margin-top:12px; }
+
+  .disclaimer{
+    font-size:14px; color:var(--ink-soft); line-height:1.7; margin-top:22px;
+    padding:14px 16px; background:#FBFAF5; border:1px solid var(--line); border-radius:14px;
+  }
+  footer{ text-align:center; color:var(--ink-soft); font-size:14px; margin-top:22px; }
+  footer b{ color:var(--green); }
+
+  @media (max-width:480px){
+    body{ font-size:18px; }
+    h1{ font-size:27px; }
+    .split{ flex-wrap:wrap; }
+    .split .box{ flex:1 1 calc(50% - 6px); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brandbar">
+    <span class="leaf">🌳</span><span>馥芸財富學苑</span>
+    <span class="dot">·</span><span>女人要有錢 · 財富花園</span>
+  </div>
+  <h1>時間 × 複利<br>讓妳種下的錢，慢慢長成果樹</h1>
+  <p class="lede">每個月固定種一點點，交給<b>時間</b>和<b>複利</b>照顧。
+  動動下面三個數字，看看妳的果樹會長多大。</p>
+
+  <!-- 花園視覺 -->
+  <div class="garden">
+    <div id="treeBox"></div>
+    <div class="cap" id="treeCap">綠色是<em style="color:#1F4A2E">妳種下的本金</em>，金色蘋果是<em>複利長出的果實</em> 🍎</div>
+  </div>
+
+  <!-- 輸入 -->
+  <div class="card">
+    <h2><span class="num">1</span>每個月，妳願意種下多少？</h2>
+    <div class="field">
+      <div class="stepper">
+        <button type="button" aria-label="減少" onclick="bump('pmt',-1000)">−</button>
+        <div class="val">
+          <input id="pmt" type="text" inputmode="numeric" value="5,000" aria-label="每月存入金額">
+          <span class="unit">元 / 月</span>
+        </div>
+        <button type="button" aria-label="增加" onclick="bump('pmt',1000)">＋</button>
+      </div>
+      <div class="chips" id="chips-pmt">
+        <button type="button" class="chip" data-v="3000">3,000</button>
+        <button type="button" class="chip" data-v="5000">5,000</button>
+        <button type="button" class="chip" data-v="10000">10,000</button>
+        <button type="button" class="chip" data-v="15000">15,000</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">2</span>每年大約長多少？<span class="hint">（報酬率）</span></h2>
+    <div class="field">
+      <div class="stepper">
+        <button type="button" aria-label="減少" onclick="bump('rate',-0.5)">−</button>
+        <div class="val">
+          <input id="rate" type="text" inputmode="decimal" value="5" aria-label="年報酬率">
+          <span class="unit">% / 年</span>
+        </div>
+        <button type="button" aria-label="增加" onclick="bump('rate',0.5)">＋</button>
+      </div>
+      <div class="chips" id="chips-rate">
+        <button type="button" class="chip" data-v="1.5">1.5%<small>　銀行定存</small></button>
+        <button type="button" class="chip" data-v="3">3%<small>　穩健</small></button>
+        <button type="button" class="chip" data-v="5">5%<small>　平衡</small></button>
+        <button type="button" class="chip" data-v="6">6%<small>　積極</small></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">3</span>打算照顧這棵樹幾年？</h2>
+    <div class="field">
+      <div class="stepper">
+        <button type="button" aria-label="減少" onclick="bump('years',-1)">−</button>
+        <div class="val">
+          <input id="years" type="text" inputmode="numeric" value="20" aria-label="存幾年">
+          <span class="unit">年</span>
+        </div>
+        <button type="button" aria-label="增加" onclick="bump('years',1)">＋</button>
+      </div>
+      <div class="chips" id="chips-years">
+        <button type="button" class="chip" data-v="10">10 年</button>
+        <button type="button" class="chip" data-v="20">20 年</button>
+        <button type="button" class="chip" data-v="30">30 年</button>
+      </div>
+      <button type="button" class="adv-toggle" onclick="toggleAdv()" style="margin-top:14px;" id="advBtn">＋ 進階設定（扣款時間）</button>
+      <div id="adv" style="display:none; margin-top:12px;">
+        <div class="toggle-row">
+          <button type="button" class="toggle on" data-due="1" onclick="setDue(1)">月初扣款<small>每月一號就先種下</small></button>
+          <button type="button" class="toggle" data-due="0" onclick="setDue(0)">月底扣款<small>月底再種下</small></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 結果 -->
+  <div class="result-hero" id="hero">
+    <div class="glow"></div>
+    <div class="k">滿期時，這棵樹大約能結出</div>
+    <div class="big"><span id="fvNum">0</span><small>元</small></div>
+    <div class="wan" id="fvWan">約 0 萬</div>
+  </div>
+
+  <div class="split">
+    <div class="box seed">
+      <div class="lab"><span class="ic">🌱</span> 妳種下的本金</div>
+      <div class="v" id="prinNum">0</div>
+      <div class="pct" id="prinPct">—</div>
+    </div>
+    <div class="box fruit">
+      <div class="lab"><span class="ic">🍎</span> 複利長出的果實</div>
+      <div class="v" id="fruitNum">0</div>
+      <div class="pct" id="fruitPct">—</div>
+    </div>
+  </div>
+
+  <div class="compare" id="compare"></div>
+
+  <!-- 圖表 -->
+  <div class="card chartwrap">
+    <h2 style="margin-bottom:8px;"><span class="num" style="background:var(--gold)">📈</span>果樹一年一年長大的樣子</h2>
+    <div id="chart"></div>
+    <div class="legend">
+      <span><i style="background:#3E7A52"></i> 妳種下的本金</span>
+      <span><i style="background:#C9A24B"></i> 複利果實</span>
+    </div>
+  </div>
+
+  <!-- 年表 -->
+  <div class="card">
+    <details class="years">
+      <summary>逐年明細表（點開看每一年）</summary>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>第幾年</th><th>累積投入<br>本金</th><th>帳戶價值<br>（含複利）</th><th>複利<br>果實</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>想知道「妳的數字」該怎麼種？</h3>
+    <p>這台是教學示意。每個人的醫療、家庭、退休缺口都不一樣。<br>歡迎做一次<strong>免費財務小輕診</strong>，一起把妳的財富花園畫出來。</p>
+    <a class="line" href="https://lin.ee/6Tm8pI7" target="_blank" rel="noopener">💬 預約免費財務小輕診</a>
+    <div class="small">財顧芸 · 琪琪老師　｜　無推銷，只陪妳把方向想清楚</div>
+  </div>
+
+  <div class="disclaimer">
+    本試算僅為教學示意，協助妳理解「時間 × 複利」的概念。實際報酬會隨市場上下波動，過去績效不代表未來，
+    試算數字並非投資保證，也不作為任何金融商品的銷售依據。報酬率以年複利、每月固定投入估算。
+  </div>
+
+  <footer>
+    <b>馥芸財富學苑</b>　｜　女人要有錢 · 財富花園　·　第二堂【整地・當時間遇上複利】
+  </footer>
+</div>
+
+<script>
+/* ====== 狀態 ====== */
+var state = { pmt:5000, rate:5, years:20, due:1 };
+var BANK = 1.5; // 銀行定存比較基準
+
+/* ====== 工具 ====== */
+function nf(n){ return Math.round(n).toLocaleString('en-US'); }
+function parseNum(s){ return parseFloat(String(s).replace(/[^0-9.\-]/g,''))||0; }
+function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function toWan(n){
+  if(n>=100000000){ return '約 '+(n/100000000).toFixed(2)+' 億元'; }
+  var w = n/10000;
+  if(w>=1000){ return '約 '+ (Math.round(w)).toLocaleString('en-US') +' 萬元'; }
+  return '約 '+ (w>=10? Math.round(w) : w.toFixed(1)) +' 萬元';
+}
+
+/* 逐月累積，回傳每年年底的 {prin,total} */
+function build(){
+  var pmt=state.pmt, i=state.rate/100/12, Y=Math.round(state.years), due=state.due;
+  var rows=[{year:0,prin:0,total:0}];
+  var bal=0, prin=0;
+  for(var m=1; m<=Y*12; m++){
+    if(due){ bal = (bal+pmt)*(1+i); } else { bal = bal*(1+i)+pmt; }
+    prin += pmt;
+    if(m%12===0){ rows.push({year:m/12, prin:prin, total:bal}); }
+  }
+  // 銀行定存對照
+  var bi=BANK/100/12, bbal=0;
+  for(var m2=1; m2<=Y*12; m2++){ if(due){bbal=(bbal+pmt)*(1+bi);}else{bbal=bbal*(1+bi)+pmt;} }
+  return { rows:rows, bank:bbal };
+}
+
+/* ====== 數字動畫 ====== */
+var animId=null;
+function countUp(el,to){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches){ el.textContent=nf(to); return; }
+  cancelAnimationFrame(animId);
+  var from = parseNum(el.textContent), start=null, dur=500;
+  function step(ts){
+    if(!start) start=ts;
+    var p=clamp((ts-start)/dur,0,1), e=1-Math.pow(1-p,3);
+    el.textContent = nf(from+(to-from)*e);
+    if(p<1) animId=requestAnimationFrame(step);
+  }
+  animId=requestAnimationFrame(step);
+}
+
+/* ====== 主渲染 ====== */
+function render(){
+  var d=build();
+  var last=d.rows[d.rows.length-1];
+  var fv=last.total, prin=last.prin, fruit=Math.max(0,fv-prin);
+
+  var fvEl=document.getElementById('fvNum');
+  countUp(fvEl, fv);
+  document.getElementById('fvWan').textContent = toWan(fv);
+  document.getElementById('prinNum').textContent = nf(prin)+' 元';
+  document.getElementById('fruitNum').textContent = nf(fruit)+' 元';
+  var fp = fv>0? Math.round(fruit/fv*100):0;
+  document.getElementById('prinPct').textContent = '佔 '+(100-fp)+'%';
+  document.getElementById('fruitPct').textContent = '佔 '+fp+'%';
+
+  var hero=document.getElementById('hero');
+  hero.classList.remove('pulse'); void hero.offsetWidth; hero.classList.add('pulse');
+
+  // 銀行對照
+  var diff = Math.max(0, fv - d.bank);
+  var cmp=document.getElementById('compare');
+  if(state.rate>BANK && diff>1){
+    cmp.style.display='block';
+    cmp.innerHTML='同樣每月種 '+nf(state.pmt)+' 元、同樣 '+Math.round(state.years)+' 年，'+
+      '如果只放銀行定存（'+BANK+'%），複利這位園丁替妳多長出了 <b>'+nf(diff)+' 元</b> 的果實。';
+  } else {
+    cmp.style.display='none';
+  }
+
+  drawChart(d.rows, fv);
+  drawTree(fruit/Math.max(fv,1), state.years);
+  drawTable(d.rows);
+}
+
+/* ====== 圖表（堆疊面積：本金綠 + 果實金） ====== */
+function drawChart(rows, fvMax){
+  var W=700,H=360, pl=64,pr=20,pt=18,pb=42;
+  var iw=W-pl-pr, ih=H-pt-pb;
+  var Y=rows[rows.length-1].year || 1;
+  var yMax = fvMax>0? fvMax*1.04 : 1;
+  function X(yr){ return pl + iw*(yr/Y); }
+  function Yv(v){ return pt + ih*(1 - v/yMax); }
+
+  var pPrin='', pTot='';
+  rows.forEach(function(r,idx){ pPrin+=(idx?'L':'M')+X(r.year).toFixed(1)+' '+Yv(r.prin).toFixed(1)+' '; });
+  rows.forEach(function(r,idx){ pTot +=(idx?'L':'M')+X(r.year).toFixed(1)+' '+Yv(r.total).toFixed(1)+' '; });
+  // 金色果實面積 = 本金線 與 總值線 之間
+  var fruitArea = pTot;
+  for(var k=rows.length-1;k>=0;k--){ fruitArea+='L'+X(rows[k].year).toFixed(1)+' '+Yv(rows[k].prin).toFixed(1)+' '; }
+  fruitArea+='Z';
+  // 綠色本金面積 = 0 到 本金線
+  var prinArea = pPrin + 'L'+X(Y).toFixed(1)+' '+Yv(0).toFixed(1)+' L'+X(0).toFixed(1)+' '+Yv(0).toFixed(1)+' Z';
+
+  // 軸標
+  function money(v){ if(v>=10000) return Math.round(v/10000)+'萬'; return Math.round(v); }
+  var ticks='';
+  [0,0.5,1].forEach(function(t){
+    var v=yMax*t, y=Yv(v);
+    ticks+='<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" stroke="#E1DCCB" stroke-width="1"/>'+
+      '<text x="'+(pl-8)+'" y="'+(y+5)+'" text-anchor="end" font-size="14" fill="#8A8472">'+money(v)+'</text>';
+  });
+  var xs='';
+  [0,Math.round(Y/2),Y].forEach(function(yr){
+    if(yr<0) return;
+    xs+='<text x="'+X(yr)+'" y="'+(H-14)+'" text-anchor="middle" font-size="14" fill="#8A8472">'+yr+'年</text>';
+  });
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="複利成長圖">'+
+    ticks+
+    '<path d="'+prinArea+'" fill="#3E7A52" fill-opacity="0.85"/>'+
+    '<path d="'+fruitArea+'" fill="#C9A24B" fill-opacity="0.88"/>'+
+    '<path d="'+pPrin+'" fill="none" stroke="#214A2E" stroke-width="2.5"/>'+
+    '<path d="'+pTot+'" fill="none" stroke="#7E5E14" stroke-width="2.5"/>'+
+    xs+
+    '</svg>';
+  document.getElementById('chart').innerHTML=svg;
+}
+
+/* ====== 花園果樹 ====== */
+function drawTree(fruitRatio, years){
+  var grow = clamp(years/35, .28, 1);           // 樹冠大小隨年數
+  var apples = clamp(Math.round(fruitRatio*14), 0, 12); // 蘋果數隨果實比例
+  var cx=350, groundY=232, trunkTop=groundY-70*grow;
+  var canopyCY=trunkTop-46*grow, canopyR=78*grow;
+
+  // 候選蘋果位置（在樹冠內）
+  var slots=[[-44,-8],[40,-12],[-12,-40],[20,-44],[-50,28],[48,24],[2,2],[-30,40],[34,46],[-8,-72],[-58,-22],[58,-20]];
+  var fruitSVG='';
+  for(var a=0;a<apples;a++){
+    var sx=cx+slots[a][0]*grow, sy=canopyCY+slots[a][1]*grow;
+    fruitSVG+='<circle cx="'+sx.toFixed(0)+'" cy="'+sy.toFixed(0)+'" r="'+(9*grow).toFixed(1)+
+      '" fill="#C9A24B" stroke="#9A7621" stroke-width="1.5"/>'+
+      '<circle cx="'+(sx-3).toFixed(0)+'" cy="'+(sy-3).toFixed(0)+'" r="'+(2.4*grow).toFixed(1)+'" fill="#F2E3B6"/>';
+  }
+
+  var svg='<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="財富花園果樹">'+
+    '<ellipse cx="350" cy="238" rx="150" ry="14" fill="#CBDDC2"/>'+              // 土地
+    '<rect x="'+(cx-9)+'" y="'+trunkTop+'" width="18" height="'+(groundY-trunkTop)+'" rx="7" fill="#7A5A3A"/>'+ // 樹幹
+    '<g style="transition:all .6s ease">'+
+      '<circle cx="'+cx+'" cy="'+canopyCY+'" r="'+canopyR.toFixed(0)+'" fill="#3E7A52"/>'+
+      '<circle cx="'+(cx-canopyR*.55)+'" cy="'+(canopyCY+canopyR*.18)+'" r="'+(canopyR*.62).toFixed(0)+'" fill="#4C8A60"/>'+
+      '<circle cx="'+(cx+canopyR*.55)+'" cy="'+(canopyCY+canopyR*.18)+'" r="'+(canopyR*.62).toFixed(0)+'" fill="#4C8A60"/>'+
+      '<circle cx="'+cx+'" cy="'+(canopyCY-canopyR*.4)+'" r="'+(canopyR*.6).toFixed(0)+'" fill="#56986B"/>'+
+      fruitSVG+
+    '</g>'+
+    '</svg>';
+  document.getElementById('treeBox').innerHTML=svg;
+
+  var cap=document.getElementById('treeCap');
+  if(apples===0){ cap.innerHTML='先設定上面的數字，看妳的果樹開始長 🌱'; }
+}
+
+/* ====== 年表 ====== */
+function drawTable(rows){
+  var html='';
+  for(var k=1;k<rows.length;k++){
+    var r=rows[k], fruit=Math.max(0,r.total-r.prin);
+    html+='<tr><td>'+r.year+'</td><td>'+nf(r.prin)+'</td><td>'+nf(r.total)+'</td><td class="fruitcol">'+nf(fruit)+'</td></tr>';
+  }
+  document.getElementById('tbody').innerHTML=html;
+}
+
+/* ====== 互動 ====== */
+function syncInputs(){
+  document.getElementById('pmt').value = nf(state.pmt);
+  document.getElementById('rate').value = (state.rate%1===0)? state.rate : state.rate.toFixed(1);
+  document.getElementById('years').value = Math.round(state.years);
+  highlightChips();
+}
+function highlightChips(){
+  function mark(id,key){ document.querySelectorAll('#'+id+' .chip').forEach(function(c){
+    c.classList.toggle('on', parseFloat(c.dataset.v)===state[key]); }); }
+  mark('chips-pmt','pmt'); mark('chips-rate','rate'); mark('chips-years','years');
+}
+function bump(key,delta){
+  var v=state[key]+delta;
+  if(key==='pmt') v=clamp(Math.round(v/1000)*1000,0,1000000);
+  if(key==='rate') v=clamp(Math.round(v*2)/2,0,20);
+  if(key==='years') v=clamp(Math.round(v),1,60);
+  state[key]=v; syncInputs(); render();
+}
+function setDue(d){ state.due=d;
+  document.querySelectorAll('.toggle').forEach(function(t){ t.classList.toggle('on', parseInt(t.dataset.due)===d); });
+  render();
+}
+function toggleAdv(){
+  var a=document.getElementById('adv'), b=document.getElementById('advBtn');
+  var open=a.style.display==='none';
+  a.style.display=open?'block':'none';
+  b.textContent=(open?'－':'＋')+' 進階設定（扣款時間）';
+}
+
+// 手動輸入
+['pmt','rate','years'].forEach(function(id){
+  var el=document.getElementById(id);
+  el.addEventListener('input',function(){
+    var v=parseNum(el.value);
+    if(id==='pmt') state.pmt=clamp(v,0,1000000);
+    if(id==='rate') state.rate=clamp(v,0,20);
+    if(id==='years') state.years=clamp(v,1,60);
+    highlightChips(); render();
+  });
+  el.addEventListener('blur',syncInputs);
+});
+// chip 點選
+document.querySelectorAll('.chips').forEach(function(grp){
+  var key=grp.id.split('-')[1];
+  grp.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){ state[key]=parseFloat(c.dataset.v); syncInputs(); render(); });
+  });
+});
+
+syncInputs(); render();
+</script>
+</body>
+</html>
