@@ -1,1137 +1,1161 @@
+
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mr. Wish｜個人財務報告書</title>
+<title>MR. WISH · ABC 理財管理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+  :root{
+    --paper:#f6f1e7; --paper-2:#fbf8f1; --ink:#22312c; --ink-soft:#5c6b62;
+    --line:#ddd3c0; --line-soft:#e9e1d1; --green:#1f4a3f; --green-2:#2e6b58;
+    --gold:#b0863f; --gold-soft:#d8b878; --pos:#2e6b58; --neg:#b1452f; --warn:#b07d22;
+    --A:#185fa5; --B:#ba7517; --C:#0f6e56; --dream:#7a5cae;
+    --shadow:0 1px 2px rgba(34,49,44,.06), 0 8px 30px rgba(34,49,44,.07);
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:radial-gradient(1200px 600px at 80% -10%, rgba(176,134,63,.10), transparent 60%),radial-gradient(900px 500px at -10% 110%, rgba(31,74,63,.08), transparent 55%),var(--paper);
+    color:var(--ink);font-family:"Noto Sans TC",system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:0 0 80px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px;}
+  header.top{padding:30px 0 12px;position:relative;}
+  .eyebrow{letter-spacing:.42em;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+  h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(24px,4.5vw,40px);line-height:1.02;margin:0;}
+  h1 .yr{color:var(--gold);font-style:italic;}
+  .who{display:inline-flex;gap:10px;align-items:center;margin-top:8px;font-size:13px;color:var(--ink-soft);}
+  .stamp{position:absolute;top:30px;right:0;font-family:"Noto Serif TC",serif;font-weight:700;font-size:12px;color:var(--gold);border:1.5px solid var(--gold-soft);border-radius:4px;padding:6px 12px;letter-spacing:.1em;transform:rotate(4deg);opacity:.85;}
+  @media(max-width:640px){.stamp{display:none;}}
 
-:root {
-  --navy: #1E3A5F;
-  --mid: #2E75B6;
-  --teal: #0D9488;
-  --teal-lt: #CCFBF1;
-  --gold: #D97706;
-  --gold-lt: #FEF3C7;
-  --purple: #6D28D9;
-  --purp-lt: #EDE9FE;
-  --red: #DC2626;
-  --red-lt: #FEE2E2;
-  --orange: #EA580C;
-  --green-dk: #065F46;
-  --green-lt: #D1FAE5;
-  --gray1: #64748B;
-  --gray2: #CBD5E1;
-  --gray3: #F1F5F9;
-  --white: #FFFFFF;
-  --off-white: #F8FAFC;
-}
+  .tabnav{display:flex;gap:3px;border-bottom:2px solid var(--ink);margin-bottom:16px;flex-wrap:wrap;position:sticky;top:0;background:var(--paper);z-index:50;padding-top:8px;}
+  .tabnav button{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;border:none;background:none;color:var(--ink-soft);padding:11px 16px;cursor:pointer;border-radius:10px 10px 0 0;transition:.15s;position:relative;top:2px;}
+  .tabnav button:hover{color:var(--ink);}
+  .tabnav button.on{background:var(--green);color:#f3ede0;}
+  .tab{display:none;} .tab.show{display:block;animation:fade .25s;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:10px 0 6px;}
+  .periodbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .seg{display:inline-flex;background:#ece4d4;border-radius:999px;padding:4px;gap:2px;}
+  .seg button{border:none;background:none;font-family:"Noto Sans TC";font-weight:700;font-size:13px;color:var(--ink-soft);padding:7px 13px;border-radius:999px;cursor:pointer;}
+  .seg button.on{background:var(--green);color:#f3ede0;}
+  .navbtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;cursor:pointer;font-size:16px;line-height:1;padding:6px 11px;}
+  .navbtn:hover{border-color:var(--gold);color:var(--gold);}
+  #periodLabel{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;min-width:120px;text-align:center;}
+  input[type=date].anchor{font-family:"Noto Sans TC";font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:#fff;color:var(--ink);}
+  .btns{display:flex;gap:7px;flex-wrap:wrap;}
+  button.act{font-family:"Noto Sans TC";font-weight:700;font-size:12.5px;cursor:pointer;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);padding:7px 12px;border-radius:999px;transition:.15s;}
+  button.act:hover{border-color:var(--gold);color:var(--gold);}
+  button.act.primary{background:var(--green);color:#f3ede0;border-color:var(--green);}
+  #saveStatus{font-size:12px;color:var(--ink-soft);margin:0 0 12px;min-height:16px;}
 
-body {
-  font-family: 'Noto Sans TC', sans-serif;
-  background: #0A1628;
-  color: var(--white);
-  overflow-x: hidden;
-}
+  .dash{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
+  .dash.c3{grid-template-columns:repeat(3,1fr);}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:15px 16px 13px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold-soft);}
+  .card.inc::before{background:var(--green-2);} .card.exp::before{background:var(--neg);} .card.net::before{background:var(--gold);}
+  .card.a::before{background:var(--A);} .card.b::before{background:var(--B);} .card.c::before{background:var(--C);}
+  .card .lab{font-size:12px;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;}
+  .card .big{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(18px,2.8vw,26px);margin-top:6px;font-variant-numeric:tabular-nums;}
+  .card .big .cur{font-size:.55em;color:var(--ink-soft);font-weight:700;margin-right:3px;}
+  .card .small{font-size:12px;color:var(--ink-soft);margin-top:4px;font-variant-numeric:tabular-nums;}
+  .card .big.positive{color:var(--pos);} .card .big.negative{color:var(--neg);}
+  @media(max-width:860px){.dash,.dash.c3{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.dash,.dash.c3{grid-template-columns:1fr;}}
 
-/* ── 導覽列 ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,22,40,0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(46,117,182,0.3);
-  display: flex; align-items: center; gap: 0;
-  padding: 0 24px; height: 52px;
-}
-.nav-brand { font-family: 'Noto Serif TC', serif; font-size: 14px; font-weight: 700; color: var(--teal); margin-right: 32px; white-space: nowrap; }
-.nav-items { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
-.nav-items::-webkit-scrollbar { display: none; }
-.nav-btn {
-  background: none; border: none; cursor: pointer;
-  padding: 6px 14px; border-radius: 6px;
-  font-size: 12px; font-family: 'Noto Sans TC', sans-serif;
-  color: var(--gray2); transition: all 0.2s; white-space: nowrap;
-}
-.nav-btn:hover, .nav-btn.active { background: rgba(46,117,182,0.2); color: var(--white); }
-.nav-right { margin-left: auto; font-size: 11px; color: var(--gray1); white-space: nowrap; }
+  .ov{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px 18px;margin-bottom:16px;}
+  .ov h3{font-family:"Noto Serif TC",serif;font-size:16px;margin:0 0 12px;font-weight:700;}
+  .ov h3 .sub{font-family:"Noto Sans TC";font-size:12px;color:var(--ink-soft);font-weight:400;margin-left:8px;}
+  table.lt{width:100%;border-collapse:collapse;}
+  .tscroll{overflow-x:auto;}
+  table.lt thead th{font-size:11.5px;letter-spacing:.04em;color:var(--ink-soft);font-weight:700;text-align:right;padding:9px 10px;border-bottom:1px solid var(--line-soft);background:#fdfbf6;white-space:nowrap;}
+  table.lt thead th.l{text-align:left;}
+  table.lt tbody td{padding:7px 10px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle;font-variant-numeric:tabular-nums;}
+  table.lt td.l{text-align:left;} table.lt td.r{text-align:right;}
+  table.lt tbody tr:last-child td{border-bottom:none;} table.lt tbody tr:hover{background:#fffdf8;}
+  table.lt tfoot td{padding:9px 10px;border-top:2px solid var(--ink);font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums;text-align:right;}
+  table.lt tfoot td.l{text-align:left;}
 
-/* ── 主體區 ── */
-main { padding-top: 52px; }
+  input.f, select.f, textarea.f{font-family:"Noto Sans TC";font-size:13px;border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff;color:var(--ink);}
+  input.f:focus,select.f:focus,textarea.f:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(176,134,63,.12);}
+  input.amt{width:96px;text-align:right;font-variant-numeric:tabular-nums;}
+  input.cell{width:90px;text-align:right;border:1px solid transparent;border-radius:7px;padding:5px 7px;background:transparent;font-variant-numeric:tabular-nums;font-family:"Noto Sans TC";font-size:13.5px;color:var(--ink);}
+  input.cell:hover{border-color:var(--line);background:#fff;} input.cell:focus{outline:none;border-color:var(--gold);background:#fff;}
+  .addform{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;padding:13px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;}
+  .ff{display:flex;flex-direction:column;gap:3px;} .ff label{font-size:11px;color:var(--ink-soft);font-weight:700;}
+  .rowdel{border:none;background:none;color:var(--neg);cursor:pointer;font-size:16px;padding:2px 5px;opacity:.45;transition:.12s;}
+  .rowdel:hover{opacity:1;}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 7px;}
+  .tag.A{background:#e6f1fb;color:var(--A);} .tag.B{background:#faeeda;color:var(--B);} .tag.C{background:#e1f5ee;color:var(--C);}
+  .tag.in{background:#e1f5ee;color:var(--C);} .tag.out{background:#f5e3dc;color:var(--neg);}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;}
+  .pill.ok{background:#dce9e2;color:#2e6b58;} .pill.warn{background:#f6e4c2;color:#8a611c;} .pill.bad{background:#f3dcd4;color:#a23a23;}
+  .gbar{height:9px;background:#ece4d4;border-radius:5px;overflow:hidden;max-width:240px;}
+  .gbar .gfill{height:100%;border-radius:5px;}
 
-/* ── 頁面區塊 ── */
-.slide {
-  min-height: 100vh; padding: 48px 5vw;
-  display: flex; flex-direction: column;
-  position: relative; overflow: hidden;
-}
+  .abcflow{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;}
+  .acctbox{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+  @media(max-width:760px){.acctbox{grid-template-columns:1fr;}}
+  .acct{border:1px solid var(--line);border-radius:13px;padding:14px 15px;background:var(--paper-2);position:relative;overflow:hidden;}
+  .acct::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;}
+  .acct.A::before{background:var(--A);} .acct.B::before{background:var(--B);} .acct.C::before{background:var(--C);}
+  .acct .at{font-family:"Noto Serif TC";font-weight:700;font-size:16px;} .acct .as{font-size:12px;color:var(--ink-soft);}
+  .acct .av{font-family:"Noto Serif TC";font-weight:900;font-size:24px;margin-top:8px;font-variant-numeric:tabular-nums;}
+  .acct .arow{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-top:5px;font-variant-numeric:tabular-nums;}
 
-/* ── P1 封面 ── */
-#s1 {
-  background: linear-gradient(135deg, #0A1628 0%, #1E3A5F 50%, #0D4A6B 100%);
-}
-#s1::before {
-  content: ''; position: absolute;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(13,148,136,0.15) 0%, transparent 70%);
-  top: -100px; right: -100px; pointer-events: none;
-}
-#s1::after {
-  content: ''; position: absolute;
-  width: 400px; height: 400px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(46,117,182,0.1) 0%, transparent 70%);
-  bottom: 0; left: 10%; pointer-events: none;
-}
-.cover-grid { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: start; flex: 1; }
-.cover-left { position: relative; z-index: 1; }
-.cover-badge { font-size: 11px; letter-spacing: 0.15em; color: var(--teal); text-transform: uppercase; margin-bottom: 16px; }
-.cover-name { font-family: 'Noto Serif TC', serif; font-size: 72px; font-weight: 900; color: var(--white); line-height: 1; margin-bottom: 8px; }
-.cover-sub { font-size: 18px; color: rgba(255,255,255,0.6); margin-bottom: 32px; }
-.cover-info { display: flex; flex-direction: column; gap: 10px; }
-.cover-info-row { display: flex; gap: 12px; align-items: center; }
-.cover-info-key { font-size: 11px; color: var(--gray1); width: 60px; }
-.cover-info-val { font-size: 13px; color: var(--white); font-weight: 500; }
-.cover-footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: var(--gray1); }
+  .dreamcard{border:1px solid var(--line);border-radius:12px;padding:13px 15px;background:#fff;margin-bottom:10px;position:relative;overflow:hidden;}
+  .dreamcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--dream);}
+  .dreamcard .dn{font-weight:700;font-size:14px;} .dreamcard .dmeta{font-size:12px;color:var(--ink-soft);margin:4px 0 7px;font-variant-numeric:tabular-nums;}
 
-.cover-right { position: relative; z-index: 1; }
-.cover-headline { font-family: 'Noto Serif TC', serif; font-size: 13px; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 12px; }
-.cover-title { font-family: 'Noto Serif TC', serif; font-size: 36px; font-weight: 700; color: var(--white); margin-bottom: 32px; line-height: 1.3; }
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.kpi-card {
-  border-radius: 12px; padding: 20px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: transform 0.2s, background 0.2s;
-}
-.kpi-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08); }
-.kpi-card.accent { background: rgba(13,148,136,0.2); border-color: rgba(13,148,136,0.4); }
-.kpi-card.gold-c { background: rgba(217,119,6,0.2); border-color: rgba(217,119,6,0.4); }
-.kpi-label { font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
-.kpi-value { font-family: 'DM Mono', monospace; font-size: 28px; font-weight: 500; color: var(--white); }
-.kpi-sub { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 4px; }
-.timeline-bar {
-  background: rgba(255,255,255,0.06); border-radius: 8px; padding: 14px 20px;
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
-}
-.tl-item { display: flex; align-items: center; gap: 8px; font-size: 11px; }
-.tl-year { font-family: 'DM Mono', monospace; color: var(--teal); font-weight: 500; }
-.tl-val { color: var(--white); }
-.tl-arrow { color: var(--gray2); margin: 0 8px; }
-.tl-badge { background: var(--teal); color: var(--white); font-size: 10px; padding: 2px 8px; border-radius: 20px; margin-left: 8px; }
+  .meeting{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;margin-bottom:11px;}
+  .meeting .mh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .meeting .md{font-family:"Noto Serif TC";font-weight:700;font-size:15px;} .meeting .mt{font-size:12px;color:var(--gold);font-weight:700;}
+  .meeting dl{margin:8px 0 0;font-size:13px;} .meeting dt{color:var(--ink-soft);font-weight:700;font-size:11.5px;margin-top:6px;} .meeting dd{margin:1px 0 0;white-space:pre-wrap;}
 
-/* ── 通用頁面樣式 ── */
-.slide-light { background: var(--off-white); color: var(--navy); }
-.slide-white { background: var(--white); color: var(--navy); }
-.slide-dark { background: #0F1E33; color: var(--white); }
+  .alerts{background:#fbf4e3;border:1px solid var(--gold-soft);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;color:#7a5a23;}
+  .alerts b{color:#5d4316;}
 
-.section-header {
-  display: flex; align-items: baseline; gap: 16px; margin-bottom: 32px;
-}
-.section-num { font-family: 'DM Mono', monospace; font-size: 48px; font-weight: 500; color: var(--teal); opacity: 0.4; line-height: 1; }
-.section-title { font-family: 'Noto Serif TC', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
-.section-title.light { color: var(--white); }
-.section-sub { font-size: 12px; color: var(--gray1); margin-top: 2px; }
+  /* 登入 */
+  #gate{position:fixed;inset:0;background:linear-gradient(160deg,#1f4a3f,#143229);display:flex;align-items:center;justify-content:center;z-index:9999;}
+  #gate .box{background:var(--paper);border-radius:18px;padding:34px 30px;width:min(360px,90vw);box-shadow:0 30px 80px rgba(0,0,0,.4);text-align:center;}
+  #gate .eb{letter-spacing:.4em;font-size:11px;color:var(--gold);font-weight:700;}
+  #gate h2{font-family:"Noto Serif TC";font-size:26px;margin:6px 0 4px;}
+  #gate p{font-size:12.5px;color:var(--ink-soft);margin:0 0 18px;}
+  #gate input{width:100%;text-align:center;letter-spacing:.4em;font-size:20px;padding:12px;border:1.5px solid var(--line);border-radius:11px;font-family:"Noto Serif TC";}
+  #gate input:focus{outline:none;border-color:var(--gold);}
+  #gate button{width:100%;margin-top:14px;background:var(--green);color:#f3ede0;border:none;border-radius:11px;padding:12px;font-weight:700;font-size:15px;cursor:pointer;font-family:"Noto Serif TC";}
+  #gate .err{color:var(--neg);font-size:12.5px;margin-top:10px;min-height:16px;}
 
-/* ── P2 家庭背景 ── */
-.family-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-
-/* 家庭樹 */
-.family-tree {
-  background: var(--white); border-radius: 16px; padding: 24px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-}
-.tree-title { font-size: 12px; font-weight: 600; color: var(--gray1); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
-.tree-container { display: flex; flex-direction: column; align-items: center; gap: 0; }
-.tree-row { display: flex; justify-content: center; gap: 16px; position: relative; }
-.tree-row.parents { margin-bottom: 0; }
-.tree-row.children { margin-top: 40px; }
-
-.tree-connector-wrap { display: flex; flex-direction: column; align-items: center; }
-.tree-h-line { width: 200px; height: 2px; background: var(--gray2); margin: 0 auto; }
-.tree-v-line { width: 2px; height: 36px; background: var(--gray2); margin: 0 auto; }
-.tree-branch { display: flex; justify-content: space-between; width: 200px; }
-.tree-branch-v { width: 2px; height: 20px; background: var(--gray2); }
-
-.person-node {
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  cursor: default;
-}
-.person-avatar {
-  width: 64px; height: 64px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 700; color: var(--white);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  position: relative;
-}
-.person-avatar.main { background: var(--navy); width: 72px; height: 72px; font-size: 24px; }
-.person-avatar.spouse { background: var(--purple); }
-.person-avatar.child { background: var(--teal); }
-.person-avatar .now-badge {
-  position: absolute; top: -4px; right: -4px;
-  background: var(--teal); color: var(--white);
-  font-size: 8px; padding: 1px 5px; border-radius: 8px; font-weight: 600;
-}
-.person-info { text-align: center; }
-.person-name { font-size: 13px; font-weight: 700; color: var(--navy); }
-.person-desc { font-size: 10px; color: var(--gray1); line-height: 1.4; }
-.person-tag {
-  font-size: 9px; padding: 2px 8px; border-radius: 20px;
-  background: var(--red-lt); color: var(--red); font-weight: 600;
-}
-
-/* 價值觀 */
-.values-row { display: flex; gap: 8px; margin-top: 16px; }
-.value-chip {
-  flex: 1; text-align: center; padding: 10px 4px;
-  border-radius: 8px; font-size: 16px; font-weight: 700; color: var(--white);
-}
-
-/* 擔心期待 */
-.concerns-col { display: flex; flex-direction: column; gap: 12px; }
-.concern-card {
-  border-radius: 10px; padding: 14px 16px;
-  border-left: 4px solid; background: var(--white);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.concern-num {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: var(--white); margin-right: 8px; float: left; margin-top: 2px;
-}
-.concern-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-.concern-desc { font-size: 11px; color: var(--gray1); line-height: 1.5; }
-
-.dreams-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
-.dream-chip {
-  border-radius: 10px; padding: 12px 8px; text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-}
-.dream-icon {
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 700; color: var(--white);
-}
-.dream-text { font-size: 9px; color: var(--white); line-height: 1.3; }
-
-/* ── P3 收支 ── */
-.compare-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-.compare-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--gray2); }
-.compare-head { padding: 12px 16px; font-size: 13px; font-weight: 700; }
-.compare-head.y2026 { background: var(--gray3); color: var(--navy); }
-.compare-head.y2027 { background: var(--navy); color: var(--white); }
-.compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.compare-table td { padding: 7px 14px; border-bottom: 1px solid var(--gray3); }
-.compare-table td:last-child { text-align: right; font-family: 'DM Mono', monospace; font-weight: 500; }
-.compare-table tr.subtotal td { background: #EBF5FF; font-weight: 700; color: var(--navy); }
-.compare-table tr.total-row td { font-size: 13px; font-weight: 700; border-top: 2px solid var(--mid); }
-.compare-table tr.highlight td { background: var(--gold-lt); font-weight: 600; }
-.num-pos { color: var(--green-dk); }
-.num-neg { color: var(--red); }
-.num-warn { color: var(--gold); }
-
-.asset-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-/* ── P4 戰略地圖 ── */
-.strategy-phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-.phase-card { border-radius: 12px; overflow: hidden; }
-.phase-head { padding: 12px 16px; }
-.phase-head-title { font-size: 11px; opacity: 0.8; }
-.phase-head-name { font-size: 22px; font-weight: 700; margin-top: 4px; }
-.phase-body { padding: 16px; background: var(--white); }
-.phase-item { font-size: 12px; color: var(--navy); padding: 3px 0; border-bottom: 1px solid var(--gray3); }
-.phase-item:last-child { border: none; }
-.phase-item::before { content: '›'; margin-right: 6px; color: var(--gray2); }
-
-/* 時間軸 */
-.timeline-visual {
-  position: relative; height: 80px; margin: 8px 0 28px;
-}
-.tl-track {
-  position: absolute; top: 32px; left: 0; right: 0; height: 4px;
-  background: var(--gray2); border-radius: 99px;
-}
-.tl-progress {
-  position: absolute; top: 32px; left: 0; width: 8%;
-  height: 4px; background: var(--teal); border-radius: 99px;
-}
-.tl-band { position: absolute; top: 16px; height: 20px; border-radius: 3px; opacity: 0.25; }
-.tl-node {
-  position: absolute; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center;
-}
-.tl-dot {
-  width: 20px; height: 20px; border-radius: 50%; border: 3px solid;
-  background: var(--white); top: 22px; position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-.tl-dot.current { background: var(--teal); border-color: var(--teal); }
-.tl-dot-inner { width: 6px; height: 6px; border-radius: 50%; background: var(--white); }
-.tl-label { font-size: 13px; font-weight: 700; margin-top: 6px; }
-.tl-year { font-size: 10px; color: var(--gray1); font-family: 'DM Mono', monospace; }
-.tl-above { font-size: 9px; font-weight: 600; margin-bottom: 4px; }
-
-/* 四水庫 */
-.buckets-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
-.buckets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.bucket-card { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-.bucket-head { padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
-.bucket-name { font-size: 13px; font-weight: 700; color: var(--white); }
-.bucket-tag { font-size: 9px; background: rgba(255,255,255,0.25); color: var(--white); padding: 2px 8px; border-radius: 20px; }
-.bucket-body { padding: 14px; background: var(--white); }
-.bucket-amount { font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; margin-bottom: 6px; }
-.bucket-desc { font-size: 10px; color: var(--gray1); line-height: 1.5; }
-
-/* ── P5 現金流 ── */
-.cashflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.chart-container { background: var(--white); border-radius: 12px; padding: 20px; }
-.chart-title { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-.chart-sub { font-size: 10px; color: var(--gray1); margin-bottom: 16px; }
-.bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 120px; }
-.bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 2px; transition: height 0.3s; position: relative; }
-.bar-pos { background: var(--teal); }
-.bar-neg { background: var(--red); border-radius: 0 0 2px 2px; }
-.bar-zero-line { width: 100%; height: 1px; background: var(--gray2); margin: 4px 0; }
-.line-chart { position: relative; height: 120px; }
-.line-chart svg { width: 100%; height: 100%; }
-
-.insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-.insight-card {
-  border-radius: 10px; padding: 14px 16px;
-  background: var(--green-lt); border: 1px solid var(--teal);
-}
-.insight-num { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: var(--green-dk); }
-.insight-label { font-size: 11px; color: var(--navy); margin-top: 2px; }
-.insight-sub { font-size: 10px; color: var(--gray1); }
-
-.warning-box {
-  border-radius: 10px; padding: 12px 16px;
-  background: var(--gold-lt); border-left: 4px solid var(--gold);
-  margin-top: 12px;
-}
-.warning-title { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
-.warning-desc { font-size: 10px; color: var(--navy); line-height: 1.5; }
-
-/* ── P6 建議執行 ── */
-.rfp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.risk-list { display: flex; flex-direction: column; gap: 10px; }
-.risk-card {
-  border-radius: 8px; padding: 12px 14px;
-  background: var(--white); display: flex; gap: 12px; align-items: flex-start;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  border: 1px solid var(--gray2);
-}
-.risk-badge {
-  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: var(--white);
-}
-.risk-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
-.risk-desc { font-size: 10px; color: var(--gray1); line-height: 1.4; }
-
-/* 執行時程 */
-.exec-timeline { position: relative; margin-bottom: 16px; }
-.exec-tl-track { height: 3px; background: var(--gray2); border-radius: 99px; position: relative; margin: 8px 0 20px; }
-.exec-tl-fill { height: 100%; width: 20%; background: var(--teal); border-radius: 99px; }
-.exec-tl-nodes { display: flex; justify-content: space-between; position: absolute; top: -7px; left: 0; right: 0; }
-.exec-node { display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.exec-dot {
-  width: 17px; height: 17px; border-radius: 50%; border: 3px solid var(--gray2);
-  background: var(--white);
-}
-.exec-dot.done { background: var(--teal); border-color: var(--teal); }
-.exec-node-label { font-size: 9px; font-weight: 600; white-space: nowrap; position: absolute; top: 20px; transform: translateX(-50%); }
-
-.action-list { display: flex; flex-direction: column; gap: 8px; }
-.action-item {
-  border-radius: 8px; padding: 10px 14px;
-  background: var(--white); display: flex; gap: 12px; align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  border: 1px solid var(--gray2);
-  transition: transform 0.15s;
-}
-.action-item:hover { transform: translateX(4px); }
-.action-item.done { background: var(--green-lt); border-color: var(--teal); }
-.action-when {
-  min-width: 52px; height: 44px; border-radius: 8px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 700; color: var(--white);
-  flex-shrink: 0;
-}
-.action-when small { font-size: 8px; opacity: 0.85; font-weight: 400; }
-.action-content { flex: 1; }
-.action-title { font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
-.action-desc { font-size: 10px; color: var(--gray1); }
-.action-check { font-size: 18px; flex-shrink: 0; }
-
-.goodlife {
-  text-align: center; padding: 16px; background: var(--navy);
-  border-radius: 10px; font-size: 12px; color: var(--teal-lt); margin-top: 16px;
-  letter-spacing: 0.05em;
-}
-
-/* ── 附錄 ── */
-.annex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.data-table th { background: var(--navy); color: var(--white); padding: 8px 12px; text-align: left; font-weight: 600; }
-.data-table td { padding: 8px 12px; border-bottom: 1px solid var(--gray3); }
-.data-table tr:nth-child(even) td { background: var(--gray3); }
-.data-table tr.highlight-row td { background: var(--gold-lt); font-weight: 700; }
-.data-table tr.total-row td { background: var(--green-lt); font-weight: 700; font-size: 13px; }
-.data-table td.right { text-align: right; font-family: 'DM Mono', monospace; }
-
-/* CFP 建議清單 */
-.cfp-info-box {
-  background: #EBF5FF; border: 1px solid var(--mid);
-  border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
-  font-size: 12px; color: var(--navy);
-}
-.cfp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.cfp-card {
-  border-radius: 10px; padding: 14px; background: var(--white);
-  border: 1.5px solid var(--gray2); position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: box-shadow 0.2s;
-}
-.cfp-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-.cfp-cat {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 36px; height: 36px; border-radius: 50%;
-  font-size: 11px; font-weight: 700; color: var(--white);
-  margin-bottom: 8px;
-}
-.cfp-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-.cfp-suggest { font-size: 10px; color: var(--navy); margin-bottom: 3px; }
-.cfp-note { font-size: 10px; color: var(--gray1); margin-bottom: 6px; line-height: 1.4; }
-.cfp-choice { font-size: 9px; font-weight: 600; }
-.cfp-declare {
-  text-align: center; padding: 14px; background: var(--navy);
-  border-radius: 8px; font-size: 11px; color: var(--teal-lt);
-  margin-top: 16px; line-height: 1.6;
-}
-
-/* 保障進度條 */
-.gauge-list { display: flex; flex-direction: column; gap: 10px; }
-.gauge-item { }
-.gauge-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-.gauge-label { font-size: 11px; color: var(--navy); }
-.gauge-score { font-size: 11px; font-weight: 700; }
-.gauge-bar-wrap { height: 6px; background: var(--gray2); border-radius: 99px; overflow: hidden; }
-.gauge-bar-fill { height: 100%; border-radius: 99px; }
-.gauge-note { font-size: 9px; color: var(--gray1); margin-top: 2px; }
-
-/* 動畫 */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.anim { opacity: 0; }
-.anim.visible { animation: fadeUp 0.5s ease forwards; }
-
-/* RWD */
-@media (max-width: 768px) {
-  .cover-grid, .family-grid, .compare-wrap, .kpi-grid,
-  .strategy-phases, .rfp-grid, .annex-grid, .cfp-grid,
-  .asset-compare, .cashflow-grid { grid-template-columns: 1fr; }
-  .cover-name { font-size: 52px; }
-  .buckets-grid { grid-template-columns: 1fr 1fr; }
-  .dreams-row { grid-template-columns: repeat(2, 1fr); }
-}
+  footer.ft{margin-top:34px;text-align:center;color:var(--ink-soft);font-size:12px;border-top:1px solid var(--line);padding-top:16px;}
+  @media print{#gate{display:none!important;}.tabnav,.toolbar,.btns,.rowdel,.addform,.stamp,#saveStatus,.navbtn{display:none!important;}.tab{display:block!important;}}
 </style>
 </head>
 <body>
-<div id="lockScreen" style="
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:linear-gradient(135deg,#0A1628 0%,#1E3A5F 60%,#0D4A6B 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:9999;gap:24px;
-">
-  <div style="font-family:'Noto Serif TC',serif;font-size:48px;font-weight:900;color:white;letter-spacing:0.05em">WISH</div>
-  <div style="font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:0.15em;text-transform:uppercase">個人財務報告書 · 機密文件</div>
-  <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:32px 40px;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:8px">
-    <div style="font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:0.1em">請輸入存取密碼</div>
-    <input id="pwInput" type="password" maxlength="10"
-      style="
-        background:rgba(255,255,255,0.08);
-        border:1px solid rgba(255,255,255,0.2);
-        border-radius:8px;padding:12px 20px;
-        font-size:20px;letter-spacing:0.3em;
-        color:white;outline:none;text-align:center;
-        width:180px;font-family:'DM Mono',monospace;
-      "
-      placeholder="●●●●"
-      onkeydown="if(event.key==='Enter')checkPw()"
-    />
-    <button onclick="checkPw()" style="
-      background:#0D9488;border:none;border-radius:8px;
-      padding:10px 32px;color:white;font-size:13px;font-weight:600;
-      cursor:pointer;letter-spacing:0.05em;
-      font-family:'Noto Sans TC',sans-serif;
-      transition:background 0.2s;
-    " onmouseover="this.style.background='#0F766E'" onmouseout="this.style.background='#0D9488'">
-      進入報告書
-    </button>
-    <div id="pwError" style="font-size:11px;color:#FCA5A5;display:none">密碼錯誤，請再試一次</div>
+
+<!-- 登入 -->
+<div id="gate">
+  <div class="box">
+    <div class="eb">PRIVATE · 個案專屬</div>
+    <h2>MR. WISH 理財管理</h2>
+    <p>請輸入管理密碼</p>
+    <input id="pwd" type="password" inputmode="numeric" maxlength="12" placeholder="••••" autocomplete="off">
+    <button onclick="tryLogin()">進入</button>
+    <div class="err" id="pwdErr"></div>
   </div>
-  <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:8px">馥芸財富學苑 · 公勝財顧</div>
 </div>
+
+<div class="wrap" id="app" style="display:none">
+  <header class="top">
+    <div class="stamp">PRIVATE · 管理版</div>
+    <div class="eyebrow">Wealth Management · 2026</div>
+    <h1>MR. WISH <span class="yr">ABC</span> 理財管理</h1>
+    <div class="who">個案專屬 · 已去識別化 · 編製：馥芸財富學苑</div>
+  </header>
+
+  <nav class="tabnav">
+    <button class="on" data-t="students" onclick="setTab('students')">會員資料</button>
+    <button data-t="ov" onclick="setTab('ov')">總覽</button>
+    <button data-t="journal" onclick="setTab('journal')">日記帳</button>
+    <button data-t="budget" onclick="setTab('budget')">收支預算</button>
+    <button data-t="settle" onclick="setTab('settle')">收支結算</button>
+    <button data-t="abc" onclick="setTab('abc')">ABC 帳戶</button>
+    <button data-t="tuition" onclick="setTab('tuition')">補教收費</button>
+    <button data-t="networth" onclick="setTab('networth')">資產負債 · 房貸</button>
+    <button data-t="member" onclick="setTab('member')">會員資產</button>
+    <button data-t="meetings" onclick="setTab('meetings')">訪談記錄</button>
+    <button data-t="garden" onclick="setTab('garden')">財富花園</button>
+    <button data-t="risk" onclick="setTab('risk')">風險規劃</button>
+  </nav>
+
+  <div class="toolbar">
+    <div class="periodbar" id="periodbar">
+      <div class="seg">
+        <button data-m="day" onclick="setMode('day')">日</button>
+        <button data-m="week" onclick="setMode('week')">週</button>
+        <button data-m="month" class="on" onclick="setMode('month')">月</button>
+        <button data-m="quarter" onclick="setMode('quarter')">季</button>
+        <button data-m="half" onclick="setMode('half')">半年</button>
+      </div>
+      <button class="navbtn" onclick="stepPeriod(-1)">‹</button>
+      <span id="periodLabel">—</span>
+      <button class="navbtn" onclick="stepPeriod(1)">›</button>
+      <input type="date" class="anchor" id="anchor" onchange="setAnchor(this.value)">
+    </div>
+    <div class="btns">
+      <button class="act" onclick="backup()">備份</button>
+      <label class="act" style="cursor:pointer">還原<input type="file" accept=".json" style="display:none" onchange="restore(event)"></label>
+      <button class="act" onclick="exportCSV()">匯出 CSV</button>
+      <button class="act" onclick="resetData()">重設範例</button>
+      <button class="act primary" onclick="window.print()">列印 / PDF</button>
+    </div>
+  </div>
+  <div id="saveStatus"></div>
+
+  <section id="tab-ov" class="tab"></section>
+  <section id="tab-journal" class="tab"></section>
+  <section id="tab-budget" class="tab"></section>
+  <section id="tab-settle" class="tab"></section>
+  <section id="tab-abc" class="tab"></section>
+  <section id="tab-tuition" class="tab"></section>
+  <section id="tab-students" class="tab show"></section>
+  <section id="tab-networth" class="tab"></section>
+  <section id="tab-member" class="tab"></section>
+  <section id="tab-meetings" class="tab"></section>
+  <section id="tab-garden" class="tab"></section>
+  <section id="tab-risk" class="tab"></section>
+
+  <footer class="ft">MR. WISH 個案 · ABC 理財管理（管理版 v1）· 本機自動存檔，請定期「備份」保存 · 客戶版另製</footer>
+</div>
+
 <script>
-function checkPw(){
-  const v = document.getElementById('pwInput').value;
-  const err = document.getElementById('pwError');
-  if(v === '0702'){
-    document.getElementById('lockScreen').style.display='none';
-    err.style.display='none';
-  } else {
-    err.style.display='block';
-    document.getElementById('pwInput').value='';
-    document.getElementById('pwInput').focus();
+/* ============================================================
+   MR. WISH · ABC 理財管理（管理版 v1）
+   單檔 / 本機 localStorage 自動存檔 / 去識別化
+   ============================================================ */
+const KEY="wish_mgmt_v2", PWD="0702";
+
+/* ---------- 預設資料（去識別化種子） ---------- */
+const DEFAULT_DB = {
+  meta:{ year:2026, basis:"2026-05-22", dataVer:"2026.06.07d" },
+  ui:{ nameMask:false, stMonth:5, series:{net:true,anda:true,cash:true,realestate:false,other:false,loan:true} },
+  // ABC 月提撥目標（目前預算，可隨時編輯；八月再改）
+  abc:{ A:112086, B:16341, C:28036 },
+  open:{ A:0, B:0, C:0 },   // 各帳戶期初餘額（基準日，可在工具內補）
+  // 收支表預算（計畫）：每筆掛 A/B/C、類別、月 m、年一次性 y
+  budget:{
+    income:[
+      {n:"薪資所得（退休前任職國小）", note:"1–3 月，約 79,066/月", cat:"工作收入", acct:"C", m:0, y:734724},
+      {n:"補教收入",                   note:"預估月收（實收見補教收費頁）", cat:"補教收入", acct:"C", m:130000, y:0},
+      {n:"銀行利息收入",               note:"",                    cat:"理財收入", acct:"C", m:0, y:12000},
+      {n:"退休金（一次金）",           note:"列示；是否計入待定",   cat:"其他收入", acct:"C", m:0, y:0},
+    ],
+    expense:[
+      {n:"家用（食材／日常）",        note:"", cat:"基礎生活", acct:"A", m:20000, y:0},
+      {n:"水電瓦斯／管理費",          note:"", cat:"基礎生活", acct:"A", m:2685,  y:0},
+      {n:"交通（含加油）",            note:"", cat:"基礎生活", acct:"A", m:4300,  y:0},
+      {n:"通訊",                      note:"", cat:"基礎生活", acct:"A", m:2595,  y:0},
+      {n:"配偶生活費",                note:"", cat:"基礎生活", acct:"A", m:18000, y:0},
+      {n:"品味生活（休閒／健康／社交）",note:"",cat:"品味生活", acct:"A", m:7500,  y:0},
+      {n:"房貸",                      note:"2.185%，23 日扣款", cat:"償債", acct:"A", m:37415, y:0},
+      {n:"其他貸款",                  note:"", cat:"償債", acct:"A", m:10000, y:0},
+      {n:"撫育（書籍分期等）",        note:"", cat:"撫育", acct:"A", m:2120,  y:0},
+      {n:"所得稅",                    note:"", cat:"稅負", acct:"B", m:0, y:12000},
+      {n:"房屋稅／地價稅",            note:"", cat:"稅負", acct:"B", m:0, y:10874},
+      {n:"燃料／牌照稅",              note:"", cat:"稅負", acct:"B", m:0, y:4800},
+      {n:"年繳保費（壽險／產險）",    note:"", cat:"保費", acct:"B", m:0, y:60000},
+      {n:"進修／書費",                note:"", cat:"品味生活", acct:"B", m:0, y:25200},
+      {n:"安達變額年金（定期定額）",  note:"23,000/月",        cat:"儲蓄投資", acct:"C", m:23000, y:0},
+      {n:"南山儲蓄險",                note:"年繳",             cat:"儲蓄投資", acct:"C", m:0, y:19500},
+    ]
+  },
+  ledger:[],   // {id,date,kind:'in'|'out',acct,cat,item,amt,note}
+  tuition:{ auto:true, months:{1:64415,2:105930,3:130550,4:134333,5:117542,6:0,7:0,8:0,9:0,10:0,11:0,12:0}, entries:[] },
+  assets:[
+    {n:"薪轉戶",              note:"",            type:"現金", amt:102659, hist:[{date:"2026-03-06",amt:74774},{date:"2026-05-22",amt:102659}]},
+    {n:"主帳戶",              note:"",            type:"現金", amt:550312, hist:[{date:"2026-03-06",amt:461912},{date:"2026-05-22",amt:550312}]},
+    {n:"緊急預備金（定存）",  note:"目標 50 萬，已達成", type:"現金", amt:516893, hist:[{date:"2026-03-06",amt:516893},{date:"2026-05-22",amt:516893}]},
+    {n:"夫妻醫療帳戶",        note:"目標 50 萬／114 年 12 月", type:"現金", amt:0, hist:[]},
+    {n:"應收款（補教待收／在途）", note:"", type:"現金", amt:0, hist:[]},
+    {n:"安達變額年金",        note:"含益約 +42 萬", type:"投資", amt:3729412, hist:[{date:"2026-03-06",amt:3232948},{date:"2026-05-22",amt:3729412}]},
+    {n:"南山儲蓄險",          note:"60 萬",        type:"保險", amt:0, hist:[]},
+    {n:"自用不動產",          note:"自住",         type:"不動產", amt:10400000, hist:[]},
+  ],
+  loan:{ name:"房貸", rate:2.185, principal:8840000, ltv:"85%", start:"2022-11-23", end:"2042-11-23",
+    hist:[{date:"2026-01-27",bal:6319018},{date:"2026-03-06",bal:6293109},{date:"2026-05-22",bal:6241149}] },
+  otherLiab:[],
+  dreams:[ {name:"明年鳳凰會員預算", target:0, saved:0, monthly:0, note:"達標獎勵"} ],
+  snapshots:[
+    {date:"2026-03-06", asset:14686527, liab:6293109, net:8393418},
+    {date:"2026-05-22", asset:15299276, liab:6241149, net:9058127},
+  ],
+  meetings:[],
+  studentMonths:{
+    "2":[
+      {id:"m2-1",name:"詠綺",cls:"C1112",day:"二",rate:200,dates:"（2月）14.21",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-2",name:"晏竹",cls:"C1112",day:"二",rate:400,dates:"（二）14.21",sessions:2,hours:7.0,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m2-3",name:"力宏",cls:"C1075",day:"五",rate:200,dates:"（五）3.10.17.24",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-4",name:"泰均",cls:"C1075",day:"五",rate:400,dates:"（五）10.17.24",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-5",name:"柏涵",cls:"C1075",day:"五",rate:400,dates:"（五）3.10.17.24",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-6",name:"則諺",cls:"C1075",day:"五",rate:400,dates:"（五）3.10.17.24",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-7",name:"品諺",cls:"C1086",day:"六",rate:200,dates:"（六）A-4,11,15（-1.5）.25",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-8",name:"妍旻",cls:"C1086",day:"六",rate:400,dates:"（六）B-4.11.15.25",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-9",name:"又寧",cls:"C1086",day:"六",rate:400,dates:"(六)A-11,15.25",sessions:3,hours:10.5,book:0,disc:500,note:"",status:"在學"},
+      {id:"m2-10",name:"秉程",cls:"C1086",day:"六",rate:400,dates:"(六)A-4,11,15.25",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-11",name:"牧慈",cls:"C1096",day:"六",rate:200,dates:"(六)B-4.11.25",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-12",name:"詠淇",cls:"C1096",day:"六",rate:200,dates:"（六）B-11.18.25+111/1/28",sessions:4,hours:14.0,book:115,disc:15,note:"2月份空英$115",status:"在學"},
+      {id:"m2-13",name:"允睿",cls:"C1096",day:"六",rate:400,dates:"（六）B-4.11.18（-1.5）.25",sessions:4,hours:14.0,book:0,disc:600,note:"",status:"在學"},
+      {id:"m2-14",name:"定翰",cls:"C1096",day:"六",rate:400,dates:"（六）B-4.11.18.25",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-15",name:"渝恩",cls:"C1096",day:"六",rate:400,dates:"（六）B-4.11.25",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-16",name:"喆軒",cls:"C1096",day:"六",rate:400,dates:"（六）B-11.18.25",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-17",name:"瑀文",cls:"C1096",day:"六",rate:400,dates:"（六）B-4.11.18（-1.5）.25",sessions:4,hours:14.0,book:0,disc:600,note:"",status:"在學"},
+      {id:"m2-18",name:"詰閔",cls:"C1117",day:"日",rate:400,dates:"(日）A-5.12.19",sessions:3,hours:10.5,book:110,disc:510,note:"2月份解析雜誌$110",status:"在學"},
+      {id:"m2-19",name:"紜甄",cls:"C1117",day:"日",rate:400,dates:"(日）A-5.12.19.26",sessions:4,hours:14.0,book:0,disc:500,note:"",status:"在學"},
+      {id:"m2-20",name:"智崙",cls:"C1117",day:"日",rate:400,dates:"(日)A-5.12.19.26＋111/10/22",sessions:5,hours:17.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-21",name:"柏萱",cls:"C1107",day:"日",rate:400,dates:"(日）B-5.12.19＋1/29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-22",name:"芷瑄",cls:"C1107",day:"日",rate:400,dates:"(日）B-5.12.19.26",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m2-23",name:"雨芹",cls:"C1096",day:"日",rate:400,dates:"(日）12.19.26",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+    ],
+    "3":[
+      {id:"m3-1",name:"沛希",cls:"C1121",day:"一",rate:200,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-2",name:"知雄",cls:"C1121",day:"一",rate:400,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-3",name:"怡頤",cls:"C1121",day:"一",rate:400,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-4",name:"元元",cls:"C1121",day:"一",rate:400,dates:"2,9,16",sessions:3,hours:10.5,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m3-5",name:"天羽",cls:"C1121",day:"一",rate:400,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-6",name:"群善",cls:"C1121",day:"一",rate:400,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:500,note:"",status:"在學"},
+      {id:"m3-7",name:"家同",cls:"C1121",day:"一",rate:400,dates:"2,9,16,23",sessions:4,hours:14.0,book:0,disc:500,note:"",status:"在學"},
+      {id:"m3-8",name:"詠綺",cls:"C1115",day:"五",rate:200,dates:"6,13,20",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-9",name:"晏竹",cls:"C1115",day:"五",rate:400,dates:"6,20",sessions:2,hours:7.0,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m3-10",name:"婕羽",cls:"C1115",day:"五",rate:400,dates:"6,13,20",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-11",name:"詠稜",cls:"C1115",day:"五",rate:400,dates:"6,13,20",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-12",name:"彥妮",cls:"C1115",day:"五",rate:400,dates:"13,20",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-13",name:"柏宇",cls:"C1143",day:"三",rate:200,dates:"4,11,18,25",sessions:4,hours:12.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-14",name:"以恩",cls:"C1143",day:"三",rate:400,dates:"4,11,18,25",sessions:4,hours:12.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-15",name:"若妡",cls:"C1143",day:"三",rate:400,dates:"4,11,18,25",sessions:4,hours:12.0,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m3-16",name:"卉妤",cls:"C1135",day:"五",rate:400,dates:"7",sessions:1,hours:3.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-17",name:"柏鈞",cls:"C1135",day:"五",rate:400,dates:"7,14,21",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-18",name:"悅慈",cls:"C1135",day:"五",rate:400,dates:"7,14,21",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-19",name:"牧慈",cls:"C1096",day:"六",rate:400,dates:"7,14,21",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-20",name:"定翰",cls:"C1096",day:"六",rate:400,dates:"7,14,21",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-21",name:"舜喬",cls:"C1096",day:"六",rate:400,dates:"7,14,21",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-22",name:"杏傑",cls:"C1147",day:"日",rate:300,dates:"1,8,15,22",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-23",name:"若晴",cls:"C1147",day:"日",rate:400,dates:"1,8,15,22",sessions:4,hours:14.0,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m3-24",name:"同陽",cls:"C1147",day:"日",rate:400,dates:"1,15,22",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-25",name:"欣儒",cls:"C1147",day:"日",rate:400,dates:"1,8,15,22",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-26",name:"鍇新",cls:"C1147",day:"日",rate:400,dates:"1,8,15,22",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-27",name:"貝芸",cls:"C1157",day:"日",rate:300,dates:"1,8,15,22,29",sessions:5,hours:17.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-28",name:"玟玟",cls:"C1157",day:"日",rate:400,dates:"1,8,15,22,29",sessions:5,hours:17.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-29",name:"于甄",cls:"C1157",day:"日",rate:400,dates:"1,8,15,22,29",sessions:5,hours:17.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m3-30",name:"千雅",cls:"C1157",day:"日",rate:400,dates:"8,15,22,29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+    ],
+    "5":[
+      {id:"m5-1",name:"沛希",cls:"C1121",day:"一",rate:200,dates:"18,25",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-2",name:"知雄",cls:"C1121",day:"一",rate:400,dates:"4,25",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-3",name:"怡頤",cls:"C1121",day:"一",rate:400,dates:"18,25",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-4",name:"元元",cls:"C1121",day:"一",rate:400,dates:"18,25",sessions:2,hours:7.0,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m5-5",name:"天羽",cls:"C1121",day:"一",rate:400,dates:"4,18,25",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-6",name:"群善",cls:"C1121",day:"一",rate:400,dates:"4,25",sessions:2,hours:7.0,book:0,disc:500,note:"",status:"在學"},
+      {id:"m5-7",name:"家同",cls:"C1121",day:"一",rate:400,dates:"4,25",sessions:2,hours:7.0,book:0,disc:500,note:"",status:"在學"},
+      {id:"m5-8",name:"黃正",cls:"C1152",day:"二",rate:300,dates:"26",sessions:1,hours:3.0,book:165,disc:0,note:"雜誌＋小說",status:"在學"},
+      {id:"m5-9",name:"貫綸",cls:"C1152",day:"二",rate:400,dates:"26",sessions:1,hours:3.0,book:165,disc:0,note:"雜誌＋小說",status:"在學"},
+      {id:"m5-10",name:"欣沛",cls:"C1152",day:"二",rate:400,dates:"26",sessions:1,hours:3.0,book:165,disc:0,note:"雜誌＋小說",status:"在學"},
+      {id:"m5-11",name:"柏宇",cls:"C1143",day:"三",rate:200,dates:"6,13,20,27",sessions:4,hours:12.0,book:230,disc:0,note:"小說",status:"在學"},
+      {id:"m5-12",name:"以恩",cls:"C1143",day:"三",rate:400,dates:"6,13,20,27",sessions:4,hours:12.0,book:230,disc:0,note:"小說",status:"在學"},
+      {id:"m5-13",name:"若妡",cls:"C1143",day:"三",rate:400,dates:"6,13,20",sessions:3,hours:9.0,book:230,disc:1000,note:"小說",status:"在學"},
+      {id:"m5-14",name:"詠綺",cls:"C1115",day:"五",rate:200,dates:"1,15,22,29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-15",name:"晏竹",cls:"C1115",day:"五",rate:400,dates:"1,22,29",sessions:3,hours:10.5,book:0,disc:1000,note:"",status:"在學"},
+      {id:"m5-16",name:"婕羽",cls:"C1115",day:"五",rate:400,dates:"1,15,22,29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-17",name:"詠稜",cls:"C1115",day:"五",rate:400,dates:"1,15,22,29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-18",name:"彥妮",cls:"C1115",day:"五",rate:400,dates:"1,15,22,29",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-19",name:"卉妤",cls:"C1136",day:"六",rate:400,dates:"2,9",sessions:2,hours:7.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-20",name:"柏鈞",cls:"C1136",day:"六",rate:400,dates:"2,9,23",sessions:3,hours:10.5,book:165,disc:0,note:"雜誌",status:"在學"},
+      {id:"m5-21",name:"淯宸",cls:"C1136",day:"六",rate:400,dates:"23,30",sessions:2,hours:7.0,book:165,disc:0,note:"雜誌",status:"在學"},
+      {id:"m5-22",name:"悅慈",cls:"C1136",day:"六",rate:400,dates:"2,9,23,30",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-23",name:"牧慈",cls:"C1096",day:"六",rate:400,dates:"2,16,23,30",sessions:4,hours:14.0,book:158,disc:0,note:"模考",status:"在學"},
+      {id:"m5-24",name:"定翰",cls:"C1096",day:"六",rate:400,dates:"2,16,30",sessions:3,hours:10.5,book:158,disc:0,note:"模考",status:"在學"},
+      {id:"m5-25",name:"舜喬",cls:"C1096",day:"六",rate:400,dates:"2,16,23,30",sessions:4,hours:14.0,book:158,disc:0,note:"模考",status:"在學"},
+      {id:"m5-26",name:"若晴",cls:"C1147",day:"日",rate:400,dates:"3,17,24,31",sessions:4,hours:14.0,book:165,disc:1000,note:"雜誌",status:"在學"},
+      {id:"m5-27",name:"淯鈞",cls:"C1147",day:"日",rate:400,dates:"24,31",sessions:2,hours:7.0,book:393,disc:0,note:"小說＋雜誌",status:"在學"},
+      {id:"m5-28",name:"欣儒",cls:"C1147",day:"日",rate:400,dates:"3,17,24",sessions:3,hours:10.5,book:165,disc:0,note:"雜誌",status:"在學"},
+      {id:"m5-29",name:"鍇新",cls:"C1147",day:"日",rate:400,dates:"3,24",sessions:2,hours:7.0,book:165,disc:0,note:"雜誌",status:"在學"},
+      {id:"m5-30",name:"貝芸",cls:"C1157",day:"日",rate:300,dates:"10,17,24,31",sessions:4,hours:14.0,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-31",name:"玟玟",cls:"C1157",day:"日",rate:400,dates:"10,17,24,31",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-32",name:"于甄",cls:"C1157",day:"日",rate:400,dates:"17,24,31",sessions:3,hours:10.5,book:0,disc:0,note:"",status:"在學"},
+      {id:"m5-33",name:"蘇娮",cls:"C1157",day:"日",rate:400,dates:"24,31",sessions:2,hours:7.0,book:565,disc:0,note:"雜誌＋模考＋單字",status:"在學"},
+    ]
+  },
+  goals:[
+    {name:"緊急預備金",        target:500000,  cur:516893},
+    {name:"夫妻醫療帳戶",      target:500000,  cur:0},
+    {name:"退休投資（安達年金）",target:5000000,cur:3729412},
+    {name:"房貸清償（已還本金）",target:8840000,cur:2598851},
+  ],
+  // 安達定期定額穩健組合（2026 Q1）
+  invest:{
+    title:"安達天生贏家 Plus · 定期定額穩健組合（2026 Q1）",
+    funds:[
+      {asset:"股票型", area:"美國股票",     name:"美國藍籌股精選(3)", code:"TCUBC003", cur:"美元", w:25},
+      {asset:"股票型", area:"單一產業股票", name:"美國科技精選(3)",   code:"TCUNY001", cur:"美元", w:25},
+      {asset:"股票型", area:"新興市場股票", name:"新興市場精選(3)",   code:"TCUC017",  cur:"美元", w:25},
+      {asset:"債券型", area:"可轉債",       name:"美國可轉債精選(3)", code:"TCUSS009", cur:"美元", w:25},
+    ]
+  },
+  // 會員（未來區分 保戶／付費會員）與歷次資產增值盤點
+  member:{ name:"Mr. Wish", type:"保戶" },
+  assetReviews:[
+    {date:"2026-03-06", anda:3232948, cash:1053579, realestate:10400000, other:0, loan:6293109},
+    {date:"2026-05-22", anda:3729412, cash:1169864, realestate:10400000, other:0, loan:6241149},
+  ],
+  // 風險規劃賓士圖（三大支柱，可編輯金額）
+  risk:{
+    pillars:[
+      {key:"resp", name:"責任", color:"#185fa5", items:[
+        {name:"孝養費", need:0, have:0, note:"父母至約 80 歲"},
+        {name:"教育費", need:0, have:0, note:"至最小孩大學畢業"},
+        {name:"貸款", need:6241149, have:0, note:"至貸款期滿"},
+        {name:"生活費", need:0, have:0, note:"至少 10 年家庭開銷"},
+      ]},
+      {key:"med", name:"醫療", color:"#0f6e56", items:[
+        {name:"病房費", need:0, have:0, note:"每日病房差額×天數"},
+        {name:"看護費", need:0, have:0, note:"全日約 2,000/日"},
+        {name:"薪資補償", need:0, have:0, note:"住院日額補薪"},
+        {name:"醫療雜費", need:0, have:0, note:"合理額度"},
+      ]},
+      {key:"crit", name:"重病 / 失能", color:"#b0863f", items:[
+        {name:"重大疾病(癌症)", need:0, have:0, note:"2–5 年＋標靶 100–200 萬"},
+        {name:"意外 / 傷殘", need:0, have:0, note:"基本 300 萬"},
+        {name:"失能照護", need:0, have:0, note:"每月需求×12×年"},
+      ]},
+    ]
   }
+};
+
+let DB = clone(DEFAULT_DB);
+let TAB="ov", MODE="month", ANCHOR=startOfDay(new Date(2026,4,22));
+
+/* ---------- 共用 ---------- */
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+const fmt = n => (Math.round(+n||0)).toLocaleString("en-US");
+const parse = v => { const n=parseFloat(String(v).replace(/[, ]/g,"")); return isNaN(n)?0:n; };
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const $ = id => document.getElementById(id);
+function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
+function ymd(d){ const x=new Date(d); return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0"); }
+function dObj(s){ const [y,m,dd]=String(s).split("-").map(Number); return startOfDay(new Date(y,(m||1)-1,dd||1)); }
+function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
+const PAL=["#2e6b58","#b0863f","#2f6f93","#b05079","#7a8c4f","#9a6a3a","#5a7d8c","#a8772a","#6b8f71","#8a5a86"];
+
+/* ---------- 期間引擎 ---------- */
+function range(){
+  const a=startOfDay(ANCHOR); let s,e,label;
+  if(MODE==="day"){ s=new Date(a); e=new Date(a); label=ymd(a); }
+  else if(MODE==="week"){ const dow=(a.getDay()+6)%7; s=new Date(a); s.setDate(a.getDate()-dow); e=new Date(s); e.setDate(s.getDate()+6); label=ymd(s)+" ~ "+ymd(e); }
+  else if(MODE==="month"){ s=new Date(a.getFullYear(),a.getMonth(),1); e=new Date(a.getFullYear(),a.getMonth()+1,0); label=a.getFullYear()+" 年 "+(a.getMonth()+1)+" 月"; }
+  else if(MODE==="quarter"){ const q=Math.floor(a.getMonth()/3); s=new Date(a.getFullYear(),q*3,1); e=new Date(a.getFullYear(),q*3+3,0); label=a.getFullYear()+" 年 Q"+(q+1); }
+  else { const h=a.getMonth()<6?0:1; s=new Date(a.getFullYear(),h*6,1); e=new Date(a.getFullYear(),h*6+6,0); label=a.getFullYear()+" 年 "+(h?"下":"上")+"半年"; }
+  e.setHours(23,59,59,999);
+  const days=Math.round((startOfDay(e)-s)/86400000)+1;
+  return {s,e,days,label};
 }
-window.onload = function(){
-  setTimeout(()=>document.getElementById('pwInput').focus(), 200);
+// 各月與期間重疊的天數比例 → 用於補教與一次性的攤提
+function monthOverlap(){
+  const {s,e}=range(); const out={};
+  for(let m=1;m<=12;m++){
+    const y=s.getFullYear(); const ms=new Date(y,m-1,1), me=new Date(y,m,0);
+    const os=new Date(Math.max(ms,s)), oe=new Date(Math.min(me, startOfDay(e)));
+    const ov=Math.max(0, Math.round((startOfDay(oe)-startOfDay(os))/86400000)+1);
+    out[m]= ov>0 ? ov/daysInMonth(y,m) : 0;
+  }
+  return out;
 }
-</script>
+const periodMonths = () => range().days/30.44;       // 攤提經常性 m
+const periodYears  = () => range().days/365.25;       // 攤提一次性 y
 
+/* ---------- 實際金額（來自日記帳 ＋ 補教） ---------- */
+function inRange(dateStr){ const d=dObj(dateStr); const {s,e}=range(); return d>=s && d<=startOfDay(e); }
+function tuMonthTotal(m){ const e=DB.tuition.entries.filter(x=>+x.month===+m); return e.length? e.reduce((s,x)=>s+(+x.amt||0),0) : (+DB.tuition.months[m]||0); }
+function tuitionInPeriod(){ const ov=monthOverlap(); let t=0; for(let m=1;m<=12;m++) t+=tuMonthTotal(m)*ov[m]; return t; }
+function tuitionYearTotal(){ let t=0; for(let m=1;m<=12;m++) t+=tuMonthTotal(m); return t; }
+function actualIncome(){ let t=DB.ledger.filter(x=>x.kind==="in"&&inRange(x.date)).reduce((s,x)=>s+x.amt,0); if(DB.tuition.auto) t+=tuitionInPeriod(); return t; }
+function actualExpense(){ return DB.ledger.filter(x=>x.kind==="out"&&inRange(x.date)).reduce((s,x)=>s+x.amt,0); }
+// 期間預算（攤提）
+function budgetIncomePeriod(){ return DB.budget.income.reduce((s,it)=>s+(it.m*periodMonths())+(it.y*periodYears()),0) + (DB.tuition.auto?tuitionInPeriod():0); }
+function budgetExpensePeriod(){ return DB.budget.expense.reduce((s,it)=>s+(it.m*periodMonths())+(it.y*periodYears()),0); }
+// 帳戶餘額（期初 + 全期日記帳）
+function acctBalance(a){ const o=+DB.open[a]||0; const flow=DB.ledger.filter(x=>x.acct===a).reduce((s,x)=>s+(x.kind==="in"?x.amt:-x.amt),0); return o+flow; }
+function acctFlow(a){ const inn=DB.ledger.filter(x=>x.acct===a&&x.kind==="in"&&inRange(x.date)).reduce((s,x)=>s+x.amt,0); const out=DB.ledger.filter(x=>x.acct===a&&x.kind==="out"&&inRange(x.date)).reduce((s,x)=>s+x.amt,0); return {inn,out}; }
 
-<!-- 導覽列 -->
-<nav>
-  <div class="nav-brand">Mr. Wish 財務報告書</div>
-  <div class="nav-items">
-    <button class="nav-btn active" onclick="scrollTo('s1')">P1 快照</button>
-    <button class="nav-btn" onclick="scrollTo('s2')">P2 背景</button>
-    <button class="nav-btn" onclick="scrollTo('s3')">P3 收支</button>
-    <button class="nav-btn" onclick="scrollTo('s4')">P4 戰略</button>
-    <button class="nav-btn" onclick="scrollTo('s5')">P5 現金流</button>
-    <button class="nav-btn" onclick="scrollTo('s6')">P6 執行</button>
-    <button class="nav-btn" onclick="scrollTo('a1')">附錄一</button>
-    <button class="nav-btn" onclick="scrollTo('a2')">附錄二</button>
-    <button class="nav-btn" onclick="scrollTo('a3')">CFP建議</button>
-  </div>
-  <div class="nav-right">2026.05 · 馥芸財富學苑</div>
-</nav>
+/* ---------- 資產／負債／淨值 ---------- */
+const totalAsset = () => DB.assets.reduce((s,a)=>s+(+a.amt||0),0);
+function loanBalance(){ const h=DB.loan.hist; return h.length? (+h[h.length-1].bal||0) : 0; }
+const totalLiab = () => loanBalance() + DB.otherLiab.reduce((s,x)=>s+(+x.amt||0),0);
+const netWorth = () => totalAsset()-totalLiab();
 
-<main>
-
-<!-- P1 封面 -->
-<section class="slide" id="s1">
-  <div class="cover-grid anim">
-    <div class="cover-left">
-      <div class="cover-badge">個人財務報告書 · 周年檢視摘要</div>
-      <div class="cover-name">WISH</div>
-      <div class="cover-sub">先生</div>
-      <div class="cover-info">
-        <div class="cover-info-row"><span class="cover-info-key">年齡</span><span class="cover-info-val">65歲（2026年8月退休）</span></div>
-        <div class="cover-info-row"><span class="cover-info-key">職業</span><span class="cover-info-val">公立教師退休＋補教業</span></div>
-        <div class="cover-info-row"><span class="cover-info-key">退休</span><span class="cover-info-val">2026年8月 ✅ 正式退休</span></div>
-        <div class="cover-info-row"><span class="cover-info-key">顧問</span><span class="cover-info-val">財顧芸</span></div>
-      </div>
-      <div class="cover-footer">馥芸財富學苑 · 公勝財顧 · 機密文件</div>
-    </div>
-    <div class="cover-right">
-      <div class="cover-headline">財務健康快照</div>
-      <div class="cover-title">退休關鍵年<br>財富全面升級</div>
-      <div class="kpi-grid">
-        <div class="kpi-card accent">
-          <div class="kpi-label">家庭淨資產（2027年底估）</div>
-          <div class="kpi-value">1,453<span style="font-size:16px"> 萬</span></div>
-          <div class="kpi-sub">含一次金四水庫配置後</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">生息資產</div>
-          <div class="kpi-value">490<span style="font-size:16px"> 萬</span></div>
-          <div class="kpi-sub">安達帳戶含進攻水庫投入</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">負債資產比</div>
-          <div class="kpi-value">29.1<span style="font-size:16px">%</span></div>
-          <div class="kpi-sub">健康水位 ≦ 50% ✅</div>
-        </div>
-        <div class="kpi-card gold-c">
-          <div class="kpi-label">退休一次金</div>
-          <div class="kpi-value">202.8<span style="font-size:16px"> 萬</span></div>
-          <div class="kpi-sub">勞保 39.9萬 ＋ 公保 162.9萬</div>
-        </div>
-      </div>
-      <div class="timeline-bar">
-        <div class="tl-item"><span class="tl-year">2023</span><span class="tl-val">616萬</span></div>
-        <span class="tl-arrow">→</span>
-        <div class="tl-item"><span class="tl-year">2024</span><span class="tl-val">662萬</span></div>
-        <span class="tl-arrow">→</span>
-        <div class="tl-item"><span class="tl-year">2025</span><span class="tl-val">1,172萬</span></div>
-        <span class="tl-arrow">→</span>
-        <div class="tl-item"><span class="tl-year">2027預估</span><span class="tl-val">1,453萬</span></div>
-        <span class="tl-badge">四年 +136%</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- P2 家庭背景 -->
-<section class="slide slide-light" id="s2">
-  <div class="section-header anim">
-    <div class="section-num">02</div>
-    <div><div class="section-title">規劃背景</div><div class="section-sub">WISH 家庭 · 客戶背景與家庭成員</div></div>
-  </div>
-  <div class="family-grid anim">
-    <div>
-      <!-- 家庭樹 -->
-      <div class="family-tree">
-        <div class="tree-title">家庭樹</div>
-        <div class="tree-container">
-          <div class="tree-row parents">
-            <div class="person-node">
-              <div class="person-avatar main">W<div class="now-badge">NOW</div></div>
-              <div class="person-info">
-                <div class="person-name">Mr. Wish</div>
-                <div class="person-desc">65歲 · 退休教師<br>補教至70歲</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;padding:0 8px;margin-top:20px;">
-              <div style="width:40px;height:2px;background:var(--navy)"></div>
-            </div>
-            <div class="person-node">
-              <div class="person-avatar spouse">配</div>
-              <div class="person-info">
-                <div class="person-name">配偶</div>
-                <div class="person-desc">家管</div>
-                <div class="person-tag">保障需補強</div>
-              </div>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;margin:4px 0;">
-            <div style="width:2px;height:20px;background:var(--gray2)"></div>
-            <div style="width:160px;height:2px;background:var(--gray2)"></div>
-            <div style="display:flex;justify-content:space-between;width:160px">
-              <div style="width:2px;height:16px;background:var(--gray2)"></div>
-              <div style="width:2px;height:16px;background:var(--gray2)"></div>
-            </div>
-          </div>
-          <div class="tree-row children">
-            <div class="person-node">
-              <div class="person-avatar child">長</div>
-              <div class="person-info">
-                <div class="person-name">長子</div>
-                <div class="person-desc">38歲 · 已婚<br>成年獨立</div>
-              </div>
-            </div>
-            <div style="width:32px"></div>
-            <div class="person-node">
-              <div class="person-avatar child">次</div>
-              <div class="person-info">
-                <div class="person-name">次子</div>
-                <div class="person-desc">25歲<br>成年獨立</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="values-row">
-          <div class="value-chip" style="background:var(--teal)">安心</div>
-          <div class="value-chip" style="background:var(--navy)">責任</div>
-          <div class="value-chip" style="background:var(--purple)">傳承</div>
-          <div class="value-chip" style="background:var(--red)">愛</div>
-        </div>
-      </div>
-    </div>
-    <div class="concerns-col">
-      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">擔心與困擾</div>
-      <div class="concern-card" style="border-color:var(--red)">
-        <div class="concern-num" style="background:var(--red)">1</div>
-        <div class="concern-title" style="color:var(--red)">房貸長尾壓力</div>
-        <div class="concern-desc">餘額約644萬，需繳至80歲，70歲後單靠月退俸壓力大</div>
-      </div>
-      <div class="concern-card" style="border-color:var(--purple)">
-        <div class="concern-num" style="background:var(--purple)">2</div>
-        <div class="concern-title" style="color:var(--purple)">醫療照護隱憂</div>
-        <div class="concern-desc">配偶保障0元，重大傷病缺口108萬（0%達標），最高優先補強</div>
-      </div>
-      <div class="concern-card" style="border-color:var(--gold)">
-        <div class="concern-num" style="background:var(--gold)">3</div>
-        <div class="concern-title" style="color:var(--gold)">補教收入遞減</div>
-        <div class="concern-desc">70歲後兼職停止，年缺口約65萬，需提前建立接班現金流</div>
-      </div>
-      <div style="font-size:13px;font-weight:700;color:var(--teal);margin-top:8px;margin-bottom:8px">期待與夢想</div>
-      <div class="dreams-row">
-        <div class="dream-chip" style="background:var(--teal)"><div class="dream-icon">溫</div><div class="dream-text">礁溪鳳凰會<br>養身品味</div></div>
-        <div class="dream-chip" style="background:var(--purple)"><div class="dream-icon">車</div><div class="dream-text">65歲換車<br>圓夢水庫</div></div>
-        <div class="dream-chip" style="background:var(--navy)"><div class="dream-icon">增</div><div class="dream-text">資產增值<br>複利滾動</div></div>
-        <div class="dream-chip" style="background:var(--gold)"><div class="dream-icon">承</div><div class="dream-text">家庭傳承<br>遺囑規劃</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- P3 收支 -->
-<section class="slide slide-white" id="s3">
-  <div class="section-header anim">
-    <div class="section-num">03</div>
-    <div><div class="section-title">收支全覽　2026 vs 2027</div><div class="section-sub">WISH 家庭 · 財務現況對照</div></div>
-  </div>
-  <div class="compare-wrap anim">
-    <div class="compare-card">
-      <div class="compare-head y2026">2026 年（實際）</div>
-      <table class="compare-table">
-        <tr><td>月退俸</td><td class="right">559,956</td></tr>
-        <tr><td>補教收入（11萬）</td><td class="right">1,320,000</td></tr>
-        <tr><td>利息</td><td class="right">12,000</td></tr>
-        <tr class="total-row"><td>年度總收入</td><td class="right">1,891,956</td></tr>
-        <tr><td>A 基礎生活</td><td class="right">500,160</td></tr>
-        <tr><td>B 品味休閒</td><td class="right">141,200</td></tr>
-        <tr><td>D/E 家庭責任</td><td class="right">690,420</td></tr>
-        <tr><td>F/G 保險投入</td><td class="right">399,058</td></tr>
-        <tr class="total-row"><td>年度總支出</td><td class="right">1,765,973</td></tr>
-        <tr class="highlight"><td>帳面淨結餘</td><td class="right num-pos">+125,983</td></tr>
-        <tr class="highlight"><td>實質可支配</td><td class="right num-pos">+401,983</td></tr>
-      </table>
-    </div>
-    <div class="compare-card">
-      <div class="compare-head y2027">2027 年（預算）</div>
-      <table class="compare-table">
-        <tr><td>月退俸</td><td class="right">559,956</td></tr>
-        <tr><td>補教收入（10萬底線）</td><td class="right">1,200,000</td></tr>
-        <tr><td>一次金（2026/8入帳）</td><td class="right num-pos">+2,027,583</td></tr>
-        <tr class="total-row"><td>年度總收入（含一次金）</td><td class="right">3,799,539</td></tr>
-        <tr><td>A 基礎生活</td><td class="right">500,160</td></tr>
-        <tr><td>B 品味（含鳳凰會）</td><td class="right num-warn">183,200</td></tr>
-        <tr><td>D/E 家庭責任</td><td class="right">690,420</td></tr>
-        <tr><td>F/G 保險投入</td><td class="right">399,058</td></tr>
-        <tr><td>一次金四水庫（專款）</td><td class="right num-warn">2,027,583</td></tr>
-        <tr class="total-row"><td>年度總支出</td><td class="right">3,800,421</td></tr>
-        <tr class="highlight"><td>帳面淨結餘（日常）</td><td class="right num-neg">-36,017（預撥）</td></tr>
-        <tr class="highlight"><td>實質可支配</td><td class="right num-pos">+239,983</td></tr>
-      </table>
-    </div>
-  </div>
-  <div class="asset-compare anim">
-    <div class="compare-card">
-      <div class="compare-head y2026">2026年5月　資產負債</div>
-      <table class="compare-table">
-        <tr><td>土銀活存＋定存</td><td class="right">1,169,864</td></tr>
-        <tr><td>安達變額年金</td><td class="right">3,729,412</td></tr>
-        <tr><td>自住不動產</td><td class="right">13,500,000</td></tr>
-        <tr class="subtotal"><td>資產合計</td><td class="right">18,399,276</td></tr>
-        <tr><td style="color:var(--red)">房貸負債</td><td class="right num-neg">-6,440,000</td></tr>
-        <tr class="total-row"><td>家庭淨資產</td><td class="right num-pos">11,959,276</td></tr>
-      </table>
-    </div>
-    <div class="compare-card">
-      <div class="compare-head y2027">2027年底（估）　資產負債</div>
-      <table class="compare-table">
-        <tr><td>土銀活存＋定存</td><td class="right">1,169,864</td></tr>
-        <tr><td>防禦水庫（新設）</td><td class="right num-pos">+500,000</td></tr>
-        <tr><td>圓夢水庫（新設）</td><td class="right num-pos">+450,000</td></tr>
-        <tr><td>安達變額年金（估）</td><td class="right num-pos">4,905,412</td></tr>
-        <tr><td>自住不動產</td><td class="right">13,500,000</td></tr>
-        <tr class="subtotal"><td>資產合計</td><td class="right">20,525,276</td></tr>
-        <tr><td style="color:var(--red)">房貸負債</td><td class="right num-neg">-5,991,020</td></tr>
-        <tr><td style="color:var(--green-dk)">親友借款</td><td class="right num-pos">0（已清償）</td></tr>
-        <tr class="total-row"><td>家庭淨資產</td><td class="right num-pos">14,534,256 ▲+275萬</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- P4 戰略地圖 -->
-<section class="slide slide-light" id="s4">
-  <div class="section-header anim">
-    <div class="section-num">04</div>
-    <div><div class="section-title">全生涯三階段戰略地圖</div><div class="section-sub">WISH 家庭 · 退休規劃</div></div>
-  </div>
-  <div class="strategy-phases anim">
-    <div class="phase-card">
-      <div class="phase-head" style="background:var(--teal);color:white">
-        <div class="phase-head-title">第一階段　65-70 歲</div>
-        <div class="phase-head-name">雙薪黃金期</div>
-      </div>
-      <div class="phase-body">
-        <div class="phase-item">月退俸 4.66萬 / 月（精算確認）</div>
-        <div class="phase-item">補教年收 120萬（10萬底線）</div>
-        <div class="phase-item">進攻水庫 90萬複利累積</div>
-        <div class="phase-item">一次金四水庫執行完畢</div>
-      </div>
-    </div>
-    <div class="phase-card">
-      <div class="phase-head" style="background:var(--gold);color:white">
-        <div class="phase-head-title">第二階段　70-79 歲</div>
-        <div class="phase-head-name">危險十年</div>
-      </div>
-      <div class="phase-body">
-        <div class="phase-item">補教收入歸零</div>
-        <div class="phase-item">年缺口約 65萬</div>
-        <div class="phase-item">安達帳戶有紀律提領</div>
-        <div class="phase-item">投資帳戶扮演補現金流</div>
-      </div>
-    </div>
-    <div class="phase-card">
-      <div class="phase-head" style="background:var(--purple);color:white">
-        <div class="phase-head-title">第三階段　80歲後</div>
-        <div class="phase-head-name">終極王牌</div>
-      </div>
-      <div class="phase-body">
-        <div class="phase-item">房貸全數結清</div>
-        <div class="phase-item">現金流由負轉正</div>
-        <div class="phase-item">以房養老備而不用</div>
-        <div class="phase-item">傳承規劃啟動</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 時間軸 -->
-  <div class="anim" style="position:relative;margin:0 0 28px;padding:32px 0 8px">
-    <div style="position:relative;height:60px">
-      <div style="position:absolute;top:28px;left:0;right:0;height:4px;background:var(--gray2);border-radius:99px"></div>
-      <div style="position:absolute;top:28px;left:0;width:3%;height:4px;background:var(--teal);border-radius:99px"></div>
-      <!-- 階段色帶 -->
-      <div style="position:absolute;top:14px;left:0;width:32%;height:18px;background:rgba(13,148,136,0.15);border-radius:3px;border:1px solid rgba(13,148,136,0.3)"></div>
-      <div style="position:absolute;top:14px;left:32%;width:36%;height:18px;background:rgba(220,38,38,0.12);border-radius:3px;border:1px solid rgba(220,38,38,0.25)"></div>
-      <div style="position:absolute;top:14px;left:68%;right:0;height:18px;background:rgba(109,40,217,0.12);border-radius:3px;border:1px solid rgba(109,40,217,0.25)"></div>
-      <!-- 節點 -->
-      <div style="position:absolute;left:0;top:18px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px">
-        <div style="width:22px;height:22px;border-radius:50%;background:var(--teal);border:3px solid var(--teal);display:flex;align-items:center;justify-content:center"><div style="width:6px;height:6px;border-radius:50%;background:white"></div></div>
-        <div style="font-size:12px;font-weight:700;color:var(--teal);white-space:nowrap;margin-top:4px">65歲</div>
-        <div style="font-size:10px;color:var(--gray1);font-family:'DM Mono',monospace">2026</div>
-      </div>
-      <div style="position:absolute;left:32%;top:18px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px">
-        <div style="width:18px;height:18px;border-radius:50%;background:white;border:3px solid var(--gold)"></div>
-        <div style="font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap;margin-top:4px">70歲</div>
-        <div style="font-size:10px;color:var(--gray1);font-family:'DM Mono',monospace">2031</div>
-      </div>
-      <div style="position:absolute;left:68%;top:18px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px">
-        <div style="width:18px;height:18px;border-radius:50%;background:white;border:3px solid var(--gray1)"></div>
-        <div style="font-size:12px;font-weight:700;color:var(--gray1);white-space:nowrap;margin-top:4px">75歲</div>
-        <div style="font-size:10px;color:var(--gray1);font-family:'DM Mono',monospace">2036</div>
-      </div>
-      <div style="position:absolute;right:0;top:18px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:4px">
-        <div style="width:18px;height:18px;border-radius:50%;background:white;border:3px solid var(--purple)"></div>
-        <div style="font-size:12px;font-weight:700;color:var(--purple);white-space:nowrap;margin-top:4px">80歲</div>
-        <div style="font-size:10px;color:var(--gray1);font-family:'DM Mono',monospace">2041</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 四水庫 -->
-  <div class="anim">
-    <div class="buckets-title">202.8萬退休一次金排兵布陣（2026年8月執行完畢）</div>
-    <div class="buckets-grid">
-      <div class="bucket-card">
-        <div class="bucket-head" style="background:var(--red)"><span class="bucket-name">🛡️ 防禦水庫</span><span class="bucket-tag">最優先</span></div>
-        <div class="bucket-body"><div class="bucket-amount" style="color:var(--red)">50萬</div><div class="bucket-desc">配偶醫療自保基金<br>高流動性活存專戶</div></div>
-      </div>
-      <div class="bucket-card">
-        <div class="bucket-head" style="background:var(--purple)"><span class="bucket-name">🚗 圓夢水庫</span><span class="bucket-tag">專款專用</span></div>
-        <div class="bucket-body"><div class="bucket-amount" style="color:var(--purple)">45萬</div><div class="bucket-desc">65歲換車計畫<br>專款不動用</div></div>
-      </div>
-      <div class="bucket-card">
-        <div class="bucket-head" style="background:var(--gold)"><span class="bucket-name">🔓 減壓水庫</span><span class="bucket-tag">已執行</span></div>
-        <div class="bucket-body"><div class="bucket-amount" style="color:var(--gold)">18萬</div><div class="bucket-desc">清償親友借款<br>私債歸零 ✅</div></div>
-      </div>
-      <div class="bucket-card">
-        <div class="bucket-head" style="background:var(--teal)"><span class="bucket-name">📈 進攻水庫</span><span class="bucket-tag">5年複利</span></div>
-        <div class="bucket-body"><div class="bucket-amount" style="color:var(--teal)">89.8萬</div><div class="bucket-desc">投入安達不領配息<br>複利滾動5年</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- P5 現金流 -->
-<section class="slide slide-white" id="s5">
-  <div class="section-header anim">
-    <div class="section-num">05</div>
-    <div><div class="section-title">現金流壓力測試 × 複利效益</div><div class="section-sub">WISH 家庭 · 財務模擬</div></div>
-  </div>
-  <div class="cashflow-grid anim">
-    <div>
-      <div class="chart-container">
-        <div class="chart-title">65-84歲 年度淨現金流模擬</div>
-        <div class="chart-sub">假設：月退俸4.66萬＋補教至70歲＋進攻水庫90萬</div>
-        <div style="position:relative">
-          <div class="bar-chart" id="barChart"></div>
-          <div class="bar-zero-line"></div>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:8px;font-size:10px">
-          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:var(--teal);border-radius:2px"></div>正值（黃金期＋80後）</div>
-          <div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:var(--red);border-radius:2px"></div>缺口（危險十年）</div>
-        </div>
-      </div>
-      <div class="warning-box">
-        <div class="warning-title">⚠ 危險十年核心結論</div>
-        <div class="warning-desc">安達帳戶預估達490萬，可安穩支撐70-79歲累計提領需求，帳戶不歸零</div>
-      </div>
-    </div>
-    <div>
-      <div class="chart-container">
-        <div class="chart-title">「不領配息 vs 領配息」5年本金比較</div>
-        <div class="chart-sub">本金100萬 · 年化5% · 配息率60%</div>
-        <svg viewBox="0 0 300 120" style="width:100%;height:120px">
-          <polyline points="0,100 50,88 100,76 150,64 200,52 250,38 300,24" fill="none" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/>
-          <polyline points="0,100 50,92 100,84 150,77 200,70 250,63 300,57" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-dasharray="4,2"/>
-          <text x="305" y="28" font-size="9" fill="#0D9488">127.6萬</text>
-          <text x="305" y="61" font-size="9" fill="#D97706">110.4萬</text>
-        </svg>
-        <div style="display:flex;gap:12px;font-size:10px;margin-top:4px">
-          <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:2px;background:var(--teal)"></div>複利滾動（不領配息）</div>
-          <div style="display:flex;align-items:center;gap:4px"><div style="width:16px;height:2px;background:var(--gold);border-top:2px dashed var(--gold)"></div>月配息策略</div>
-        </div>
-      </div>
-      <div class="insight-grid">
-        <div class="insight-card">
-          <div class="insight-num">+17.2萬</div>
-          <div class="insight-label">5年後本金差距</div>
-          <div class="insight-sub">複利多出</div>
-        </div>
-        <div class="insight-card">
-          <div class="insight-num">+0.86萬/年</div>
-          <div class="insight-label">70歲後每年多產生</div>
-          <div class="insight-sub">被動緩衝收益</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- P6 執行計畫 -->
-<section class="slide slide-light" id="s6">
-  <div class="section-header anim">
-    <div class="section-num">06</div>
-    <div><div class="section-title">優化建議 &amp; 執行計畫</div><div class="section-sub">WISH 家庭 · 規劃建議</div></div>
-  </div>
-  <div class="rfp-grid anim">
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">RFP 視角：需關注的潛藏風險</div>
-      <div class="risk-list">
-        <div class="risk-card" style="border-color:var(--red)"><div class="risk-badge" style="background:var(--red)">高</div><div><div class="risk-title">重大傷病保障 0%</div><div class="risk-desc">108萬缺口未補強，建議評估附約可行性</div></div></div>
-        <div class="risk-card" style="border-color:var(--red)"><div class="risk-badge" style="background:var(--red)">高</div><div><div class="risk-title">醫療雜費僅 8% 達標</div><div class="risk-desc">實支實付嚴重不足，一旦住院自費衝擊大</div></div></div>
-        <div class="risk-card" style="border-color:var(--gold)"><div class="risk-badge" style="background:var(--gold)">中</div><div><div class="risk-title">配偶醫療保障 0 元</div><div class="risk-desc">防禦水庫50萬已設立，長照資金仍需持續累積</div></div></div>
-        <div class="risk-card" style="border-color:var(--gold)"><div class="risk-badge" style="background:var(--gold)">中</div><div><div class="risk-title">補教收入提前終止</div><div class="risk-desc">67歲壓力測試尚未執行，建議確認</div></div></div>
-        <div class="risk-card" style="border-color:var(--teal)"><div class="risk-badge" style="background:var(--teal)">低</div><div><div class="risk-title">月退俸購買力侵蝕</div><div class="risk-desc">2%通膨→80歲實質購買力降17.5%</div></div></div>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:8px">立即行動清單 ＋ 執行檢核</div>
-      <!-- 執行時程軸 -->
-      <div style="position:relative;padding:0 0 24px">
-        <div style="position:relative;height:40px">
-          <div style="position:absolute;top:12px;left:0;right:0;height:3px;background:var(--gray2);border-radius:99px"></div>
-          <div style="position:absolute;top:12px;left:0;width:18%;height:3px;background:var(--teal);border-radius:99px"></div>
-          <div style="position:absolute;left:0;top:6px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center">
-            <div style="width:15px;height:15px;border-radius:50%;background:var(--teal);border:2px solid var(--teal)"></div>
-            <div style="font-size:9px;font-weight:600;color:var(--teal);margin-top:4px;white-space:nowrap">2026/8</div>
-          </div>
-          <div style="position:absolute;left:33%;top:6px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center">
-            <div style="width:15px;height:15px;border-radius:50%;background:white;border:2px solid var(--purple)"></div>
-            <div style="font-size:9px;font-weight:600;color:var(--purple);margin-top:4px;white-space:nowrap">2026/Q4</div>
-          </div>
-          <div style="position:absolute;left:66%;top:6px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center">
-            <div style="width:15px;height:15px;border-radius:50%;background:white;border:2px solid var(--gold)"></div>
-            <div style="font-size:9px;font-weight:600;color:var(--gold);margin-top:4px;white-space:nowrap">年底</div>
-          </div>
-          <div style="position:absolute;right:0;top:6px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center">
-            <div style="width:15px;height:15px;border-radius:50%;background:white;border:2px solid var(--orange)"></div>
-            <div style="font-size:9px;font-weight:600;color:var(--orange);margin-top:4px;white-space:nowrap">2028+</div>
-          </div>
-        </div>
-      </div>
-      <div class="action-list">
-        <div class="action-item done"><div class="action-when" style="background:var(--teal)">8月<small>立即</small></div><div class="action-content"><div class="action-title">一次金四水庫執行（2026/8）</div><div class="action-desc">勞保39.9萬＋公保162.9萬，依水庫分配完畢</div></div><div class="action-check">✅</div></div>
-        <div class="action-item done"><div class="action-when" style="background:var(--teal)">8月<small>立即</small></div><div class="action-content"><div class="action-title">ABC帳戶架構正式啟動（2026/8）</div><div class="action-desc">A月開銷+B年度費用+C財務目標槽</div></div><div class="action-check">✅</div></div>
-        <div class="action-item"><div class="action-when" style="background:var(--purple)">Q4<small>近期</small></div><div class="action-content"><div class="action-title">進攻水庫89.8萬投入安達</div><div class="action-desc">不領配息模式，5年複利滾動</div></div><div class="action-check">☐</div></div>
-        <div class="action-item"><div class="action-when" style="background:var(--gold)">年底<small>近期</small></div><div class="action-content"><div class="action-title">鳳凰會達標續會檢視</div><div class="action-desc">C帳戶是否已回補$42,000確認</div></div><div class="action-check">☐</div></div>
-        <div class="action-item"><div class="action-when" style="background:var(--orange)">2028<small>中期</small></div><div class="action-content"><div class="action-title">重大傷病附約補強</div><div class="action-desc">詢問保險公司可行性，評估保費</div></div><div class="action-check">☐</div></div>
-        <div class="action-item"><div class="action-when" style="background:var(--navy)">65歲<small>中期</small></div><div class="action-content"><div class="action-title">圓夢水庫換車計畫</div><div class="action-desc">$450,000專款動用，不影響日常</div></div><div class="action-check">☐</div></div>
-      </div>
-      <div class="goodlife">GOOD LIFE · 美好的未來，需要對的方法與自己的努力 · 落實執行，享受富足養老人生</div>
-    </div>
-  </div>
-</section>
-
-<!-- 附錄一 -->
-<section class="slide slide-white" id="a1">
-  <div class="section-header anim">
-    <div class="section-num" style="font-size:28px;opacity:0.3">A1</div>
-    <div><div class="section-title">退休一次金精算書確認</div><div class="section-sub">PART A · 115年8月1日基準</div></div>
-  </div>
-  <div class="annex-grid anim">
-    <div>
-      <table class="data-table">
-        <tr><th colspan="2">月退俸精算</th></tr>
-        <tr><td>舊制月退休金（A）</td><td class="right">5,245 元</td></tr>
-        <tr><td>月撫慰金（B）</td><td class="right">0 元</td></tr>
-        <tr><td>新制月退休金（C）</td><td class="right">41,418 元</td></tr>
-        <tr class="total-row"><td>每月退休金合計</td><td class="right">46,663 元</td></tr>
-      </table>
-    </div>
-    <div>
-      <table class="data-table">
-        <tr><th colspan="2">一次性給付精算</th></tr>
-        <tr><td>其他現金補償（I）</td><td class="right">25,062 元</td></tr>
-        <tr><td>公保老年給付（K）</td><td class="right">1,603,872 元</td></tr>
-        <tr><td>勞保老年一次金</td><td class="right">398,649 元</td></tr>
-        <tr class="total-row"><td>兩筆一次金合計</td><td class="right num-pos">2,027,583 元</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- 附錄二 -->
-<section class="slide slide-light" id="a2">
-  <div class="section-header anim">
-    <div class="section-num" style="font-size:28px;opacity:0.3">A2</div>
-    <div><div class="section-title">安達保單持倉明細</div><div class="section-sub">PART B · 2026/05/22 最新</div></div>
-  </div>
-  <div class="anim" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
-    <div class="chart-container"><div class="kpi-label">帳戶總價值</div><div style="font-family:'DM Mono',monospace;font-size:28px;color:var(--green-dk);font-weight:500">372.9萬</div><div class="kpi-sub" style="color:var(--gray1)">2026/5/22最新</div></div>
-    <div class="chart-container"><div class="kpi-label">整體參考報酬率</div><div style="font-family:'DM Mono',monospace;font-size:28px;color:var(--navy);font-weight:500">+24.78%</div><div class="kpi-sub" style="color:var(--gray1)">截至2026/2基準</div></div>
-    <div class="chart-container"><div class="kpi-label">累計已繳保費</div><div style="font-family:'DM Mono',monospace;font-size:28px;color:var(--navy);font-weight:500">285.7萬</div><div class="kpi-sub" style="color:var(--gray1)">生效日 2023/3/1</div></div>
-  </div>
-  <div class="anim">
-    <table class="data-table">
-      <tr><th>代碼</th><th>標的名稱</th><th>幣別</th><th>淨投資(台幣)</th><th>帳戶價值(台幣)</th><th>報酬率</th><th>建議</th></tr>
-      <tr><td>EQTAL047</td><td>安聯台灣智慧基金</td><td>台幣</td><td class="right">29.1萬</td><td class="right">72.8萬</td><td class="right" style="color:var(--gold);font-weight:700">+150.2%</td><td style="color:var(--gold);font-weight:600">部分獲利了結</td></tr>
-      <tr><td>TCJNM001</td><td>日經股市精選</td><td>日圓</td><td class="right">26.7萬</td><td class="right">34.2萬</td><td class="right" style="color:var(--green-dk)">+28.1%</td><td style="color:var(--teal)">持續持有</td></tr>
-      <tr><td>TCUBC002</td><td>美洲公司債精選</td><td>美元</td><td class="right">63.9萬</td><td class="right">63.4萬</td><td class="right" style="color:var(--red);font-weight:700">+0.007%</td><td style="color:var(--red);font-weight:600">評估轉換</td></tr>
-      <tr><td>TCUBC003</td><td>美國藍籌股精選</td><td>美元</td><td class="right">44.4萬</td><td class="right">53.9萬</td><td class="right" style="color:var(--green-dk)">+21.4%</td><td style="color:var(--teal)">持續持有</td></tr>
-      <tr><td>TCUBC027</td><td>美洲金融產業精選</td><td>美元</td><td class="right">32.1萬</td><td class="right">32.8萬</td><td class="right" style="color:var(--green-dk)">+2.2%</td><td style="color:var(--teal)">持續持有</td></tr>
-      <tr><td>TCUNY001</td><td>美洲科技精選</td><td>美元</td><td class="right">33.1萬</td><td class="right">41.8萬</td><td class="right" style="color:var(--green-dk)">+26.3%</td><td style="color:var(--teal)">持續持有</td></tr>
-      <tr><td>TCUSS009</td><td>美國可轉債精選</td><td>美元</td><td class="right">59.2萬</td><td class="right">74.0萬</td><td class="right" style="color:var(--green-dk)">+25.0%</td><td style="color:var(--teal)">持續持有</td></tr>
-    </table>
-    <div style="background:var(--navy);color:var(--teal-lt);font-size:11px;padding:10px 14px;border-radius:6px;margin-top:12px">
-      持倉結構：台股 19.5% · 日股 9.2% · 美股 34.2% · 美債 37.1%｜建議：退休前逐步調整至股40%/債60%，台股+150%部位優先部分轉換
-    </div>
-  </div>
-</section>
-
-<!-- 附錄三 CFP 建議 -->
-<section class="slide slide-white" id="a3">
-  <div class="section-header anim">
-    <div class="section-num" style="font-size:28px;opacity:0.3">A3</div>
-    <div><div class="section-title">CFP 顧問建議行動清單</div><div class="section-sub">PART C · 建議供參考，最終由您決定</div></div>
-  </div>
-  <div class="cfp-info-box anim">
-    以下建議均基於 CFP 專業評估，每一項皆為「供您參考」的方向，<strong>最終決定權完全在您</strong>。財顧的角色是提供數據與分析，讓您做出最適合自己的選擇。
-  </div>
-  <div class="cfp-grid anim" id="cfpGrid"></div>
-  <div class="cfp-declare anim">
-    CFP 聲明：以上建議基於客戶現有財務資訊與 CFP 專業判斷，僅供參考，不構成投資要約。<br>最終決定由客戶本人做出，財顧尊重並支持每一個選擇。
-  </div>
-
-  <!-- 財務健康評分 -->
-  <div style="margin-top:28px" class="anim">
-    <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:14px">財務健康評分儀表板</div>
-    <div class="gauge-list" id="gaugeList"></div>
-  </div>
-
-  <div style="text-align:right;margin-top:24px;padding-top:16px;border-top:1px solid var(--gray2);font-size:11px;color:var(--gray1)" class="anim">
-    公勝財顧：財顧芸　｜　馥芸財富學苑　｜　2026年5月
-  </div>
-</section>
-
-</main>
-
-<script>
-// 導覽高亮
-function scrollTo(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+/* ---------- 環圈圖 ---------- */
+function donut(data, top, bot, size){
+  size=size||150; const R=Math.round(size*0.42), sw=Math.round(size*0.14), C=2*Math.PI*R, cx=size/2, cy=size/2;
+  const items=data.filter(d=>d.val>0); const tot=items.reduce((s,d)=>s+d.val,0);
+  if(tot<=0) return `<svg width="${size}" height="${size}"><circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#ece4d4" stroke-width="${sw}"/></svg>`;
+  let off=0, segs="";
+  items.forEach((d,i)=>{ const len=d.val/tot*C; segs+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${d.color||PAL[i%PAL.length]}" stroke-width="${sw}" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`; off+=len; });
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${segs}<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="12" fill="#5c6b62" font-family="Noto Serif TC">${top||""}</text><text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="14" font-weight="900" fill="#22312c" font-family="Noto Serif TC">${bot||""}</text></svg>`;
 }
-const sections = document.querySelectorAll('section[id]');
-const navBtns = document.querySelectorAll('.nav-btn');
-const sectionIds = ['s1','s2','s3','s4','s5','s6','a1','a2','a3'];
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      const idx = sectionIds.indexOf(e.target.id);
-      navBtns.forEach((b,i) => b.classList.toggle('active', i===idx));
-    }
-  });
-}, { threshold: 0.4 });
-sections.forEach(s => observer.observe(s));
+function legend(data){ const tot=data.reduce((s,d)=>s+d.val,0)||1; return `<div style="display:flex;flex-direction:column;gap:5px;margin-top:8px">`+data.filter(d=>d.val>0).map((d,i)=>`<div style="display:flex;align-items:center;gap:8px;font-size:12.5px"><span style="width:10px;height:10px;border-radius:3px;background:${d.color||PAL[i%PAL.length]}"></span><span style="flex:1">${d.name}</span><span style="color:var(--ink-soft);font-variant-numeric:tabular-nums">${fmt(d.val)}</span><span style="font-weight:700;min-width:46px;text-align:right;font-variant-numeric:tabular-nums">${(d.val/tot*100).toFixed(1)}%</span></div>`).join("")+`</div>`; }
 
-// 進場動畫
-const animObs = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => {
-    if(e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 80);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.anim').forEach(el => animObs.observe(el));
-
-// 柱狀圖
-const flows = [20,20,20,20,20,-65,-65,-65,-65,-65,-65,-65,-65,-65,-65,5,10,10,10,10];
-const maxAbs = 65;
-const bc = document.getElementById('barChart');
-if(bc) {
-  flows.forEach(v => {
-    const bar = document.createElement('div');
-    bar.className = 'bar ' + (v >= 0 ? 'bar-pos' : 'bar-neg');
-    const h = Math.abs(v) / maxAbs * 100;
-    bar.style.height = h + '%';
-    bc.appendChild(bar);
-  });
+/* ============================================================
+   各頁渲染
+   ============================================================ */
+function render(){
+  $("periodLabel").textContent=range().label;
+  $("anchor").value=ymd(ANCHOR);
+  ({ov:renderOv,journal:renderJournal,budget:renderBudget,settle:renderSettle,abc:renderABC,tuition:renderTuition,students:renderStudents,networth:renderNet,member:renderMember,meetings:renderMeetings,garden:renderGarden,risk:renderRisk}[TAB])();
 }
 
-// CFP 建議清單
-const cfpData = [
-  { pri:'❗高', priColor:'#DC2626', cat:'保障', title:'重大傷病補強（0%→目標100%）', suggest:'建議評估：小額附約年保費約$8,000～$15,000', note:'若體況受限→可考慮提高緊急預備金至$100萬自留', choice:'□ 詢價評估　□ 自留備用　□ 暫不處理' },
-  { pri:'❗高', priColor:'#DC2626', cat:'保障', title:'醫療雜費補強（8%→目標100%）', suggest:'建議評估：小額實支實付附約', note:'一旦住院自費，現有保障缺口高達$27.5萬', choice:'□ 詢價評估　□ 自留備用　□ 暫不處理' },
-  { pri:'⚠中', priColor:'#D97706', cat:'投資', title:'安達台股部位落袋評估（+150%）', suggest:'建議討論：高獲利部位部分轉至固定收益，落袋為安', note:'退休前逐步調整至股40%/債60%，降低集中風險', choice:'□ 同意部分轉換　□ 繼續持有　□ 待觀察' },
-  { pri:'⚠中', priColor:'#D97706', cat:'投資', title:'進攻水庫89.8萬投入計畫確認', suggest:'建議討論：分幾批投入？標的選擇？時間點？', note:'美洲公司債（-0.96%）建議優先評估轉換標的', choice:'□ 一次投入　□ 分季投入　□ 財顧建議' },
-  { pri:'⚠中', priColor:'#D97706', cat:'現金流', title:'危險十年現金流精算（70-80歲）', suggest:'建議討論：安達帳戶逐年提領計畫，確認不歸零', note:'目前概估帳戶可支撐，建議做完整逐年試算', choice:'□ 需要精算　□ 目前概估足夠' },
-  { pri:'⚠中', priColor:'#D97706', cat:'風險', title:'配偶長照風險情境模擬', suggest:'建議討論：若配偶先失能，月費約$3～5萬，防禦水庫是否足夠？', note:'這是最大的黑天鵝風險，建議有應對方案', choice:'□ 需要模擬　□ 以房養老備案　□ 暫不討論' },
-  { pri:'○低', priColor:'#1E3A5F', cat:'稅務', title:'綜合所得稅優化評估', suggest:'建議討論：補教收入+月退俸的稅務結構優化空間', note:'退休金一次金$162.9萬已確認全數免稅（26年×$179,000）', choice:'□ 需要試算　□ 金額不大暫緩' },
-  { pri:'○低', priColor:'#1E3A5F', cat:'傳承', title:'遺囑公證＋保單受益人確認', suggest:'建議時程：退休後6個月內完成公證遺囑', note:'逐年贈與免稅額$244萬，傳承規劃可及早啟動', choice:'□ 退休後執行　□ 列入2027計畫　□ 暫不處理' },
+/* ---- 總覽 ---- */
+function renderOv(){
+  const inc=actualIncome(), exp=actualExpense(), net=inc-exp;
+  const bInc=budgetIncomePeriod(), bExp=budgetExpensePeriod();
+  // 達標／超標警示（分類層級）
+  const cats={}; DB.budget.expense.forEach(it=>{ cats[it.cat]=(cats[it.cat]||0)+(it.m*periodMonths()+it.y*periodYears()); });
+  const actCat={}; DB.ledger.filter(x=>x.kind==="out"&&inRange(x.date)).forEach(x=>{ actCat[x.cat]=(actCat[x.cat]||0)+x.amt; });
+  const over=Object.keys(cats).filter(c=>cats[c]>0 && (actCat[c]||0)>cats[c]*1.02).map(c=>`${c}（${fmt(actCat[c]||0)}/${fmt(cats[c])}）`);
+  $("tab-ov").innerHTML=`
+    <div class="dash">
+      <div class="card inc"><div class="lab">本期收入</div><div class="big positive"><span class="cur">NT$</span>${fmt(inc)}</div><div class="small">預算 ${fmt(bInc)}</div></div>
+      <div class="card exp"><div class="lab">本期支出</div><div class="big negative"><span class="cur">NT$</span>${fmt(exp)}</div><div class="small">預算 ${fmt(bExp)}</div></div>
+      <div class="card net"><div class="lab">本期結餘</div><div class="big ${net>=0?'positive':'negative'}"><span class="cur">NT$</span>${fmt(net)}</div><div class="small">＝收入−支出</div></div>
+      <div class="card"><div class="lab">資產淨值</div><div class="big"><span class="cur">NT$</span>${fmt(netWorth())}</div><div class="small">資產 ${fmt(totalAsset())} − 負債 ${fmt(totalLiab())}</div></div>
+    </div>
+    <div class="dash c3">
+      <div class="card a"><div class="lab">A 帳戶 · 月生活費</div><div class="big"><span class="cur">NT$</span>${fmt(acctBalance("A"))}</div><div class="small">月提撥目標 ${fmt(DB.abc.A)}</div></div>
+      <div class="card b"><div class="lab">B 帳戶 · 年度支出</div><div class="big"><span class="cur">NT$</span>${fmt(acctBalance("B"))}</div><div class="small">月提撥目標 ${fmt(DB.abc.B)}</div></div>
+      <div class="card c"><div class="lab">C 帳戶 · 財務目標</div><div class="big"><span class="cur">NT$</span>${fmt(acctBalance("C"))}</div><div class="small">月提撥目標 ${fmt(DB.abc.C)}</div></div>
+    </div>
+    ${over.length?`<div class="alerts"><b>⚠ 本期超標分類：</b>${over.join("、")}</div>`:`<div class="alerts"><b>✓ 本期各分類支出未超標。</b>（依日記帳實際金額與攤提預算比對）</div>`}
+    <div class="ov"><h3>補教收入 <span class="sub">全年累計 ${fmt(tuitionYearTotal())}，本期 ${fmt(tuitionInPeriod())}</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">月份</th>${[...Array(12)].map((_,i)=>`<th>${i+1}月</th>`).join("")}<th>合計</th></tr></thead>
+      <tbody><tr><td class="l">收費</td>${[...Array(12)].map((_,i)=>`<td>${DB.tuition.months[i+1]?fmt(DB.tuition.months[i+1]):"—"}</td>`).join("")}<td style="font-weight:700">${fmt(tuitionYearTotal())}</td></tr></tbody></table></div></div>`;
+}
+
+/* ---- 日記帳 ---- */
+const CATS_IN=["工作收入","補教收入","理財收入","其他收入"];
+const CATS_OUT=["基礎生活","品味生活","稅負","保費","償債","撫育","儲蓄投資","其他"];
+function renderJournal(){
+  const rows=DB.ledger.filter(x=>inRange(x.date)).sort((a,b)=>a.date<b.date?1:-1);
+  const sumIn=rows.filter(x=>x.kind==="in").reduce((s,x)=>s+x.amt,0);
+  const sumOut=rows.filter(x=>x.kind==="out").reduce((s,x)=>s+x.amt,0);
+  $("tab-journal").innerHTML=`
+    <div class="addform">
+      <div class="ff"><label>日期</label><input class="f" type="date" id="jDate" value="${ymd(ANCHOR)}"></div>
+      <div class="ff"><label>收/支</label><select class="f" id="jKind" onchange="syncCat()"><option value="out">支出</option><option value="in">收入</option></select></div>
+      <div class="ff"><label>帳戶</label><select class="f" id="jAcct"><option>A</option><option>B</option><option>C</option></select></div>
+      <div class="ff"><label>類別</label><select class="f" id="jCat"></select></div>
+      <div class="ff" style="flex:1;min-width:140px"><label>項目／摘要</label><input class="f" id="jItem" placeholder="例：水電費 / 補教收費" style="width:100%"></div>
+      <div class="ff"><label>金額</label><input class="f amt" id="jAmt" inputmode="numeric" placeholder="0"></div>
+      <button class="act primary" onclick="addLedger()">＋ 記一筆</button>
+    </div>
+    <div class="ov"><h3>${range().label} 明細 <span class="sub">收入 ${fmt(sumIn)} · 支出 ${fmt(sumOut)} · 結餘 ${fmt(sumIn-sumOut)}</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">日期</th><th class="l">收/支</th><th class="l">帳戶</th><th class="l">類別</th><th class="l">項目</th><th>金額</th><th></th></tr></thead>
+      <tbody>${rows.length?rows.map(x=>`<tr>
+        <td class="l">${x.date.slice(5)}</td>
+        <td class="l"><span class="tag ${x.kind}">${x.kind==="in"?"收":"支"}</span></td>
+        <td class="l"><span class="tag ${x.acct}">${x.acct}</span></td>
+        <td class="l">${x.cat}</td>
+        <td class="l">${x.item||""}${x.note?` <span style="color:var(--ink-soft);font-size:11px">${x.note}</span>`:""}</td>
+        <td style="color:${x.kind==="in"?"var(--pos)":"var(--neg)"};font-weight:600">${x.kind==="in"?"+":"−"}${fmt(x.amt)}</td>
+        <td><button class="rowdel" onclick="delLedger('${x.id}')">×</button></td></tr>`).join("")
+        :`<tr><td class="l" colspan="7" style="color:var(--ink-soft)">本期間尚無紀錄，用上方表單記一筆。</td></tr>`}</tbody></table></div></div>`;
+  syncCat();
+}
+function syncCat(){ const k=$("jKind").value; const sel=$("jCat"); const list=k==="in"?CATS_IN:CATS_OUT; sel.innerHTML=list.map(c=>`<option>${c}</option>`).join(""); }
+function addLedger(){
+  const amt=parse($("jAmt").value); if(!amt){ flash("請輸入金額"); return; }
+  DB.ledger.push({id:uid(),date:$("jDate").value||ymd(ANCHOR),kind:$("jKind").value,acct:$("jAcct").value,cat:$("jCat").value,item:$("jItem").value.trim(),amt,note:""});
+  save(); render();
+}
+function delLedger(id){ DB.ledger=DB.ledger.filter(x=>x.id!==id); save(); render(); }
+
+/* ---- 收支預算表（可編輯計畫） ---- */
+function annualOf(it){ return (+it.m||0)*12+(+it.y||0); }
+function budgetRow(kind,it,i){
+  const cats=kind==="income"?CATS_IN:CATS_OUT;
+  return `<tr>
+    <td class="l"><input class="cell" style="width:170px;text-align:left" value="${(it.n||"").replace(/"/g,'&quot;')}" onchange="DB.budget.${kind}[${i}].n=this.value;save();render()"></td>
+    <td class="l"><select class="f" style="padding:4px" onchange="DB.budget.${kind}[${i}].acct=this.value;save();render()">${["A","B","C"].map(a=>`<option ${a===it.acct?"selected":""}>${a}</option>`).join("")}</select></td>
+    <td class="l"><select class="f" style="padding:4px" onchange="DB.budget.${kind}[${i}].cat=this.value;save();render()">${cats.map(c=>`<option ${c===it.cat?"selected":""}>${c}</option>`).join("")}</select></td>
+    <td class="r"><input class="cell" value="${it.m||0}" onchange="DB.budget.${kind}[${i}].m=parse(this.value);save();render()"></td>
+    <td class="r"><input class="cell" value="${it.y||0}" onchange="DB.budget.${kind}[${i}].y=parse(this.value);save();render()"></td>
+    <td style="text-align:right;font-weight:600">${fmt(annualOf(it))}</td>
+    <td style="white-space:nowrap"><button class="rowdel" style="color:var(--ink-soft);font-size:12px" onclick="moveBudget('${kind}',${i},-1)" title="上移">▲</button><button class="rowdel" style="color:var(--ink-soft);font-size:12px" onclick="moveBudget('${kind}',${i},1)" title="下移">▼</button><button class="rowdel" onclick="delBudget('${kind}',${i})" title="刪除">×</button></td></tr>`;
+}
+function moveBudget(kind,i,dir){ const a=DB.budget[kind]; const j=i+dir; if(j<0||j>=a.length)return; const t=a[i]; a[i]=a[j]; a[j]=t; save(); render(); }
+function renderBudget(){
+  const inc=DB.budget.income, exp=DB.budget.expense;
+  const tuY=DB.tuition.auto?tuitionYearTotal():0;
+  const incY=inc.reduce((s,it)=>s+annualOf(it),0);
+  const expY=exp.reduce((s,it)=>s+annualOf(it),0);
+  const net=incY-expY;
+  const acctRow=a=>{ const tgtM=DB.abc[a],tgtY=tgtM*12; const useY=exp.filter(it=>it.acct===a).reduce((s,it)=>s+annualOf(it),0); const diff=tgtY-useY;
+    return `<tr><td class="l"><span class="tag ${a}">${a}</span> ${a==="A"?"月生活費":a==="B"?"年度支出":"財務目標"}</td><td>${fmt(tgtM)}</td><td>${fmt(tgtY)}</td><td>${fmt(useY)}</td><td style="color:${diff>=0?'var(--pos)':'var(--neg)'};font-weight:600">${diff>=0?'+':''}${fmt(diff)}</td></tr>`; };
+  $("tab-budget").innerHTML=`
+    <div class="dash c3">
+      <div class="card inc"><div class="lab">年度收入預算</div><div class="big positive"><span class="cur">NT$</span>${fmt(incY)}</div><div class="small">計畫值（可編輯）</div></div>
+      <div class="card exp"><div class="lab">年度支出預算</div><div class="big negative"><span class="cur">NT$</span>${fmt(expY)}</div><div class="small">每月經常性 ${fmt(exp.reduce((s,it)=>s+(+it.m||0),0))}</div></div>
+      <div class="card net"><div class="lab">年度結餘</div><div class="big ${net>=0?'positive':'negative'}"><span class="cur">NT$</span>${fmt(net)}</div><div class="small">＝收入−支出</div></div>
+    </div>
+    <div class="ov"><h3>ABC 帳戶配置 <span class="sub">月提撥目標 vs 該帳戶年度支出（差額＝提撥是否足以支應）</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">帳戶</th><th>月提撥</th><th>年提撥</th><th>年度配置支出</th><th>差額</th></tr></thead>
+      <tbody>${["A","B","C"].map(acctRow).join("")}</tbody>
+      <tfoot><tr><td class="l">合計</td><td>${fmt(DB.abc.A+DB.abc.B+DB.abc.C)}</td><td>${fmt((DB.abc.A+DB.abc.B+DB.abc.C)*12)}</td><td>${fmt(expY)}</td><td></td></tr></tfoot></table></div></div>
+    <div class="ov"><h3>收入預算 <span class="sub">計畫值；補教收入為預估月收（實收見補教收費頁）</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th class="l">帳戶</th><th class="l">類別</th><th>每月</th><th>一次性（年）</th><th>年合計</th><th></th></tr></thead>
+      <tbody>${inc.map((it,i)=>budgetRow("income",it,i)).join("")}</tbody>
+      <tfoot><tr><td class="l" colspan="5">收入小計</td><td>${fmt(incY)}</td><td></td></tr></tfoot></table></div>
+      <button class="act" onclick="addBudget('income')" style="margin-top:8px">＋ 新增收入項目</button></div>
+    <div class="ov"><h3>支出預算</h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th class="l">帳戶</th><th class="l">類別</th><th>每月</th><th>一次性（年）</th><th>年合計</th><th></th></tr></thead>
+      <tbody>${exp.map((it,i)=>budgetRow("expense",it,i)).join("")}</tbody>
+      <tfoot><tr><td class="l" colspan="5">支出小計</td><td>${fmt(expY)}</td><td></td></tr></tfoot></table></div>
+      <button class="act" onclick="addBudget('expense')" style="margin-top:8px">＋ 新增支出項目</button></div>`;
+}
+function addBudget(kind){ DB.budget[kind].push({n:"新項目",note:"",cat:kind==="income"?"其他收入":"其他",acct:kind==="income"?"C":"A",m:0,y:0}); save(); render(); }
+function delBudget(kind,i){ DB.budget[kind].splice(i,1); save(); render(); }
+
+/* ---- 收支結算（達標／超標） ---- */
+function settleRows(kind){
+  const items=DB.budget[kind];
+  const cats=[]; items.forEach(it=>{ if(!cats.includes(it.cat)) cats.push(it.cat); });
+  const actCat={}; DB.ledger.filter(x=>x.kind===(kind==="income"?"in":"out")&&inRange(x.date)).forEach(x=>{ actCat[x.cat]=(actCat[x.cat]||0)+x.amt; });
+  if(kind==="income"&&DB.tuition.auto) actCat["補教收入"]=(actCat["補教收入"]||0)+tuitionInPeriod();
+  if(kind==="income"&&DB.tuition.auto&&!cats.includes("補教收入")) cats.unshift("補教收入");
+  return cats.map(c=>{ const its=items.filter(it=>it.cat===c); const bud=its.reduce((s,it)=>s+(it.m*periodMonths()+it.y*periodYears()),0); const act=actCat[c]||0; const pct=bud>0?act/bud*100:0; return {cat:c,its,bud,act,pct}; });
+}
+function statusOf(pct,kind){ if(kind==="income"){ return pct>=100?["ok","達標"]:pct>=80?["warn","接近"]:["bad","未達"]; } return pct<=100?["ok","達標"]:pct<=110?["warn","略超"]:["bad","超標"]; }
+function settleTable(kind,title){
+  const rows=settleRows(kind); const tb=rows.flatMap(r=>{
+    const [st,lab]=statusOf(r.pct,kind); const fc=st==="bad"?"var(--neg)":st==="warn"?"var(--warn)":"var(--green-2)";
+    const head=`<tr style="background:#fdfbf6"><td class="l" style="font-weight:700">${r.cat}</td><td>${fmt(r.bud)}</td><td>${fmt(r.act)}</td><td><div style="display:flex;align-items:center;gap:8px;justify-content:flex-end"><div class="gbar" style="width:90px"><div class="gfill" style="width:${Math.min(r.pct,100).toFixed(0)}%;background:${fc}"></div></div><b>${r.pct.toFixed(0)}%</b> <span class="pill ${st}">${lab}</span></div></td></tr>`;
+    const subs=r.its.map(it=>`<tr><td class="l" style="padding-left:22px;color:var(--ink-soft)">${it.n}${it.note?` <span style="font-size:11px">${it.note}</span>`:""}</td><td style="color:var(--ink-soft)">${fmt(it.m*periodMonths()+it.y*periodYears())}</td><td colspan="2"></td></tr>`).join("");
+    return [head,subs].join("");
+  }).join("");
+  const tBud=rows.reduce((s,r)=>s+r.bud,0), tAct=rows.reduce((s,r)=>s+r.act,0);
+  return `<div class="ov"><h3>${title} <span class="sub">${range().label} · 本期預算 vs 實際</span></h3>
+    <div class="tscroll"><table class="lt"><thead><tr><th class="l">分類 / 項目</th><th>本期預算</th><th>本期實際</th><th>達成率 · 燈號</th></tr></thead>
+    <tbody>${tb||`<tr><td class="l" colspan="4" style="color:var(--ink-soft)">無資料</td></tr>`}</tbody>
+    <tfoot><tr><td class="l">合計</td><td>${fmt(tBud)}</td><td>${fmt(tAct)}</td><td style="text-align:right">${tBud>0?(tAct/tBud*100).toFixed(0):0}%</td></tr></tfoot></table></div></div>`;
+}
+function renderSettle(){
+  const incRows=settleRows("income"), expRows=settleRows("expense");
+  const incBud=incRows.reduce((s,r)=>s+r.bud,0), incAct=incRows.reduce((s,r)=>s+r.act,0);
+  const expBud=expRows.reduce((s,r)=>s+r.bud,0), expAct=expRows.reduce((s,r)=>s+r.act,0);
+  const netBud=incBud-expBud, netAct=incAct-expAct;
+  const plab={day:"本日",week:"本週",month:"本月",quarter:"本季",half:"近半年",year:"全年"}[MODE]||"本期";
+  const dd=expRows.map((r,i)=>({name:r.cat,val:r.bud,color:PAL[i%PAL.length]})).filter(d=>d.val>0).sort((a,b)=>b.val-a.val);
+  const dcol=(d)=>d>=0?'var(--pos)':'var(--neg)';
+  const stmt=`<div class="ov"><h3>收支表 <span class="sub">${plab}｜預算 vs 實際</span></h3>
+    <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th>預算</th><th>實際</th><th>差異</th></tr></thead>
+    <tbody>
+      <tr style="background:#eef5ee"><td class="l" colspan="4" style="font-weight:700;color:#1f4a3f">收入</td></tr>
+      ${incRows.map(r=>`<tr><td class="l" style="padding-left:20px">${r.cat}</td><td class="r">${fmt(r.bud)}</td><td class="r">${fmt(r.act)}</td><td class="r" style="color:${dcol(r.act-r.bud)}">${r.act-r.bud>=0?'+':''}${fmt(r.act-r.bud)}</td></tr>`).join("")}
+      <tr style="font-weight:700"><td class="l">　收入合計</td><td class="r">${fmt(incBud)}</td><td class="r">${fmt(incAct)}</td><td class="r" style="color:${dcol(incAct-incBud)}">${incAct-incBud>=0?'+':''}${fmt(incAct-incBud)}</td></tr>
+      <tr style="background:#fbeee0"><td class="l" colspan="4" style="font-weight:700;color:#9a5b12">支出</td></tr>
+      ${expRows.map(r=>`<tr><td class="l" style="padding-left:20px">${r.cat}</td><td class="r">${fmt(r.bud)}</td><td class="r">${fmt(r.act)}</td><td class="r" style="color:${dcol(r.bud-r.act)}">${r.act-r.bud>=0?'+':''}${fmt(r.act-r.bud)}</td></tr>`).join("")}
+      <tr style="font-weight:700"><td class="l">　支出合計</td><td class="r">${fmt(expBud)}</td><td class="r">${fmt(expAct)}</td><td class="r" style="color:${dcol(expBud-expAct)}">${expAct-expBud>=0?'+':''}${fmt(expAct-expBud)}</td></tr>
+      <tr style="font-weight:800;border-top:2px solid var(--ink)"><td class="l">淨結餘（收入−支出）</td><td class="r">${fmt(netBud)}</td><td class="r" style="color:${dcol(netAct)}">${fmt(netAct)}</td><td class="r" style="color:${dcol(netAct-netBud)}">${netAct-netBud>=0?'+':''}${fmt(netAct-netBud)}</td></tr>
+    </tbody></table></div></div>`;
+  $("tab-settle").innerHTML=`
+    <div class="alerts"><b>說明：</b>「實際」取自日記帳（補教收入自動帶入）；「預算」依期間天數攤提。<b>支出</b>看是否超標、<b>收入</b>看是否達標。</div>
+    ${stmt}
+    ${settleTable("income","收入結算明細")}
+    ${settleTable("expense","支出結算明細")}
+    <div class="ov"><h3>支出預算結構 <span class="sub">本期</span></h3>
+      <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><div>${donut(dd,"本期支出",fmt(expRows.reduce((s,r)=>s+r.bud,0)),170)}</div><div style="flex:1;min-width:220px">${legend(dd)}</div></div></div>`;
+}
+
+/* ---- ABC 帳戶 ---- */
+function renderABC(){
+  const A=acctBalance("A"),B=acctBalance("B"),C=acctBalance("C");
+  const fA=acctFlow("A"),fB=acctFlow("B"),fC=acctFlow("C");
+  const inv=DB.invest;
+  const dAsset=[{name:"股票型",val:inv.funds.filter(f=>f.asset==="股票型").reduce((s,f)=>s+f.w,0),color:"#2f6f93"},{name:"債券型",val:inv.funds.filter(f=>f.asset==="債券型").reduce((s,f)=>s+f.w,0),color:"#b0863f"}];
+  const dArea=inv.funds.map((f,i)=>({name:f.area,val:f.w,color:PAL[i%PAL.length]}));
+  $("tab-abc").innerHTML=`
+    <div class="abcflow">
+      <svg width="100%" viewBox="0 0 680 150" style="display:block">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5"/></marker></defs>
+        <rect x="10" y="45" width="118" height="56" rx="10" fill="#eaf3de" stroke="#639922"/><text x="69" y="70" text-anchor="middle" font-family="Noto Serif TC" font-weight="700" font-size="14" fill="#27500a">月收入</text><text x="69" y="89" text-anchor="middle" font-size="11" fill="#3b6d11">≈ ${fmt(DB.abc.A+DB.abc.B+DB.abc.C)}</text>
+        <line x1="130" y1="73" x2="168" y2="73" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="170" y="45" width="124" height="56" rx="10" fill="#e6f1fb" stroke="#185fa5"/><text x="232" y="70" text-anchor="middle" font-family="Noto Serif TC" font-weight="700" font-size="14" fill="#0c447c">A · 月生活費</text><text x="232" y="89" text-anchor="middle" font-size="11" fill="#185fa5">${fmt(DB.abc.A)} / 月</text>
+        <line x1="296" y1="73" x2="334" y2="73" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="336" y="45" width="124" height="56" rx="10" fill="#faeeda" stroke="#ba7517"/><text x="398" y="70" text-anchor="middle" font-family="Noto Serif TC" font-weight="700" font-size="14" fill="#633806">B · 年度預算</text><text x="398" y="89" text-anchor="middle" font-size="11" fill="#854f0b">${fmt(DB.abc.B)} / 月</text>
+        <line x1="462" y1="73" x2="500" y2="73" stroke="#888780" stroke-width="1.5" marker-end="url(#ar)"/>
+        <rect x="502" y="45" width="124" height="56" rx="10" fill="#e1f5ee" stroke="#0f6e56"/><text x="564" y="70" text-anchor="middle" font-family="Noto Serif TC" font-weight="700" font-size="14" fill="#085041">C · 財務目標</text><text x="564" y="89" text-anchor="middle" font-size="11" fill="#0f6e56">${fmt(DB.abc.C)} / 月</text>
+        <text x="232" y="120" text-anchor="middle" font-size="11" fill="#5c6b62">日常開銷</text><text x="398" y="120" text-anchor="middle" font-size="11" fill="#5c6b62">大筆預存</text><text x="564" y="120" text-anchor="middle" font-size="11" fill="#5c6b62">儲蓄／投資池</text>
+      </svg></div>
+    <div class="acctbox">
+      ${[["A","月生活費",A,fA,DB.abc.A],["B","年度支出",B,fB,DB.abc.B],["C","財務目標",C,fC,DB.abc.C]].map(([k,nm,bal,f,tgt])=>`
+      <div class="acct ${k}"><div class="at">${k} 帳戶</div><div class="as">${nm} · 月提撥目標 ${fmt(tgt)}</div>
+        <div class="av">${fmt(bal)}</div>
+        <div class="arow"><span>期初 ${fmt(DB.open[k])}</span></div>
+        <div class="arow"><span style="color:var(--pos)">本期進 +${fmt(f.inn)}</span><span style="color:var(--neg)">本期出 −${fmt(f.out)}</span></div></div>`).join("")}
+    </div>
+    <div class="ov"><h3>期初餘額設定 <span class="sub">基準日 ${DB.meta.basis}，可調整</span></h3>
+      <div style="display:flex;gap:14px;flex-wrap:wrap">${["A","B","C"].map(k=>`<div class="ff"><label>${k} 帳戶期初</label><input class="f amt" value="${DB.open[k]}" onchange="DB.open.${k}=parse(this.value);save();render()"></div>`).join("")}
+      ${["A","B","C"].map(k=>`<div class="ff"><label>${k} 月提撥目標</label><input class="f amt" value="${DB.abc[k]}" onchange="DB.abc.${k}=parse(this.value);save();render()"></div>`).join("")}</div></div>
+
+    <div class="ov"><h3>夢想準備金 <span class="sub">C 帳戶子目標 · 達標解鎖</span></h3>
+      ${DB.dreams.map((d,i)=>{ const pct=d.target>0?Math.min(d.saved/d.target*100,100):0; const ok=d.target>0&&d.saved>=d.target; return `
+        <div class="dreamcard"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="dn">${d.name} ${ok?'<span class="pill ok">已解鎖 🎉</span>':''}</span><button class="rowdel" onclick="delDream(${i})">×</button></div>
+          <div class="dmeta">已備 ${fmt(d.saved)} / 目標 ${fmt(d.target)} · 每月撥入 ${fmt(d.monthly)}${d.note?' · '+d.note:''}</div>
+          <div class="gbar" style="max-width:none"><div class="gfill" style="width:${pct}%;background:var(--dream)"></div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:9px">
+            <input class="f" style="flex:1;min-width:120px" value="${d.name}" onchange="DB.dreams[${i}].name=this.value;save()">
+            <input class="f amt" placeholder="目標" value="${d.target}" onchange="DB.dreams[${i}].target=parse(this.value);save();render()">
+            <input class="f amt" placeholder="已備" value="${d.saved}" onchange="DB.dreams[${i}].saved=parse(this.value);save();render()">
+            <input class="f amt" placeholder="月撥" value="${d.monthly}" onchange="DB.dreams[${i}].monthly=parse(this.value);save()">
+          </div></div>`;}).join("")}
+      <button class="act" onclick="addDream()">＋ 新增夢想目標</button></div>
+
+    <div class="ov"><h3>C · 投資平台配置 <span class="sub">${inv.title}</span></h3>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:10px">
+        <div style="text-align:center">${donut(dAsset,"資產類別","",150)}<div style="font-size:12px;color:var(--ink-soft)">資產類別配置</div></div>
+        <div style="text-align:center">${donut(dArea,"投資區域","",150)}<div style="font-size:12px;color:var(--ink-soft)">投資區域配置</div></div>
+        <div style="text-align:center">${donut([{name:"美元",val:100,color:"#2f6f93"}],"幣別","",150)}<div style="font-size:12px;color:var(--ink-soft)">幣別配置（美元 100%）</div></div>
+      </div>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">資產類別</th><th class="l">投資區域</th><th class="l">基金名稱</th><th class="l">代號</th><th>比重</th><th class="l">投資策略</th></tr></thead>
+      <tbody>${inv.funds.map(f=>`<tr><td class="l">${f.asset}</td><td class="l">${f.area}</td><td class="l">${f.name}</td><td class="l">${f.code}</td><td>${f.w}%</td><td class="l" style="font-size:12px;color:var(--ink-soft)">${f.strategy||""}</td></tr>`).join("")}</tbody></table></div></div>`;
+}
+function addDream(){ DB.dreams.push({name:"新目標",target:0,saved:0,monthly:0,note:""}); save(); render(); }
+function delDream(i){ DB.dreams.splice(i,1); save(); render(); }
+
+/* ---- 補教收費 ---- */
+const TU_ITEMS=["鐘點費","書費","雜誌","模考","其他"];
+function renderTuition(){
+  const ent=DB.tuition.entries.slice().sort((a,b)=>(a.month-b.month)||(String(a.date)<String(b.date)?-1:1));
+  $("tab-tuition").innerHTML=`
+    <div class="alerts"><label style="cursor:pointer"><input type="checkbox" ${DB.tuition.auto?"checked":""} onchange="DB.tuition.auto=this.checked;save();render()"> <b>匯入記帳收入系統</b></label> — 勾選＝補教收費自動計入「收入（補教收入）」、出現在總覽與結算；取消＝不計入，需要時自行在日記帳登錄。明細的代號／備註欄可填班別或會員，會員主檔在「會員資料」頁管理。</div>
+    <div class="dash c3">
+      <div class="card inc"><div class="lab">全年補教合計</div><div class="big positive"><span class="cur">NT$</span>${fmt(tuitionYearTotal())}</div></div>
+      <div class="card"><div class="lab">明細筆數</div><div class="big">${ent.length}</div><div class="small">逐筆登錄</div></div>
+      <div class="card net"><div class="lab">匯入收入</div><div class="big">${DB.tuition.auto?"是 ✓":"否"}</div><div class="small">可上方勾選切換</div></div>
+    </div>
+    <div class="ov"><h3>收費明細記錄 <span class="sub">逐筆登錄；該月一旦有明細，月合計＝明細加總</span></h3>
+      <div class="addform">
+        <div class="ff"><label>月份</label><select class="f" id="tuM">${[...Array(12)].map((_,i)=>`<option value="${i+1}">${i+1} 月</option>`).join("")}</select></div>
+        <div class="ff"><label>日期(選填)</label><input class="f" type="date" id="tuDate"></div>
+        <div class="ff"><label>項目</label><select class="f" id="tuItem">${TU_ITEMS.map(x=>`<option>${x}</option>`).join("")}</select></div>
+        <div class="ff" style="flex:1;min-width:130px"><label>班別 / 會員(選填)</label><input class="f" id="tuNote" style="width:100%" placeholder="例：週六班 / 會員"></div>
+        <div class="ff"><label>金額</label><input class="f amt" id="tuAmt" inputmode="numeric"></div>
+        <button class="act primary" onclick="addTuition()">＋ 記一筆</button>
+      </div>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">月</th><th class="l">日期</th><th class="l">項目</th><th class="l">代號 / 備註</th><th>金額</th><th></th></tr></thead>
+      <tbody>${ent.length?ent.map(e=>`<tr><td class="l">${e.month}月</td><td class="l">${e.date||"—"}</td><td class="l">${e.item}</td><td class="l">${e.note||""}</td><td>${fmt(e.amt)}</td><td><button class="rowdel" onclick="delTuition('${e.id}')">×</button></td></tr>`).join("")
+        :`<tr><td class="l" colspan="6" style="color:var(--ink-soft)">尚無明細。可逐筆登錄，或在下方逐月直接填月合計。</td></tr>`}</tbody></table></div></div>
+    <div class="ov"><h3>逐月合計 <span class="sub">無明細的月份可直接填總額；有明細的月份由明細自動計算</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">月份</th><th>月合計</th><th class="l">來源</th></tr></thead>
+      <tbody>${[...Array(12)].map((_,i)=>{ const m=i+1; const has=DB.tuition.entries.some(x=>+x.month===m); return `<tr><td class="l">${m} 月</td><td class="r">${has?`<b>${fmt(tuMonthTotal(m))}</b>`:`<input class="cell" value="${DB.tuition.months[m]||0}" onchange="DB.tuition.months[${m}]=parse(this.value);save();render()">`}</td><td class="l" style="font-size:12px;color:var(--ink-soft)">${has?"明細加總":"手動填入"}</td></tr>`;}).join("")}</tbody>
+      <tfoot><tr><td class="l">合計</td><td>${fmt(tuitionYearTotal())}</td><td></td></tr></tfoot></table></div></div>
+    <div class="ov"><h3>月度走勢</h3>${barChart([...Array(12)].map((_,i)=>({label:(i+1)+"月",val:tuMonthTotal(i+1)})))}</div>`;
+}
+function addTuition(){ const amt=parse($("tuAmt").value); if(!amt){flash("請輸入金額");return;} DB.tuition.entries.push({id:uid(),month:+$("tuM").value,date:$("tuDate").value,item:$("tuItem").value,note:$("tuNote").value.trim(),amt}); save(); render(); }
+function delTuition(id){ DB.tuition.entries=DB.tuition.entries.filter(e=>e.id!==id); save(); render(); }
+function barChart(data){
+  const max=Math.max(...data.map(d=>d.val),1); const W=680,H=180,pad=28,bw=(W-pad*2)/data.length;
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block">${data.map((d,i)=>{ const h=d.val/max*(H-pad*2); const x=pad+i*bw, y=H-pad-h; return `<rect x="${x+4}" y="${y}" width="${bw-8}" height="${h}" rx="3" fill="#2e6b58"/><text x="${x+bw/2}" y="${H-pad+14}" text-anchor="middle" font-size="10" fill="#5c6b62">${d.label}</text>${d.val?`<text x="${x+bw/2}" y="${y-4}" text-anchor="middle" font-size="9" fill="#5c6b62">${fmt(d.val)}</text>`:""}`;}).join("")}<line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#ddd3c0"/></svg>`;
+}
+
+/* ---- 會員資料（收費記錄，可切換月份） ---- */
+const DAYS=["一","二","三","四","五","六","日"];
+function maskName(n){ n=String(n||""); const a=[...n]; if(a.length<=1)return n; if(a.length===2)return a[0]+"O"; return a[0]+"O".repeat(a.length-2)+a[a.length-1]; }
+function curMonth(){ return DB.ui.stMonth||5; }
+function curArr(){ const m=String(curMonth()); if(!DB.studentMonths[m]) DB.studentMonths[m]=[]; return DB.studentMonths[m]; }
+function dispName(s,i,m){ if(DB.ui.nameMask){ return `<span style="font-weight:600" title="切換『全顯』可編輯姓名">${maskName(s.name)}</span>`; } return `<input class="cell" style="width:74px;text-align:left;font-weight:600" value="${(s.name||"").replace(/"/g,'&quot;')}" onchange="DB.studentMonths['${m}'][${i}].name=this.value;save();render()">`; }
+function stFee(s){ return Math.round((+s.rate||0)*(+s.hours||0)); }
+function stTotal(s){ return stFee(s)+(+s.book||0)-(+s.disc||0); }
+function farmerBanner(){
+  return `<div class="ov" style="background:linear-gradient(100deg,#eaf3e0,#fbf8f1);display:flex;align-items:center;gap:16px;padding:14px 18px">
+    <svg width="86" height="100" viewBox="0 0 92 104" style="flex:none">
+      <ellipse cx="46" cy="98" rx="34" ry="5" fill="#cbb487" opacity="0.6"/>
+      <rect x="36" y="72" width="8" height="22" rx="3" fill="#5d7d3f"/><rect x="48" y="72" width="8" height="22" rx="3" fill="#5d7d3f"/>
+      <rect x="33" y="92" width="13" height="6" rx="2" fill="#6b4a2a"/><rect x="46" y="92" width="13" height="6" rx="2" fill="#6b4a2a"/>
+      <path d="M32 44 Q46 40 60 44 L58 74 Q46 78 34 74 Z" fill="#6b8f4f"/>
+      <path d="M34 44 Q46 41 58 44 L57 53 Q46 49 35 53 Z" fill="#f0ead9"/>
+      <path d="M33 48 Q24 56 27 66" stroke="#ecc19a" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M59 48 Q68 54 66 64" stroke="#ecc19a" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="46" cy="32" r="12" fill="#ecc19a"/>
+      <path d="M36 23 Q46 7 56 23 Z" fill="#d8b878"/><path d="M37 22 Q46 16 55 22" stroke="#9a6a3a" stroke-width="2.5" fill="none"/>
+      <ellipse cx="46" cy="24" rx="22" ry="6" fill="#e0c388"/><ellipse cx="46" cy="22.5" rx="20" ry="5" fill="#d8b878" opacity="0.5"/>
+      <circle cx="42" cy="33" r="1.3" fill="#5b4636"/><circle cx="50" cy="33" r="1.3" fill="#5b4636"/><path d="M42 37 Q46 40 50 37" stroke="#5b4636" stroke-width="1.3" fill="none"/>
+      <line x1="66" y1="64" x2="66" y2="51" stroke="#5a8f4a" stroke-width="2.5"/><ellipse cx="61" cy="53" rx="5" ry="2.5" fill="#6fae5a" transform="rotate(-30 61 53)"/><ellipse cx="71" cy="51" rx="5" ry="2.5" fill="#6fae5a" transform="rotate(30 71 51)"/>
+    </svg>
+    <div><div style="font-family:'Noto Serif TC';font-weight:700;font-size:17px;color:var(--green)">會員 · 耕耘者</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:3px">每位會員都是一位農夫——用心耕耘自己的財富花園與資產果園。</div></div>
+  </div>`;
+}
+function renderStudents(){
+  const m=curMonth(), mk=String(m), st=curArr(), active=st.filter(s=>s.status==="在學");
+  const tFee=active.reduce((a,s)=>a+stFee(s),0), tBook=active.reduce((a,s)=>a+(+s.book||0),0), tDisc=active.reduce((a,s)=>a+(+s.disc||0),0), tTot=active.reduce((a,s)=>a+stTotal(s),0);
+  const have=Object.keys(DB.studentMonths).filter(k=>DB.studentMonths[k]&&DB.studentMonths[k].length).map(Number).sort((a,b)=>a-b);
+  $("tab-students").innerHTML=`
+    ${farmerBanner()}
+    <div class="ov" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <span><b>檢視月份：</b>
+        <select class="f" onchange="DB.ui.stMonth=+this.value;save();render()">${[...Array(12)].map((_,i)=>{const mm=i+1;const cnt=(DB.studentMonths[mm]||[]).length;return `<option value="${mm}" ${mm===m?"selected":""}>${mm} 月${cnt?` · ${cnt}人`:"（空）"}</option>`;}).join("")}</select></span>
+      <span style="color:var(--ink-soft);font-size:12.5px">已建檔月份：${have.length?have.join("、")+" 月":"—"}</span>
+      <span style="margin-left:auto;white-space:nowrap"><b>姓名顯示：</b>
+        <label style="cursor:pointer"><input type="radio" name="nm" ${!DB.ui.nameMask?"checked":""} onchange="DB.ui.nameMask=false;save();render()"> 全顯</label>
+        <label style="cursor:pointer;margin-left:8px"><input type="radio" name="nm" ${DB.ui.nameMask?"checked":""} onchange="DB.ui.nameMask=true;save();render()"> 部份隱蔽（陳O琪）</label></span>
+    </div>
+    <div class="dash">
+      <div class="card a"><div class="lab">${m} 月在學人數</div><div class="big">${active.length}<span class="small"> / 共 ${st.length} 位</span></div></div>
+      <div class="card"><div class="lab">月學費合計</div><div class="big"><span class="cur">NT$</span>${fmt(tFee)}</div><div class="small">書費 ${fmt(tBook)} · 優待 −${fmt(tDisc)}</div></div>
+      <div class="card inc"><div class="lab">月收費合計</div><div class="big positive"><span class="cur">NT$</span>${fmt(tTot)}</div></div>
+      <div class="card net"><div class="lab">平均單人</div><div class="big"><span class="cur">NT$</span>${fmt(active.length?tTot/active.length:0)}</div></div>
+    </div>
+    <div class="ov"><h3>帶入補教收費 <span class="sub">把 ${m} 月名冊月合計寫入 ${m} 月補教月合計</span></h3>
+      <button class="act primary" onclick="syncTuitionFromStudents()">帶入 ${fmt(tTot)} 到 ${m} 月補教月合計</button>
+      <span style="font-size:12px;color:var(--ink-soft);margin-left:10px">若該月在補教頁已登錄明細，則明細優先。</span></div>
+    ${st.length?`<div class="ov"><h3>${m} 月會員收費記錄 <span class="sub">可編輯／新增／刪除</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">姓名</th><th class="l">班級</th><th class="l">星期</th><th>鐘點費</th><th class="l">上課日期</th><th>堂數</th><th>時數</th><th>學費</th><th>書費</th><th>優待</th><th>月合計</th><th class="l">書費項目</th><th class="l">狀態</th><th></th></tr></thead>
+      <tbody>${st.map((s,i)=>`<tr>
+        <td class="l">${dispName(s,i,mk)}</td>
+        <td class="l"><input class="cell" style="width:56px;text-align:left" value="${(s.cls||"").replace(/"/g,'&quot;')}" onchange="DB.studentMonths['${mk}'][${i}].cls=this.value;save()"></td>
+        <td class="l"><select class="f" style="padding:4px" onchange="DB.studentMonths['${mk}'][${i}].day=this.value;save();render()">${DAYS.map(d=>`<option ${d===s.day?"selected":""}>${d}</option>`).join("")}</select></td>
+        <td class="r"><input class="cell" style="width:50px" value="${s.rate||0}" onchange="DB.studentMonths['${mk}'][${i}].rate=parse(this.value);save();render()"></td>
+        <td class="l"><input class="cell" style="width:94px;text-align:left" value="${(s.dates||"").replace(/"/g,'&quot;')}" onchange="DB.studentMonths['${mk}'][${i}].dates=this.value;save()"></td>
+        <td class="r"><input class="cell" style="width:38px" value="${s.sessions||0}" onchange="DB.studentMonths['${mk}'][${i}].sessions=parse(this.value);save()"></td>
+        <td class="r"><input class="cell" style="width:44px" value="${s.hours||0}" onchange="DB.studentMonths['${mk}'][${i}].hours=parse(this.value);save();render()"></td>
+        <td class="r" style="color:var(--ink-soft)">${fmt(stFee(s))}</td>
+        <td class="r"><input class="cell" style="width:48px" value="${s.book||0}" onchange="DB.studentMonths['${mk}'][${i}].book=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" style="width:48px" value="${s.disc||0}" onchange="DB.studentMonths['${mk}'][${i}].disc=parse(this.value);save();render()"></td>
+        <td class="r" style="font-weight:600">${fmt(stTotal(s))}</td>
+        <td class="l"><input class="cell" style="width:84px;text-align:left" value="${(s.note||"").replace(/"/g,'&quot;')}" onchange="DB.studentMonths['${mk}'][${i}].note=this.value;save()"></td>
+        <td class="l"><select class="f" style="padding:4px" onchange="DB.studentMonths['${mk}'][${i}].status=this.value;save();render()"><option ${s.status==="在學"?"selected":""}>在學</option><option ${s.status==="停課"?"selected":""}>停課</option></select></td>
+        <td><button class="rowdel" onclick="delStudent(${i})">×</button></td></tr>`).join("")}</tbody>
+      <tfoot><tr><td class="l" colspan="7">在學合計</td><td>${fmt(tFee)}</td><td>${fmt(tBook)}</td><td>−${fmt(tDisc)}</td><td>${fmt(tTot)}</td><td colspan="3"></td></tr></tfoot></table></div>
+      <button class="act" onclick="addStudent()" style="margin-top:8px">＋ 新增會員</button></div>
+    <div class="ov"><h3>各星期班別人數（${m} 月）</h3>${barChart(DAYS.map(d=>({label:d,val:active.filter(s=>s.day===d).length})))}</div>`
+    :`<div class="ov"><h3>${m} 月尚無名冊</h3>
+      <p style="color:var(--ink-soft);font-size:13.5px">可新增會員，或從其他月份複製一份名冊再修改。</p>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="act" onclick="addStudent()">＋ 新增會員</button>
+        ${have.length?`<span>或 從 <select class="f" id="copyFrom">${have.map(h=>`<option value="${h}">${h} 月</option>`).join("")}</select> <button class="act" onclick="copyStudentsFrom($('copyFrom').value)">複製名冊到 ${m} 月</button></span>`:""}
+      </div></div>`}`;
+}
+function addStudent(){ curArr().push({id:uid(),name:"新會員",cls:"",day:"一",rate:400,dates:"",sessions:0,hours:0,book:0,disc:0,note:"",status:"在學"}); save(); render(); }
+function delStudent(i){ curArr().splice(i,1); save(); render(); }
+function copyStudentsFrom(src){ const m=String(curMonth()); DB.studentMonths[m]=(DB.studentMonths[String(src)]||[]).map(s=>Object.assign({},s,{id:uid()})); save(); render(); flash("已從 "+src+" 月複製名冊到 "+m+" 月"); }
+function syncTuitionFromStudents(){ const m=curMonth(); const sum=curArr().filter(s=>s.status==="在學").reduce((a,s)=>a+stTotal(s),0); DB.tuition.months[m]=sum; save(); render(); flash(m+" 月補教月合計已帶入 "+fmt(sum)); }
+
+/* ---- 資產負債 · 房貸 ---- */
+function renderNet(){
+  const tA=totalAsset(),tL=totalLiab(),nw=netWorth();
+  const types={}; DB.assets.forEach(a=>{ types[a.type]=(types[a.type]||0)+(+a.amt||0); });
+  const dType=Object.keys(types).map((t,i)=>({name:t,val:types[t],color:PAL[i%PAL.length]}));
+  const snap=DB.snapshots.slice().sort((a,b)=>a.date<b.date?-1:1);
+  $("tab-networth").innerHTML=`
+    <div class="dash c3">
+      <div class="card a"><div class="lab">總資產</div><div class="big"><span class="cur">NT$</span>${fmt(tA)}</div></div>
+      <div class="card exp"><div class="lab">總負債</div><div class="big negative"><span class="cur">NT$</span>${fmt(tL)}</div></div>
+      <div class="card net"><div class="lab">資產淨值</div><div class="big ${nw>=0?'positive':'negative'}"><span class="cur">NT$</span>${fmt(nw)}</div></div>
+    </div>
+    <div class="ov"><h3>資產負債表 <span class="sub">基準日 ${DB.meta.basis}</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th class="l">類型</th><th>金額</th></tr></thead>
+      <tbody>
+        <tr style="background:#eef5ee"><td class="l" colspan="3" style="font-weight:700;color:#1f4a3f">資產</td></tr>
+        ${DB.assets.filter(a=>(+a.amt||0)!==0).map(a=>`<tr><td class="l" style="padding-left:20px">${a.n}</td><td class="l" style="font-size:12px;color:var(--ink-soft)">${a.type}</td><td class="r">${fmt(a.amt)}</td></tr>`).join("")}
+        <tr style="font-weight:700"><td class="l">　資產合計</td><td></td><td class="r">${fmt(tA)}</td></tr>
+        <tr style="background:#fbeee0"><td class="l" colspan="3" style="font-weight:700;color:#9a5b12">負債</td></tr>
+        <tr><td class="l" style="padding-left:20px">房貸（本金餘額）</td><td class="l" style="font-size:12px;color:var(--ink-soft)">長期負債</td><td class="r">${fmt(tL)}</td></tr>
+        <tr style="font-weight:700"><td class="l">　負債合計</td><td></td><td class="r">${fmt(tL)}</td></tr>
+        <tr style="font-weight:800;border-top:2px solid var(--ink)"><td class="l">資產淨值（權益）</td><td></td><td class="r ${nw>=0?'positive':'negative'}">${fmt(nw)}</td></tr>
+      </tbody></table></div>
+      <div style="font-size:12px;color:var(--ink-soft);margin-top:6px">資產 ${fmt(tA)} − 負債 ${fmt(tL)} ＝ 資產淨值 ${fmt(nw)}</div></div>
+    <div class="ov"><h3>資產存量 <span class="sub">可逐筆編輯目前金額</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th class="l">類型</th><th class="l">備註</th><th>目前金額</th><th></th></tr></thead>
+      <tbody>${DB.assets.map((a,i)=>`<tr><td class="l">${a.n}</td><td class="l"><span class="tag" style="background:#eee;color:#555">${a.type}</span></td><td class="l" style="font-size:12px;color:var(--ink-soft)">${a.note||""}</td><td class="r"><input class="cell" value="${a.amt||0}" onchange="DB.assets[${i}].amt=parse(this.value);save();render()"></td><td><button class="rowdel" onclick="delAsset(${i})">×</button></td></tr>`).join("")}</tbody>
+      <tfoot><tr><td class="l" colspan="3">資產合計</td><td>${fmt(tA)}</td><td></td></tr></tfoot></table></div>
+      <button class="act" onclick="addAsset()" style="margin-top:8px">＋ 新增資產</button></div>
+    <div class="ov"><h3>資產配置</h3><div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><div>${donut(dType,"總資產",fmt(tA),170)}</div><div style="flex:1;min-width:220px">${legend(dType)}</div></div></div>
+    <div class="ov"><h3>房貸記錄 <span class="sub">原貸 ${fmt(DB.loan.principal)} · 利率 ${DB.loan.rate}% · ${DB.loan.start}～${DB.loan.end}</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">日期</th><th>本金餘額</th><th>較前期</th><th></th></tr></thead>
+      <tbody>${DB.loan.hist.slice().sort((a,b)=>a.date<b.date?-1:1).map((h,i,arr)=>{ const diff=i?h.bal-arr[i-1].bal:null; return `<tr><td class="l">${h.date}</td><td>${fmt(h.bal)}</td><td style="color:${diff==null?'var(--ink-soft)':diff<0?'var(--pos)':'var(--neg)'}">${diff==null?'—':(diff>0?'+':'')+fmt(diff)}</td><td><button class="rowdel" onclick="delLoan('${h.date}')">×</button></td></tr>`;}).join("")}</tbody></table></div>
+      <div class="addform" style="margin-top:10px"><div class="ff"><label>日期</label><input class="f" type="date" id="loDate" value="${ymd(ANCHOR)}"></div><div class="ff"><label>本金餘額</label><input class="f amt" id="loBal"></div><button class="act primary" onclick="addLoan()">＋ 新增一期</button></div></div>
+    <div class="ov"><h3>淨值盤點軌跡</h3>${lineChart(snap.map(s=>({label:s.date.slice(5),val:s.net})))}
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">盤點日</th><th>總資產</th><th>總負債</th><th>淨值</th><th></th></tr></thead>
+      <tbody>${snap.map(s=>`<tr><td class="l">${s.date}</td><td>${fmt(s.asset)}</td><td>${fmt(s.liab)}</td><td style="font-weight:700">${fmt(s.net)}</td><td><button class="rowdel" onclick="delSnap('${s.date}')">×</button></td></tr>`).join("")}
+      <tr style="border-top:1px dashed var(--line)"><td class="l" style="color:var(--ink-soft)">目前（未記錄）</td><td>${fmt(tA)}</td><td>${fmt(tL)}</td><td style="font-weight:700">${fmt(nw)}</td><td></td></tr></tbody></table></div>
+      <button class="act" onclick="takeSnap()" style="margin-top:8px">＋ 記錄本次盤點</button></div>`;
+}
+function addAsset(){ DB.assets.push({n:"新資產",note:"",type:"現金",amt:0,hist:[]}); save(); render(); }
+function delAsset(i){ DB.assets.splice(i,1); save(); render(); }
+function addLoan(){ const d=$("loDate").value, b=parse($("loBal").value); if(!d||!b){flash("請填日期與餘額");return;} DB.loan.hist=DB.loan.hist.filter(h=>h.date!==d); DB.loan.hist.push({date:d,bal:b}); save(); render(); }
+function delLoan(d){ DB.loan.hist=DB.loan.hist.filter(h=>h.date!==d); save(); render(); }
+function takeSnap(){ const d=ymd(new Date()); DB.snapshots=DB.snapshots.filter(s=>s.date!==d); DB.snapshots.push({date:d,asset:totalAsset(),liab:totalLiab(),net:netWorth()}); save(); render(); flash("已記錄盤點 ✓ "+d); }
+function delSnap(d){ DB.snapshots=DB.snapshots.filter(s=>s.date!==d); save(); render(); }
+function lineChart(rows){
+  if(!rows.length) return `<div style="color:var(--ink-soft);font-size:13px">尚無盤點紀錄。</div>`;
+  const W=640,H=170,pad=40; const vals=rows.map(r=>r.val); const mx=Math.max(...vals,1),mn=Math.min(...vals,0),sp=(mx-mn)||1;
+  const xs=rows.length>1?(W-pad*2)/(rows.length-1):0;
+  const pts=rows.map((r,i)=>[pad+(rows.length>1?i*xs:(W-pad*2)/2),H-pad-(r.val-mn)/sp*(H-pad*2)]);
+  const path=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;margin-bottom:8px"><line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#ddd3c0"/>${rows.length>1?`<path d="${path}" fill="none" stroke="#b0863f" stroke-width="2"/>`:""}${pts.map((p,i)=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="#1f4a3f"/><text x="${p[0].toFixed(1)}" y="${(p[1]-9).toFixed(1)}" text-anchor="middle" font-size="10" fill="#5c6b62">${fmt(rows[i].val)}</text><text x="${p[0].toFixed(1)}" y="${H-pad+14}" text-anchor="middle" font-size="9" fill="#5c6b62">${rows[i].label}</text>`).join("")}</svg>`;
+}
+
+/* ---- 會員資產（歷次資產增值） ---- */
+const SERIES=[
+  {key:"net",        name:"資產淨值",      color:"#b0863f"},
+  {key:"anda",       name:"安達變額年金",  color:"#2e6b58"},
+  {key:"cash",       name:"現金存量",      color:"#2f6f93"},
+  {key:"realestate", name:"不動產",        color:"#9a6a3a"},
+  {key:"other",      name:"其他資產",      color:"#7a5cae"},
+  {key:"loan",       name:"房貸餘額",      color:"#b1452f"},
 ];
+function revVal(r,k){ return k==="net" ? (+r.anda||0)+(+r.cash||0)+(+r.realestate||0)+(+r.other||0)-(+r.loan||0) : (+r[k]||0); }
+function pctStr(a,b){ if(!b)return "—"; const p=(a-b)/b*100; return (p>=0?"+":"")+p.toFixed(1)+"%"; }
+function multiLine(labels, series){
+  const W=720,H=250,padL=12,padR=12,padT=18,padB=28;
+  const vals=series.flatMap(s=>s.vals).filter(v=>v!=null); if(!vals.length||!labels.length) return `<div style="color:var(--ink-soft);font-size:13px">尚無盤點資料。</div>`;
+  const mx=Math.max(...vals,1), mn=Math.min(...vals,0), sp=(mx-mn)||1, n=labels.length;
+  const X=i=> padL + (n>1? i*(W-padL-padR)/(n-1) : (W-padL-padR)/2);
+  const Y=v=> H-padB-((v-mn)/sp)*(H-padT-padB);
+  let g="";
+  series.forEach(s=>{ const pts=s.vals.map((v,i)=>[X(i),Y(v)]); const path=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+    g+=`<path d="${path}" fill="none" stroke="${s.color}" stroke-width="2.5"/>`+pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="${s.color}"/>`).join(""); });
+  const xl=labels.map((l,i)=>`<text x="${X(i).toFixed(1)}" y="${H-padB+16}" text-anchor="middle" font-size="10.5" fill="#5c6b62">${l}</text>`).join("");
+  const lg=series.map(s=>`<span style="display:inline-flex;align-items:center;gap:5px;margin-right:14px;font-size:12px"><span style="width:14px;height:3px;background:${s.color};display:inline-block;border-radius:2px"></span>${s.name}</span>`).join("");
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block"><line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#ddd3c0"/>${g}${xl}</svg><div style="margin-top:6px">${lg}</div>`;
+}
+function renderMember(){
+  const R=DB.assetReviews.slice().sort((a,b)=>a.date<b.date?-1:1);
+  const dates=R.map(r=>r.date.slice(5));
+  const first=R[0], last=R[R.length-1];
+  const sel=SERIES.filter(s=>DB.ui.series[s.key]);
+  const chartSeries=sel.map(s=>({name:s.name,color:s.color,vals:R.map(r=>revVal(r,s.key))}));
+  const gain=(k)=> R.length>1 ? revVal(last,k)-revVal(first,k) : 0;
+  $("tab-member").innerHTML=`
+    <div class="ov" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <span><b>會員：</b>${DB.member.name}</span>
+      <span><b>類別：</b>
+        <select class="f" onchange="DB.member.type=this.value;save();render()">
+          <option ${DB.member.type==="保戶"?"selected":""}>保戶</option>
+          <option ${DB.member.type==="付費會員"?"selected":""}>付費會員</option>
+        </select></span>
+      <span style="color:var(--ink-soft);font-size:12px">※ 未來可擴充多會員、區分保戶與付費會員機制</span>
+    </div>
+    <div class="dash">
+      <div class="card net"><div class="lab">最新資產淨值</div><div class="big"><span class="cur">NT$</span>${fmt(revVal(last,"net"))}</div><div class="small">${last?last.date:""}</div></div>
+      <div class="card inc"><div class="lab">期間淨值增值</div><div class="big ${gain("net")>=0?'positive':'negative'}">${gain("net")>=0?"+":""}${fmt(gain("net"))}</div><div class="small">${first&&last?pctStr(revVal(last,"net"),revVal(first,"net")):"—"} · 自 ${first?first.date.slice(5):""}</div></div>
+      <div class="card c"><div class="lab">安達年金增值</div><div class="big ${gain("anda")>=0?'positive':'negative'}">${gain("anda")>=0?"+":""}${fmt(gain("anda"))}</div><div class="small">${first&&last?pctStr(revVal(last,"anda"),revVal(first,"anda")):"—"}</div></div>
+      <div class="card a"><div class="lab">房貸已遞減</div><div class="big positive">−${fmt(R.length>1?(+first.loan||0)-(+last.loan||0):0)}</div><div class="small">餘額 ${fmt(last?+last.loan:0)}</div></div>
+    </div>
+    <div class="ov"><h3>資產果園 <span class="sub">每棵果樹＝一項資產，樹越大值越高，增值越多結越多果 🍊</span></h3>
+      <div style="overflow-x:auto">${orchard(R)}</div>
+      <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--ink-soft)">果園總值（總資產）${fmt(R.length?revVal(last,"net")+(+last.loan||0):0)} − 房貸 ${fmt(R.length?+last.loan:0)} ＝ <b style="color:var(--green)">資產淨值 ${fmt(R.length?revVal(last,"net"):0)}</b></div></div>
+    <div class="ov"><h3>歷次資產增值趨勢 <span class="sub">勾選要顯示的項目</span></h3>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px">${SERIES.map(s=>`<label style="cursor:pointer;font-size:13px;display:inline-flex;align-items:center;gap:5px"><input type="checkbox" ${DB.ui.series[s.key]?"checked":""} onchange="DB.ui.series['${s.key}']=this.checked;save();render()"><span style="width:11px;height:11px;border-radius:3px;background:${s.color};display:inline-block"></span>${s.name}</label>`).join("")}</div>
+      ${multiLine(dates, chartSeries)}</div>
+    <div class="ov"><h3>歷次盤點 <span class="sub">可編輯／新增／刪除；淨值自動計算</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">盤點日</th><th>安達年金</th><th>現金存量</th><th>不動產</th><th>其他資產</th><th>房貸餘額</th><th>資產淨值</th><th>較前期</th><th></th></tr></thead>
+      <tbody>${R.map((r,i)=>{ const idx=DB.assetReviews.indexOf(r); const prev=i>0?R[i-1]:null; const d=prev?revVal(r,"net")-revVal(prev,"net"):null; return `<tr>
+        <td class="l">${r.date}</td>
+        <td class="r"><input class="cell" style="width:84px" value="${r.anda||0}" onchange="DB.assetReviews[${idx}].anda=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" style="width:84px" value="${r.cash||0}" onchange="DB.assetReviews[${idx}].cash=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" style="width:90px" value="${r.realestate||0}" onchange="DB.assetReviews[${idx}].realestate=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" style="width:74px" value="${r.other||0}" onchange="DB.assetReviews[${idx}].other=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" style="width:84px" value="${r.loan||0}" onchange="DB.assetReviews[${idx}].loan=parse(this.value);save();render()"></td>
+        <td class="r" style="font-weight:700">${fmt(revVal(r,"net"))}</td>
+        <td class="r" style="color:${d==null?'var(--ink-soft)':d>=0?'var(--pos)':'var(--neg)'}">${d==null?'—':(d>=0?'+':'')+fmt(d)}</td>
+        <td><button class="rowdel" onclick="delReview(${idx})">×</button></td></tr>`;}).join("")}</tbody></table></div>
+      <div class="addform" style="margin-top:10px">
+        <div class="ff"><label>盤點日</label><input class="f" type="date" id="rvDate" value="${ymd(new Date())}"></div>
+        <div class="ff"><label>安達</label><input class="f amt" id="rvAnda"></div>
+        <div class="ff"><label>現金</label><input class="f amt" id="rvCash"></div>
+        <div class="ff"><label>不動產</label><input class="f amt" id="rvRe"></div>
+        <div class="ff"><label>其他</label><input class="f amt" id="rvOther"></div>
+        <div class="ff"><label>房貸</label><input class="f amt" id="rvLoan"></div>
+        <button class="act primary" onclick="addReview()">＋ 新增盤點</button>
+        <button class="act" onclick="pullReview()">從資產負債帶入目前值</button>
+      </div></div>
+    <div class="ov"><h3>各項目逐期明細 <span class="sub">期間增值＝最新−最早</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th>${R.map(r=>`<th>${r.date.slice(5)}</th>`).join("")}<th>期間增值</th><th>幅度</th></tr></thead>
+      <tbody>${SERIES.map(s=>{ const v=R.map(r=>revVal(r,s.key)); const g=v.length>1?v[v.length-1]-v[0]:0; return `<tr><td class="l"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${s.color};margin-right:6px"></span>${s.name}</td>${v.map(x=>`<td class="r">${fmt(x)}</td>`).join("")}<td class="r" style="font-weight:600;color:${s.key==='loan'?(g<=0?'var(--pos)':'var(--neg)'):(g>=0?'var(--pos)':'var(--neg)')}">${g>=0?'+':''}${fmt(g)}</td><td class="r">${v.length>1?pctStr(v[v.length-1],v[0]):'—'}</td></tr>`;}).join("")}</tbody></table></div></div>`;
+}
+function addReview(){ const d=$("rvDate").value; if(!d){flash("請選盤點日");return;} DB.assetReviews=DB.assetReviews.filter(r=>r.date!==d); DB.assetReviews.push({date:d,anda:parse($("rvAnda").value),cash:parse($("rvCash").value),realestate:parse($("rvRe").value),other:parse($("rvOther").value),loan:parse($("rvLoan").value)}); save(); render(); flash("已新增盤點 ✓"); }
+function delReview(i){ DB.assetReviews.splice(i,1); save(); render(); }
+function pullReview(){ const anda=(DB.assets.find(a=>/安達/.test(a.n))||{}).amt||0; const cash=DB.assets.filter(a=>a.type==="現金").reduce((s,a)=>s+(+a.amt||0),0); const re=DB.assets.filter(a=>a.type==="不動產").reduce((s,a)=>s+(+a.amt||0),0); const other=totalAsset()-anda-cash-re; $("rvAnda").value=anda; $("rvCash").value=cash; $("rvRe").value=re; $("rvOther").value=other; $("rvLoan").value=loanBalance(); flash("已帶入目前值，確認後按「新增盤點」"); }
 
-const grid = document.getElementById('cfpGrid');
-if(grid) {
-  cfpData.forEach(r => {
-    const card = document.createElement('div');
-    card.className = 'cfp-card';
-    card.style.borderColor = r.priColor;
-    card.innerHTML = `
-      <div class="cfp-cat" style="background:${r.priColor}">${r.cat}</div>
-      <div class="cfp-title" style="color:${r.priColor}">${r.title}</div>
-      <div class="cfp-suggest">${r.suggest}</div>
-      <div class="cfp-note">${r.note}</div>
-      <div class="cfp-choice" style="color:${r.priColor}">${r.choice}</div>
-    `;
-    grid.appendChild(card);
-  });
+/* ---- 訪談記錄 ---- */
+function renderMeetings(){
+  const ms=DB.meetings.slice().sort((a,b)=>a.date<b.date?1:-1);
+  $("tab-meetings").innerHTML=`
+    <div class="addform" style="flex-direction:column;align-items:stretch">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="ff"><label>日期</label><input class="f" type="date" id="mDate" value="${ymd(new Date())}"></div>
+        <div class="ff"><label>類型</label><select class="f" id="mType"><option>周年檢視</option><option>收支檢討</option><option>再平衡</option><option>保單檢視</option><option>目標討論</option><option>其他</option></select></div>
+        <div class="ff" style="flex:1;min-width:160px"><label>主題</label><input class="f" id="mTopic" style="width:100%" placeholder="本次訪談主題"></div>
+      </div>
+      <div class="ff"><label>重點摘要</label><textarea class="f" id="mSum" rows="2" placeholder="客戶關注、討論重點…"></textarea></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="ff" style="flex:1;min-width:200px"><label>決議事項</label><textarea class="f" id="mDec" rows="2"></textarea></div>
+        <div class="ff" style="flex:1;min-width:200px"><label>待辦 / 追蹤</label><textarea class="f" id="mTodo" rows="2"></textarea></div>
+        <div class="ff"><label>下次追蹤日</label><input class="f" type="date" id="mNext"></div>
+      </div>
+      <button class="act primary" onclick="addMeeting()" style="align-self:flex-start">＋ 新增訪談記錄</button>
+    </div>
+    ${ms.length?ms.map(m=>`<div class="meeting"><div class="mh"><span class="md">${m.date} · ${m.topic||"（未命名）"}</span><span class="mt">${m.type}${m.next?` · 下次 ${m.next}`:""} <button class="rowdel" onclick="delMeeting('${m.id}')">×</button></span></div>
+      <dl>${m.sum?`<dt>重點摘要</dt><dd>${m.sum}</dd>`:""}${m.dec?`<dt>決議事項</dt><dd>${m.dec}</dd>`:""}${m.todo?`<dt>待辦 / 追蹤</dt><dd>${m.todo}</dd>`:""}</dl></div>`).join("")
+      :`<div class="ov" style="color:var(--ink-soft)">尚無訪談記錄。</div>`}`;
+}
+function addMeeting(){ DB.meetings.push({id:uid(),date:$("mDate").value||ymd(new Date()),type:$("mType").value,topic:$("mTopic").value.trim(),sum:$("mSum").value.trim(),dec:$("mDec").value.trim(),todo:$("mTodo").value.trim(),next:$("mNext").value}); save(); render(); flash("已新增訪談記錄 ✓"); }
+function delMeeting(id){ DB.meetings=DB.meetings.filter(m=>m.id!==id); save(); render(); }
+
+/* ---- 財富花園 ---- */
+function stageLabel(p){ if(p>=1)return "結果 🍎"; if(p>=0.7)return "茁壯"; if(p>=0.4)return "成長"; if(p>=0.12)return "萌芽"; return "種子"; }
+function tree(x, gy, size, color, fruit){
+  size=Math.max(0,Math.min(1,size)); const grow=size; if(fruit==null)fruit=size; fruit=Math.max(0,Math.min(1,fruit));
+  const trunkH=18+grow*90, trunkW=6+grow*11, topY=gy-trunkH, canR=14+grow*48, cyT=topY;
+  let s=`<ellipse cx="${x}" cy="${gy}" rx="${(22+grow*12).toFixed(1)}" ry="7" fill="#cbb487"/>`;
+  if(size<0.12){
+    s+=`<path d="M${x} ${gy} L${x} ${gy-22}" stroke="#5a8f4a" stroke-width="3" fill="none"/>`;
+    s+=`<ellipse cx="${x-6}" cy="${gy-18}" rx="8" ry="4" fill="#6fae5a" transform="rotate(-32 ${x-6} ${gy-18})"/>`;
+    s+=`<ellipse cx="${x+6}" cy="${gy-23}" rx="8" ry="4" fill="#6fae5a" transform="rotate(32 ${x+6} ${gy-23})"/>`;
+    return s;
+  }
+  s+=`<path d="M${(x-trunkW/2).toFixed(1)} ${gy} Q${(x-trunkW/5).toFixed(1)} ${((gy+topY)/2).toFixed(1)} ${(x-trunkW/3).toFixed(1)} ${topY.toFixed(1)} L${(x+trunkW/3).toFixed(1)} ${topY.toFixed(1)} Q${(x+trunkW/5).toFixed(1)} ${((gy+topY)/2).toFixed(1)} ${(x+trunkW/2).toFixed(1)} ${gy} Z" fill="#7d5733"/>`;
+  if(grow>0.45){
+    s+=`<path d="M${x} ${(cyT+canR*0.5).toFixed(1)} L${(x-canR*0.55).toFixed(1)} ${(cyT+canR*0.12).toFixed(1)}" stroke="#7d5733" stroke-width="${(2+grow*2).toFixed(1)}" stroke-linecap="round"/>`;
+    s+=`<path d="M${x} ${(cyT+canR*0.7).toFixed(1)} L${(x+canR*0.55).toFixed(1)} ${(cyT+canR*0.3).toFixed(1)}" stroke="#7d5733" stroke-width="${(2+grow*2).toFixed(1)}" stroke-linecap="round"/>`;
+  }
+  const blobs=[[-0.6,0.28,0.7],[0.6,0.28,0.7],[-0.32,-0.32,0.66],[0.34,-0.38,0.64],[0,0.42,0.66],[0,0,1]];
+  blobs.forEach((b,i)=>{ s+=`<circle cx="${(x+b[0]*canR).toFixed(1)}" cy="${(cyT+b[1]*canR).toFixed(1)}" r="${(canR*b[2]).toFixed(1)}" fill="${i%2?'#56a061':'#6cb572'}"/>`; });
+  s+=`<ellipse cx="${(x-canR*0.3).toFixed(1)}" cy="${(cyT-canR*0.35).toFixed(1)}" rx="${(canR*0.32).toFixed(1)}" ry="${(canR*0.26).toFixed(1)}" fill="#7cc285" opacity="0.7"/>`;
+  const fpos=[[-0.42,-0.05],[0.46,0.08],[0,-0.5],[-0.18,0.42],[0.32,0.45],[0.12,-0.18],[-0.5,0.28],[0.22,-0.32]];
+  if(fruit>=0.9){ const nf=Math.min(fpos.length,Math.round(3+fruit*4)); fpos.slice(0,nf).forEach(fr=> s+=`<circle cx="${(x+fr[0]*canR).toFixed(1)}" cy="${(cyT+fr[1]*canR).toFixed(1)}" r="5.5" fill="${color||'#d98a3a'}" stroke="#fff" stroke-width="1.2"/>`); }
+  else if(fruit>=0.4){ const nb=Math.max(2,Math.round(fruit*4)); fpos.slice(0,nb).forEach(fr=> s+=`<circle cx="${(x+fr[0]*canR).toFixed(1)}" cy="${(cyT+fr[1]*canR).toFixed(1)}" r="4" fill="#ecb0cb"/>`); }
+  return s;
+}
+function orchard(R){
+  if(!R.length) return `<div style="color:var(--ink-soft);font-size:13px">尚無盤點資料。</div>`;
+  const first=R[0], last=R[R.length-1];
+  const comps=[{key:"anda",name:"安達年金",color:"#d98a3a"},{key:"cash",name:"現金存量",color:"#e0a93f"},{key:"realestate",name:"不動產",color:"#c98a4a"},{key:"other",name:"其他資產",color:"#caa45a"}]
+    .map(c=>Object.assign({},c,{val:+last[c.key]||0,prev:+first[c.key]||0})).filter(c=>c.val>0);
+  const maxV=Math.max(...comps.map(c=>c.val),1), n=Math.max(comps.length,1);
+  const colW=Math.max(150,Math.min(210,700/n)), W=Math.max(660,n*colW), H=320, gy=H-72;
+  const sky=`<defs><linearGradient id="osky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7f1de"/><stop offset="1" stop-color="#f7f1e7"/></linearGradient></defs>`;
+  const sun=`<circle cx="${W-64}" cy="52" r="24" fill="#f2c75a"/><circle cx="${W-64}" cy="52" r="33" fill="#f2c75a" opacity="0.16"/>`;
+  const ground=`<rect x="0" y="${gy}" width="${W}" height="${H-gy}" fill="#d4c393"/><line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="#a98f5e" stroke-width="2"/>`;
+  const trees=comps.map((c,i)=>{
+    const size=0.4+0.6*(c.val/maxV), apprec=c.prev>0?(c.val-c.prev)/c.prev:0;
+    const fruit=Math.max(0,Math.min(1,0.45+apprec*6)), x=colW*(i+0.5);
+    return tree(x,gy,size,c.color,fruit)+
+      `<text x="${x.toFixed(1)}" y="${gy+20}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2f4a3c" font-family="Noto Serif TC">${c.name}</text>`+
+      `<text x="${x.toFixed(1)}" y="${gy+37}" text-anchor="middle" font-size="12" font-weight="900" fill="#7d5733" font-family="Noto Serif TC">${fmt(c.val)}</text>`+
+      `<text x="${x.toFixed(1)}" y="${gy+53}" text-anchor="middle" font-size="11" fill="${apprec>=0?'#2e6b58':'#b1452f'}">${apprec>=0?'▲ +':'▼ '}${(apprec*100).toFixed(1)}%</text>`;
+  }).join("");
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;min-width:100%">${sky}<rect x="0" y="0" width="${W}" height="${gy}" fill="url(#osky)"/>${sun}${ground}${trees}</svg>`;
+}
+function renderGarden(){
+  const goals=DB.goals; const n=Math.max(goals.length,1);
+  const colW=Math.max(170, Math.min(220, 760/n)); const W=Math.max(680, n*colW); const H=360, gy=H-90;
+  const sky=`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dff0e6"/><stop offset="1" stop-color="#f7f1e7"/></linearGradient><linearGradient id="grd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8c79c"/><stop offset="1" stop-color="#cbb487"/></linearGradient></defs>`;
+  const sun=`<circle cx="${W-70}" cy="58" r="26" fill="#f2c75a"/><circle cx="${W-70}" cy="58" r="36" fill="#f2c75a" opacity="0.16"/>`;
+  const ground=`<rect x="0" y="${gy}" width="${W}" height="${H-gy}" fill="url(#grd)"/><line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="#a98f5e" stroke-width="2"/>`;
+  const trees=goals.map((g,i)=>{
+    const p=g.target>0?g.cur/g.target:0; const x=colW*(i+0.5);
+    const col=PAL[i%PAL.length];
+    const t=tree(x,gy,p,col);
+    const lab=`<text x="${x.toFixed(1)}" y="${gy+22}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2f4a3c" font-family="Noto Serif TC">${g.name.length>9?g.name.slice(0,9)+"…":g.name}</text>`+
+      `<text x="${x.toFixed(1)}" y="${gy+40}" text-anchor="middle" font-size="13" font-weight="900" fill="${p>=1?'#b0863f':'#2e6b58'}" font-family="Noto Serif TC">${Math.round(p*100)}%</text>`+
+      `<text x="${x.toFixed(1)}" y="${gy+56}" text-anchor="middle" font-size="10.5" fill="#5c6b62">${stageLabel(p)}</text>`+
+      `<text x="${x.toFixed(1)}" y="${gy+71}" text-anchor="middle" font-size="10" fill="#8a8270">${fmt(g.cur)} / ${fmt(g.target)}</text>`;
+    return t+lab;
+  }).join("");
+  const reached=goals.filter(g=>g.target>0&&g.cur>=g.target).length;
+  $("tab-garden").innerHTML=`
+    <div class="dash c3">
+      <div class="card a"><div class="lab">目標數</div><div class="big">${goals.length}</div></div>
+      <div class="card inc"><div class="lab">已達標（結果）</div><div class="big positive">${reached}<span class="small"> / ${goals.length}</span></div></div>
+      <div class="card net"><div class="lab">平均達成率</div><div class="big">${goals.length?Math.round(goals.reduce((s,g)=>s+(g.target>0?Math.min(g.cur/g.target,1):0),0)/goals.length*100):0}%</div></div>
+    </div>
+    <div class="ov"><h3>財富花園 · 財務目標藍圖 <span class="sub">每棵樹＝一個目標，達成率越高樹越茂盛，100% 結果 🍎</span></h3>
+      <div style="overflow-x:auto"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;min-width:100%">${sky}<rect x="0" y="0" width="${W}" height="${gy}" fill="url(#sky)"/>${sun}${ground}${trees}</svg></div>
+      <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--ink-soft)">里程碑：${[65,70,75,80].map(a=>`<span style="background:#ece4d4;border-radius:999px;padding:3px 12px">${a} 歲</span>`).join("")}</div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px;font-size:11.5px;color:var(--ink-soft)">
+        <span>🌱 種子 (&lt;12%)</span><span>🌿 萌芽 (&lt;40%)</span><span>🌳 成長 (&lt;70%)</span><span>🌳 茁壯 (&lt;100%)</span><span>🍎 結果 (100%)</span></div></div>
+    <div class="ov"><h3>建構目標 <span class="sub">設定目標與目前進度，花園即時生長</span></h3>
+      <div class="tscroll"><table class="lt"><thead><tr><th class="l">目標名稱</th><th>目前</th><th>目標值</th><th>達成率</th><th class="l">狀態</th><th></th></tr></thead>
+      <tbody>${goals.map((g,i)=>{ const pct=g.target>0?Math.min(g.cur/g.target*100,100):0; return `<tr>
+        <td class="l"><input class="cell" style="width:170px;text-align:left" value="${(g.name||"").replace(/"/g,'&quot;')}" onchange="DB.goals[${i}].name=this.value;save();render()"></td>
+        <td class="r"><input class="cell" value="${g.cur||0}" onchange="DB.goals[${i}].cur=parse(this.value);save();render()"></td>
+        <td class="r"><input class="cell" value="${g.target||0}" onchange="DB.goals[${i}].target=parse(this.value);save();render()"></td>
+        <td class="r"><div style="display:flex;align-items:center;gap:7px;justify-content:flex-end"><div class="gbar" style="width:70px"><div class="gfill" style="width:${pct.toFixed(0)}%;background:${pct>=100?'#b0863f':'#2e6b58'}"></div></div><b>${pct.toFixed(0)}%</b></div></td>
+        <td class="l"><span style="font-size:12px;color:var(--ink-soft)">${stageLabel(g.target>0?g.cur/g.target:0)}</span></td>
+        <td><button class="rowdel" onclick="delGoal(${i})">×</button></td></tr>`;}).join("")}</tbody></table></div>
+      <button class="act" onclick="addGoal()" style="margin-top:8px">＋ 新增目標</button></div>`;
 }
 
-// 健康評分
-const gaugeData = [
-  { label:'緊急預備金', score:'8.0個月', pct:100, color:'#0D9488', note:'✅ 超標（標準6個月）' },
-  { label:'退休現金流底板', score:'$46,663/月', pct:100, color:'#0D9488', note:'✅ 月退俸終身保障' },
-  { label:'資產成長率', score:'+136%（4年）', pct:90, color:'#0D9488', note:'✅ 穩健增長中' },
-  { label:'身故保障', score:'82%', pct:82, color:'#D97706', note:'⚠️ 略不足' },
-  { label:'失能一次金', score:'359%', pct:100, color:'#0D9488', note:'✅ 超標' },
-  { label:'醫療雜費', score:'8%', pct:8, color:'#DC2626', note:'❗ 嚴重不足' },
-  { label:'重大傷病', score:'0%', pct:1, color:'#DC2626', note:'❗ 最高優先補強' },
-  { label:'配偶醫療', score:'防禦水庫設立', pct:50, color:'#D97706', note:'⚠️ 持續累積中' },
-];
-const gl = document.getElementById('gaugeList');
-if(gl) {
-  gl.style.display = 'grid';
-  gl.style.gridTemplateColumns = 'repeat(2,1fr)';
-  gl.style.gap = '12px';
-  gaugeData.forEach(g => {
-    const item = document.createElement('div');
-    item.className = 'gauge-item';
-    item.innerHTML = `
-      <div class="gauge-top">
-        <span class="gauge-label">${g.label}</span>
-        <span class="gauge-score" style="color:${g.color}">${g.score}</span>
-      </div>
-      <div class="gauge-bar-wrap">
-        <div class="gauge-bar-fill" style="width:${Math.max(1,g.pct)}%;background:${g.color}"></div>
-      </div>
-      <div class="gauge-note">${g.note}</div>
-    `;
-    gl.appendChild(item);
-  });
+function addGoal(){ DB.goals.push({name:"新目標",target:0,cur:0}); save(); render(); }
+function delGoal(i){ DB.goals.splice(i,1); save(); render(); }
+
+/* ---- 風險規劃（賓士圖） ---- */
+function rcalc(p){ const need=p.items.reduce((s,it)=>s+(+it.need||0),0), have=p.items.reduce((s,it)=>s+(+it.have||0),0); return {need,have,gap:Math.max(need-have,0),rate:need>0?have/need:0}; }
+function renderRisk(){
+  const P=DB.risk.pillars;
+  const tN=P.reduce((s,p)=>s+rcalc(p).need,0), tH=P.reduce((s,p)=>s+rcalc(p).have,0), tG=Math.max(tN-tH,0), tR=tN>0?tH/tN:0;
+  const cx=150,cy=150,R=110;
+  const segs=P.map((p,i)=>{ const c=rcalc(p); const a0=-90+i*120,a1=-90+(i+1)*120,r0=a0*Math.PI/180,r1=a1*Math.PI/180;
+    const x0=cx+R*Math.cos(r0),y0=cy+R*Math.sin(r0),x1=cx+R*Math.cos(r1),y1=cy+R*Math.sin(r1);
+    const path=`M${cx} ${cy} L${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z`;
+    const op=(0.2+0.75*Math.min(c.rate,1)).toFixed(2), am=(a0+a1)/2*Math.PI/180, lx=cx+R*0.6*Math.cos(am), ly=cy+R*0.6*Math.sin(am);
+    return `<path d="${path}" fill="${p.color}" opacity="${op}" stroke="#fff" stroke-width="3"/><text x="${lx.toFixed(1)}" y="${(ly-3).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Noto Serif TC">${p.name}</text><text x="${lx.toFixed(1)}" y="${(ly+14).toFixed(1)}" text-anchor="middle" font-size="13" font-weight="900" fill="#fff">${Math.round(c.rate*100)}%</text>`;
+  }).join("");
+  const ptable=(p,pi)=>{ const c=rcalc(p); return `<div class="ov"><h3><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:${p.color};margin-right:6px"></span>${p.name} <span class="sub">完成率 ${Math.round(c.rate*100)}%</span></h3>
+    <div class="tscroll"><table class="lt"><thead><tr><th class="l">項目</th><th>應備</th><th>已備</th><th>缺口</th><th>完成率</th><th class="l">口徑/備註</th><th></th></tr></thead>
+    <tbody>${p.items.map((it,ii)=>{ const gap=Math.max((+it.need||0)-(+it.have||0),0), rate=it.need>0?(it.have/it.need*100):0; return `<tr>
+      <td class="l"><input class="cell" style="width:118px;text-align:left" value="${(it.name||"").replace(/"/g,'&quot;')}" onchange="DB.risk.pillars[${pi}].items[${ii}].name=this.value;save()"></td>
+      <td class="r"><input class="cell" style="width:88px" value="${it.need||0}" onchange="DB.risk.pillars[${pi}].items[${ii}].need=parse(this.value);save();render()"></td>
+      <td class="r"><input class="cell" style="width:88px" value="${it.have||0}" onchange="DB.risk.pillars[${pi}].items[${ii}].have=parse(this.value);save();render()"></td>
+      <td class="r" style="color:${gap>0?'var(--neg)':'var(--pos)'};font-weight:600">${gap>0?fmt(gap):'✓ 已足'}</td>
+      <td class="r">${Math.round(rate)}%</td>
+      <td class="l"><input class="cell" style="width:150px;text-align:left;font-size:12px" value="${(it.note||"").replace(/"/g,'&quot;')}" onchange="DB.risk.pillars[${pi}].items[${ii}].note=this.value;save()"></td>
+      <td><button class="rowdel" onclick="delRiskItem(${pi},${ii})">×</button></td></tr>`;}).join("")}
+      <tr style="font-weight:700"><td class="l">小計</td><td class="r">${fmt(c.need)}</td><td class="r">${fmt(c.have)}</td><td class="r" style="color:${c.gap>0?'var(--neg)':'var(--pos)'}">${c.gap>0?fmt(c.gap):'✓'}</td><td class="r">${Math.round(c.rate*100)}%</td><td colspan="2"></td></tr>
+    </tbody></table></div>
+    <button class="act" onclick="addRiskItem(${pi})" style="margin-top:8px">＋ 新增項目</button></div>`; };
+  $("tab-risk").innerHTML=`
+    <div class="alerts"><b>賓士圖風險需求規劃：</b>三大支柱（責任／醫療／重病失能）逐項算「應備」，對照「已備（現有保單）」得出 <b>缺口</b> 與 <b>完成率</b>。目標：完成率 ≥ 100%。</div>
+    <div class="dash">
+      <div class="card a"><div class="lab">總應備</div><div class="big"><span class="cur">NT$</span>${fmt(tN)}</div></div>
+      <div class="card inc"><div class="lab">總已備</div><div class="big positive"><span class="cur">NT$</span>${fmt(tH)}</div></div>
+      <div class="card exp"><div class="lab">總缺口</div><div class="big negative"><span class="cur">NT$</span>${fmt(tG)}</div></div>
+      <div class="card net"><div class="lab">整體完成率</div><div class="big">${Math.round(tR*100)}%</div></div>
+    </div>
+    <div class="ov"><h3>風險賓士圖 <span class="sub">扇形深淺＝該支柱完成率</span></h3>
+      <div style="display:flex;justify-content:center"><svg width="300" height="300" viewBox="0 0 300 300" style="max-width:100%"><circle cx="${cx}" cy="${cy}" r="${R+8}" fill="none" stroke="#ddd3c0" stroke-width="2"/>${segs}<circle cx="${cx}" cy="${cy}" r="30" fill="#fbf8f1" stroke="#ddd3c0"/><text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="13" font-weight="800" fill="#5c6b62">${Math.round(tR*100)}%</text></svg></div></div>
+    ${P.map((p,i)=>ptable(p,i)).join("")}
+    <div class="ov" style="font-size:12.5px;color:var(--ink-soft);line-height:1.7">缺口＝應備−已備（負值代表已足）；完成率＝已備÷應備。面談口徑（範例，依個案調整）：看護全日約 2,000/日、孝養至父母約 80 歲、生活費至少 10 年、意外傷殘基本 300 萬、重大疾病 2–5 年＋標靶 100–200 萬。<br>面談六步：我是誰 → 風險觀念 → 風險問診 → 預算共識（631／保費安全值 10–15%）→ 財富水庫 → 建議書。</div>`;
 }
+function addRiskItem(pi){ DB.risk.pillars[pi].items.push({name:"新項目",need:0,have:0,note:""}); save(); render(); }
+function delRiskItem(pi,ii){ DB.risk.pillars[pi].items.splice(ii,1); save(); render(); }
+
+/* ============================================================
+   分頁 / 期間 / 儲存
+   ============================================================ */
+function setTab(t){ TAB=t; document.querySelectorAll(".tab").forEach(s=>s.classList.remove("show")); $("tab-"+t).classList.add("show"); document.querySelectorAll(".tabnav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t)); $("periodbar").style.visibility=(t==="meetings"||t==="garden"||t==="risk"||t==="tuition"||t==="budget"||t==="students"||t==="member")?"hidden":"visible"; render(); }
+function setMode(m){ MODE=m; document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.m===m)); render(); }
+function setAnchor(v){ if(v) ANCHOR=dObj(v); render(); }
+function stepPeriod(d){ const a=new Date(ANCHOR); if(MODE==="day")a.setDate(a.getDate()+d); else if(MODE==="week")a.setDate(a.getDate()+7*d); else if(MODE==="month")a.setMonth(a.getMonth()+d); else if(MODE==="quarter")a.setMonth(a.getMonth()+3*d); else a.setMonth(a.getMonth()+6*d); ANCHOR=startOfDay(a); render(); }
+
+let _t=null;
+function flash(t){ $("saveStatus").textContent=t; }
+function save(){ if(_t)clearTimeout(_t); _t=setTimeout(()=>{ try{ localStorage.setItem(KEY,JSON.stringify(DB)); const d=new Date(); flash(`已自動儲存 ✓（${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}）`);}catch(e){ flash("⚠ 此環境無法自動儲存，請用「備份」保存（部署到 GitHub Pages 後即可自動存）。"); } },400); }
+function normalize(){ DB.tuition=Object.assign({auto:true,months:{},entries:[]},DB.tuition||{}); if(!Array.isArray(DB.tuition.entries))DB.tuition.entries=[]; if(!DB.tuition.months)DB.tuition.months={}; if(!DB.studentMonths||typeof DB.studentMonths!=="object"||Array.isArray(DB.studentMonths))DB.studentMonths={}; if(Array.isArray(DB.students)&&DB.students.length&&!DB.studentMonths["5"])DB.studentMonths["5"]=DB.students; delete DB.students; if(!DB.ui)DB.ui={nameMask:false,stMonth:5}; if(DB.ui.stMonth==null)DB.ui.stMonth=5; if(!DB.ui.series)DB.ui.series={net:true,anda:true,cash:true,realestate:false,other:false,loan:true}; if(!Array.isArray(DB.assetReviews))DB.assetReviews=clone(DEFAULT_DB.assetReviews); if(!DB.member)DB.member={name:"Mr. Wish",type:"保戶"}; if(!DB.risk||!DB.risk.pillars||!DB.risk.pillars[0]||!DB.risk.pillars[0].items)DB.risk=clone(DEFAULT_DB.risk); }
+function load(){ try{ const r=localStorage.getItem(KEY); if(r){ const d=JSON.parse(r); DB=Object.assign(clone(DEFAULT_DB),d); if(!d.meta||d.meta.dataVer!==DEFAULT_DB.meta.dataVer){ const D=clone(DEFAULT_DB); DB.budget=D.budget; DB.studentMonths=D.studentMonths; DB.risk=D.risk; DB.meta=Object.assign({},DB.meta,{dataVer:D.meta.dataVer}); } normalize(); return true; } }catch(e){} return false; }
+function backup(){ const b=new Blob([JSON.stringify(DB,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="MrWish_理財備份_"+ymd(new Date())+".json"; a.click(); URL.revokeObjectURL(a.href); flash("已下載備份 ✓"); }
+function resetData(){ if(confirm("確定重設為範例資料？這會清除目前所有輸入（建議先按「備份」保存）。")){ DB=clone(DEFAULT_DB); normalize(); save(); render(); flash("已重設為範例資料 ✓"); } }
+function restore(ev){ const f=ev.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ DB=Object.assign(clone(DEFAULT_DB),JSON.parse(r.result)); normalize(); save(); render(); flash("已還原備份 ✓"); }catch(e){ alert("備份檔讀取失敗"); } }; r.readAsText(f); ev.target.value=""; }
+function exportCSV(){
+  const esc=v=>`"${String(v??"").replace(/"/g,'""')}"`; let lines=[];
+  if(TAB==="journal"||TAB==="ov"||TAB==="settle"){ lines=[["日期","收/支","帳戶","類別","項目","金額"].map(esc).join(",")]; DB.ledger.filter(x=>inRange(x.date)).forEach(x=>lines.push([x.date,x.kind==="in"?"收入":"支出",x.acct,x.cat,x.item||"",x.amt].map(esc).join(","))); }
+  else if(TAB==="tuition"){ lines=[["月份","日期","項目","代號/備註","金額"].map(esc).join(",")]; DB.tuition.entries.slice().sort((a,b)=>a.month-b.month).forEach(e=>lines.push([e.month+"月",e.date||"",e.item,e.note||"",e.amt].map(esc).join(","))); lines.push(""); lines.push(["月份","月合計"].map(esc).join(",")); for(let m=1;m<=12;m++)lines.push([m+"月",tuMonthTotal(m)].map(esc).join(",")); }
+  else if(TAB==="networth"){ lines=[["類型","項目","備註","目前金額"].map(esc).join(",")]; DB.assets.forEach(a=>lines.push(["資產",a.n,a.note||"",a.amt||0].map(esc).join(","))); lines.push(["負債","房貸","本金餘額",loanBalance()].map(esc).join(",")); }
+  else if(TAB==="meetings"){ lines=[["日期","類型","主題","重點","決議","待辦","下次"].map(esc).join(",")]; DB.meetings.forEach(m=>lines.push([m.date,m.type,m.topic,m.sum,m.dec,m.todo,m.next].map(esc).join(","))); }
+  else if(TAB==="risk"){ lines=[["支柱","項目","應備","已備","缺口","完成率","備註"].map(esc).join(",")]; DB.risk.pillars.forEach(p=>p.items.forEach(it=>{const gap=Math.max((+it.need||0)-(+it.have||0),0);const rate=it.need>0?Math.round(it.have/it.need*100):0;lines.push([p.name,it.name,it.need||0,it.have||0,gap,rate+"%",it.note||""].map(esc).join(","));})); }
+  else if(TAB==="member"){ lines=[["盤點日","安達年金","現金存量","不動產","其他資產","房貸餘額","資產淨值"].map(esc).join(",")]; DB.assetReviews.slice().sort((a,b)=>a.date<b.date?-1:1).forEach(r=>lines.push([r.date,r.anda,r.cash,r.realestate,r.other,r.loan,revVal(r,"net")].map(esc).join(","))); }
+  else if(TAB==="students"){ lines=[["月份","姓名","班級","星期","鐘點費","上課日期","堂數","時數","學費","書費","優待","月合計","書費項目","狀態"].map(esc).join(",")]; curArr().forEach(s=>lines.push([curMonth()+"月",(DB.ui.nameMask?maskName(s.name):s.name),s.cls,s.day,s.rate,s.dates,s.sessions,s.hours,stFee(s),s.book,s.disc,stTotal(s),s.note,s.status].map(esc).join(","))); }
+  else if(TAB==="budget"){ lines=[["類型","項目","帳戶","類別","每月","一次性(年)","年合計"].map(esc).join(",")]; DB.budget.income.forEach(it=>lines.push(["收入",it.n,it.acct,it.cat,it.m,it.y,annualOf(it)].map(esc).join(","))); DB.budget.expense.forEach(it=>lines.push(["支出",it.n,it.acct,it.cat,it.m,it.y,annualOf(it)].map(esc).join(","))); }
+  else { lines=[["項目","值"].map(esc).join(",")]; }
+  const b=new Blob(["\uFEFF"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"}); const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="MrWish_"+TAB+"_"+ymd(new Date())+".csv"; a.click(); URL.revokeObjectURL(a.href); flash("已匯出 CSV ✓");
+}
+
+/* ---- 登入 ---- */
+function tryLogin(){ if($("pwd").value===PWD){ sessionStorage.setItem("wish_ok","1"); $("gate").style.display="none"; $("app").style.display="block"; boot(); } else { $("pwdErr").textContent="密碼錯誤，請再試一次。"; $("pwd").value=""; } }
+$("pwd").addEventListener("keydown",e=>{ if(e.key==="Enter")tryLogin(); });
+if(sessionStorage.getItem("wish_ok")==="1"){ $("gate").style.display="none"; $("app").style.display="block"; }
+
+function boot(){ load(); setTab("students"); save(); }
+if(sessionStorage.getItem("wish_ok")==="1") boot(); else setTimeout(()=>$("pwd").focus(),100);
 </script>
 </body>
 </html>
