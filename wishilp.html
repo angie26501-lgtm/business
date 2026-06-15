@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安達保單資產增值時間軸</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#1E3A5F;--teal:#0D9488;--teal-lt:#CCFBF1;
+  --gold:#D97706;--gold-lt:#FEF3C7;
+  --red:#DC2626;--red-lt:#FEE2E2;
+  --green:#065F46;--green-lt:#D1FAE5;
+  --purple:#6D28D9;--purp-lt:#EDE9FE;
+  --gray:#64748B;--border:#E2E8F0;--bg:#F0F4F8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Microsoft JhengHei','Noto Sans TC',Arial,sans-serif;
+  font-size:20px;background:var(--bg);color:#1a2a3a;line-height:1.7;}
+
+/* 密碼 */
+#lock{position:fixed;inset:0;
+  background:linear-gradient(135deg,#0A1628,#1E3A5F);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;z-index:9999;gap:24px;}
+.lt{font-size:72px;font-weight:900;color:white;}
+.ls{font-size:18px;color:rgba(255,255,255,0.5);letter-spacing:0.12em;}
+.lb{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.18);
+  border-radius:18px;padding:36px 48px;
+  display:flex;flex-direction:column;align-items:center;gap:18px;}
+#pwI{background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);
+  border-radius:10px;padding:14px 24px;font-size:30px;
+  letter-spacing:0.5em;color:white;text-align:center;width:210px;outline:none;}
+#pwI:focus{border-color:var(--teal);}
+.lbtn{background:var(--teal);border:none;border-radius:10px;
+  padding:14px 44px;color:white;font-size:20px;font-weight:700;cursor:pointer;
+  transition:transform 0.22s cubic-bezier(.34,1.56,.64,1);}
+.lbtn:hover{transform:scale(1.06);}
+.lbtn:active{transform:scale(0.96);}
+#pwE{font-size:16px;color:#FCA5A5;display:none;}
+
+/* 主體 */
+#app{display:none;max-width:1100px;margin:0 auto;padding:32px 20px 60px;}
+
+/* 頂部標題 */
+.page-hd{background:linear-gradient(135deg,var(--navy),#2E75B6);
+  border-radius:20px;padding:36px 40px;color:white;margin-bottom:28px;}
+.page-title{font-size:36px;font-weight:700;margin-bottom:8px;}
+.page-sub{font-size:18px;color:rgba(255,255,255,0.65);}
+.page-date{font-size:15px;color:rgba(255,255,255,0.45);margin-top:8px;}
+
+/* 摘要卡片 */
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.scard{border-radius:16px;padding:22px 24px;cursor:pointer;
+  transition:transform 0.22s cubic-bezier(.34,1.56,.64,1);}
+.scard:hover{transform:scale(1.05);}
+.scard:active{transform:scale(0.96);}
+.sc-lbl{font-size:16px;margin-bottom:6px;}
+.sc-val{font-size:38px;font-weight:700;line-height:1.1;}
+.sc-sub{font-size:14px;margin-top:6px;opacity:0.8;}
+
+/* 圖表容器 */
+.chart-card{background:white;border-radius:20px;padding:28px 32px;
+  margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,0.07);}
+.chart-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.chart-sub{font-size:17px;color:var(--gray);margin-bottom:22px;}
+.chart-wrap{position:relative;height:360px;}
+.chart-wrap-sm{position:relative;height:260px;}
+
+/* 事件說明 */
+.event-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:16px;}
+.el-item{display:flex;align-items:center;gap:8px;}
+.el-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.el-diamond{width:14px;height:14px;transform:rotate(45deg);flex-shrink:0;}
+
+/* 時間軸 */
+.tl-section{background:white;border-radius:20px;padding:28px 32px;
+  margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,0.07);}
+.tl-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:24px;}
+.tl-wrap{position:relative;padding-left:36px;}
+.tl-line{position:absolute;left:16px;top:0;bottom:0;width:3px;
+  background:linear-gradient(to bottom,var(--teal),var(--purple));border-radius:99px;}
+.tl-item{position:relative;margin-bottom:24px;cursor:pointer;
+  transition:transform 0.2s cubic-bezier(.34,1.56,.64,1);}
+.tl-item:hover{transform:translateX(6px);}
+.tl-item:active{transform:scale(0.98);}
+.tl-dot{position:absolute;left:-28px;top:12px;width:22px;height:22px;
+  border-radius:50%;border:3px solid;background:white;
+  display:flex;align-items:center;justify-content:center;z-index:2;}
+.tl-dot.act{background:var(--teal);border-color:var(--teal);}
+.tl-content{border-radius:14px;padding:18px 22px;border:1px solid var(--border);}
+.tl-date{font-size:15px;color:var(--gray);margin-bottom:4px;}
+.tl-event{font-size:20px;font-weight:700;margin-bottom:6px;}
+.tl-detail{font-size:16px;color:var(--gray);line-height:1.6;}
+.tl-amount{font-size:28px;font-weight:700;margin-top:8px;}
+.tl-badge{display:inline-block;font-size:14px;padding:3px 12px;
+  border-radius:20px;font-weight:600;margin-left:8px;vertical-align:middle;}
+
+/* 投入明細表 */
+.inv-table{width:100%;border-collapse:collapse;font-size:18px;}
+.inv-table th{background:var(--navy);color:white;padding:14px 16px;text-align:left;}
+.inv-table td{padding:13px 16px;border-bottom:1px solid var(--border);}
+.inv-table tr:nth-child(even) td{background:var(--bg);}
+.inv-table tr.total-r td{background:var(--green-lt);font-weight:700;
+  font-size:20px;border-top:2px solid var(--teal);}
+.inv-table tr.profit-r td{background:var(--gold-lt);font-weight:700;font-size:20px;}
+.inv-table td.r{text-align:right;}
+.inv-table td.pos{color:var(--green);text-align:right;}
+.inv-table td.neg{color:var(--red);text-align:right;}
+
+/* 互動提示 */
+.tooltip-custom{background:var(--navy);color:white;
+  padding:12px 16px;border-radius:10px;font-size:16px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+
+/* 底部聲明 */
+.footer{text-align:center;padding:20px;font-size:15px;color:var(--gray);}
+
+/* 動畫 */
+.pop{animation:pop 0.4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
+.fu{opacity:0;transform:translateY(20px);
+  transition:opacity 0.5s ease,transform 0.5s ease;}
+.fu.in{opacity:1;transform:none;}
+
+@media(max-width:700px){
+  body{font-size:18px;}
+  .summary{grid-template-columns:1fr 1fr;}
+  .page-title{font-size:26px;}
+  .chart-wrap{height:280px;}
+}
+</style>
+</head>
+<body>
+
+<!-- 密碼 -->
+<div id="lock">
+  <div class="lt">安達保單</div>
+  <div class="ls">資產增值時間軸 · 機密文件</div>
+  <div class="lb">
+    <div style="font-size:18px;color:rgba(255,255,255,0.65)">請輸入密碼</div>
+    <input id="pwI" type="password" placeholder="● ● ● ●" maxlength="10"
+      onkeydown="if(event.key==='Enter')chkPw()"/>
+    <button class="lbtn" onclick="chkPw()">進入</button>
+    <div id="pwE">密碼錯誤，請再試一次</div>
+  </div>
+  <div style="font-size:14px;color:rgba(255,255,255,0.2)">馥芸財富學苑 · 公勝財顧</div>
+</div>
+
+<div id="app">
+
+<!-- 頂部標題 -->
+<div class="page-hd fu">
+  <div class="page-title">安達保單　資產增值時間軸分析</div>
+  <div class="page-sub">天生贏家 Plus 變額萬能壽險｜生效日：2023年3月1日</div>
+  <div class="page-date">資料更新：2026年6月12日 · 馥芸財富學苑 · 公勝財顧</div>
+</div>
+
+<!-- 摘要卡片 -->
+<div class="summary fu">
+  <div class="scard pop" style="background:var(--green-lt);border:2px solid var(--teal)"
+    onclick="popCard(this)">
+    <div class="sc-lbl" style="color:var(--green)">目前帳戶價值</div>
+    <div class="sc-val" style="color:var(--green)">377.8萬</div>
+    <div class="sc-sub" style="color:var(--green)">2026/06/12 最新</div>
+  </div>
+  <div class="scard" style="background:#EBF5FF;border:2px solid #2E75B6"
+    onclick="popCard(this)">
+    <div class="sc-lbl" style="color:var(--navy)">累計已投入</div>
+    <div class="sc-val" style="color:var(--navy)">288萬</div>
+    <div class="sc-sub" style="color:var(--navy)">官方確認數字</div>
+  </div>
+  <div class="scard" style="background:var(--gold-lt);border:2px solid var(--gold)"
+    onclick="popCard(this)">
+    <div class="sc-lbl" style="color:var(--gold)">帳面獲利</div>
+    <div class="sc-val" style="color:var(--gold)">+89.8萬</div>
+    <div class="sc-sub" style="color:var(--gold)">投資報酬 +31.2%</div>
+  </div>
+  <div class="scard" style="background:var(--purp-lt);border:2px solid var(--purple)"
+    onclick="popCard(this)">
+    <div class="sc-lbl" style="color:var(--purple)">運作時間</div>
+    <div class="sc-val" style="color:var(--purple)">40個月</div>
+    <div class="sc-sub" style="color:var(--purple)">2023/03 ～ 2026/06</div>
+  </div>
+</div>
+
+<!-- 主折線圖：帳戶價值增長 -->
+<div class="chart-card fu">
+  <div class="chart-title">帳戶價值成長曲線</div>
+  <div class="chart-sub">● 確認數值　○ 估算數值（依累計投入推估）　▲ 單筆申購事件</div>
+  <div class="chart-wrap">
+    <canvas id="lineChart"></canvas>
+  </div>
+  <div class="event-legend">
+    <div class="el-item"><div class="el-dot" style="background:var(--teal)"></div>帳戶估算價值</div>
+    <div class="el-item"><div class="el-dot" style="background:var(--navy)"></div>累計投入金額</div>
+    <div class="el-item"><div style="width:14px;height:14px;background:var(--gold);border-radius:3px;flex-shrink:0"></div>單筆申購事件</div>
+    <div class="el-item"><div style="width:14px;height:14px;background:var(--red);border-radius:50%;border:3px solid var(--red);flex-shrink:0"></div>已確認數值</div>
+  </div>
+</div>
+
+<!-- 雙柱圖：投入 vs 現值 -->
+<div class="chart-card fu">
+  <div class="chart-title">投入來源結構分析</div>
+  <div class="chart-sub">月繳定期定額 vs 三次單筆申購的比例</div>
+  <div class="chart-wrap-sm">
+    <canvas id="barChart"></canvas>
+  </div>
+</div>
+
+<!-- 報酬率趨勢 -->
+<div class="chart-card fu">
+  <div class="chart-title">報酬率趨勢</div>
+  <div class="chart-sub">已知報酬率數據點（部分）</div>
+  <div class="chart-wrap-sm">
+    <canvas id="returnChart"></canvas>
+  </div>
+</div>
+
+<!-- 事件時間軸 -->
+<div class="tl-section fu">
+  <div class="tl-title">投資事件時間軸</div>
+  <div class="tl-wrap">
+    <div class="tl-line"></div>
+
+    <div class="tl-item">
+      <div class="tl-dot act" style="border-color:var(--teal)">
+        <div style="width:8px;height:8px;border-radius:50%;background:white"></div>
+      </div>
+      <div class="tl-content" style="background:#F0FDF4;border-color:var(--teal)">
+        <div class="tl-date">2023年3月1日</div>
+        <div class="tl-event" style="color:var(--teal)">保單生效　定期定額啟動</div>
+        <div class="tl-detail">首期投入$46,000（含第2期），之後每月$23,000固定扣繳</div>
+        <div class="tl-amount" style="color:var(--teal)">首年度保費 $276,000
+          <span class="tl-badge" style="background:var(--teal-lt);color:var(--teal)">月繳開始</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--gold)"></div>
+      <div class="tl-content" style="background:var(--gold-lt);border-color:var(--gold)">
+        <div class="tl-date">2025年1月15日</div>
+        <div class="tl-event" style="color:var(--gold)">單筆申購①</div>
+        <div class="tl-detail">7支標的同步申購，資金來源待確認（活會到期？）<br>
+          台股、日股、美公司債、美藍籌、美金融、美科技、美可轉債</div>
+        <div class="tl-amount" style="color:var(--gold)">+$577,535
+          <span class="tl-badge" style="background:var(--gold-lt);color:var(--gold)">最大單筆之一</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot act" style="border-color:var(--navy)"></div>
+      <div class="tl-content" style="background:#F8FAFC;border-color:var(--navy)">
+        <div class="tl-date">2025年4月（114年4月）</div>
+        <div class="tl-event" style="color:var(--navy)">首次年度對帳記錄</div>
+        <div class="tl-detail">公勝規劃書前次記錄確認</div>
+        <div class="tl-amount" style="color:var(--navy)">帳戶價值 $1,155,000
+          <span class="tl-badge" style="background:#EBF5FF;color:var(--navy)">✅ 確認數值</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--red)"></div>
+      <div class="tl-content" style="background:var(--red-lt);border-color:var(--red)">
+        <div class="tl-date">2025年9月2日</div>
+        <div class="tl-event" style="color:var(--red)">單筆申購②　金額最大</div>
+        <div class="tl-detail">3支標的集中申購（美藍籌、美科技、美可轉債）<br>
+          資金來源待確認（南山？其他？）</div>
+        <div class="tl-amount" style="color:var(--red)">+$776,101
+          <span class="tl-badge" style="background:var(--red-lt);color:var(--red)">三筆最大</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--purple)"></div>
+      <div class="tl-content" style="background:var(--purp-lt);border-color:var(--purple)">
+        <div class="tl-date">2026年2月23日</div>
+        <div class="tl-event" style="color:var(--purple)">單筆申購③　南山躉繳保單解約</div>
+        <div class="tl-detail">7支標的申購，南山躉繳保單 $615,324 解約後扣費投入<br>
+          申請日：2026/02/13　入帳日：2026/02/23</div>
+        <div class="tl-amount" style="color:var(--purple)">+$597,452
+          <span class="tl-badge" style="background:var(--purp-lt);color:var(--purple)">南山解約轉入</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot act" style="border-color:var(--navy)"></div>
+      <div class="tl-content" style="background:#F8FAFC;border-color:var(--navy)">
+        <div class="tl-date">2026年5月22日</div>
+        <div class="tl-event" style="color:var(--navy)">報告書資料截止日</div>
+        <div class="tl-detail">公勝財顧周年檢視資料截止，帳戶報酬率 +24.78%</div>
+        <div class="tl-amount" style="color:var(--navy)">帳戶價值 $3,729,412
+          <span class="tl-badge" style="background:#EBF5FF;color:var(--navy)">✅ 確認數值</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot act" style="border-color:var(--green)"></div>
+      <div class="tl-content" style="background:var(--green-lt);border-color:var(--teal)">
+        <div class="tl-date">2026年6月12日　今日最新</div>
+        <div class="tl-event" style="color:var(--green)">最新帳戶價值　報酬率創新高</div>
+        <div class="tl-detail">報酬率從 +24.78% 躍升至 +29.33%，20天增值 $48,558<br>
+          距退休僅剩約2個月，台股部位（+150%）落袋時機待討論</div>
+        <div class="tl-amount" style="color:var(--green)">帳戶價值 $3,777,970
+          <span class="tl-badge" style="background:var(--green-lt);color:var(--green)">✅ 最新確認</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot" style="border-color:var(--gray);border-style:dashed"></div>
+      <div class="tl-content" style="background:#F8FAFC;border-color:var(--gray);border-style:dashed">
+        <div class="tl-date">2026年8月（預計）</div>
+        <div class="tl-event" style="color:var(--gray)">退休一次金到帳　進攻水庫投入</div>
+        <div class="tl-detail">進攻水庫 $897,583 投入安達，帳戶規模大幅提升<br>
+          預估帳戶池：約 $490萬（含進攻水庫＋當年度月繳）</div>
+        <div class="tl-amount" style="color:var(--gray)">預估投入後 ≈ $490萬
+          <span class="tl-badge" style="background:#F1F5F9;color:var(--gray)">計畫中</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 完整投入明細表 -->
+<div class="chart-card fu">
+  <div class="chart-title">完整投入明細總表</div>
+  <div class="chart-sub">所有投入來源彙整（官方累計已繳 $2,880,000）</div>
+  <table class="inv-table">
+    <tr><th>類型</th><th>時間</th><th>來源說明</th><th class="r">金額（元）</th><th class="r">累計投入</th></tr>
+    <tr>
+      <td><span style="background:var(--teal-lt);color:var(--teal);padding:2px 10px;border-radius:20px;font-size:14px;font-weight:600">月繳首期</span></td>
+      <td>2023/03/24</td><td>首期（含第2期）定期定額</td>
+      <td class="r">46,000</td><td class="r">46,000</td>
+    </tr>
+    <tr>
+      <td><span style="background:var(--teal-lt);color:var(--teal);padding:2px 10px;border-radius:20px;font-size:14px;font-weight:600">月繳持續</span></td>
+      <td>2023/05 ～ 2026/06</td><td>定期定額 $23,000 × 38期</td>
+      <td class="r">874,000</td><td class="r">920,000</td>
+    </tr>
+    <tr>
+      <td><span style="background:var(--gold-lt);color:var(--gold);padding:2px 10px;border-radius:20px;font-size:14px;font-weight:600">單筆①</span></td>
+      <td>2025/01/15</td><td>單筆申購（來源待確認）</td>
+      <td class="r pos">577,535</td><td class="r">1,497,535</td>
+    </tr>
+    <tr>
+      <td><span style="background:var(--red-lt);color:var(--red);padding:2px 10px;border-radius:20px;font-size:14px;font-weight:600">單筆②</span></td>
+      <td>2025/09/02</td><td>單筆申購（來源待確認）</td>
+      <td class="r pos">776,101</td><td class="r">2,273,636</td>
+    </tr>
+    <tr>
+      <td><span style="background:var(--purp-lt);color:var(--purple);padding:2px 10px;border-radius:20px;font-size:14px;font-weight:600">單筆③</span></td>
+      <td>2026/02/23</td><td>南山躉繳保單解約轉入（$615,324 扣費後）</td>
+      <td class="r pos">597,452</td><td class="r">2,871,088</td>
+    </tr>
+    <tr>
+      <td colspan="2">手續費等差額</td><td>官方確認數字差異</td>
+      <td class="r">8,912</td><td class="r">—</td>
+    </tr>
+    <tr class="total-r">
+      <td colspan="3">累計總投入（官方確認）</td>
+      <td class="r">2,880,000</td><td class="r">—</td>
+    </tr>
+    <tr class="profit-r">
+      <td colspan="3">目前帳戶價值（2026/6/12）</td>
+      <td class="r pos">3,777,970</td><td class="r">—</td>
+    </tr>
+    <tr style="background:#D1FAE5">
+      <td colspan="3" style="font-weight:700;font-size:20px;color:var(--green)">帳面獲利</td>
+      <td class="r pos" style="font-size:22px;font-weight:700">+897,970</td>
+      <td class="r pos" style="font-size:20px;font-weight:700">+31.2%</td>
+    </tr>
+  </table>
+</div>
+
+<!-- CFP 專業觀點 -->
+<div class="chart-card fu" style="border-left:6px solid var(--navy)">
+  <div class="chart-title">CFP 專業觀點</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px">
+    <div style="background:var(--green-lt);border-radius:14px;padding:20px;cursor:pointer;transition:transform 0.2s cubic-bezier(.34,1.56,.64,1)" onclick="popCard(this)">
+      <div style="font-size:18px;font-weight:700;color:var(--green);margin-bottom:8px">✅ 優勢</div>
+      <div style="font-size:17px;color:var(--navy);line-height:1.8">
+        · 40個月報酬 +31.2%，年化約 +9%，遠超預設5%目標<br>
+        · 三次單筆投入時機抓得好，大幅提升整體規模<br>
+        · 月繳紀律執行，強制儲蓄效果顯著<br>
+        · 未曾提領，複利效果完整發揮
+      </div>
+    </div>
+    <div style="background:var(--gold-lt);border-radius:14px;padding:20px;cursor:pointer;transition:transform 0.2s cubic-bezier(.34,1.56,.64,1)" onclick="popCard(this)">
+      <div style="font-size:18px;font-weight:700;color:var(--gold);margin-bottom:8px">⚠ 退休前注意</div>
+      <div style="font-size:17px;color:var(--navy);line-height:1.8">
+        · 台股部位（+150%）集中度高，退休前宜評估落袋<br>
+        · 美洲公司債（+0.007%）表現落後，建議評估轉換<br>
+        · 距退休僅剩2個月，是最後調整視窗<br>
+        · 進攻水庫$89.8萬投入計畫需確認分批時程
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--navy);color:var(--teal-lt);border-radius:12px;
+    padding:18px 22px;margin-top:16px;font-size:18px;line-height:1.8;text-align:center">
+    「李老師，您的安達帳戶從零開始，40個月來增值超過 <strong>89萬</strong>，<br>
+    這是紀律、信任、和正確時機共同創造的成果。<br>
+    退休前，讓我們一起把這些成果保住、讓它繼續為您工作。」
+  </div>
+</div>
+
+<div class="footer">馥芸財富學苑 · 公勝財顧 · 財顧芸 · 2026年6月 · 本文件為機密資料</div>
+</div>
+
+<script>
+// 密碼
+function chkPw(){
+  const v=document.getElementById('pwI').value;
+  const e=document.getElementById('pwE');
+  if(v==='0702'){
+    document.getElementById('lock').style.display='none';
+    document.getElementById('app').style.display='block';
+    e.style.display='none';
+    initCharts();
+    initFadeIn();
+  }else{
+    e.style.display='block';
+    document.getElementById('pwI').value='';
+    setTimeout(()=>document.getElementById('pwI').focus(),50);
+  }
+}
+window.onload=()=>setTimeout(()=>document.getElementById('pwI').focus(),200);
+
+function popCard(el){
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
+// 進場動畫
+function initFadeIn(){
+  const obs=new IntersectionObserver(es=>{
+    es.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('in'),i*80);});
+  },{threshold:0.06});
+  document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+}
+
+function initCharts(){
+  const NAVY='#1E3A5F', TEAL='#0D9488', GOLD='#D97706',
+        RED='#DC2626', GREEN='#065F46', PURPLE='#6D28D9', GRAY='#CBD5E1';
+
+  // ─── 主折線圖 ───
+  // X軸：月份標籤（2023/03 ～ 2027/02）
+  const labels = [
+    '2023/03','2023/06','2023/09','2023/12',
+    '2024/03','2024/06','2024/09','2024/12',
+    '2025/01','2025/04','2025/09',
+    '2026/02','2026/05','2026/06',
+    '2026/08預計','2027/02預計'
+  ];
+
+  // 帳戶估算價值（確認點 + 線性插值估算）
+  const acctVal = [
+    46000,     // 2023/03 起始
+    100000,    // 2023/06 估算
+    160000,    // 2023/09 估算
+    230000,    // 2023/12 估算
+    310000,    // 2024/03 估算
+    400000,    // 2024/06 估算
+    510000,    // 2024/09 估算
+    600000,    // 2024/12 估算
+    620000,    // 2025/01 → 後單筆①加入：1,155,000 (4月確認)
+    1155000,   // 2025/04 ✅ 確認
+    2050000,   // 2025/09 → 單筆②加入後估算
+    3000000,   // 2026/02 → 單筆③加入後估算
+    3729412,   // 2026/05/22 ✅ 確認
+    3777970,   // 2026/06/12 ✅ 確認最新
+    4900000,   // 2026/08 預計（含進攻水庫）
+    5100000,   // 2027/02 預計（持續增值）
+  ];
+
+  // 累計投入
+  const cumInv = [
+    46000,  // 2023/03
+    115000, // 2023/06 (3期月繳)
+    184000, // 2023/09
+    253000, // 2023/12
+    322000, // 2024/03
+    391000, // 2024/06
+    460000, // 2024/09
+    529000, // 2024/12
+    1106535,// 2025/01 加單筆①577535
+    1175535,// 2025/04
+    1997636,// 2025/09 加單筆②776101
+    2664988,// 2026/02 加單筆③597452 + 月繳
+    2857000,// 2026/05
+    2880000,// 2026/06 官方確認
+    3777583,// 2026/08 加進攻水庫897583
+    3895583,// 2027/02 月繳持續
+  ];
+
+  // 確認點標記
+  const confirmed = [null,null,null,null,null,null,null,null,null,1155000,null,null,3729412,3777970,null,null];
+
+  // 單筆事件點（X軸索引對應）
+  const singleEvents = [
+    {x:8,  y:1106535, label:'單筆①\n+$57.8萬', color:GOLD},
+    {x:10, y:1997636, label:'單筆②\n+$77.6萬', color:RED},
+    {x:11, y:2664988, label:'單筆③\n+$59.7萬', color:PURPLE},
+  ];
+
+  const ctx1=document.getElementById('lineChart').getContext('2d');
+  new Chart(ctx1,{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {
+          label:'帳戶價值',
+          data:acctVal,
+          borderColor:TEAL,borderWidth:3,
+          backgroundColor:'rgba(13,148,136,0.08)',fill:true,
+          tension:0.4,
+          pointRadius:acctVal.map((v,i)=>confirmed[i]?8:3),
+          pointBackgroundColor:acctVal.map((v,i)=>confirmed[i]?RED:TEAL),
+          pointBorderColor:acctVal.map((v,i)=>confirmed[i]?'white':TEAL),
+          pointBorderWidth:acctVal.map((v,i)=>confirmed[i]?3:1),
+          pointStyle:acctVal.map((v,i)=>confirmed[i]?'circle':'circle'),
+          order:1,
+        },
+        {
+          label:'累計投入',
+          data:cumInv,
+          borderColor:NAVY,borderWidth:2.5,
+          borderDash:[6,4],
+          backgroundColor:'transparent',fill:false,
+          tension:0.3,
+          pointRadius:2,
+          pointBackgroundColor:NAVY,
+          order:2,
+        },
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{
+          labels:{font:{size:16},color:'#1a2a3a',padding:16,
+            boxWidth:24,boxHeight:3}
+        },
+        tooltip:{
+          backgroundColor:'rgba(30,58,95,0.92)',
+          titleFont:{size:15},bodyFont:{size:14},
+          padding:14,cornerRadius:10,
+          callbacks:{
+            label:ctx=>{
+              const i=ctx.dataIndex;
+              const v=ctx.parsed.y;
+              const label=ctx.dataset.label;
+              const fv=v>=10000?(v/10000).toFixed(1)+'萬':'$'+v.toLocaleString();
+              let txt=`${label}：${fv}`;
+              if(label==='帳戶價值'&&confirmed[i]) txt+=' ✅確認';
+              return txt;
+            },
+            afterBody:ctx=>{
+              const i=ctx[0].dataIndex;
+              const se=singleEvents.find(e=>e.x===i);
+              if(se) return ['','⬆ '+se.label.replace('\n',' ')];
+              return [];
+            }
+          }
+        },
+        annotation:{},
+      },
+      scales:{
+        x:{
+          ticks:{font:{size:13},color:'#64748B',maxRotation:45},
+          grid:{color:'rgba(0,0,0,0.05)'}
+        },
+        y:{
+          ticks:{
+            font:{size:13},color:'#64748B',
+            callback:v=>v>=10000?(v/10000).toFixed(0)+'萬':v
+          },
+          grid:{color:'rgba(0,0,0,0.06)'},
+          title:{display:true,text:'金額（元）',font:{size:14},color:'#64748B'}
+        }
+      }
+    }
+  });
+
+  // ─── 投入來源結構柱狀圖 ───
+  const ctx2=document.getElementById('barChart').getContext('2d');
+  new Chart(ctx2,{
+    type:'bar',
+    data:{
+      labels:['月繳定期定額','單筆申購①\n(2025/01)','單筆申購②\n(2025/09)','單筆申購③\n(2026/02)','帳面獲利'],
+      datasets:[{
+        label:'金額（元）',
+        data:[920000, 577535, 776101, 597452, 897970],
+        backgroundColor:[TEAL, GOLD, RED, PURPLE, GREEN],
+        borderRadius:8,borderSkipped:false,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(30,58,95,0.92)',
+          callbacks:{
+            label:ctx=>{
+              const v=ctx.parsed.y;
+              return '金額：'+(v/10000).toFixed(1)+'萬元 ('+((v/2880000)*100).toFixed(1)+'%)';
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ticks:{font:{size:13},color:'#64748B'}},
+        y:{
+          ticks:{font:{size:13},color:'#64748B',callback:v=>(v/10000)+'萬'},
+          grid:{color:'rgba(0,0,0,0.06)'}
+        }
+      }
+    }
+  });
+
+  // ─── 報酬率趨勢 ───
+  const ctx3=document.getElementById('returnChart').getContext('2d');
+  new Chart(ctx3,{
+    type:'line',
+    data:{
+      labels:['2025/04','2026/02','2026/05/22','2026/06/12'],
+      datasets:[{
+        label:'參考總報酬率（%）',
+        data:[null, 24.78, 24.78, 29.33],
+        borderColor:GREEN,borderWidth:3,
+        backgroundColor:'rgba(6,95,70,0.1)',fill:true,
+        tension:0.3,
+        pointRadius:8,
+        pointBackgroundColor:[GRAY, GREEN, GREEN, RED],
+        pointBorderColor:'white',
+        pointBorderWidth:3,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{font:{size:16},color:'#1a2a3a'}},
+        tooltip:{
+          backgroundColor:'rgba(30,58,95,0.92)',
+          bodyFont:{size:15},
+          callbacks:{
+            label:ctx=>{
+              if(ctx.parsed.y===null) return '資料尚無';
+              return '報酬率：+'+ctx.parsed.y+'%';
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ticks:{font:{size:14},color:'#64748B'}},
+        y:{
+          min:0,max:35,
+          ticks:{font:{size:14},color:'#64748B',callback:v=>'+'+v+'%'},
+          grid:{color:'rgba(0,0,0,0.06)'},
+        }
+      }
+    }
+  });
+}
+</script>
+</body>
+</html>
