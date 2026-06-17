@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>媽媽照護基金 · 家庭帳本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e7; --paper-2:#fffdf8; --ink:#2c2a26; --ink-soft:#6b655b;
+  --line:#e3dccd; --jade:#3f7d6e; --jade-d:#2c5a4f; --jade-l:#e7f0ec;
+  --gold:#b8893f; --gold-l:#f3e9d6; --rose:#b4564a; --rose-l:#f6e7e4; --green-l:#e8f1ea;
+  --shadow:0 1px 2px rgba(44,42,38,.06),0 8px 24px rgba(44,42,38,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Noto Sans TC",sans-serif;background:var(--paper);color:var(--ink);
+  background-image:radial-gradient(circle at 1px 1px,rgba(63,125,110,.05) 1px,transparent 0);
+  background-size:22px 22px;line-height:1.5;padding-bottom:40px;
+}
+.wrap{max-width:680px;margin:0 auto;padding:0 14px}
+
+header{padding:20px 0 14px;text-align:center}
+header .kanji{font-family:"Noto Serif TC",serif;font-weight:900;font-size:25px;letter-spacing:2px;color:var(--jade-d)}
+header .sub{font-size:12.5px;color:var(--ink-soft);letter-spacing:3px;margin-top:3px}
+header .rule{width:46px;height:3px;background:var(--gold);margin:11px auto 0;border-radius:2px}
+
+.policy{background:linear-gradient(135deg,var(--jade-d),var(--jade));color:#fff;border-radius:16px;padding:14px 16px;margin:14px 0;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.policy:before{content:"投";position:absolute;right:-8px;top:-18px;font-family:"Noto Serif TC",serif;font-weight:900;font-size:120px;opacity:.07;pointer-events:none}
+.policy h3{margin:0 0 9px;font-size:13px;font-weight:500;letter-spacing:1px;opacity:.9}
+.policy .row{display:flex;gap:8px}
+.policy .cell{flex:1;text-align:center}
+.policy .cell .n{font-family:"Noto Serif TC",serif;font-weight:700;font-size:19px}
+.policy .cell .l{font-size:11px;opacity:.85;margin-top:1px}
+.policy .cell+.cell{border-left:1px solid rgba(255,255,255,.25)}
+.policy .n.up{color:#bff0d8} .policy .n.down{color:#ffd2cc}
+.policy .foot2{display:flex;align-items:center;gap:9px;margin-top:11px;flex-wrap:wrap;position:relative;z-index:1}
+.policy .meta2{font-size:11px;opacity:.88;flex:1;min-width:150px;line-height:1.6}
+.policy .pbtn{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14);color:#fff;padding:7px 12px;border-radius:9px;font-family:"Noto Sans TC";font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.snap-item{display:flex;align-items:center;gap:10px;background:var(--paper-2);border:1px solid var(--line);border-radius:11px;padding:9px 12px;margin-bottom:8px}
+.snap-item .si-mid{flex:1}
+.snap-item .si-d{font-size:12px;color:var(--ink-soft)}
+.snap-item .si-v{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;margin-top:1px}
+.snap-item .si-chg{font-size:11px;margin-top:1px}
+.si-chg.up{color:var(--jade-d)} .si-chg.down{color:var(--rose)}
+.snap-item .rm{border:none;background:var(--rose-l);color:var(--rose);border-radius:8px;width:30px;height:30px;font-size:15px;cursor:pointer;flex:0 0 auto}
+.snap-add{display:flex;gap:8px;margin:6px 0 14px}
+.snap-add input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:10px;padding:10px;font-family:"Noto Sans TC";font-size:14px;background:var(--paper-2);color:var(--ink)}
+.snap-add button{border:none;background:var(--jade);color:#fff;border-radius:10px;padding:0 16px;font-weight:700;cursor:pointer;font-family:"Noto Sans TC";flex:0 0 auto}
+.snap-sum{text-align:center;background:var(--jade-l);border-radius:12px;padding:12px;margin-bottom:14px}
+.snap-sum .b{font-family:"Noto Serif TC",serif;font-weight:700;font-size:22px;color:var(--jade-d)}
+.snap-sum .s{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.snap-sum .s b.up{color:var(--jade-d)} .snap-sum .s b.down{color:var(--rose)}
+#snapChart{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:10px 8px 4px;margin-bottom:14px}
+#snapChart.empty{display:none}
+#snapChart .ct{font-size:11.5px;color:var(--ink-soft);font-weight:700;margin:0 0 2px 4px}
+.recon .btns{display:flex;gap:8px;margin-top:10px}
+.recon .btns button{flex:1;border:none;padding:10px;border-radius:11px;font-family:"Noto Sans TC";font-size:13px;font-weight:700;cursor:pointer}
+.recon .payf{background:var(--jade);color:#fff}
+.recon .rexp{background:#fff;color:var(--gold);border:1.5px solid #e6d2a8}
+
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:4px 0 6px;-ms-overflow-style:none;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink-soft);
+  padding:8px 13px;border-radius:11px;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:5px}
+.tab .own{font-size:10.5px;opacity:.7}
+.tab .chk{display:none;font-size:11px}
+.tab.on{background:var(--jade);border-color:var(--jade);color:#fff;box-shadow:var(--shadow)}
+.tab.on .chk{display:inline}
+.tab.gear{font-weight:700}
+.hint{font-size:11px;color:var(--ink-soft);opacity:.75;margin:0 2px 12px}
+
+.sum{display:flex;gap:8px;margin-bottom:12px}
+.sum .card{flex:1;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;box-shadow:var(--shadow)}
+.sum .card .l{font-size:11.5px;color:var(--ink-soft)}
+.sum .card .v{font-family:"Noto Serif TC",serif;font-weight:700;font-size:17px;margin-top:3px}
+.v.in{color:var(--jade-d)} .v.out{color:var(--rose)} .v.bal{color:var(--ink)}
+
+/* reconciliation */
+.recon{background:var(--gold-l);border:1.5px solid #e6d2a8;border-radius:15px;padding:13px 15px;margin-bottom:14px;box-shadow:var(--shadow)}
+.recon h4{margin:0 0 10px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px;display:flex;align-items:center;gap:6px}
+.recon .grid{display:flex;gap:8px;text-align:center}
+.recon .grid .c{flex:1}
+.recon .grid .c .n{font-family:"Noto Serif TC",serif;font-weight:700;font-size:16px}
+.recon .grid .c .l{font-size:10.5px;color:var(--ink-soft);margin-top:1px}
+.recon .grid .c+.c{border-left:1px solid #e6d2a8}
+.recon .n.parent{color:var(--jade-d)} .recon .n.paid{color:var(--rose)} .recon .n.pend{color:var(--gold)}
+.recon .st{margin-top:10px;font-size:12.5px;text-align:center;font-weight:500}
+.recon .st.clear{color:var(--jade-d)} .recon .st.owe{color:var(--gold)}
+
+.addbtn{width:100%;border:none;background:var(--ink);color:var(--paper);padding:13px;border-radius:13px;
+  font-family:"Noto Sans TC";font-size:15px;font-weight:700;letter-spacing:2px;cursor:pointer;box-shadow:var(--shadow)}
+.form{background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:12px;box-shadow:var(--shadow);display:none}
+.form.open{display:block;animation:drop .2s ease}
+@keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1}}
+.seg{display:flex;background:var(--paper);border-radius:11px;padding:3px;margin-bottom:11px;border:1px solid var(--line)}
+.seg button{flex:1;border:none;background:none;padding:9px;border-radius:9px;font-family:"Noto Sans TC";font-size:14px;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.seg button.on.in{background:var(--jade);color:#fff}
+.seg button.on.out{background:var(--rose);color:#fff}
+.fld{margin-bottom:10px}
+.fld label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:4px;font-weight:500}
+.fld input,.fld select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:11px;
+  font-family:"Noto Sans TC";font-size:15px;background:var(--paper);color:var(--ink)}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--jade)}
+.two{display:flex;gap:9px}.two>.fld{flex:1}
+.save{width:100%;border:none;background:var(--jade);color:#fff;padding:13px;border-radius:12px;font-family:"Noto Sans TC";font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;margin-top:4px}
+
+.ledger{margin-top:18px}
+.ledger h2{font-family:"Noto Serif TC",serif;font-size:16px;font-weight:700;color:var(--jade-d);margin:0 0 4px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.ledger h2 .cnt{font-family:"Noto Sans TC";font-size:12px;color:var(--ink-soft);font-weight:400}
+.entry{background:var(--paper-2);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:11px 13px;margin-top:9px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow)}
+.entry.in{border-left-color:var(--jade)} .entry.out{border-left-color:var(--rose)}
+.entry .mid{flex:1;min-width:0}
+.entry .cat{font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:6px}
+.entry .tag{font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px}
+.tag.parent{background:var(--gold-l);color:var(--gold)}
+.tag.father{background:var(--rose-l);color:var(--rose)}
+.entry .meta{font-size:11.5px;color:var(--ink-soft);margin-top:2px;display:flex;flex-wrap:wrap;gap:4px 9px}
+.entry .meta .acc{color:var(--jade-d);font-weight:500}
+.entry .amt{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15.5px;white-space:nowrap}
+.amt.in{color:var(--jade-d)} .amt.out{color:var(--rose)}
+.entry .right{text-align:right}
+.entry .runbal{font-size:10.5px;color:var(--ink-soft);margin-top:2px}
+.del{border:none;background:none;color:var(--line);font-size:19px;cursor:pointer;padding:0 2px;line-height:1}
+.del:hover{color:var(--rose)}
+.empty{text-align:center;color:var(--ink-soft);padding:34px 10px;font-size:14px}
+.empty .big{font-size:40px;opacity:.4;margin-bottom:8px}
+
+.foot{display:flex;gap:9px;margin-top:20px}
+.foot button{flex:1;border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink-soft);padding:11px;border-radius:11px;font-family:"Noto Sans TC";font-size:13px;font-weight:500;cursor:pointer}
+.foot button:active{background:var(--paper)}
+.note{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:16px;line-height:1.7;opacity:.8}
+.pagenav{display:flex;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:13px;padding:4px;margin:6px 0 14px;box-shadow:var(--shadow)}
+.pagenav .pn{flex:1;border:none;background:none;padding:11px;border-radius:10px;font-family:"Noto Serif TC",serif;font-size:15px;font-weight:700;color:var(--ink-soft);cursor:pointer;letter-spacing:1px}
+.pagenav .pn.on{background:var(--jade);color:#fff;box-shadow:var(--shadow)}
+.adv-sum{display:flex;gap:8px;margin-bottom:6px}
+.adv-sum .card{flex:1;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;box-shadow:var(--shadow)}
+.adv-sum .card .l{font-size:11.5px;color:var(--ink-soft)}
+.adv-sum .card .v{font-family:"Noto Serif TC",serif;font-weight:700;font-size:17px;margin-top:3px}
+.adv-sum .v.tot{color:var(--ink)} .adv-sum .v.due{color:var(--rose)} .adv-sum .v.done{color:var(--jade-d)}
+.adv-pending{font-size:11.5px;color:var(--gold);background:var(--gold-l);border-radius:10px;padding:7px 12px;text-align:center;margin-bottom:12px}
+.adv-item{background:var(--paper-2);border:1px solid var(--line);border-left-width:4px;border-left-color:var(--rose);border-radius:12px;padding:11px 13px;margin-top:9px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow)}
+.adv-item.repaid{border-left-color:var(--jade);opacity:.62}
+.adv-item.repaid .ai-name{text-decoration:line-through}
+.adv-item .who{flex:0 0 auto;width:34px;height:34px;border-radius:9px;background:var(--jade-l);color:var(--jade-d);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.adv-item .ai-mid{flex:1;min-width:0}
+.adv-item .ai-name{font-weight:700;font-size:14.5px}
+.adv-item .ai-meta{font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.adv-item .ai-amt{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15.5px;white-space:nowrap;color:var(--rose)}
+.adv-item.repaid .ai-amt{color:var(--jade-d)}
+.adv-item .ai-amt.tbd{color:var(--gold);font-size:12.5px;font-family:"Noto Sans TC"}
+.adv-item .chk{flex:0 0 auto;border:1.5px solid var(--line);background:var(--paper);width:30px;height:30px;border-radius:8px;font-size:15px;cursor:pointer;color:var(--jade-d)}
+.adv-item.repaid .chk{background:var(--jade);color:#fff;border-color:var(--jade)}
+.adv-item .rm{border:none;background:none;color:var(--line);font-size:19px;cursor:pointer;line-height:1}
+.adv-item .rm:hover{color:var(--rose)}
+.adv-head{text-align:center;margin:2px 0 14px}
+.adv-head h3{font-family:"Noto Serif TC",serif;font-size:18px;color:var(--jade-d);margin:0 0 12px}
+.adv-sum{display:flex;gap:8px}
+.adv-sum>div{flex:1;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:12px 8px;box-shadow:var(--shadow)}
+.adv-sum span{display:block;font-family:"Noto Serif TC",serif;font-weight:700;font-size:18px}
+.adv-sum small{font-size:11px;color:var(--ink-soft)}
+.adv-sum .tot{color:var(--ink)} .adv-sum .rep{color:var(--jade-d)} .adv-sum .pen{color:var(--rose)}
+.adv-empty{text-align:center;color:var(--ink-soft);padding:30px;font-size:14px}
+
+.mask{display:none;position:fixed;inset:0;background:rgba(44,42,38,.45);z-index:50;align-items:flex-end;justify-content:center}
+.mask.open{display:flex}
+.sheet{background:var(--paper);width:100%;max-width:680px;border-radius:20px 20px 0 0;padding:18px 16px 26px;max-height:82vh;overflow-y:auto;box-shadow:0 -8px 30px rgba(0,0,0,.2);animation:up .22s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+.sheet h3{font-family:"Noto Serif TC",serif;font-size:18px;color:var(--jade-d);margin:0 0 14px;text-align:center}
+.acc-item{display:flex;align-items:center;gap:10px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:9px}
+.acc-item .ai-mid{flex:1}
+.acc-item input{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font-family:"Noto Sans TC";font-size:14px;background:var(--paper)}
+.acc-item .ai-own{width:88px;flex:0 0 auto}
+.acc-item .rm{border:none;background:var(--rose-l);color:var(--rose);border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;flex:0 0 auto}
+.sheet .save{margin-top:8px}
+.sheet .addrow{border:1.5px dashed var(--line);background:none;color:var(--ink-soft);width:100%;padding:10px;border-radius:11px;cursor:pointer;font-family:"Noto Sans TC";font-size:13.5px;margin-bottom:12px}
+.closex{display:block;width:100%;text-align:center;color:var(--ink-soft);background:none;border:none;margin-top:6px;font-size:13px;cursor:pointer;padding:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kanji">媽媽照護基金</div>
+    <div class="sub">家 庭 帳 本</div>
+    <div class="rule"></div>
+  </header>
+
+  <div class="pagenav" id="pagenav">
+    <button class="pn on" data-page="ledger">媽媽帳本</button>
+    <button class="pn" data-page="advances">我代墊費用</button>
+  </div>
+
+  <div id="pageLedger">
+
+  <div class="policy"><div id="policyBody"></div></div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="hint">可勾選多個帳戶一起看合計（例：玉山＋郵局）。點「合計」回到全部。</div>
+
+  <div class="sum" id="sum"></div>
+
+  <div id="recon"></div>
+
+  <button class="addbtn" id="toggleForm">＋ 新增一筆</button>
+
+  <div class="form" id="form">
+    <div class="seg">
+      <button class="out on" data-type="expense" id="segOut">支出</button>
+      <button class="in" data-type="income" id="segIn">收入</button>
+    </div>
+    <div class="two">
+      <div class="fld"><label>日期</label><input type="date" id="f-date"></div>
+      <div class="fld"><label>金額</label><input type="number" id="f-amt" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="fld"><label>支付來源／帳戶</label><select id="f-acc"></select></div>
+    <div class="fld"><label>類別</label><select id="f-cat"></select></div>
+    <div class="fld"><label>備註（選填）</label><input type="text" id="f-note" placeholder="例：藥局拿藥、父親提領"></div>
+    <button class="save" id="saveBtn">記一筆</button>
+  </div>
+
+  <div class="ledger">
+    <h2><span id="ledger-title">明細</span><span class="cnt" id="ledger-cnt"></span></h2>
+    <div id="entries"></div>
+  </div>
+
+  <button class="addbtn" id="genViewBtn" style="background:var(--jade);margin-top:18px">📤 產生檢視檔 · LINE 給家人看</button>
+
+  <div class="foot">
+    <button id="exportBtn">⤓ 匯出 CSV（查帳用）</button>
+    <button id="resetBtn">↺ 重設範例</button>
+  </div>
+
+  <div class="note">
+    資料儲存在你開啟此檔案的瀏覽器中（手機／電腦各自獨立）。<br>
+    建議定期「匯出 CSV」備份，方便家人各自查帳。
+  </div>
+  </div><!-- /pageLedger -->
+
+  <div id="pageAdvances" style="display:none">
+    <div class="adv-head">
+      <h3>我代墊的費用</h3>
+      <div class="adv-sum">
+        <div><span class="tot" id="advTotal">$0</span><small>代墊總額</small></div>
+        <div><span class="rep" id="advRepaid">$0</span><small>已還</small></div>
+        <div><span class="pen" id="advPending">$0</span><small>待還</small></div>
+      </div>
+    </div>
+    <button class="addbtn" id="advToggle">＋ 新增代墊</button>
+    <div class="form" id="advForm">
+      <div id="advFormHint" style="display:none;background:var(--gold-l);color:var(--gold);font-size:12.5px;font-weight:700;padding:8px 10px;border-radius:9px;margin-bottom:11px"></div>
+      <div class="two">
+        <div class="fld"><label>日期</label><input type="date" id="av-date"></div>
+        <div class="fld"><label>對象</label><select id="av-who"><option>車</option><option>父</option><option>母</option><option>其他</option></select></div>
+      </div>
+      <div class="fld"><label>項目</label><input type="text" id="av-item" placeholder="例：健保＋會費、車險續保"></div>
+      <div class="fld"><label>金額（未定可留空）</label><input type="number" id="av-amt" inputmode="numeric" placeholder="待確認可空白"></div>
+      <div class="fld"><label>備註（選填）</label><input type="text" id="av-note" placeholder="例：健保2745＋會費450"></div>
+      <button class="save" id="avSave">記一筆</button>
+      <button class="closex" id="avCancel" style="display:none">取消編輯</button>
+    </div>
+    <div id="advList"></div>
+    <div class="note">點任一筆可修改（項目／對象／日期／金額／備註）；打勾＝已還，× 刪除。輪椅金額確認後點該筆改即可。</div>
+  </div>
+
+</div><!-- /wrap -->
+
+<div class="mask" id="accMask">
+  <div class="sheet">
+    <h3>管理帳戶</h3>
+    <div id="accList"></div>
+    <button class="addrow" id="addAccBtn">＋ 新增帳戶</button>
+    <button class="save" id="saveAccBtn">儲存</button>
+    <button class="closex" id="closeAccBtn">取消</button>
+  </div>
+</div>
+
+<div class="mask" id="snapMask">
+  <div class="sheet">
+    <h3>保單帳戶價值記錄</h3>
+    <div class="snap-sum" id="snapSum"></div>
+    <div id="snapChart" class="empty"></div>
+    <div class="snap-add">
+      <input type="date" id="snap-date">
+      <input type="number" id="snap-val" inputmode="numeric" placeholder="帳戶價值">
+      <button id="snapAddBtn">記錄</button>
+    </div>
+    <div id="snapList"></div>
+    <button class="closex" id="closeSnapBtn">關閉</button>
+  </div>
+</div>
+
+<script>
+const KEY='mama_ledger_v1';
+const TODAY=new Date().toISOString().slice(0,10);
+const TO_PARENT=['月配息','失能金','理賠金']; // 給父母性質的入帳
+const FATHER_PAY='支付父親';
+const DIST_CAT='月配息';
+
+const SEED={
+  accounts:[
+    {id:'care', name:'照護基金', owner:'宇、文'},
+    {id:'esun', name:'玉山',     owner:'母'},
+    {id:'post', name:'郵局',     owner:'母'},
+  ],
+  cats:{
+    expense:['生活費','醫藥費','保健食品','器材','支付父親','雜支','投資型保單','其他'],
+    income:['本金挹注','失能金','月配息','理賠金','利息','其他'],
+  },
+  txns:[
+    {id:'t1', date:'2026-04-27', acc:'care', type:'income',  cat:'本金挹注',   amt:500000, note:'弟弟妹妹租金＋弟弟單筆10萬（已扣芸琪墊付2萬，淨額50萬）'},
+    {id:'t2', date:'2026-04-27', acc:'care', type:'expense', cat:'投資型保單', amt:500000, note:'115/04/27 單筆投入50萬，月配入玉山'},
+    {id:'t3', date:'2026-05-25', acc:'esun', type:'income',  cat:'月配息',     amt:3000,   note:'首期月配（115/05）撥入玉山'},
+    {id:'t4', date:'2026-05-26', acc:'esun', type:'expense', cat:'支付父親',   amt:3000,   note:'轉付父親（首期月配，已沖銷）'},
+    {id:'t5', date:'2026-06-10', acc:'esun', type:'income',  cat:'月配息',     amt:3726,   note:'至115/06累計撥入6,726（此期尚未轉付父親）'},
+  ],
+  policySnaps:[
+    {id:'s0', date:'2026-04-27', value:500000},
+    {id:'s1', date:'2026-06-17', value:513249},
+  ],
+  advances:[
+    {id:'av1', date:'2026-01-15', who:'車', item:'車險續保 NLK-3765', amt:1920, note:'', repaid:false},
+    {id:'av2', date:'2026-01-15', who:'父', item:'健保＋會費（1-3月）', amt:3195, note:'健保2,745＋會費450', repaid:false},
+    {id:'av3', date:'2026-07-15', who:'父', item:'健保＋會費（7-9月）', amt:3195, note:'健保2,745＋會費450', repaid:false},
+    {id:'av4', date:'2026-01-15', who:'母', item:'健保＋會費（1-3月）', amt:2508, note:'健保2,058＋會費450', repaid:false},
+    {id:'av5', date:'2026-07-15', who:'母', item:'健保＋會費（7-9月）', amt:2508, note:'健保2,058＋會費450', repaid:false},
+    {id:'av6', date:'2026-01-15', who:'其他', item:'輪椅（刷卡）', amt:7892, note:'刷卡 7,892', repaid:false},
+  ],
+};
+const SEED_SNAPS=[{id:'s0', date:'2026-04-27', value:500000},{id:'s1', date:'2026-06-17', value:513249}];
+
+let state=load();
+let sel=[];           // 空 = 合計(全部)；否則為選取的帳戶 id 陣列
+let curType='expense';
+
+function load(){
+  let s;
+  try{const r=localStorage.getItem(KEY); s=r?JSON.parse(r):null;}catch(e){s=null;}
+  if(!s) s=JSON.parse(JSON.stringify(SEED));
+  // migration / 防呆
+  s.accounts=s.accounts||SEED.accounts.slice();
+  s.txns=s.txns||[];
+  s.cats=s.cats||{};
+  s.cats.expense=s.cats.expense||SEED.cats.expense.slice();
+  s.cats.income=s.cats.income||SEED.cats.income.slice();
+  if(!s.cats.expense.includes(FATHER_PAY)){
+    const i=s.cats.expense.indexOf('雜支');
+    if(i>=0) s.cats.expense.splice(i,0,FATHER_PAY); else s.cats.expense.push(FATHER_PAY);
+  }
+  if(!s.policySnaps) s.policySnaps=JSON.parse(JSON.stringify(SEED_SNAPS));
+  if(!s.advances) s.advances=JSON.parse(JSON.stringify(SEED.advances));
+  // 配息類別統一改名為「月配息」
+  s.cats.income=s.cats.income.map(c=>c==='投資配息'?DIST_CAT:c);
+  if(!s.cats.income.includes(DIST_CAT)){ const i=s.cats.income.indexOf('失能金'); if(i>=0) s.cats.income.splice(i+1,0,DIST_CAT); else s.cats.income.push(DIST_CAT); }
+  s.txns.forEach(t=>{ if(t.cat==='投資配息') t.cat=DIST_CAT; });
+  // 照護基金不應有「支付父親」，清除任何誤植
+  const careIds=s.accounts.filter(a=>a.id==='care'||(a.name&&a.name.indexOf('照護')>=0)).map(a=>a.id);
+  s.txns=s.txns.filter(t=>!(t.cat===FATHER_PAY && careIds.includes(t.acc)));
+  return s;
+}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+
+const nf=n=>'$'+Math.round(n).toLocaleString('en-US');
+const roc=iso=>{ if(!iso) return ''; const[y,m,d]=iso.split('-'); return (parseInt(y)-1911)+'/'+m+'/'+d; };
+const accName=id=>{const a=state.accounts.find(x=>x.id===id); return a?a.name:'(已刪)';};
+const accOwner=id=>{const a=state.accounts.find(x=>x.id===id); return a?a.owner:'';};
+const isAll=()=>sel.length===0;
+const inView=t=>isAll()||sel.includes(t.acc);
+const viewTitle=()=>isAll()?'全部':sel.map(accName).join('＋');
+
+function render(){ renderTabs(); renderPolicy(); renderSummary(); renderRecon(); renderEntries(); renderFormAccs(); }
+
+function renderTabs(){
+  const t=document.getElementById('tabs'); t.innerHTML='';
+  const all=document.createElement('button');
+  all.className='tab'+(isAll()?' on':''); all.innerHTML='合計 <span class="own">全部</span>';
+  all.onclick=()=>{sel=[]; render();}; t.appendChild(all);
+  state.accounts.forEach(a=>{
+    const b=document.createElement('button');
+    const on=!isAll()&&sel.includes(a.id);
+    b.className='tab'+(on?' on':'');
+    b.innerHTML=`<span class="chk">✓</span>${a.name} <span class="own">${a.owner||''}</span>`;
+    b.onclick=()=>toggleAcc(a.id);
+    t.appendChild(b);
+  });
+  const g=document.createElement('button');
+  g.className='tab gear'; g.textContent='⚙ 管理'; g.onclick=openAcc; t.appendChild(g);
+}
+function toggleAcc(id){
+  if(isAll()) sel=[id];
+  else if(sel.includes(id)) sel=sel.filter(x=>x!==id);
+  else sel.push(id);
+  if(sel.length===state.accounts.length) sel=[]; // 全選=合計
+  render();
+}
+
+function viewTxns(){
+  let list=state.txns.filter(inView);
+  list.sort((a,b)=> a.date===b.date ? a.id.localeCompare(b.id) : a.date.localeCompare(b.date));
+  return list;
+}
+
+function renderSummary(){
+  let inc=0,exp=0;
+  viewTxns().forEach(t=> t.type==='income' ? inc+=t.amt : exp+=t.amt);
+  document.getElementById('sum').innerHTML=`
+    <div class="card"><div class="l">總收入</div><div class="v in">${nf(inc)}</div></div>
+    <div class="card"><div class="l">總支出</div><div class="v out">${nf(exp)}</div></div>
+    <div class="card"><div class="l">現金結餘</div><div class="v bal">${nf(inc-exp)}</div></div>`;
+}
+
+function renderRecon(){
+  const list=viewTxns();
+  const toParent=list.filter(t=>t.type==='income'&&TO_PARENT.includes(t.cat)).reduce((s,t)=>s+t.amt,0);
+  const paid=list.filter(t=>t.type==='expense'&&t.cat===FATHER_PAY).reduce((s,t)=>s+t.amt,0);
+  const box=document.getElementById('recon');
+  if(toParent===0 && paid===0){ box.innerHTML=''; return; }
+  const pend=toParent-paid;
+  const st = pend<=0
+    ? `<div class="st clear">✓ 已全數沖銷，無待轉付</div>`
+    : `<div class="st owe">尚有 <b>${nf(pend)}</b> 配息／給付未轉付父親（待沖銷）</div>`;
+  box.innerHTML=`
+    <div class="recon">
+      <h4>◷ 月配入帳 ⇄ 轉付父親 對帳</h4>
+      <div class="grid">
+        <div class="c"><div class="n parent">${nf(toParent)}</div><div class="l">給父母入帳<br>(配息/失能/理賠)</div></div>
+        <div class="c"><div class="n paid">${nf(paid)}</div><div class="l">已支付父親</div></div>
+        <div class="c"><div class="n pend">${nf(pend)}</div><div class="l">待轉付父親</div></div>
+      </div>
+      ${st}
+      <div class="btns">
+        <button class="payf" id="payFatherBtn">＋ 登記支付父親${pend>0?'（'+nf(pend)+'）':''}</button>
+        <button class="rexp" id="reconExportBtn">⤓ 匯出對帳表</button>
+      </div>
+    </div>`;
+  document.getElementById('payFatherBtn').onclick=()=>openPayFather(pend>0?pend:0);
+  document.getElementById('reconExportBtn').onclick=exportRecon;
+}
+
+function downloadCSV(csv, fname){
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+}
+function exportRecon(){
+  const list=viewTxns().filter(t=> (t.type==='income'&&TO_PARENT.includes(t.cat)) || (t.type==='expense'&&t.cat===FATHER_PAY))
+    .sort((a,b)=> a.date===b.date? a.id.localeCompare(b.id):a.date.localeCompare(b.date));
+  let toP=0,paid=0,run=0,rows='';
+  list.forEach(t=>{
+    if(t.type==='income'){ toP+=t.amt; run+=t.amt;
+      rows+=[roc(t.date),accName(t.acc),t.cat,'給父母入帳',t.amt,'',run].join(',')+'\n';
+    } else { paid+=t.amt; run-=t.amt;
+      rows+=[roc(t.date),accName(t.acc),t.cat,'轉付父親','',t.amt,run].join(',')+'\n';
+    }
+  });
+  const scope=isAll()?'合計':viewTitle();
+  let csv='\uFEFF轉付父親 對帳表,,,範圍,'+scope+'\n';
+  csv+='產生日期,'+roc(TODAY)+'\n';
+  csv+='給父母入帳合計,'+toP+'\n已支付父親合計,'+paid+'\n待轉付父親,'+(toP-paid)+'\n\n';
+  csv+='日期,帳戶,類別,性質,入帳(給父母),支付父親,累計待轉付\n'+rows;
+  downloadCSV(csv,'轉付父親對帳表_'+scope+'_'+TODAY+'.csv');
+}
+
+function principalAmt(){ return state.txns.filter(t=>t.type==='expense'&&t.cat==='投資型保單').reduce((s,t)=>s+t.amt,0); }
+function sortedSnaps(){ return (state.policySnaps||[]).slice().sort((a,b)=> a.date===b.date? a.id.localeCompare(b.id):a.date.localeCompare(b.date)); }
+function latestSnap(){ const a=sortedSnaps(); return a.length?a[a.length-1]:null; }
+
+function renderPolicy(){
+  const principal=principalAmt();
+  const distList=state.txns.filter(t=>t.cat===DIST_CAT);
+  const recv=distList.length;
+  const distSum=distList.reduce((s,t)=>s+t.amt,0);
+  const paidFather=state.txns.filter(t=>t.cat===FATHER_PAY).reduce((s,t)=>s+t.amt,0);
+  const pendFather=distSum + state.txns.filter(t=>t.type==='income'&&TO_PARENT.includes(t.cat)&&t.cat!==DIST_CAT).reduce((s,t)=>s+t.amt,0) - paidFather;
+  const snap=latestSnap();
+  const val=snap?snap.value:null;
+  const pnl=(val!=null)?val-principal:null;
+  const pct=(pnl!=null&&principal>0)?(pnl/principal*100):null;
+  const valCell = val!=null
+    ? `<div class="n">${nf(val)}</div><div class="l">帳戶價值</div>`
+    : `<div class="n">—</div><div class="l">帳戶價值</div>`;
+  const pnlCell = pnl!=null
+    ? `<div class="n ${pnl>=0?'up':'down'}">${pnl>=0?'+':'−'}${nf(Math.abs(pnl))}</div><div class="l">損益${pct!=null?(' '+(pnl>=0?'+':'−')+Math.abs(pct).toFixed(2)+'%'):''}</div>`
+    : `<div class="n">—</div><div class="l">損益</div>`;
+  document.getElementById('policyBody').innerHTML=`
+    <h3>投資型保單</h3>
+    <div class="row">
+      <div class="cell"><div class="n">${principal?nf(principal):'$0'}</div><div class="l">投入本金</div></div>
+      <div class="cell">${valCell}</div>
+      <div class="cell">${pnlCell}</div>
+    </div>
+    <div class="foot2">
+      <div class="meta2">月配息累計撥入 ${nf(distSum)}（${recv} 筆）· 待轉付父親 ${nf(pendFather)}${snap?(' · 評估日 '+roc(snap.date)):''}</div>
+      <button class="pbtn" id="openSnapBtn">＋ 帳戶價值記錄</button>
+    </div>`;
+  document.getElementById('openSnapBtn').onclick=openSnap;
+}
+
+/* 保單帳戶價值記錄 */
+function smoothPath(pts){
+  if(pts.length<2) return pts.length?('M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1)):'';
+  if(pts.length===2) return 'M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1)+' L'+pts[1][0].toFixed(1)+','+pts[1][1].toFixed(1);
+  let d='M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1);
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||pts[i+1];
+    const c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=' C'+c1x.toFixed(1)+','+c1y.toFixed(1)+' '+c2x.toFixed(1)+','+c2y.toFixed(1)+' '+p2[0].toFixed(1)+','+p2[1].toFixed(1);
+  }
+  return d;
+}
+function trendSVG(snaps, principal){
+  const W=320,H=152,xL=44,xR=W-14,yT=16,yB=H-26;
+  const vals=snaps.map(s=>s.value).concat([principal]);
+  let min=Math.min(...vals), max=Math.max(...vals);
+  if(min===max){min-=Math.max(1,min*0.01); max+=Math.max(1,max*0.01);}
+  const pad=(max-min)*0.15; min-=pad; max+=pad;
+  const X=i=> snaps.length===1 ? (xL+xR)/2 : xL+i/(snaps.length-1)*(xR-xL);
+  const Y=v=> yT+(max-v)/(max-min)*(yB-yT);
+  const yBase=Y(principal);
+  const pts=snaps.map((s,i)=>[X(i),Y(s.value)]);
+  const curve=smoothPath(pts);
+  const area=snaps.length>1?`<path d="${curve} L${pts[pts.length-1][0].toFixed(1)},${yB} L${pts[0][0].toFixed(1)},${yB} Z" fill="#3f7d6e" opacity="0.08"/>`:'';
+  const line=snaps.length>1?`<path d="${curve}" fill="none" stroke="#3f7d6e" stroke-width="2" stroke-linecap="round"/>`:'';
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.4" fill="#3f7d6e"/>`).join('');
+  const labels=snaps.map((s,i)=>{
+    if(snaps.length>4 && i!==0 && i!==snaps.length-1) return '';
+    return `<text x="${X(i).toFixed(1)}" y="${H-8}" font-size="8.5" fill="#6b655b" text-anchor="middle">${roc(s.date)}</text>`;
+  }).join('');
+  const last=pts[pts.length-1], lastVal=snaps[snaps.length-1].value;
+  const ly=Math.max(yT+8,last[1]-7);
+  const lastLabel=`<text x="${Math.min(xR-2,last[0]).toFixed(1)}" y="${ly.toFixed(1)}" font-size="10" font-weight="700" fill="#3f7d6e" text-anchor="middle">${nf(lastVal)}</text>`;
+  const baseLabel=`<text x="${xL}" y="${(yBase-4).toFixed(1)}" font-size="8.5" fill="#b8893f">本金</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">
+    <line x1="${xL}" y1="${yBase.toFixed(1)}" x2="${xR}" y2="${yBase.toFixed(1)}" stroke="#b8893f" stroke-width="1" stroke-dasharray="4 3"/>
+    ${baseLabel}${area}${line}${dots}${lastLabel}${labels}
+  </svg>`;
+}
+function openSnap(){ document.getElementById('snap-date').value=document.getElementById('snap-date').value||TODAY; buildSnap(); document.getElementById('snapMask').classList.add('open'); }
+function buildSnap(){
+  const principal=principalAmt();
+  const snaps=sortedSnaps();
+  const snap=snaps[snaps.length-1];
+  const sum=document.getElementById('snapSum');
+  if(snap){
+    const pnl=snap.value-principal, pct=principal>0?pnl/principal*100:0;
+    sum.innerHTML=`<div class="b">${nf(snap.value)}</div>
+      <div class="s">最新帳戶價值（${roc(snap.date)}）· 本金 ${nf(principal)} · 損益 <b class="${pnl>=0?'up':'down'}">${pnl>=0?'+':'−'}${nf(Math.abs(pnl))}（${pnl>=0?'+':'−'}${Math.abs(pct).toFixed(2)}%）</b></div>`;
+  } else {
+    sum.innerHTML=`<div class="s">尚無紀錄。輸入日期與帳戶價值後按「記錄」。本金 ${nf(principal)}</div>`;
+  }
+  const chart=document.getElementById('snapChart');
+  if(snaps.length){ chart.classList.remove('empty'); chart.innerHTML='<div class="ct">帳戶價值走勢（虛線＝本金）</div>'+trendSVG(snaps,principal); }
+  else { chart.classList.add('empty'); chart.innerHTML=''; }
+  const box=document.getElementById('snapList'); box.innerHTML='';
+  const rev=snaps.slice().reverse();
+  rev.forEach((s,idx)=>{
+    const prev=rev[idx+1];
+    let chg='';
+    if(prev){ const d=s.value-prev.value; chg=`<div class="si-chg ${d>=0?'up':'down'}">較前次 ${d>=0?'+':'−'}${nf(Math.abs(d))}</div>`; }
+    const pnl=s.value-principal;
+    const row=document.createElement('div'); row.className='snap-item';
+    row.innerHTML=`
+      <div class="si-mid">
+        <div class="si-d">${roc(s.date)}　損益 ${pnl>=0?'+':'−'}${nf(Math.abs(pnl))}</div>
+        <div class="si-v">${nf(s.value)}</div>
+        ${chg}
+      </div>
+      <button class="rm" title="刪除">×</button>`;
+    row.querySelector('.rm').onclick=()=>{ state.policySnaps=state.policySnaps.filter(x=>x.id!==s.id); save(); buildSnap(); render(); };
+    box.appendChild(row);
+  });
+}
+document.getElementById('snapAddBtn').onclick=()=>{
+  const date=document.getElementById('snap-date').value||TODAY;
+  const value=parseFloat(document.getElementById('snap-val').value);
+  if(!value||value<0){alert('請輸入帳戶價值');return;}
+  state.policySnaps.push({id:'s'+Date.now(),date,value}); save();
+  document.getElementById('snap-val').value='';
+  buildSnap(); render();
+};
+document.getElementById('closeSnapBtn').onclick=()=>document.getElementById('snapMask').classList.remove('open');
+document.getElementById('snapMask').onclick=e=>{if(e.target.id==='snapMask')e.target.classList.remove('open');};
+
+function renderEntries(){
+  const list=viewTxns();
+  document.getElementById('ledger-title').textContent=(isAll()?'全部':viewTitle())+' 明細';
+  document.getElementById('ledger-cnt').textContent='共 '+list.length+' 筆';
+  const box=document.getElementById('entries'); box.innerHTML='';
+  if(!list.length){ box.innerHTML='<div class="empty"><div class="big">📓</div>還沒有紀錄，點上方「新增一筆」開始記帳</div>'; return; }
+  let run=0; const withBal=list.map(t=>{ run+= t.type==='income'?t.amt:-t.amt; return {t,bal:run}; });
+  withBal.reverse().forEach(({t,bal})=>{
+    const el=document.createElement('div'); el.className='entry '+t.type;
+    const sign=t.type==='income'?'＋':'－';
+    let tag='';
+    if(t.type==='income'&&TO_PARENT.includes(t.cat)) tag='<span class="tag parent">給父母</span>';
+    if(t.cat===FATHER_PAY) tag='<span class="tag father">轉付父親</span>';
+    el.innerHTML=`
+      <div class="mid">
+        <div class="cat">${t.cat}${tag}</div>
+        <div class="meta">
+          <span>${roc(t.date)}</span>
+          ${(isAll()||sel.length>1)?`<span class="acc">${accName(t.acc)}</span>`:''}
+          ${t.note?`<span>${escapeHtml(t.note)}</span>`:''}
+        </div>
+      </div>
+      <div class="right">
+        <div class="amt ${t.type}">${sign}${nf(t.amt)}</div>
+        <div class="runbal">餘 ${nf(bal)}</div>
+      </div>
+      <button class="del" title="刪除">×</button>`;
+    el.querySelector('.del').onclick=()=>{ if(confirm('刪除這筆？\n'+t.cat+' '+nf(t.amt))){ state.txns=state.txns.filter(x=>x.id!==t.id); save(); render(); } };
+    box.appendChild(el);
+  });
+}
+
+function renderFormAccs(){
+  const s=document.getElementById('f-acc'); const prev=s.value; s.innerHTML='';
+  state.accounts.forEach(a=>{ const o=document.createElement('option'); o.value=a.id; o.textContent=a.name+'（'+a.owner+'）'; s.appendChild(o); });
+  if(!isAll() && sel.length===1 && state.accounts.find(a=>a.id===sel[0])) s.value=sel[0];
+  else if(prev && state.accounts.find(a=>a.id===prev)) s.value=prev;
+  renderCats();
+}
+function isCareAcc(id){ const a=state.accounts.find(x=>x.id===id); return !!(a && (a.id==='care' || a.name.indexOf('照護')>=0)); }
+function renderCats(){
+  const s=document.getElementById('f-cat'); const prev=s.value; s.innerHTML='';
+  const accId=document.getElementById('f-acc').value;
+  let cats=state.cats[curType].slice();
+  if(curType==='expense' && isCareAcc(accId)) cats=cats.filter(c=>c!==FATHER_PAY); // 照護基金不付父親
+  cats.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; s.appendChild(o);});
+  const add=document.createElement('option'); add.value='__add__'; add.textContent='＋ 新增類別…'; s.appendChild(add);
+  if(prev && cats.includes(prev)) s.value=prev;
+}
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* form */
+function openForm(){ const f=document.getElementById('form'); f.classList.add('open'); if(!document.getElementById('f-date').value) document.getElementById('f-date').value=TODAY; }
+document.getElementById('toggleForm').onclick=()=>{ document.getElementById('form').classList.toggle('open'); if(!document.getElementById('f-date').value) document.getElementById('f-date').value=TODAY; };
+function setType(t){ curType=t; document.getElementById('segOut').className='out'+(t==='expense'?' on':''); document.getElementById('segIn').className='in'+(t==='income'?' on':''); renderCats(); }
+document.getElementById('segOut').onclick=()=>setType('expense');
+document.getElementById('segIn').onclick=()=>setType('income');
+document.getElementById('f-acc').onchange=()=>renderCats();
+document.getElementById('f-cat').onchange=function(){
+  if(this.value==='__add__'){
+    const name=prompt('新增「'+(curType==='income'?'收入':'支出')+'」類別名稱：');
+    if(name&&name.trim()){ const n=name.trim(); if(!state.cats[curType].includes(n)){state.cats[curType].push(n); save();} renderCats(); this.value=n; }
+    else renderCats();
+  }
+};
+document.getElementById('saveBtn').onclick=()=>{
+  const amt=parseFloat(document.getElementById('f-amt').value);
+  const date=document.getElementById('f-date').value||TODAY;
+  const acc=document.getElementById('f-acc').value;
+  const cat=document.getElementById('f-cat').value;
+  const note=document.getElementById('f-note').value.trim();
+  if(cat==='__add__'){alert('請先選擇或新增類別');return;}
+  if(!amt||amt<=0){alert('請輸入金額');return;}
+  if(!acc){alert('請選擇帳戶');return;}
+  state.txns.push({id:'t'+Date.now(),date,acc,type:curType,cat,amt,note}); save();
+  document.getElementById('f-amt').value=''; document.getElementById('f-note').value='';
+  if(!isAll() && !sel.includes(acc)) sel=[acc];
+  render(); document.getElementById('form').classList.remove('open');
+};
+
+/* 快速登記支付父親 */
+function openPayFather(amount){
+  setType('expense'); openForm();
+  const esun=state.accounts.find(a=>a.name.indexOf('玉山')>=0)||state.accounts.find(a=>a.id==='esun')||state.accounts.find(a=>!isCareAcc(a.id))||state.accounts[0];
+  if(esun) document.getElementById('f-acc').value=esun.id;
+  renderCats();
+  document.getElementById('f-cat').value=FATHER_PAY;
+  document.getElementById('f-amt').value=amount>0?Math.round(amount):'';
+  document.getElementById('f-note').value='轉付父親（沖銷月配／給付）';
+  document.getElementById('form').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* accounts modal */
+const MGMT_PW='0918800852'; let mgmtOK=false;
+function openAcc(){
+  if(!mgmtOK){
+    const p=prompt('管理選單需要密碼：');
+    if(p===null) return;
+    if(p!==MGMT_PW){ alert('密碼錯誤，無法進入管理選單'); return; }
+    mgmtOK=true;
+  }
+  buildAccList(); document.getElementById('accMask').classList.add('open');
+}
+function buildAccList(){
+  const box=document.getElementById('accList'); box.innerHTML='';
+  state.accounts.forEach((a,i)=>{
+    const row=document.createElement('div'); row.className='acc-item'; row.dataset.id=a.id;
+    row.innerHTML=`
+      <div class="ai-mid"><input class="ai-name" value="${escapeHtml(a.name)}" placeholder="帳戶名"></div>
+      <input class="ai-own" value="${escapeHtml(a.owner||'')}" placeholder="查帳人">
+      <button class="rm" title="刪除">×</button>`;
+    row.querySelector('.rm').onclick=()=>{
+      const has=state.txns.some(t=>t.acc===a.id);
+      if(has && !confirm('「'+a.name+'」還有交易紀錄，一併刪除？')) return;
+      state.accounts.splice(i,1); state.txns=state.txns.filter(t=>t.acc!==a.id); buildAccList();
+    };
+    box.appendChild(row);
+  });
+}
+document.getElementById('addAccBtn').onclick=()=>{ state.accounts.push({id:'a'+Date.now(),name:'新帳戶',owner:''}); buildAccList(); };
+document.getElementById('saveAccBtn').onclick=()=>{
+  document.querySelectorAll('#accList .acc-item').forEach(row=>{
+    const a=state.accounts.find(x=>x.id===row.dataset.id);
+    if(a){ a.name=row.querySelector('.ai-name').value.trim()||'未命名'; a.owner=row.querySelector('.ai-own').value.trim(); }
+  });
+  if(!state.accounts.length){alert('至少保留一個帳戶');return;}
+  sel=sel.filter(id=>state.accounts.find(a=>a.id===id));
+  save(); document.getElementById('accMask').classList.remove('open'); render();
+};
+document.getElementById('closeAccBtn').onclick=()=>document.getElementById('accMask').classList.remove('open');
+document.getElementById('accMask').onclick=e=>{if(e.target.id==='accMask')e.target.classList.remove('open');};
+
+/* export / reset */
+document.getElementById('exportBtn').onclick=()=>{
+  const list=viewTxns();
+  let csv='\uFEFF日期(民國),帳戶,查帳人,類型,類別,收入,支出,備註\n';
+  list.forEach(t=>{
+    const inc=t.type==='income'?t.amt:''; const exp=t.type==='expense'?t.amt:'';
+    csv+=[roc(t.date),accName(t.acc),accOwner(t.acc),t.type==='income'?'收入':'支出',t.cat,inc,exp,'"'+(t.note||'').replace(/"/g,'""')+'"'].join(',')+'\n';
+  });
+  const fname=(isAll()?'合計':viewTitle())+'_帳本_'+TODAY+'.csv';
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+};
+document.getElementById('resetBtn').onclick=()=>{ if(confirm('重設為初始範例資料？目前所有紀錄會清除。')){ state=JSON.parse(JSON.stringify(SEED)); sel=[]; save(); render(); } };
+
+/* 產生唯讀檢視檔（資料內嵌，可離線、可 LINE 給家人） */
+const VIEWER_HTML='<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>媽媽照護基金 · 帳務檢視</title><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet"><style>'+
+':root{--paper:#f6f1e7;--paper-2:#fffdf8;--ink:#2c2a26;--ink-soft:#6b655b;--line:#e3dccd;--jade:#3f7d6e;--jade-d:#2c5a4f;--jade-l:#e7f0ec;--gold:#b8893f;--gold-l:#f3e9d6;--rose:#b4564a;--rose-l:#f6e7e4;--shadow:0 1px 2px rgba(44,42,38,.06),0 8px 24px rgba(44,42,38,.08)}'+
+'*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;font-family:"Noto Sans TC",sans-serif;background:var(--paper);color:var(--ink);background-image:radial-gradient(circle at 1px 1px,rgba(63,125,110,.05) 1px,transparent 0);background-size:22px 22px;line-height:1.5;padding-bottom:40px}'+
+'.wrap{max-width:680px;margin:0 auto;padding:0 14px}header{padding:20px 0 14px;text-align:center}.kanji{font-family:"Noto Serif TC",serif;font-weight:900;font-size:25px;letter-spacing:2px;color:var(--jade-d)}.sub{font-size:12px;color:var(--ink-soft);letter-spacing:2px;margin-top:3px}.ro{display:inline-block;margin-top:7px;font-size:11px;color:var(--gold);background:var(--gold-l);padding:3px 12px;border-radius:20px;font-weight:700}'+
+'.policy{background:linear-gradient(135deg,var(--jade-d),var(--jade));color:#fff;border-radius:16px;padding:14px 16px;margin:14px 0;box-shadow:var(--shadow);position:relative;overflow:hidden}.policy:before{content:"投";position:absolute;right:-8px;top:-18px;font-family:"Noto Serif TC",serif;font-weight:900;font-size:120px;opacity:.07;pointer-events:none}.policy h3{margin:0 0 9px;font-size:13px;font-weight:500;letter-spacing:1px;opacity:.9}.policy .row{display:flex;gap:8px}.policy .cell{flex:1;text-align:center}.policy .cell .n{font-family:"Noto Serif TC",serif;font-weight:700;font-size:19px}.policy .cell .l{font-size:11px;opacity:.85;margin-top:1px}.policy .cell+.cell{border-left:1px solid rgba(255,255,255,.25)}.policy .n.up{color:#bff0d8}.policy .n.down{color:#ffd2cc}.policy .foot2{margin-top:11px}.policy .meta2{font-size:11px;opacity:.88;line-height:1.6}'+
+'#vchart{background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:10px 8px 4px;margin-bottom:14px}#vchart .ct{font-size:11.5px;color:var(--ink-soft);font-weight:700;margin:0 0 2px 4px}'+
+'.tabs{display:flex;gap:7px;overflow-x:auto;padding:4px 0 10px}.tabs::-webkit-scrollbar{display:none}.tab{flex:0 0 auto;border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink-soft);padding:8px 13px;border-radius:11px;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap}.tab .own{font-size:10.5px;opacity:.7}.tab.on{background:var(--jade);border-color:var(--jade);color:#fff;box-shadow:var(--shadow)}'+
+'.sum{display:flex;gap:8px;margin-bottom:14px}.sum .card{flex:1;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;box-shadow:var(--shadow)}.sum .card .l{font-size:11.5px;color:var(--ink-soft)}.sum .card .v{font-family:"Noto Serif TC",serif;font-weight:700;font-size:17px;margin-top:3px}.v.in{color:var(--jade-d)}.v.out{color:var(--rose)}.v.bal{color:var(--ink)}'+
+'.recon{background:var(--gold-l);border:1.5px solid #e6d2a8;border-radius:15px;padding:13px 15px;margin-bottom:14px;box-shadow:var(--shadow)}.recon h4{margin:0 0 10px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:1px}.recon .grid{display:flex;gap:8px;text-align:center}.recon .grid .c{flex:1}.recon .grid .c .n{font-family:"Noto Serif TC",serif;font-weight:700;font-size:16px}.recon .grid .c .l{font-size:10.5px;color:var(--ink-soft);margin-top:1px}.recon .grid .c+.c{border-left:1px solid #e6d2a8}.recon .n.parent{color:var(--jade-d)}.recon .n.paid{color:var(--rose)}.recon .n.pend{color:var(--gold)}.recon .st{margin-top:10px;font-size:12.5px;text-align:center;font-weight:500}.recon .st.clear{color:var(--jade-d)}.recon .st.owe{color:var(--gold)}'+
+'.ledger{margin-top:18px}.ledger h2{font-family:"Noto Serif TC",serif;font-size:16px;font-weight:700;color:var(--jade-d);margin:0 0 4px}.ledger h2 .cnt{font-family:"Noto Sans TC";font-size:12px;color:var(--ink-soft);font-weight:400}.entry{background:var(--paper-2);border:1px solid var(--line);border-left-width:4px;border-radius:12px;padding:11px 13px;margin-top:9px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow)}.entry.income{border-left-color:var(--jade)}.entry.expense{border-left-color:var(--rose)}.entry .mid{flex:1;min-width:0}.entry .cat{font-weight:700;font-size:14.5px}.entry .tag{font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;margin-left:6px}.tag.parent{background:var(--gold-l);color:var(--gold)}.tag.father{background:var(--rose-l);color:var(--rose)}.entry .meta{font-size:11.5px;color:var(--ink-soft);margin-top:2px;display:flex;flex-wrap:wrap;gap:4px 9px}.entry .meta .acc{color:var(--jade-d);font-weight:500}.entry .amt{font-family:"Noto Serif TC",serif;font-weight:700;font-size:15.5px;white-space:nowrap}.amt.income{color:var(--jade-d)}.amt.expense{color:var(--rose)}.entry .right{text-align:right}.entry .runbal{font-size:10.5px;color:var(--ink-soft);margin-top:2px}.empty{text-align:center;color:var(--ink-soft);padding:30px;font-size:14px}'+
+'.note{font-size:11px;color:var(--ink-soft);text-align:center;margin-top:18px;line-height:1.7;opacity:.85}'+
+'</style></head><body><div class="wrap"><header><div class="kanji">媽媽照護基金</div><div class="sub">家 庭 帳 本</div><div class="ro">唯讀檢視</div></header><div id="app"></div><div class="note" id="vnote"></div></div><script>'+
+'var DATA="__DATA__";var TO_PARENT=["月配息","失能金","理賠金"],FATHER_PAY="支付父親",DIST_CAT="月配息";'+
+'var accounts=DATA.accounts||[],txns=DATA.txns||[],snaps=(DATA.snaps||[]).slice().sort(function(a,b){return a.date<b.date?-1:(a.date>b.date?1:0);});var sel="all";'+
+'function nf(n){return "$"+Math.round(n).toLocaleString("en-US");}function roc(iso){if(!iso)return "";var p=String(iso).split("-");return (parseInt(p[0],10)-1911)+"/"+p[1]+"/"+p[2];}'+
+'function accName(id){for(var i=0;i<accounts.length;i++){if(accounts[i].id===id)return accounts[i].name;}return "(已刪)";}'+
+'function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c];});}'+
+'function principalAmt(){var s=0;txns.forEach(function(t){if(t.type==="expense"&&t.cat==="投資型保單")s+=t.amt;});return s;}'+
+'function viewTxns(){var l=txns.filter(function(t){return sel==="all"||t.acc===sel;});l.sort(function(a,b){return a.date===b.date?(a.id<b.id?-1:1):(a.date<b.date?-1:1);});return l;}'+
+'function vsp(p){if(p.length<2)return p.length?("M"+p[0][0].toFixed(1)+","+p[0][1].toFixed(1)):"";if(p.length===2)return "M"+p[0][0].toFixed(1)+","+p[0][1].toFixed(1)+" L"+p[1][0].toFixed(1)+","+p[1][1].toFixed(1);var d="M"+p[0][0].toFixed(1)+","+p[0][1].toFixed(1);for(var i=0;i<p.length-1;i++){var a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||p[i+1];var c1x=b[0]+(c[0]-a[0])/6,c1y=b[1]+(c[1]-a[1])/6,c2x=c[0]-(e[0]-b[0])/6,c2y=c[1]-(e[1]-b[1])/6;d+=" C"+c1x.toFixed(1)+","+c1y.toFixed(1)+" "+c2x.toFixed(1)+","+c2y.toFixed(1)+" "+c[0].toFixed(1)+","+c[1].toFixed(1);}return d;}function trendSVG(){if(!snaps.length)return "";var principal=principalAmt();var W=320,H=152,xL=44,xR=W-14,yT=16,yB=H-26;var vals=snaps.map(function(s){return s.value;}).concat([principal]);var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals);if(min===max){min-=Math.max(1,min*0.01);max+=Math.max(1,max*0.01);}var pad=(max-min)*0.15;min-=pad;max+=pad;function X(i){return snaps.length===1?(xL+xR)/2:xL+i/(snaps.length-1)*(xR-xL);}function Y(v){return yT+(max-v)/(max-min)*(yB-yT);}var yBase=Y(principal);var pts=snaps.map(function(s,i){return [X(i),Y(s.value)];});var poly=vsp(pts);var area=snaps.length>1?"<path d=\\""+poly+" L"+pts[pts.length-1][0].toFixed(1)+","+yB+" L"+pts[0][0].toFixed(1)+","+yB+" Z"+"\\" fill=\\"#3f7d6e\\" opacity=\\"0.08\\"/>":"";var line=snaps.length>1?"<path d=\\""+poly+"\\" fill=\\"none\\" stroke=\\"#3f7d6e\\" stroke-width=\\"2\\"/>":"";var dots=pts.map(function(p){return "<circle cx=\\""+p[0].toFixed(1)+"\\" cy=\\""+p[1].toFixed(1)+"\\" r=\\"3.4\\" fill=\\"#3f7d6e\\"/>";}).join("");var labels=snaps.map(function(s,i){if(snaps.length>4&&i!==0&&i!==snaps.length-1)return "";return "<text x=\\""+X(i).toFixed(1)+"\\" y=\\""+(H-8)+"\\" font-size=\\"8.5\\" fill=\\"#6b655b\\" text-anchor=\\"middle\\">"+roc(s.date)+"</text>";}).join("");var last=pts[pts.length-1],lastVal=snaps[snaps.length-1].value;var ly=Math.max(yT+8,last[1]-7);var lastLabel="<text x=\\""+Math.min(xR-2,last[0]).toFixed(1)+"\\" y=\\""+ly.toFixed(1)+"\\" font-size=\\"10\\" font-weight=\\"700\\" fill=\\"#3f7d6e\\" text-anchor=\\"middle\\">"+nf(lastVal)+"</text>";var baseLabel="<text x=\\""+xL+"\\" y=\\""+(yBase-4).toFixed(1)+"\\" font-size=\\"8.5\\" fill=\\"#b8893f\\">本金</text>";return "<svg viewBox=\\"0 0 "+W+" "+H+"\\" style=\\"width:100%;height:auto;display:block\\"><line x1=\\""+xL+"\\" y1=\\""+yBase.toFixed(1)+"\\" x2=\\""+xR+"\\" y2=\\""+yBase.toFixed(1)+"\\" stroke=\\"#b8893f\\" stroke-width=\\"1\\" stroke-dasharray=\\"4 3\\"/>"+baseLabel+area+line+dots+lastLabel+labels+"</svg>";}'+
+'function policyHTML(){var principal=principalAmt();var distList=txns.filter(function(t){return t.cat===DIST_CAT;});var distSum=0;distList.forEach(function(t){distSum+=t.amt;});var paidF=0,toParentAll=0;txns.forEach(function(t){if(t.cat===FATHER_PAY)paidF+=t.amt;if(t.type==="income"&&TO_PARENT.indexOf(t.cat)>=0)toParentAll+=t.amt;});var pendF=toParentAll-paidF;var snap=snaps.length?snaps[snaps.length-1]:null;var val=snap?snap.value:null;var pnl=val!=null?val-principal:null;var pct=(pnl!=null&&principal>0)?pnl/principal*100:null;var valCell=val!=null?("<div class=\\"n\\">"+nf(val)+"</div><div class=\\"l\\">帳戶價值</div>"):"<div class=\\"n\\">—</div><div class=\\"l\\">帳戶價值</div>";var pnlCell=pnl!=null?("<div class=\\"n "+(pnl>=0?"up":"down")+"\\">"+(pnl>=0?"+":"−")+nf(Math.abs(pnl))+"</div><div class=\\"l\\">損益"+(pct!=null?(" "+(pnl>=0?"+":"−")+Math.abs(pct).toFixed(2)+"%"):"")+"</div>"):"<div class=\\"n\\">—</div><div class=\\"l\\">損益</div>";return "<div class=\\"policy\\"><h3>投資型保單</h3><div class=\\"row\\"><div class=\\"cell\\"><div class=\\"n\\">"+(principal?nf(principal):"$0")+"</div><div class=\\"l\\">投入本金</div></div><div class=\\"cell\\">"+valCell+"</div><div class=\\"cell\\">"+pnlCell+"</div></div><div class=\\"foot2\\"><div class=\\"meta2\\">月配息累計撥入 "+nf(distSum)+"（"+distList.length+" 筆）· 待轉付父親 "+nf(pendF)+(snap?(" · 評估日 "+roc(snap.date)):"")+"</div></div></div>";}'+
+'function chartHTML(){if(!snaps.length)return "";return "<div id=\\"vchart\\"><div class=\\"ct\\">保單帳戶價值走勢（虛線＝本金）</div>"+trendSVG()+"</div>";}'+
+'function tabsHTML(){var h="<div class=\\"tabs\\"><button class=\\"tab vt"+(sel==="all"?" on":"")+"\\" data-id=\\"all\\">合計 <span class=\\"own\\">全部</span></button>";accounts.forEach(function(a){h+="<button class=\\"tab vt"+(sel===a.id?" on":"")+"\\" data-id=\\""+a.id+"\\">"+esc(a.name)+" <span class=\\"own\\">"+esc(a.owner||"")+"</span></button>";});return h+"</div>";}'+
+'function sumHTML(){var inc=0,exp=0;viewTxns().forEach(function(t){if(t.type==="income")inc+=t.amt;else exp+=t.amt;});return "<div class=\\"sum\\"><div class=\\"card\\"><div class=\\"l\\">總收入</div><div class=\\"v in\\">"+nf(inc)+"</div></div><div class=\\"card\\"><div class=\\"l\\">總支出</div><div class=\\"v out\\">"+nf(exp)+"</div></div><div class=\\"card\\"><div class=\\"l\\">現金結餘</div><div class=\\"v bal\\">"+nf(inc-exp)+"</div></div></div>";}'+
+'function reconHTML(){var list=viewTxns();var toP=0,paid=0;list.forEach(function(t){if(t.type==="income"&&TO_PARENT.indexOf(t.cat)>=0)toP+=t.amt;if(t.type==="expense"&&t.cat===FATHER_PAY)paid+=t.amt;});if(toP===0&&paid===0)return "";var pend=toP-paid;var st=pend<=0?"<div class=\\"st clear\\">✓ 已全數沖銷，無待轉付</div>":"<div class=\\"st owe\\">尚有 <b>"+nf(pend)+"</b> 配息／給付未轉付父親（待沖銷）</div>";return "<div class=\\"recon\\"><h4>◷ 月配入帳 ⇄ 轉付父親 對帳</h4><div class=\\"grid\\"><div class=\\"c\\"><div class=\\"n parent\\">"+nf(toP)+"</div><div class=\\"l\\">給父母入帳<br>(配息/失能/理賠)</div></div><div class=\\"c\\"><div class=\\"n paid\\">"+nf(paid)+"</div><div class=\\"l\\">已支付父親</div></div><div class=\\"c\\"><div class=\\"n pend\\">"+nf(pend)+"</div><div class=\\"l\\">待轉付父親</div></div></div>"+st+"</div>";}'+
+'function ledgerHTML(){var list=viewTxns();var title=(sel==="all"?"全部":accName(sel))+" 明細";var h="<div class=\\"ledger\\"><h2>"+title+" <span class=\\"cnt\\">共 "+list.length+" 筆</span></h2>";if(!list.length)return h+"<div class=\\"empty\\">無紀錄</div></div>";var run=0;var wb=list.map(function(t){run+=t.type==="income"?t.amt:-t.amt;return {t:t,bal:run};});wb.reverse().forEach(function(o){var t=o.t;var sign=t.type==="income"?"＋":"−";var tag="";if(t.type==="income"&&TO_PARENT.indexOf(t.cat)>=0)tag="<span class=\\"tag parent\\">給父母</span>";if(t.cat===FATHER_PAY)tag="<span class=\\"tag father\\">轉付父親</span>";h+="<div class=\\"entry "+t.type+"\\"><div class=\\"mid\\"><div class=\\"cat\\">"+esc(t.cat)+tag+"</div><div class=\\"meta\\"><span>"+roc(t.date)+"</span>"+(sel==="all"?("<span class=\\"acc\\">"+esc(accName(t.acc))+"</span>"):"")+(t.note?("<span>"+esc(t.note)+"</span>"):"")+"</div></div><div class=\\"right\\"><div class=\\"amt "+t.type+"\\">"+sign+nf(t.amt)+"</div><div class=\\"runbal\\">餘 "+nf(o.bal)+"</div></div></div>";});return h+"</div>";}'+
+'function render(){document.getElementById("app").innerHTML=policyHTML()+chartHTML()+tabsHTML()+sumHTML()+reconHTML()+ledgerHTML();var b=document.querySelectorAll(".vt");for(var i=0;i<b.length;i++){(function(x){x.onclick=function(){sel=x.getAttribute("data-id");render();};})(b[i]);}}'+
+'document.getElementById("vnote").textContent="唯讀檢視快照 · 產生於 民國 "+DATA.gen+" · 數字以產生當下為準，不可編輯";render();'+
+'<\/script></body></html>';
+
+function downloadHTML(html, fname){
+  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+}
+function genViewer(){
+  const payload={gen:roc(TODAY),accounts:state.accounts,txns:state.txns,snaps:state.policySnaps};
+  const html=VIEWER_HTML.replace('"__DATA__"', JSON.stringify(payload).replace(/</g,'\\u003c'));
+  downloadHTML(html, '媽媽照護基金_檢視_'+TODAY+'.html');
+  alert('已產生唯讀檢視檔，可用 LINE 傳給家人。家人開啟只能看、改不動你的帳。');
+}
+document.getElementById('genViewBtn').onclick=genViewer;
+
+/* 頁面切換 */
+function showPage(p){
+  document.getElementById('pageLedger').style.display = p==='ledger'?'':'none';
+  document.getElementById('pageAdvances').style.display = p==='advances'?'':'none';
+  document.querySelectorAll('#pagenav .pn').forEach(b=>b.classList.toggle('on', b.getAttribute('data-page')===p));
+  if(p==='advances') renderAdvances();
+}
+document.querySelectorAll('#pagenav .pn').forEach(b=>{ b.onclick=()=>showPage(b.getAttribute('data-page')); });
+
+/* 我代墊的費用 */
+const WHO_LABEL={'車':'車','父':'父','母':'母','其他':'他'};
+let advEditId=null;
+function renderAdvances(){
+  const list=(state.advances||[]).slice().sort((a,b)=>{
+    if(a.repaid!==b.repaid) return a.repaid?1:-1;
+    return a.date===b.date ? a.id.localeCompare(b.id) : a.date.localeCompare(b.date);
+  });
+  let tot=0,rep=0;
+  (state.advances||[]).forEach(a=>{ const v=a.amt||0; tot+=v; if(a.repaid) rep+=v; });
+  document.getElementById('advTotal').textContent=nf(tot);
+  document.getElementById('advRepaid').textContent=nf(rep);
+  document.getElementById('advPending').textContent=nf(tot-rep);
+  const box=document.getElementById('advList'); box.innerHTML='';
+  if(!list.length){ box.innerHTML='<div class="adv-empty">尚無代墊項目，點「新增代墊」加入。</div>'; return; }
+  list.forEach(a=>{
+    const el=document.createElement('div'); el.className='adv-item'+(a.repaid?' repaid':'');
+    const amtHTML=(a.amt&&a.amt>0)?`<div class="ai-amt" title="點此修改">${nf(a.amt)}</div>`:`<div class="ai-amt tbd" title="點此修改">待確認</div>`;
+    el.innerHTML=`
+      <div class="who">${WHO_LABEL[a.who]||'他'}</div>
+      <div class="ai-mid" style="cursor:pointer" title="點此修改這筆">
+        <div class="ai-name">${escapeHtml(a.item)}</div>
+        <div class="ai-meta">${roc(a.date)}${a.note?'　'+escapeHtml(a.note):''}${a.repaid?'　· 已還':''}</div>
+      </div>
+      ${amtHTML}
+      <button class="chk" title="${a.repaid?'改回待還':'標記已還'}">${a.repaid?'✓':''}</button>
+      <button class="rm" title="刪除">×</button>`;
+    el.querySelector('.ai-mid').onclick=()=>openAdvForm(a.id);
+    el.querySelector('.ai-amt').onclick=()=>openAdvForm(a.id);
+    el.querySelector('.chk').onclick=()=>{ a.repaid=!a.repaid; save(); renderAdvances(); };
+    el.querySelector('.rm').onclick=()=>{ if(confirm('刪除「'+a.item+'」？')){ state.advances=state.advances.filter(x=>x.id!==a.id); if(advEditId===a.id) resetAdvForm(); save(); renderAdvances(); } };
+    box.appendChild(el);
+  });
+}
+function openAdvForm(editId){
+  advEditId=editId||null;
+  const f=document.getElementById('advForm');
+  const hint=document.getElementById('advFormHint');
+  if(advEditId){
+    const a=state.advances.find(x=>x.id===advEditId); if(!a) return;
+    document.getElementById('av-date').value=a.date;
+    document.getElementById('av-who').value=a.who;
+    document.getElementById('av-item').value=a.item;
+    document.getElementById('av-amt').value=a.amt?a.amt:'';
+    document.getElementById('av-note').value=a.note||'';
+    hint.style.display='block'; hint.textContent='編輯中：'+a.item;
+    document.getElementById('avSave').textContent='更新此筆';
+    document.getElementById('avCancel').style.display='block';
+  } else {
+    document.getElementById('av-date').value=document.getElementById('av-date').value||TODAY;
+    document.getElementById('av-who').value='車';
+    document.getElementById('av-item').value=''; document.getElementById('av-amt').value=''; document.getElementById('av-note').value='';
+    hint.style.display='none';
+    document.getElementById('avSave').textContent='記一筆';
+    document.getElementById('avCancel').style.display='none';
+  }
+  f.classList.add('open');
+  if(f.scrollIntoView) f.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetAdvForm(){
+  advEditId=null;
+  document.getElementById('advForm').classList.remove('open');
+  document.getElementById('advFormHint').style.display='none';
+  document.getElementById('avSave').textContent='記一筆';
+  document.getElementById('avCancel').style.display='none';
+  document.getElementById('av-item').value=''; document.getElementById('av-amt').value=''; document.getElementById('av-note').value='';
+}
+document.getElementById('advToggle').onclick=()=>{
+  const f=document.getElementById('advForm');
+  if(f.classList.contains('open') && !advEditId){ resetAdvForm(); }
+  else openAdvForm(null);
+};
+document.getElementById('avCancel').onclick=resetAdvForm;
+document.getElementById('avSave').onclick=()=>{
+  const date=document.getElementById('av-date').value||TODAY;
+  const who=document.getElementById('av-who').value;
+  const item=document.getElementById('av-item').value.trim();
+  const amtRaw=document.getElementById('av-amt').value;
+  const amt=amtRaw===''?0:parseFloat(amtRaw);
+  const note=document.getElementById('av-note').value.trim();
+  if(!item){alert('請輸入項目');return;}
+  if(amtRaw!==''&&(isNaN(amt)||amt<0)){alert('金額不正確');return;}
+  if(advEditId){
+    const a=state.advances.find(x=>x.id===advEditId);
+    if(a){ a.date=date; a.who=who; a.item=item; a.amt=amt||0; a.note=note; }
+  } else {
+    state.advances.push({id:'av'+Date.now(),date,who,item,amt:amt||0,note,repaid:false});
+  }
+  save(); resetAdvForm(); renderAdvances();
+};
+
+setType('expense'); render();
+</script>
+</body>
+</html>
