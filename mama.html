@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -198,7 +199,6 @@ header .rule{width:46px;height:3px;background:var(--gold);margin:11px auto 0;bor
   <div class="policy"><div id="policyBody"></div></div>
 
   <div class="tabs" id="tabs"></div>
-  <div class="hint">可勾選多個帳戶一起看合計（例：玉山＋郵局）。點「合計」回到全部。</div>
 
   <div class="sum" id="sum"></div>
 
@@ -302,8 +302,7 @@ const DIST_CAT='月配息';
 const SEED={
   accounts:[
     {id:'care', name:'照護基金', owner:'宇、文'},
-    {id:'esun', name:'玉山',     owner:'母'},
-    {id:'post', name:'郵局',     owner:'母'},
+    {id:'esun', name:'芸琪管理', owner:'芸琪'},
   ],
   cats:{
     expense:['生活費','醫藥費','保健食品','器材','支付父親','雜支','投資型保單','其他'],
@@ -311,8 +310,8 @@ const SEED={
   },
   txns:[
     {id:'t1', date:'2026-04-27', acc:'care', type:'income',  cat:'本金挹注',   amt:500000, note:'弟弟妹妹租金＋弟弟單筆10萬（已扣芸琪墊付2萬，淨額50萬）'},
-    {id:'t2', date:'2026-04-27', acc:'care', type:'expense', cat:'投資型保單', amt:500000, note:'115/04/27 單筆投入50萬，月配入玉山'},
-    {id:'t3', date:'2026-05-25', acc:'esun', type:'income',  cat:'月配息',     amt:3000,   note:'首期月配（115/05）撥入玉山'},
+    {id:'t2', date:'2026-04-27', acc:'care', type:'expense', cat:'投資型保單', amt:500000, note:'115/04/27 單筆投入50萬，月配入芸琪管理'},
+    {id:'t3', date:'2026-05-25', acc:'esun', type:'income',  cat:'月配息',     amt:3000,   note:'首期月配（115/05）撥入芸琪管理'},
     {id:'t4', date:'2026-05-26', acc:'esun', type:'expense', cat:'支付父親',   amt:3000,   note:'轉付父親（首期月配，已沖銷）'},
     {id:'t5', date:'2026-06-10', acc:'esun', type:'income',  cat:'月配息',     amt:3726,   note:'至115/06累計撥入6,726（此期尚未轉付父親）'},
   ],
@@ -355,6 +354,11 @@ function load(){
   s.cats.income=s.cats.income.map(c=>c==='投資配息'?DIST_CAT:c);
   if(!s.cats.income.includes(DIST_CAT)){ const i=s.cats.income.indexOf('失能金'); if(i>=0) s.cats.income.splice(i+1,0,DIST_CAT); else s.cats.income.push(DIST_CAT); }
   s.txns.forEach(t=>{ if(t.cat==='投資配息') t.cat=DIST_CAT; });
+  // 玉山 全面更名為 芸琪管理（帳戶名與備註）
+  s.accounts.forEach(a=>{ if(a.name==='玉山') a.name='芸琪管理'; });
+  s.txns.forEach(t=>{ if(t.note) t.note=t.note.split('玉山').join('芸琪管理'); });
+  // 郵局已停用：若無任何交易則自動移除
+  s.accounts.filter(a=>a.name==='郵局').forEach(a=>{ if(!s.txns.some(t=>t.acc===a.id)) s.accounts=s.accounts.filter(x=>x.id!==a.id); });
   // 照護基金不應有「支付父親」，清除任何誤植
   const careIds=s.accounts.filter(a=>a.id==='care'||(a.name&&a.name.indexOf('照護')>=0)).map(a=>a.id);
   s.txns=s.txns.filter(t=>!(t.cat===FATHER_PAY && careIds.includes(t.acc)));
@@ -666,7 +670,7 @@ document.getElementById('saveBtn').onclick=()=>{
 /* 快速登記支付父親 */
 function openPayFather(amount){
   setType('expense'); openForm();
-  const esun=state.accounts.find(a=>a.name.indexOf('玉山')>=0)||state.accounts.find(a=>a.id==='esun')||state.accounts.find(a=>!isCareAcc(a.id))||state.accounts[0];
+  const esun=state.accounts.find(a=>a.name.indexOf('芸琪管理')>=0)||state.accounts.find(a=>a.id==='esun')||state.accounts.find(a=>!isCareAcc(a.id))||state.accounts[0];
   if(esun) document.getElementById('f-acc').value=esun.id;
   renderCats();
   document.getElementById('f-cat').value=FATHER_PAY;
