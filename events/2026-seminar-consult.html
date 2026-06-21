@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
 <title>預約諮詢｜講座學員專屬・財務健診 — 馥芸財富學苑</title>
+<meta name="robots" content="noindex,nofollow"><!-- 不公開頁:不讓搜尋引擎收錄 -->
 <meta name="description" content="《錢滾錢，不靠運氣》財務講座學員專屬福利：講座後三天內免費預約 60 分鐘財務健診，現金流檢視、退休準備度分析、資產配置與風險盤點。">
 <meta property="og:title" content="講座學員專屬・財務健診預約｜財顧芸 陳芸琪">
 <meta property="og:description" content="講座後三天內免費預約 60 分鐘財務健診。為自己與家人建立一份安心與選擇權。">
@@ -45,6 +45,13 @@ tailwind.config = {
   .bloom-divider::before,.bloom-divider::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(199,154,74,.5),transparent); }
   @media (prefers-reduced-motion:reduce){ .seed-card{ transition:none; } }
   .anchor-offset{ scroll-margin-top:90px; }
+  .collapsible{ max-height:0; overflow:hidden; transition:max-height .38s ease; }
+  .collapsible.open{ max-height:900px; }
+  .chev{ transition:transform .3s ease; display:inline-block; }
+  .chev.up{ transform:rotate(180deg); }
+  #benefitToggle{ cursor:pointer; width:100%; }
+  #benefitToggle:hover{ filter:brightness(1.04); }
+  @media (prefers-reduced-motion:reduce){ .collapsible{ transition:none; } .chev{ transition:none; } }
 </style>
 </head>
 <body class="font-sans text-ink antialiased">
@@ -97,28 +104,35 @@ tailwind.config = {
   <section class="max-w-3xl mx-auto px-5 py-6">
     <div class="bloom-divider mb-7"><span class="font-serif-tc text-[1.05rem]">🌱 講座學員專屬福利</span></div>
 
-    <div class="bg-moss text-paper rounded-3xl px-6 sm:px-9 py-8 shadow-md text-center mb-7">
+    <button type="button" id="benefitToggle" aria-expanded="false" aria-controls="benefitDetails"
+            class="bg-moss text-paper rounded-3xl px-6 sm:px-9 py-7 shadow-md text-center transition">
       <p class="text-[.86rem] tracking-wide text-paper/80 mb-1">即日起至講座後三天內</p>
       <p class="font-serif-tc text-[1.5rem] sm:text-[1.7rem] font-bold">免費預約 60 分鐘財務健診</p>
       <p class="text-paper/75 text-[.9rem] mt-3">一次完整的財務體檢，由專業財務顧問陪您一起看懂。</p>
-    </div>
+      <span class="inline-flex items-center gap-1 text-paper/85 text-[.82rem] mt-4 bg-paper/15 rounded-full px-4 py-1.5">
+        <span id="benefitLabel">展開查看健診內容</span>
+        <svg class="chev w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </span>
+    </button>
 
-    <div class="grid sm:grid-cols-2 gap-4">
-      <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
-        <span class="text-2xl">💰</span>
-        <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">收支與現金流檢視</p><p class="text-ink/65 text-[.86rem] mt-1">看清每月金流，找出可運用的空間。</p></div>
-      </div>
-      <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
-        <span class="text-2xl">🛡️</span>
-        <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">退休準備度分析</p><p class="text-ink/65 text-[.86rem] mt-1">距離理想退休生活，還差多少？</p></div>
-      </div>
-      <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
-        <span class="text-2xl">🌳</span>
-        <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">資產配置盤點</p><p class="text-ink/65 text-[.86rem] mt-1">檢視配置是否符合人生階段需求。</p></div>
-      </div>
-      <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
-        <span class="text-2xl">⚖️</span>
-        <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">風險缺口盤點</p><p class="text-ink/65 text-[.86rem] mt-1">用賓士圖逐一檢視責任、醫療、重病殘。</p></div>
+    <div id="benefitDetails" class="collapsible">
+      <div class="grid sm:grid-cols-2 gap-4 pt-4">
+        <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
+          <span class="text-2xl">💰</span>
+          <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">收支與現金流檢視</p><p class="text-ink/65 text-[.86rem] mt-1">看清每月金流，找出可運用的空間。</p></div>
+        </div>
+        <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
+          <span class="text-2xl">🛡️</span>
+          <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">退休準備度分析</p><p class="text-ink/65 text-[.86rem] mt-1">距離理想退休生活，還差多少？</p></div>
+        </div>
+        <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
+          <span class="text-2xl">🌳</span>
+          <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">資產配置盤點</p><p class="text-ink/65 text-[.86rem] mt-1">檢視配置是否符合人生階段需求。</p></div>
+        </div>
+        <div class="seed-card bg-white border hairline rounded-2xl p-5 flex items-start gap-3">
+          <span class="text-2xl">⚖️</span>
+          <div><p class="font-serif-tc font-bold text-moss text-[1.05rem]">風險缺口盤點</p><p class="text-ink/65 text-[.86rem] mt-1">用賓士圖逐一檢視責任、醫療、重病殘。</p></div>
+        </div>
       </div>
     </div>
   </section>
@@ -140,7 +154,7 @@ tailwind.config = {
 
     <p class="text-center text-ink/60 text-[.84rem] mt-4">
       表單無法顯示嗎？
-      <a href="https://forms.gle/9aNjgfxtvLceSZpa9" target="_blank" rel="noopener"
+      <a href="https://forms.gle/9cKxszQoSJxbQ1g29" target="_blank" rel="noopener"
          class="text-gold underline underline-offset-2 hover:text-[#b98a3c]">點此用新分頁開啟報名表</a>
     </p>
   </section>
@@ -222,6 +236,21 @@ tailwind.config = {
       var n = new URLSearchParams(window.location.search).get('name');
       if(n){ n = n.trim().slice(0,12); if(n){ document.getElementById('guestName').textContent = n; } }
     }catch(e){}
+  })();
+
+  // 學員福利區：點綠色橫幅展開／收合四張健診卡（預設收合，不佔版）
+  (function(){
+    var btn = document.getElementById('benefitToggle');
+    var panel = document.getElementById('benefitDetails');
+    var label = document.getElementById('benefitLabel');
+    if(!btn || !panel) return;
+    btn.addEventListener('click', function(){
+      var open = panel.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var chev = btn.querySelector('.chev');
+      if(chev) chev.classList.toggle('up', open);
+      if(label) label.textContent = open ? '收合' : '展開查看健診內容';
+    });
   })();
 </script>
 </body>
