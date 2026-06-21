@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<!--
+  財顧芸人生航海圖 — 部落格首頁（第一階段）
+  部署：放到 GitHub Pages（建議路徑 business/blog.html 或當作部落格 index）。
+  圖片：請把 lifecycle-risk-curve.png 與本檔放在同一資料夾一起上傳（生命週期風險曲線段落會用到）。
+
+  已接好：航海日誌 → 真實電子報訂閱頁、講座課程 → 馥芸財富學苑、FB / Podcast / YouTube / LINE@ / 財富花園。
+  仍待補：
+  1) 四大航道與最新文章卡的 href="#"，換成實際文章頁網址。
+  2) 免費資源區的五張清單卡，若實際下載檔尚未備齊，可先精簡或改為訂閱導向。
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>財顧芸人生航海圖｜陪你從財務安心，航向人生自由</title>
+<meta name="description" content="幸福財務領航員 Angie 的部落格。用真實案例與人生故事，陪 50+ 家庭看懂財務、看懂人生、看懂傳承。每週一封航海日誌。">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper:   '#fffdf8',
+          moss:    '#3f6b4f',
+          gold:    '#c79a4a',
+          rose:    '#cf7f73',
+          ocean:   '#1b4751',
+          sea:     '#e6efee',
+          ink:     '#2e3a33',
+        },
+        fontFamily: {
+          serif: ['"Noto Serif TC"', 'serif'],
+          sans:  ['"Noto Sans TC"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background-color: #fffdf8; color: #2e3a33; }
+
+  /* 羅盤方位 eyebrow：航海圖的小簽名 */
+  .bearing {
+    letter-spacing: 0.32em;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+
+  /* 航道之間的虛線「航線」 */
+  .course-line {
+    background-image: linear-gradient(to bottom, rgba(27,71,81,0.35) 0 6px, transparent 6px 14px);
+    background-size: 1px 14px;
+    background-repeat: repeat-y;
+    background-position: center;
+  }
+
+  /* 進場淡入 */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* 卡片浮起 */
+  .card-lift { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+  .card-lift:hover { transform: translateY(-4px); box-shadow: 0 14px 30px -18px rgba(27,71,81,0.45); }
+
+  /* 焦點可見（無障礙） */
+  a:focus-visible, button:focus-visible, input:focus-visible {
+    outline: 2px solid #1b4751; outline-offset: 3px; border-radius: 4px;
+  }
+
+  /* 海平面紋理 */
+  .horizon {
+    background:
+      radial-gradient(120% 80% at 50% 120%, rgba(27,71,81,0.10), transparent 60%),
+      linear-gradient(to bottom, transparent, rgba(230,239,238,0.6));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card-lift { transition: none; }
+  }
+
+  /* 分類篩選 chip */
+  .chip { font-size:.85rem; padding:6px 15px; border-radius:999px; border:1px solid rgba(63,107,79,.3); color:#3f6b4f; background:#fff; cursor:pointer; transition:background .2s,color .2s,border-color .2s; }
+  .chip:hover { background:rgba(63,107,79,.07); }
+  .chip.active { background:#1b4751; color:#fffdf8; border-color:#1b4751; }
+  /* 搜尋列 */
+  .search-wrap input::placeholder { color:#9bb0ab; }
+  #noResult { display:none; }
+  #noResult.show { display:block; }
+  /* 可讀性：預設字級放大≈18px，並尊重使用者裝置/瀏覽器的文字縮放 */
+  :root { font-size: 112.5%; }
+  body { -webkit-text-size-adjust: 100%; text-rendering: optimizeLegibility; }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- ============ 導覽列 ============ -->
+<header class="sticky top-0 z-50 bg-paper/90 backdrop-blur border-b border-moss/15">
+  <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-baseline gap-2">
+      <span class="font-serif text-xl font-700 text-ocean tracking-wide">財顧芸</span>
+      <span class="hidden sm:inline text-sm text-moss/70">人生航海圖</span>
+    </a>
+    <ul class="hidden lg:flex items-center gap-5 text-[0.9rem] text-ink/80">
+      <li><a href="#topics"   class="hover:text-ocean transition">主題分類</a></li>
+      <li><a href="#channels" class="hover:text-ocean transition">四大航道</a></li>
+      <li><a href="#latest"   class="hover:text-ocean transition">最新文章</a></li>
+      <li><a href="#stories"  class="hover:text-ocean transition">客戶故事</a></li>
+      <li><a href="#reading"  class="hover:text-ocean transition">說書會</a></li>
+      <li><a href="#courses"  class="hover:text-ocean transition">課程</a></li>
+      <li><a href="#about"    class="hover:text-ocean transition">關於</a></li>
+    </ul>
+    <div class="flex items-center gap-3">
+      <a href="#log" class="hidden sm:inline-flex items-center rounded-full bg-ocean text-paper text-sm px-4 py-2 hover:bg-ocean/90 transition">訂閱航海日誌</a>
+      <button id="navToggle" class="lg:hidden p-2 text-ocean" aria-label="開啟選單" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="lg:hidden hidden border-t border-moss/15 bg-paper">
+    <ul class="px-5 py-3 flex flex-col gap-1 text-ink/85">
+      <li><a href="#topics"    class="block py-2">主題分類</a></li>
+      <li><a href="#channels"  class="block py-2">四大航道</a></li>
+      <li><a href="#latest"    class="block py-2">最新文章</a></li>
+      <li><a href="#stories"   class="block py-2">客戶故事</a></li>
+      <li><a href="#reading"   class="block py-2">花園說書會</a></li>
+      <li><a href="#log"       class="block py-2">航海日誌</a></li>
+      <li><a href="#resources" class="block py-2">免費資源</a></li>
+      <li><a href="#courses"   class="block py-2">講座課程</a></li>
+      <li><a href="#about"     class="block py-2">關於領航員</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <section class="horizon">
+    <div class="max-w-6xl mx-auto px-5 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
+      <p class="bearing text-gold uppercase mb-5 reveal">幸福財務領航員 · Angie</p>
+      <h1 class="font-serif font-700 text-ocean leading-tight text-4xl md:text-6xl reveal">財顧芸人生航海圖</h1>
+      <p class="font-serif text-xl md:text-2xl text-moss mt-5 reveal">陪你從財務安心，航向人生自由，完成愛的傳承。</p>
+      <p class="max-w-2xl mx-auto text-ink/75 mt-6 leading-relaxed reveal">
+        理財不是計算數字，而是設計人生。<br class="hidden sm:block">
+        每週一封航海日誌，陪你看清下一段航線。
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mt-9 reveal">
+        <a href="#log" class="inline-flex items-center justify-center rounded-full bg-ocean text-paper px-7 py-3 font-500 hover:bg-ocean/90 transition">訂閱航海日誌</a>
+        <a href="#channels" class="inline-flex items-center justify-center rounded-full border border-moss/40 text-moss px-7 py-3 font-500 hover:bg-moss/5 transition">先逛逛四大航道</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 生命週期風險曲線 ============ -->
+  <section id="lifecycle" class="bg-sea/40">
+    <div class="max-w-5xl mx-auto px-5 py-16 md:py-20">
+      <div class="text-center mb-9 reveal">
+        <p class="bearing text-gold uppercase mb-3">生命週期風險曲線</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">財富與風險，是會變動的</h2>
+        <p class="text-ink/70 mt-3 max-w-2xl mx-auto leading-relaxed">
+          從社會新鮮人到退休生活，每個階段的責任與風險都不一樣。中壯年是「風險熱區」——責任最重、最該提早佈局。
+          先看懂自己在曲線上的位置，再決定現在該做風險管理、資產累積、資產保全，還是現金流管理。
+        </p>
+      </div>
+
+      <figure class="reveal">
+        <img src="lifecycle-risk-curve.png" alt="生命週期風險曲線：五個人生階段的財富與風險變化，從社會新鮮人到退休生活"
+             class="w-full rounded-2xl border border-moss/12 shadow-sm" loading="lazy">
+      </figure>
+
+      <div class="text-center mt-9 reveal">
+        <p class="text-ink/65">想知道自己現在站在曲線的哪一段？</p>
+        <a href="#log" class="inline-flex items-center justify-center mt-3 rounded-full border border-ocean/40 text-ocean px-7 py-3 font-500 hover:bg-ocean/5 transition">訂閱電子報，一步步整理人生下半場</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 主題分類（五種子）============ -->
+  <section id="topics">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">主題分類</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">五顆種子，五個財務主題</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">從你最在意的主題開始。點一顆種子，走進對應的文章。</p>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <a href="#latest" data-jump-cat="觀念" class="card-lift block rounded-2xl overflow-hidden reveal" aria-label="觀念種子：財商觀念與金融教育">
+          <img src="static/img/seeds/seed01-concept.png" alt="觀念種子：財商觀念與金融教育" class="w-full h-auto" loading="lazy">
+        </a>
+        <a href="#latest" data-jump-cat="整理" class="card-lift block rounded-2xl overflow-hidden reveal" aria-label="整理種子：家庭財務整理、記帳、目標">
+          <img src="static/img/seeds/seed02-organize.png" alt="整理種子：家庭財務整理、記帳、目標" class="w-full h-auto" loading="lazy">
+        </a>
+        <a href="#latest" data-jump-cat="守護" class="card-lift block rounded-2xl overflow-hidden reveal" aria-label="守護種子：風險與保障、長照">
+          <img src="static/img/seeds/seed03-protect.png" alt="守護種子：風險與保障、長照" class="w-full h-auto" loading="lazy">
+        </a>
+        <a href="#latest" data-jump-cat="成長" class="card-lift block rounded-2xl overflow-hidden reveal" aria-label="成長種子：投資理財、ETF、退休金">
+          <img src="static/img/seeds/seed04-grow.png" alt="成長種子：投資理財、ETF、退休金" class="w-full h-auto" loading="lazy">
+        </a>
+        <a href="kaihua.html" class="card-lift block rounded-2xl overflow-hidden reveal" aria-label="開花種子：傳承、退休、人生選擇">
+          <img src="static/img/seeds/seed05-bloom.png" alt="開花種子：傳承、退休、人生選擇" class="w-full h-auto" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 四大航道 ============ -->
+  <section id="channels" class="course-line">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">內容航道 · N · E · S · W</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">四片海域，四種人生課題</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">每一片海域，都有它想陪你解開的問題。挑一個最貼近你現在的航道走進去。</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+
+        <!-- 偵探海域 -->
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">航道 I</span>
+          <h3 class="font-serif font-600 text-2xl text-ocean mt-2">人生金錢偵探社</h3>
+          <p class="text-rose font-500 mt-2">每個財務問題背後，都藏著一個人生故事。</p>
+          <p class="text-ink/75 mt-3 leading-relaxed">用真實案例破解遺產、房產、稅務與保險的迷團。</p>
+          <ul class="text-ink/70 text-sm mt-4 space-y-1.5">
+            <li>· 3000 萬遺產消失之謎</li>
+            <li>· 房貸繼承省稅之謎</li>
+            <li>· 生前贈與 640 萬稅金之謎</li>
+          </ul>
+          <a href="detective.html" class="inline-block mt-5 text-ocean font-500 hover:underline">進入偵探海域 →</a>
+        </article>
+
+        <!-- 考古海域 -->
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">航道 II</span>
+          <h3 class="font-serif font-600 text-2xl text-ocean mt-2">人生考古題</h3>
+          <p class="text-rose font-500 mt-2">人生沒有標準答案，但前人留下許多考古題。</p>
+          <p class="text-ink/75 mt-3 leading-relaxed">50 歲後的必修課：退休、長照、失智、父母照護。</p>
+          <ul class="text-ink/70 text-sm mt-4 space-y-1.5">
+            <li>· 父母開始忘記事情以後</li>
+            <li>· 退休第一年最容易犯的錯</li>
+            <li>· 子女不接班怎麼辦？</li>
+          </ul>
+          <a href="koguti.html" class="inline-block mt-5 text-ocean font-500 hover:underline">進入考古海域 →</a>
+        </article>
+
+        <!-- 財商島 -->
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">航道 III</span>
+          <h3 class="font-serif font-600 text-2xl text-ocean mt-2">胖胖幣財商漫畫</h3>
+          <p class="text-rose font-500 mt-2">財富不是目的，而是選擇權。</p>
+          <p class="text-ink/75 mt-3 leading-relaxed">用漫畫把理財講給全家人聽，大人小孩都看得懂。</p>
+          <ul class="text-ink/70 text-sm mt-4 space-y-1.5">
+            <li>· 胖胖幣存錢日記</li>
+            <li>· 胖胖幣退休實驗室</li>
+            <li>· 胖胖幣理財冷知識</li>
+          </ul>
+          <a href="comic.html" class="inline-block mt-5 text-ocean font-500 hover:underline">登上財商島 →</a>
+        </article>
+
+        <!-- 觀察室 -->
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">航道 IV</span>
+          <h3 class="font-serif font-600 text-2xl text-ocean mt-2">財顧芸觀察室</h3>
+          <p class="text-rose font-500 mt-2">在數字之前，先看見人。</p>
+          <p class="text-ink/75 mt-3 leading-relaxed">芸琪的人生觀察、學習紀錄與真實故事。</p>
+          <ul class="text-ink/70 text-sm mt-4 space-y-1.5">
+            <li>· 最有錢的窮人</li>
+            <li>· 包小柏與 AI 的父女約定</li>
+            <li>· 我花 50 年才停止責怪自己</li>
+          </ul>
+          <a href="observatory.html" class="inline-block mt-5 text-ocean font-500 hover:underline">走進觀察室 →</a>
+        </article>
+
+      </div>
+
+      <!-- 航向花園：兩套隱喻的交會點 -->
+      <div class="mt-10 text-center reveal">
+        <p class="text-ink/60 text-sm">所有航道的終點，都通往同一座<a href="https://angie26501-lgtm.github.io/active/seed.html" class="text-moss font-500 hover:underline">財富花園</a> — 財務自由，與一個安心的家。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 最新文章（搜尋＋分類篩選）============ -->
+  <section id="latest" class="bg-sea/50">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-20">
+      <div class="text-center mb-8 reveal">
+        <p class="bearing text-gold uppercase mb-2">最新航記</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">最新文章</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">輸入關鍵字，或點分類，快速找到你想看的內容。</p>
+      </div>
+
+      <!-- 搜尋列 -->
+      <div class="search-wrap max-w-xl mx-auto mb-6 reveal">
+        <div class="flex items-center gap-2 bg-white rounded-full border border-moss/20 px-5 py-3 shadow-sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1b4751" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+          <input id="articleSearch" type="search" autocomplete="off" class="w-full bg-transparent outline-none text-ink placeholder:text-ink/40"
+                 placeholder="輸入關鍵字，例如：長照、退休、ETF、保險、傳承…" aria-label="搜尋文章">
+        </div>
+      </div>
+
+      <!-- 分類 chips -->
+      <div class="flex flex-wrap justify-center gap-2 mb-9 reveal">
+        <button class="chip active" data-cat="all">全部</button>
+        <button class="chip" data-cat="觀念">觀念種子</button>
+        <button class="chip" data-cat="整理">整理種子</button>
+        <button class="chip" data-cat="守護">守護種子</button>
+        <button class="chip" data-cat="成長">成長種子</button>
+        <button class="chip" data-cat="開花">開花種子</button>
+      </div>
+
+      <!-- 文章格（TODO：把卡片換成真實文章頁網址）-->
+      <div id="articleGrid" class="grid md:grid-cols-3 gap-6">
+        <a href="#" data-cat="守護" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-ocean/10 flex items-center justify-center text-ocean/40 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">守護種子 · 長照</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">父母開始忘記事情，子女該先準備的 5 件事</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/06 · 閱讀 5 分鐘</p>
+          </div>
+        </a>
+        <a href="#" data-cat="成長" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-moss/10 flex items-center justify-center text-moss/40 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">成長種子 · 投資</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">第一次買 ETF，先搞懂這 4 件事再下單</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/06 · 閱讀 6 分鐘</p>
+          </div>
+        </a>
+        <a href="#" data-cat="整理" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-gold/10 flex items-center justify-center text-gold/50 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">整理種子 · 家庭財務</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">不用記帳，也能管好一家的錢：ABC 帳戶法</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/05 · 閱讀 5 分鐘</p>
+          </div>
+        </a>
+        <a href="#" data-cat="守護" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-rose/10 flex items-center justify-center text-rose/50 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">守護種子 · 保險</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">保險到底買多少才夠？用賓士圖畫出你的保障線</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/05 · 閱讀 7 分鐘</p>
+          </div>
+        </a>
+        <a href="#" data-cat="開花" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-ocean/10 flex items-center justify-center text-ocean/40 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">開花種子 · 傳承</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">房子先過戶比較省稅？真相沒那麼簡單</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/04 · 閱讀 6 分鐘</p>
+          </div>
+        </a>
+        <a href="#" data-cat="觀念" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-36 bg-moss/10 flex items-center justify-center text-moss/40 font-serif text-sm">封面圖</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">觀念種子 · 財商</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">為什麼 50 歲，更該開始學 AI 理財</h3>
+            <p class="text-ink/55 text-xs mt-3">財顧芸 · 2026/04 · 閱讀 5 分鐘</p>
+          </div>
+        </a>
+      </div>
+
+      <p id="noResult" class="text-center text-ink/55 mt-10">找不到符合的文章，換個關鍵字試試？</p>
+    </div>
+  </section>
+
+  <!-- ============ 客戶故事 ============ -->
+  <section id="stories">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">真實見證</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">客戶故事</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">規劃不是賺更多，而是把錢用得更安心、更久。這些是陪跑路上的真實風景。</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="text-xs text-rose font-500">客戶專訪</span>
+          <h3 class="font-serif font-600 text-xl text-ink mt-2 leading-snug">五口之家的安心靠山：不是賺更多，而是用更久</h3>
+          <p class="text-ink/70 text-sm mt-3 leading-relaxed">從一張全家的財務地圖開始，把焦慮換成方向。</p>
+          <p class="text-ink/50 text-xs mt-4">客戶專訪 · 待填日期</p>
+        </a>
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="text-xs text-rose font-500">客戶專訪</span>
+          <h3 class="font-serif font-600 text-xl text-ink mt-2 leading-snug">單身女子的理財逆襲：不剁手，也能養胖存款</h3>
+          <p class="text-ink/70 text-sm mt-3 leading-relaxed">用適合自己的節奏，把收入留下來、長出來。</p>
+          <p class="text-ink/50 text-xs mt-4">客戶專訪 · 待填日期</p>
+        </a>
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="text-xs text-rose font-500">客戶專訪</span>
+          <h3 class="font-serif font-600 text-xl text-ink mt-2 leading-snug">家族企業二代接班，先把財務地圖畫清楚</h3>
+          <p class="text-ink/70 text-sm mt-3 leading-relaxed">接的不只是公司，更是一整套財務的全局觀。</p>
+          <p class="text-ink/50 text-xs mt-4">客戶專訪 · 待填日期</p>
+        </a>
+      </div>
+      <p class="text-center text-ink/45 text-xs mt-6 reveal">＊以上為示意卡片，待填入真實客戶專訪（經當事人同意）。</p>
+    </div>
+  </section>
+
+  <!-- ============ 花園說書會 ============ -->
+  <section id="reading" class="bg-sea/40">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">花園說書會</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">用一本書，澆灌一個財務觀念</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">每期選一本書，聊它如何改變我們看錢、看人生的方式。</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-40 bg-moss/10 flex items-center justify-center text-moss/40 font-serif text-sm">書封</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">本期選書</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">書名待填：關於「夠了」的財富心理</h3>
+            <p class="text-ink/55 text-xs mt-3">主講 財顧芸 · 待填日期</p>
+          </div>
+        </a>
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-40 bg-gold/10 flex items-center justify-center text-gold/50 font-serif text-sm">書封</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">本期選書</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">書名待填：什麼都有了，為什麼還是迷惘？</h3>
+            <p class="text-ink/55 text-xs mt-3">主講 財顧芸 · 待填日期</p>
+          </div>
+        </a>
+        <a href="#" class="card-lift bg-white rounded-2xl border border-moss/12 overflow-hidden reveal">
+          <div class="h-40 bg-ocean/10 flex items-center justify-center text-ocean/40 font-serif text-sm">書封</div>
+          <div class="p-6">
+            <span class="text-xs text-rose font-500">本期選書</span>
+            <h3 class="font-serif font-600 text-lg text-ink mt-2 leading-snug">書名待填：把人生規劃，藏進一場桌遊</h3>
+            <p class="text-ink/55 text-xs mt-3">主講 財顧芸 · 待填日期</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 航海日誌（電子報訂閱）============ -->
+  <section id="log" class="bg-ocean text-paper">
+    <div class="max-w-5xl mx-auto px-5 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <p class="bearing text-gold uppercase mb-3">人生下半場 · 不定期更新</p>
+          <h2 class="font-serif font-600 text-3xl md:text-4xl">航海日誌</h2>
+          <p class="text-paper/85 mt-4 leading-relaxed">不定期分享退休、長照、傳承、高齡父母與人生選擇的觀察，陪你把未來一點一點整理好。讓文字陪你思考，讓圖卡陪你整理。</p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="text-sm rounded-full bg-paper/10 px-3 py-1">退休</span>
+            <span class="text-sm rounded-full bg-paper/10 px-3 py-1">長照</span>
+            <span class="text-sm rounded-full bg-paper/10 px-3 py-1">傳承</span>
+            <span class="text-sm rounded-full bg-paper/10 px-3 py-1">高齡父母</span>
+            <span class="text-sm rounded-full bg-paper/10 px-3 py-1">人生選擇</span>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="bg-paper text-ink rounded-2xl p-7 shadow-lg">
+            <p class="bearing text-gold uppercase mb-2">免費領取</p>
+            <h3 class="font-serif font-600 text-xl text-ocean">《長照不是別人的故事》</h3>
+            <p class="text-ink/75 mt-1">6 張人生下半場整理圖卡</p>
+            <p class="text-ink/65 text-sm mt-4 leading-relaxed">填資料訂閱後，圖卡下載連結會在訂閱成功頁提供。你的資訊不會分享給任何第三方。</p>
+            <a href="https://www.allfreedom.info/newsletter/"
+               class="inline-flex w-full items-center justify-center mt-5 rounded-full bg-ocean text-paper py-3 font-500 hover:bg-ocean/90 transition">
+              前往訂閱頁，免費領圖卡 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 免費資源中心 ============ -->
+  <section id="resources">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">補給站</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">免費資源中心</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">五份陪你上路的整理清單。訂閱航海日誌後即可全部免費下載。</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="bg-white rounded-xl border border-moss/12 p-6 reveal">
+          <h3 class="font-serif font-600 text-lg text-ink">退休準備檢查表</h3>
+          <p class="text-ink/65 text-sm mt-2">退休前該盤點的事，一次列清楚。</p>
+          <a href="#log" class="inline-block mt-4 text-ocean text-sm font-500 hover:underline">訂閱後下載 →</a>
+        </div>
+        <div class="bg-white rounded-xl border border-moss/12 p-6 reveal">
+          <h3 class="font-serif font-600 text-lg text-ink">家庭財務整理表</h3>
+          <p class="text-ink/65 text-sm mt-2">把家裡的收支與資產攤開來看。</p>
+          <a href="#log" class="inline-block mt-4 text-ocean text-sm font-500 hover:underline">訂閱後下載 →</a>
+        </div>
+        <div class="bg-white rounded-xl border border-moss/12 p-6 reveal">
+          <h3 class="font-serif font-600 text-lg text-ink">財務健康檢測</h3>
+          <p class="text-ink/65 text-sm mt-2">三分鐘看出財務的漏水點與風險區。</p>
+          <a href="#log" class="inline-block mt-4 text-ocean text-sm font-500 hover:underline">訂閱後下載 →</a>
+        </div>
+        <div class="bg-white rounded-xl border border-moss/12 p-6 reveal">
+          <h3 class="font-serif font-600 text-lg text-ink">長照準備清單</h3>
+          <p class="text-ink/65 text-sm mt-2">當父母開始需要照顧，先準備這些。</p>
+          <a href="#log" class="inline-block mt-4 text-ocean text-sm font-500 hover:underline">訂閱後下載 →</a>
+        </div>
+        <div class="bg-white rounded-xl border border-moss/12 p-6 reveal">
+          <h3 class="font-serif font-600 text-lg text-ink">傳承規劃清單</h3>
+          <p class="text-ink/65 text-sm mt-2">把愛與財富，好好交到下一代手上。</p>
+          <a href="#log" class="inline-block mt-4 text-ocean text-sm font-500 hover:underline">訂閱後下載 →</a>
+        </div>
+        <div class="bg-sea/60 rounded-xl border border-ocean/15 p-6 flex flex-col justify-center reveal">
+          <p class="text-ocean font-500">想知道自己在航海圖上的位置？</p>
+          <p class="text-ink/65 text-sm mt-1">航海定位測驗即將啟航。</p>
+          <span class="inline-block mt-3 text-xs text-ocean/60 bearing uppercase">Coming soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 講座課程 ============ -->
+  <section id="courses">
+    <div class="max-w-6xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center mb-12 reveal">
+        <p class="bearing text-gold uppercase mb-3">馥芸財富學苑</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">想更進一步？來上一堂課</h2>
+        <p class="text-ink/70 mt-3 max-w-xl mx-auto">看懂錢、整理錢，讓未來更安心。財務規劃 × AI 應用 × 親子財商，挑一堂最貼近你現在的課。</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">工作坊</span>
+          <h3 class="font-serif font-600 text-xl text-ocean mt-2">金錢整理工作坊</h3>
+          <p class="text-ink/75 mt-3 leading-relaxed text-[0.95rem]">不用記帳、輕鬆可執行的 ABC 帳戶管理法，重新建立與金錢的關係。</p>
+          <p class="text-rose font-500 mt-4">NT$ 3,600 <span class="text-ink/40 text-sm line-through ml-1">原價 8,888</span></p>
+        </article>
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">實戰班</span>
+          <h3 class="font-serif font-600 text-xl text-ocean mt-2">風險觀測實戰班</h3>
+          <p class="text-ink/75 mt-3 leading-relaxed text-[0.95rem]">畫出只屬於你的保險保障需求標準線，知道自己是買多、買少，還是剛剛好。</p>
+          <p class="text-rose font-500 mt-4">NT$ 3,600 <span class="text-ink/40 text-sm line-through ml-1">原價 8,888</span></p>
+        </article>
+        <article class="card-lift bg-white rounded-2xl border border-moss/12 p-7 reveal">
+          <span class="bearing text-ocean/60 uppercase">親子財商</span>
+          <h3 class="font-serif font-600 text-xl text-ocean mt-2">孩子的第一堂理財課</h3>
+          <p class="text-ink/75 mt-3 leading-relaxed text-[0.95rem]">桌遊式學習，讓孩子從遊戲中建立儲蓄、消費、收入與投資的基礎觀念。</p>
+          <p class="text-rose font-500 mt-4">NT$ 8,500 <span class="text-ink/40 text-sm line-through ml-1">原價 9,000</span></p>
+        </article>
+      </div>
+
+      <div class="text-center reveal">
+        <a href="https://angie26501-lgtm.github.io/active/fuyun-academy.html"
+           class="inline-flex items-center justify-center rounded-full bg-ocean text-paper px-8 py-3 font-500 hover:bg-ocean/90 transition">
+          查看所有課程與活動 →
+        </a>
+        <p class="text-ink/55 text-sm mt-3">含馥芸課程、合作講座、親子財商與預計開辦課程</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 關於領航員 ============ -->
+  <section id="about" class="bg-sea/50">
+    <div class="max-w-4xl mx-auto px-5 py-16 md:py-24">
+      <div class="text-center reveal">
+        <p class="bearing text-gold uppercase mb-3">船長介紹</p>
+        <h2 class="font-serif font-600 text-ocean text-3xl md:text-4xl">關於領航員</h2>
+      </div>
+      <div class="mt-9 bg-white rounded-2xl border border-moss/12 p-8 md:p-10 reveal">
+        <p class="font-serif text-xl text-moss">我是芸琪。</p>
+        <p class="text-ink/80 leading-relaxed mt-4">
+          深耕金融與家族傳承領域，一路從理財顧問、家族傳承規劃，走到 AI 應用學習。我發現很多人缺的不是財富，而是一張人生航海圖。
+        </p>
+        <p class="text-ink/80 leading-relaxed mt-3">
+          於是有了「財顧芸人生航海圖」，希望陪更多人在人生下半場，看懂方向、看懂金錢、也看懂自己。
+        </p>
+        <div class="flex flex-wrap gap-2 mt-6">
+          <span class="text-xs rounded-full bg-ocean/8 text-ocean px-3 py-1">MDRT</span>
+          <span class="text-xs rounded-full bg-ocean/8 text-ocean px-3 py-1">RFC</span>
+          <span class="text-xs rounded-full bg-ocean/8 text-ocean px-3 py-1">RFA</span>
+          <span class="text-xs rounded-full bg-ocean/8 text-ocean px-3 py-1">RFP</span>
+          <span class="text-xs rounded-full bg-ocean/8 text-ocean px-3 py-1">兒童財商桌遊講師</span>
+        </div>
+        <div class="mt-7">
+          <a href="https://lin.ee/uMYPHQc" class="inline-flex items-center rounded-full bg-ocean text-paper px-6 py-2.5 font-500 hover:bg-ocean/90 transition">預約財務健診（首次免費）</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 頁尾 ============ -->
+<footer class="bg-ocean text-paper/80">
+  <div class="max-w-6xl mx-auto px-5 py-12">
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+      <div>
+        <p class="font-serif text-lg text-paper">財顧芸人生航海圖</p>
+        <p class="text-paper/60 text-sm mt-2">幸福財務領航員 · Angie｜陪你航向更有選擇權的人生。</p>
+      </div>
+      <nav class="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <a href="https://www.facebook.com/IFA.Fans/" class="hover:text-paper transition">Facebook 粉專</a>
+        <a href="https://open.spotify.com/show/1us537rWraGs4qdY8beG5a" class="hover:text-paper transition">Podcast · 心海羅盤幸福航行誌</a>
+        <a href="https://www.youtube.com/@IFA-Fans" class="hover:text-paper transition">YouTube</a>
+        <a href="https://lin.ee/uMYPHQc" class="hover:text-paper transition">LINE@ 官方群組</a>
+      </nav>
+    </div>
+    <p class="text-paper/45 text-xs mt-10">© <span id="year"></span> 財顧芸 陳芸琪 · 馥芸財富學苑. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // 年份
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // 手機選單
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('hidden') === false;
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      navToggle.setAttribute('aria-expanded', 'false');
+    })
+  );
+
+  // 進場淡入
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // 文章搜尋與分類篩選
+  const articleSearch = document.getElementById('articleSearch');
+  const chips = Array.from(document.querySelectorAll('#latest .chip'));
+  const cards = Array.from(document.querySelectorAll('#articleGrid > [data-cat]'));
+  const noResult = document.getElementById('noResult');
+  let activeCat = 'all';
+
+  function applyFilter() {
+    const q = (articleSearch && articleSearch.value ? articleSearch.value : '').trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(c => {
+      const matchCat = activeCat === 'all' || (c.dataset.cat || '').split(' ').includes(activeCat);
+      const matchQ = !q || c.textContent.toLowerCase().includes(q);
+      const show = matchCat && matchQ;
+      c.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    if (noResult) noResult.classList.toggle('show', shown === 0);
+  }
+
+  if (articleSearch) articleSearch.addEventListener('input', applyFilter);
+  chips.forEach(ch => ch.addEventListener('click', () => {
+    chips.forEach(x => x.classList.remove('active'));
+    ch.classList.add('active');
+    activeCat = ch.dataset.cat;
+    applyFilter();
+  }));
+
+  // 主題分類卡片 → 套用該分類並捲動到文章
+  document.querySelectorAll('[data-jump-cat]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const cat = el.dataset.jumpCat;
+      const chip = chips.find(c => c.dataset.cat === cat);
+      if (chip) {
+        chips.forEach(x => x.classList.remove('active'));
+        chip.classList.add('active');
+        activeCat = cat;
+        applyFilter();
+      }
+      const target = document.getElementById('latest');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
