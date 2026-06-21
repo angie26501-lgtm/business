@@ -52,6 +52,8 @@ tailwind.config = {
   #benefitToggle{ cursor:pointer; width:100%; }
   #benefitToggle:hover{ filter:brightness(1.04); }
   @media (prefers-reduced-motion:reduce){ .collapsible{ transition:none; } .chev{ transition:none; } }
+  .ff:focus{ outline:none; border-color:#c79a4a; box-shadow:0 0 0 3px rgba(199,154,74,.15); }
+  #toast{ transition:opacity .3s, transform .3s; }
 </style>
 </head>
 <body class="font-sans text-ink antialiased">
@@ -137,6 +139,64 @@ tailwind.config = {
     </div>
   </section>
 
+  <!-- 推薦朋友 -->
+  <section class="max-w-3xl mx-auto px-5 pt-2 pb-6">
+    <div class="bg-rose/8 border border-rose/25 rounded-3xl px-6 sm:px-9 py-7">
+      <p class="font-serif-tc font-bold text-rose text-[1.18rem]">🌿 自己暫時還在考慮？也許朋友正需要</p>
+      <p class="text-ink/75 text-[.95rem] leading-loose-tc mt-2">
+        如果您目前還在考慮，但身邊有朋友正面臨退休、長照、子女教育或保障的課題，歡迎推薦他。
+        未來有新講座或諮詢資源時，我們會主動通知對方。
+      </p>
+      <p class="text-[.86rem] text-rose mt-3 bg-rose/10 rounded-xl px-4 py-2 inline-block">
+        🎁 經您推薦完成預約，您與朋友皆可獲得「AI 簡易財務健診優惠資格」。
+      </p>
+
+      <div>
+        <button type="button" id="referToggle" aria-expanded="false" aria-controls="referForm"
+          class="mt-5 inline-flex items-center gap-1.5 bg-rose text-paper font-medium px-6 py-2.5 rounded-full hover:bg-[#bd6f63] transition">
+          <span id="referLabel">我要推薦朋友</span>
+          <svg class="chev w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </div>
+
+      <div id="referForm" class="collapsible">
+        <div class="pt-6 space-y-5">
+
+          <!-- 推薦人 -->
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[.8rem] text-ink/60">您的稱呼 <span class="text-rose">*</span></label>
+              <input id="refMe" class="ff w-full border hairline rounded-lg px-3 py-2 mt-1 text-[.95rem]" placeholder="例：王小姐">
+            </div>
+            <div>
+              <label class="text-[.8rem] text-ink/60">您的聯絡方式（LINE／電話）<span class="text-rose">*</span></label>
+              <input id="refMeContact" class="ff w-full border hairline rounded-lg px-3 py-2 mt-1 text-[.95rem]" placeholder="用於通知您優惠資格">
+            </div>
+          </div>
+
+          <!-- 朋友名單 -->
+          <div>
+            <p class="text-[.8rem] text-ink/60 mb-2">推薦名單</p>
+            <div id="friendRows" class="space-y-3"></div>
+            <button type="button" id="addFriend" class="mt-3 text-[.84rem] border border-rose/30 text-rose rounded-lg px-4 py-2 hover:bg-rose/10 transition">＋ 再推薦一位</button>
+          </div>
+
+          <!-- 同意 -->
+          <label class="flex items-start gap-2 text-[.84rem] text-ink/70 leading-relaxed cursor-pointer">
+            <input type="checkbox" id="refConsent" class="mt-1 shrink-0">
+            <span>我已徵得對方同意，提供其聯絡方式，作為講座與諮詢通知之用。</span>
+          </label>
+
+          <!-- 送出 -->
+          <button type="button" id="refSubmit" class="bg-moss hover:bg-[#345c43] text-paper font-medium px-6 py-2.5 rounded-xl transition">
+            複製名單並開啟 LINE 傳送
+          </button>
+          <p id="refMsg" class="hidden text-[.86rem] text-moss bg-moss/10 rounded-lg px-4 py-3 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 預約表單 -->
   <section id="booking" class="anchor-offset max-w-3xl mx-auto px-5 py-8">
     <div class="bloom-divider mb-7"><span class="font-serif-tc text-[1.05rem]">📌 立即預約財務健診</span></div>
@@ -157,22 +217,6 @@ tailwind.config = {
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSc9pziLdWotcUWyrEiVVk0AYVUDl74RC65o-L8NYa8vChgMFg/formResponse?pli=1&embedded=true" target="_blank" rel="noopener"
          class="text-gold underline underline-offset-2 hover:text-[#b98a3c]">點此用新分頁開啟報名表</a>
     </p>
-  </section>
-
-  <!-- 好友推薦 -->
-  <section class="max-w-3xl mx-auto px-5 py-6">
-    <div class="bg-rose/10 border border-rose/30 rounded-3xl px-6 sm:px-9 py-8">
-      <div class="flex items-start gap-4">
-        <span class="text-3xl shrink-0">🎁</span>
-        <div>
-          <p class="font-serif-tc font-bold text-rose text-[1.15rem] mb-2">把這份安心，分享給在乎的人</p>
-          <p class="text-ink/80 leading-loose-tc text-[.96rem]">
-            歡迎將這份資訊分享給親友。凡<span class="font-semibold text-rose">經您推薦完成預約</span>者，
-            您與朋友皆可獲得 <span class="font-semibold text-rose">AI 簡易財務健診優惠資格</span>。
-          </p>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- LINE 官方帳號 -->
@@ -252,6 +296,108 @@ tailwind.config = {
       if(label) label.textContent = open ? '收合' : '展開查看健診內容';
     });
   })();
+
+  // 推薦朋友表單
+  (function(){
+    var LINE_URL = 'https://lin.ee/uMYPHQc';
+    var MAX_FRIENDS = 6;
+    var toggle = document.getElementById('referToggle');
+    var form = document.getElementById('referForm');
+    var rows = document.getElementById('friendRows');
+    if(!toggle || !form || !rows) return;
+    var refLabel = document.getElementById('referLabel');
+    var count = 0;
+
+    function adjustHeight(){
+      if(form.classList.contains('open')){ form.style.maxHeight = form.scrollHeight + 'px'; }
+    }
+    function toast(msg){
+      var t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.opacity='1'; t.style.transform='translate(-50%,0)';
+      clearTimeout(t._t); t._t = setTimeout(function(){ t.style.opacity='0'; t.style.transform='translate(-50%,8px)'; }, 2000);
+    }
+    function renumber(){
+      Array.prototype.forEach.call(rows.children, function(r,i){
+        var lbl = r.querySelector('.fr-num'); if(lbl) lbl.textContent = '朋友 '+(i+1);
+      });
+    }
+    function addRow(){
+      if(count >= MAX_FRIENDS){ toast('一次最多推薦 '+MAX_FRIENDS+' 位'); return; }
+      count++;
+      var div = document.createElement('div');
+      div.className = 'friend-row bg-white border hairline rounded-xl p-3';
+      div.innerHTML =
+        '<div class="flex items-center justify-between mb-2">'+
+          '<span class="fr-num text-[.78rem] text-rose font-medium"></span>'+
+          '<button type="button" class="fr-del text-[.74rem] text-ink/40 hover:text-rose">移除</button>'+
+        '</div>'+
+        '<div class="grid sm:grid-cols-3 gap-2">'+
+          '<input class="ff f-name border hairline rounded-lg px-3 py-2 text-[.92rem]" placeholder="稱呼／姓名 *">'+
+          '<input class="ff f-contact border hairline rounded-lg px-3 py-2 text-[.92rem]" placeholder="LINE／電話 *">'+
+          '<input class="ff f-topic border hairline rounded-lg px-3 py-2 text-[.92rem]" placeholder="想了解的主題（選填）">'+
+        '</div>';
+      rows.appendChild(div);
+      div.querySelector('.fr-del').addEventListener('click', function(){
+        rows.removeChild(div); count--; renumber(); adjustHeight();
+      });
+      renumber(); adjustHeight();
+    }
+
+    toggle.addEventListener('click', function(){
+      var open = form.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var chev = toggle.querySelector('.chev');
+      if(chev) chev.classList.toggle('up', open);
+      if(refLabel) refLabel.textContent = open ? '收合推薦表單' : '我要推薦朋友';
+      if(open){ if(count===0) addRow(); adjustHeight(); }
+      else { form.style.maxHeight = '0px'; }
+    });
+
+    document.getElementById('addFriend').addEventListener('click', addRow);
+
+    document.getElementById('refSubmit').addEventListener('click', function(){
+      var me = document.getElementById('refMe').value.trim();
+      var meC = document.getElementById('refMeContact').value.trim();
+      var consent = document.getElementById('refConsent').checked;
+      if(!me || !meC){ toast('請填寫您的稱呼與聯絡方式'); return; }
+      var friends = [];
+      Array.prototype.forEach.call(rows.children, function(r){
+        var n = r.querySelector('.f-name').value.trim();
+        var c = r.querySelector('.f-contact').value.trim();
+        var t = r.querySelector('.f-topic').value.trim();
+        if(n && c) friends.push({n:n,c:c,t:t});
+      });
+      if(friends.length===0){ toast('請至少填寫一位朋友的稱呼與聯絡方式'); return; }
+      if(!consent){ toast('請勾選已徵得對方同意'); return; }
+
+      var lines = ['【推薦朋友名單】', '推薦人：'+me+'（'+meC+'）', ''];
+      friends.forEach(function(f,i){ lines.push((i+1)+'. '+f.n+'｜'+f.c+(f.t?'｜想了解：'+f.t:'')); });
+      lines.push(''); lines.push('※ 推薦人已確認取得對方同意。');
+      lines.push('（來源：講座後預約頁）');
+      var text = lines.join('\n');
+
+      function done(){
+        var msg = document.getElementById('refMsg');
+        msg.classList.remove('hidden');
+        msg.textContent = '✅ 推薦名單已複製！正在開啟 LINE，請在對話框「貼上」後送出，即完成推薦。';
+        window.open(LINE_URL, '_blank', 'noopener');
+      }
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+
+    function fallback(text, cb){
+      var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); cb();
+    }
+  })();
 </script>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 opacity-0 pointer-events-none bg-ocean text-paper text-[.86rem] px-5 py-2.5 rounded-full shadow-lg z-40" style="transform:translate(-50%,8px)"></div>
 </body>
 </html>
