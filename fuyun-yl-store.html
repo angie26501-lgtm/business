@@ -318,55 +318,139 @@ a.ally-card:hover{border-color:var(--border2);transform:translateY(-2px);backgro
 }
 #toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--border2);color:var(--gold2);padding:12px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;z-index:400;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-/* ════ 全站字體放大（易讀性）════ */
-.navlink{font-size:15px;}
-.brand-text{font-size:17px;}
-.brand-text small{font-size:10px;}
-.search-box{padding:12px 15px;}
-.search-box input{font-size:15.5px;}
-.sec-kicker{font-size:12px;}
-.sec-sub{font-size:15px;}
-.card h3{font-size:18px;}
-.card p{font-size:15.5px;}
-.note{font-size:13px;}
-.quick-name{font-size:16px;}
-.quick-desc{font-size:12px;}
-.pcard-cat{font-size:10.5px;}
-.pcard-name{font-size:15px;}
-.pcard-sub{font-size:12px;}
-.pcard-price{font-size:20px;}
-.pcard-pv{font-size:13px;}
-.pcard-add .add{font-size:14.5px;}
-.ctab{font-size:13px;}
-.orow-name{font-size:14.5px;}
-.orow-name small{font-size:11.5px;}
-.orow-price{font-size:15px;}
-.orow-pv{font-size:13px;}
-.orow-add{font-size:13px;}
-.tier-pv{font-size:20px;}
-.tier-gift{font-size:14px;}
-.tier-status{font-size:12px;}
-.doclink{font-size:15px;}
-.doclink .dtxt small{font-size:12px;}
-.ally-tag{font-size:10.5px;}
-.ally-card h4{font-size:17px;}
-.ally-card p{font-size:14px;}
-.course-card h4{font-size:16px;}
-.course-card p{font-size:13px;}
-.step-body strong{font-size:15px;}
-.step-body p{font-size:14px;}
-.field label{font-size:13px;}
-.field input,.field select,.field textarea{font-size:15px;}
-.event-info h4{font-size:16px;}
-.event-info p{font-size:13.5px;}
-.sum-title{font-size:15px;}
-.total-label{font-size:13.5px;}
-.foot-row .lbl{font-size:13.5px;}
-.cart-tier-hint{font-size:13px;}
-.citem-name{font-size:14.5px;}
-.citem-name small{font-size:11.5px;}
-.mbar-items{font-size:11.5px;}
-.footer{font-size:12px;}
+/* ════ 熟齡友善・易讀版（放大字體＋提高對比＋加寬行距）════ */
+body{font-size:17px;}
+.btn{font-size:16.5px;padding:14px 24px;}
+.navlink{font-size:17px;padding:14px 16px;}
+.brand-text{font-size:18px;}
+.brand-text small{font-size:11px;letter-spacing:2px;}
+.cart-btn,.menu-btn{width:46px;height:46px;font-size:20px;}
+.hero-slogan{font-size:15px;color:rgba(255,255,255,0.6);}
+
+.sec-kicker{font-size:13px;}
+.sec-sub{font-size:16.5px;color:rgba(255,255,255,0.72);line-height:1.9;}
+.card{padding:24px;}
+.card h3{font-size:20px;}
+.card p{font-size:17px;color:rgba(255,255,255,0.9);line-height:2;}
+.note{font-size:13.5px;line-height:1.8;}
+
+.quick-card{padding:22px 16px;}
+.quick-ico{font-size:32px;}
+.quick-name{font-size:17px;}
+.quick-desc{font-size:12.5px;color:rgba(255,255,255,0.55);}
+
+.search-box{padding:14px 16px;}
+.search-box input{font-size:17px;}
+.search-box input::placeholder{color:rgba(255,255,255,0.4);}
+.ctab{font-size:14.5px;padding:12px 16px;}
+
+.pcard-cat{font-size:12px;}
+.pcard-name{font-size:16.5px;line-height:1.55;}
+.pcard-sub{font-size:13px;color:rgba(255,255,255,0.55);}
+.pcard-price{font-size:22px;}
+.pcard-pv{font-size:14.5px;}
+.pcard-add .add{font-size:16px;padding:12px;}
+
+.orow{padding:14px 16px;}
+.orow-name{font-size:16px;line-height:1.55;}
+.orow-name small{font-size:13px;color:rgba(255,255,255,0.5);}
+.orow-price{font-size:16.5px;}
+.orow-pv{font-size:14px;}
+.orow-add{font-size:14.5px;padding:11px 0;}
+
+.tier-pv{font-size:22px;}
+.tier-pv small{font-size:11px;}
+.tier-gift{font-size:15.5px;line-height:1.8;}
+.tier-status{font-size:13px;}
+
+.doclink{font-size:16.5px;padding:14px 0;}
+.doclink .dtxt small{font-size:13px;color:rgba(255,255,255,0.5);}
+
+.ally-tag{font-size:12px;}
+.ally-card h4{font-size:18px;}
+.ally-card p{font-size:15px;color:rgba(255,255,255,0.78);line-height:1.9;}
+.course-card h4{font-size:17px;}
+.course-card p{font-size:14.5px;color:rgba(255,255,255,0.7);line-height:1.8;}
+
+.step-num{width:34px;height:34px;font-size:16px;}
+.step-body strong{font-size:16.5px;}
+.step-body p{font-size:15px;color:rgba(255,255,255,0.72);line-height:1.85;}
+.field label{font-size:14.5px;}
+.field input,.field select,.field textarea{font-size:16.5px;padding:13px 14px;}
+.event-info h4{font-size:18px;}
+.event-info p{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.9;}
+.event-date .d{font-size:30px;}
+
+.sum-title{font-size:16px;}
+.total-label{font-size:15px;color:rgba(255,255,255,0.6);}
+.total-val{font-size:24px;}
+.foot-row .lbl{font-size:15px;}
+.foot-row .val{font-size:24px;}
+.cart-tier-hint{font-size:14px;line-height:1.8;}
+.citem-name{font-size:16px;line-height:1.6;}
+.citem-name small{font-size:13px;color:rgba(255,255,255,0.5);}
+.citem-price{font-size:15px;}
+.qty button{width:32px;height:32px;font-size:16px;}
+.qty span{font-size:14px;}
+
+.mbar-price{font-size:22px;}
+.mbar-pv{font-size:14px;}
+.mbar-items{font-size:13px;color:rgba(255,255,255,0.5);}
+.mbar-btn{font-size:15px;padding:13px 22px;}
+
+.footer{font-size:13px;color:rgba(255,255,255,0.4);line-height:2;}
+/* ════ 再加大（更大字級）════ */
+body{font-size:18.5px;}
+.navlink{font-size:19px;}
+.brand-text{font-size:20px;}
+.sec-title{font-size:clamp(26px,7vw,38px);}
+.sec-sub{font-size:18px;}
+.card h3{font-size:22px;}
+.card p{font-size:18.5px;}
+.quick-name{font-size:19px;}
+.quick-desc{font-size:14px;}
+.search-box input{font-size:19px;}
+.ctab{font-size:16px;}
+.pcard-name{font-size:18px;}
+.pcard-sub{font-size:14px;}
+.pcard-price{font-size:25px;}
+.pcard-pv{font-size:16px;}
+.pcard-add .add{font-size:18px;padding:14px;}
+.orow-name{font-size:18px;}
+.orow-name small{font-size:14px;}
+.orow-price{font-size:18.5px;}
+.orow-pv{font-size:15.5px;}
+.orow-add{font-size:16px;}
+.tier-pv{font-size:25px;}
+.tier-gift{font-size:17px;}
+.tier-status{font-size:14.5px;}
+.doclink{font-size:18px;}
+.doclink .dtxt small{font-size:14px;}
+.ally-card h4{font-size:20px;}
+.ally-card p{font-size:16.5px;}
+.course-card h4{font-size:18.5px;}
+.course-card p{font-size:16px;}
+.step-body strong{font-size:18px;}
+.step-body p{font-size:16.5px;}
+.field label{font-size:16px;}
+.field input,.field select,.field textarea{font-size:18px;}
+.event-info h4{font-size:20px;}
+.event-info p{font-size:16.5px;}
+.event-date .d{font-size:34px;}
+.btn{font-size:18px;padding:16px 26px;}
+.sum-title{font-size:18px;}
+.total-label{font-size:16.5px;}
+.total-val{font-size:27px;}
+.foot-row .lbl{font-size:16.5px;}
+.foot-row .val{font-size:27px;}
+.cart-tier-hint{font-size:15.5px;}
+.citem-name{font-size:18px;}
+.citem-name small{font-size:14px;}
+.mbar-price{font-size:25px;}
+.mbar-pv{font-size:16px;}
+.mbar-items{font-size:14px;}
+.mbar-btn{font-size:17px;}
+.footer{font-size:14px;}
 </style>
 </head>
 <body>
