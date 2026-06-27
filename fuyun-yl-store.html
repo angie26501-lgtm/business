@@ -30,6 +30,7 @@ const CONFIG = {
   shopeeUrl:  'https://shopee.tw/shop/69176846',       // 蝦皮賣場
   coupangUrl: 'https://www.tw.coupang.com/你的賣場',     // 酷澎賣場
   ylMemberUrl:'https://www.youngliving.com/',          // 加入會員官方連結（可換成你的推薦連結）
+  academyUrl: 'https://www.allfreedom.info/',          // 馥芸財富學苑官網
   ai945Free:  'https://945ai.com/mgm/L4WPCO',          // 945AI 100堂免費AI線上課程
   ai945Upgrade:'https://945ai.com/mgm/8ir9S4',         // 百秒學AI｜聯盟合夥人升級版
   ai945Elite: 'https://945ai.com/mgm/00y9eT',          // AI菁英獲客實戰班
@@ -453,6 +454,9 @@ body{font-size:20px;}
 .mbar-items{font-size:15px;}
 .mbar-btn{font-size:18px;}
 .footer{font-size:15px;}
+.ptag{display:inline-block;font-size:12px;letter-spacing:1px;color:var(--dark);background:var(--gold2);padding:2px 9px;border-radius:10px;margin-right:8px;vertical-align:middle;font-weight:700;}
+.pnote{display:block;color:var(--coral);font-size:13px;margin-top:4px;line-height:1.6;}
+.remind{font-size:14.5px;color:var(--gold2);background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);padding:12px 15px;margin-bottom:16px;line-height:1.85;border-radius:4px;}
 </style>
 </head>
 <body>
@@ -546,6 +550,8 @@ body{font-size:20px;}
 
     <a class="btn ghost full" id="productInfoBtn" target="_blank" rel="noopener" style="margin-bottom:16px;">📖 悠樂芳產品資訊查詢（完整品項 · 價格 · PV）↗</a>
 
+    <p class="remind">💡 價格、PV 與活動組合可能依當月 Young Living 公告調整，實際金額以確認訂單回覆為準。</p>
+
     <div class="cat-tabs" id="orderTabs"></div>
     <div class="tools"><div class="search-box">🔍<input type="text" id="searchOrder" placeholder="搜尋品名…" oninput="renderOrder()"></div></div>
     <div class="olist" id="orderList"></div>
@@ -627,7 +633,10 @@ body{font-size:20px;}
     <div class="card"><h3>🎓 學苑能給你什麼</h3><p>· 系統化的用油教學，從入門到進階<br>· 經營與分享的實戰方法<br>· 團隊夥伴互助、定期培訓與讀書會<br>· 個人品牌與被動收入的建立藍圖</p></div>
     <div class="card"><h3>📚 培訓主題</h3><p>學苑課程以<b style="color:var(--gold2)">財商教練團隊</b>的系統課程為主，主題涵蓋：<br>1. 財商思維與金錢藍圖<br>2. 現金流管理與被動收入<br>3. 精油事業實戰與美單代購<br>4. 個人品牌與社群經營<br>5. AI 工具獲客與數位變現<br>6. 團隊複製與領導力</p>
       <p style="margin-top:10px;color:rgba(255,255,255,0.4);font-size:12px;">實際課程內容與梯次以財商教練團隊公告為準。</p></div>
-    <a class="btn line" id="academyLine" style="margin-top:4px;">💬 預約學苑諮詢</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+      <a class="btn" id="academySite" target="_blank" rel="noopener">🎓 財富學苑官網 ↗</a>
+      <a class="btn line" id="academyLine">💬 預約學苑諮詢</a>
+    </div>
   </section>
 
   <!-- ════ 異業聯盟 ════ -->
@@ -715,7 +724,7 @@ body{font-size:20px;}
     <div class="drawer-head"><h3>🛒 購物車</h3><button class="drawer-close" onclick="closeCart()">✕</button></div>
     <div class="drawer-body" id="cartBody"></div>
     <div class="drawer-foot">
-      <div class="foot-row"><span class="lbl">總金額（USD）</span><span class="val" id="cartPrice">$0.00</span></div>
+      <div class="foot-row"><span class="lbl">總金額</span><span class="val" id="cartPrice">NT$0</span></div>
       <div class="foot-row"><span class="lbl">累積 PV</span><span class="val green" id="cartPV">0</span></div>
       <div class="cart-tier-hint" id="cartTierHint" style="display:none"></div>
       <button class="btn full" onclick="submitForm()" style="margin-bottom:8px;">📝 送出訂單（Google 表單）</button>
@@ -730,11 +739,19 @@ body{font-size:20px;}
 <script>
 /* ══════════════ 範例產品資料（請全部替換成美國官網數字）══════════════ */
 const CATS = [
-  {id:'all',name:'全部'},{id:'single',name:'單方精油'},{id:'blend',name:'配方精油'},
+  {id:'all',name:'全部'},
+  {id:'ningxia',name:'寧夏紅系列'},{id:'healthkit',name:'健康套組'},{id:'thievesguard',name:'盜賊防護系列'},
+  {id:'single',name:'單方精油'},{id:'blend',name:'配方精油'},
   {id:'rollOn',name:'滾珠'},{id:'thieves',name:'盜賊居家'},{id:'skincare',name:'護膚'},
   {id:'nutrition',name:'營養補充'},{id:'kit',name:'套組'}
 ];
 const products = [
+  // ── 台幣計價品項（cur:'TWD'）──
+  {id:'nx1',cat:'ningxia',cur:'TWD',tag:'熱門補給',name:'寧夏紅隨手包 51 包',sub:'',desc:'寧夏紅隨手包 51 包，適合日常補給、外出攜帶、每月保養使用。',note:'每人每月限購一組',price:6500,pv:129},
+  {id:'nx2',cat:'ningxia',cur:'TWD',tag:'日常補給',name:'寧夏紅隨手包 30 包',sub:'',desc:'寧夏紅隨手包 30 包，適合日常補給、外出攜帶、家庭保養與每月固定使用。',note:'價格、PV 與供貨狀況可能依當月 Young Living 公告調整，實際金額以確認訂單回覆為準。',price:4500,pv:97.75},
+  {id:'hk1',cat:'healthkit',cur:'TWD',tag:'每月保養',name:'每日健康套組',sub:'',desc:'內容包含寧夏勁 14 包、寧夏紅隨手包 30 包、甜橙精油、萊姆精油，適合想建立每日健康習慣的人。',note:'組合內容依當月活動或實際供貨為準',price:5100,pv:112},
+  {id:'tg1',cat:'thievesguard',cur:'TWD',tag:'喉嚨保養',name:'盜賊草本喉糖',sub:'',desc:'蘊含盜賊複方精油的草本喉糖，適合季節轉換、喉嚨不適或外出時隨身攜帶。',note:'建議用法與注意事項請依產品標示為準',price:950,pv:23},
+  // ── 美金計價範例品項（cur 預設 USD）──
   {id:'sg1',cat:'single',name:'Lavender 薰衣草',sub:'15ml',price:33.25,pv:33.25},
   {id:'sg2',cat:'single',name:'Lemon 檸檬',sub:'15ml',price:13.50,pv:13.50},
   {id:'sg3',cat:'single',name:'Peppermint 薄荷',sub:'15ml',price:30.50,pv:30.50},
@@ -776,6 +793,9 @@ let curSection='order', assetCat='all', orderCat='all';
 
 function saveCart(){ try{ localStorage.setItem('fuyun_cart', JSON.stringify(cart)); }catch(e){} }
 function money(n){ return '$'+n.toFixed(2); }
+function priceStr(p){ return (p.cur==='TWD') ? 'NT$'+p.price.toLocaleString() : '$'+p.price.toFixed(2); }
+function lineStr(p,q){ return (p.cur==='TWD') ? 'NT$'+(p.price*q).toLocaleString() : '$'+(p.price*q).toFixed(2); }
+function totalStr(usd,twd){ const a=[]; if(twd>0)a.push('NT$'+twd.toLocaleString()); if(usd>0)a.push('$'+usd.toFixed(2)); return a.length?a.join('　+　'):'NT$0'; }
 function find(id){ return products.find(p=>p.id===id); }
 
 /* ── NAV ── */
@@ -804,6 +824,7 @@ function applyConfig(){
   document.getElementById('heroSlogan').textContent = CONFIG.slogan;
   const line=CONFIG.lineUrl;
   ['joinLine','academyLine','allyLine'].forEach(id=>{const e=document.getElementById(id); if(e) e.href=line;});
+  const asite=document.getElementById('academySite'); if(asite) asite.href=CONFIG.academyUrl;
   document.getElementById('joinOfficial').href=CONFIG.ylMemberUrl;
   // external shops
   const sp=CONFIG.shopeeUrl;
@@ -831,14 +852,17 @@ function renderAssets(){
   let html='';
   products.forEach(p=>{
     if(assetCat!=='all' && p.cat!==assetCat) return;
-    if(q && !(p.name+' '+p.sub).toLowerCase().includes(q)) return;
+    if(q && !(p.name+' '+p.sub+' '+(p.desc||'')).toLowerCase().includes(q)) return;
     const inCart=cart[p.id]>0;
+    const subline=p.desc||p.sub;
+    const tagHtml=p.tag?`<span class="ptag">${p.tag}</span>`:'';
     html+=`<div class="pcard">
       <div class="pcard-top">
-        <div class="pcard-cat">${catName(p.cat)}</div>
+        <div class="pcard-cat">${catName(p.cat)}${tagHtml}</div>
         <div class="pcard-name">${p.name}</div>
-        <div class="pcard-sub">${p.sub}</div>
-        <div class="pcard-meta"><span class="pcard-price">${money(p.price)}</span><span class="pcard-pv">${p.pv} PV</span></div>
+        <div class="pcard-sub">${subline}</div>
+        <div class="pcard-meta"><span class="pcard-price">${priceStr(p)}</span><span class="pcard-pv">${p.pv} PV</span></div>
+        ${p.note?`<div class="pnote">※ ${p.note}</div>`:''}
       </div>
       <div class="pcard-add"><button class="add" onclick="addToCart('${p.id}')">${inCart?'再加一件 ＋':'加入購物車 ＋'}</button></div>
     </div>`;
@@ -853,11 +877,13 @@ function renderOrder(){
   const q=(document.getElementById('searchOrder').value||'').toLowerCase();
   let html='';
   products.forEach(p=>{
-    const show=(orderCat==='all'||p.cat===orderCat)&&(!q||(p.name+' '+p.sub).toLowerCase().includes(q));
+    const show=(orderCat==='all'||p.cat===orderCat)&&(!q||(p.name+' '+p.sub+' '+(p.desc||'')).toLowerCase().includes(q));
     const inCart=cart[p.id]>0;
+    const subline=p.desc||p.sub;
+    const tagHtml=p.tag?`<span class="ptag">${p.tag}</span>`:'';
     html+=`<div class="orow${show?'':' hidden'}">
-      <div class="orow-name">${p.name}<small>${p.sub}</small></div>
-      <div class="orow-price">${money(p.price)}</div>
+      <div class="orow-name">${tagHtml}${p.name}${subline?`<small>${subline}</small>`:''}${p.note?`<small class="pnote">※ ${p.note}</small>`:''}</div>
+      <div class="orow-price">${priceStr(p)}</div>
       <div class="orow-pv">${p.pv} PV</div>
       <button class="orow-add${inCart?' in':''}" onclick="addToCart('${p.id}')">${inCart?'已加 '+cart[p.id]:'加入 ＋'}</button>
     </div>`;
@@ -868,9 +894,9 @@ function renderOrder(){
 
 /* ── tiers ── */
 function totals(){
-  let price=0,pv=0,count=0;
-  for(const id in cart){const p=find(id);if(p){price+=p.price*cart[id];pv+=p.pv*cart[id];count+=cart[id];}}
-  return {price,pv,count};
+  let usd=0,twd=0,pv=0,count=0;
+  for(const id in cart){const p=find(id);if(p){const q=cart[id];if(p.cur==='TWD')twd+=p.price*q;else usd+=p.price*q;pv+=p.pv*q;count+=q;}}
+  return {usd,twd,pv,count};
 }
 function renderTiers(){
   const {pv}=totals();
@@ -897,14 +923,14 @@ function renderCart(){
   else{
     body.innerHTML=ids.map(id=>{const p=find(id);if(!p)return'';const q=cart[id];
       return `<div class="citem">
-        <div><div class="citem-name">${p.name}<small>${p.sub} · 單價 ${money(p.price)} · ${p.pv} PV</small></div>
+        <div><div class="citem-name">${p.name}<small>單價 ${priceStr(p)} · ${p.pv} PV</small></div>
           <div class="qty"><button onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button onclick="changeQty('${id}',1)">＋</button></div></div>
-        <div class="citem-right"><div class="citem-price">${money(p.price*q)}</div>
-          <div style="font-size:10px;color:var(--green2);margin-top:4px;">${(p.pv*q).toFixed(2)} PV</div></div>
+        <div class="citem-right"><div class="citem-price">${lineStr(p,q)}</div>
+          <div style="font-size:12px;color:var(--green2);margin-top:4px;">${(p.pv*q).toFixed(2)} PV</div></div>
       </div>`;}).join('');
   }
-  const {price,pv}=totals();
-  document.getElementById('cartPrice').textContent=money(price);
+  const {usd,twd,pv}=totals();
+  document.getElementById('cartPrice').textContent=totalStr(usd,twd);
   document.getElementById('cartPV').textContent=pv.toFixed(2);
   const nextTier=TIERS.find(t=>pv<t.pv);
   const hint=document.getElementById('cartTierHint');
@@ -916,10 +942,10 @@ function openCart(){ renderCart(); document.getElementById('cartOverlay').classL
 function closeCart(){ document.getElementById('cartOverlay').classList.remove('open'); document.body.style.overflow=''; }
 
 function updateBadge(){
-  const {price,pv,count}=totals();
+  const {usd,twd,pv,count}=totals();
   const c=document.getElementById('cartCount');
   c.style.display=count>0?'flex':'none'; c.textContent=count;
-  document.getElementById('mPrice').textContent=money(price);
+  document.getElementById('mPrice').textContent=totalStr(usd,twd);
   document.getElementById('mPV').textContent=pv.toFixed(2)+' PV';
   document.getElementById('mItems').textContent=count>0?('已選 '+count+' 件'):'購物車尚無品項';
 }
@@ -930,10 +956,12 @@ function refreshAll(){ renderAssets(); renderOrder(); renderCart(); updateBadge(
 function orderText(){
   const ids=Object.keys(cart).filter(id=>cart[id]>0);
   if(ids.length===0) return null;
-  let t=`【馥芸美單代購訂單】\n`;
-  ids.forEach(id=>{const p=find(id);t+=`· ${p.name} (${p.sub}) x${cart[id]} = ${money(p.price*cart[id])}\n`;});
-  const {price,pv}=totals();
-  t+=`\n總金額：${money(price)} USD\n累積 PV：${pv.toFixed(2)}\n（請馥芸確認台幣金額與運費）`;
+  let t=`【馥芸美單代購訂單】\n\n`;
+  ids.forEach(id=>{const p=find(id);const q=cart[id];
+    t+=`▍${p.name}\n　數量 ${q}　單價 ${priceStr(p)}　PV ${p.pv}　小計 ${lineStr(p,q)}\n`;
+  });
+  const {usd,twd,pv}=totals();
+  t+=`\n總金額：${totalStr(usd,twd)}\n總 PV：${pv.toFixed(2)}\n\n（價格／PV 與活動組合可能依當月公告調整，實際金額以確認訂單回覆為準）`;
   return t;
 }
 function orderLine(){
