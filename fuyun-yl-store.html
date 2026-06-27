@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="馥芸財富學苑">
+<meta name="application-name" content="馥芸財富學苑">
+<meta name="theme-color" content="#1C1710">
+<meta name="description" content="馥芸財富學苑｜YL 美單代購、產品資產、加入會員、分享會報名、異業聯盟">
+<link rel="manifest" id="manifest-placeholder">
+<title>馥芸財富學苑｜YL 美單代購</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- ════════════════════════════════════════════════════════
+     ★★★ 你只需要改這一個 <script> 設定區 ★★★
+     LINE、蝦皮、酷澎網址、品牌名稱都在這裡
+     ════════════════════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  brand:      '馥芸財富學苑',
+  slogan:     'Young Living 美單代購 · 精油即生活 · 產品即資產',
+  owner:      '馥芸',                                   // 你的稱呼／暱稱
+  // ↓↓↓ 把下面網址換成你自己的（沒有的先留著，連結會自動隱藏）↓↓↓
+  lineId:     '@你的LINEID',                            // 例：@abc1234
+  lineUrl:    'https://line.me/R/ti/p/@你的LINEID',     // LINE 加好友連結
+  shopeeUrl:  'https://shopee.tw/shop/69176846',       // 蝦皮賣場
+  coupangUrl: 'https://www.tw.coupang.com/你的賣場',     // 酷澎賣場
+  ylMemberUrl:'https://www.youngliving.com/',          // 加入會員官方連結（可換成你的推薦連結）
+  ai945Free:  'https://945ai.com/mgm/L4WPCO',          // 945AI 100堂免費AI線上課程
+  ai945Upgrade:'https://945ai.com/mgm/8ir9S4',         // 百秒學AI｜聯盟合夥人升級版
+  ai945Elite: 'https://945ai.com/mgm/00y9eT',          // AI菁英獲客實戰班
+};
+</script>
+
+<style>
+:root{
+  --gold:#C9A84C; --gold2:#E8C97A; --gold-pale:#FDF8EE;
+  --dark:#100D06; --dark2:#1C1710; --dark3:#2A2218;
+  --bark:#6B4C2A; --cream:#F7F1E4;
+  --green:#2E6B3E; --green2:#4A9B60; --green-bg:#EAF4EC;
+  --coral:#B54E30; --muted:#8A7560;
+  --border:rgba(201,168,76,0.18); --border2:rgba(201,168,76,0.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);color:#F0E8D0;font-family:'Noto Sans TC',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 20%,rgba(201,168,76,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 80%,rgba(46,107,62,0.06) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(201,168,76,0.015) 60px,rgba(201,168,76,0.015) 61px);
+  pointer-events:none;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+
+/* ── TOP BAR ── */
+.topbar{position:sticky;top:0;z-index:90;background:rgba(16,13,6,0.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);}
+.topbar-inner{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px;}
+.brand-logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;}
+.brand-mark{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#2A2218,#3A3020);
+  display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid var(--border2);}
+.brand-text{font-family:'Noto Serif TC',serif;font-weight:900;font-size:15px;color:#fff;line-height:1.1;}
+.brand-text small{display:block;font-size:9px;letter-spacing:2px;color:var(--gold);font-weight:400;}
+.topbar-spacer{flex:1;}
+.cart-btn{position:relative;background:none;border:1px solid var(--border2);color:var(--gold2);
+  width:40px;height:40px;border-radius:8px;font-size:18px;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;transition:.15s;}
+.cart-btn:hover{background:rgba(201,168,76,0.08);}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--coral);color:#fff;
+  font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;padding:0 5px;}
+.menu-btn{display:none;background:none;border:1px solid var(--border2);color:var(--gold2);
+  width:40px;height:40px;border-radius:8px;font-size:18px;cursor:pointer;}
+
+/* ── NAV ── */
+.mainnav{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;gap:4px;flex-wrap:wrap;
+  border-bottom:1px solid var(--border);}
+.navlink{padding:13px 14px;font-size:13px;letter-spacing:1px;color:rgba(255,255,255,0.5);
+  cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:'Noto Sans TC',sans-serif;transition:.15s;white-space:nowrap;}
+.navlink:hover{color:var(--gold2);}
+.navlink.active{color:var(--gold);border-bottom-color:var(--gold);}
+.navlink.ext{color:#8AAEE0;}
+.navlink.ext:hover{color:#B8D0F0;}
+
+/* ── LAYOUT ── */
+.app{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 16px 100px;}
+.section{display:none;padding-top:32px;}
+.section.active{display:block;animation:fade .3s;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.sec-head{margin-bottom:24px;}
+.sec-kicker{font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:8px;}
+.sec-title{font-family:'Noto Serif TC',serif;font-size:clamp(22px,5vw,32px);font-weight:900;color:#fff;line-height:1.25;}
+.sec-title em{color:var(--gold2);font-style:normal;}
+.sec-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-top:8px;line-height:1.7;}
+
+.card{background:var(--dark2);border:1px solid var(--border);padding:22px;margin-bottom:16px;}
+.card h3{font-family:'Noto Serif TC',serif;font-size:16px;color:var(--gold2);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;}
+.card p{font-size:13.5px;color:rgba(255,255,255,0.65);line-height:1.9;}
+.note{font-size:11px;color:var(--coral);background:rgba(181,78,48,0.08);border:1px dashed rgba(181,78,48,0.4);
+  padding:10px 12px;margin-bottom:16px;line-height:1.7;}
+.doclist{margin-top:10px;}
+.doclink{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);
+  font-size:13px;color:rgba(255,255,255,0.82);transition:.15s;}
+.doclink:last-child{border-bottom:none;}
+.doclink:hover{color:var(--gold2);}
+.doclink .dico{font-size:17px;flex-shrink:0;}
+.doclink .dtxt{flex:1;line-height:1.5;}
+.doclink .dtxt small{display:block;font-size:10.5px;color:rgba(255,255,255,0.3);margin-top:2px;}
+.doclink .darr{color:var(--gold);font-size:11px;letter-spacing:1px;flex-shrink:0;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--gold);color:var(--dark);border:none;padding:12px 22px;
+  font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;letter-spacing:1px;
+  cursor:pointer;transition:.15s;border-radius:4px;}
+.btn:hover{background:var(--gold2);}
+.btn.ghost{background:none;border:1px solid var(--border2);color:var(--gold2);}
+.btn.ghost:hover{background:rgba(201,168,76,0.08);}
+.btn.line{background:#06C755;color:#fff;}
+.btn.full{width:100%;}
+
+/* ── HERO (學苑首頁) ── */
+.hero{text-align:center;padding:40px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+.hero-mark{font-size:46px;margin-bottom:12px;}
+.hero h1{font-family:'Noto Serif TC',serif;font-size:clamp(26px,6vw,42px);font-weight:900;color:#fff;line-height:1.2;}
+.hero h1 em{color:var(--gold2);font-style:normal;}
+.hero-slogan{font-size:13px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-top:14px;}
+.quick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:8px;}
+.quick-card{background:var(--dark2);border:1px solid var(--border);padding:20px 16px;text-align:center;
+  cursor:pointer;transition:.2s;border-radius:6px;}
+.quick-card:hover{border-color:var(--gold);background:rgba(201,168,76,0.06);transform:translateY(-2px);}
+.quick-ico{font-size:28px;margin-bottom:10px;}
+.quick-name{font-family:'Noto Serif TC',serif;font-size:14px;font-weight:700;color:var(--gold2);}
+.quick-desc{font-size:10.5px;color:rgba(255,255,255,0.35);margin-top:5px;letter-spacing:.5px;}
+
+/* ── PRODUCT TOOLS ── */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px;}
+.search-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);padding:8px 12px;flex:1;min-width:180px;border-radius:4px;}
+.search-box input{background:none;border:none;outline:none;color:#fff;font-size:13px;width:100%;font-family:inherit;}
+.search-box input::placeholder{color:rgba(255,255,255,0.25);}
+.cat-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;margin-bottom:16px;}
+.cat-tabs::-webkit-scrollbar{display:none;}
+.ctab{padding:9px 14px;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,0.4);cursor:pointer;
+  border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;
+  white-space:nowrap;font-family:inherit;transition:.15s;}
+.ctab:hover{color:var(--gold2);}
+.ctab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── PRODUCT GRID (產品資產) ── */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.pcard{background:var(--dark2);border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  display:flex;flex-direction:column;transition:.2s;}
+.pcard:hover{border-color:var(--border2);}
+.pcard-top{padding:16px 16px 12px;flex:1;}
+.pcard-cat{font-size:9px;letter-spacing:1.5px;color:var(--gold);margin-bottom:6px;}
+.pcard-name{font-size:13.5px;color:#fff;line-height:1.45;font-weight:500;}
+.pcard-sub{font-size:10.5px;color:rgba(255,255,255,0.35);margin-top:4px;line-height:1.5;}
+.pcard-meta{display:flex;align-items:baseline;gap:10px;margin-top:12px;}
+.pcard-price{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:700;color:var(--gold2);}
+.pcard-pv{font-size:11px;color:var(--green2);font-weight:600;}
+.pcard-add{border-top:1px solid var(--border);padding:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.pcard-add .add{flex:1;background:rgba(201,168,76,0.1);color:var(--gold2);border:none;padding:9px;
+  font-size:12px;font-weight:700;cursor:pointer;border-radius:4px;font-family:inherit;transition:.15s;letter-spacing:1px;}
+.pcard-add .add:hover{background:var(--gold);color:var(--dark);}
+
+/* ── ORDER LIST (美單代購) ── */
+.olist{background:var(--dark2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.orow{display:grid;grid-template-columns:1fr 70px 60px 90px;gap:10px;align-items:center;
+  padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.orow.hidden{display:none;}
+.orow-name{font-size:12.5px;color:rgba(255,255,255,0.85);line-height:1.45;}
+.orow-name small{display:block;font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;}
+.orow-price{font-family:'Noto Serif TC',serif;font-size:13px;color:var(--gold2);text-align:right;font-weight:600;}
+.orow-pv{font-size:11px;color:var(--green2);text-align:right;}
+.orow-add{background:rgba(201,168,76,0.12);color:var(--gold2);border:none;padding:8px 0;border-radius:4px;
+  font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s;}
+.orow-add:hover{background:var(--gold);color:var(--dark);}
+.orow-add.in{background:var(--green);color:#fff;}
+
+/* PV tiers */
+.tiers{display:grid;gap:8px;margin-top:8px;}
+.tier{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid transparent;border-radius:6px;
+  position:relative;overflow:hidden;transition:.25s;opacity:.45;filter:grayscale(.4);}
+.tier.reached{opacity:1;filter:none;border-color:var(--gold);background:rgba(201,168,76,0.07);}
+.tier.next{opacity:1;filter:none;border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.04);}
+.tier.next::after{content:'下一個目標';position:absolute;top:0;right:0;font-size:9px;letter-spacing:1px;
+  background:var(--gold);color:var(--dark);padding:3px 8px;font-weight:700;}
+.tier-pv{font-family:'Noto Serif TC',serif;font-size:18px;font-weight:900;color:var(--gold2);line-height:1;min-width:48px;flex-shrink:0;}
+.tier-pv small{display:block;font-size:9px;font-weight:400;color:rgba(255,255,255,0.3);letter-spacing:1px;}
+.tier-gift{font-size:12px;color:rgba(255,255,255,0.78);line-height:1.6;}
+.tier-status{font-size:10px;font-weight:700;margin-top:5px;}
+.tier-status.ok{color:var(--green2);}
+.tier-status.need{color:rgba(255,255,255,0.35);}
+
+/* ── EXTERNAL SHOPS ── */
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.shop-card{background:var(--dark2);border:1px solid var(--border);border-radius:10px;padding:24px;
+  text-align:center;cursor:pointer;transition:.2s;display:block;}
+.shop-card:hover{transform:translateY(-3px);border-color:var(--border2);}
+.shop-ico{font-size:34px;margin-bottom:10px;}
+.shop-card.shopee{border-color:rgba(238,77,45,0.4);}
+.shop-card.shopee:hover{background:rgba(238,77,45,0.06);}
+.shop-card.coupang{border-color:rgba(170,0,255,0.35);}
+.shop-card.coupang:hover{background:rgba(170,0,255,0.06);}
+.shop-name{font-family:'Noto Serif TC',serif;font-size:16px;font-weight:700;color:#fff;}
+.shop-desc{font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;}
+
+/* ── ALLIANCE ── */
+.ally-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.ally-card{background:var(--dark2);border:1px solid var(--border);border-radius:8px;padding:20px;transition:.2s;display:block;}
+a.ally-card:hover{border-color:var(--border2);transform:translateY(-2px);background:rgba(201,168,76,0.04);}
+.ally-tag{display:inline-block;font-size:9px;letter-spacing:1.5px;color:var(--gold);
+  border:1px solid var(--border2);padding:2px 8px;border-radius:10px;margin-bottom:10px;}
+.ally-card h4{font-family:'Noto Serif TC',serif;font-size:15px;color:#fff;margin-bottom:8px;}
+.ally-card p{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.8;}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-top:6px;}
+.course-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;flex-direction:column;}
+.course-card h4{font-family:'Noto Serif TC',serif;font-size:14px;color:#fff;margin:8px 0 6px;}
+.course-card p{font-size:11.5px;color:rgba(255,255,255,0.5);line-height:1.7;flex:1;margin-bottom:12px;}
+.course-tag{align-self:flex-start;font-size:9px;letter-spacing:1.5px;color:var(--gold);border:1px solid var(--border2);padding:2px 8px;border-radius:10px;}
+.course-tag.free{color:var(--green2);border-color:rgba(74,155,96,0.5);background:rgba(74,155,96,0.08);}
+.course-card .btn{padding:9px;font-size:12px;}
+@media(max-width:760px){.course-grid{grid-template-columns:1fr;}}
+
+/* ── STEPS ── */
+.steps{display:grid;gap:12px;}
+.step{display:flex;gap:14px;align-items:flex-start;}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--dark3);border:1px solid var(--border2);
+  color:var(--gold2);font-family:'Noto Serif TC',serif;font-weight:700;font-size:14px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-body strong{color:var(--gold2);font-size:14px;}
+.step-body p{font-size:12.5px;color:rgba(255,255,255,0.55);margin-top:3px;line-height:1.7;}
+
+/* ── FORM ── */
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:12px;color:var(--gold2);margin-bottom:6px;letter-spacing:1px;}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);color:#fff;padding:11px 12px;font-size:13px;font-family:inherit;border-radius:4px;outline:none;}
+.field input:focus,.field select,.field textarea:focus{border-color:var(--gold);}
+.field textarea{resize:vertical;min-height:70px;}
+.field select option{background:var(--dark2);}
+
+/* ── EVENT ── */
+.event{display:flex;gap:16px;align-items:flex-start;background:var(--dark2);border:1px solid var(--border);
+  border-radius:8px;padding:18px;margin-bottom:12px;}
+.event-date{text-align:center;flex-shrink:0;min-width:54px;}
+.event-date .m{font-size:11px;color:var(--gold);letter-spacing:1px;}
+.event-date .d{font-family:'Noto Serif TC',serif;font-size:28px;font-weight:900;color:#fff;line-height:1;}
+.event-info h4{font-size:14px;color:#fff;margin-bottom:6px;}
+.event-info p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;}
+
+/* ── CART DRAWER ── */
+.overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);display:none;}
+.overlay.open{display:block;}
+.drawer{position:absolute;top:0;right:0;bottom:0;width:min(420px,92vw);background:var(--dark2);
+  border-left:1px solid var(--border2);display:flex;flex-direction:column;animation:slidein .25s;}
+@keyframes slidein{from{transform:translateX(100%);}to{transform:none;}}
+.drawer-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.drawer-head h3{font-family:'Noto Serif TC',serif;font-size:16px;color:var(--gold2);}
+.drawer-close{background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;}
+.drawer-body{flex:1;overflow-y:auto;padding:14px 20px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
+.citem{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.citem-name{font-size:12.5px;color:rgba(255,255,255,0.85);line-height:1.5;}
+.citem-name small{display:block;font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;}
+.citem-right{text-align:right;}
+.citem-price{font-family:'Noto Serif TC',serif;font-size:13px;color:var(--gold2);font-weight:600;}
+.qty{display:inline-flex;align-items:center;gap:0;margin-top:8px;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.qty button{background:rgba(255,255,255,0.05);border:none;color:var(--gold2);width:26px;height:26px;font-size:14px;cursor:pointer;}
+.qty button:hover{background:rgba(201,168,76,0.15);}
+.qty span{min-width:30px;text-align:center;font-size:12px;color:#fff;}
+.cart-empty{text-align:center;color:rgba(255,255,255,0.25);font-size:13px;padding:50px 20px;letter-spacing:1px;}
+.drawer-foot{border-top:1px solid var(--border);padding:16px 20px;}
+.foot-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.foot-row .lbl{font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:1px;}
+.foot-row .val{font-family:'Noto Serif TC',serif;font-size:22px;font-weight:700;color:#fff;}
+.foot-row .val.green{color:var(--green2);font-size:18px;}
+.cart-tier-hint{font-size:11px;color:var(--gold2);background:rgba(201,168,76,0.07);border:1px solid var(--border);
+  padding:9px 12px;border-radius:4px;margin:10px 0;line-height:1.6;text-align:center;}
+.foot-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.foot-btns .btn{padding:11px;font-size:13px;}
+
+/* ── MOBILE BAR ── */
+.mbar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--dark2);
+  border-top:1px solid var(--border2);padding:12px 16px;box-shadow:0 -8px 32px rgba(0,0,0,0.6);}
+.mbar-inner{display:flex;align-items:center;gap:12px;}
+.mbar-totals{flex:1;}
+.mbar-price{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:700;color:var(--gold2);}
+.mbar-pv{font-size:12px;color:var(--green2);margin-left:10px;}
+.mbar-items{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:1px;}
+.mbar-btn{background:var(--gold);color:var(--dark);border:none;padding:12px 20px;
+  font-family:'Noto Serif TC',serif;font-size:13px;font-weight:700;cursor:pointer;border-radius:4px;}
+
+.footer{text-align:center;padding:40px 0 0;font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:1px;line-height:1.9;border-top:1px solid var(--border);margin-top:40px;}
+
+@media(max-width:760px){
+  body{padding-bottom:78px;}
+  .mainnav{display:none;position:fixed;top:60px;left:0;right:0;z-index:95;background:var(--dark2);
+    flex-direction:column;gap:0;padding:8px 0;border-bottom:1px solid var(--border2);box-shadow:0 12px 32px rgba(0,0,0,0.5);}
+  .mainnav.open{display:flex;}
+  .navlink{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.04);width:100%;text-align:left;}
+  .navlink.active{border-bottom-color:rgba(255,255,255,0.04);background:rgba(201,168,76,0.06);}
+  .menu-btn{display:flex;align-items:center;justify-content:center;}
+  .mbar{display:flex;}
+  .shop-grid{grid-template-columns:1fr;}
+  .orow{grid-template-columns:1fr 60px 80px;}
+  .orow-pv{display:none;}
+}
+@supports(padding:env(safe-area-inset-bottom)){
+  .mbar{padding-bottom:calc(12px + env(safe-area-inset-bottom));}
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom));}
+}
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--border2);color:var(--gold2);padding:12px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;z-index:400;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-logo" onclick="go('home')">
+      <div class="brand-mark">🌿</div>
+      <div class="brand-text" id="brandName">馥芸財富學苑<small>YOUNG LIVING</small></div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <button class="cart-btn" onclick="openCart()">🛒<span class="cart-count" id="cartCount" style="display:none">0</span></button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+  <nav class="mainnav" id="mainnav">
+    <button class="navlink" onclick="go('assets')">悠樂芳精油</button>
+    <button class="navlink active" onclick="go('order')">美單代購</button>
+    <button class="navlink" onclick="go('join')">加入會員</button>
+    <button class="navlink" onclick="go('events')">分享會報名</button>
+    <button class="navlink" onclick="go('academy')">馥芸財富學苑</button>
+    <button class="navlink" onclick="go('alliance')">異業聯盟</button>
+    <a class="navlink ext" id="navShopee" target="_blank" rel="noopener">蝦皮 ↗</a>
+    <button class="navlink ext" onclick="comingSoon('酷澎')">酷澎</button>
+  </nav>
+</div>
+
+<div class="app">
+
+  <!-- ════ 學苑首頁 ════ -->
+  <section class="section" id="sec-home">
+    <div class="hero">
+      <div class="hero-mark">🌿</div>
+      <h1>馥芸 <em>財富學苑</em></h1>
+      <div class="hero-slogan" id="heroSlogan"></div>
+    </div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="go('order')"><div class="quick-ico">🛒</div><div class="quick-name">美單代購</div><div class="quick-desc">勾選即算 PV・滿額贈</div></div>
+      <div class="quick-card" onclick="go('assets')"><div class="quick-ico">📦</div><div class="quick-name">悠樂芳精油</div><div class="quick-desc">Young Living 全品項</div></div>
+      <div class="quick-card" onclick="go('join')"><div class="quick-ico">💎</div><div class="quick-name">加入會員</div><div class="quick-desc">24% 會員價</div></div>
+      <div class="quick-card" onclick="go('events')"><div class="quick-ico">📅</div><div class="quick-name">分享會報名</div><div class="quick-desc">線上 / 實體場次</div></div>
+      <div class="quick-card" onclick="go('alliance')"><div class="quick-ico">🤝</div><div class="quick-name">異業聯盟</div><div class="quick-desc">合作夥伴專區</div></div>
+      <div class="quick-card" onclick="go('academy')"><div class="quick-ico">🎓</div><div class="quick-name">財富學苑</div><div class="quick-desc">系統與培訓</div></div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h3>🌿 關於馥芸</h3>
+      <p>歡迎來到馥芸財富學苑。在這裡，我陪你把「精油」變成「生活」，也把「分享」變成「資產」。從美國原裝代購、會員制度、到團隊系統培訓，一步步協助你建立自己的健康與財富藍圖。</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,0.4);font-size:12px;">（這段文字請改成你自己的自我介紹與理念。）</p>
+    </div>
+  </section>
+
+  <!-- ════ 產品資產 ════ -->
+  <section class="section" id="sec-assets">
+    <div class="sec-head">
+      <div class="sec-kicker">YOUNG LIVING</div>
+      <div class="sec-title">悠樂芳 <em>精油</em></div>
+      <div class="sec-sub">Young Living 美國原裝精油與居家系列。瀏覽、了解、直接加入購物車。</div>
+    </div>
+    <div class="note">⚠️ 以下為<b>範例資料</b>（品名、美金售價、PV 皆為示意）。請依你美國 YL 帳號的最新官網數字逐項替換 products 陣列。</div>
+    <div class="tools">
+      <div class="search-box">🔍<input type="text" id="searchAssets" placeholder="搜尋品名…" oninput="renderAssets()"></div>
+    </div>
+    <div class="cat-tabs" id="assetTabs"></div>
+    <div class="prod-grid" id="assetGrid"></div>
+
+    <div class="card formcard" style="margin-top:22px;">
+      <h3>📑 悠樂芳常用表單下載</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,0.45);">台灣悠樂芳官方文件，可線上下載填寫。</p>
+      <div class="doclist">
+        <a class="doclink" href="https://static.youngliving.com/en-TW/PDFS/YLTW-Product-Order-Form.pdf" target="_blank" rel="noopener"><span class="dico">📋</span><span class="dtxt">產品訂購單（完整版）<small>全品項 · 金額 · PV</small></span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://static.youngliving.com/en-TW/PDFS/YLTW-Product-Order-Form-2pages.pdf" target="_blank" rel="noopener"><span class="dico">📄</span><span class="dtxt">產品訂購單（簡易版）<small>2 頁速覽</small></span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://downloads.ctfassets.net/x0wnv07j8mtt/1Fc1AzhiQx06thpIJ3H5cp/c3d9a6dc101d2b3d122d3ed06ff0ca8f/ProductGuide_V2_%C3%A7__%C3%A5__%C3%A7__.pdf" target="_blank" rel="noopener"><span class="dico">📖</span><span class="dtxt">2026 產品指南<small>年度產品總覽</small></span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://static.youngliving.com/en-TW/PDFS/TW_Authorization_Letter.pdf" target="_blank" rel="noopener"><span class="dico">📝</span><span class="dtxt">提貨單暨委託書<small>代為提貨 / 付款用</small></span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://static.youngliving.com/en-TW/PDFS/美商悠樂芳退貨申請單.pdf" target="_blank" rel="noopener"><span class="dico">↩️</span><span class="dtxt">退貨申請單（台北）</span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://static.youngliving.com/en-TW/PDFS/台中退貨折讓單.pdf" target="_blank" rel="noopener"><span class="dico">↩️</span><span class="dtxt">退貨申請單（台中）</span><span class="darr">PDF ↓</span></a>
+        <a class="doclink" href="https://www.youngliving.com/zh_TW/customer-service/forms-download" target="_blank" rel="noopener"><span class="dico">🔗</span><span class="dtxt">官網・全部常用文件頁<small>場地借用、LR 積分兌換明細等</small></span><span class="darr">前往 ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 美單代購 ════ -->
+  <section class="section active" id="sec-order">
+    <div class="sec-head">
+      <div class="sec-kicker">US ORDER</div>
+      <div class="sec-title">美單 <em>代購</em></div>
+      <div class="sec-sub">勾選品項 → 即時計算美金總額與累積 PV → 確認滿額贈門檻 → 一鍵送單給馥芸。</div>
+    </div>
+    <div class="note">⚠️ 售價／PV／滿額贈門檻皆為<b>範例</b>，美國每月活動不同，請更新 products 與 TIERS 後再上線。</div>
+
+    <div class="cat-tabs" id="orderTabs"></div>
+    <div class="tools"><div class="search-box">🔍<input type="text" id="searchOrder" placeholder="搜尋品名…" oninput="renderOrder()"></div></div>
+    <div class="olist" id="orderList"></div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>🎁 滿額贈門檻（範例）</h3>
+      <div class="tiers" id="tierList"></div>
+    </div>
+
+    <div class="card">
+      <h3>📦 代購怎麼運作？</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><strong>勾選想要的品項</strong><p>右下角購物車會即時加總美金與 PV。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><strong>送出訂單給馥芸</strong><p>點購物車內「用 LINE 下單」或「複製訂單明細」傳給我。</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><strong>確認金額與台幣匯率</strong><p>我會回覆最終台幣金額、運費與預計到貨時間。</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 加入會員 ════ -->
+  <section class="section" id="sec-join">
+    <div class="sec-head">
+      <div class="sec-kicker">MEMBERSHIP</div>
+      <div class="sec-title">加入 <em>會員</em></div>
+      <div class="sec-sub">用會員價（約市價 8 折）購買，享每月滿額贈與點數回饋。</div>
+    </div>
+    <div class="card">
+      <h3>💎 會員好處</h3>
+      <p>· 全品項享 <b style="color:var(--gold2)">會員 24% 折扣</b><br>· 每月滿額贈好禮（PV 門檻制）<br>· 點數回饋可折抵未來訂單<br>· 加入馥芸團隊，獲得一對一用油與經營指導</p>
+    </div>
+    <div class="card">
+      <h3>📝 加入步驟</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><strong>聯絡馥芸索取推薦編號</strong><p>確保你掛在正確的團隊下、享有完整支援。</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><strong>線上註冊</strong><p>填寫基本資料，選擇入門套組或自選品項。</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><strong>開始你的精油生活</strong><p>加入學苑培訓，學會用油與分享。</p></div></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+        <a class="btn line" id="joinLine">💬 用 LINE 詢問加入</a>
+        <a class="btn ghost" id="joinOfficial" target="_blank" rel="noopener">官方註冊頁 ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 分享會報名 ════ -->
+  <section class="section" id="sec-events">
+    <div class="sec-head">
+      <div class="sec-kicker">EVENTS</div>
+      <div class="sec-title">分享會 <em>報名</em></div>
+      <div class="sec-sub">線上 / 實體用油分享會、體驗課。場次請自行更新。</div>
+    </div>
+    <div class="event">
+      <div class="event-date"><div class="m">範例</div><div class="d">15</div></div>
+      <div class="event-info"><h4>精油入門體驗會（線上）</h4><p>🕐 晚上 8:00 · 📍 Zoom 線上<br>認識 10 支必備精油與日常應用。</p></div>
+    </div>
+    <div class="event">
+      <div class="event-date"><div class="m">範例</div><div class="d">22</div></div>
+      <div class="event-info"><h4>美單代購說明 + 滿額贈攻略</h4><p>🕐 下午 2:00 · 📍 台北實體場<br>教你怎麼湊滿額贈、聰明下單。</p></div>
+    </div>
+    <div class="card">
+      <h3>🙋 我要報名</h3>
+      <div class="field"><label>姓名 / 暱稱</label><input id="evName" placeholder="你的稱呼"></div>
+      <div class="field"><label>聯絡方式（LINE / 電話）</label><input id="evContact" placeholder="方便聯繫的方式"></div>
+      <div class="field"><label>想報名的場次</label>
+        <select id="evWhich"><option>精油入門體驗會（線上）</option><option>美單代購說明 + 滿額贈攻略</option><option>其他（備註說明）</option></select>
+      </div>
+      <div class="field"><label>備註</label><textarea id="evNote" placeholder="想了解的主題、人數…"></textarea></div>
+      <button class="btn line full" onclick="submitEvent()">💬 送出報名（用 LINE 傳給馥芸）</button>
+    </div>
+  </section>
+
+  <!-- ════ 馥芸財富學苑 ════ -->
+  <section class="section" id="sec-academy">
+    <div class="sec-head">
+      <div class="sec-kicker">ACADEMY</div>
+      <div class="sec-title">馥芸 <em>財富學苑</em></div>
+      <div class="sec-sub">結合財商教練團隊與系統課程，把精油興趣變成可經營、可複製的事業與被動收入。</div>
+    </div>
+    <div class="card"><h3>🎓 學苑能給你什麼</h3><p>· 系統化的用油教學，從入門到進階<br>· 經營與分享的實戰方法<br>· 團隊夥伴互助、定期培訓與讀書會<br>· 個人品牌與被動收入的建立藍圖</p></div>
+    <div class="card"><h3>📚 培訓主題</h3><p>學苑課程以<b style="color:var(--gold2)">財商教練團隊</b>的系統課程為主，主題涵蓋：<br>1. 財商思維與金錢藍圖<br>2. 現金流管理與被動收入<br>3. 精油事業實戰與美單代購<br>4. 個人品牌與社群經營<br>5. AI 工具獲客與數位變現<br>6. 團隊複製與領導力</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,0.4);font-size:12px;">實際課程內容與梯次以財商教練團隊公告為準。</p></div>
+    <a class="btn line" id="academyLine" style="margin-top:4px;">💬 預約學苑諮詢</a>
+  </section>
+
+  <!-- ════ 異業聯盟 ════ -->
+  <section class="section" id="sec-alliance">
+    <div class="sec-head">
+      <div class="sec-kicker">ALLIANCE</div>
+      <div class="sec-title">異業 <em>聯盟</em></div>
+      <div class="sec-sub">與在地店家、品牌合作互相導客、共同推廣。</div>
+    </div>
+    <div class="card">
+      <h3>🛍️ 線上商城</h3>
+      <p style="margin-bottom:14px;">部分品項也可直接在以下平台下單：</p>
+      <div class="shop-grid">
+        <a class="shop-card shopee" id="shopShopee" target="_blank" rel="noopener"><div class="shop-ico">🛒</div><div class="shop-name">蝦皮商城</div><div class="shop-desc">Shopee · 現貨快速到</div></a>
+        <a class="shop-card coupang" onclick="comingSoon('酷澎')" style="cursor:pointer;"><div class="shop-ico">📦</div><div class="shop-name">酷澎</div><div class="shop-desc">Coupang · 洽談中</div></a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🤖 AI 學習｜945AI 獲客大聯盟</h3>
+      <p style="margin-bottom:14px;">結合「合作 × 學習 × 創作 × 變現」的 AI 實戰生態圈，教你用 AI 工具自動獲客、變現。馥芸推薦你從免費課開始體驗。</p>
+      <div class="course-grid">
+        <div class="course-card">
+          <span class="course-tag free">免費線上課</span>
+          <h4>945AI・100 堂免費 AI 線上課程</h4>
+          <p>零基礎也能上手，100 堂免費課程帶你入門各種 AI 工具與獲客應用。</p>
+          <a class="btn line full" id="course945Free" target="_blank" rel="noopener">免費報名 ↗</a>
+        </div>
+        <div class="course-card">
+          <span class="course-tag">實戰課程</span>
+          <h4>AI 菁英獲客實戰班</h4>
+          <p>進階實作班，手把手帶你建立 AI 自動獲客與分潤變現系統。</p>
+          <a class="btn ghost full" id="course945Elite" target="_blank" rel="noopener">了解 / 報名 ↗</a>
+        </div>
+        <div class="course-card">
+          <span class="course-tag">升級方案</span>
+          <h4>百秒學 AI・聯盟合夥人升級版</h4>
+          <p>完整課程＋聯盟推廣分潤機制，把學會的 AI 變成持續收入。</p>
+          <a class="btn ghost full" id="course945Upgrade" target="_blank" rel="noopener">了解 / 報名 ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card"><h3>🤝 合作夥伴</h3>
+      <div class="ally-grid">
+        <a class="ally-card" href="https://www.fpshop.tw/mgm/v5ijz9" target="_blank" rel="noopener"><span class="ally-tag">社交電商</span><h4>風電商・風霈國際傳媒 ↗</h4><p>一支手機就能分享變現的網路商城，直播帶貨、順勢行銷、分潤創業。</p></a>
+        <a class="ally-card" href="https://www.1111.com.tw/corp/117154055" target="_blank" rel="noopener"><span class="ally-tag">AI 教學</span><h4>浩茂網路科技 ↗</h4><p>AI 365 全修班，月月新課、線下實作、當天帶走成品。</p></a>
+        <a class="ally-card" href="https://945ai.com/mgm/L4WPCO" target="_blank" rel="noopener"><span class="ally-tag">AI 獲客</span><h4>945AI 獲客大聯盟 ↗</h4><p>AI 影音課程、工具教學與聯盟分潤，打造自動獲客系統。</p></a>
+        <a class="ally-card" id="allyShopee" target="_blank" rel="noopener"><span class="ally-tag">線上商城</span><h4>蝦皮商城 ↗</h4><p>馥芸蝦皮賣場，現貨快速到貨。</p></a>
+        <div class="ally-card"><span class="ally-tag">數位行銷</span><h4>神隊友數位</h4><p>數位行銷與系統建置夥伴。<br><span style="color:var(--coral);font-size:10px;">（請提供連結，我幫你補上）</span></p></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏔️ 宜蘭好物推薦</h3>
+      <p style="margin-bottom:14px;">馥芸在地嚴選——來宜蘭住、宜蘭吃的口袋名單。</p>
+      <div class="ally-grid">
+        <a class="ally-card" href="https://wonderfulland.ylbnb.com.tw/index.php?page=r4.php" target="_blank" rel="noopener"><span class="ally-tag">民宿住宿</span><h4>精悅民宿 ↗</h4><p>宜蘭在地民宿，舒適放鬆的旅宿選擇，適合全家出遊。</p></a>
+        <a class="ally-card" href="https://www.facebook.com/XinFuHuangShiPinXing/" target="_blank" rel="noopener"><span class="ally-tag">在地食品</span><h4>鑫富皇食品 ↗</h4><p>宜蘭在地食品與伴手禮，FB 粉專直接選購。</p></a>
+      </div>
+    </div>
+    <a class="btn line" id="allyLine">💬 洽談異業合作</a>
+  </section>
+
+  <div class="footer">
+    馥芸財富學苑 · Young Living Independent Distributor<br>
+    本站價格／PV／活動為示意，實際以美國 Young Living 官網為準
+  </div>
+</div>
+
+<!-- ── MOBILE BAR ── -->
+<div class="mbar">
+  <div class="mbar-inner">
+    <div class="mbar-totals">
+      <div><span class="mbar-price" id="mPrice">$0.00</span><span class="mbar-pv" id="mPV">0 PV</span></div>
+      <div class="mbar-items" id="mItems">購物車尚無品項</div>
+    </div>
+    <button class="mbar-btn" onclick="openCart()">查看購物車 🛒</button>
+  </div>
+</div>
+
+<!-- ── CART DRAWER ── -->
+<div id="toast"></div>
+
+<div class="overlay" id="cartOverlay" onclick="closeCart()">
+  <div class="drawer" onclick="event.stopPropagation()">
+    <div class="drawer-head"><h3>🛒 購物車</h3><button class="drawer-close" onclick="closeCart()">✕</button></div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot">
+      <div class="foot-row"><span class="lbl">總金額（USD）</span><span class="val" id="cartPrice">$0.00</span></div>
+      <div class="foot-row"><span class="lbl">累積 PV</span><span class="val green" id="cartPV">0</span></div>
+      <div class="cart-tier-hint" id="cartTierHint" style="display:none"></div>
+      <div class="foot-btns">
+        <button class="btn line" onclick="orderLine()">💬 用 LINE 下單</button>
+        <button class="btn ghost" onclick="copyOrder()">📋 複製訂單</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════ 範例產品資料（請全部替換成美國官網數字）══════════════ */
+const CATS = [
+  {id:'all',name:'全部'},{id:'single',name:'單方精油'},{id:'blend',name:'配方精油'},
+  {id:'rollOn',name:'滾珠'},{id:'thieves',name:'盜賊居家'},{id:'skincare',name:'護膚'},
+  {id:'nutrition',name:'營養補充'},{id:'kit',name:'套組'}
+];
+const products = [
+  {id:'sg1',cat:'single',name:'Lavender 薰衣草',sub:'15ml',price:33.25,pv:33.25},
+  {id:'sg2',cat:'single',name:'Lemon 檸檬',sub:'15ml',price:13.50,pv:13.50},
+  {id:'sg3',cat:'single',name:'Peppermint 薄荷',sub:'15ml',price:30.50,pv:30.50},
+  {id:'sg4',cat:'single',name:'Frankincense 乳香',sub:'15ml',price:94.75,pv:94.75},
+  {id:'sg5',cat:'single',name:'Copaiba 苦配巴',sub:'15ml',price:40.00,pv:40.00},
+  {id:'sg6',cat:'single',name:'Tea Tree 茶樹',sub:'15ml',price:24.75,pv:24.75},
+  {id:'sg7',cat:'single',name:'Lemongrass 檸檬香茅',sub:'15ml',price:11.50,pv:11.50},
+  {id:'bl1',cat:'blend',name:'Thieves 盜賊',sub:'15ml',price:46.50,pv:46.50},
+  {id:'bl2',cat:'blend',name:'PanAway 深舒',sub:'15ml',price:79.50,pv:79.50},
+  {id:'bl3',cat:'blend',name:'Stress Away 樂自在',sub:'15ml',price:33.75,pv:33.75},
+  {id:'bl4',cat:'blend',name:'Valor 勇氣',sub:'5ml',price:37.50,pv:37.50},
+  {id:'bl5',cat:'blend',name:'Peace & Calming 舒靜',sub:'5ml',price:42.50,pv:42.50},
+  {id:'bl6',cat:'blend',name:'R.C. 樂C',sub:'15ml',price:25.75,pv:25.75},
+  {id:'bl7',cat:'blend',name:'DiGize 悠暢',sub:'15ml',price:40.00,pv:40.00},
+  {id:'ro1',cat:'rollOn',name:'Stress Away Roll-On 樂自在滾珠',sub:'10ml',price:30.50,pv:30.50},
+  {id:'ro2',cat:'rollOn',name:'Thieves Roll-On 盜賊滾珠',sub:'10ml',price:30.50,pv:30.50},
+  {id:'th1',cat:'thieves',name:'Thieves Household Cleaner 濃縮清潔劑',sub:'14.4oz',price:24.50,pv:24.50},
+  {id:'th2',cat:'thieves',name:'Thieves Toothpaste 牙膏',sub:'4oz',price:12.00,pv:12.00},
+  {id:'th3',cat:'thieves',name:'Thieves Foaming Hand Soap 泡沫洗手乳',sub:'8oz',price:14.00,pv:14.00},
+  {id:'sk1',cat:'skincare',name:'ART Renewal Serum 修護精華',sub:'1oz',price:58.50,pv:58.50},
+  {id:'nu1',cat:'nutrition',name:'NingXia Red 寧夏紅',sub:'2-pack',price:50.00,pv:33.00},
+  {id:'nu2',cat:'nutrition',name:'MultiGreens 綜合綠植',sub:'120ct',price:40.00,pv:30.00},
+  {id:'kt1',cat:'kit',name:'Premium Starter Kit 入門套組',sub:'12 oils + 擴香器',price:165.00,pv:100.00},
+];
+
+/* ══════════════ 範例滿額贈門檻（每月不同，請更新）══════════════ */
+const TIERS = [
+  {pv:50,  gift:'🌿 小品項精油一支（範例）'},
+  {pv:100, gift:'🎁 配方精油 5ml（範例）'},
+  {pv:190, gift:'💎 居家清潔組 + 精油（範例）'},
+  {pv:250, gift:'🏆 擴香器或熱門精油大禮（範例）'},
+  {pv:300, gift:'👑 月度主打超值好禮（範例）'},
+];
+
+/* ══════════════ STATE ══════════════ */
+let cart = {};
+try{ cart = JSON.parse(localStorage.getItem('fuyun_cart')||'{}'); }catch(e){ cart = {}; }
+let curSection='order', assetCat='all', orderCat='all';
+
+function saveCart(){ try{ localStorage.setItem('fuyun_cart', JSON.stringify(cart)); }catch(e){} }
+function money(n){ return '$'+n.toFixed(2); }
+function find(id){ return products.find(p=>p.id===id); }
+
+/* ── NAV ── */
+function go(name){
+  const map={home:'home',assets:'assets',order:'order',join:'join',events:'events',academy:'academy',alliance:'alliance'};
+  curSection=name;
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById('sec-'+name); if(el) el.classList.add('active');
+  document.querySelectorAll('.navlink').forEach(n=>n.classList.remove('active'));
+  // highlight matching nav (skip external links)
+  const idx={assets:0,order:1,join:2,events:3,academy:4,alliance:5}[name];
+  if(idx!=null) document.querySelectorAll('.mainnav .navlink')[idx].classList.add('active');
+  document.getElementById('mainnav').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleMenu(){ document.getElementById('mainnav').classList.toggle('open'); }
+
+/* ── CONFIG apply ── */
+let toastTimer;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+function comingSoon(name){const nav=document.getElementById('mainnav');if(nav)nav.classList.remove('open');showToast(name+'賣場洽談中，敬請期待 🤝');}
+
+function applyConfig(){
+  document.title = CONFIG.brand+'｜YL 美單代購';
+  document.getElementById('brandName').innerHTML = CONFIG.brand+'<small>YOUNG LIVING</small>';
+  document.getElementById('heroSlogan').textContent = CONFIG.slogan;
+  const line=CONFIG.lineUrl;
+  ['joinLine','academyLine','allyLine'].forEach(id=>{const e=document.getElementById(id); if(e) e.href=line;});
+  document.getElementById('joinOfficial').href=CONFIG.ylMemberUrl;
+  // external shops
+  const sp=CONFIG.shopeeUrl;
+  [['navShopee',sp],['shopShopee',sp]].forEach(([id,u])=>{const e=document.getElementById(id);if(e)e.href=u;});
+  const c945f=document.getElementById('course945Free'); if(c945f) c945f.href=CONFIG.ai945Free;
+  const c945e=document.getElementById('course945Elite'); if(c945e) c945e.href=CONFIG.ai945Elite;
+  const c945u=document.getElementById('course945Upgrade'); if(c945u) c945u.href=CONFIG.ai945Upgrade;
+  const ash=document.getElementById('allyShopee'); if(ash) ash.href=CONFIG.shopeeUrl;
+}
+
+/* ── RENDER TABS ── */
+function renderTabs(containerId, current, onclickName){
+  document.getElementById(containerId).innerHTML = CATS.map(c=>
+    `<button class="ctab${c.id===current?' active':''}" onclick="${onclickName}('${c.id}')">${c.name}</button>`).join('');
+}
+
+/* ── 產品資產 ── */
+function setAssetCat(c){ assetCat=c; renderAssets(); }
+function renderAssets(){
+  renderTabs('assetTabs', assetCat, 'setAssetCat');
+  const q=(document.getElementById('searchAssets').value||'').toLowerCase();
+  const catName=id=>CATS.find(c=>c.id===id)?.name||'';
+  let html='';
+  products.forEach(p=>{
+    if(assetCat!=='all' && p.cat!==assetCat) return;
+    if(q && !p.name.toLowerCase().includes(q)) return;
+    const inCart=cart[p.id]>0;
+    html+=`<div class="pcard">
+      <div class="pcard-top">
+        <div class="pcard-cat">${catName(p.cat)}</div>
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-sub">${p.sub}</div>
+        <div class="pcard-meta"><span class="pcard-price">${money(p.price)}</span><span class="pcard-pv">${p.pv} PV</span></div>
+      </div>
+      <div class="pcard-add"><button class="add" onclick="addToCart('${p.id}')">${inCart?'再加一件 ＋':'加入購物車 ＋'}</button></div>
+    </div>`;
+  });
+  document.getElementById('assetGrid').innerHTML = html || '<div class="cart-empty">找不到符合的品項</div>';
+}
+
+/* ── 美單代購 list ── */
+function setOrderCat(c){ orderCat=c; renderOrder(); }
+function renderOrder(){
+  renderTabs('orderTabs', orderCat, 'setOrderCat');
+  const q=(document.getElementById('searchOrder').value||'').toLowerCase();
+  let html='';
+  products.forEach(p=>{
+    const show=(orderCat==='all'||p.cat===orderCat)&&(!q||p.name.toLowerCase().includes(q));
+    const inCart=cart[p.id]>0;
+    html+=`<div class="orow${show?'':' hidden'}">
+      <div class="orow-name">${p.name}<small>${p.sub}</small></div>
+      <div class="orow-price">${money(p.price)}</div>
+      <div class="orow-pv">${p.pv} PV</div>
+      <button class="orow-add${inCart?' in':''}" onclick="addToCart('${p.id}')">${inCart?'已加 '+cart[p.id]:'加入 ＋'}</button>
+    </div>`;
+  });
+  document.getElementById('orderList').innerHTML=html;
+  renderTiers();
+}
+
+/* ── tiers ── */
+function totals(){
+  let price=0,pv=0,count=0;
+  for(const id in cart){const p=find(id);if(p){price+=p.price*cart[id];pv+=p.pv*cart[id];count+=cart[id];}}
+  return {price,pv,count};
+}
+function renderTiers(){
+  const {pv}=totals();
+  const nextTier=TIERS.find(t=>pv<t.pv);
+  document.getElementById('tierList').innerHTML=TIERS.map(t=>{
+    let cls='tier',status,sc;
+    if(pv>=t.pv){cls+=' reached';status='<span class="tier-status ok">✓ 已達成！</span>';sc='🎁';}
+    else if(nextTier&&t.pv===nextTier.pv){cls+=' next';status=`<span class="tier-status need">還差 ${(t.pv-pv).toFixed(2)} PV</span>`;sc='';}
+    else{status=`<span class="tier-status need">還差 ${(t.pv-pv).toFixed(2)} PV</span>`;sc='';}
+    return `<div class="${cls}"><div class="tier-pv">${t.pv}<small>PV</small></div>
+      <div class="tier-gift">${t.gift}<br>${status}</div></div>`;
+  }).join('');
+}
+
+/* ── CART ── */
+function addToCart(id){ cart[id]=(cart[id]||0)+1; saveCart(); refreshAll(); }
+function changeQty(id,d){ cart[id]=(cart[id]||0)+d; if(cart[id]<=0) delete cart[id]; saveCart(); refreshAll(); }
+function removeItem(id){ delete cart[id]; saveCart(); refreshAll(); }
+
+function renderCart(){
+  const ids=Object.keys(cart).filter(id=>cart[id]>0);
+  const body=document.getElementById('cartBody');
+  if(ids.length===0){ body.innerHTML='<div class="cart-empty">購物車還是空的<br>去挑幾支精油吧 🌿</div>'; }
+  else{
+    body.innerHTML=ids.map(id=>{const p=find(id);if(!p)return'';const q=cart[id];
+      return `<div class="citem">
+        <div><div class="citem-name">${p.name}<small>${p.sub} · 單價 ${money(p.price)} · ${p.pv} PV</small></div>
+          <div class="qty"><button onclick="changeQty('${id}',-1)">−</button><span>${q}</span><button onclick="changeQty('${id}',1)">＋</button></div></div>
+        <div class="citem-right"><div class="citem-price">${money(p.price*q)}</div>
+          <div style="font-size:10px;color:var(--green2);margin-top:4px;">${(p.pv*q).toFixed(2)} PV</div></div>
+      </div>`;}).join('');
+  }
+  const {price,pv}=totals();
+  document.getElementById('cartPrice').textContent=money(price);
+  document.getElementById('cartPV').textContent=pv.toFixed(2);
+  const nextTier=TIERS.find(t=>pv<t.pv);
+  const hint=document.getElementById('cartTierHint');
+  if(nextTier){hint.style.display='block';hint.innerHTML=`再 <b>${(nextTier.pv-pv).toFixed(2)} PV</b> 即可達 <b>${nextTier.pv} PV</b> 滿額贈：${nextTier.gift}`;}
+  else if(pv>0){hint.style.display='block';hint.innerHTML='🎉 已達最高滿額贈門檻！';}
+  else{hint.style.display='none';}
+}
+function openCart(){ renderCart(); document.getElementById('cartOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart(){ document.getElementById('cartOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+function updateBadge(){
+  const {price,pv,count}=totals();
+  const c=document.getElementById('cartCount');
+  c.style.display=count>0?'flex':'none'; c.textContent=count;
+  document.getElementById('mPrice').textContent=money(price);
+  document.getElementById('mPV').textContent=pv.toFixed(2)+' PV';
+  document.getElementById('mItems').textContent=count>0?('已選 '+count+' 件'):'購物車尚無品項';
+}
+
+function refreshAll(){ renderAssets(); renderOrder(); renderCart(); updateBadge(); }
+
+/* ── 下單 ── */
+function orderText(){
+  const ids=Object.keys(cart).filter(id=>cart[id]>0);
+  if(ids.length===0) return null;
+  let t=`【馥芸美單代購訂單】\n`;
+  ids.forEach(id=>{const p=find(id);t+=`· ${p.name} (${p.sub}) x${cart[id]} = ${money(p.price*cart[id])}\n`;});
+  const {price,pv}=totals();
+  t+=`\n總金額：${money(price)} USD\n累積 PV：${pv.toFixed(2)}\n（請馥芸確認台幣金額與運費）`;
+  return t;
+}
+function orderLine(){
+  const t=orderText(); if(!t){alert('購物車是空的喔');return;}
+  copyToClip(t);
+  alert('訂單已複製！即將開啟 LINE，貼上後傳送給馥芸即可 💬');
+  window.open(CONFIG.lineUrl,'_blank');
+}
+function copyOrder(){
+  const t=orderText(); if(!t){alert('購物車是空的喔');return;}
+  copyToClip(t); alert('訂單明細已複製，貼給馥芸即可 📋');
+}
+function copyToClip(t){
+  if(navigator.clipboard){navigator.clipboard.writeText(t).catch(()=>fallbackCopy(t));}
+  else fallbackCopy(t);
+}
+function fallbackCopy(t){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}ta.remove();}
+
+/* ── 報名 ── */
+function submitEvent(){
+  const n=document.getElementById('evName').value.trim();
+  const c=document.getElementById('evContact').value.trim();
+  const w=document.getElementById('evWhich').value;
+  const note=document.getElementById('evNote').value.trim();
+  if(!n||!c){alert('請至少填寫姓名與聯絡方式');return;}
+  const t=`【分享會報名】\n姓名：${n}\n聯絡：${c}\n場次：${w}\n備註：${note||'無'}`;
+  copyToClip(t);
+  alert('報名資料已複製！即將開啟 LINE，貼上傳給馥芸即可 💬');
+  window.open(CONFIG.lineUrl,'_blank');
+}
+
+/* ── INIT ── */
+applyConfig();
+refreshAll();
+
+/* ════ PWA ════ */
+const manifest={name:CONFIG.brand+'｜YL 美單代購',short_name:CONFIG.brand,description:CONFIG.slogan,
+  start_url:'./',display:'standalone',background_color:'#100D06',theme_color:'#1C1710',orientation:'portrait-primary',
+  icons:[
+    {src:"data:image/svg+xml,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%231C1710'/><text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-size='95'>🌿</text><text x='50%' y='85%' dominant-baseline='middle' text-anchor='middle' font-size='30' fill='%23C9A84C' font-family='sans-serif' font-weight='bold'>馥芸</text></svg>`),sizes:"192x192",type:"image/svg+xml",purpose:"any maskable"},
+    {src:"data:image/svg+xml,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%231C1710'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='250'>🌿</text><text x='50%' y='84%' dominant-baseline='middle' text-anchor='middle' font-size='80' fill='%23C9A84C' font-family='sans-serif' font-weight='bold'>馥芸</text></svg>`),sizes:"512x512",type:"image/svg+xml",purpose:"any maskable"}
+  ],categories:["shopping"],lang:"zh-TW"};
+try{
+  const b=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  document.getElementById('manifest-placeholder').href=URL.createObjectURL(b);
+}catch(e){}
+if('serviceWorker' in navigator){
+  const sw=`const C='fuyun-v1';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['./'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('./'))));});`;
+  try{const sb=new Blob([sw],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(sb)).catch(()=>{});}catch(e){}
+}
+</script>
+</body>
+</html>
