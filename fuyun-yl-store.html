@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -32,6 +33,7 @@ const CONFIG = {
   ai945Free:  'https://945ai.com/mgm/L4WPCO',          // 945AI 100堂免費AI線上課程
   ai945Upgrade:'https://945ai.com/mgm/8ir9S4',         // 百秒學AI｜聯盟合夥人升級版
   ai945Elite: 'https://945ai.com/mgm/00y9eT',          // AI菁英獲客實戰班
+  productInfoUrl:'https://indecisive-telephone-7a4.notion.site/66ce71a64873439f975978480a49716c?v=2c1f7e9a5d838066af73000ce228fe89', // 悠樂芳產品資訊查詢頁
 };
 </script>
 
@@ -316,6 +318,55 @@ a.ally-card:hover{border-color:var(--border2);transform:translateY(-2px);backgro
 }
 #toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:var(--dark3);border:1px solid var(--border2);color:var(--gold2);padding:12px 24px;border-radius:30px;font-size:13px;letter-spacing:1px;z-index:400;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* ════ 全站字體放大（易讀性）════ */
+.navlink{font-size:15px;}
+.brand-text{font-size:17px;}
+.brand-text small{font-size:10px;}
+.search-box{padding:12px 15px;}
+.search-box input{font-size:15.5px;}
+.sec-kicker{font-size:12px;}
+.sec-sub{font-size:15px;}
+.card h3{font-size:18px;}
+.card p{font-size:15.5px;}
+.note{font-size:13px;}
+.quick-name{font-size:16px;}
+.quick-desc{font-size:12px;}
+.pcard-cat{font-size:10.5px;}
+.pcard-name{font-size:15px;}
+.pcard-sub{font-size:12px;}
+.pcard-price{font-size:20px;}
+.pcard-pv{font-size:13px;}
+.pcard-add .add{font-size:14.5px;}
+.ctab{font-size:13px;}
+.orow-name{font-size:14.5px;}
+.orow-name small{font-size:11.5px;}
+.orow-price{font-size:15px;}
+.orow-pv{font-size:13px;}
+.orow-add{font-size:13px;}
+.tier-pv{font-size:20px;}
+.tier-gift{font-size:14px;}
+.tier-status{font-size:12px;}
+.doclink{font-size:15px;}
+.doclink .dtxt small{font-size:12px;}
+.ally-tag{font-size:10.5px;}
+.ally-card h4{font-size:17px;}
+.ally-card p{font-size:14px;}
+.course-card h4{font-size:16px;}
+.course-card p{font-size:13px;}
+.step-body strong{font-size:15px;}
+.step-body p{font-size:14px;}
+.field label{font-size:13px;}
+.field input,.field select,.field textarea{font-size:15px;}
+.event-info h4{font-size:16px;}
+.event-info p{font-size:13.5px;}
+.sum-title{font-size:15px;}
+.total-label{font-size:13.5px;}
+.foot-row .lbl{font-size:13.5px;}
+.cart-tier-hint{font-size:13px;}
+.citem-name{font-size:14.5px;}
+.citem-name small{font-size:11.5px;}
+.mbar-items{font-size:11.5px;}
+.footer{font-size:12px;}
 </style>
 </head>
 <body>
@@ -375,6 +426,8 @@ a.ally-card:hover{border-color:var(--border2);transform:translateY(-2px);backgro
       <div class="sec-sub">Young Living 美國原裝精油與居家系列。瀏覽、了解、直接加入購物車。</div>
     </div>
     <div class="note">⚠️ 以下為<b>範例資料</b>（品名、美金售價、PV 皆為示意）。請依你美國 YL 帳號的最新官網數字逐項替換 products 陣列。</div>
+
+    <a class="btn ghost full" id="productInfoBtnA" target="_blank" rel="noopener" style="margin-bottom:16px;">📖 悠樂芳產品資訊查詢（完整品項 · 價格 · PV）↗</a>
     <div class="tools">
       <div class="search-box">🔍<input type="text" id="searchAssets" placeholder="搜尋品名…" oninput="renderAssets()"></div>
     </div>
@@ -404,6 +457,8 @@ a.ally-card:hover{border-color:var(--border2);transform:translateY(-2px);backgro
       <div class="sec-sub">勾選品項 → 即時計算美金總額與累積 PV → 確認滿額贈門檻 → 一鍵送單給馥芸。</div>
     </div>
     <div class="note">⚠️ 售價／PV／滿額贈門檻皆為<b>範例</b>，美國每月活動不同，請更新 products 與 TIERS 後再上線。</div>
+
+    <a class="btn ghost full" id="productInfoBtn" target="_blank" rel="noopener" style="margin-bottom:16px;">📖 悠樂芳產品資訊查詢（完整品項 · 價格 · PV）↗</a>
 
     <div class="cat-tabs" id="orderTabs"></div>
     <div class="tools"><div class="search-box">🔍<input type="text" id="searchOrder" placeholder="搜尋品名…" oninput="renderOrder()"></div></div>
@@ -670,6 +725,8 @@ function applyConfig(){
   const c945e=document.getElementById('course945Elite'); if(c945e) c945e.href=CONFIG.ai945Elite;
   const c945u=document.getElementById('course945Upgrade'); if(c945u) c945u.href=CONFIG.ai945Upgrade;
   const ash=document.getElementById('allyShopee'); if(ash) ash.href=CONFIG.shopeeUrl;
+  const pib=document.getElementById('productInfoBtn'); if(pib) pib.href=CONFIG.productInfoUrl;
+  const pibA=document.getElementById('productInfoBtnA'); if(pibA) pibA.href=CONFIG.productInfoUrl;
 }
 
 /* ── RENDER TABS ── */
@@ -687,7 +744,7 @@ function renderAssets(){
   let html='';
   products.forEach(p=>{
     if(assetCat!=='all' && p.cat!==assetCat) return;
-    if(q && !p.name.toLowerCase().includes(q)) return;
+    if(q && !(p.name+' '+p.sub).toLowerCase().includes(q)) return;
     const inCart=cart[p.id]>0;
     html+=`<div class="pcard">
       <div class="pcard-top">
@@ -709,7 +766,7 @@ function renderOrder(){
   const q=(document.getElementById('searchOrder').value||'').toLowerCase();
   let html='';
   products.forEach(p=>{
-    const show=(orderCat==='all'||p.cat===orderCat)&&(!q||p.name.toLowerCase().includes(q));
+    const show=(orderCat==='all'||p.cat===orderCat)&&(!q||(p.name+' '+p.sub).toLowerCase().includes(q));
     const inCart=cart[p.id]>0;
     html+=`<div class="orow${show?'':' hidden'}">
       <div class="orow-name">${p.name}<small>${p.sub}</small></div>
