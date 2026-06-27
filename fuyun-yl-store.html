@@ -25,8 +25,8 @@ const CONFIG = {
   slogan:     'Young Living 美單代購 · 精油即生活 · 產品即資產',
   owner:      '馥芸',                                   // 你的稱呼／暱稱
   // ↓↓↓ 把下面網址換成你自己的（沒有的先留著，連結會自動隱藏）↓↓↓
-  lineId:     '@你的LINEID',                            // 例：@abc1234
-  lineUrl:    'https://line.me/R/ti/p/@你的LINEID',     // LINE 加好友連結
+  lineId:     'LINE@官網',                              // 顯示用名稱
+  lineUrl:    'https://reurl.cc/A9xpkp',                // LINE@ 官網連結
   shopeeUrl:  'https://shopee.tw/shop/69176846',       // 蝦皮賣場
   coupangUrl: 'https://www.tw.coupang.com/你的賣場',     // 酷澎賣場
   ylMemberUrl:'https://www.youngliving.com/',          // 加入會員官方連結（可換成你的推薦連結）
@@ -34,6 +34,8 @@ const CONFIG = {
   ai945Upgrade:'https://945ai.com/mgm/8ir9S4',         // 百秒學AI｜聯盟合夥人升級版
   ai945Elite: 'https://945ai.com/mgm/00y9eT',          // AI菁英獲客實戰班
   productInfoUrl:'https://indecisive-telephone-7a4.notion.site/66ce71a64873439f975978480a49716c?v=2c1f7e9a5d838066af73000ce228fe89', // 悠樂芳產品資訊查詢頁
+  googleFormUrl:'https://forms.gle/h31jqDDsoCH2MUfGA',  // Google 表單連結
+  googleFormPrefill:'https://docs.google.com/forms/d/e/1FAIpQLScoTjU--gqoVYZeigRt1kYTks0YubcdFdwkQFtFiIXoP0Cukg/viewform?usp=pp_url&entry.959104406=',  // 自動帶入「訂單內容」
 };
 </script>
 
@@ -400,57 +402,57 @@ body{font-size:17px;}
 
 .footer{font-size:13px;color:rgba(255,255,255,0.4);line-height:2;}
 /* ════ 再加大（更大字級）════ */
-body{font-size:18.5px;}
-.navlink{font-size:19px;}
-.brand-text{font-size:20px;}
-.sec-title{font-size:clamp(26px,7vw,38px);}
-.sec-sub{font-size:18px;}
-.card h3{font-size:22px;}
-.card p{font-size:18.5px;}
-.quick-name{font-size:19px;}
-.quick-desc{font-size:14px;}
-.search-box input{font-size:19px;}
-.ctab{font-size:16px;}
-.pcard-name{font-size:18px;}
-.pcard-sub{font-size:14px;}
-.pcard-price{font-size:25px;}
-.pcard-pv{font-size:16px;}
-.pcard-add .add{font-size:18px;padding:14px;}
-.orow-name{font-size:18px;}
-.orow-name small{font-size:14px;}
-.orow-price{font-size:18.5px;}
-.orow-pv{font-size:15.5px;}
-.orow-add{font-size:16px;}
-.tier-pv{font-size:25px;}
-.tier-gift{font-size:17px;}
-.tier-status{font-size:14.5px;}
-.doclink{font-size:18px;}
-.doclink .dtxt small{font-size:14px;}
-.ally-card h4{font-size:20px;}
-.ally-card p{font-size:16.5px;}
-.course-card h4{font-size:18.5px;}
-.course-card p{font-size:16px;}
-.step-body strong{font-size:18px;}
-.step-body p{font-size:16.5px;}
-.field label{font-size:16px;}
-.field input,.field select,.field textarea{font-size:18px;}
-.event-info h4{font-size:20px;}
-.event-info p{font-size:16.5px;}
-.event-date .d{font-size:34px;}
-.btn{font-size:18px;padding:16px 26px;}
-.sum-title{font-size:18px;}
-.total-label{font-size:16.5px;}
-.total-val{font-size:27px;}
-.foot-row .lbl{font-size:16.5px;}
-.foot-row .val{font-size:27px;}
-.cart-tier-hint{font-size:15.5px;}
-.citem-name{font-size:18px;}
-.citem-name small{font-size:14px;}
-.mbar-price{font-size:25px;}
-.mbar-pv{font-size:16px;}
-.mbar-items{font-size:14px;}
-.mbar-btn{font-size:17px;}
-.footer{font-size:14px;}
+body{font-size:20px;}
+.navlink{font-size:20px;}
+.brand-text{font-size:21px;}
+.sec-title{font-size:clamp(28px,8vw,42px);}
+.sec-sub{font-size:19.5px;}
+.card h3{font-size:24px;}
+.card p{font-size:20px;}
+.quick-name{font-size:20px;}
+.quick-desc{font-size:15px;}
+.search-box input{font-size:20px;}
+.ctab{font-size:17px;}
+.pcard-name{font-size:20px;}
+.pcard-sub{font-size:15px;}
+.pcard-price{font-size:28px;}
+.pcard-pv{font-size:17.5px;}
+.pcard-add .add{font-size:19px;padding:16px;}
+.orow-name{font-size:20px;}
+.orow-name small{font-size:15px;}
+.orow-price{font-size:20px;}
+.orow-pv{font-size:16.5px;}
+.orow-add{font-size:17px;}
+.tier-pv{font-size:28px;}
+.tier-gift{font-size:18.5px;}
+.tier-status{font-size:15.5px;}
+.doclink{font-size:19.5px;}
+.doclink .dtxt small{font-size:15px;}
+.ally-card h4{font-size:22px;}
+.ally-card p{font-size:18px;}
+.course-card h4{font-size:20px;}
+.course-card p{font-size:17px;}
+.step-body strong{font-size:19.5px;}
+.step-body p{font-size:18px;}
+.field label{font-size:17px;}
+.field input,.field select,.field textarea{font-size:19.5px;}
+.event-info h4{font-size:22px;}
+.event-info p{font-size:18px;}
+.event-date .d{font-size:38px;}
+.btn{font-size:19.5px;padding:17px 28px;}
+.sum-title{font-size:19.5px;}
+.total-label{font-size:18px;}
+.total-val{font-size:30px;}
+.foot-row .lbl{font-size:18px;}
+.foot-row .val{font-size:30px;}
+.cart-tier-hint{font-size:17px;}
+.citem-name{font-size:19.5px;}
+.citem-name small{font-size:15px;}
+.mbar-price{font-size:27px;}
+.mbar-pv{font-size:17px;}
+.mbar-items{font-size:15px;}
+.mbar-btn{font-size:18px;}
+.footer{font-size:15px;}
 </style>
 </head>
 <body>
@@ -716,6 +718,7 @@ body{font-size:18.5px;}
       <div class="foot-row"><span class="lbl">總金額（USD）</span><span class="val" id="cartPrice">$0.00</span></div>
       <div class="foot-row"><span class="lbl">累積 PV</span><span class="val green" id="cartPV">0</span></div>
       <div class="cart-tier-hint" id="cartTierHint" style="display:none"></div>
+      <button class="btn full" onclick="submitForm()" style="margin-bottom:8px;">📝 送出訂單（Google 表單）</button>
       <div class="foot-btns">
         <button class="btn line" onclick="orderLine()">💬 用 LINE 下單</button>
         <button class="btn ghost" onclick="copyOrder()">📋 複製訂單</button>
@@ -942,6 +945,18 @@ function orderLine(){
 function copyOrder(){
   const t=orderText(); if(!t){alert('購物車是空的喔');return;}
   copyToClip(t); alert('訂單明細已複製，貼給馥芸即可 📋');
+}
+function submitForm(){
+  const t=orderText(); if(!t){alert('購物車是空的喔');return;}
+  if(CONFIG.googleFormPrefill){
+    window.open(CONFIG.googleFormPrefill+encodeURIComponent(t),'_blank');
+  } else if(CONFIG.googleFormUrl){
+    copyToClip(t);
+    alert('訂單已複製！即將開啟 Google 表單，請貼到「訂單內容」欄位後送出 📝');
+    window.open(CONFIG.googleFormUrl,'_blank');
+  } else {
+    alert('尚未設定 Google 表單連結，請先在 CONFIG 填入 googleFormUrl。');
+  }
 }
 function copyToClip(t){
   if(navigator.clipboard){navigator.clipboard.writeText(t).catch(()=>fallbackCopy(t));}
