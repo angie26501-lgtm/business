@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>漏財體質快篩｜你的錢都從哪裡偷偷溜走？ — 馥芸財富學苑</title>
+<meta name="description" content="60 秒、6 個生活化消費習慣，測出你的漏財體質，估算一年默默漏掉多少錢，再看看這筆錢 30 年複利能變成多少。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fffdf8;--cream-2:#f6f1e6;--moss:#3f6b4f;--moss-d:#2f5340;
+  --gold:#c79a4a;--rose:#cf7f73;--ocean:#1b4751;--ink:#33312c;--muted:#7c766a;
+  --line:#e7e0d0;--green:#5b9163;--amber:#d3a13f;--red:#cf7f73;
+  --shadow:0 10px 30px rgba(43,60,50,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+  font-family:"Noto Sans TC",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:26px 18px 60px}
+
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.18em;
+  color:var(--moss);font-weight:700;margin-bottom:12px}
+.eyebrow::before{content:"";width:24px;height:1.5px;background:var(--gold)}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;color:var(--moss-d);
+  font-size:clamp(1.6rem,6.5vw,2.2rem);line-height:1.2;margin:0 0 10px}
+.lead{color:var(--muted);font-size:.98rem;margin:0}
+.brand-tag{color:var(--gold);font-weight:700;font-size:.86rem;display:block;margin-top:6px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;
+  box-shadow:var(--shadow);padding:26px 22px;margin-top:20px}
+
+.kicker{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.86rem;margin:18px 0 4px}
+.kicker b{color:var(--moss);font-weight:700}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;cursor:pointer;
+  font-family:inherit;font-weight:700;font-size:1rem;padding:15px 26px;border-radius:999px;transition:.18s;
+  text-decoration:none;width:100%}
+.btn-primary{background:var(--moss);color:#fff;box-shadow:0 8px 20px rgba(63,107,79,.28)}
+.btn-primary:hover{background:var(--moss-d);transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:#fff;box-shadow:0 8px 20px rgba(199,154,74,.3)}
+.btn-gold:hover{filter:brightness(.96);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--moss);border:1.5px solid var(--moss)}
+.btn-ghost:hover{background:var(--cream-2)}
+
+.dots{display:flex;gap:7px;justify-content:center;margin-bottom:20px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cream-2);transition:.25s}
+.dot.on{background:var(--gold);transform:scale(1.15)}
+.dot.done{background:var(--moss)}
+
+.q-num{font-family:"Noto Serif TC",serif;color:var(--gold);font-weight:900;font-size:1rem;letter-spacing:.05em}
+.q-text{font-family:"Noto Serif TC",serif;font-weight:700;font-size:1.26rem;line-height:1.55;margin:6px 0 8px}
+.q-tag{display:inline-block;font-size:.76rem;font-weight:700;color:#fff;background:var(--rose);
+  padding:3px 11px;border-radius:99px;margin-bottom:18px}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{display:flex;align-items:center;gap:13px;border:1.5px solid var(--line);background:#fff;border-radius:14px;
+  padding:15px 17px;cursor:pointer;font-size:1.02rem;font-weight:500;transition:.15s;text-align:left;width:100%;
+  font-family:inherit;color:var(--ink)}
+.opt:hover{border-color:var(--moss);background:var(--cream);transform:translateX(2px)}
+.opt .ic{font-size:1.25rem;flex:0 0 auto}
+.back-link{background:none;border:none;color:var(--muted);font-size:.9rem;cursor:pointer;font-family:inherit;
+  padding:8px 0;margin-top:18px}
+.back-link:hover{color:var(--moss)}
+
+.lamp-wrap{text-align:center;padding:4px 0 6px}
+.lamp{width:96px;height:96px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:2.6rem}
+.lamp.green{background:radial-gradient(circle at 35% 30%,#7fb986,#4d8557);box-shadow:0 0 0 10px rgba(91,145,99,.14),0 10px 26px rgba(77,133,87,.35)}
+.lamp.amber{background:radial-gradient(circle at 35% 30%,#e6bf6c,#c2902f);box-shadow:0 0 0 10px rgba(211,161,63,.16),0 10px 26px rgba(194,144,47,.35)}
+.lamp.red{background:radial-gradient(circle at 35% 30%,#e09a90,#bf6155);box-shadow:0 0 0 10px rgba(207,127,115,.16),0 10px 26px rgba(191,97,85,.35)}
+.r-status{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.55rem;margin:0 0 6px}
+.r-sub{color:var(--muted);font-size:.96rem;max-width:450px;margin:0 auto}
+
+.leak-box{background:linear-gradient(135deg,#fff6ed,#fdeee0);border:1px solid #f0dcc0;border-radius:16px;
+  padding:22px 18px;margin:22px 0 4px;text-align:center}
+.leak-box .label{font-size:.9rem;color:var(--muted);font-weight:500}
+.leak-box .num{font-family:"Noto Serif TC",serif;font-weight:900;font-size:2.6rem;color:var(--rose);line-height:1.1;margin:6px 0 2px}
+.leak-box .num small{font-size:1.1rem;color:var(--muted);font-weight:500}
+.leak-box .note{font-size:.8rem;color:var(--muted);margin-top:4px}
+
+.future{background:var(--cream-2);border-left:4px solid var(--gold);border-radius:0 14px 14px 0;
+  padding:16px 18px;margin:14px 0 4px}
+.future .h{font-family:"Noto Serif TC",serif;font-weight:700;color:var(--moss-d);font-size:1.02rem;margin:0 0 6px;display:flex;align-items:center;gap:7px}
+.future p{margin:0;font-size:.92rem;line-height:1.7}
+.future b{color:var(--moss-d);font-size:1.15rem;font-family:"Noto Serif TC",serif}
+
+.blind{background:#fff;border:1px dashed var(--rose);border-radius:14px;padding:15px 17px;margin:14px 0 4px}
+.blind .h{font-family:"Noto Serif TC",serif;font-weight:700;color:var(--rose);font-size:1rem;margin:0 0 5px;display:flex;align-items:center;gap:7px}
+.blind p{margin:0;font-size:.9rem;color:var(--ink);line-height:1.7}
+
+.cta-card{background:linear-gradient(135deg,var(--moss),var(--ocean));color:#fff;border-radius:20px;
+  padding:26px 22px;margin-top:22px;text-align:center}
+.cta-card h3{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.3rem;margin:0 0 8px}
+.cta-card p{opacity:.92;font-size:.92rem;margin:0 0 18px}
+.cta-card .btn-gold{max-width:330px;margin:0 auto}
+.cta-sub{display:block;margin-top:12px;color:rgba(255,255,255,.85);font-size:.85rem;text-decoration:underline}
+
+.btn-row{display:flex;gap:10px;margin-top:14px}
+.btn-row .btn{width:auto;flex:1}
+.disclaimer{color:var(--muted);font-size:.77rem;text-align:center;margin-top:24px;line-height:1.7}
+footer{text-align:center;margin-top:28px;color:var(--muted);font-size:.82rem}
+footer a{color:var(--moss);font-weight:700;text-decoration:none}
+
+.hidden{display:none}
+.fade{animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.opt:focus-visible,.btn:focus-visible,.back-link:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">財富體質快篩</span>
+    <h1>你是「漏財體質」嗎？💧</h1>
+    <p class="lead">不是你賺得少，是錢從你沒注意的小縫，一滴一滴溜走了。</p>
+    <span class="brand-tag">財顧芸 ｜ 幸福財務領航員</span>
+  </header>
+
+  <section id="intro" class="card fade">
+    <p style="margin:0 0 6px;font-weight:500">明明沒亂花，月底卻總是剩不多？</p>
+    <p style="margin:0;color:var(--muted);font-size:.93rem">這份快篩用 6 個超日常的消費習慣，幫你抓出漏財的破口，還會估算——你一年大概默默漏掉多少錢。</p>
+    <div class="kicker">
+      <span>⏱ 約 <b>60</b> 秒</span>
+      <span>🛒 <b>6</b> 題・憑感覺選</span>
+      <span>💸 即時估算漏財金額</span>
+    </div>
+    <div style="margin-top:20px"><button class="btn btn-primary" onclick="start()">開始測漏財 →</button></div>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="dots" id="dots"></div>
+    <div class="q-num" id="q-num"></div>
+    <div class="q-text" id="q-text"></div>
+    <span class="q-tag" id="q-tag"></span>
+    <div class="opts" id="opts"></div>
+    <button class="back-link" id="back" onclick="back()">← 上一題</button>
+  </section>
+
+  <section id="result" class="card hidden">
+    <div class="lamp-wrap">
+      <div class="lamp" id="lamp"></div>
+      <h2 class="r-status" id="r-status"></h2>
+      <p class="r-sub" id="r-sub"></p>
+    </div>
+
+    <div class="leak-box">
+      <div class="label">估計你一年可能默默漏掉</div>
+      <div class="num">約 NT$ <span id="leak-num">0</span><small> 元</small></div>
+      <div class="note">＊依你的勾選粗略估算，僅供有感參考，非實際數字</div>
+    </div>
+
+    <div class="future">
+      <div class="h">⏳ 同樣這筆錢，如果不漏掉…</div>
+      <p>每年存下來、用年化 5% 複利滾 30 年，大約會變成 <b id="future-num">—</b>。<br>小錢不小，差別只在它流去哪。</p>
+    </div>
+
+    <div class="blind">
+      <div class="h">🕳 你最大的破口：<span id="blind-h"></span></div>
+      <p id="blind-p"></p>
+    </div>
+
+    <div class="cta-card">
+      <h3 id="cta-h">想把漏掉的錢，導回口袋？</h3>
+      <p>找出破口只是第一步。預約一對一，財顧芸幫你把這些「無感支出」重新分配到累積與保障，讓每一塊錢都待在對的地方，替你工作。</p>
+      <a class="btn btn-gold" href="https://www.allfreedom.info/risk-benz/" target="_blank" rel="noopener">預約一對一財務健診（免費）</a>
+      <a class="cta-sub" href="https://lin.ee/uMYPHQc" target="_blank" rel="noopener">或加 LINE@ 直接問財顧芸 →</a>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="restart()">重新測一次</button>
+      <a class="btn btn-ghost" href="https://www.allfreedom.info/newsletter/" target="_blank" rel="noopener" style="text-decoration:none">免費理財檢核表</a>
+    </div>
+
+    <p class="disclaimer">本快篩為生活化的自我覺察工具，漏財金額與複利數字皆為簡化估算，僅供有感參考，不構成個別投資或理財建議。實際規劃以專業諮詢為準。</p>
+  </section>
+
+  <footer>
+    馥芸財富學苑 ｜ 人生航海圖 ・ 幸福財務領航員<br>
+    <a href="https://www.allfreedom.info" target="_blank" rel="noopener">allfreedom.info</a>
+  </footer>
+
+</div>
+
+<script>
+// score: 漏財分數(0好~2漏)；leak: 該選項對應的「每月漏財估算」(元)
+const Q=[
+ {tag:"拿鐵因子", q:"手搖飲、咖啡、超商小點——你大概多常買？",
+  o:[["☕","幾乎每天來一杯",2,1500],["🙂","一週幾次",1,600],["💪","很少，會忍住",0,0]]},
+ {tag:"殭屍訂閱", q:"影音／音樂／APP／會員這些訂閱，你清楚每月扣多少、有沒有在用嗎？",
+  o:[["✅","很清楚，都有在用",0,0],["😬","有幾個好像忘了在扣",1,400],["🤷","完全沒在管",2,800]]},
+ {tag:"手滑衝動", q:"看到「限時優惠／免運門檻／直播喊單」，你會忍不住下單嗎？",
+  o:[["🧘","很少衝動",0,0],["🛒","偶爾會",1,700],["🔥","常常手滑",2,1800]]},
+ {tag:"卡債利息", q:"信用卡帳單，你通常怎麼繳？",
+  o:[["💳","每期全額繳清",0,0],["😅","有時只繳一部分",1,500],["⚠️","常繳最低 / 用分期",2,1500]]},
+ {tag:"錢去哪了", q:"到了月底，你說得出這個月錢主要花在哪嗎？",
+  o:[["📒","大致說得出來",0,0],["🌫","模模糊糊",1,300],["❓","完全想不起來",2,700]]},
+ {tag:"情緒消費", q:"心情不好或想犒賞自己時，會用購物來紓壓嗎？",
+  o:[["🌿","很少這樣",0,0],["🛍","偶爾會",1,500],["😮‍💨","蠻常的",2,1500]]},
+];
+
+const BLIND={
+ "拿鐵因子":"每天一杯的「小確幸」，一年加起來常超過一兩萬。不是叫你戒掉，而是知道它的份量，再決定值不值得。",
+ "殭屍訂閱":"忘了取消、根本沒在用的訂閱，是最無痛也最無感的漏財。花十分鐘清一輪，立刻有感。",
+ "手滑衝動":"免運門檻和限時優惠，是設計來讓你多買的。為了省 60 元運費多花 300，反而虧。",
+ "卡債利息":"循環利息與分期手續費，年化動輒一成以上，是最貴的一種漏財，建議優先堵住。",
+ "錢去哪了":"說不出錢花去哪，代表還沒有財務的全貌。記帳一個月，常會嚇自己一跳。",
+ "情緒消費":"用購物紓壓，買的是情緒不是需要。找到替代的紓壓方式，荷包和心情會一起變好。",
+};
+
+let idx=0, ans=new Array(Q.length).fill(null), leaks=new Array(Q.length).fill(0);
+const $=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString('en-US');
+
+function start(){ $("intro").classList.add("hidden"); $("quiz").classList.remove("hidden"); idx=0; render(); }
+
+function render(){
+  const item=Q[idx];
+  $("dots").innerHTML=Q.map((_,i)=>`<span class="dot ${i<idx?'done':i===idx?'on':''}"></span>`).join("");
+  $("q-num").textContent=`Q${idx+1} / ${Q.length}`;
+  $("q-text").textContent=item.q;
+  $("q-tag").textContent="# "+item.tag;
+  const wrap=$("opts"); wrap.innerHTML="";
+  item.o.forEach(([ic,label,score,leak])=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.innerHTML=`<span class="ic">${ic}</span><span>${label}</span>`;
+    b.onclick=()=>choose(score,leak); wrap.appendChild(b);
+  });
+  $("back").style.visibility=idx===0?"hidden":"visible";
+  $("quiz").classList.remove("fade"); void $("quiz").offsetWidth; $("quiz").classList.add("fade");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function choose(score,leak){ ans[idx]=score; leaks[idx]=leak;
+  setTimeout(()=>{ if(idx<Q.length-1){idx++;render();} else finish(); },170); }
+function back(){ if(idx>0){idx--;render();} }
+
+function finish(){
+  $("quiz").classList.add("hidden");
+  const total=ans.reduce((a,b)=>a+(b??0),0);            // 0-12
+  const annual=leaks.reduce((a,b)=>a+(b||0),0)*12;      // 年漏財估算
+  // 複利：年金終值，年化5%、30年，係數≈66.44
+  const future=Math.round(annual*66.44/1000)*1000;
+
+  // 最大破口＝漏財金額最高的那題
+  let bi=0,bmax=-1; leaks.forEach((v,i)=>{ if(v>bmax){bmax=v;bi=i;} });
+  const bTag=Q[bi].tag;
+
+  let lamp,status,sub,ctaH;
+  if(total<=3){ lamp="green"; status="滴水不漏體質 🛡💧";
+    sub="你很懂守財，漏財破口很小。把守下來的錢挪去累積與保障，就能讓它替你長大。"; ctaH="想讓守下的錢替你工作？"; }
+  else if(total<=7){ lamp="amber"; status="小漏體質 💧";
+    sub="日子過得不錯，但有幾個破口在悄悄滴水。補一補，幾乎不影響生活品質，卻很有感。"; ctaH="想把這幾個破口補起來？"; }
+  else { lamp="red"; status="漏財警報 🚨💧";
+    sub="錢正從好幾個地方無聲流走。先別自責——找到破口、重新分配，馬上就能止血。"; ctaH="想知道從哪個破口先堵？"; }
+
+  const r=$("result"); r.classList.remove("hidden"); r.classList.add("fade");
+  const l=$("lamp"); l.className="lamp "+lamp; l.textContent=lamp==="green"?"🟢":lamp==="amber"?"🟡":"🔴";
+  $("r-status").textContent=status; $("r-sub").textContent=sub; $("cta-h").textContent=ctaH;
+  $("blind-h").textContent=bTag; $("blind-p").textContent=BLIND[bTag];
+  $("future-num").textContent="NT$ "+fmt(future)+" 元";
+  animateNum($("leak-num"),annual);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function animateNum(el,target){
+  if(target<=0){el.textContent="0";return;}
+  let cur=0; const step=Math.max(100,Math.round(target/28));
+  const t=setInterval(()=>{ cur+=step; if(cur>=target){cur=target;clearInterval(t);} el.textContent=fmt(cur); },28);
+}
+
+function restart(){ ans=new Array(Q.length).fill(null); leaks=new Array(Q.length).fill(0); idx=0;
+  $("result").classList.add("hidden"); $("intro").classList.remove("hidden"); $("intro").classList.add("fade");
+  window.scrollTo({top:0,behavior:"smooth"}); }
+</script>
+</body>
+</html>
