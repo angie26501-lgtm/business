@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>幫錢分類 · 財富花園</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --green:#1F4A2E; --green-soft:#2E5E3D; --green-tint:#E7EFE6;
+    --gold:#C9A24B; --gold-deep:#A9822E; --gold-tint:#F6ECD3;
+    --brick:#A9482E; --brick-tint:#F3E0D7;
+    --cream:#FAF7EF; --cream2:#F6F1E4;
+    --ink:#2C2A22; --muted:#6E685A; --line:#E4DCC8;
+    --shadow:0 6px 22px rgba(31,74,46,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{font-family:"Noto Sans TC",system-ui,sans-serif;background:var(--cream);color:var(--ink);font-size:20px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:620px;margin:0 auto;padding:0 18px 48px;}
+
+  .brandbar{background:var(--green);color:#fff;padding:14px 18px;text-align:center;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+  .brandbar .name{font-weight:700;letter-spacing:1px;font-size:17px;}
+  .brandbar .name b{color:var(--gold);}
+  .brandbar .sub{font-size:14px;color:#CBDBCB;margin-top:2px;}
+
+  .screen{display:none;animation:fade .35s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px 22px;box-shadow:var(--shadow);margin-top:20px;}
+
+  .hero{text-align:center;padding-top:26px;}
+  .hero .emoji{font-size:54px;line-height:1;}
+  .hero h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:38px;color:var(--green);margin:12px 0 6px;letter-spacing:2px;}
+  .hero .tag{color:var(--gold-deep);font-weight:700;font-size:19px;}
+  .hero p{color:var(--muted);font-size:18px;margin:14px 0 0;}
+
+  /* 模式切換 */
+  .modewrap{display:flex;gap:12px;margin-top:6px;}
+  .modebtn{flex:1;border:2px solid var(--line);background:var(--cream2);border-radius:16px;padding:16px 8px;font-family:inherit;font-weight:900;font-size:20px;color:var(--ink);cursor:pointer;text-align:center;}
+  .modebtn .mi{font-size:26px;display:block;}
+  .modebtn.on{border-color:var(--green);background:var(--green-tint);color:var(--green);}
+
+  .rules{background:var(--green-tint);border-radius:16px;padding:16px 18px;margin-top:18px;text-align:left;font-size:18px;line-height:1.9;}
+  .rules b{color:var(--green);}
+  .chips{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+  .chip{border-radius:999px;padding:6px 15px;font-weight:700;font-size:16px;color:#fff;}
+  .chip.a{background:var(--green);} .chip.b{background:var(--gold-deep);} .chip.c{background:var(--brick);}
+
+  .field{margin-top:16px;text-align:left;}
+  .field label{font-weight:700;font-size:19px;color:var(--green);display:block;margin-bottom:6px;}
+  .field label .req{color:var(--brick);font-size:15px;}
+  .field input{width:100%;font-size:22px;font-family:inherit;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:var(--cream2);color:var(--ink);}
+  .field input:focus{outline:none;border-color:var(--gold);background:#fff;}
+  .field .hint{font-size:15px;color:var(--muted);margin-top:5px;}
+
+  .grouprow{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
+  .groupbtn{flex:1;min-width:110px;border:2px solid var(--line);background:var(--cream2);border-radius:14px;padding:14px 6px;font-family:inherit;font-weight:900;font-size:20px;color:var(--ink);cursor:pointer;text-align:center;}
+  .groupbtn.on{border-color:var(--gold);background:var(--gold-tint);color:var(--gold-deep);}
+
+  /* 計時開關 */
+  .setrow{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding:14px 16px;background:var(--cream2);border-radius:14px;}
+  .setrow .lbl{font-weight:700;font-size:19px;color:var(--green);}
+  .switch{position:relative;width:64px;height:34px;flex:0 0 auto;}
+  .switch input{opacity:0;width:0;height:0;}
+  .slider{position:absolute;inset:0;background:#cfc7b2;border-radius:999px;transition:.2s;cursor:pointer;}
+  .slider:before{content:"";position:absolute;height:26px;width:26px;left:4px;top:4px;background:#fff;border-radius:50%;transition:.2s;}
+  .switch input:checked + .slider{background:var(--green);}
+  .switch input:checked + .slider:before{transform:translateX(30px);}
+  .secseg{display:none;gap:8px;margin-top:10px;}
+  .secseg.show{display:flex;}
+  .secbtn{flex:1;border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px;font-family:inherit;font-weight:900;font-size:18px;color:var(--muted);cursor:pointer;}
+  .secbtn.on{border-color:var(--green);background:var(--green-tint);color:var(--green);}
+
+  .err{color:var(--brick);font-weight:700;font-size:16px;margin-top:12px;min-height:22px;}
+
+  .btn{display:block;width:100%;border:none;cursor:pointer;font-family:inherit;font-weight:900;font-size:23px;letter-spacing:1px;padding:18px;border-radius:16px;margin-top:16px;color:#fff;background:var(--green);box-shadow:0 4px 0 #163821;transition:transform .06s;}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #163821;}
+  .btn.gold{background:var(--gold);box-shadow:0 4px 0 var(--gold-deep);color:#3a2c07;}
+  .btn.ghost{background:#fff;color:var(--green);border:2px solid var(--green);box-shadow:none;font-size:20px;}
+  .btn.small{font-size:19px;padding:15px;}
+
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-top:18px;}
+  .prog{font-weight:700;color:var(--green);font-size:19px;}
+  .scoretag{font-weight:900;color:var(--gold-deep);font-size:19px;}
+  .who-mini{font-size:16px;color:var(--muted);margin-top:4px;text-align:center;}
+  .bar{height:12px;background:var(--cream2);border-radius:999px;margin-top:10px;overflow:hidden;border:1px solid var(--line);}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:999px;transition:width .4s;}
+
+  /* 計時列 */
+  .timerRow{margin-top:12px;}
+  .timerRow .tnum{text-align:center;font-weight:900;font-size:20px;color:var(--green-soft);}
+  .timerRow.low .tnum{color:var(--brick);}
+  .tbar{height:8px;background:var(--cream2);border-radius:999px;margin-top:6px;overflow:hidden;border:1px solid var(--line);}
+  .tbar > i{display:block;height:100%;background:var(--green);border-radius:999px;}
+  .timerRow.low .tbar > i{background:var(--brick);}
+
+  .qcard .qemoji{font-size:56px;text-align:center;line-height:1;}
+  .qcard .qtext{font-size:26px;font-weight:900;text-align:center;color:var(--ink);margin:12px 0 4px;line-height:1.5;}
+  .steplabel{font-weight:900;color:var(--green);font-size:20px;margin:20px 0 8px;display:flex;align-items:center;gap:8px;}
+  .steplabel .n{background:var(--green);color:#fff;border-radius:50%;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;}
+  .opts{display:flex;flex-direction:column;gap:12px;}
+  .opt{border:2px solid var(--line);background:var(--cream2);border-radius:16px;padding:16px 18px;font-size:22px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink);text-align:center;transition:.12s;display:flex;align-items:center;justify-content:center;gap:10px;min-height:62px;}
+  .opt .k{font-weight:900;border-radius:10px;padding:2px 12px;color:#fff;font-size:20px;}
+  .opt .ka{background:var(--green);} .opt .kb{background:var(--gold-deep);} .opt .kc{background:var(--brick);}
+  .opt:active{transform:scale(.98);}
+  .opt.correct{border-color:var(--green);background:var(--green-tint);}
+  .opt.wrong{border-color:var(--brick);background:var(--brick-tint);}
+  .opt.locked{pointer-events:none;opacity:.55;}
+  .opt.locked.correct,.opt.locked.wrong{opacity:1;}
+  .hidden{display:none;}
+
+  .fb{margin-top:20px;border-radius:16px;padding:18px 20px;font-size:19px;line-height:1.8;border-left:8px solid var(--green);background:var(--green-tint);}
+  .fb.miss{border-left-color:var(--gold-deep);background:var(--gold-tint);}
+  .fb .head{font-weight:900;font-size:21px;margin-bottom:4px;color:var(--green);}
+  .fb.miss .head{color:var(--gold-deep);}
+  .fb .ans{font-weight:900;}
+
+  /* 分享圖卡（截圖目標）*/
+  .sharecard{border-radius:24px;padding:28px 24px 22px;text-align:center;color:#fff;margin-top:20px;}
+  .sharecard.green{background:linear-gradient(160deg,#245536,#1F4A2E);}
+  .sharecard.yellow{background:linear-gradient(160deg,#D6B25C,#C9A24B);color:#3a2c07;}
+  .sharecard.red{background:linear-gradient(160deg,#B95534,#A9482E);}
+  .sharecard .sbrand{font-weight:700;font-size:15px;letter-spacing:1px;opacity:.9;}
+  .sharecard .dot{width:96px;height:96px;border-radius:50%;margin:16px auto 12px;display:flex;align-items:center;justify-content:center;font-family:"Noto Serif TC",serif;font-weight:900;font-size:44px;background:rgba(255,255,255,.18);border:4px solid rgba(255,255,255,.6);}
+  .sharecard.yellow .dot{background:rgba(255,255,255,.4);border-color:rgba(58,44,7,.4);}
+  .sharecard .lname{font-family:"Noto Serif TC",serif;font-weight:900;font-size:36px;letter-spacing:3px;}
+  .sharecard .lstate{font-size:22px;font-weight:700;margin-top:0;opacity:.95;}
+  .sharecard .swho{font-size:22px;font-weight:900;margin-top:16px;}
+  .sharecard .ssc{font-size:19px;margin-top:2px;opacity:.95;}
+  .sharecard .ssc b{font-size:26px;}
+  .sharecard .stip{font-size:18px;margin-top:12px;line-height:1.6;opacity:.96;}
+  .sharecard .sfoot{font-size:14px;margin-top:16px;opacity:.85;border-top:1px solid rgba(255,255,255,.3);padding-top:10px;}
+
+  .nextstep{background:var(--cream2);border-radius:16px;padding:18px 20px;margin-top:18px;font-size:19px;line-height:1.8;}
+  .nextstep b{color:var(--green);}
+
+  .actiongrid{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;}
+  .actiongrid .btn{margin-top:0;flex:1 1 46%;font-size:18px;padding:15px 8px;}
+
+  .summary{background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px 18px;margin-top:16px;font-size:18px;line-height:1.75;white-space:pre-wrap;color:var(--ink);}
+
+  /* 排行榜 */
+  .board{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:16px;}
+  .board h3{margin:0 0 10px;color:var(--green);font-size:20px;}
+  .brow{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;margin-bottom:8px;background:var(--cream2);font-size:19px;}
+  .brow.top{background:var(--gold-tint);}
+  .brow .bname{font-weight:900;}
+  .brow .bscore{font-weight:900;color:var(--gold-deep);}
+  .brow .brounds{font-size:15px;color:var(--muted);}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;font-weight:700;font-size:18px;padding:14px 26px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:50;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .cta{background:var(--green);color:#fff;border-radius:18px;padding:20px;text-align:center;margin-top:22px;}
+  .cta .t{font-weight:900;font-size:21px;}
+  .cta .d{font-size:18px;color:#CBDBCB;margin-top:4px;}
+  .cta a{display:inline-block;margin-top:12px;background:var(--gold);color:#3a2c07;text-decoration:none;font-weight:900;font-size:19px;padding:12px 26px;border-radius:999px;}
+
+  .foot{text-align:center;color:var(--muted);font-size:14px;margin-top:26px;line-height:1.7;}
+  .foot b{color:var(--green);}
+</style>
+</head>
+<body>
+
+<div class="brandbar">
+  <div class="name">馥芸財富學苑 · <b>財富花園</b></div>
+  <div class="sub">女人要有錢 · 第三堂【播種】· 收支有餘</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ 開場 ============ -->
+  <section id="intro" class="screen active">
+    <div class="hero">
+      <div class="emoji">🪙🌱</div>
+      <h1>幫錢分類</h1>
+      <div class="tag">需要 vs 想要 ｜ 這筆該放 A・B・C？</div>
+      <p>錢，先分類，才知道怎麼留、怎麼花。<br>15 個生活情境，按按看，最後亮出你的燈號。</p>
+    </div>
+
+    <div class="card">
+      <!-- 模式 -->
+      <div class="modewrap">
+        <button class="modebtn on" id="modeSolo" onclick="setMode('solo')"><span class="mi">🙋‍♀️</span>個人玩</button>
+        <button class="modebtn" id="modeTeam" onclick="setMode('team')"><span class="mi">👭</span>分組競賽</button>
+      </div>
+
+      <!-- 個人欄位 -->
+      <div id="soloFields">
+        <div class="field">
+          <label>您的名字 <span class="req">（必填）</span></label>
+          <input id="pname" type="text" placeholder="例：美玲" autocomplete="name">
+        </div>
+        <div class="field">
+          <label>手機號碼 <span class="req">（必填）</span></label>
+          <input id="pphone" type="tel" inputmode="numeric" placeholder="例：0912345678" autocomplete="tel">
+          <div class="hint">只用來回傳結果給老師、預約免費財務小輕診，不會外流。</div>
+        </div>
+      </div>
+
+      <!-- 團隊欄位 -->
+      <div id="teamFields" class="hidden">
+        <div class="field">
+          <label>選擇組別 <span class="req">（必選）</span></label>
+          <div class="grouprow" id="groupRow"></div>
+        </div>
+        <div class="field">
+          <label>代表人名字（可不填）</label>
+          <input id="prep" type="text" placeholder="例：美玲（代表本組作答）">
+        </div>
+        <div class="hint">同一台裝置一組輪流玩，分數會自動累加到各組。</div>
+      </div>
+
+      <!-- 計時開關 -->
+      <div class="setrow">
+        <span class="lbl">⏱ 倒數計時</span>
+        <label class="switch"><input type="checkbox" id="timerToggle" onchange="toggleTimer()"><span class="slider"></span></label>
+      </div>
+      <div class="secseg" id="secSeg">
+        <button class="secbtn" data-s="20" onclick="setSecs(20,this)">20 秒</button>
+        <button class="secbtn on" data-s="30" onclick="setSecs(30,this)">30 秒</button>
+        <button class="secbtn" data-s="45" onclick="setSecs(45,this)">45 秒</button>
+      </div>
+
+      <div class="rules">
+        <b>每題兩步驟：</b>1️⃣ 先想是「<b>需要</b>」還是「<b>想要</b>」→ 2️⃣ 放進對的帳戶：
+        <div class="chips"><span class="chip a">A 生活</span><span class="chip b">B 年度支出</span><span class="chip c">C 夢想</span></div>
+      </div>
+
+      <div class="err" id="introErr"></div>
+      <button class="btn gold" onclick="startGame()">開始分類 →</button>
+    </div>
+
+    <div id="introBoard"></div>
+    <div class="foot">馥芸財富學苑 · 財顧芸／琪琪老師<br><b>個人實證・非投資建議・過往績效不代表未來</b></div>
+  </section>
+
+  <!-- ============ 遊戲 ============ -->
+  <section id="game" class="screen">
+    <div class="topline">
+      <span class="prog" id="prog">第 1／15 題</span>
+      <span class="scoretag" id="scoretag">0 分</span>
+    </div>
+    <div class="who-mini" id="whoMini"></div>
+    <div class="bar"><i id="barfill" style="width:0%"></i></div>
+
+    <div class="timerRow hidden" id="timerRow">
+      <div class="tnum" id="timerNum">30 秒</div>
+      <div class="tbar"><i id="timerFill" style="width:100%"></i></div>
+    </div>
+
+    <div class="card qcard">
+      <div class="qemoji" id="qemoji">🥬</div>
+      <div class="qtext" id="qtext">題目</div>
+
+      <div class="steplabel"><span class="n">1</span> 這是「需要」還是「想要」？</div>
+      <div class="opts" id="step1">
+        <button class="opt" data-v="需要" onclick="pickStep1('需要',this)">需要</button>
+        <button class="opt" data-v="想要" onclick="pickStep1('想要',this)">想要</button>
+      </div>
+
+      <div id="step2wrap" class="hidden">
+        <div class="steplabel"><span class="n">2</span> 這筆錢，放哪個帳戶？</div>
+        <div class="opts" id="step2">
+          <button class="opt" data-v="A" onclick="pickStep2('A',this)"><span class="k ka">A</span> 生活帳戶</button>
+          <button class="opt" data-v="B" onclick="pickStep2('B',this)"><span class="k kb">B</span> 年度支出</button>
+          <button class="opt" data-v="C" onclick="pickStep2('C',this)"><span class="k kc">C</span> 夢想帳戶</button>
+        </div>
+      </div>
+
+      <div id="fb" class="fb hidden"></div>
+      <button id="nextBtn" class="btn hidden" onclick="nextQ()">下一題 →</button>
+    </div>
+    <div class="foot">A 顧好今天 · B 大錢小存、到期不慌 · C 先付給自己、養大夢想</div>
+  </section>
+
+  <!-- ============ 結果 ============ -->
+  <section id="result" class="screen">
+    <div class="sharecard green" id="shareCard">
+      <div class="sbrand">馥芸財富學苑 · 財富花園 · 幫錢分類</div>
+      <div class="dot" id="lampdot">綠</div>
+      <div class="lname" id="lampname">綠燈</div>
+      <div class="lstate" id="lampstate">穩定</div>
+      <div class="swho" id="rwho">美玲</div>
+      <div class="ssc">答對 <b id="rscore">30</b> ／ 30 分</div>
+      <div class="stip" id="rtip"></div>
+      <div class="sfoot">免費財務小輕診 · LINE：lin.ee/6Tm8pI7</div>
+    </div>
+
+    <div class="nextstep" id="nextstep"></div>
+
+    <div class="actiongrid">
+      <button class="btn gold" onclick="saveImage()">📸 存成分享圖</button>
+      <button class="btn" onclick="saveRecord()">📄 下載遊戲記錄</button>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:900;color:var(--green);font-size:20px;">把結果貼出來 📮</div>
+      <div style="font-size:16px;color:var(--muted);margin-top:2px;" id="copyHint">貼到群組不會顯示手機；傳給老師才附上，放心。</div>
+      <div class="summary" id="summaryGroup"></div>
+      <div class="actiongrid">
+        <button class="btn small" onclick="copyText('summaryGroup','貼群組版已複製')">複製 · 貼群組</button>
+        <button class="btn small gold" id="teacherBtn" onclick="copyText('summaryTeacher','傳老師版已複製')">複製 · 傳老師</button>
+      </div>
+      <div class="summary hidden" id="summaryTeacher"></div>
+    </div>
+
+    <div id="resultBoard"></div>
+
+    <div class="cta">
+      <div class="t">想知道你家的錢，現在亮什麼燈？</div>
+      <div class="d">免費財務小輕診 · 一對一陪你看清楚</div>
+      <a href="https://lin.ee/6Tm8pI7" target="_blank" rel="noopener">加 LINE 預約 →</a>
+    </div>
+
+    <button class="btn ghost" id="againBtn" onclick="playAgain()">再玩一次</button>
+    <div class="foot">馥芸財富學苑 · 財富花園 · 第三堂【播種】<br><b>個人實證・非投資建議・過往績效不代表未來</b></div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast">已複製</div>
+
+<script>
+/* ============ 題庫：A/B/C 各 5 題（共15題）============ */
+const QUESTIONS = [
+  // ---- A 生活帳戶 ×5 ----
+  { emoji:"🥬", text:"每天買菜、煮三餐的錢", need:"需要", acct:"A",
+    why:"三餐天天要，是 <b>生活必需（需要）</b>，放 <b>A 生活帳戶</b>，顧好每一天。" },
+  { emoji:"💡", text:"這個月的水費、電費、瓦斯費", need:"需要", acct:"A",
+    why:"水電瓦斯每月都要繳，是 <b>需要</b>，放 <b>A 生活帳戶</b>。" },
+  { emoji:"🏥", text:"看醫生、買處方藥、慢性病回診", need:"需要", acct:"A",
+    why:"健康的支出最實在，是 <b>需要</b>，放 <b>A 生活帳戶</b>，別省這一塊。" },
+  { emoji:"📶", text:"手機月租費、上網費", need:"需要", acct:"A",
+    why:"手機、網路現在是生活必需，是 <b>需要</b>，放 <b>A 生活帳戶</b>。" },
+  { emoji:"🚌", text:"每天的交通費、加油錢", need:"需要", acct:"A",
+    why:"出門的車錢、油錢天天要，是 <b>需要</b>，放 <b>A 生活帳戶</b>。" },
+  // ---- B 年度支出 ×5 ----
+  { emoji:"🚗", text:"一年一次的汽車／機車保險費", need:"需要", acct:"B",
+    why:"保險費是 <b>需要</b>，但一年才繳一次、金額大。放 <b>B 年度支出</b>，÷12 每月先存，到期不慌。" },
+  { emoji:"🏠", text:"每年的房屋稅、地價稅", need:"需要", acct:"B",
+    why:"稅金一定要繳（需要），一年一次。放 <b>B 年度支出</b>，大錢小存最輕鬆。" },
+  { emoji:"🧧", text:"過年要包給孫子的紅包", need:"想要", acct:"B", flexNeed:true,
+    why:"紅包是一份心意，說「需要」或「想要」都對——重點是它 <b>每年固定、金額可預期</b>，放 <b>B 年度支出</b>，每月先撥一點，過年不心疼。" },
+  { emoji:"🎁", text:"親友婚喪喜慶的禮金", need:"需要", acct:"B", flexNeed:true,
+    why:"紅白帖是人情，需要／想要都說得通——重點是一年會遇上幾次、金額可估。放 <b>B 年度支出</b>，平常先撥，臨時不慌。" },
+  { emoji:"🩺", text:"每年一次的自費健康檢查", need:"需要", acct:"B",
+    why:"定期健檢是對自己好的 <b>需要</b>，一年一次、金額大，放 <b>B 年度支出</b>，÷12 每月存。" },
+  // ---- C 夢想帳戶 ×5 ----
+  { emoji:"🌸", text:"明年想和姊妹去看櫻花", need:"想要", acct:"C",
+    why:"旅遊是給自己的快樂，是 <b>想要</b>，放 <b>C 夢想帳戶</b>——先付給自己，慢慢養大這個夢。" },
+  { emoji:"🎓", text:"幫孫子存的教育基金", need:"想要", acct:"C",
+    why:"這是你為孩子許下的心願，屬於 <b>想要（夢想）</b>，放 <b>C 夢想帳戶</b>，長期慢慢累積。" },
+  { emoji:"📱", text:"想換一支更新款的手機", need:"想要", acct:"C",
+    why:"舊的還能用，換新款是 <b>想要</b>。想買沒關係，放進 <b>C 夢想帳戶</b>，存到了再買，不亂花。" },
+  { emoji:"👜", text:"週年慶再買一個名牌包", need:"想要", acct:"C",
+    why:"喜歡就寵愛自己，但這是 <b>想要</b>。放 <b>C 夢想帳戶</b>，計畫著買，花得開心又安心。" },
+  { emoji:"💃", text:"報名想學的社區舞蹈班／歌唱班", need:"想要", acct:"C",
+    why:"學才藝是給自己的快樂與成長，是 <b>想要</b>，放 <b>C 夢想帳戶</b>，先付給自己。" },
+];
+const TOTAL = QUESTIONS.length * 2; // 30
+
+/* ============ 設定與狀態 ============ */
+const GROUPS = ['第1組','第2組']; // 需要更多組，加進這個陣列即可
+let teamTotals = {}; GROUPS.forEach(g=>teamTotals[g]={score:0,rounds:0});
+
+let mode='solo', name='', phone='', group='', rep='';
+let timerOn=false, timerSecs=30;
+let idx=0, score=0, s1=null, s2=null, log=[];
+let resultInfo=null, recordText='';
+let tInt=null, tLeft=0;
+
+/* ============ 模式／設定 ============ */
+function setMode(m){
+  mode=m;
+  document.getElementById('modeSolo').classList.toggle('on',m==='solo');
+  document.getElementById('modeTeam').classList.toggle('on',m==='team');
+  document.getElementById('soloFields').classList.toggle('hidden',m!=='solo');
+  document.getElementById('teamFields').classList.toggle('hidden',m!=='team');
+  document.getElementById('introErr').textContent='';
+  if(m==='team') renderGroupRow();
+}
+function renderGroupRow(){
+  const row=document.getElementById('groupRow'); row.innerHTML='';
+  GROUPS.forEach(g=>{
+    const b=document.createElement('button');
+    b.className='groupbtn'+(g===group?' on':''); b.textContent=g;
+    b.onclick=()=>{group=g; renderGroupRow(); document.getElementById('introErr').textContent='';};
+    row.appendChild(b);
+  });
+}
+function toggleTimer(){
+  timerOn=document.getElementById('timerToggle').checked;
+  document.getElementById('secSeg').classList.toggle('show',timerOn);
+}
+function setSecs(s,el){
+  timerSecs=s;
+  document.querySelectorAll('#secSeg .secbtn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ============ 開始 ============ */
+function startGame(){
+  const err=document.getElementById('introErr');
+  if(mode==='solo'){
+    name=document.getElementById('pname').value.trim();
+    phone=document.getElementById('pphone').value.trim();
+    if(!name){ err.textContent="請先填您的名字 🙂"; return; }
+    const d=phone.replace(/\D/g,'');
+    if(d.length<8){ err.textContent="手機號碼好像不完整，再確認一下 📱"; return; }
+    phone=d;
+  } else {
+    if(!group){ err.textContent="請先選擇組別 👭"; return; }
+    rep=document.getElementById('prep').value.trim();
+  }
+  err.textContent='';
+  idx=0; score=0; log=[];
+  document.getElementById('whoMini').textContent = mode==='solo' ? name : (group + (rep?(' · '+rep):''));
+  show('game'); loadQ();
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============ 載入題目 ============ */
+function loadQ(){
+  const q=QUESTIONS[idx]; s1=null; s2=null;
+  document.getElementById('prog').textContent=`第 ${idx+1}／${QUESTIONS.length} 題`;
+  document.getElementById('scoretag').textContent=`${score} 分`;
+  document.getElementById('barfill').style.width=`${(idx/QUESTIONS.length)*100}%`;
+  document.getElementById('qemoji').textContent=q.emoji;
+  document.getElementById('qtext').textContent=q.text;
+  document.querySelectorAll('#step1 .opt').forEach(b=>{b.className='opt';});
+  document.getElementById('step2wrap').classList.add('hidden');
+  document.querySelectorAll('#step2 .opt').forEach(b=>{b.className='opt';});
+  document.getElementById('fb').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+  startTimer();
+}
+
+/* ============ 計時 ============ */
+function startTimer(){
+  stopTimer();
+  const row=document.getElementById('timerRow');
+  if(!timerOn){ row.classList.add('hidden'); return; }
+  row.classList.remove('hidden','low');
+  tLeft=timerSecs;
+  document.getElementById('timerNum').textContent=tLeft+' 秒';
+  const fill=document.getElementById('timerFill');
+  fill.style.transition='none'; fill.style.width='100%'; void fill.offsetWidth;
+  fill.style.transition=`width ${timerSecs}s linear`; fill.style.width='0%';
+  tInt=setInterval(()=>{
+    tLeft--;
+    document.getElementById('timerNum').textContent=(tLeft>0?tLeft:0)+' 秒';
+    if(tLeft<=10) row.classList.add('low');
+    if(tLeft<=0){ stopTimer(); handleTimeout(); }
+  },1000);
+}
+function stopTimer(){ if(tInt){clearInterval(tInt); tInt=null;} }
+function handleTimeout(){
+  const q=QUESTIONS[idx];
+  if(s1===null){
+    s1='(未作答)';
+    document.querySelectorAll('#step1 .opt').forEach(b=>{b.classList.add('locked'); if(b.dataset.v===q.need) b.classList.add('correct');});
+    document.getElementById('step2wrap').classList.remove('hidden');
+  }
+  if(s2===null){
+    s2='(未作答)';
+    document.querySelectorAll('#step2 .opt').forEach(b=>{b.classList.add('locked'); if(b.dataset.v===q.acct) b.classList.add('correct');});
+  }
+  showFeedback(true);
+}
+
+/* ============ 作答 ============ */
+function pickStep1(v,el){
+  if(s1!==null) return;
+  s1=v; const q=QUESTIONS[idx];
+  const ok=q.flexNeed || v===q.need;
+  document.querySelectorAll('#step1 .opt').forEach(b=>{
+    b.classList.add('locked');
+    if(b.dataset.v===v) b.classList.add(ok?'correct':'wrong');
+    else if(!q.flexNeed && b.dataset.v===q.need) b.classList.add('correct');
+  });
+  if(ok) score++;
+  document.getElementById('scoretag').textContent=`${score} 分`;
+  document.getElementById('step2wrap').classList.remove('hidden');
+  document.getElementById('step2wrap').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function pickStep2(v,el){
+  if(s2!==null) return;
+  s2=v; const q=QUESTIONS[idx];
+  const ok=v===q.acct;
+  document.querySelectorAll('#step2 .opt').forEach(b=>{
+    b.classList.add('locked');
+    if(b.dataset.v===v) b.classList.add(ok?'correct':'wrong');
+    else if(b.dataset.v===q.acct) b.classList.add('correct');
+  });
+  if(ok) score++;
+  document.getElementById('scoretag').textContent=`${score} 分`;
+  showFeedback(false);
+}
+
+/* ============ 回饋 ============ */
+function showFeedback(timedOut){
+  stopTimer();
+  const q=QUESTIONS[idx];
+  const s1ok = s1!=='(未作答)' && (q.flexNeed || s1===q.need);
+  const s2ok = s2===q.acct;
+  log.push({n:idx+1, text:q.text, s1, s1ok, need:q.need, flex:!!q.flexNeed, s2, s2ok, acct:q.acct});
+  const acctName={A:"A 生活帳戶",B:"B 年度支出",C:"C 夢想帳戶"}[q.acct];
+  const fb=document.getElementById('fb');
+  const allOk=s1ok&&s2ok;
+  fb.className='fb'+(allOk?'':' miss');
+  const head = timedOut ? "⏰ 時間到！沒關係，看正解～" : (allOk ? "✓ 答對了！" : "換個角度想 👇");
+  fb.innerHTML=`<div class="head">${head}</div>
+    <div>正解：<span class="ans">${q.flexNeed?'需要／想要皆可':q.need}</span> ｜ <span class="ans">${acctName}</span></div>
+    <div style="margin-top:8px;">${q.why}</div>`;
+  fb.classList.remove('hidden');
+  const nb=document.getElementById('nextBtn');
+  nb.textContent = idx===QUESTIONS.length-1 ? "看我的燈號 →" : "下一題 →";
+  nb.classList.remove('hidden');
+  fb.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function nextQ(){
+  if(idx<QUESTIONS.length-1){ idx++; loadQ(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else finish();
+}
+
+/* ============ 結果 ============ */
+function finish(){
+  stopTimer();
+  const who = mode==='solo' ? name : (group + (rep?('（'+rep+'）'):''));
+  let color,z,st,desc,step,tip;
+  if(score>=24){ color='green'; z='綠'; st='穩定';
+    desc='你對需要 vs 想要、錢的家都很有 sense！';
+    step='<b>綠燈 · 穩定：</b>觀念很清楚，接下來把 ABC 系統「真的跑起來」——保持並定期回看，讓它自動幫你留錢。';
+    tip='分類力很穩，開始把 ABC 帳戶跑起來';
+  } else if(score>=15){ color='yellow'; z='黃'; st='留意';
+    desc='方向對、觀念有了，再穩一點就更好。';
+    step='<b>黃燈 · 留意：</b>有結餘但還不夠穩，先把 <b>A 生活 / B 年度 / C 夢想</b> 三個帳戶實際設起來，錢就會慢慢有餘。';
+    tip='觀念有了，先把 ABC 三帳戶設起來';
+  } else { color='red'; z='紅'; st='先補';
+    desc='別擔心，願意來、願意按，就是最好的開始。';
+    step='<b>紅燈 · 先補：</b>先從「找漏水」開始——搞清楚每天的錢跑去哪，再一步步把 A、B、C 補起來。慢慢來，你做得到。';
+    tip='先從找漏水開始，一步步把 ABC 補起來';
+  }
+  resultInfo={who,color,z,st,tip};
+
+  // 團隊累加
+  if(mode==='team' && teamTotals[group]){ teamTotals[group].score+=score; teamTotals[group].rounds++; }
+
+  // 分享圖卡
+  const sc=document.getElementById('shareCard');
+  sc.className='sharecard '+color;
+  document.getElementById('lampdot').textContent=z;
+  document.getElementById('lampname').textContent=z+'燈';
+  document.getElementById('lampstate').textContent=st;
+  document.getElementById('rwho').textContent=who;
+  document.getElementById('rscore').textContent=score;
+  document.getElementById('rtip').textContent='👉 '+tip;
+  document.getElementById('nextstep').innerHTML=step;
+
+  // 摘要
+  const g=`【財富花園 · 幫錢分類】結果
+${who}｜${score}／${TOTAL} 分
+${z}燈 · ${st}
+👉 ${tip}
+—— 女人要有錢 · 財富花園 第三堂`;
+  document.getElementById('summaryGroup').textContent=g;
+
+  const teacherBtn=document.getElementById('teacherBtn');
+  const copyHint=document.getElementById('copyHint');
+  if(mode==='solo'){
+    const t=`【財富花園 · 幫錢分類】結果回傳
+姓名：${name}
+手機：${phone}
+得分：${score}／${TOTAL} 分
+燈號：${z}燈 · ${st}
+下一步：${tip}
+—— 女人要有錢 · 財富花園 第三堂`;
+    document.getElementById('summaryTeacher').textContent=t;
+    teacherBtn.style.display=''; copyHint.style.display='';
+  } else {
+    teacherBtn.style.display='none'; copyHint.style.display='none';
+  }
+
+  buildRecord(who);
+  renderBoards();
+  document.getElementById('againBtn').textContent = mode==='team' ? '換下一組 / 再玩（保留分數）' : '再玩一次';
+  show('result');
+}
+
+/* ============ 排行榜 ============ */
+function boardHTML(){
+  const arr=GROUPS.map(g=>({g,...teamTotals[g]})).filter(x=>x.rounds>0).sort((a,b)=>b.score-a.score);
+  if(!arr.length) return '';
+  let h='<div class="board"><h3>🏆 各組累計分數</h3>';
+  arr.forEach((x,i)=>{ h+=`<div class="brow${i===0?' top':''}"><span class="bname">${i===0?'👑 ':''}${x.g}</span><span><span class="brounds">玩了 ${x.rounds} 輪　</span><span class="bscore">${x.score} 分</span></span></div>`; });
+  h+='</div>'; return h;
+}
+function renderBoards(){
+  document.getElementById('resultBoard').innerHTML = mode==='team' ? boardHTML() : '';
+}
+function renderIntroBoard(){
+  document.getElementById('introBoard').innerHTML = (mode==='team') ? boardHTML() : '';
+}
+
+/* ============ 圖片 ============ */
+function saveImage(){
+  const el=document.getElementById('shareCard');
+  if(typeof html2canvas==='undefined'){ toast('請直接截圖分享'); return; }
+  toast('圖片產生中…');
+  html2canvas(el,{scale:2,backgroundColor:'#FAF7EF',useCORS:true}).then(canvas=>{
+    const a=document.createElement('a');
+    a.href=canvas.toDataURL('image/png');
+    a.download=`財富花園_幫錢分類_${resultInfo.who}.png`;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('圖片已儲存 📸');
+  }).catch(()=>toast('產生失敗，請直接截圖'));
+}
+
+/* ============ 記錄文字檔 ============ */
+function stampStr(){
+  const d=new Date(), p=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}/${p(d.getMonth()+1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+function buildRecord(who){
+  const lines=[];
+  lines.push('===== 財富花園 · 幫錢分類 · 遊戲記錄 =====');
+  lines.push('日期時間：'+stampStr());
+  lines.push('模式：'+(mode==='solo'?'個人':('分組競賽 · '+group+(rep?'（'+rep+'）':''))));
+  if(mode==='solo'){ lines.push('姓名：'+name); lines.push('手機：'+phone); }
+  lines.push('得分：'+score+' / '+TOTAL+' 分');
+  lines.push('燈號：'+resultInfo.z+'燈 · '+resultInfo.st);
+  lines.push('下一步：'+resultInfo.tip);
+  lines.push('計時：'+(timerOn?('開，每題 '+timerSecs+' 秒'):'關'));
+  lines.push('');
+  lines.push('--- 作答明細 ---');
+  log.forEach(r=>{
+    const a1=r.flex?'需要／想要皆可':r.need;
+    const m1=r.s1ok?'✓':'✗';
+    const m2=r.s2ok?'✓':'✗';
+    lines.push(`第${r.n}題 ${r.text}`);
+    lines.push(`　需要/想要：你選 ${r.s1}（正解 ${a1}）${m1}`);
+    lines.push(`　帳戶：你選 ${r.s2}（正解 ${r.acct}）${m2}`);
+  });
+  lines.push('');
+  if(mode==='team'){
+    lines.push('--- 各組累計 ---');
+    GROUPS.forEach(g=>{ if(teamTotals[g].rounds>0) lines.push(`${g}：${teamTotals[g].score} 分（${teamTotals[g].rounds} 輪）`); });
+    lines.push('');
+  }
+  lines.push('免費財務小輕診 LINE：lin.ee/6Tm8pI7');
+  lines.push('馥芸財富學苑 · 財富花園 · 第三堂【播種】');
+  recordText=lines.join('\n');
+}
+function saveRecord(){
+  const blob=new Blob([recordText],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const who=resultInfo.who.replace(/[\/\\:*?"<>|（）()]/g,'');
+  a.href=url; a.download=`幫錢分類記錄_${who}_${stampStr().replace(/[\/: ]/g,'')}.txt`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  toast('記錄已下載 📄');
+}
+
+/* ============ 複製 ============ */
+function copyText(id,msg){
+  const txt=document.getElementById(id).textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>toast(msg)).catch(()=>fallbackCopy(txt,msg));
+  } else fallbackCopy(txt,msg);
+}
+function fallbackCopy(txt,msg){
+  const ta=document.createElement('textarea');
+  ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(ta); toast(msg);
+}
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ============ 再玩 ============ */
+function playAgain(){
+  idx=0; score=0; s1=null; s2=null; log=[];
+  if(mode==='team'){ renderGroupRow(); }
+  renderIntroBoard();
+  show('intro'); window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
