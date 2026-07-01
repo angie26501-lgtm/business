@@ -188,10 +188,59 @@
   footer b{color:var(--ink)}
   footer .rates{font-family:"IBM Plex Mono",monospace;font-size:14px;background:var(--sage);border-radius:9px;padding:10px 12px;margin-top:10px;color:var(--ink)}
 
+  /* 固定商品標示 */
+  .prodfix{display:flex;align-items:center;gap:14px;background:#eef3ee;border:1px solid var(--pine);
+    border-radius:12px;padding:14px 18px;margin-bottom:20px}
+  .prodfix .pf-tag{font-size:14px;font-weight:700;color:#fff;background:var(--pine);border-radius:8px;padding:5px 12px;white-space:nowrap}
+  .prodfix .pf-body b{font-size:18px;color:var(--pine-deep)}
+  .prodfix .pf-body small{display:block;font-size:14px;color:var(--ink-soft)}
+
+  /* 區塊標題（帶標籤） */
+  .sec-block{margin-top:30px}
+  .sec-tag-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .sec-tag{font-size:14px;font-weight:700;color:#8a6714;background:#f4ecd8;border:1px solid var(--gold-soft);
+    border-radius:8px;padding:4px 12px;white-space:nowrap}
+  .sec-tag.gold{color:#fff;background:var(--gold);border-color:var(--gold)}
+  .sec-h{font-family:"Noto Serif TC",serif;font-weight:700;font-size:20px;color:var(--pine-deep)}
+
+  /* 各年期一覽表 */
+  .allterms{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .allterms table{width:100%;border-collapse:collapse;font-size:16px}
+  .allterms thead th{background:var(--sage);color:var(--pine-deep);font-family:"Noto Serif TC",serif;
+    font-weight:600;text-align:left;padding:13px 16px;font-size:15px}
+  .allterms th.r,.allterms td.r{text-align:right}
+  .allterms tbody td{padding:15px 16px;border-top:1px solid var(--line);vertical-align:middle}
+  .allterms tbody td.prod{font-weight:700;font-size:17px}
+  .allterms .num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+  .allterms tr.sel{background:#fbf6ea}
+  .allterms tr.sel td{border-top-color:var(--gold-soft)}
+  .allterms .now{display:inline-block;font-size:12px;font-weight:700;color:var(--gold);background:#fff;
+    border:1px solid var(--gold-soft);border-radius:99px;padding:1px 9px;margin-left:8px;vertical-align:middle}
+  .allterms tr.na td{color:#a09a8c}
+  .allterms tr.na td.prod{color:#a09a8c}
+  .allterms td.note{font-size:14px}
+
+  /* 預算反推 */
+  .bb{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 20px 22px}
+  .bb-line{font-size:16px;color:var(--ink);margin-bottom:16px;line-height:1.8}
+  .bb-line input{width:96px;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;
+    color:var(--pine-deep);border:2px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff}
+  .bb-line input:focus{outline:3px solid var(--gold-soft);border-color:var(--gold)}
+  .bb-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .bb-card{border:1px solid var(--line);border-radius:12px;padding:16px 12px;text-align:center;background:#fff}
+  .bb-card .bt{font-size:14px;color:var(--ink-soft)}
+  .bb-card .ba{font-family:"Noto Serif TC",serif;font-weight:800;font-size:30px;color:var(--pine-deep);margin:6px 0 2px}
+  .bb-card .ba small{font-size:16px;font-weight:600}
+  .bb-card .bf{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-soft)}
+  .bb-card.spot{border-color:var(--gold);background:#fbf6ea}
+  .bb-card.spot .ba{color:var(--gold)}
+
   @media (max-width:640px){
     .compare{grid-template-columns:1fr auto 1fr;gap:2px}
     .compare .cmp:nth-child(4),.compare .cmp:nth-child(5){display:none}
     .prem-grid{grid-template-columns:repeat(2,1fr)}
+    .bb-cards{grid-template-columns:1fr}
+    .allterms table{font-size:15px}
     .tab{font-size:18px;padding:16px 8px;flex-direction:column;gap:6px}
     .profile{gap:12px 16px}
     .profile .ptitle{border-right:none;width:100%;padding-right:0}
@@ -365,16 +414,14 @@
   <!-- 頁籤 2：保費試算 -->
   <div class="panel" id="panel2" role="tabpanel" aria-labelledby="tab2" hidden>
     <h2>這個保額，每月要繳多少？</h2>
-    <p class="intro">依上方「基本資料」設定的性別與投保年齡（標準體）自動查表試算。月繳＝年繳 × 0.088；實際以核保結果為準。切換性別或年齡，保費即時重算。</p>
+    <p class="intro">商品固定為 <b>HP 貸貸幸福（平準型）</b>。依上方「基本資料」的性別與投保年齡（標準體）自動查表；切換性別或年齡，保費即時重算。月繳＝年繳 × 0.088。</p>
+
+    <div class="prodfix">
+      <span class="pf-tag">商品</span>
+      <div class="pf-body"><b>HP 貸貸幸福（平準型）</b><small>保額固定不變 · 費用率最低</small></div>
+    </div>
 
     <div class="choose">
-      <div>
-        <div class="clab">選擇商品（皆為平準型，保額固定不變）</div>
-        <div class="chips" id="prodChips">
-          <button class="chip" data-prod="HP" aria-pressed="true">HP 貸貸幸福（平準型）<small>費用率最低</small></button>
-          <button class="chip" data-prod="GE" aria-pressed="false">GE 不分紅定期(109A)<small>保證續約至75歲</small></button>
-        </div>
-      </div>
       <div>
         <div class="clab">選擇年期（保障期間）</div>
         <div class="chips" id="termChips">
@@ -405,6 +452,26 @@
       <b id="bl_head">—</b><span id="bl_body"></span>
       <span class="cover" id="bl_cover"></span>
     </div>
+
+    <!-- 各年期一覽 -->
+    <div class="sec-block">
+      <div class="sec-tag-row"><span class="sec-tag">全年期</span><span class="sec-h">此年齡／性別 · 各年期一覽</span></div>
+      <div class="allterms">
+        <table>
+          <thead><tr><th>年期</th><th class="r">每10萬年費率</th><th class="r">年繳保費</th><th class="r">月繳(約)</th><th class="r">保障至</th></tr></thead>
+          <tbody id="allTermsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 預算反推 -->
+    <div class="sec-block">
+      <div class="sec-tag-row"><span class="sec-tag gold">反推</span><span class="sec-h">用預算回推可買保額</span></div>
+      <div class="bb">
+        <div class="bb-line">若月繳預算 <input type="number" id="bbBudget" min="0" step="100" value="2500"> 元，於目前年齡／性別下各年期約可買：</div>
+        <div class="bb-cards" id="bbCards"></div>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -417,18 +484,12 @@
 <script>
 (function(){
   // ===== 已驗證費率：元/10萬/年，標準體。索引 [10年,15年,20年]，null=該年期不適用 =====
-  var RATES = {
-    HP:{
-      M:{18:[68,75,90],19:[69,79,96],20:[71,82,101],21:[75,88,109],22:[78,94,118],23:[82,100,126],24:[87,107,137],25:[93,116,149],26:[100,125,162],27:[107,137,176],28:[116,149,191],29:[126,162,209],30:[138,176,228],31:[151,194,247],32:[165,212,268],33:[181,231,290],34:[197,251,315],35:[215,274,340],36:[235,297,368],37:[259,324,399],38:[282,350,431],39:[307,378,465],40:[334,409,501],41:[362,441,543],42:[391,478,585],43:[424,515,632],44:[456,554,682],45:[491,599,737],46:[529,646,796],47:[571,696,860],48:[613,750,931],49:[659,807,1009],50:[707,871,1093],51:[765,943,1191],52:[826,1022,1299],53:[893,1107,1416],54:[963,1203,1544],55:[1041,1307,1685],56:[1129,1429,null],57:[1226,1562,null],58:[1334,1709,null],59:[1453,1871,null],60:[1585,2047,null],61:[1740,null,null],62:[1910,null,null],63:[2099,null,null],64:[2307,null,null],65:[2538,null,null]},
-      F:{18:[29,35,41],19:[31,37,44],20:[34,38,47],21:[35,41,50],22:[37,44,53],23:[40,47,57],24:[43,50,62],25:[46,54,66],26:[49,57,72],27:[51,62,78],28:[54,68,84],29:[59,72,91],30:[63,78,99],31:[68,84,106],32:[74,91,115],33:[79,99,124],34:[85,107,132],35:[93,116,143],36:[100,125,154],37:[109,135,168],38:[119,147,181],39:[129,157,196],40:[140,171,212],41:[151,184,229],42:[163,200,250],43:[176,216,272],44:[190,232,296],45:[203,251,321],46:[221,274,351],47:[237,297,385],48:[256,322,424],49:[276,350,466],50:[299,381,512],51:[325,421,568],52:[354,463,628],53:[387,510,697],54:[424,563,775],55:[465,624,860],56:[513,693,null],57:[568,771,null],58:[628,857,null],59:[697,956,null],60:[775,1066,null],61:[866,null,null],62:[968,null,null],63:[1082,null,null],64:[1212,null,null],65:[1359,null,null]}
-    },
-    GE:{
-      M:{18:[117,119,126],19:[118,120,129],20:[119,121,134],21:[121,123,139],22:[122,124,148],23:[123,127,155],24:[124,133,165],25:[125,139,174],26:[126,149,188],27:[129,160,204],28:[137,173,219],29:[148,189,239],30:[161,202,257],31:[175,221,279],32:[190,241,301],33:[207,262,325],34:[226,284,352],35:[245,308,381],36:[267,333,416],37:[293,361,451],38:[317,391,490],39:[344,424,532],40:[373,459,577],41:[402,498,625],42:[436,540,678],43:[469,586,738],44:[508,636,801],45:[549,690,869],46:[596,748,948],47:[647,813,1030],48:[704,884,1122],49:[763,962,1222],50:[828,1046,1332],51:[904,1142,1461],52:[987,1246,1600],53:[1077,1363,1754],54:[1177,1489,1919],55:[1285,1628,2102],56:[1401,1788,null],57:[1529,1960,null],58:[1670,2149,null],59:[1827,2359,null],60:[2005,2592,null],61:[2210,null,null],62:[2434,null,null],63:[2680,null,null],64:[2953,null,null],65:[3255,null,null]},
-      F:{18:[48,53,61],19:[49,55,66],20:[50,59,69],21:[51,61,73],22:[53,64,77],23:[54,67,81],24:[58,70,86],25:[60,76,93],26:[67,83,103],27:[70,87,109],28:[78,97,118],29:[84,105,129],30:[89,110,138],31:[97,121,150],32:[104,131,163],33:[114,140,176],34:[121,151,188],35:[132,165,201],36:[144,178,218],37:[156,193,234],38:[167,206,254],39:[181,221,273],40:[198,238,295],41:[215,257,318],42:[230,278,347],43:[248,298,375],44:[265,323,408],45:[285,348,446],46:[307,378,488],47:[329,409,534],48:[356,446,585],49:[383,484,640],50:[411,528,701],51:[448,582,771],52:[488,641,847],53:[535,703,933],54:[585,774,1030],55:[644,853,1134],56:[711,941,null],57:[787,1038,null],58:[870,1147,null],59:[962,1269,null],60:[1063,1404,null],61:[1176,null,null],62:[1302,null,null],63:[1443,null,null],64:[1599,null,null],65:[1772,null,null]}
-    }
-  };
-  var LABEL={HP:"HP 平準",GE:"GE 平準"};
-  var TERMS=[10,15,20];
+  // ===== HP 貸貸幸福(平準型) 已驗證費率：元/10萬/年，標準體。索引 [5,7,10,15,20,30]年 =====
+  var RATES = { HP:{ M:{18:[63,65,68,75,90,143],19:[65,66,69,79,96,153],20:[66,68,71,82,101,166],21:[68,71,75,88,109,178],22:[69,72,78,94,118,193],23:[72,74,82,100,126,207],24:[74,78,87,107,137,224],25:[76,82,93,116,149,241],26:[81,88,100,125,162,262],27:[87,94,107,137,176,282],28:[93,101,116,149,191,306],29:[101,110,126,162,209,329],30:[110,121,138,176,228,357],31:[119,131,151,194,247,385],32:[129,143,165,212,268,418],33:[143,156,181,231,290,451],34:[156,171,197,251,315,487],35:[171,187,215,274,340,526],36:[187,204,235,297,368,569],37:[203,224,259,324,399,616],38:[222,244,282,350,431,668],39:[243,268,307,378,465,724],40:[265,293,334,409,501,784],41:[291,319,362,441,543,851],42:[318,347,391,478,585,926],43:[347,376,424,515,632,1007],44:[378,407,456,554,682,1094],45:[410,441,491,599,737,1188],46:[441,474,529,646,796,null],47:[472,507,571,696,860,null],48:[507,544,613,750,931,null],49:[544,587,659,807,1009,null],50:[582,631,707,871,1093,null],51:[628,679,765,943,1191,null],52:[678,731,826,1022,1299,null],53:[731,787,893,1107,1416,null],54:[787,853,963,1203,1544,null],55:[849,924,1041,1307,1685,null],56:[918,996,1129,1429,null,null],57:[993,1076,1226,1562,null,null],58:[1074,1163,1334,1709,null,null],59:[1163,1266,1453,1871,null,null],60:[1260,1381,1585,2047,null,null],61:[1371,1501,1740,null,null,null],62:[1493,1637,1910,null,null,null],63:[1629,1788,2099,null,null,null],64:[1784,1976,2307,null,null,null],65:[1957,2185,2538,null,null,null]}, F:{18:[26,28,29,35,41,63],19:[28,29,31,37,44,68],20:[28,31,34,38,47,72],21:[29,32,35,41,50,78],22:[32,34,37,44,53,84],23:[34,35,40,47,57,90],24:[35,38,43,50,62,97],25:[38,41,46,54,66,104],26:[41,43,49,57,72,113],27:[43,46,51,62,78,122],28:[46,49,54,68,84,131],29:[49,53,59,72,91,141],30:[53,56,63,78,99,153],31:[56,60,68,84,106,166],32:[60,65,74,91,115,179],33:[65,69,79,99,124,196],34:[69,75,85,107,132,212],35:[75,81,93,116,143,231],36:[81,88,100,125,154,251],37:[88,96,109,135,168,276],38:[96,103,119,147,181,303],39:[103,113,129,157,196,331],40:[112,124,140,171,212,363],41:[122,134,151,184,229,401],42:[134,146,163,200,250,443],43:[146,157,176,216,272,488],44:[157,171,190,232,296,540],45:[172,184,203,251,321,596],46:[184,196,221,274,351,null],47:[196,210,237,297,385,null],48:[209,225,256,322,424,null],49:[224,243,276,350,466,null],50:[240,262,299,381,512,null],51:[260,284,325,421,568,null],52:[282,307,354,463,628,null],53:[307,334,387,510,697,null],54:[334,366,424,563,775,null],55:[363,401,465,624,860,null],56:[397,438,513,693,null,null],57:[434,478,568,771,null,null],58:[476,525,628,857,null,null],59:[524,584,697,956,null,null],60:[576,651,775,1066,null,null],61:[641,722,866,null,null,null],62:[715,803,968,null,null,null],63:[799,894,1082,null,null,null],64:[893,1006,1212,null,null,null],65:[999,1131,1359,null,null,null]} } };
+  var TERMS_ALL=[5,7,10,15,20,30];
+  var SEL_TERMS=[10,15,20];
+  var LIMIT={5:[18,70],7:[18,68],10:[18,65],15:[18,60],20:[18,55],30:[18,45]};
+
   var $=function(id){return document.getElementById(id);};
   var fmt=function(n){return Math.round(n).toLocaleString('en-US');};
   var state={sex:"M",age:52,budget:2500,prod:"HP",term:15,sa:300,need:300};
@@ -457,9 +518,14 @@
   $("ageInput").addEventListener("input",function(){setAge(parseInt(this.value)||18);});
   $("ageUp").onclick=function(){setAge(state.age+1);};
   $("ageDown").onclick=function(){setAge(state.age-1);};
-  $("budgetInput").addEventListener("input",function(){
-    state.budget=parseInt(this.value)||0; calcPrem();
-  });
+  function setBudget(v){
+    state.budget=parseInt(v)||0;
+    if($("budgetInput").value!=String(state.budget))$("budgetInput").value=state.budget;
+    if($("bbBudget")&&$("bbBudget").value!=String(state.budget))$("bbBudget").value=state.budget;
+    calcPrem();
+  }
+  $("budgetInput").addEventListener("input",function(){setBudget(this.value);});
+  document.addEventListener("input",function(e){ if(e.target&&e.target.id==="bbBudget") setBudget(e.target.value); });
 
   /* ---- needs ---- */
   function num(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
@@ -527,14 +593,7 @@
     show(0);
   })();
 
-  /* ---- product / term ---- */
-  $("prodChips").addEventListener("click",function(e){
-    var b=e.target.closest(".chip"); if(!b||b.disabled)return;
-    state.prod=b.getAttribute("data-prod");
-    Array.prototype.forEach.call(this.querySelectorAll(".chip"),function(c){
-      c.setAttribute("aria-pressed",c===b);});
-    calcPrem();
-  });
+  /* ---- term ---- */
   $("termChips").addEventListener("click",function(e){
     var b=e.target.closest(".chip"); if(!b||b.disabled)return;
     state.term=parseInt(b.getAttribute("data-term"));
@@ -544,34 +603,34 @@
   });
   $("saRange").addEventListener("input",function(){state.sa=parseInt(this.value);calcPrem();});
 
-  function rateFor(prod,term){
-    var row=RATES[prod][state.sex][state.age];
+  function rateFor(term){
+    var row=RATES.HP[state.sex][state.age];
     if(!row)return null;
-    return row[TERMS.indexOf(term)];
+    return row[TERMS_ALL.indexOf(term)];
   }
 
   /* ---- premium ---- */
   function calcPrem(){
     // update term labels + availability
-    TERMS.forEach(function(t){
+    SEL_TERMS.forEach(function(t){
       var lab=$("tl"+t), chip=document.querySelector('#termChips .chip[data-term="'+t+'"]');
-      var r=rateFor(state.prod,t);
+      var r=rateFor(t);
       if(r){ lab.textContent="保至 "+(state.age+t)+" 歲"; chip.disabled=false; }
       else { lab.textContent="此年齡不適用"; chip.disabled=true; }
     });
     // if current term unavailable, fall back to first available
-    if(!rateFor(state.prod,state.term)){
-      var alt=TERMS.filter(function(t){return rateFor(state.prod,t);});
+    if(!rateFor(state.term)){
+      var alt=SEL_TERMS.filter(function(t){return rateFor(t);});
       if(alt.length){
         state.term=alt[alt.length-1];
         Array.prototype.forEach.call($("termChips").querySelectorAll(".chip"),function(c){
           c.setAttribute("aria-pressed",parseInt(c.getAttribute("data-term"))===state.term);});
       }
     }
-    var rate=rateFor(state.prod,state.term);
+    var rate=rateFor(state.term);
     $("saLabel").innerHTML=state.sa+'<small> 萬</small>';
     $("cmpSA").innerHTML=state.sa+'<small> 萬</small>';
-    $("cmpProd").textContent=LABEL[state.prod]+" · "+state.term+" 年";
+    $("cmpProd").textContent="HP 平準 · "+state.term+" 年";
 
     if(rate==null){
       ["p_year","p_half","p_quarter","p_month"].forEach(function(id){$(id).textContent="—";});
@@ -581,7 +640,7 @@
       $("bl_body").textContent="投保年齡 "+state.age+" 歲已超過此年期上限，請改選其他年期。";
       $("bl_cover").textContent="";
       $("cmpBudget").className=""; $("cmpBudget").innerHTML='<span class="budget-dot"></span>—';
-      updateRateRef(); return;
+      updateRateRef(); renderAllTerms(); renderBudgetBack(); return;
     }
     var units=state.sa/10, annual=rate*units;
     var half=annual*0.52, quarter=annual*0.262, month=annual*0.088;
@@ -602,16 +661,54 @@
       bud.className="over"; bud.innerHTML='<span class="budget-dot"></span>超支 '+fmt(diff);
     }
     $("bl_cover").textContent="保障期間："+state.term+" 年，保額固定 "+state.sa+" 萬，保障至 "+(state.age+state.term)+" 歲。";
-    updateRateRef();
+    updateRateRef(); renderAllTerms(); renderBudgetBack();
   }
 
   function updateRateRef(){
-    var r=RATES[state.prod][state.sex][state.age];
+    var r=RATES.HP[state.sex][state.age];
     var sx=state.sex==="M"?"男":"女";
-    var s=state.age+"歲"+sx+"·"+LABEL[state.prod]+"（元/10萬/年）：";
-    if(r) s+="10年"+(r[0]==null?"—":r[0])+" · 15年"+(r[1]==null?"—":r[1])+" · 20年"+(r[2]==null?"—":r[2]);
-    else s+="此年齡無適用年期";
-    $("rateRef").textContent=s;
+    var out=state.age+"歲"+sx+"·HP平準（元/10萬/年）：";
+    if(r){ out+=TERMS_ALL.map(function(t,i){return t+"年"+(r[i]==null?"—":r[i]);}).join(" · "); }
+    else out+="此年齡無適用年期";
+    $("rateRef").textContent=out;
+  }
+  function renderAllTerms(){
+    var body=$("allTermsBody"); if(!body)return; body.innerHTML="";
+    var row=RATES.HP[state.sex][state.age];
+    TERMS_ALL.forEach(function(t,i){
+      var r=row?row[i]:null, tr=document.createElement("tr");
+      if(r==null){
+        tr.className="na";
+        tr.innerHTML='<td class="prod">'+t+' 年</td><td class="note" colspan="4">此年齡不可投保（限 '+LIMIT[t][0]+'–'+LIMIT[t][1]+' 歲）</td>';
+      }else{
+        var annual=r*(state.sa/10), month=annual*0.088, sel=(t===state.term);
+        tr.className=sel?"sel":"";
+        tr.innerHTML='<td class="prod">'+t+' 年'+(sel?' <span class="now">目前</span>':'')+'</td>'
+          +'<td class="r num">'+r+'</td>'
+          +'<td class="r num">'+fmt(annual)+'</td>'
+          +'<td class="r num">'+fmt(month)+'</td>'
+          +'<td class="r num">'+(state.age+t)+' 歲</td>';
+      }
+      body.appendChild(tr);
+    });
+  }
+  function renderBudgetBack(){
+    var box=$("bbCards"); if(!box)return; box.innerHTML="";
+    var row=RATES.HP[state.sex][state.age];
+    SEL_TERMS.forEach(function(t){
+      var r=row?row[TERMS_ALL.indexOf(t)]:null, c=document.createElement("div");
+      c.className="bb-card"+(t===state.term?" spot":"");
+      if(r==null){
+        c.innerHTML='<div class="bt">'+t+' 年期</div><div class="ba">—</div><div class="bf">此年齡不適用</div>';
+      }else{
+        var wan=Math.max(0,Math.floor((state.budget/0.088)/r*10));
+        var mon=r*(wan/10)*0.088;
+        c.innerHTML='<div class="bt">'+t+' 年期 · 至 '+(state.age+t)+' 歲</div>'
+          +'<div class="ba">'+fmt(wan)+' <small>萬</small></div>'
+          +'<div class="bf">月繳約 '+fmt(mon)+' 元</div>';
+      }
+      box.appendChild(c);
+    });
   }
 
   refreshWho(); calcNeeds(); calcPrem();
