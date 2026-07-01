@@ -26,12 +26,37 @@
   .eyebrow{font-size:12px;letter-spacing:.3em;color:#9db8a9;font-weight:700;text-transform:uppercase;margin:0 0 8px}
   header h1{font-size:clamp(22px,4.6vw,30px);margin:0;color:#fff;font-weight:900}
   header .who{color:#b7cabe;font-size:13.5px;margin-top:8px}
+  header .who b{color:#e9dcbf}
 
-  /* persistent compare bar */
-  .compare{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
-    margin:-20px auto 0;position:relative;z-index:3;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
-    align-items:center;padding:16px 10px}
-  .cmp{ text-align:center;padding:2px 8px}
+  /* profile bar (shared insured data) */
+  .profile{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+    margin:-20px auto 0;position:relative;z-index:4;padding:14px 18px;display:flex;flex-wrap:wrap;
+    align-items:center;gap:14px 22px}
+  .profile .ptitle{font-size:12px;letter-spacing:.14em;color:var(--pine);font-weight:700;text-transform:uppercase;
+    padding-right:14px;border-right:1px solid var(--line)}
+  .pfield{display:flex;align-items:center;gap:9px}
+  .pfield .pl{font-size:13px;color:var(--ink-soft)}
+  .segs{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .segs button{border:none;background:#fff;padding:7px 15px;font-family:"Noto Sans TC";font-size:14px;
+    font-weight:600;color:var(--ink-soft);cursor:pointer;transition:.12s}
+  .segs button[aria-pressed="true"]{background:var(--pine);color:#fff}
+  .segs button:focus-visible{outline:3px solid var(--gold-soft);outline-offset:-3px}
+  .stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+  .stepper button{border:none;background:#f1efe8;width:34px;height:36px;font-size:19px;color:var(--pine-deep);
+    cursor:pointer;font-family:"IBM Plex Mono"}
+  .stepper button:hover{background:var(--sage)}
+  .stepper button:focus-visible{outline:3px solid var(--gold-soft);outline-offset:-3px}
+  .stepper input{width:52px;text-align:center;border:none;font-family:"IBM Plex Mono",monospace;font-size:16px;
+    font-weight:600;color:var(--ink);background:#fff;-moz-appearance:textfield}
+  .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .pfield .un{font-size:13px;color:var(--ink-soft)}
+  .pfield input.budget{width:70px;text-align:right;font-family:"IBM Plex Mono";font-size:15px;font-weight:600;
+    border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:#fff}
+
+  /* compare bar */
+  .compare{background:var(--sage);border-radius:14px;margin:12px auto 0;display:grid;
+    grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;padding:15px 10px}
+  .cmp{text-align:center;padding:2px 8px}
   .cmp .lab{font-size:11.5px;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase}
   .cmp .val{font-family:"Noto Serif TC",serif;font-weight:700;font-size:clamp(20px,4vw,27px);color:var(--pine-deep);line-height:1.2;margin-top:2px}
   .cmp .val small{font-size:14px;font-weight:500}
@@ -60,7 +85,6 @@
   .panel h2{font-size:19px;margin:0 0 4px;color:var(--pine-deep)}
   .panel .intro{font-size:13.5px;color:var(--ink-soft);margin:0 0 20px}
 
-  /* needs rows */
   .grp-label{font-size:12px;letter-spacing:.14em;color:var(--pine);font-weight:700;text-transform:uppercase;
     margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
   .grp-label.minus{color:var(--over)}
@@ -75,7 +99,6 @@
   .row.compound{grid-template-columns:1fr;gap:6px}
   .compound .name{margin-bottom:2px}
   .compound .two{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .compound .two .inp .unit{min-width:auto}
   .times{color:var(--ink-soft);font-weight:600}
 
   .subtotal{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0 4px;font-size:14px;color:var(--ink-soft)}
@@ -91,7 +114,6 @@
   .carry:hover{background:#c1923a}
   .carry:focus-visible{outline:3px solid var(--gold-soft);outline-offset:2px}
 
-  /* premium calc */
   .choose{display:flex;flex-direction:column;gap:16px;margin-bottom:8px}
   .choose .clab{font-size:13px;color:var(--ink-soft);margin-bottom:8px;font-weight:500}
   .chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -100,6 +122,7 @@
   .chip small{display:block;font-size:11px;color:var(--ink-soft);font-weight:400}
   .chip[aria-pressed="true"]{border-color:var(--pine);background:#eef3ee;color:var(--pine-deep);box-shadow:0 0 0 1px var(--pine) inset}
   .chip.term[aria-pressed="true"]{border-color:var(--gold);background:#fbf5e8;box-shadow:0 0 0 1px var(--gold) inset;color:#8a6714}
+  .chip[disabled]{opacity:.42;cursor:not-allowed;box-shadow:none}
   .chip:focus-visible{outline:3px solid var(--gold-soft);outline-offset:2px}
 
   .slider-box{margin:22px 0 8px}
@@ -107,12 +130,9 @@
   .slider-top .k{font-size:13px;color:var(--ink-soft)}
   .slider-top .sa{font-family:"Noto Serif TC",serif;font-weight:700;font-size:26px;color:var(--pine-deep)}
   .slider-top .sa small{font-size:15px;font-weight:500}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;
-    background:var(--track);outline:none;margin:6px 0}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;
-    background:var(--gold);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
-  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--gold);
-    border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:99px;background:var(--track);outline:none;margin:6px 0}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
   input[type=range]:focus-visible{outline:3px solid var(--gold-soft);outline-offset:4px}
   .scale{display:flex;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft)}
 
@@ -127,8 +147,8 @@
   .verdict-line{margin-top:18px;border-radius:11px;padding:14px 16px;font-size:14px;line-height:1.6}
   .verdict-line.ok{background:#e9f1ec;color:var(--good)} .verdict-line.ok b{color:var(--good)}
   .verdict-line.over{background:#f6e9e3;color:var(--over)} .verdict-line.over b{color:var(--over)}
+  .verdict-line.na{background:#efeee8;color:var(--ink-soft)} .verdict-line.na b{color:var(--ink)}
   .verdict-line .cover{color:var(--ink-soft);font-size:12.5px;display:block;margin-top:5px}
-  .decr-note{margin-top:12px;font-size:12.5px;color:#8a6714;background:#f7f0df;border-radius:9px;padding:10px 13px;line-height:1.55}
 
   footer{margin:26px 0 50px;color:var(--ink-soft);font-size:12px;line-height:1.7;padding:0 4px}
   footer b{color:var(--ink)}
@@ -139,6 +159,8 @@
     .compare .cmp:nth-child(4),.compare .cmp:nth-child(5){display:none}
     .prem-grid{grid-template-columns:repeat(2,1fr)}
     .tab{font-size:14px;padding:12px 8px;flex-direction:column;gap:4px}
+    .profile{gap:12px 16px}
+    .profile .ptitle{border-right:none;width:100%;padding-right:0}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -149,11 +171,37 @@
   <div class="wrap">
     <p class="eyebrow">壽險規劃 · 互動試算</p>
     <h1>保額需求 × 保費試算</h1>
-    <p class="who">被保險人：男性 · 保險年齡 52 歲 · 標準體 · 預算月繳約 2,500 元</p>
+    <p class="who" id="whoLine">被保險人：<b>男性</b> · 投保年齡 <b>52</b> 歲 · 標準體</p>
   </div>
 </header>
 
 <div class="wrap">
+  <!-- 共用：被保險人基本資料（兩頁通用，可隨時切換調整） -->
+  <div class="profile">
+    <span class="ptitle">被保險人<br>基本資料</span>
+    <div class="pfield">
+      <span class="pl">性別</span>
+      <div class="segs" id="sexSeg">
+        <button data-sex="M" aria-pressed="true">男</button>
+        <button data-sex="F" aria-pressed="false">女</button>
+      </div>
+    </div>
+    <div class="pfield">
+      <span class="pl">投保年齡</span>
+      <div class="stepper">
+        <button id="ageDown" aria-label="年齡減一">−</button>
+        <input id="ageInput" type="number" value="52" min="18" max="65" inputmode="numeric">
+        <button id="ageUp" aria-label="年齡加一">＋</button>
+      </div>
+      <span class="un">歲</span>
+    </div>
+    <div class="pfield">
+      <span class="pl">月繳預算</span>
+      <input class="budget" id="budgetInput" type="number" value="2500" min="0" step="100">
+      <span class="un">元</span>
+    </div>
+  </div>
+
   <!-- 常駐對照列 -->
   <div class="compare">
     <div class="cmp">
@@ -170,7 +218,7 @@
     <div class="arrow">→</div>
     <div class="cmp">
       <div class="lab">月繳保費</div>
-      <div class="val" id="cmpFee">2,698<small> 元</small></div>
+      <div class="val" id="cmpFee">—</div>
       <div class="sub" id="cmpBudget"><span class="budget-dot"></span>—</div>
     </div>
   </div>
@@ -186,7 +234,7 @@
   <!-- 頁籤 1：需求分析 -->
   <div class="panel" id="panel1" role="tabpanel" aria-labelledby="tab1">
     <h2>需要多少壽險保障？</h2>
-    <p class="intro">以「遺族需求法」估算：家人在您身故後需要的資金，扣掉現有可用資源，差額就是建議的壽險保額。以下為示範預設值，請依實際情況調整。</p>
+    <p class="intro">以「遺族需求法」估算：家人在您身故後需要的資金，扣掉現有可用資源，差額就是建議的壽險保額。性別、年齡、預算請於上方「基本資料」設定；以下金額為示範預設值，請依實際情況調整。</p>
 
     <div class="grp-label">家人未來需要的資金</div>
     <div class="row">
@@ -233,23 +281,22 @@
   <!-- 頁籤 2：保費試算 -->
   <div class="panel" id="panel2" role="tabpanel" aria-labelledby="tab2" hidden>
     <h2>這個保額，每月要繳多少？</h2>
-    <p class="intro">依 52 歲男性、標準體之參考費率試算（每 10 萬元／年）。月繳＝年繳 × 0.088；實際以核保結果為準。</p>
+    <p class="intro">依上方「基本資料」設定的性別與投保年齡（標準體）自動查表試算。月繳＝年繳 × 0.088；實際以核保結果為準。切換性別或年齡，保費即時重算。</p>
 
     <div class="choose">
       <div>
-        <div class="clab">選擇商品</div>
+        <div class="clab">選擇商品（皆為平準型，保額固定不變）</div>
         <div class="chips" id="prodChips">
-          <button class="chip" data-prod="HP" aria-pressed="true">HP 貸貸幸福（平準型）<small>保額固定不變 · 費用率最低</small></button>
-          <button class="chip" data-prod="GE" aria-pressed="false">GE 不分紅定期(109A)<small>保額固定 · 保證續約至75歲</small></button>
-          <button class="chip" data-prod="HQ" aria-pressed="false">HQ 貸貸幸福（遞減型）<small>保額逐年遞減 · 對應房貸</small></button>
+          <button class="chip" data-prod="HP" aria-pressed="true">HP 貸貸幸福（平準型）<small>費用率最低</small></button>
+          <button class="chip" data-prod="GE" aria-pressed="false">GE 不分紅定期(109A)<small>保證續約至75歲</small></button>
         </div>
       </div>
       <div>
         <div class="clab">選擇年期（保障期間）</div>
         <div class="chips" id="termChips">
-          <button class="chip term" data-term="10" aria-pressed="false">10 年<small>保至 62 歲</small></button>
-          <button class="chip term" data-term="15" aria-pressed="true">15 年<small>保至 67 歲</small></button>
-          <button class="chip term" data-term="20" aria-pressed="false">20 年<small>保至 72 歲</small></button>
+          <button class="chip term" data-term="10" aria-pressed="false">10 年<small id="tl10">保至 —</small></button>
+          <button class="chip term" data-term="15" aria-pressed="true">15 年<small id="tl15">保至 —</small></button>
+          <button class="chip term" data-term="20" aria-pressed="false">20 年<small id="tl20">保至 —</small></button>
         </div>
       </div>
     </div>
@@ -271,131 +318,171 @@
     </div>
 
     <div class="verdict-line ok" id="budgetLine">
-      <b id="bl_head">符合預算</b><span id="bl_body"></span>
+      <b id="bl_head">—</b><span id="bl_body"></span>
       <span class="cover" id="bl_cover"></span>
     </div>
-    <div class="decr-note" id="decrNote" hidden>提醒：遞減型的保額為<b>首年金額</b>，之後逐年下降（DM 範例第 8 年約為七成）。此試算的月繳雖低，但保障會縮水，僅適合「對應房貸餘額」，不適合當作留給家人的固定現金。</div>
   </div>
 
   <footer>
-    <p><b>試算基礎</b>：費率取自臺銀人壽定期壽險 DM 之分期繳（年繳）費率表，男性、標準體、每 10 萬元保額；月繳＝年繳×0.088、半年×0.52、季×0.262；未計自動轉帳續期 1% 折扣，實繳可能略低。保障期間對應 52 歲投保：10年→62歲、15年→67歲、20年→72歲。</p>
-    <p class="rates">52歲男性參考費率（元／10萬／年）：HP平準 10年826·15年1,022·20年1,299　│　GE 10年987·15年1,246·20年1,600　│　HQ遞減 10年499·15年549·20年649</p>
-    <p style="margin-top:10px">保費會因年齡、性別、體位、繳費方式而異；是否承保與體位加費以臺銀人壽<b>核保結果</b>為準，不保證一定承保。本工具為試算參考，本人非保險或財務顧問，投保前請向臺銀人壽業務員確認條款與最新費率。</p>
+    <p><b>試算基礎</b>：費率取自臺銀人壽定期壽險 DM 之分期繳（年繳）費率表，標準體、每 10 萬元保額，含男女、各投保年齡、10/15/20 年期；月繳＝年繳×0.088、半年×0.52、季×0.262；未計自動轉帳續期 1% 折扣，實繳可能略低。投保年齡上限：20 年期 55 歲、15 年期 60 歲、10 年期 65 歲，超齡該年期不適用。</p>
+    <p class="rates" id="rateRef">—</p>
+    <p style="margin-top:10px">保費會因體位、繳費方式而異；是否承保與體位加費以臺銀人壽<b>核保結果</b>為準，不保證一定承保。本工具為試算參考，本人非保險或財務顧問，投保前請向臺銀人壽業務員確認條款與最新費率。</p>
   </footer>
 </div>
 
 <script>
 (function(){
-  // 已驗證費率：元/10萬/年，男52歲標準體
-  var RATE = {
-    HP:{10:826,15:1022,20:1299,label:"HP 平準"},
-    GE:{10:987,15:1246,20:1600,label:"GE 平準"},
-    HQ:{10:499,15:549,20:649,label:"HQ 遞減"}
+  // ===== 已驗證費率：元/10萬/年，標準體。索引 [10年,15年,20年]，null=該年期不適用 =====
+  var RATES = {
+    HP:{
+      M:{18:[68,75,90],19:[69,79,96],20:[71,82,101],21:[75,88,109],22:[78,94,118],23:[82,100,126],24:[87,107,137],25:[93,116,149],26:[100,125,162],27:[107,137,176],28:[116,149,191],29:[126,162,209],30:[138,176,228],31:[151,194,247],32:[165,212,268],33:[181,231,290],34:[197,251,315],35:[215,274,340],36:[235,297,368],37:[259,324,399],38:[282,350,431],39:[307,378,465],40:[334,409,501],41:[362,441,543],42:[391,478,585],43:[424,515,632],44:[456,554,682],45:[491,599,737],46:[529,646,796],47:[571,696,860],48:[613,750,931],49:[659,807,1009],50:[707,871,1093],51:[765,943,1191],52:[826,1022,1299],53:[893,1107,1416],54:[963,1203,1544],55:[1041,1307,1685],56:[1129,1429,null],57:[1226,1562,null],58:[1334,1709,null],59:[1453,1871,null],60:[1585,2047,null],61:[1740,null,null],62:[1910,null,null],63:[2099,null,null],64:[2307,null,null],65:[2538,null,null]},
+      F:{18:[29,35,41],19:[31,37,44],20:[34,38,47],21:[35,41,50],22:[37,44,53],23:[40,47,57],24:[43,50,62],25:[46,54,66],26:[49,57,72],27:[51,62,78],28:[54,68,84],29:[59,72,91],30:[63,78,99],31:[68,84,106],32:[74,91,115],33:[79,99,124],34:[85,107,132],35:[93,116,143],36:[100,125,154],37:[109,135,168],38:[119,147,181],39:[129,157,196],40:[140,171,212],41:[151,184,229],42:[163,200,250],43:[176,216,272],44:[190,232,296],45:[203,251,321],46:[221,274,351],47:[237,297,385],48:[256,322,424],49:[276,350,466],50:[299,381,512],51:[325,421,568],52:[354,463,628],53:[387,510,697],54:[424,563,775],55:[465,624,860],56:[513,693,null],57:[568,771,null],58:[628,857,null],59:[697,956,null],60:[775,1066,null],61:[866,null,null],62:[968,null,null],63:[1082,null,null],64:[1212,null,null],65:[1359,null,null]}
+    },
+    GE:{
+      M:{18:[117,119,126],19:[118,120,129],20:[119,121,134],21:[121,123,139],22:[122,124,148],23:[123,127,155],24:[124,133,165],25:[125,139,174],26:[126,149,188],27:[129,160,204],28:[137,173,219],29:[148,189,239],30:[161,202,257],31:[175,221,279],32:[190,241,301],33:[207,262,325],34:[226,284,352],35:[245,308,381],36:[267,333,416],37:[293,361,451],38:[317,391,490],39:[344,424,532],40:[373,459,577],41:[402,498,625],42:[436,540,678],43:[469,586,738],44:[508,636,801],45:[549,690,869],46:[596,748,948],47:[647,813,1030],48:[704,884,1122],49:[763,962,1222],50:[828,1046,1332],51:[904,1142,1461],52:[987,1246,1600],53:[1077,1363,1754],54:[1177,1489,1919],55:[1285,1628,2102],56:[1401,1788,null],57:[1529,1960,null],58:[1670,2149,null],59:[1827,2359,null],60:[2005,2592,null],61:[2210,null,null],62:[2434,null,null],63:[2680,null,null],64:[2953,null,null],65:[3255,null,null]},
+      F:{18:[48,53,61],19:[49,55,66],20:[50,59,69],21:[51,61,73],22:[53,64,77],23:[54,67,81],24:[58,70,86],25:[60,76,93],26:[67,83,103],27:[70,87,109],28:[78,97,118],29:[84,105,129],30:[89,110,138],31:[97,121,150],32:[104,131,163],33:[114,140,176],34:[121,151,188],35:[132,165,201],36:[144,178,218],37:[156,193,234],38:[167,206,254],39:[181,221,273],40:[198,238,295],41:[215,257,318],42:[230,278,347],43:[248,298,375],44:[265,323,408],45:[285,348,446],46:[307,378,488],47:[329,409,534],48:[356,446,585],49:[383,484,640],50:[411,528,701],51:[448,582,771],52:[488,641,847],53:[535,703,933],54:[585,774,1030],55:[644,853,1134],56:[711,941,null],57:[787,1038,null],58:[870,1147,null],59:[962,1269,null],60:[1063,1404,null],61:[1176,null,null],62:[1302,null,null],63:[1443,null,null],64:[1599,null,null],65:[1772,null,null]}
+    }
   };
-  var BUDGET = 2500;
-  var TERM_AGE = {10:62,15:67,20:72};
-
-  var state = {prod:"HP", term:15, sa:300, need:300};
-  var $ = function(id){return document.getElementById(id);};
-  var fmt = function(n){return Math.round(n).toLocaleString('en-US');};
+  var LABEL={HP:"HP 平準",GE:"GE 平準"};
+  var TERMS=[10,15,20];
+  var $=function(id){return document.getElementById(id);};
+  var fmt=function(n){return Math.round(n).toLocaleString('en-US');};
+  var state={sex:"M",age:52,budget:2500,prod:"HP",term:15,sa:300,need:300};
 
   /* ---- tabs ---- */
-  function selectTab(which){
-    var t1=which==="1";
-    $("tab1").setAttribute("aria-selected",t1); $("tab2").setAttribute("aria-selected",!t1);
-    $("panel1").hidden=!t1; $("panel2").hidden=t1;
-  }
-  $("tab1").addEventListener("click",function(){selectTab("1");});
-  $("tab2").addEventListener("click",function(){selectTab("2");});
+  function selectTab(w){var t1=w==="1";
+    $("tab1").setAttribute("aria-selected",t1);$("tab2").setAttribute("aria-selected",!t1);
+    $("panel1").hidden=!t1;$("panel2").hidden=t1;}
+  $("tab1").onclick=function(){selectTab("1");};
+  $("tab2").onclick=function(){selectTab("2");};
 
-  /* ---- needs analysis ---- */
+  /* ---- profile (shared) ---- */
+  function refreshWho(){
+    $("whoLine").innerHTML="被保險人：<b>"+(state.sex==="M"?"男性":"女性")+"</b> · 投保年齡 <b>"+state.age+"</b> 歲 · 標準體";
+  }
+  $("sexSeg").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b)return;
+    state.sex=b.getAttribute("data-sex");
+    Array.prototype.forEach.call(this.children,function(c){c.setAttribute("aria-pressed",c===b);});
+    refreshWho();calcPrem();
+  });
+  function setAge(v){
+    v=Math.max(18,Math.min(65,v|0)); state.age=v; $("ageInput").value=v;
+    refreshWho();calcPrem();
+  }
+  $("ageInput").addEventListener("input",function(){setAge(parseInt(this.value)||18);});
+  $("ageUp").onclick=function(){setAge(state.age+1);};
+  $("ageDown").onclick=function(){setAge(state.age-1);};
+  $("budgetInput").addEventListener("input",function(){
+    state.budget=parseInt(this.value)||0; calcPrem();
+  });
+
+  /* ---- needs ---- */
   function num(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
   function calcNeeds(){
-    var need = num("n_debt") + num("n_liveY")*num("n_liveN") + num("n_edu") + num("n_final");
-    var res  = num("n_exist") + num("n_asset");
-    var gap  = Math.max(0, need - res);
-    $("n_needSum").textContent = fmt(need)+" 萬";
-    $("n_resSum").textContent  = fmt(res)+" 萬";
-    $("n_gap").innerHTML = fmt(gap)+'<small> 萬</small>';
-    state.need = gap;
-    $("cmpNeed").innerHTML = fmt(gap)+'<small> 萬</small>';
+    var need=num("n_debt")+num("n_liveY")*num("n_liveN")+num("n_edu")+num("n_final");
+    var res=num("n_exist")+num("n_asset");
+    var gap=Math.max(0,need-res);
+    $("n_needSum").textContent=fmt(need)+" 萬";
+    $("n_resSum").textContent=fmt(res)+" 萬";
+    $("n_gap").innerHTML=fmt(gap)+'<small> 萬</small>';
+    state.need=gap; $("cmpNeed").innerHTML=fmt(gap)+'<small> 萬</small>';
   }
   ["n_debt","n_liveY","n_liveN","n_edu","n_final","n_exist","n_asset"].forEach(function(id){
-    $(id).addEventListener("input",calcNeeds);
-  });
-  $("carryBtn").addEventListener("click",function(){
-    var g = Math.max(50, Math.min(600, Math.round(state.need/10)*10));
-    $("saRange").value = g; state.sa = g;
-    calcPrem(); selectTab("2");
-  });
+    $(id).addEventListener("input",calcNeeds);});
+  $("carryBtn").onclick=function(){
+    var g=Math.max(50,Math.min(600,Math.round(state.need/10)*10));
+    $("saRange").value=g; state.sa=g; calcPrem(); selectTab("2");
+  };
 
-  /* ---- product / term chips ---- */
-  function pressGroup(container,attr,value,key){
-    Array.prototype.forEach.call(container.querySelectorAll(".chip"),function(c){
-      var on = c.getAttribute(attr)===String(value);
-      c.setAttribute("aria-pressed",on);
-    });
-    state[key]=value;
-  }
+  /* ---- product / term ---- */
   $("prodChips").addEventListener("click",function(e){
-    var b=e.target.closest(".chip"); if(!b)return;
-    pressGroup($("prodChips"),"data-prod",b.getAttribute("data-prod"),"prod");
+    var b=e.target.closest(".chip"); if(!b||b.disabled)return;
+    state.prod=b.getAttribute("data-prod");
+    Array.prototype.forEach.call(this.querySelectorAll(".chip"),function(c){
+      c.setAttribute("aria-pressed",c===b);});
     calcPrem();
   });
   $("termChips").addEventListener("click",function(e){
-    var b=e.target.closest(".chip"); if(!b)return;
-    pressGroup($("termChips"),"data-term",parseInt(b.getAttribute("data-term")),"term");
+    var b=e.target.closest(".chip"); if(!b||b.disabled)return;
+    state.term=parseInt(b.getAttribute("data-term"));
+    Array.prototype.forEach.call(this.querySelectorAll(".chip"),function(c){
+      c.setAttribute("aria-pressed",c===b);});
     calcPrem();
   });
-  $("saRange").addEventListener("input",function(){
-    state.sa = parseInt(this.value); calcPrem();
-  });
+  $("saRange").addEventListener("input",function(){state.sa=parseInt(this.value);calcPrem();});
+
+  function rateFor(prod,term){
+    var row=RATES[prod][state.sex][state.age];
+    if(!row)return null;
+    return row[TERMS.indexOf(term)];
+  }
 
   /* ---- premium ---- */
   function calcPrem(){
-    var rate = RATE[state.prod][state.term];      // 元/10萬/年
-    var units = state.sa/10;                        // 幾個10萬
-    var annual = rate*units;
-    var half = annual*0.52, quarter = annual*0.262, month = annual*0.088;
+    // update term labels + availability
+    TERMS.forEach(function(t){
+      var lab=$("tl"+t), chip=document.querySelector('#termChips .chip[data-term="'+t+'"]');
+      var r=rateFor(state.prod,t);
+      if(r){ lab.textContent="保至 "+(state.age+t)+" 歲"; chip.disabled=false; }
+      else { lab.textContent="此年齡不適用"; chip.disabled=true; }
+    });
+    // if current term unavailable, fall back to first available
+    if(!rateFor(state.prod,state.term)){
+      var alt=TERMS.filter(function(t){return rateFor(state.prod,t);});
+      if(alt.length){
+        state.term=alt[alt.length-1];
+        Array.prototype.forEach.call($("termChips").querySelectorAll(".chip"),function(c){
+          c.setAttribute("aria-pressed",parseInt(c.getAttribute("data-term"))===state.term);});
+      }
+    }
+    var rate=rateFor(state.prod,state.term);
+    $("saLabel").innerHTML=state.sa+'<small> 萬</small>';
+    $("cmpSA").innerHTML=state.sa+'<small> 萬</small>';
+    $("cmpProd").textContent=LABEL[state.prod]+" · "+state.term+" 年";
 
-    $("saLabel").innerHTML = state.sa+'<small> 萬</small>';
-    $("p_year").innerHTML   = fmt(annual)+'<small> 元</small>';
-    $("p_half").innerHTML   = fmt(half)+'<small> 元</small>';
-    $("p_quarter").innerHTML= fmt(quarter)+'<small> 元</small>';
-    $("p_month").innerHTML  = fmt(month)+'<small> 元</small>';
+    if(rate==null){
+      ["p_year","p_half","p_quarter","p_month"].forEach(function(id){$(id).textContent="—";});
+      $("cmpFee").textContent="—";
+      var bl=$("budgetLine"); bl.className="verdict-line na";
+      $("bl_head").textContent="此組合不適用 ";
+      $("bl_body").textContent="投保年齡 "+state.age+" 歲已超過此年期上限，請改選其他年期。";
+      $("bl_cover").textContent="";
+      $("cmpBudget").className=""; $("cmpBudget").innerHTML='<span class="budget-dot"></span>—';
+      updateRateRef(); return;
+    }
+    var units=state.sa/10, annual=rate*units;
+    var half=annual*0.52, quarter=annual*0.262, month=annual*0.088;
+    $("p_year").innerHTML=fmt(annual)+'<small> 元</small>';
+    $("p_half").innerHTML=fmt(half)+'<small> 元</small>';
+    $("p_quarter").innerHTML=fmt(quarter)+'<small> 元</small>';
+    $("p_month").innerHTML=fmt(month)+'<small> 元</small>';
+    $("cmpFee").innerHTML=fmt(month)+'<small> 元</small>';
 
-    // compare bar
-    $("cmpSA").innerHTML = state.sa+'<small> 萬</small>';
-    $("cmpProd").textContent = RATE[state.prod].label+" · "+state.term+" 年";
-    $("cmpFee").innerHTML = fmt(month)+'<small> 元</small>';
-
-    // budget verdict
-    var diff = month - BUDGET;
-    var bl=$("budgetLine"), bud=$("cmpBudget");
+    var diff=month-state.budget, bl=$("budgetLine"), bud=$("cmpBudget");
     if(diff<=0){
-      bl.className="verdict-line ok";
-      $("bl_head").textContent="在預算內 ";
+      bl.className="verdict-line ok"; $("bl_head").textContent="在預算內 ";
       $("bl_body").textContent="月繳 "+fmt(month)+" 元，尚有餘裕約 "+fmt(-diff)+" 元 / 月。";
       bud.className="ok"; bud.innerHTML='<span class="budget-dot"></span>預算內';
     }else{
-      bl.className="verdict-line over";
-      $("bl_head").textContent="超出預算 ";
+      bl.className="verdict-line over"; $("bl_head").textContent="超出預算 ";
       $("bl_body").textContent="月繳 "+fmt(month)+" 元，每月超支約 "+fmt(diff)+" 元。可考慮縮短年期或調降保額。";
       bud.className="over"; bud.innerHTML='<span class="budget-dot"></span>超支 '+fmt(diff);
     }
-
-    // coverage note + decreasing note
-    if(state.prod==="HQ"){
-      $("bl_cover").textContent="保障期間："+state.term+" 年（保至 "+TERM_AGE[state.term]+" 歲），但保額逐年遞減。";
-      $("decrNote").hidden=false;
-    }else{
-      $("bl_cover").textContent="保障期間："+state.term+" 年，保額固定 "+state.sa+" 萬，保障至 "+TERM_AGE[state.term]+" 歲。";
-      $("decrNote").hidden=true;
-    }
+    $("bl_cover").textContent="保障期間："+state.term+" 年，保額固定 "+state.sa+" 萬，保障至 "+(state.age+state.term)+" 歲。";
+    updateRateRef();
   }
 
-  calcNeeds();
-  calcPrem();
+  function updateRateRef(){
+    var r=RATES[state.prod][state.sex][state.age];
+    var sx=state.sex==="M"?"男":"女";
+    var s=state.age+"歲"+sx+"·"+LABEL[state.prod]+"（元/10萬/年）：";
+    if(r) s+="10年"+(r[0]==null?"—":r[0])+" · 15年"+(r[1]==null?"—":r[1])+" · 20年"+(r[2]==null?"—":r[2]);
+    else s+="此年齡無適用年期";
+    $("rateRef").textContent=s;
+  }
+
+  refreshWho(); calcNeeds(); calcPrem();
 })();
 </script>
 </body>
