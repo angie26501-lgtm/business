@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>你的保障規劃 · 方向與重點</title>
+<style>
+:root{
+  --ink:#16233F; --ink2:#2B3B5C; --gold:#C6952F; --gold-soft:#F2E6C9;
+  --paper:#EEF1F6; --card:#FBFCFE; --line:#DCE1EA; --grey:#5C6779;
+  --calm:#2F7D6B; --calm-soft:#DCEDE8; --risk:#C85E3F; --risk-soft:#F6E1D9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:-apple-system,"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  line-height:1.7;-webkit-text-size-adjust:100%;overflow-x:hidden}
+.serif{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+/* progress */
+.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--calm));width:0;z-index:60;transition:width .1s linear}
+/* hero */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;position:relative;padding:60px 0 40px}
+.eyebrow{font-size:12.5px;letter-spacing:3px;color:var(--gold);font-weight:800;text-transform:uppercase}
+.hero h1{font-size:clamp(34px,8vw,60px);line-height:1.18;margin:14px 0 0;font-weight:900;letter-spacing:.5px}
+.hero h1 .hl{color:var(--gold);position:relative;white-space:nowrap}
+.hero .lead{font-size:clamp(16px,3.4vw,19px);color:var(--ink2);margin-top:20px;max-width:34ch}
+.hero .scrolltip{margin-top:40px;font-size:12.5px;color:var(--grey);display:flex;align-items:center;gap:8px}
+.hero .scrolltip .dot{width:22px;height:34px;border:2px solid var(--grey);border-radius:12px;position:relative;flex:0 0 auto}
+.hero .scrolltip .dot::after{content:"";position:absolute;left:50%;top:6px;transform:translateX(-50%);width:3px;height:6px;background:var(--grey);border-radius:2px;animation:scr 1.6s infinite}
+@keyframes scr{0%{opacity:0;top:6px}40%{opacity:1}100%{opacity:0;top:16px}}
+/* sections */
+section.blk{padding:56px 0}
+.num{font-family:"Noto Serif TC",serif;font-size:13px;color:var(--gold);font-weight:800;letter-spacing:2px}
+.blk h2{font-size:clamp(24px,5.5vw,34px);line-height:1.3;margin:8px 0 0;font-weight:900}
+.blk .sub{color:var(--ink2);font-size:clamp(15px,3.2vw,17px);margin-top:14px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:22px;box-shadow:0 10px 30px rgba(22,35,63,.06)}
+.pill{display:inline-block;background:var(--gold-soft);color:#7a5a12;font-weight:800;font-size:12.5px;padding:4px 12px;border-radius:999px}
+.big-quote{font-family:"Noto Serif TC",serif;font-size:clamp(22px,5vw,30px);line-height:1.5;font-weight:800}
+.emph{color:var(--gold)}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:3px 10px;border-radius:8px;background:#EEF2F8;color:var(--ink2)}
+/* interactive: toggle buttons */
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;margin-top:6px}
+.seg button{font-family:inherit;font-size:14px;font-weight:800;padding:10px 18px;border:none;background:#fff;color:var(--ink2);cursor:pointer}
+.seg button.on{background:var(--ink);color:#fff}
+.costbar{display:flex;gap:8px;align-items:flex-end;height:120px;margin-top:18px}
+.costcol{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}
+.costcol .blk2{width:100%;border-radius:10px 10px 0 0;transition:height .5s cubic-bezier(.2,.8,.2,1)}
+.costcol .cap{font-size:12px;color:var(--grey);font-weight:700}
+.costcol .amt{font-size:15px;font-weight:900}
+.note{background:var(--gold-soft);border-radius:12px;padding:12px 14px;font-size:13.5px;color:#6a4f14;margin-top:16px;line-height:1.65}
+/* stacking bar */
+.stack{margin-top:20px}
+.stackbar{position:relative;height:56px;border-radius:12px;background:#EDF0F5;overflow:hidden;display:flex}
+.stackbar .seg-main{background:var(--gold);height:100%;width:20%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;transition:width .1s}
+.stackbar .seg-add{background:var(--ink);height:100%;width:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;overflow:hidden;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.stack.on .stackbar .seg-add{width:80%}
+.stack .total{margin-top:10px;font-weight:900;font-size:16px}
+.stack .total .n{color:var(--calm);font-size:22px}
+.btn{font-family:inherit;font-size:14px;font-weight:800;padding:10px 18px;border-radius:12px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;margin-top:16px}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn:active{transform:translateY(1px)}
+/* baseline (signature) */
+.baseline{position:relative;margin-top:24px;border-radius:18px;background:linear-gradient(180deg,#fff, #F6F8FB);border:1px solid var(--line);padding:22px 18px 18px}
+.baseline .risktag{position:absolute;top:-13px;right:16px;background:var(--risk);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(200,94,63,.3)}
+.gauge{position:relative;height:190px;border-radius:14px;background:#EDF1F6;overflow:hidden;border:1px solid var(--line)}
+.gauge .fill{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(180deg,var(--calm),#3E9B85);transition:height .6s cubic-bezier(.2,.8,.2,1)}
+.gauge .line{position:absolute;left:0;right:0;bottom:78%;height:0;border-top:2px dashed var(--ink);display:flex;align-items:center}
+.gauge .line span{background:var(--ink);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;margin-left:10px;transform:translateY(-50%)}
+.gauge .status{position:absolute;left:14px;top:12px;font-weight:900;font-size:15px;color:var(--ink)}
+.checks{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.chk{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-weight:700;font-size:14px;transition:.2s}
+.chk input{width:20px;height:20px;accent-color:var(--calm);flex:0 0 auto}
+.chk.on{border-color:var(--calm);background:var(--calm-soft)}
+.chk small{display:block;font-weight:500;color:var(--grey);font-size:12px}
+/* compare */
+.compare{display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px}
+@media(min-width:560px){.compare{grid-template-columns:1fr 1fr}}
+.cc{border-radius:16px;padding:18px;border:1.5px solid var(--line);background:#fff}
+.cc.bad{border-color:var(--risk-soft);background:#FDF6F3}
+.cc.good{border-color:var(--calm);background:var(--calm-soft)}
+.cc h4{margin:0 0 4px;font-size:15px}
+.cc .price{font-size:22px;font-weight:900;margin:6px 0}
+.cc.bad .price{color:var(--risk)} .cc.good .price{color:var(--calm)}
+.cc ul{margin:8px 0 0;padding-left:16px;font-size:13px;color:var(--ink2);line-height:1.7}
+/* selective chips */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.chip{border:1.5px dashed var(--line);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--ink2);user-select:none;transition:.15s}
+.chip.on{border-style:solid;border-color:var(--calm);background:var(--calm-soft);color:#1d5c4e}
+.chip.on::before{content:"✓ "}
+.selsum{margin-top:14px;font-weight:800;font-size:14px}
+/* cta */
+.cta{background:var(--ink);color:#fff;border-radius:22px;padding:34px 26px;margin:20px 0 60px;text-align:center}
+.cta h3{font-size:clamp(22px,5vw,28px);margin:0 0 8px;font-weight:900}
+.cta p{color:#C7D0E0;font-size:14.5px;margin:0 0 18px}
+.cta .contact{display:inline-flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:16px 24px}
+.cta .contact b{font-size:18px;color:var(--gold)}
+.cta .contact a{color:#fff;text-decoration:none;font-size:16px;font-weight:800}
+.foot{color:var(--grey);font-size:11.5px;text-align:center;padding:0 0 40px;line-height:1.7}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow reveal in">保障規劃 · 給你的說明</div>
+    <h1 class="serif reveal in">先顧好<span class="hl">下一秒</span><br>再談其他</h1>
+    <p class="lead reveal in">保險不是每一張都買，而是把錢放在<b>真正需要</b>的地方。<br>這頁用幾個小互動，帶你看懂規劃的方向與重點。</p>
+    <div class="scrolltip reveal in"><span class="dot"></span> 往下滑，一步步看</div>
+  </header>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">01</div>
+    <h2 class="serif">規劃，從你的<span class="emph">需求</span>出發</h2>
+    <p class="sub">同樣的預算，重點不是「買最多」，而是「買對」。我們先看你最在意、最需要的風險，再決定要不要那張保單——<b>不是每一張都買</b>。</p>
+    </div>
+    <div class="card reveal">
+      <span class="pill">一句話</span>
+      <p class="big-quote" style="margin:12px 0 0">先問「<span class="emph">需要什麼</span>」，<br>再決定「<span class="emph">買什麼</span>」。</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">02</div>
+    <h2 class="serif">主約的<span class="emph">成本</span>：一家，還是多一家？</h2>
+    <p class="sub">每多一家保險公司，就多一份「主約」的基本成本。多一家不是不行——但要<b>值得</b>：除非那家有你需要、而別家沒有的保障。</p>
+    </div>
+    <div class="card reveal">
+      <div class="seg" id="coSeg">
+        <button class="on" data-n="1">用一家</button>
+        <button data-n="2">多一家</button>
+      </div>
+      <div class="costbar">
+        <div class="costcol"><span class="amt" id="c1amt">1 份</span><div class="blk2" id="c1" style="height:70px;background:var(--gold)"></div><span class="cap">主約基本成本</span></div>
+        <div class="costcol"><span class="amt" id="c2amt">—</span><div class="blk2" id="c2" style="height:0;background:var(--ink)"></div><span class="cap">第二家主約</span></div>
+      </div>
+      <div class="note" id="coNote">用一家：只揹一份主約成本，附約都掛在同一張主約下，最省。</div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">03</div>
+    <h2 class="serif">主約可以<span class="emph">依需求更換</span></h2>
+    <p class="sub">主約只是「承載附約的載體」。需求會變，主約也能隨之調整——不必為了遷就某張舊主約，一直多付保費。規劃永遠<b>以你的需求為準</b>。</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">04</div>
+    <h2 class="serif">重大傷病：用<span class="emph">20萬主約</span>＋附約疊加</h2>
+    <p class="sub">不必一次買很高保額的主約。用<b>基本保額 20 萬當主約</b>（成本低），再<b>附加重大傷病附約</b>把保額堆到位——彈性更高、成本更聰明。</p>
+    </div>
+    <div class="card reveal">
+      <div class="stack" id="stack">
+        <div class="stackbar">
+          <div class="seg-main">主約 20萬</div>
+          <div class="seg-add">附約 80萬</div>
+        </div>
+        <div class="total">合計保障：<span class="n" id="stackTotal">20 萬</span></div>
+      </div>
+      <button class="btn" id="stackBtn">＋ 疊加重大傷病附約 80萬</button>
+      <div class="note">先用低成本主約「承載」，再用附約把保額補到 100 萬——比直接買 100 萬主約更省、也更好調整。</div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">05</div>
+    <h2 class="serif">先顧「下一秒」的<span class="emph">標準線</span></h2>
+    <p class="sub">如果風險<b>下一秒就發生</b>，你的保障接得住嗎？先把這條「安心標準線」顧好——實支雜費、重大傷病一次金、長照或失能——再談加碼。</p>
+    </div>
+    <div class="card reveal">
+      <div class="baseline">
+        <div class="risktag">⚡ 下一秒風險</div>
+        <div class="gauge">
+          <div class="fill" id="fill"></div>
+          <div class="line"><span>安心標準線</span></div>
+          <div class="status" id="gstatus">目前：保障缺口</div>
+        </div>
+        <div class="checks" id="checks">
+          <label class="chk"><input type="checkbox" data-w="34"><span>實支雜費（自費醫材／自費藥）<small>支架、人工水晶體、標靶⋯多走這裡</small></span></label>
+          <label class="chk"><input type="checkbox" data-w="34"><span>重大傷病一次金<small>確診就理賠，補收入中斷與療程缺口</small></span></label>
+          <label class="chk"><input type="checkbox" data-w="32"><span>長照或失能保障<small>照顧與生活重建，長期最吃重</small></span></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">06</div>
+    <h2 class="serif">意外失能：<span class="emph">意外險專案</span>就夠</h2>
+    <p class="sub">意外失能不必特地買成「主約」多付保費。壽險公司的一般<b>意外傷害險專案，一年幾千元</b>就能把額度做足。</p>
+    </div>
+    <div class="compare reveal">
+      <div class="cc bad">
+        <span class="tag">比較貴</span>
+        <h4>當成主約買</h4>
+        <div class="price">多付保費</div>
+        <ul><li>揹一份主約成本</li><li>為了意外失能而多繳</li><li>彈性較低</li></ul>
+      </div>
+      <div class="cc good">
+        <span class="tag">更划算</span>
+        <h4>意外險專案</h4>
+        <div class="price">一年幾千元</div>
+        <ul><li>額度可做到 300 萬起</li><li>成本低、可年年調整</li><li>把預算留給更需要的保障</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="reveal"><div class="num serif">07</div>
+    <h2 class="serif">所以，<span class="emph">怎麼選</span>？</h2>
+    <p class="sub">依你的需求挑，不是全部都勾。試著點點看——哪些是你「這個階段最需要」的？</p>
+    </div>
+    <div class="card reveal">
+      <div class="chips" id="chips">
+        <span class="chip" data-k="必">實支雜費</span>
+        <span class="chip" data-k="必">重大傷病</span>
+        <span class="chip" data-k="必">長照／失能</span>
+        <span class="chip" data-k="選">癌症一次金</span>
+        <span class="chip" data-k="選">壽險身故</span>
+        <span class="chip" data-k="選">意外醫療</span>
+        <span class="chip" data-k="選">住院日額</span>
+      </div>
+      <div class="selsum" id="selsum">已選 0 項——挑你最需要的就好，其餘可以緩緩。</div>
+      <div class="note">重點永遠是：<b>先把標準線顧好</b>，再依預算加碼。錢花在刀口上，比「每張都買」更安心。</div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <h3 class="serif">想知道你的專屬規劃？</h3>
+    <p>我會依你的需求與預算，幫你把「標準線」先顧好，再談加碼。</p>
+    <div class="contact">
+      <span style="font-size:12px;color:#AEB9CC;letter-spacing:1px">神助理 · 馥芸財富學苑</span>
+      <b>顧問　陳芸琪</b>
+      <a href="tel:0918800852">☎ 0918800852</a>
+    </div>
+  </div>
+
+  <div class="foot">本頁為保障規劃觀念說明，非投保建議；實際保障內容、保費與理賠，以各保險公司保單條款及核保結果為準。</div>
+
+</div>
+
+<script>
+// progress
+var prog=document.getElementById('prog');
+addEventListener('scroll',function(){var h=document.documentElement;var sc=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(sc*100)+'%';},{passive:true});
+// reveal
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+// 02 主約成本
+var coSeg=document.getElementById('coSeg');
+coSeg.onclick=function(e){var b=e.target.closest('button'); if(!b)return; coSeg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});
+  var n=+b.getAttribute('data-n');
+  document.getElementById('c2').style.height=n===2?'70px':'0';
+  document.getElementById('c2amt').textContent=n===2?'1 份':'—';
+  document.getElementById('coNote').textContent = n===2
+    ? '多一家：多揹一份主約成本。只有當這家有你需要、別家沒有的保障時，才值得多這一份。'
+    : '用一家：只揹一份主約成本，附約都掛在同一張主約下，最省。';
+};
+// 04 疊加
+var stack=document.getElementById('stack'),sBtn=document.getElementById('stackBtn'),sT=document.getElementById('stackTotal');
+sBtn.onclick=function(){ var on=stack.classList.toggle('on');
+  sT.textContent=on?'100 萬':'20 萬';
+  sBtn.textContent=on?'− 移除附約（回到 20萬主約）':'＋ 疊加重大傷病附約 80萬';
+};
+// 05 標準線
+var checks=document.getElementById('checks'),fill=document.getElementById('fill'),gstatus=document.getElementById('gstatus');
+function updBaseline(){var sum=0,cnt=0;checks.querySelectorAll('input').forEach(function(c){if(c.checked){sum+=+c.getAttribute('data-w');cnt++;}c.closest('.chk').classList.toggle('on',c.checked);});
+  fill.style.height=sum+'%';
+  gstatus.textContent = cnt===0?'目前：保障缺口' : (cnt<3?'建立中⋯還差一點':'✓ 已達安心標準線');
+  gstatus.style.color = cnt>=3?'#1d5c4e':'#16233F';
+}
+checks.onchange=updBaseline;
+// 07 chips
+var chips=document.getElementById('chips'),selsum=document.getElementById('selsum');
+chips.onclick=function(e){var c=e.target.closest('.chip'); if(!c)return; c.classList.toggle('on');
+  var on=chips.querySelectorAll('.chip.on').length;
+  var must=chips.querySelectorAll('.chip.on[data-k="必"]').length;
+  selsum.textContent='已選 '+on+' 項'+(must>=3?'——標準線顧好了，其餘依預算加碼即可。':'——挑你最需要的就好，其餘可以緩緩。');
+};
+</script>
+</body>
+</html>
