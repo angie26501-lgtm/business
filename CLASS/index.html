@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="googlebot" content="noindex, nofollow, noarchive">
+<title>CLASS 講座總目錄</title>
+<style>
+:root{--bg:#F4F2ED;--paper:#FFFFFF;--ink:#1B2638;--muted:#6C7079;--line:#DAD6CC;--brass:#94733A;--err:#B4442E}
+@media (prefers-color-scheme:dark){:root{--bg:#12161D;--paper:#1A202A;--ink:#ECE7DC;--muted:#98968F;--line:#2D3543;--brass:#D0AC69;--err:#F08A72;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;padding:16px}
+form{background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--brass);border-radius:16px;padding:28px 26px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 32px);overflow-y:auto}
+.cons{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.cons b.h{font-size:14.5px}
+.cbox{max-height:150px;overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.75;color:var(--ink)}
+.cbox b{color:var(--brass)}
+label.ok{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer}
+label.ok input{margin-top:3px;width:18px;height:18px;accent-color:var(--brass);flex:none}
+.tip{font-size:12.5px;color:var(--muted);background:var(--bg);border-radius:10px;padding:8px 12px;line-height:1.6}
+@media print{body>*{display:none!important}body:after{content:"本頁為線上閱讀版，不提供列印。如有需要，請洽講師 陳芸琪。";display:block;padding:40mm 20mm;text-align:center}}
+.eb{font-size:13px;letter-spacing:.14em;color:var(--brass);font-weight:700;margin:0}
+h1{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif;font-size:24px;margin:0;line-height:1.35}
+p{margin:0;color:var(--muted);font-size:15px}
+.f{position:relative}
+input[type=password],input[type=text]{font:inherit;font-size:17px;padding:12px 76px 12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+label.rm{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer}
+label.rm input{width:18px;height:18px;accent-color:var(--brass)}
+button.go{font:inherit;font-size:16px;padding:12px;border:none;border-radius:999px;background:var(--ink);color:var(--bg);cursor:pointer}
+input:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.err{color:var(--err);font-size:14px;min-height:1.4em}
+</style></head><body>
+<form id="g" autocomplete="off">
+<p class="eb">財顧芸｜課程資料</p>
+<h1>CLASS 講座總目錄</h1>
+<p>請輸入講師通行碼</p>
+<div class="f"><input id="pw" type="password" aria-label="通行碼" autofocus><button type="button" class="eye" id="eye" aria-pressed="false">顯示</button></div>
+<label class="rm"><input type="checkbox" id="rm" checked>30 天內記住我（自己的手機或電腦才勾）</label>
+<div class="cons"><b class="h">🔒 使用說明與個人資料保護告知</b>
+<div class="cbox">
+<b>1. 使用範圍：</b>本網頁為財顧芸 陳芸琪／馥芸財富學苑的講座課程資料，僅供報名學員與受邀同仁個人學習使用。<br>
+<b>2. 著作權：</b>內容為原創，保留所有權利。請勿轉傳通行碼，或將內容截圖、重製後散布。<br>
+<b>3. 個資告知（個人資料保護法第 8 條）：</b>若您填寫課後問卷，蒐集目的為課程服務與後續學習支援；個資類別為姓名與問卷回覆；僅由講師本人於課程服務期間使用。回覆由您自行傳送到講師 LINE，不會儲存在本網頁。您可隨時透過 LINE@ 請求查詢、更正或刪除；不提供不影響您閱讀課程內容。<br>
+<b>4. 內容性質：</b>個案依公開新聞報導整理並經遮蔽處理，非判決全文，不構成法律、稅務或投資建議。<br>
+<b>5. 保護設定：</b>本網頁不被搜尋引擎收錄、不提供列印，通行碼錯誤無法開啟內容。
+</div>
+<label class="ok"><input type="checkbox" id="cs">我已閱讀並同意上述使用說明與個人資料告知</label></div>
+<button type="submit" class="go">進入</button>
+<p class="err" id="e" role="alert"></p>
+<p class="tip">提醒：LINE 內建瀏覽器可能無法記住登入，建議點右上角「⋯」改用 Safari 或 Chrome 開啟。</p>
+</form>
+<script>
+document.addEventListener("contextmenu",function(e){e.preventDefault()});
+var P={"n": 250000, "i": "M3F/OTNCB71Pw3yo", "c": "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", "slots": [{"s": "EPL9q2rTR+nyB2zm4yOCcA==", "i": "pL06gTJZu3SuOH/J", "k": "Ikdrk+dzw3L/xp1xzTVY8GC3BEtKzHNudIhLDCRxQgkvN1nUZl95Q2GknFQ91SMN"}]}, K='fy_lectures_pass', DAY=864e5;
+function b(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+function save(pw,remember){
+  try{sessionStorage.setItem(K,pw)}catch(e){}
+  try{ if(remember) localStorage.setItem(K,JSON.stringify({pw:pw,exp:Date.now()+30*DAY})); }catch(e){}
+}
+function clearAll(){try{sessionStorage.removeItem(K)}catch(e){} try{localStorage.removeItem(K)}catch(e){}}
+function stored(){
+  var out=[];
+  try{var s=sessionStorage.getItem(K); if(s) out.push(s)}catch(e){}
+  try{var l=JSON.parse(localStorage.getItem(K)||'null'); if(l&&l.exp>Date.now()) out.push(l.pw); else if(l) localStorage.removeItem(K)}catch(e){}
+  return out;
+}
+async function slot(pw,sl){
+  var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(sl.s),iterations:P.n,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  return crypto.subtle.decrypt({name:'AES-GCM',iv:b(sl.i)},key,b(sl.k));
+}
+async function open_(pw,remember){
+  var dk=null;
+  for(var j=0;j<P.slots.length;j++){try{dk=await slot(pw,P.slots[j]);break}catch(e){}}
+  if(!dk)throw new Error('bad');
+  var key=await crypto.subtle.importKey('raw',dk,{name:'AES-GCM'},false,['decrypt']);
+  var html=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b(P.i)},key,b(P.c)));
+  save(pw,remember);
+  var bar='<button type="button" id="fy-logout" style="position:fixed;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:9999;font:14px/1 sans-serif;padding:8px 12px;border-radius:999px;border:1px solid #C8A15A;background:#1E2A3F;color:#F6F1E8;cursor:pointer;opacity:.85">登出</button><script>document.getElementById("fy-logout").addEventListener("click",function(){try{sessionStorage.removeItem("'+K+'")}catch(e){}try{localStorage.removeItem("'+K+'")}catch(e){}location.reload()});<\/script>';
+  var guard='<style>@media print{body>*{display:none!important}body:after{content:"本頁為線上閱讀版，不提供列印。如有需要，請洽講師 陳芸琪。";display:block;padding:40mm 20mm;text-align:center}}</style><script>document.addEventListener("contextmenu",function(e){e.preventDefault()});<\/script>';
+  html=html.replace('</head>','<meta name="robots" content="noindex, nofollow, noarchive"></head>').replace('</body>',guard+bar+'</body>');
+  document.open();document.write(html);document.close();
+}
+document.getElementById('eye').addEventListener('click',function(){
+  var i=document.getElementById('pw'),show=i.type==='password';
+  i.type=show?'text':'password';this.textContent=show?'隱藏':'顯示';this.setAttribute('aria-pressed',show);i.focus();
+});
+document.getElementById('g').addEventListener('submit',function(ev){
+  ev.preventDefault();var e=document.getElementById('e');if(!document.getElementById('cs').checked){e.textContent='請先閱讀並勾選同意「使用說明與個人資料保護告知」。';return}e.textContent='解鎖中…';
+  if(!window.crypto||!crypto.subtle){e.textContent='這個瀏覽器無法解鎖，請改用 Chrome 或 Safari 開啟。';return}
+  open_(document.getElementById('pw').value.trim(),document.getElementById('rm').checked).catch(function(){e.textContent='通行碼不正確，請再試一次（注意大小寫）。'});
+});
+(async function(){var c=stored();for(var i=0;i<c.length;i++){try{await open_(c[i],false);return}catch(e){}}})();
+</script>
+</body></html>
