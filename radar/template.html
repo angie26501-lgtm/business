@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="googlebot" content="noindex, nofollow, noarchive">
+<title>財顧芸壽險商品雷達</title>
+<style>*{box-sizing:border-box}body{margin:0;font-size:14px}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px)}</style>
+<style>
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+@media print{body>*{display:none!important}body:after{content:"本頁為線上查詢版，不提供列印。如有需要，請洽 財顧芸 陳芸琪。";display:block;padding:40mm 20mm;text-align:center}}
+</style>
+<script>
+(function(){
+  var allowInput=function(e){var t=e.target;return t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA")};
+  document.addEventListener("contextmenu",function(e){e.preventDefault()});
+  ["copy","cut","dragstart","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){if(!allowInput(e))e.preventDefault()})});
+  document.addEventListener("keydown",function(e){
+    var k=(e.key||"").toLowerCase(),mod=e.ctrlKey||e.metaKey;
+    if(e.key==="F12"||(mod&&e.shiftKey&&(k==="i"||k==="j"||k==="c"))||(mod&&(k==="u"||k==="s"||k==="p"))){e.preventDefault();return}
+    if(mod&&(k==="c"||k==="x"||k==="a")&&!allowInput(e))e.preventDefault();
+  });
+})();
+</script>
+</head><body>
+
+<style>
+/* Layout: sticky search header, chip filters, responsive card grid; bottom tab bar on phones */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --ink:#18232f; --muted:#5d6b78; --line:#dde3e9;
+  --brand:#1f3d5c; --brand-ink:#ffffff; --accent:#c4572a; --new-bg:#fdeee6; --new-ink:#b2431a;
+  --tag-bg:#eef2f6; --tag-ink:#3f5163; --warn-bg:#fff6dc; --warn-ink:#8a6200; --ok-ink:#2d7a4f;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --font-data:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --surface:#18212b; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
+  --brand:#16293d; --brand-ink:#e9f0f7; --accent:#ef8a5c; --new-bg:#3a2218; --new-ink:#ffb08a;
+  --tag-bg:#223040; --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; --ok-ink:#7fd1a1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --surface:#18212b; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
+  --brand:#16293d; --brand-ink:#e9f0f7; --accent:#ef8a5c; --new-bg:#3a2218; --new-ink:#ffb08a;
+  --tag-bg:#223040; --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; --ok-ink:#7fd1a1; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);color:var(--brand-ink);padding:14px 16px 12px}
+.wrap{max-width:1120px;margin:0 auto}
+h1{font-size:20px;margin:0;letter-spacing:.02em;text-wrap:balance}
+.meta{font-size:12.5px;opacity:.8;margin-top:2px;font-variant-numeric:tabular-nums}
+.search{margin-top:10px;display:flex;gap:8px}
+.search input{flex:1;min-width:0;font:inherit;padding:9px 12px;border-radius:8px;border:0;background:var(--surface);color:var(--ink)}
+.filters{padding:10px 16px 0;display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chip{flex:none;font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.chip:focus-visible,.tab:focus-visible,.card:focus-visible,.fav:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding:12px 16px 90px}
+.count{font-size:13px;color:var(--muted);margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;min-width:0}
+.card-top{display:flex;align-items:center;justify-content:space-between;background:var(--brand);color:var(--brand-ink);padding:6px 12px;font-size:13px}
+.card-top .co{font-weight:700;letter-spacing:.05em}
+.card-top .d{font-family:var(--font-data);font-variant-numeric:tabular-nums;opacity:.85}
+.fav{background:none;border:0;color:inherit;font-size:18px;line-height:1;cursor:pointer;padding:2px 4px}
+.card-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.name{font-size:15.5px;font-weight:600;line-height:1.4}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--tag-bg);color:var(--tag-ink)}
+.tag.new{background:var(--new-bg);color:var(--new-ink);font-weight:600}
+.tag.third{background:var(--warn-bg);color:var(--warn-ink)}
+.card-foot{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border-top:1px solid var(--line);font-family:var(--font-data);font-size:12.5px;color:var(--muted)}
+.detail{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+.detail a{color:var(--accent);word-break:break-all}
+.empty{padding:40px 16px;text-align:center;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:18px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+.tab{flex:1;font:inherit;font-size:13px;background:none;border:0;color:var(--muted);padding:10px 0;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--accent);font-weight:700}
+.log{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.log div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.co-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.co-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.co-card b{display:block;font-size:16px}
+.co-card span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+</style>
+
+<header><div class="wrap">
+  <h1>壽險商品雷達</h1>
+  <div class="meta" id="meta">讀取資料中…</div>
+  <div class="search"><input id="q" type="search" placeholder="搜尋商品名稱、代號，例如 實支、WEHS" aria-label="搜尋商品"></div>
+</div></header>
+
+<div class="wrap filters" id="filters">
+  <div class="chips" id="coChips" role="group" aria-label="公司"></div>
+  <div class="chips" id="catChips" role="group" aria-label="險種"></div>
+</div>
+
+<main class="wrap">
+  <p class="count" id="count"></p>
+  <div id="view"></div>
+  <p class="note">資料由 AI 每日從各公司官網與公開資料整理，方便查找用。標「第三方來源」的商品尚未對過官方文件；投保年齡、保額與現售狀態，一律以保險公司正式條款與投保規則為準。</p>
+</main>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" data-tab="all" id="tab-all">查詢</button>
+  <button class="tab" role="tab" data-tab="new" id="tab-new">新商品</button>
+  <button class="tab" role="tab" data-tab="fav" id="tab-fav">最愛</button>
+  <button class="tab" role="tab" data-tab="co" id="tab-co">公司</button>
+</nav>
+
+<script id="radar-data" type="application/json">__DATA__</script>
+<script>
+const COMPANIES=["國泰","南山","富邦","新光","凱基","全球","保誠","遠雄"];
+const CATS=["重大疾病","癌症","實支實付","住院日額","手術","長照","失能","壽險定期","壽險終身","傷害","年金","利變/還本","投資型","小額終老","其他"];
+const NEW_DAYS=90;
+let all=[],log=[],metaDoc=null;
+const st={tab:"all",co:null,cat:null,q:"",open:null};
+let favs=new Set();
+try{favs=new Set(JSON.parse(localStorage.getItem("favs")||"[]"))}catch(e){}
+try{const t=localStorage.getItem("tab");if(t)st.tab=t}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem("favs",JSON.stringify([...favs]))}catch(e){}};
+const keyOf=p=>p.company+"|"+(p.code||p.name);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=new Date();
+const SEED_DAY="2026-10-13";
+function newDate(p){return p.sale_date||((p.first_seen||"")>SEED_DAY?p.first_seen:"")}
+function isNew(p){const d=newDate(p);if(!d)return false;const t=new Date(d);return (today-t)/864e5<=NEW_DAYS&&t<=today}
+
+function chips(el,list,key){
+  el.innerHTML="";
+  const mk=(label,val)=>{const b=document.createElement("button");b.className="chip";b.textContent=label;
+    b.setAttribute("aria-pressed",String(st[key]===val));b.onclick=()=>{st[key]=st[key]===val?null:val;render()};el.appendChild(b)};
+  mk("全部",null);list.forEach(v=>mk(v,v));
+  el.firstChild.setAttribute("aria-pressed",String(st[key]===null));
+}
+
+function filtered(){
+  const q=st.q.trim().toLowerCase();
+  let r=all.filter(p=>p.status!=="停售");
+  if(st.tab==="fav")r=r.filter(p=>favs.has(keyOf(p)));
+  if(st.tab==="new")r=r.filter(isNew);
+  if(st.co)r=r.filter(p=>p.company===st.co);
+  if(st.cat)r=r.filter(p=>p.category===st.cat);
+  if(q)r=r.filter(p=>(p.name+" "+p.code+" "+(p.tags||[]).join(" ")+" "+p.category).toLowerCase().includes(q));
+  return r.sort((a,b)=>(newDate(b)).localeCompare(newDate(a))||a.company.localeCompare(b.company));
+}
+
+function card(p){
+  const k=keyOf(p),open=st.open===k;
+  const tags=[];
+  if(isNew(p))tags.push(`<span class="tag new">新 ${esc(newDate(p).slice(5))}</span>`);
+  tags.push(`<span class="tag">${esc(p.category)}</span>`);
+  (p.tags||[]).slice(0,4).forEach(t=>{if(t!==p.category)tags.push(`<span class="tag">${esc(t)}</span>`)});
+  if(p.src==="第三方")tags.push(`<span class="tag third">第三方來源</span>`);
+  const det=open?`<div class="detail">
+      <div>銷售日：${esc(p.sale_date||"未標示")}　狀態：${esc(p.status||"未確認")}</div>
+      ${p.doc_url?`<a href="${esc(p.doc_url)}" target="_blank" rel="noopener">開啟條款／DM</a>`:"<div>尚無條款連結</div>"}
+      ${p.source_url?`<a href="${esc(p.source_url)}" target="_blank" rel="noopener">資料來源</a>`:""}
+    </div>`:"";
+  return `<article class="card" tabindex="0" data-k="${esc(k)}">
+    <div class="card-top"><span class="co">${esc(p.company)}</span><span class="d">${esc((p.sale_date||"").slice(0,7).replace("-","/"))}</span>
+      <button class="fav" data-fav="${esc(k)}" aria-label="${favs.has(k)?"移出最愛":"加入最愛"}">${favs.has(k)?"♥":"♡"}</button></div>
+    <div class="card-body"><div class="name">${esc(p.name)}</div><div class="tags">${tags.join("")}</div>${det}</div>
+    <div class="card-foot"><span>${esc(p.code||"—")}</span><span>${esc(p.age||"年齡未標示")}</span></div></article>`;
+}
+
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.tab===st.tab)));
+  try{localStorage.setItem("tab",st.tab)}catch(e){}
+  chips($("coChips"),COMPANIES,"co");chips($("catChips"),CATS,"cat");
+  $("filters").hidden=st.tab==="co";
+  const v=$("view");
+  if(st.tab==="co"){
+    $("count").textContent=`${COMPANIES.length} 家公司`;
+    v.innerHTML=`<div class="co-grid">${COMPANIES.map(c=>{const n=all.filter(p=>p.company===c);const nn=n.filter(isNew).length;
+      return `<button class="co-card" data-co="${c}"><b>${c}人壽</b><span>${n.length} 個商品${nn?`・近期新品 ${nn}`:""}</span></button>`}).join("")}</div>
+      ${log.length?`<h2 style="font-size:15px;margin:20px 0 8px">每日更新紀錄</h2><div class="log">${log.slice(0,15).map(l=>`<div>${esc(l.date)}　${esc(l.text)}</div>`).join("")}</div>`:""}`;
+    v.querySelectorAll("[data-co]").forEach(b=>b.onclick=()=>{st.co=b.dataset.co;st.tab="all";render()});
+    return;
+  }
+  const r=filtered();
+  $("count").textContent=all.length?`${r.length} 個商品${st.tab==="new"?`（近 ${NEW_DAYS} 天上架）`:""}`:"";
+  if(!all.length){v.innerHTML=`<div class="empty">商品資料還沒載入，請重新整理。</div>`;return}
+  if(!r.length){v.innerHTML=`<div class="empty">${st.tab==="fav"?"還沒有最愛商品，點卡片右上角的 ♡ 加入。":"沒有符合條件的商品，試試清除篩選。"}</div>`;return}
+  v.innerHTML=`<div class="grid">${r.slice(0,300).map(card).join("")}</div>${r.length>300?`<p class="count">只顯示前 300 筆，請用篩選縮小範圍</p>`:""}`;
+}
+
+$("view").addEventListener("click",e=>{
+  const f=e.target.closest("[data-fav]");
+  if(f){e.stopPropagation();const k=f.dataset.fav;favs.has(k)?favs.delete(k):favs.add(k);saveFavs();render();return}
+  if(e.target.closest("a"))return;
+  const c=e.target.closest(".card");if(c){st.open=st.open===c.dataset.k?null:c.dataset.k;render()}
+});
+$("view").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.classList.contains("card"))e.target.click()});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{st.tab=t.dataset.tab;render();window.scrollTo(0,0)});
+let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},150)});
+
+function updateMeta(){
+  const cos=new Set(all.map(p=>p.company)).size;
+  const d=metaDoc?.last_run||[...new Set(all.map(p=>p.updated||""))].sort().pop()||"";
+  $("meta").textContent=all.length?`${all.length} 個商品・${cos} 家公司・資料 ${d.replace(/-/g,"/")}`:"尚無資料";
+}
+
+(function(){
+  const raw=JSON.parse(document.getElementById("radar-data").textContent);
+  raw.docs.forEach(d=>(d.items||[]).forEach(p=>all.push({...p,updated:d.updated})));
+  metaDoc={last_run:raw.last_run};log=raw.log||[];
+  updateMeta();render();
+})();
+</script>
+
+</body></html>
