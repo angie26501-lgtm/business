@@ -7,16 +7,16 @@
 <title>365夜・千問修煉秘境｜馥芸財富學苑</title>
 <meta name="description" content="保險顧問的 AI 對練場：先在這裡被問過一千次，見客戶時才從容。免費試用，加購真人點評與 4 週修煉營。">
 <style>
-:root{--red:#A85A66;--red-d:#7C3E49;--red-l:#F8E9E7;--yel:#E9C79A;--yel-l:#FBF1E3;--sky:#5F8270;--sky-l:#E8F0EA;--ink:#3A3535;--sub:#6E6661;--line:#EADFD6;
---frame:linear-gradient(135deg,#E6D5C8 0%,#F3E9DF 35%,#F0D9B5 70%,#E9C79A 100%)}
+:root{--red:#B8475A;--red-d:#8C2F41;--red-l:#FDE8EA;--yel:#F4B862;--yel-l:#FFF1DC;--sky:#3A8560;--sky-l:#E2F3E8;--ink:#3A3535;--sub:#6E6661;--line:#F1E2DA;
+--frame:linear-gradient(135deg,#F6C9C9 0%,#FBE3D2 35%,#F8CF8E 70%,#F4B862 100%)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:#FFFCF8;color:var(--ink);line-height:1.7}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:#FFFFFF;color:var(--ink);line-height:1.7}
 a{color:inherit}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 .top{display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-size:14px}
 .top a{text-decoration:none;font-weight:700}
 .top .brand b{color:var(--red)}
-.hero{padding:36px 0 28px;border-bottom:6px solid transparent;border-image:var(--frame) 1;text-align:center}
+.hero{background:linear-gradient(180deg,#FFF1DC 0%,#FDE8EA 60%,#FFFFFF 100%);padding:36px 0 28px;border-bottom:6px solid transparent;border-image:var(--frame) 1;text-align:center}
 .eyebrow{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:2px 10px;border-radius:6px}
 .hero h1{font-size:34px;color:var(--red);font-weight:900;margin:10px 0 4px;letter-spacing:1px}
 .hero .slogan{font-size:18px;font-weight:700}
@@ -24,7 +24,7 @@ a{color:inherit}
 .btn{display:inline-block;text-decoration:none;font-weight:800;border-radius:12px;padding:12px 22px;font-size:16px;border:none;cursor:pointer;font-family:inherit}
 .btn.red{background:var(--red);color:#fff}
 .btn.red:hover{background:var(--red-d)}
-.btn.yel{background:var(--yel);color:var(--red-d);box-shadow:0 2px 0 #C9A06A}
+.btn.yel{background:var(--yel);color:var(--red-d);box-shadow:0 2px 0 #E09A3E}
 .btn.line{background:#fff;color:var(--red);border:2px solid var(--red)}
 .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 section{padding:30px 0}
@@ -38,7 +38,7 @@ h2{font-size:22px;color:var(--red);font-weight:900;text-align:center;margin-bott
 .card{border:5px solid transparent;border-radius:18px;background:linear-gradient(#fff,#fff) padding-box,var(--frame) border-box;padding:18px;display:flex;flex-direction:column}
 .card.hot{position:relative}
 .card.hot::before{content:"最推薦";position:absolute;top:-12px;right:16px;background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:2px 10px;border-radius:6px}
-.tag{display:inline-block;font-size:12px;font-weight:800;padding:1px 8px;border-radius:6px;background:var(--sky-l);color:#4E6E5E;margin-bottom:6px;align-self:flex-start}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:1px 8px;border-radius:6px;background:var(--sky-l);color:#2E6B4E;margin-bottom:6px;align-self:flex-start}
 .card h3{font-size:18px;font-weight:900}
 .price{margin:8px 0}
 .price .cap{display:inline-block;background:var(--yel);color:var(--red-d);font-weight:900;font-size:22px;border-radius:99px;padding:0 14px}
@@ -68,7 +68,7 @@ footer{border-top:1px solid var(--line);padding:20px 0 30px;text-align:center;fo
 </div>
 
 <div class="hero"><div class="wrap">
-  <span class="eyebrow">AI應用・業務修煉</span> <span class="eyebrow" style="background:#5F8270">測試版｜加購版即將上架</span>
+  <span class="eyebrow">AI應用・業務修煉</span> <span class="eyebrow" style="background:#3A8560">測試版｜加購版即將上架</span>
   <h1>365夜・千問修煉秘境</h1>
   <div class="slogan">用對練看懂客戶心事，用專業陪伴人生大事</div>
   <p class="lead">保險顧問的 AI 對練場。先在這裡被客戶問過一千次，見客戶時才從容。異議處理、需求探索、傳承判例開口，練完還有芸琪的真人點評。</p>
@@ -162,7 +162,7 @@ function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");setTi
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
 img{-webkit-user-drag:none;pointer-events:auto}
-#fy-refresh{position:fixed;right:14px;bottom:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1.5px solid #C9A06A;background:#3A3535;color:#F6F1E8;font:700 15px/1 "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#fy-refresh{position:fixed;right:14px;bottom:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1.5px solid #E09A3E;background:#3A3535;color:#F6F1E8;font:700 15px/1 "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 #fy-refresh:active{transform:scale(.96)}
 @media print{body{display:none!important}}
 </style>
