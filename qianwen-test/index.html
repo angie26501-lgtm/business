@@ -795,7 +795,7 @@ function resetAll(){if(confirm("確定清除所有練習紀錄與筆記？此動
 /* 工具 */
 
 /* ========== 自動練打紀錄（送到芸琪的 Google 試算表） ========== */
-const LOG_URL = "__LOG_URL__";
+const LOG_URL = "https://script.google.com/macros/s/AKfycbzaqA4pauvsqtRur6M1IFiCvot_icWA8foefVHBx7uDjM8kfOey2wCik-_G5SfX18p3/exec";
 function devId(){try{let d=localStorage.getItem("qw_dev");if(!d){d="D"+Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem("qw_dev",d);}return d;}catch(e){return "D-NA";}}
 function ensureName(){if(!S.me){const n=(prompt("請輸入你的稱呼（例：芸琪、小美），方便芸琪看到你的練打紀錄")||"").trim();if(n){S.me=n;save();}}return S.me||"未填稱呼";}
 function logPractice(type,extra){
