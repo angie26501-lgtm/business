@@ -194,7 +194,7 @@ nav button.on{color:var(--red)}
 </header>
 
 <main class="wrap">
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLScHKQreQd84h_FQ_BB2iLvCQ9NIbLty0mx_djo2fJEQzgjyzQ/viewform" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 12px;padding:12px 16px;border-radius:14px;background:#FFF6D6;border:1.5px solid #E0B84A;color:#3A2E12;text-decoration:none;font-weight:700"><span>📝 練完一輪？花 1 分鐘記錄這次練打<br><small style="font-weight:400;opacity:.8">累積紀錄，看得到自己的進步；想要點評也在這裡勾</small></span><span style="white-space:nowrap">填寫紀錄 →</span></a>
+  <div id="syncBar" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 12px;padding:12px 16px;border-radius:14px;background:#FFF6D6;border:1.5px solid #E0B84A;color:#3A2E12;font-weight:700"><span>📝 練打紀錄自動同步中<br><small style="font-weight:400;opacity:.8">每完成一輪，次數與練習情境會自動記錄給芸琪；手記要勾選才會同步</small></span><span id="syncState" style="white-space:nowrap;font-size:14px">✅ 已開啟</span></div>
   <div class="hero">
     <div class="row between">
       <div class="hi" id="hello">早安，夥伴！</div>
@@ -374,6 +374,7 @@ nav button.on{color:var(--red)}
   <label class="f">心得備註</label>
   <textarea id="nMemo" placeholder="下次要改進的地方"></textarea>
   <p class="small" style="margin-top:8px;color:var(--red)">⚠️ 請勿記錄客戶真實姓名、身分證字號、帳號等個資。</p>
+  <label class="small" style="display:flex;gap:8px;align-items:flex-start;margin-top:8px;cursor:pointer"><input type="checkbox" id="nReview" style="margin-top:3px"> <span>把這篇手記同步給芸琪點評（不勾就只存在自己的手機）</span></label>
   <div class="row" style="margin-top:12px">
     <button class="btn" style="flex:1" onclick="saveNote()">儲存筆記</button>
     <button class="btn g" onclick="closeM('mNote');showSolutions()">略過</button>
@@ -792,6 +793,25 @@ function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReade
 function resetAll(){if(confirm("確定清除所有練習紀錄與筆記？此動作無法復原。")){try{localStorage.removeItem(KEY);}catch(e){}location.reload();}}
 
 /* 工具 */
+
+/* ========== 自動練打紀錄（送到芸琪的 Google 試算表） ========== */
+const LOG_URL = "__LOG_URL__";
+function devId(){try{let d=localStorage.getItem("qw_dev");if(!d){d="D"+Math.random().toString(36).slice(2,8).toUpperCase();localStorage.setItem("qw_dev",d);}return d;}catch(e){return "D-NA";}}
+function ensureName(){if(!S.me){const n=(prompt("請輸入你的稱呼（例：芸琪、小美），方便芸琪看到你的練打紀錄")||"").trim();if(n){S.me=n;save();}}return S.me||"未填稱呼";}
+function logPractice(type,extra){
+  if(!LOG_URL||LOG_URL.indexOf("http")!==0) return;
+  try{
+    const c=current||{};
+    const body={app:"qianwen",me:ensureName(),device:devId(),type:type,stage:c.stageName||"",scene:c.scene||"",disc:c.disc?(c.disc.e+" "+c.disc.n):"",persona:c.persona?(c.persona.n||c.persona.t||JSON.stringify(c.persona)):"",level:c.level||"",event:c.event?c.event.t:"",total:S.total,streak:S.streak,xp:S.xp,...(extra||{})};
+    fetch(LOG_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)}).then(()=>{const s=document.getElementById("syncState");if(s)s.textContent="✅ 已同步";}).catch(()=>{const s=document.getElementById("syncState");if(s)s.textContent="⚠️ 稍後再試";});
+  }catch(e){}
+}
+(function(){
+  const _f=finishPractice; finishPractice=function(){_f.apply(this,arguments);logPractice("一般練打");};
+  const _c=claimChallenge; claimChallenge=function(){_c.apply(this,arguments);logPractice("每日挑戰");};
+  const _n=saveNote; saveNote=function(){const rv=document.getElementById("nReview");const want=rv&&rv.checked;const talk=document.getElementById("nTalk").value.trim(),memo=document.getElementById("nMemo").value.trim();_n.apply(this,arguments);if(want)logPractice("手記點評",{review:true,talk:talk,memo:memo});if(rv)rv.checked=false;};
+  if(!LOG_URL||LOG_URL.indexOf("http")!==0){const s=document.getElementById("syncState");if(s)s.textContent="⏳ 設定中";}
+})();
 function openM(id){$(id).classList.add("on");}
 function closeM(id){$(id).classList.remove("on");}
 function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200);}
