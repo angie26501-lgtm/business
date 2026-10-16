@@ -83,6 +83,13 @@ legend small{font-weight:400;color:var(--muted)}
 .opts label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
 .opts input:checked+span{color:var(--ink);font-weight:700}
 .opts label:has(input:checked){border-color:var(--brass);background:var(--brass-soft)}
+.score{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:560px}
+.score label{position:relative;display:flex;align-items:center;justify-content:center;height:44px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-weight:700;color:var(--ink);background:var(--paper)}
+.score input{position:absolute;opacity:0;width:1px;height:1px}
+.score label:has(input:checked){border-color:var(--brass);background:var(--brass);color:#fff}
+.score label:has(input:focus-visible){outline:3px solid var(--brass);outline-offset:2px}
+.score-end{display:flex;justify-content:space-between;max-width:560px;font-size:13px;color:var(--muted);margin-top:4px}
+@media (max-width:480px){.score{grid-template-columns:repeat(5,1fr)}}
 input[type=text],textarea{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
 textarea{min-height:84px;resize:vertical}
 .err{color:#B4442E;font-size:15px}
@@ -149,13 +156,9 @@ footer a{color:var(--muted)}
     </fieldset>
     <fieldset>
       <legend>5．給芸琪這次講座的回饋 <small>選填</small></legend>
-      <p style="margin:2px 0 6px;font-size:15px">整體滿意度</p>
-      <div class="opts">
-        <label><input type="radio" name="rate" value="5 很滿意"><span>5 很滿意</span></label>
-        <label><input type="radio" name="rate" value="4 滿意"><span>4 滿意</span></label>
-        <label><input type="radio" name="rate" value="3 普通"><span>3 普通</span></label>
-        <label><input type="radio" name="rate" value="2 待加強"><span>2 待加強</span></label>
-      </div>
+      <p style="margin:2px 0 6px;font-size:15px">整體滿意度（1～10 分，10 分最滿意）</p>
+      <div class="score"><label><input type="radio" name="rate" value="1"><span>1</span></label><label><input type="radio" name="rate" value="2"><span>2</span></label><label><input type="radio" name="rate" value="3"><span>3</span></label><label><input type="radio" name="rate" value="4"><span>4</span></label><label><input type="radio" name="rate" value="5"><span>5</span></label><label><input type="radio" name="rate" value="6"><span>6</span></label><label><input type="radio" name="rate" value="7"><span>7</span></label><label><input type="radio" name="rate" value="8"><span>8</span></label><label><input type="radio" name="rate" value="9"><span>9</span></label><label><input type="radio" name="rate" value="10"><span>10</span></label></div>
+      <div class="score-end"><span>1 很不滿意</span><span>10 非常滿意</span></div>
       <p style="margin:12px 0 6px;font-size:15px">這次準備得好的地方</p>
       <textarea id="q-good" placeholder="例：案例很真實、翻卡互動很有趣"></textarea>
       <p style="margin:12px 0 6px;font-size:15px">可以更好的地方、建議</p>
@@ -233,7 +236,7 @@ footer a{color:var(--muted)}
       '最有感的判例：'+val('case')+'\n'+
       '本週預計談傳承：'+val('count')+'\n'+
       '需要公司提供的支援：'+(needs.length?needs.join('、'):'暫時不用')+
-      (val('rate')?'\n整體滿意度：'+val('rate'):'')+(good?'\n準備得好的地方：'+good:'')+(msg?'\n可以更好的地方：'+msg:'');
+      (val('rate')?'\n整體滿意度：'+val('rate')+' / 10 分':'')+(good?'\n準備得好的地方：'+good:'')+(msg?'\n可以更好的地方：'+msg:'');
     document.getElementById('out').textContent=text;
     document.getElementById('result').hidden=false;
     document.getElementById('copied').textContent='';
