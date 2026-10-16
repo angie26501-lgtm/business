@@ -158,5 +158,24 @@ function enroll(id,name){
 }
 function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),2200);}
 </script>
+<style>
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none;pointer-events:auto}
+#fy-refresh{position:fixed;right:14px;bottom:16px;z-index:9999;display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1.5px solid #C8A15A;background:#1E2A3F;color:#F6F1E8;font:700 15px/1 "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#fy-refresh:active{transform:scale(.96)}
+@media print{body{display:none!important}}
+</style>
+<button type="button" id="fy-refresh" title="重新整理頁面" aria-label="重新整理頁面">🔄 重新整理</button>
+<script>
+(function(){
+function ed(e){var t=e.target;return t&&t.closest&&t.closest('input,textarea,select,[contenteditable]')}
+['contextmenu','copy','cut','dragstart','selectstart'].forEach(function(n){document.addEventListener(n,function(e){if(!ed(e))e.preventDefault()},true)});
+document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
+ if((e.ctrlKey||e.metaKey)&&['c','x','a','u','s','p'].indexOf(k)>=0&&!ed(e)){e.preventDefault();e.stopPropagation()}
+ if(k==='f12'||((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>=0)){e.preventDefault()}},true);
+document.getElementById('fy-refresh').addEventListener('click',function(){location.reload()});
+})();
+</script>
 </body>
 </html>
