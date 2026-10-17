@@ -175,6 +175,25 @@ footer{margin-top:22px;padding-bottom:60px;font-size:12px;color:var(--muted);tex
   </div>
   <button class="btn ghost" onclick="goHome()">← 回首頁</button>
 </section>
+
+<section id="report" class="hide">
+  <div class="frame">
+    <span class="badge">🛠️ 問題通報</span>
+    <h2 style="margin-top:10px">發現哪裡怪怪的？跟我們說</h2>
+    <p style="font-size:15px">題目說明看不懂、電話號碼打不通、按鈕按了沒反應……<br>任何讓你卡住的地方，都歡迎告訴我們。你的回報，會讓這份闖關更正確、更好用。</p>
+  </div>
+  <div class="card">
+    <label class="f">問題類型<select id="pType" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit">
+      <option>題目或解說內容可能有誤</option><option>答案我有不同看法</option><option>產險公司電話打不通或有誤</option><option>畫面、按鈕或功能異常</option><option>文字看不懂、想建議改寫</option><option>其他</option></select></label>
+    <label class="f">發生在哪裡<input id="pWhere" maxlength="80" placeholder="例：中階・劇本二・第 3 關／口袋卡頁"></label>
+    <label class="f">請描述問題<textarea id="pDesc" rows="5" maxlength="600" placeholder="例：第 3 關的解說寫 30 天可申請，但我去警局被告知要等更久……" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit;resize:vertical"></textarea></label>
+    <label class="f" style="display:flex;gap:8px;align-items:flex-start;margin-top:10px"><input type="checkbox" id="pDev" checked style="width:auto;margin-top:6px">附上手機或瀏覽器類型（方便我們找出畫面問題，不含個人資料）</label>
+    <p class="small" style="margin-top:10px">⚠️ 請不要填寫身分證字號、保單號碼、病歷或其他個人資料。</p>
+    <button class="btn red" onclick="sendReport()">📮 送出問題通報</button>
+    <div id="pDone" class="fb ok hide" style="margin-top:12px"><b class="h">🙏 謝謝你的回報！</b>問題已經整理好了。<br>LINE 開啟後，在對話框<b>長按「貼上」</b>再送出，就完成了。<br><span class="small">如果 LINE 沒有自動開啟，請點下方按鈕。</span><a class="btn sky" style="text-align:center;text-decoration:none" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">開啟 LINE</a></div>
+  </div>
+  <button class="btn ghost" onclick="goHome()">← 回首頁</button>
+</section>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -357,7 +376,7 @@ function persist(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){
 const $=id=>document.getElementById(id);
 let LV=LEVELS.find(l=>l.k===store.lv)||LEVELS[0],R=null,i=0,score=0,tried=false,tmr=null,left=0,timeout=false;
 
-function show(id){["home","game","result","pocket","share"].forEach(s=>$(s).classList.toggle("hide",s!==id));window.scrollTo({top:0,behavior:"smooth"});}
+function show(id){["home","game","result","pocket","share","report"].forEach(s=>$(s).classList.toggle("hide",s!==id));window.scrollTo({top:0,behavior:"smooth"});}
 function starOf(s,n){return s>=n?3:s>=n-1?2:s>=Math.ceil(n/2)?1:0}
 function lvCleared(l){return l.routes.every(r=>store.best[r.id]!=null&&starOf(store.best[r.id],r.qs.length)>=2)}
 function drawHome(){
@@ -475,6 +494,7 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   <button type="button" onclick="rfClose();goHome()">🏠 回劇本選單</button>
   <button type="button" onclick="rfClose();showPocket()">📇 看車禍口袋卡</button>
   <button type="button" onclick="openShare()">💬 分享我的經驗給財顧芸</button>
+  <button type="button" onclick="openReport()">🛠️ 問題通報</button>
   <button type="button" class="rf-del" onclick="rfReset()">🗑️ 清除闖關紀錄，從頭開始</button>
 </div>
 <button type="button" id="rfBtn" onclick="rfToggle()" aria-haspopup="true">🔄 選單</button>
@@ -512,6 +532,39 @@ ${st}
 ${tip?`\n想提醒大家：\n${tip}\n`:""}
 是否同意分享：${ok==="可以"?"可以，去除個人資料後整理成衛教分享":"只給財顧芸看，請不要公開"}`;
   const go=()=>{document.getElementById("sDone").classList.remove("hide");window.open("https://lin.ee/56YIX1v","_blank","noopener");};
+  const fb2=()=>{window.__allowCopy=true;const a=document.createElement("textarea");a.value=msg;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();window.__allowCopy=false;go();};
+  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(msg).then(go).catch(fb2); else fb2();
+}
+</script>
+
+<script>
+function curWhere(){
+  const vis=id=>!document.getElementById(id).classList.contains("hide");
+  const lv=(typeof LV!=="undefined")?LV.name+"・":"";
+  if(vis("game")&&R) return lv+R.name+"・第 "+(i+1)+" 關（"+R.qs[i].q+"）";
+  if(vis("result")&&R) return lv+R.name+"・結果頁";
+  if(vis("pocket")) return "車禍口袋卡頁";
+  if(vis("share")) return "經驗分享頁";
+  return "首頁";
+}
+function openReport(){
+  document.getElementById("pWhere").value=curWhere();
+  document.getElementById("pDone").classList.add("hide");
+  if(typeof rfClose==="function")rfClose(); show("report");
+}
+function sendReport(){
+  const d=document.getElementById("pDesc").value.trim();
+  if(d.length<5){toast("請簡單描述一下問題（至少 5 個字）");document.getElementById("pDesc").focus();return;}
+  const ua=navigator.userAgent, dev=/iPhone|iPad/.test(ua)?"iPhone／iPad":/Android/.test(ua)?"Android":/Windows/.test(ua)?"Windows 電腦":/Mac/.test(ua)?"Mac 電腦":"其他";
+  const br=/Line\//.test(ua)?"LINE 內建瀏覽器":/FBAN|FBAV/.test(ua)?"Facebook 內建瀏覽器":/Edg\//.test(ua)?"Edge":/Chrome\//.test(ua)?"Chrome":/Safari\//.test(ua)?"Safari":"其他";
+  const msg=`【車禍闖關｜問題通報】
+問題類型：${document.getElementById("pType").value}
+發生在哪裡：${document.getElementById("pWhere").value.trim()||"未填"}
+
+問題描述：
+${d}
+${document.getElementById("pDev").checked?`\n裝置：${dev}／${br}（螢幕寬 ${window.innerWidth}px）`:""}`;
+  const go=()=>{document.getElementById("pDone").classList.remove("hide");window.open("https://lin.ee/56YIX1v","_blank","noopener");};
   const fb2=()=>{window.__allowCopy=true;const a=document.createElement("textarea");a.value=msg;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();window.__allowCopy=false;go();};
   if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(msg).then(go).catch(fb2); else fb2();
 }
