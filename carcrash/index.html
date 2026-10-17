@@ -438,7 +438,7 @@ function finish(){
   $("rKeys").innerHTML=R.keys.map(x=>`<li>${x}</li>`).join("");
   const idx=LEVELS.indexOf(LV), up=$("rUp");
   if(lvCleared(LV)&&idx<2){up.classList.remove("hide");up.innerHTML=`🎖️ <b>${LV.name}全部通關！</b>獲得 ${LV.medal}。<button class="btn sky" onclick="setLv('${LEVELS[idx+1].k}');goHome()">挑戰${LEVELS[idx+1].name} →</button>`;}
-  else if(LV.k==="adv"){up.classList.remove("hide");up.innerHTML=`💬 每張保單條款都不一樣。想知道<b>自己的車險</b>遇到這些狀況賠不賠？請洽詢您的保險業務員，或撥打投保產險公司的客服電話。`;}
+  else if(LV.k==="adv"){up.classList.remove("hide");up.innerHTML=`💬 每張保單條款都不一樣。想知道<b>自己的車險</b>遇到這些狀況賠不賠？<a class="btn red" style="text-align:center;text-decoration:none" href="https://lin.ee/Zzfe7DZ" target="_blank" rel="noopener">請財顧芸幫我看保單</a><div style="text-align:center;margin-top:12px"><img src="https://qr-official.line.me/gs/M_qpk4617k_GW.png?oat_content=qr" alt="財顧芸 LINE QR Code" width="160" height="160" style="border-radius:10px;background:#fff;padding:6px" onerror="this.parentNode.style.display=\'none\'"><div class="small">用電腦看的話，拿手機掃這個 QR Code 加入</div></div>`;}
   else up.classList.add("hide");
   show("result");
 }
