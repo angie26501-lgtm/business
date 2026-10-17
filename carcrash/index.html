@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>車禍現場應變闖關｜三階版｜財顧芸</title>
+<style>
+:root{--red:#C00000;--yel:#FFC000;--sky:#29ABE2;--ink:#1F1F1F;--muted:#666;--bg:#FAFAF7;--card:#fff;--line:#E6E6E6;
+--frame:linear-gradient(135deg,#BDBDBD 0%,#E8E8E8 35%,#FFE27A 70%,#FFC000 100%);--ok:#1E8A4C;--ng:#C00000}
+@media (prefers-color-scheme:dark){:root{--ink:#F1F1F1;--muted:#B5B5B5;--bg:#15171B;--card:#1F2228;--line:#33363D}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-tap-highlight-color:transparent}
+body.big{font-size:18px}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 40px}
+.frame{border:5px solid transparent;border-radius:18px;background:linear-gradient(var(--card),var(--card)) padding-box,var(--frame) border-box;padding:18px}
+h1{color:var(--red);font-size:26px;font-weight:900;line-height:1.35}
+h2{color:var(--red);font-size:19px;font-weight:900;margin-bottom:6px}
+.sub{color:var(--muted);font-size:14px}
+.badge{display:inline-block;background:var(--yel);color:#1F1F1F;font-weight:800;font-size:13px;padding:2px 10px;border-radius:999px}
+.btn{display:block;width:100%;border:none;border-radius:14px;padding:14px;font-size:17px;font-weight:800;cursor:pointer;margin-top:10px;font-family:inherit}
+.btn.red{background:var(--red);color:#fff}
+.btn.sky{background:var(--sky);color:#fff}
+.btn.ghost{background:transparent;color:var(--red);border:2px solid var(--red)}
+.btn:active{transform:scale(.98)}
+.lvtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.lv{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:10px 6px;cursor:pointer;font-family:inherit;text-align:center}
+.lv b{display:block;font-size:17px}
+.lv span{display:block;font-size:12px;color:var(--muted);line-height:1.4}
+.lv.on{border-color:var(--red);background:#FFF1F1}
+.lv.on b{color:var(--red)}
+@media (prefers-color-scheme:dark){.lv.on{background:#3A1A1A}}
+.lvinfo{margin-top:10px;background:#FFF6D9;border-left:6px solid var(--yel);border-radius:10px;padding:10px 12px;font-size:14px;color:#1F1F1F}
+.route{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px;margin-top:10px;cursor:pointer;width:100%;font-family:inherit;color:var(--ink)}
+.route .ic{font-size:34px}
+.route b{display:block;font-size:17px;color:var(--red)}
+.route span{font-size:13px;color:var(--muted)}
+.route .st{margin-left:auto;font-size:13px;color:#B8860B;white-space:nowrap}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);margin-bottom:8px}
+.bar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--yel),var(--red));transition:width .3s}
+.timer{display:none;text-align:right;font-weight:800;color:var(--red);font-size:15px;margin-bottom:6px}
+.timer.on{display:block}
+.scene{background:#FFF6D9;border-left:6px solid var(--yel);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:1em;color:#1F1F1F}
+.scene .emo{font-size:30px;display:block;margin-bottom:2px}
+.q{font-size:1.12em;font-weight:800;margin:12px 0 4px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:9px;font-size:1em;cursor:pointer;font-family:inherit;line-height:1.6}
+body:not(.big) .opt{font-size:16px}
+.opt:hover{border-color:var(--sky)}
+.opt.right{border-color:var(--ok);background:rgba(30,138,76,.1)}
+.opt.wrong{border-color:var(--ng);background:rgba(192,0,0,.08)}
+.opt:disabled{cursor:default}
+.fb{border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15.5px}
+.fb.ok{background:rgba(30,138,76,.1);border:1px solid var(--ok)}
+.fb.ng{background:rgba(192,0,0,.07);border:1px solid var(--ng)}
+.fb b.h{display:block;font-size:16px;margin-bottom:4px}
+.fb .tip{margin-top:8px;font-size:14px;color:var(--muted)}
+.hide{display:none}
+.stars{font-size:40px;letter-spacing:4px;text-align:center;margin:8px 0}
+.title{text-align:center;font-size:22px;font-weight:900;color:var(--red)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:14px}
+.pocket{border:4px solid var(--red);border-radius:16px;padding:14px;background:#fff;color:#1F1F1F}
+.pocket h3{color:var(--red);font-size:18px;text-align:center}
+.pocket .k{display:flex;gap:10px;align-items:flex-start;margin-top:8px}
+.pocket .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center}
+.pocket .k p{font-size:15px}
+.pocket .k p b{color:var(--red)}
+.pocket .tel{margin-top:10px;background:#FFF6D9;border-radius:10px;padding:8px 10px;font-size:14px}
+label.f{display:block;font-size:14px;margin-top:8px}
+label.f input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit}
+.small{font-size:13px;color:var(--muted)}
+.medal{display:flex;justify-content:center;gap:14px;margin-top:12px;font-size:13px;color:var(--muted);text-align:center}
+.medal div{opacity:.35}.medal div.got{opacity:1}
+.medal i{display:block;font-style:normal;font-size:30px}
+footer{margin-top:22px;padding-bottom:60px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:9px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="home">
+  <div class="frame">
+    <span class="badge">財顧芸｜保戶安心小學堂</span>
+    <h1 style="margin-top:10px">🚗 車禍現場應變闖關</h1>
+    <p class="sub">「碰！」的那一刻，腦袋常一片空白。<br>先在這裡演練一次，真的遇到時就不慌。</p>
+    <div class="medal" id="medals"></div>
+  </div>
+  <h2 style="margin-top:20px">選擇等級</h2>
+  <div class="lvtabs" id="lvtabs"></div>
+  <div class="lvinfo" id="lvinfo"></div>
+  <div id="routes"></div>
+  <button class="btn ghost" onclick="showPocket()">📇 直接看車禍口袋卡</button>
+  <footer>
+    本闖關為一般性交通事故應變與保險觀念教育，不構成法律意見或理賠承諾。<br>
+    實際能否理賠，以保險公司審查及您的保單條款為準；法規以最新公告為準。<br>
+    有問題隨時找 <a href="https://lin.ee/56YIX1v" target="_blank" rel="noopener" style="color:var(--red);font-weight:700">財顧芸 官方 LINE</a>
+  </footer>
+</section>
+
+<section id="game" class="hide">
+  <div class="top"><span id="gRoute"></span><span id="gStep"></span></div>
+  <div class="bar"><i id="gBar" style="width:0"></i></div>
+  <div class="frame">
+    <div class="timer" id="gTimer"></div>
+    <div class="scene"><span class="emo" id="gEmo"></span><span id="gScene"></span></div>
+    <div class="q" id="gQ"></div>
+    <div id="gOpts"></div>
+    <div id="gFb" class="hide"></div>
+    <button id="gNext" class="btn red hide" onclick="next()">下一關 →</button>
+  </div>
+  <button class="btn ghost" onclick="goHome()">← 回劇本選單</button>
+</section>
+
+<section id="result" class="hide">
+  <div class="frame">
+    <div class="title" id="rTitle"></div>
+    <div class="stars" id="rStars"></div>
+    <p style="text-align:center" id="rText"></p>
+  </div>
+  <div class="card">
+    <b>📝 這個劇本的重點</b>
+    <ul id="rKeys" style="margin:6px 0 0 20px;font-size:15px"></ul>
+  </div>
+  <div class="card hide" id="rUp"></div>
+  <button class="btn red" onclick="goHome()">挑戰其他劇本</button>
+  <button class="btn sky" onclick="showPocket()">📇 領取車禍口袋卡</button>
+</section>
+
+<section id="pocket" class="hide">
+  <div class="pocket">
+    <h3>🚨 車禍口袋卡｜一停二報三拍四不簽五找顧問</h3>
+    <div class="k"><div class="n">1</div><p><b>停：</b>開雙黃燈、確認有沒有人受傷，人先移到安全的地方；放故障標誌（一般道路約車後 30～100 公尺，高速公路車後 100 公尺）。</p></div>
+    <div class="k"><div class="n">2</div><p><b>報：</b>有人受傷先打 <b>119</b>，不論大小事故都打 <b>110</b>，拿「道路交通事故當事人登記聯單」。有人受傷不可離開現場。</p></div>
+    <div class="k"><div class="n">3</div><p><b>拍：</b>遠中近都拍——全景、雙方車牌、撞擊點、路面痕跡、號誌；存好行車紀錄器、記下目擊者電話。無人受傷且車能開，拍完移到路邊。</p></div>
+    <div class="k"><div class="n">4</div><p><b>不簽：</b>不私下拿錢了事、不簽「互不追究」、不承認全責。肇責交給警方認定。</p></div>
+    <div class="k"><div class="n">5</div><p><b>找顧問：</b>通知保險公司與顧問，先估價、問清楚再修車；身體不舒服當天就醫拿診斷證明。</p></div>
+    <div class="tel" id="telBox"></div>
+  </div>
+  <div class="card">
+    <b>📱 把電話填進口袋卡</b>
+    <p class="small">只存在你這支手機，不會上傳。</p>
+    <label class="f">選擇我的車險保險公司<select id="tSel" onchange="pickIns()" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit"><option value="">— 請選擇 —</option><option value="0">富邦產物｜0800-009-888</option><option value="1">國泰世紀產物｜0800-212-880</option><option value="2">新光產物｜0800-789-999</option><option value="3">明台產物｜0800-078-888</option><option value="4">和泰產物｜0800-077-568</option><option value="5">新安東京海上產物｜0800-050-119</option><option value="6">第一產物｜0800-288-068</option><option value="7">華南產物｜0800-010-850</option><option value="8">兆豐產物｜0800-005-500</option><option value="9">臺灣產物｜0809-068-888</option><option value="10">旺旺友聯產物｜0800-024-024</option><option value="11">泰安產物｜0800-012-080</option><option value="12">南山產物｜0800-005-678</option><option value="13">中國信託產物｜0800-075-777</option><option value="other">其他（自己輸入）</option></select></label>
+    <p class="small" id="tNote" style="margin-top:6px"></p>
+    <label class="f">報案電話（選了會自動帶入，也可以自己改）<input id="tIns" placeholder="例：0800-XXX-XXX（保單或保險卡上有）"></label>
+    <label class="f">我的車牌<input id="tPlate" placeholder="例：ABC-1234"></label>
+    <button class="btn sky" onclick="saveTel()">存起來</button>
+    <p class="small" style="margin-top:8px">電話依各公司官網與產險公會公告整理（查證日 2026/10/18），各公司可能調整，以保單、保險卡或官網為準。</p>
+  </div>
+  <p class="small" style="margin-top:6px;text-align:center">📸 直接截圖這張卡，放在手機相簿最上面。</p>
+  <a class="btn ghost" style="text-align:center;text-decoration:none" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">💬 加財顧芸 LINE，出事時一鍵找得到我</a>
+  <button class="btn ghost" onclick="goHome()">← 回首頁</button>
+</section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BASIC=[
+{id:"L1",ic:"🌱",name:"入門｜車禍五步口訣",desc:"字大、題目短，三選一",
+ keys:["停：開雙黃燈、先看有沒有人受傷","報：有人受傷打 119，報警打 110","拍：全景、車牌、撞擊點都要拍","不簽：不收錢私了、不簽互不追究","找顧問：通知保險公司和顧問再修車"],
+ qs:[
+ {emo:"💥",scene:"「碰！」你的車被撞了。",q:"第一件事做什麼？",o:["下車跟對方吵架","開雙黃燈，看看車上的人有沒有受傷","馬上把車開走"],a:1,why:"先顧安全。雙黃燈提醒後面的車，再確認大家有沒有受傷。",tip:"口訣第一步：停。"},
+ {emo:"🚑",scene:"對方的人倒在地上，說腳很痛。",q:"要打哪支電話叫救護車？",o:["119","1999","不用打，等他自己起來"],a:0,why:"有人受傷，先打 119 叫救護車。不要隨便移動傷者。",tip:"口訣第二步：報。"},
+ {emo:"👮",scene:"大家都沒受傷，只是車子凹了一塊。",q:"還要報警嗎？",o:["要，打 110 請警察來處理","小事不用報警","打給里長就好"],a:0,why:"再小的事故都可以報警。警察會給你一張「當事人登記聯單」，之後理賠用得到。",tip:"車子裡面的損傷，常常當下看不出來。"},
+ {emo:"📸",scene:"等警察的時候，你拿出手機。",q:"要拍什麼？",o:["拍自拍照片","拍四周全景、雙方車牌、撞到的地方","什麼都不用拍"],a:1,why:"照片是最好的證據，遠的、近的都拍。行車紀錄器也要記得存起來。",tip:"口訣第三步：拍。"},
+ {emo:"💵",scene:"對方說：「給你一千塊，不要報警啦！」",q:"你會怎麼做？",o:["收下一千塊","叫他給三千","客氣說不用，還是照程序請警察來"],a:2,why:"拿了錢私了，之後發現車子要修好幾萬，就很難再找對方了。",tip:"可以說：「照程序來，對我們都比較有保障。」"},
+ {emo:"📝",scene:"對方拿出一張紙：「寫一下『雙方互不追究』，簽個名就好。」",q:"要簽嗎？",o:["不簽","簽了比較快","幫對方簽"],a:0,why:"簽了「互不追究」，等於放棄你的權利，連你自己的保險都可能受影響。",tip:"口訣第四步：不簽。"},
+ {emo:"📞",scene:"警察處理完了，車子要修。",q:"接下來找誰？",o:["修車廠說了算","通知保險公司和你的保險顧問，問清楚再修","自己吞下來，不用麻煩"],a:1,why:"先讓保險公司和顧問知道，估價單看過再修，才能用對保險、不吃虧。",tip:"口訣第五步：找顧問。"}
+ ]}];
+
+const M4={id:"M4",ic:"🤝",name:"劇本四｜跟對方談賠償",desc:"事故處理完，真正的考驗才開始",
+ keys:["肇責釐清前，不急著答應「各修各的」","警方的初步分析研判表事故 30 天後可申請，它是「初步」，不是最終結論","不在現場或私下先付現金，賠償交給保險公司處理","談不攏可以到公所調解委員會申請調解，免費","保險公司來電詢問時照實說，不確定的就說不確定"],
+ qs:[
+ {emo:"🔧",scene:"事故隔天，對方打電話來：「我們都有錯啦，各修各的，不要麻煩保險公司了。」",q:"你會怎麼回？",
+  o:["好啊，省事","先不答應，等警方資料出來、責任釐清後，交給保險公司處理","直接掛電話","要求對方先付一半"],a:1,
+  why:"「各修各的」等於互相放棄求償。如果其實對方責任比較大，或你的車損比較嚴重，就吃虧了，也可能影響你自己車體險的理賠。",tip:"可以說：「我先交給保險公司評估，結果出來再跟您聯絡。」"},
+ {emo:"📄",scene:"你想知道警察怎麼看這次事故的責任。",q:"下列哪個說法正確？",
+  o:["筆錄做完當天就能拿到責任結論","事故 30 天後可以申請「初步分析研判表」，但它只是初步意見，不是最終結論","只有律師才能申請","責任比例由保險公司說了算"],a:1,
+  why:"初步分析研判表是警方的初步意見。雙方有爭議時，還可以申請車輛行車事故鑑定，最後有爭議由法院判斷。",tip:"高階劇本會教你怎麼申請鑑定。"},
+ {emo:"💵",scene:"對方說他車子要修 3 萬，要你今天先匯 1 萬「表示誠意」。",q:"你會怎麼做？",
+  o:["先匯 1 萬，以示負責","不私下先付錢，請對方把估價單交給你的保險公司處理","匯 5 千就好","不理對方"],a:1,
+  why:"賠多少要看雙方的責任比例和實際損失。你自己先付錢，保險公司未必會認，之後也很難要回來。",tip:"保持禮貌和聯繫，但金額交給保險公司談。"},
+ {emo:"🏛️",scene:"雙方保險公司談了兩個月，對方還是不接受賠償金額。",q:"還有什麼管道？",
+  o:["只能直接打官司，很花錢","可以到鄉鎮市區公所的調解委員會申請調解，免費；調解成立並經法院核定，效力跟確定判決一樣","只能認了","去對方家門口理論"],a:1,
+  why:"調解是車禍糾紛最常用的管道，有第三方協助雙方溝通。談不成，才考慮民事訴訟。",tip:"去調解前，先跟顧問把單據、估價單、警方資料整理好。"},
+ {emo:"☎️",scene:"對方的保險公司打電話來，說要錄音，請你說明事故經過。",q:"怎麼說比較好？",
+  o:["把責任都推給對方，講得誇張一點","照實說你看到的經過，不確定的就說不確定，不自己推測責任比例","什麼都不說，直接掛掉","一口承認是自己的錯，比較快結束"],a:1,
+  why:"錄音內容可能成為之後判斷責任的參考。照實陳述最保護自己，誇大或亂認都可能對你不利。",tip:"不放心的話，可以先說：「我整理一下再回電。」然後先問顧問。"}
+ ]};
+const H3={id:"H3",ic:"⚖️",name:"高手｜肇責糾紛與求償實務",desc:"鑑定、過失比例、和解與時效，45 秒內作答",
+ keys:["不服警方初判：事故起 6 個月內可申請車輛行車事故鑑定；不服鑑定，收到意見書後 30 日內可申請覆議","雙方都有過失時，賠償依過失比例扣減（過失相抵）","被保險人未經保險公司同意自行和解，保險公司可以不受拘束","調解免費，成立並經法院核定後與確定判決同效力","對方肇逃查不到或沒保強制險，體傷可向特別補償基金申請","時效：民事求償原則 2 年；過失傷害刑事告訴，知悉犯人後 6 個月內"],
+ qs:[
+ {emo:"📑",scene:"30 天後你拿到初步分析研判表，上面寫你也有疏失。你認為自己完全沒錯。",q:"接下來可以怎麼做？",
+  o:["初判就是最終結果，只能接受","打電話到警察局要求修改","可以在事故發生起 6 個月內，向車輛行車事故鑑定會申請鑑定；對鑑定結果不服，收到意見書後 30 日內可申請覆議","直接請保險公司改比例"],a:2,
+  why:"警方初判只是初步意見。鑑定與覆議都是行政上的專業意見，最終仍以法院判斷為準，但對保險公司評估與雙方協商很有參考價值。",tip:"申請期限與方式以各地鑑定會最新公告為準，準備好現場照片、行車紀錄器影像。"},
+ {emo:"🧮",scene:"鑑定結果：對方 70%、你 30%。你的車損 10 萬元，對方的車損 4 萬元。",q:"依過失比例，雙方大約怎麼算？",
+  o:["對方全賠你 10 萬，你不用賠","你可以向對方請求約 7 萬；你也要負擔對方損失的 30%，約 1.2 萬","各付一半","比較多錢的人賠"],a:1,
+  why:"雙方都有過失時，損害賠償會依過失比例扣減，這叫「過失相抵」：10 萬 × 70% ＝ 7 萬；4 萬 × 30% ＝ 1.2 萬。實際金額還要看折舊、單據與協商。",tip:"這時走自己的車體險先修，再由保險公司向對方追償，常常比較省事。"},
+ {emo:"✍️",scene:"你也有 30% 責任。對方受了傷，開口要 20 萬，你急著了事，想自己先答應簽和解。",q:"這樣做的風險是？",
+  o:["沒有風險，保險公司一定照付","未經保險公司同意自行和解，保險公司可以不受和解金額拘束，超出的部分可能要自己負擔","和解書一定無效","只要對方同意就好"],a:1,
+  why:"責任險理賠前，被保險人和受害人和解，應先讓保險公司參與或同意。否則保險公司只依它評估的合理金額理賠。",tip:"對方開價時，回覆「我會請保險公司跟您聯絡」，並馬上通知顧問。"},
+ {emo:"🏛️",scene:"雙方對賠償金額差很多，保險公司也談不攏。",q:"下列哪個做法最實際？",
+  o:["一定要直接提告","到公所調解委員會申請調解：免費、有第三方協助；成立並經法院核定後，與確定判決同效力","放棄求償","在網路上公開對方資料施壓"],a:1,
+  why:"調解是最常見、成本最低的管道。調解不成，再評估民事訴訟；涉及體傷也可能同時有刑事程序。",tip:"千萬不要在網路上公開對方個資，可能反過來讓自己吃上官司。"},
+ {emo:"🚨",scene:"你騎機車被撞傷，對方肇事逃逸，一直查不到人。",q:"你的醫療費用可以找誰？",
+  o:["完全沒有人會賠","可以向「財團法人汽車交通事故特別補償基金」申請體傷補償；同時看自己的傷害險或醫療險","只能等抓到對方","找里長申請救助"],a:1,
+  why:"對方肇逃查不到、或對方車輛沒保強制險時，受害人的體傷可以向特別補償基金申請，補償範圍與強制險相近。車損則要看自己的車體險。",tip:"一樣要報警、就醫、保留診斷證明和收據。"},
+ {emo:"⏳",scene:"對方開車撞傷你，你一直忙著復健，想著「以後再說」。",q:"關於期限，下列哪個正確？",
+  o:["車禍糾紛沒有期限","想提過失傷害的刑事告訴，原則上要在知道犯人後 6 個月內；民事求償原則上是知道損害及賠償義務人起 2 年內","10 年內隨時都可以","只要保險公司知道就不會過期"],a:1,
+  why:"過失傷害是告訴乃論，有 6 個月的告訴期間；民事損害賠償請求權原則 2 年（自侵權行為起最長 10 年）。錯過期限，就可能失去談判籌碼。",tip:"涉及刑事告訴或訴訟，請諮詢律師；顧問可以協助你整理理賠資料。"}
+ ]};
+
+const MID=[
+{id:"A",ic:"🚙",name:"劇本一｜上班途中被追撞",desc:"沒人受傷的小擦撞，最容易一時心軟踩雷",
+ keys:["先顧安全：雙黃燈、看人有沒有受傷、注意後方來車","再小的事故都可以報警，拿當事人登記聯單","拍照要遠中近、雙方車牌、撞擊點；無人受傷且車能開，拍完移到路邊","不收錢了事、不簽「互不追究」","身體不舒服當天就醫，留下診斷證明"],
+ qs:[
+ {emo:"💥",scene:"早上 8 點，你停在路口等紅燈，「碰！」後面的車撞了上來。車上的人看起來都沒事。",q:"下車前，第一件事要做什麼？",
+  o:["馬上下車找對方理論","打開雙黃燈，確認車上的人有沒有受傷，注意後方來車再下車","先打給保險公司","趕快把車開走，免得塞車被罵"],a:1,
+  why:"先顧人身安全。雙黃燈提醒後車，確認沒人受傷、後方安全了再下車，避免二次事故。",tip:"如果有人受傷或覺得不舒服，直接打 119。"},
+ {emo:"🤝",scene:"對方下車很客氣：「小事啦！我給你兩千塊，不要報警好不好？我趕著上班。」",q:"你會怎麼做？",
+  o:["收下兩千，大家和氣","婉拒，還是打 110 報警處理，雙方交換聯絡方式與車牌","叫對方給五千才放他走","不報警，先各自離開再說"],a:1,
+  why:"車子內部的損傷常常當下看不出來，報警才能留下事故紀錄，拿到「道路交通事故當事人登記聯單」，之後申請理賠、釐清責任都靠它。",tip:"客氣但堅定：「不好意思，我們還是照程序請警察來，對彼此都比較有保障。」"},
+ {emo:"📸",scene:"等警察來之前，你拿出手機準備拍照。",q:"哪一種拍法最完整？",
+  o:["拍自己車子的凹痕就好","遠中近都拍：現場全景、雙方車牌、撞擊點、路面痕跡和號誌，行車紀錄器另外存檔","拍對方的臉","等警察拍就好，自己不用拍"],a:1,
+  why:"遠景看相對位置、中景看兩車關係、近景看損傷。行車紀錄器有時會被覆蓋，記得先另存或鎖檔。",tip:"有目擊者的話，請他留電話，之後可能需要作證。"},
+ {emo:"🚦",scene:"警察還沒到，你們兩台車卡在車道中間，後面開始大排長龍。沒人受傷，車也都還能開。",q:"現在怎麼辦？",
+  o:["堅持不動，等警察來才公平","先拍照、標記車輛位置，再把車移到路邊不妨礙交通","直接開走，回家再說","叫後面的車自己繞過去"],a:1,
+  why:"沒有人受傷、車能行駛時，依規定應在拍照或標繪位置後，把車移到不妨礙交通的地方，否則可能被罰，也容易發生二次事故。",tip:"有人受傷就不一樣了：現場要保持，等警察來處理。"},
+ {emo:"📝",scene:"警察做完筆錄，對方拿出一張紙：「我們寫一下『雙方和解、互不追究』，簽一簽就好。」",q:"你會簽嗎？",
+  o:["簽，反正對方看起來人不錯","不簽。要談賠償，交給保險公司處理；真的要寫和解，必須加註「不影響保險公司依法行使求償權」","簽了再說，有問題再找保險公司","請警察幫忙簽"],a:1,
+  why:"簽了「互不追究」，等於放棄向對方求償。如果之後修車要動用你自己的車體險，保險公司可能因為無法向對方追償，而減少或要求退還理賠。",tip:"現場不簽任何放棄權利的字據，是保護自己最簡單的一步。"},
+ {emo:"🤕",scene:"晚上回到家，你覺得脖子越來越痠、頭有點暈。",q:"要怎麼處理？",
+  o:["忍一下，睡一覺就好","盡快就醫，告訴醫生是車禍造成的，並請醫院開診斷證明，收據都留著","等一個月看看再說","自己去推拿就好，不用看醫生"],a:1,
+  why:"車禍造成的傷常常隔天才出現。就醫時間離事故越近，越容易證明是這次車禍造成的，之後申請強制險或向對方求償都需要診斷證明與收據。",tip:"強制險的請求期限，原則上是知道有損害及保險人起 2 年內，別拖太久。"}
+ ]},
+{id:"B",ic:"🛵",name:"劇本二｜有人受傷了",desc:"有人倒地時，每一個決定都更重要",
+ keys:["有人受傷：先 119、再 110，不任意移動傷者（除非有立即危險）","有人受傷不可離開現場，否則可能涉及肇事逃逸刑責","照實陳述，肇責交給警方與鑑定認定，不簽承認書","單一事故時，強制險不賠駕駛人本人，要靠自己的傷害險","現場圖、照片事故 7 天後可申請；初步分析研判表 30 天後可申請"],
+ qs:[
+ {emo:"🚨",scene:"傍晚你騎機車，在巷口和另一台機車擦撞，對方倒在地上喊痛。",q:"第一時間怎麼做？",
+  o:["把對方扶起來移到路邊","打 119 叫救護車、打 110 報警，在旁陪伴；除非有起火等立即危險，不任意移動傷者","先拍照再說","先打電話問家人怎麼辦"],a:1,
+  why:"不當移動可能讓傷勢更嚴重。先叫救護車與警察，開警示燈、注意來車，保護自己和傷者。",tip:"可以用外套幫傷者保暖、跟他說話讓他安心。"},
+ {emo:"⏰",scene:"救護車把對方載走了。你心想：「明明是他突然衝出來，我上班快遲到了……」",q:"可以先離開嗎？",
+  o:["可以，反正救護車來了","不可以。要留在現場等警察處理完；有人受傷時擅自離開，可能被認定為肇事逃逸","留張紙條在車上就好","請朋友來代替我等"],a:1,
+  why:"不管你覺得誰對誰錯，只要發生事故有人受傷，就要留在現場配合處理。離開可能涉及肇事逃逸刑責，原本有理也會變沒理。",tip:"打給公司說明狀況，比遲到被扣分嚴重多了。"},
+ {emo:"✍️",scene:"對方家屬趕到醫院，情緒很激動，要你寫一張「我承認全部責任」並簽名。",q:"你會怎麼做？",
+  o:["先簽了讓大家冷靜","表達關心，但照實陳述事發經過；責任比例交給警方與鑑定認定，不簽承認書","吵贏他們再說","答應全部賠償，回家再後悔"],a:1,
+  why:"同理對方的情緒很重要，但責任比例要看警方紀錄與鑑定結果。你先簽下承認書，之後保險公司評估、雙方協商都會很被動。",tip:"可以說：「我很關心他的傷，責任的部分我們一起交給警方和保險公司處理。」"},
+ {emo:"🩹",scene:"另一天，你騎車閃避坑洞自己摔車，膝蓋擦傷縫了幾針。朋友說：「強制險是政府要你保的，申請它就好！」",q:"這句話對嗎？",
+  o:["對，強制險一定賠自己","不完全對。單一事故時，強制險不賠駕駛人本人；要看自己有沒有保駕駛人傷害險或意外險","只要報警就會賠","要找里長申請"],a:1,
+  why:"強制險保的是撞到「別人」的責任，車上乘客與車外第三人才是給付對象。自己摔車受的傷，要靠駕駛人傷害險、意外險或醫療險。",tip:"騎機車通勤的朋友，很值得讓顧問幫你看一下這個缺口。"},
+ {emo:"📂",scene:"過了幾天，保險公司請你提供事故資料。",q:"警方的資料什麼時候可以申請？",
+  o:["當天就能全部拿到","當事人登記聯單現場就能拿；現場圖和照片事故 7 天後可申請；初步分析研判表 30 天後可申請","要等一年","只有律師能申請"],a:1,
+  why:"這些是釐清責任、申請理賠的重要文件，可以向處理的警察機關申請。",tip:"申請時間如有調整，以警察機關公告為準。"}
+ ]},
+{id:"C",ic:"🅿️",name:"劇本三｜停車被撞、高速公路拋錨",desc:"人不在現場，或在最危險的地方",
+ keys:["停車被撞逃逸：不移車、拍照、報警，調監視器","沒查到對方車牌，不代表一定不能賠，關鍵是證明「事故屬實」","高速公路：雙黃燈、靠路肩、人到護欄外，車後 100 公尺放故障標誌","修車前先通知保險公司與顧問，估價單看過再修","對方全責時，走自己車體險還是對方責任險，先問顧問再決定"],
+ qs:[
+ {emo:"😱",scene:"你從賣場出來，發現停在路邊的車尾被撞凹了，對方早就不見了。",q:"第一步怎麼做？",
+  o:["自認倒楣，直接開去修","先不要移車，拍照記錄現場，打 110 報警，並請店家或里長協助調監視器","在車上貼紙條找肇事者","等一週看看對方會不會出現"],a:1,
+  why:"報警留下紀錄、保全現場與影像，是之後申請理賠最重要的證明。監視器畫面常常幾天就被覆蓋，要越快調越好。",tip:"附近店家的監視器、路過車輛的行車紀錄器，都可能拍到。"},
+ {emo:"🔍",scene:"監視器只拍到一台白車撞上你的車，但看不清楚車牌。",q:"這樣還有機會理賠嗎？",
+  o:["沒拍到車牌就完全沒希望","有機會。保險要確認的是「確實發生車輛碰撞」，把報案紀錄和影像交給保險公司與顧問，依你的條款判斷","只要自己說是被撞就一定賠","要自己去抓到兇手才行"],a:1,
+  why:"不同車體險承保範圍不同，但很多爭議在於「證明事故屬實」，不一定非要查到對方車牌。能不能賠，仍以你的條款和保險公司審查為準。",tip:"不知道自己保的是哪一種車體險？這正是顧問可以幫你查的。"},
+ {emo:"🛣️",scene:"週末全家上高速公路，突然爆胎，你把車停到路肩。",q:"接下來最安全的做法是？",
+  o:["全家留在車上等救援","開雙黃燈，全家從右側下車移到護欄外，車後 100 公尺放故障標誌，再打電話求援","站在車子後面揮手提醒來車","趕快自己換輪胎"],a:1,
+  why:"高速公路追撞事故很危險，人留在車上或站在車旁都容易被撞。人到護欄外最安全。",tip:"放故障標誌時面向來車、靠邊走，夜間更要小心。"},
+ {emo:"🔧",scene:"拖吊到修車廠，老闆說：「我直接幫你報保險就好，順便全車烤漆一下，不用跟你的顧問說啦！」",q:"你會怎麼做？",
+  o:["好啊，順便整台烤新","先自己通知保險公司和顧問，看過估價單、確認是這次事故的損失才修；不同意的項目不簽","讓老闆全權處理","不修了，直接賣車"],a:1,
+  why:"不是這次事故的損失硬報，可能變成不實理賠，還會留下出險紀錄，讓之後的保費上漲。",tip:"估價單要看清楚：零件、工資、烤漆各是多少。"},
+ {emo:"⚖️",scene:"另一次事故，警方初判對方全責。修車估價 10 萬，對方保險公司說零件要扣折舊，只能賠一部分。",q:"怎麼做比較好？",
+  o:["那就自己吞下差額","先問顧問：比較走對方責任險與走自己車體險的差別，再決定","跟對方保險公司大吵","放著不修"],a:1,
+  why:"向對方求償時，以新換舊的零件常要扣折舊；但很多車體險條款約定零件不折舊，對方全責且身分確定時，還可能不用自負額、不影響續保保費。每張保單條款不同，所以要先問清楚。",tip:"這就是顧問的價值：幫你在不同路徑之間算清楚，選最有利的。"}
+ ]}
+];
+MID.push(M4);
+
+const ADV=[
+{id:"H1",ic:"🧩",name:"高手｜該找哪張保單？",desc:"四個選項都像對的，45 秒內作答",
+ keys:["事後說「不追究」沒有用，保護常開你車的朋友要「事前」加保許可使用免追償","兼職外送看的是事故當下的使用狀態，不是全年比例","車上乘客走強制險，超過的部分要看有沒有乘客責任附加條款","無照駕駛：強制險先賠對方、可能回頭向車主求償；任意險不賠","強制險與第三人責任險是兩套獨立的加費制度"],
+ qs:[
+ {emo:"🔑",scene:"你把車借給男朋友開，他自己撞到電線桿。你的車體險修好車之後，保險公司寄信要向男朋友求償。",q:"下列哪個做法才真的有用？",
+  o:["寫一張切結書給保險公司，表示車主不追究","打給保險公司說他是自己人，請他們別追","以後借車給非同住的人之前，先加保「許可使用免追償」附加條款","沒關係，男女朋友算家屬，本來就不會被追償"],a:2,
+  why:"保險公司理賠後依法可以代位求償，車主事後說不追究沒有拘束力。配偶、同居家屬等本來就在保障範圍內，但男女朋友、朋友、同事不在，要事前加保。",tip:"各家免追償條款的除外行業不同，加保前請顧問幫你看條款。"},
+ {emo:"🛵",scene:"你平日上班，週末兼職外送幾小時。某天送餐途中撞傷路人。",q:"保險上最可能的狀況是？",
+  o:["一週只跑幾小時，不算營業使用，照常理賠","外送平台的保險會負責賠路人","保險看的是事故當下在做什麼，送餐途中可能被認定為營業使用而拒賠","只要行照登記是自用，就一定算自用"],a:2,
+  why:"審查看事故「當下」的使用狀態。外送平台提供的保險通常只保騎士本人。有兼職外送打算，要跟顧問討論加保營業使用相關附加條款。",tip:"機車有裝外送箱的人，記得保存平台的上下線與接單紀錄。"},
+ {emo:"🍻",scene:"尾牙後，不喝酒的同事開你的車送大家回家，途中發生事故，車上另一位同事受傷。",q:"受傷的同事可以找哪張保單？",
+  o:["第三人責任險一定會賠車上乘客","車上的人是自己人，什麼都不能申請","乘客可以申請強制險；超過強制險的部分，要看保單有沒有「乘客責任附加條款」","只能直接告開車的同事"],a:2,
+  why:"強制險保障乘客，但第三人責任險原則上除外車上人員。另外，開車的同事如果讓車體險理賠了車損，也可能被追償。",tip:"指定駕駛一定要完全沒喝酒，酒駕是多數保單明確的不保事項。"},
+ {emo:"🧒",scene:"17 歲還沒考駕照的孩子，偷騎你的機車撞傷人。",q:"保險會怎麼處理？",
+  o:["強制險和第三人責任險都會照賠","兩張都完全不賠，受害人也拿不到錢","強制險會先賠受害人，但保險公司可能回頭向你求償；第三人責任險則不賠","只要買附加條款，就能承保無照駕駛"],a:2,
+  why:"強制險是為了保障受害人，會先賠，之後可能向被保險人求償；任意險把無照駕駛列為不保事項。這個缺口沒有商品可以轉嫁。",tip:"事前防範最重要：鑰匙收好。滿 14 歲可合法騎的微型電動二輪車，也要掛牌、投保強制險。"},
+ {emo:"📈",scene:"去年一次輕微擦撞，強制險只賠了對方不到三千元。今年續保，強制險和第三人責任險保費都漲了。",q:"為什麼兩張都漲？",
+  o:["保險公司重複收費","只是今年整體漲價，跟那次理賠無關","兩張保單是兩套獨立的加費制度，同一次理賠會分別反映","換一家保險公司就不會有紀錄"],a:2,
+  why:"強制險的加費由主管機關統一規範；第三人責任險由各家自訂費率。換保險公司一樣會查到理賠紀錄。",tip:"極輕微的事故，有時雙方自行協商比較划算，但仍然不要簽放棄求償的字據。"},
+ {emo:"⚖️",scene:"你零肇責，受傷休養一個月，在調解會上要求 30 萬精神慰撫金，對方保險公司說無法認列。",q:"比較好的下一步是？",
+  o:["堅持 30 萬，不給就拒絕調解","精神慰撫金沒有固定公式；先把醫療、交通、薪資損失單據整理齊全，慰撫金參考類似判決行情，必要時諮詢律師","這部分本來就不能請求","請保險顧問幫你決定要多少"],a:1,
+  why:"保險理賠需要客觀單據；慰撫金屬無形損害，法院會綜合各種情況判斷。理賠人員受內部權限限制，不是刁難。",tip:"收據、薪資證明、請假紀錄都要留好。"}
+ ]},
+{id:"H2",ic:"🧮",name:"高手｜車損怎麼算才不吃虧",desc:"要會算、要看懂條款，45 秒內作答",
+ keys:["向對方責任險求償，零件常要扣折舊；自己的車體險多數條款約定零件不折舊","推定全損門檻：修理費達「保額扣除折舊後」的 3/4","車價貶值（交易性貶值）保險通常不主動賠，可自費鑑價評估","停車被撞逃逸：關鍵是證明事故屬實，不一定要查到車牌","修車廠未經同意報保險，會留下出險紀錄、影響保費"],
+ qs:[
+ {emo:"🔧",scene:"警方初判對方全責，你的車估價 10 萬元。對方保險公司說零件要依車齡折舊，只能賠 6 萬。",q:"怎麼做通常最有利？",
+  o:["自己吞下 4 萬差額","堅持對方必須全額賠 10 萬","先問顧問比較：自己的車體險多數約定零件不折舊，對方全責且身分確定時，還可能免自負額、不影響續保","放著不修，等對方妥協"],a:2,
+  why:"向對方求償走民事賠償，以新換舊要扣折舊；走自己的車體險，差額由保險公司再向對方追償。免自負額、不加費的條件是「完全」可歸責於「確定」的第三人。",tip:"工資、鈑金烤漆實務上不折舊，估價單要分開看。"},
+ {emo:"🚘",scene:"十年老車被撞，修理估價 6 萬元。保單上的保額扣除折舊後是 8 萬元。",q:"這台車會不會達到「推定全損」門檻？",
+  o:["不會，6 萬比 8 萬少很多","會。8 萬 × 3/4 ＝ 6 萬，修理費已達門檻，可能被以全損處理","要看原始新車價","推定全損只看車齡"],a:1,
+  why:"推定全損門檻是修理費達「保額扣除折舊後金額」的四分之三。車越老、折舊越多，門檻越低，老車更容易一撞就全損。",tip:"全損時拿到的是現金，不一定買得到同樣堪用的車；可以評估「全損免折舊附加條款」。"},
+ {emo:"🏷️",scene:"新車被闖紅燈撞、你零肇責，修理費對方已全賠。一年後賣車，車商因為有重大事故紀錄，價格砍了 15 萬。",q:"這 15 萬怎麼辦？",
+  o:["對方保險公司一定要賠","車價下跌是自己的事，法律上完全不能主張","這叫交易性貶值，理論上可以主張，但保險公司通常不主動賠；可自費請第三方鑑價，評估划不划算再決定","找修車廠開更多收據"],a:2,
+  why:"保險公司通常只賠有收據的實際修理費。要爭取，需要鑑價報告，甚至協商或訴訟。",tip:"原廠維修紀錄要完整保留。"},
+ {emo:"🅿️",scene:"車停路邊被撞，對方逃逸。監視器只拍到一台白車撞上來，看不清楚車牌。你保的是丙式車體險。",q:"下列哪個說法最正確？",
+  o:["沒查到車牌，丙式一定不賠","丙式要查證的是「確實發生車對車碰撞」，報案紀錄與影像都有幫助；能否理賠仍依條款與保險公司審查","只要自己說被撞就一定賠","要先自己修好再申請"],a:1,
+  why:"條款要求經憲警或保險公司查證屬實，查證的是事故屬實。另外，新版乙式車體險也已納入停放中遭不明車輛碰撞，各家條款版本請以保單為準。",tip:"不確定自己是哪一版條款？請顧問幫你調出來看。"},
+ {emo:"🧾",scene:"你今年續保，發現保費漲了。調出紀錄才發現，去年送修保養時，修車廠在你不知情下報了車體險做鈑金烤漆。",q:"該怎麼處理？",
+  o:["算了，反正保險公司付錢","把這筆異常出險紀錄拿去問顧問，協助向保險公司查詢原因","直接在網路上指控修車廠詐保","退保不再買車險"],a:1,
+  why:"不是事故造成的損失被報保險，會留下出險紀錄、影響保費，也可能涉及不實理賠。先查清楚，不要直接斷言。",tip:"簽任何理賠或估價文件前，都先確認內容。"},
+ {emo:"⏳",scene:"三年前車禍受傷，當時沒申請強制險，現在想起來要申請。",q:"還來得及嗎？",
+  o:["隨時都可以申請","強制險請求原則上是知道有損害及保險人起 2 年內，可能已經超過","要等 5 年後才能申請","只有住院才能申請"],a:1,
+  why:"強制險的請求權有時效限制，原則上自知道有損害發生及保險人時起 2 年（事故發生起最長 10 年）。拖太久可能就請求不到了。",tip:"出事後盡快就醫、盡快通知保險公司和顧問。"}
+ ]}];
+
+ADV.push(H3);
+const LEVELS=[
+ {k:"basic",name:"初階",who:"長輩・新手駕駛",info:"🌱 初階：車禍五步口訣。題目短、三選一、字體放大，適合長輩與新手駕駛。",routes:BASIC,big:true,timer:0,medal:"🥉"},
+ {k:"mid",name:"中階",who:"一般保戶",info:"🚗 中階：四個真實劇本，從追撞、有人受傷、高速公路拋錨，到事後跟對方談賠償，學會每一步。",routes:MID,big:false,timer:0,medal:"🥈"},
+ {k:"adv",name:"高階",who:"想看懂理賠的人",info:"🧮 高階：理賠攻防與肇責糾紛。四個選項都像對的，要會算過失比例與推定全損，懂鑑定、調解與時效，每題限時 45 秒。",routes:ADV,big:false,timer:45,medal:"🥇"}
+];
+const KEY="yun_carcrash_game_v2";
+let store={best:{},tel:{},lv:"basic"};
+try{const o=JSON.parse(localStorage.getItem("yun_carcrash_game_v1")||"{}");if(o.best)store.best=Object.assign({},o.best);if(o.tel)store.tel=o.tel;}catch(e){}
+try{store=Object.assign(store,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+const $=id=>document.getElementById(id);
+let LV=LEVELS.find(l=>l.k===store.lv)||LEVELS[0],R=null,i=0,score=0,tried=false,tmr=null,left=0,timeout=false;
+
+function show(id){["home","game","result","pocket"].forEach(s=>$(s).classList.toggle("hide",s!==id));window.scrollTo({top:0,behavior:"smooth"});}
+function starOf(s,n){return s>=n?3:s>=n-1?2:s>=Math.ceil(n/2)?1:0}
+function lvCleared(l){return l.routes.every(r=>store.best[r.id]!=null&&starOf(store.best[r.id],r.qs.length)>=2)}
+function drawHome(){
+  document.body.classList.toggle("big",LV.big);
+  $("lvtabs").innerHTML=LEVELS.map(l=>`<button class="lv ${l===LV?"on":""}" onclick="setLv('${l.k}')"><b>${l.name}</b><span>${l.who}</span></button>`).join("");
+  $("lvinfo").textContent=LV.info;
+  $("routes").innerHTML=LV.routes.map((r,k)=>{const b=store.best[r.id];return `<button class="route" onclick="start(${k})"><span class="ic">${r.ic}</span><span><b>${r.name}</b><span>${r.desc}・${r.qs.length} 關</span></span><span class="st">${b!=null?"最佳 "+("⭐".repeat(starOf(b,r.qs.length))||"☆"):"未挑戰"}</span></button>`}).join("");
+  $("medals").innerHTML=LEVELS.map(l=>`<div class="${lvCleared(l)?"got":""}"><i>${l.medal}</i>${l.name}${lvCleared(l)?"通關":"未通關"}</div>`).join("");
+}
+function setLv(k){LV=LEVELS.find(l=>l.k===k);store.lv=k;persist();drawHome();}
+function goHome(){clearInterval(tmr);drawHome();show("home");}
+function start(k){R=LV.routes[k];i=0;score=0;show("game");render();}
+function render(){
+  const q=R.qs[i];tried=false;timeout=false;
+  $("gRoute").textContent=LV.name+"｜"+R.name.split("｜")[1];
+  $("gStep").textContent=`第 ${i+1} / ${R.qs.length} 關・⭐ ${score}`;
+  $("gBar").style.width=(i/R.qs.length*100)+"%";
+  $("gEmo").textContent=q.emo;$("gScene").textContent=q.scene;$("gQ").textContent=q.q;
+  const order=q.o.map((t,k)=>k).sort(()=>Math.random()-.5);
+  $("gOpts").innerHTML=order.map(k=>`<button class="opt" data-k="${k}">${q.o[k]}</button>`).join("");
+  document.querySelectorAll("#gOpts .opt").forEach(b=>b.onclick=()=>pick(+b.dataset.k,b));
+  $("gFb").className="hide";$("gNext").classList.add("hide");
+  clearInterval(tmr);
+  if(LV.timer){left=LV.timer;$("gTimer").classList.add("on");tick();tmr=setInterval(tick,1000);}else $("gTimer").classList.remove("on");
+}
+function tick(){
+  $("gTimer").textContent=timeout?"⏰ 時間到，答對不加星，繼續作答":`⏱️ ${left} 秒`;
+  if(timeout)return;
+  if(left<=0){timeout=true;clearInterval(tmr);$("gTimer").textContent="⏰ 時間到，答對不加星，繼續作答";return;}
+  left--;
+}
+function pick(k,btn){
+  const q=R.qs[i];
+  if(k===q.a){
+    clearInterval(tmr);
+    const got=!tried&&!timeout; if(got) score++;
+    document.querySelectorAll("#gOpts .opt").forEach(b=>b.disabled=true);
+    btn.classList.add("right");
+    $("gFb").className="fb ok";
+    $("gFb").innerHTML=`<b class="h">${got?"🎉 一次就答對！+⭐":"✅ 答對了！"}</b>${q.why}<div class="tip">💡 ${q.tip}</div>`;
+    $("gNext").textContent=i===R.qs.length-1?"看闖關結果 →":"下一關 →";
+    $("gNext").classList.remove("hide");
+    $("gStep").textContent=`第 ${i+1} / ${R.qs.length} 關・⭐ ${score}`;
+  }else{
+    tried=true;btn.classList.add("wrong");btn.disabled=true;
+    $("gFb").className="fb ng";
+    $("gFb").innerHTML=`<b class="h">🤔 再想想看</b>${LV.k==="adv"?"這個說法聽起來合理，但有一個關鍵細節不對。再選一次！":"這樣做可能讓自己陷入危險，或影響之後的理賠權益。再選一次！"}`;
+  }
+}
+function next(){i++; if(i<R.qs.length) render(); else finish();}
+function finish(){
+  clearInterval(tmr);
+  const n=R.qs.length, st=starOf(score,n);
+  if(store.best[R.id]==null||score>store.best[R.id]) store.best[R.id]=score; persist();
+  const titles={basic:["🌱 加油一下","🌱 口訣入門","🌱 口訣熟練","🥉 五步達人"],mid:["🚙 新手駕駛","🚗 冷靜駕駛","🛡️ 安心駕駛","🥈 應變達人"],adv:["🧮 理賠新手","📘 條款學徒","🧩 理賠高手","🥇 理賠攻防大師"]}[LV.k];
+  $("rTitle").textContent=titles[st];
+  $("rStars").textContent=st?"⭐".repeat(st):"☆";
+  $("rText").textContent=`${n} 關中，你一次就答對 ${score} 關。`+(st===3?"太厲害了！":"把重點再看一次，下次會更好！");
+  $("rKeys").innerHTML=R.keys.map(x=>`<li>${x}</li>`).join("");
+  const idx=LEVELS.indexOf(LV), up=$("rUp");
+  if(lvCleared(LV)&&idx<2){up.classList.remove("hide");up.innerHTML=`🎖️ <b>${LV.name}全部通關！</b>獲得 ${LV.medal}。<button class="btn sky" onclick="setLv('${LEVELS[idx+1].k}');goHome()">挑戰${LEVELS[idx+1].name} →</button>`;}
+  else if(LV.k==="adv"){up.classList.remove("hide");up.innerHTML=`💬 每張保單條款都不一樣。想知道<b>自己的車險</b>遇到這些狀況賠不賠？<a class="btn red" style="text-align:center;text-decoration:none" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">請財顧芸幫我看保單</a>`;}
+  else up.classList.add("hide");
+  show("result");
+}
+
+const INS=[["富邦產物", "0800-009-888", "24小時專人服務"], ["國泰世紀產物", "0800-212-880", "24小時客服＋車禍事故；道路救援 0800-020-345"], ["新光產物", "0800-789-999", "24小時免付費；有道路救援險者 0800-886-669"], ["明台產物", "0800-078-888", "24小時理賠＋道路救援"], ["和泰產物", "0800-077-568", "理賠及報案專線"], ["新安東京海上產物", "0800-050-119", "24小時事故現場＋道路救援"], ["第一產物", "0800-288-068", "客服專線"], ["華南產物", "0800-010-850", "平日 8:30–18:30；下班時間先撥 110，並聯絡顧問"], ["兆豐產物", "0800-005-500", "事故現場處理＋道路救援；24小時客服 0800-053-588"], ["臺灣產物", "0809-068-888", "8:30–17:30（道路救援按2）；夜間假日撥 55688 按 88（限六都與新竹）"], ["旺旺友聯產物", "0800-024-024", "客服＋出險備案（申請道路救援也先撥這支）"], ["泰安產物", "0800-012-080", "24小時客服＋理賠"], ["南山產物", "0800-005-678", "道路救援＋理賠"], ["中國信託產物", "0800-075-777", "24小時（道路救援按1）；原台壽保產物"]];
+function pickIns(){const v=document.getElementById("tSel").value,n=document.getElementById("tNote");
+  if(v===""||v==="other"){n.textContent=v==="other"?"請在下方輸入保單或保險卡上的報案電話。":"";if(v==="other")document.getElementById("tIns").value="";document.getElementById("tIns").focus();return;}
+  const x=INS[+v];document.getElementById("tIns").value=x[0]+" "+x[1];n.textContent="📌 "+x[2];}
+function telHTML(){
+  const t=store.tel||{};
+  return `📞 救護 <b>119</b>｜報警 <b>110</b><br>🏢 我的保險公司報案電話：<b>${esc(t.ins||"（請在下方填寫）")}</b><br>🚘 我的車牌：<b>${esc(t.plate||"（請在下方填寫）")}</b><br>💬 我的顧問：財顧芸 陳芸琪｜LINE：lin.ee/56YIX1v`;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function showPocket(){$("tIns").value=(store.tel||{}).ins||"";$("tPlate").value=(store.tel||{}).plate||"";$("telBox").innerHTML=telHTML();show("pocket");}
+function saveTel(){store.tel={ins:$("tIns").value.trim(),plate:$("tPlate").value.trim()};persist();$("telBox").innerHTML=telHTML();toast("已存在這支手機 ✅");}
+function copyPocket(){
+  const t=store.tel||{};
+  const txt=`🚨 車禍口袋卡｜一停二報三拍四不簽五找顧問
+1. 停：開雙黃燈、確認有沒有人受傷，人先到安全處；放故障標誌（一般道路約車後30～100公尺，高速公路車後100公尺）
+2. 報：有人受傷先打119，不論大小都打110，拿當事人登記聯單；有人受傷不可離開現場
+3. 拍：遠中近都拍（全景、雙方車牌、撞擊點、路面痕跡、號誌），存行車紀錄器、記目擊者電話；無人受傷且車能開，拍完移到路邊
+4. 不簽：不私下拿錢了事、不簽「互不追究」、不承認全責
+5. 找顧問：通知保險公司與顧問，先估價再修；身體不舒服當天就醫拿診斷證明
+
+我的保險公司報案電話：${t.ins||"＿＿＿＿＿＿"}
+我的車牌：${t.plate||"＿＿＿＿＿＿"}
+我的顧問：財顧芸 陳芸琪｜LINE：https://lin.ee/56YIX1v
+（一般性說明，實際理賠以保險公司審查及保單條款為準）`;
+  const done=()=>toast("已複製，貼到備忘錄吧 📋");
+  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(txt).then(done).catch(()=>fb(txt,done)); else fb(txt,done);
+}
+function fb(t,d){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();d();}
+function toast(m){const e=$("toast");e.textContent=m;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1500);}
+drawHome();
+</script>
+
+<style>
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#rfBtn{position:fixed;right:14px;bottom:18px;z-index:50;display:flex;align-items:center;gap:6px;padding:11px 16px;border-radius:999px;border:2px solid #FFC000;background:#C00000;color:#fff;font:800 15px/1 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#rfBtn:active{transform:scale(.96)}
+#rfMask{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:60;display:none}
+#rfMenu{position:fixed;right:14px;bottom:76px;z-index:61;display:none;background:#fff;border:4px solid #FFC000;border-radius:16px;padding:8px;min-width:230px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#rfMenu button{display:block;width:100%;text-align:left;border:none;background:transparent;padding:12px;font:700 16px/1.3 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#1F1F1F;border-radius:10px;cursor:pointer}
+#rfMenu button:hover{background:#FFF6D9}
+#rfMenu .rf-t{font-size:13px;color:#C00000;font-weight:800;padding:6px 12px 4px}
+#rfMenu .rf-del{color:#C00000}
+.rf-on #rfMask,.rf-on #rfMenu{display:block}
+</style>
+<div id="rfMask" onclick="rfClose()"></div>
+<div id="rfMenu" role="menu">
+  <div class="rf-t">🔄 重新整理選單</div>
+  <button type="button" onclick="location.reload()">🔄 重新整理頁面</button>
+  <button type="button" id="rfReplay" onclick="rfReplay()">🔁 重玩這個劇本</button>
+  <button type="button" onclick="rfClose();goHome()">🏠 回劇本選單</button>
+  <button type="button" onclick="rfClose();showPocket()">📇 看車禍口袋卡</button>
+  <button type="button" class="rf-del" onclick="rfReset()">🗑️ 清除闖關紀錄，從頭開始</button>
+</div>
+<button type="button" id="rfBtn" onclick="rfToggle()" aria-haspopup="true">🔄 選單</button>
+<script>
+(function(){
+  var stop=function(e){var t=e.target;if(e.type==="paste"&&t&&t.tagName==="INPUT"){e.preventDefault();toast("此活動不開放貼上，請自行輸入");return;}e.preventDefault();};
+  ["copy","cut","paste","contextmenu","dragstart","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){if(ev==="selectstart"&&e.target&&e.target.tagName==="INPUT")return;stop(e);},true);});
+  document.addEventListener("keydown",function(e){var k=(e.key||"").toLowerCase();if((e.ctrlKey||e.metaKey)&&["c","x","v","a","s","p","u"].indexOf(k)>-1){e.preventDefault();}},true);
+})();
+function rfToggle(){document.body.classList.toggle("rf-on");document.getElementById("rfReplay").style.display=(R&&document.getElementById("home").classList.contains("hide")&&document.getElementById("pocket").classList.contains("hide"))?"block":"none";}
+function rfClose(){document.body.classList.remove("rf-on");}
+function rfReplay(){rfClose();if(R){i=0;score=0;show("game");render();}else goHome();}
+function rfReset(){if(!confirm("確定要清除這支手機上的闖關紀錄嗎？（口袋卡填的電話會保留）"))return;try{store.best={};persist();}catch(e){}rfClose();goHome();toast("紀錄已清除，重新開始吧！");}
+</script>
+</body>
+</html>
