@@ -124,6 +124,7 @@ footer{margin-top:22px;padding-bottom:60px;font-size:12px;color:var(--muted);tex
   <div class="card hide" id="rUp"></div>
   <button class="btn red" onclick="goHome()">挑戰其他劇本</button>
   <button class="btn sky" onclick="showPocket()">📇 領取車禍口袋卡</button>
+  <button class="btn ghost" onclick="openShare()">💬 闖關有感？分享你的經驗</button>
 </section>
 
 <section id="pocket" class="hide">
@@ -151,6 +152,29 @@ footer{margin-top:22px;padding-bottom:60px;font-size:12px;color:var(--muted);tex
   <button class="btn ghost" onclick="goHome()">← 回首頁</button>
 </section>
 </div>
+
+<section id="share" class="hide">
+  <div class="frame">
+    <span class="badge">💬 經驗分享</span>
+    <h2 style="margin-top:10px">你的經驗，可能是下一個人的提醒</h2>
+    <p style="font-size:15px">闖關的某一題，是不是讓你想起自己或家人的經歷？<br>
+    當下的慌張、事後才知道的眉角，我完全同理。<br>
+    歡迎把這段經驗分享給<b style="color:var(--red)">財顧芸</b>。我們會先拿掉姓名、車牌、電話等個人資料，再整理成安全提醒，陪更多人在出事那一刻不慌張。</p>
+  </div>
+  <div class="card">
+    <label class="f">讓你最有感的是哪個劇本？<select id="sRoute" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit"></select></label>
+    <label class="f">你的經驗（發生了什麼、當時怎麼處理）<textarea id="sStory" rows="5" maxlength="800" placeholder="例：那年在路口被追撞，對方說私下給兩千就好，我差點答應，後來才發現保險桿裡面也撞壞了……" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit;resize:vertical"></textarea></label>
+    <label class="f">如果重來一次，你想提醒大家什麼？（選填）<textarea id="sTip" rows="2" maxlength="200" placeholder="例：再小的擦撞都要報警，千萬別簽「互不追究」。" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin-top:4px;background:var(--card);color:var(--ink);font-family:inherit;resize:vertical"></textarea></label>
+    <label class="f">希望我們怎麼稱呼你？（選填，可匿名）<input id="sName" maxlength="20" placeholder="例：宜蘭陳小姐、匿名"></label>
+    <p style="font-size:14px;font-weight:700;margin-top:12px">這段經驗可以分享出去嗎？</p>
+    <label class="f" style="display:flex;gap:8px;align-items:flex-start;margin-top:4px"><input type="radio" name="sOk" value="可以" checked style="width:auto;margin-top:6px">可以，去除個人資料後整理成衛教分享</label>
+    <label class="f" style="display:flex;gap:8px;align-items:flex-start;margin-top:2px"><input type="radio" name="sOk" value="不公開" style="width:auto;margin-top:6px">只給財顧芸看，請不要公開</label>
+    <p class="small" style="margin-top:10px">⚠️ 請不要填寫身分證字號、保單號碼、病歷或對方的個人資料。</p>
+    <button class="btn red" onclick="sendShare()">💌 送給財顧芸</button>
+    <div id="sDone" class="fb ok hide" style="margin-top:12px"><b class="h">💛 謝謝你願意分享！</b>你的分享已經整理好了。<br>LINE 開啟後，在對話框<b>長按「貼上」</b>再送出，就完成了。<br><span class="small">如果 LINE 沒有自動開啟，請點下方按鈕。</span><a class="btn sky" style="text-align:center;text-decoration:none" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">開啟 LINE</a></div>
+  </div>
+  <button class="btn ghost" onclick="goHome()">← 回首頁</button>
+</section>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -333,7 +357,7 @@ function persist(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){
 const $=id=>document.getElementById(id);
 let LV=LEVELS.find(l=>l.k===store.lv)||LEVELS[0],R=null,i=0,score=0,tried=false,tmr=null,left=0,timeout=false;
 
-function show(id){["home","game","result","pocket"].forEach(s=>$(s).classList.toggle("hide",s!==id));window.scrollTo({top:0,behavior:"smooth"});}
+function show(id){["home","game","result","pocket","share"].forEach(s=>$(s).classList.toggle("hide",s!==id));window.scrollTo({top:0,behavior:"smooth"});}
 function starOf(s,n){return s>=n?3:s>=n-1?2:s>=Math.ceil(n/2)?1:0}
 function lvCleared(l){return l.routes.every(r=>store.best[r.id]!=null&&starOf(store.best[r.id],r.qs.length)>=2)}
 function drawHome(){
@@ -450,12 +474,13 @@ body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   <button type="button" id="rfReplay" onclick="rfReplay()">🔁 重玩這個劇本</button>
   <button type="button" onclick="rfClose();goHome()">🏠 回劇本選單</button>
   <button type="button" onclick="rfClose();showPocket()">📇 看車禍口袋卡</button>
+  <button type="button" onclick="openShare()">💬 分享我的經驗給財顧芸</button>
   <button type="button" class="rf-del" onclick="rfReset()">🗑️ 清除闖關紀錄，從頭開始</button>
 </div>
 <button type="button" id="rfBtn" onclick="rfToggle()" aria-haspopup="true">🔄 選單</button>
 <script>
 (function(){
-  var stop=function(e){var t=e.target;if(e.type==="paste"&&t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA")){e.preventDefault();toast("此活動不開放貼上，請自行輸入");return;}e.preventDefault();};
+  var stop=function(e){if(window.__allowCopy&&e.type==="copy")return;var t=e.target;if(e.type==="paste"&&t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA")){e.preventDefault();toast("此活動不開放貼上，請自行輸入");return;}e.preventDefault();};
   ["copy","cut","paste","contextmenu","dragstart","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){if(ev==="selectstart"&&e.target&&(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))return;stop(e);},true);});
   document.addEventListener("keydown",function(e){var k=(e.key||"").toLowerCase();if((e.ctrlKey||e.metaKey)&&["c","x","v","a","s","p","u"].indexOf(k)>-1){e.preventDefault();}},true);
 })();
@@ -463,6 +488,33 @@ function rfToggle(){document.body.classList.toggle("rf-on");document.getElementB
 function rfClose(){document.body.classList.remove("rf-on");}
 function rfReplay(){rfClose();if(R){i=0;score=0;show("game");render();}else goHome();}
 function rfReset(){if(!confirm("確定要清除這支手機上的闖關紀錄嗎？（口袋卡填的電話會保留）"))return;try{store.best={};persist();}catch(e){}rfClose();goHome();toast("紀錄已清除，重新開始吧！");}
+</script>
+
+<script>
+function openShare(){
+  const opts=(typeof LEVELS!=="undefined")?LEVELS.flatMap(l=>l.routes.map(r=>l.name+"｜"+r.name)):ROUTES.map(r=>r.name);
+  const cur=(typeof R!=="undefined"&&R)?((typeof LV!=="undefined"?LV.name+"｜":"")+R.name):"";
+  document.getElementById("sRoute").innerHTML=opts.concat(["其他／整體心得"]).map(o=>`<option${o===cur?" selected":""}>${esc(o)}</option>`).join("");
+  document.getElementById("sDone").classList.add("hide");
+  if(typeof rfClose==="function")rfClose(); show("share");
+}
+function sendShare(){
+  const st=document.getElementById("sStory").value.trim();
+  if(st.length<10){toast("請多寫一點你的經驗（至少 10 個字）");document.getElementById("sStory").focus();return;}
+  const ok=document.querySelector('input[name="sOk"]:checked').value;
+  const tip=document.getElementById("sTip").value.trim(), nm=document.getElementById("sName").value.trim()||"匿名";
+  const msg=`【車禍闖關｜經驗分享】
+稱呼：${nm}
+最有感的劇本：${document.getElementById("sRoute").value}
+
+我的經驗：
+${st}
+${tip?`\n想提醒大家：\n${tip}\n`:""}
+是否同意分享：${ok==="可以"?"可以，去除個人資料後整理成衛教分享":"只給財顧芸看，請不要公開"}`;
+  const go=()=>{document.getElementById("sDone").classList.remove("hide");window.open("https://lin.ee/56YIX1v","_blank","noopener");};
+  const fb2=()=>{window.__allowCopy=true;const a=document.createElement("textarea");a.value=msg;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(e){}a.remove();window.__allowCopy=false;go();};
+  if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(msg).then(go).catch(fb2); else fb2();
+}
 </script>
 </body>
 </html>
