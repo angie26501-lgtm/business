@@ -144,8 +144,6 @@ footer{margin-top:22px;padding-bottom:60px;font-size:12px;color:var(--muted);tex
     <p class="small" id="tNote" style="margin-top:6px"></p>
     <label class="f">報案電話（選了會自動帶入，也可以自己改）<input id="tIns" placeholder="例：0800-XXX-XXX（保單或保險卡上有）"></label>
     <label class="f">我的車牌<input id="tPlate" placeholder="例：ABC-1234"></label>
-    <label class="f">我的保險顧問／業務員姓名<input id="tAdv" placeholder="例：王小明"></label>
-    <label class="f">顧問電話或 LINE<input id="tAdvTel" placeholder="例：0912-345-678"></label>
     <button class="btn sky" onclick="saveTel()">存起來</button>
     <p class="small" style="margin-top:8px">電話依各公司官網與產險公會公告整理（查證日 2026/10/18），各公司可能調整，以保單、保險卡或官網為準。</p>
   </div>
@@ -409,11 +407,11 @@ function pickIns(){const v=document.getElementById("tSel").value,n=document.getE
   const x=INS[+v];document.getElementById("tIns").value=x[0]+" "+x[1];n.textContent="📌 "+x[2];}
 function telHTML(){
   const t=store.tel||{};
-  return `📞 救護 <b>119</b>｜報警 <b>110</b><br>🏢 我的保險公司報案電話：<b>${esc(t.ins||"（請在下方填寫）")}</b><br>🚘 我的車牌：<b>${esc(t.plate||"（請在下方填寫）")}</b><br>💬 我的保險顧問：<b>${esc(t.adv||"（請在下方填寫）")}</b>${t.advTel?"｜"+esc(t.advTel):""}`;
+  return `📞 救護 <b>119</b>｜報警 <b>110</b><br>🏢 我的保險公司報案電話：<b>${esc(t.ins||"（請在下方填寫）")}</b><br>🚘 我的車牌：<b>${esc(t.plate||"（請在下方填寫）")}</b>`;
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function showPocket(){$("tIns").value=(store.tel||{}).ins||"";$("tPlate").value=(store.tel||{}).plate||"";$("tAdv").value=(store.tel||{}).adv||"";$("tAdvTel").value=(store.tel||{}).advTel||"";$("telBox").innerHTML=telHTML();show("pocket");}
-function saveTel(){store.tel={ins:$("tIns").value.trim(),plate:$("tPlate").value.trim(),adv:$("tAdv").value.trim(),advTel:$("tAdvTel").value.trim()};persist();$("telBox").innerHTML=telHTML();toast("已存在這支手機 ✅");}
+function showPocket(){$("tIns").value=(store.tel||{}).ins||"";$("tPlate").value=(store.tel||{}).plate||"";$("telBox").innerHTML=telHTML();show("pocket");}
+function saveTel(){store.tel={ins:$("tIns").value.trim(),plate:$("tPlate").value.trim()};persist();$("telBox").innerHTML=telHTML();toast("已存在這支手機 ✅");}
 function copyPocket(){
   const t=store.tel||{};
   const txt=`🚨 車禍口袋卡｜一停二報三拍四不簽五通報
@@ -425,7 +423,6 @@ function copyPocket(){
 
 我的保險公司報案電話：${t.ins||"＿＿＿＿＿＿"}
 我的車牌：${t.plate||"＿＿＿＿＿＿"}
-我的保險顧問：${t.adv||"＿＿＿＿＿＿"}${t.advTel?"｜"+t.advTel:""}
 （一般性說明，實際理賠以保險公司審查及保單條款為準）`;
   const done=()=>toast("已複製，貼到備忘錄吧 📋");
   if(navigator.clipboard&&window.isSecureContext) navigator.clipboard.writeText(txt).then(done).catch(()=>fb(txt,done)); else fb(txt,done);
