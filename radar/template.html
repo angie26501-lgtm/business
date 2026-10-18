@@ -22,98 +22,219 @@ input,textarea{-webkit-user-select:text;user-select:text}
 </head><body>
 
 <style>
-/* Layout: sticky search header, chip filters, responsive card grid; bottom tab bar on phones */
+/* v2：分區複選面板（快速查／險種期間／保障／公司）＋公司色卡片＋轉發 */
 :root{
-  --bg:#f3f5f7; --surface:#ffffff; --ink:#18232f; --muted:#5d6b78; --line:#dde3e9;
+  --bg:#eef2f7; --surface:#ffffff; --soft:#f1f4f8; --ink:#18232f; --muted:#5d6b78; --line:#dde3e9;
   --brand:#1f3d5c; --brand-ink:#ffffff; --accent:#c4572a; --new-bg:#fdeee6; --new-ink:#b2431a;
-  --tag-bg:#eef2f6; --tag-ink:#3f5163; --warn-bg:#fff6dc; --warn-ink:#8a6200; --ok-ink:#2d7a4f;
+  --tag-ink:#3f5163; --warn-bg:#fff6dc; --warn-ink:#8a6200; --share:#06a94d;
   --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-  --font-data:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --font-data:ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#10161d; --surface:#18212b; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
+  --bg:#10161d; --surface:#18212b; --soft:#202b37; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
   --brand:#16293d; --brand-ink:#e9f0f7; --accent:#ef8a5c; --new-bg:#3a2218; --new-ink:#ffb08a;
-  --tag-bg:#223040; --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; --ok-ink:#7fd1a1; color-scheme:dark}}
+  --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#10161d; --surface:#18212b; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
+  --bg:#10161d; --surface:#18212b; --soft:#202b37; --ink:#e6ecf2; --muted:#9aa8b6; --line:#2a3644;
   --brand:#16293d; --brand-ink:#e9f0f7; --accent:#ef8a5c; --new-bg:#3a2218; --new-ink:#ffb08a;
-  --tag-bg:#223040; --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; --ok-ink:#7fd1a1; color-scheme:dark}
+  --tag-ink:#c5d2df; --warn-bg:#3a3014; --warn-ink:#f1cf6b; color-scheme:dark}
 body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);color:var(--brand-ink);padding:14px 16px 12px}
-.wrap{max-width:1120px;margin:0 auto}
-h1{font-size:20px;margin:0;letter-spacing:.02em;text-wrap:balance}
-.meta{font-size:12.5px;opacity:.8;margin-top:2px;font-variant-numeric:tabular-nums}
-.search{margin-top:10px;display:flex;gap:8px}
-.search input{flex:1;min-width:0;font:inherit;padding:9px 12px;border-radius:8px;border:0;background:var(--surface);color:var(--ink)}
-.filters{padding:10px 16px 0;display:flex;flex-direction:column;gap:8px}
-.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
-.chip{flex:none;font:inherit;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
-.chip:focus-visible,.tab:focus-visible,.card:focus-visible,.fav:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-main{padding:12px 16px 90px}
-.count{font-size:13px;color:var(--muted);margin:0 0 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;min-width:0}
-.card-top{display:flex;align-items:center;justify-content:space-between;background:var(--brand);color:var(--brand-ink);padding:6px 12px;font-size:13px}
-.card-top .co{font-weight:700;letter-spacing:.05em}
-.card-top .d{font-family:var(--font-data);font-variant-numeric:tabular-nums;opacity:.85}
-.fav{background:none;border:0;color:inherit;font-size:18px;line-height:1;cursor:pointer;padding:2px 4px}
-.card-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
-.name{font-size:15.5px;font-weight:600;line-height:1.4}
-.tags{display:flex;flex-wrap:wrap;gap:5px}
-.tag{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--tag-bg);color:var(--tag-ink)}
-.tag.new{background:var(--new-bg);color:var(--new-ink);font-weight:600}
-.tag.third{background:var(--warn-bg);color:var(--warn-ink)}
-.card-foot{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;border-top:1px solid var(--line);font-family:var(--font-data);font-size:12.5px;color:var(--muted)}
-.detail{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
-.detail a{color:var(--accent);word-break:break-all}
-.empty{padding:40px 16px;text-align:center;color:var(--muted)}
-.note{font-size:12px;color:var(--muted);margin-top:18px}
-nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
-.tab{flex:1;font:inherit;font-size:13px;background:none;border:0;color:var(--muted);padding:10px 0;cursor:pointer}
+button{font:inherit;color:inherit}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);color:var(--brand-ink);padding:12px 16px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:19px;margin:0;letter-spacing:.03em}
+.meta{font-size:12.5px;opacity:.8;margin-top:1px;font-variant-numeric:tabular-nums}
+.search{margin-top:9px}
+.search input{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:0;background:var(--surface);color:var(--ink)}
+main{padding:14px 16px 140px}
+
+/* ===== 面板 ===== */
+.panels{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;scrollbar-width:thin}
+.panel{flex:0 0 min(86vw,330px);scroll-snap-align:start;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 4px 14px rgba(20,40,70,.08)}
+@media (min-width:1180px){.panels{display:grid;grid-template-columns:.9fr 1fr 1.15fr 1.15fr;overflow:visible}.panel{flex:auto}}
+.ph{background:var(--brand);color:var(--brand-ink);padding:11px 14px}
+.ph b{display:block;font-size:15.5px;letter-spacing:.04em}
+.ph small{font-size:12px;opacity:.78}
+.pb{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.glabel{font-size:12px;color:var(--muted);margin-top:6px}
+.glabel:first-child{margin-top:0}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.opts.c3{grid-template-columns:repeat(3,1fr)}
+.opt{border:1.5px solid transparent;background:var(--soft);border-radius:10px;padding:8px 4px;font-size:14.5px;font-weight:700;cursor:pointer;line-height:1.3;text-align:center}
+.opt i{font-style:normal;font-weight:400;font-size:11.5px;color:var(--muted);margin-left:3px;font-variant-numeric:tabular-nums}
+.opt[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.opt[aria-pressed="true"] i{color:inherit;opacity:.8}
+.opt:disabled{opacity:.35;cursor:default}
+.opt.co{border-color:var(--co);background:var(--surface)}
+.opt.co[aria-pressed="true"]{background:var(--co);border-color:var(--co);color:#fff}
+.bignew{border:0;border-radius:10px;background:var(--brand);color:var(--brand-ink);padding:11px;font-size:16px;font-weight:700;cursor:pointer}
+.bignew i{font-style:normal;font-weight:400;font-size:12.5px;opacity:.8;margin-left:4px}
+.bignew[aria-pressed="true"]{background:var(--accent)}
+.hint{font-size:12px;color:var(--muted);line-height:1.6;margin-top:6px}
+.go{margin:0 12px 12px;border:0;border-radius:10px;background:var(--brand);color:var(--brand-ink);padding:11px;font-weight:700;cursor:pointer}
+
+/* ===== 結果 ===== */
+.res-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:18px 0 10px;scroll-margin-top:150px}
+.summary{background:var(--surface);border-radius:14px;padding:10px 14px;font-size:14.5px;line-height:1.6;box-shadow:0 2px 8px rgba(20,40,70,.06)}
+.summary b{font-variant-numeric:tabular-nums}
+.clear{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.card{background:var(--surface);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 3px 12px rgba(20,40,70,.08);min-width:0}
+.ct{background:var(--co);color:#fff;padding:9px 12px;display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.ct b{font-size:16px;letter-spacing:.06em;display:block}
+.ct small{font-size:12px;opacity:.88;font-variant-numeric:tabular-nums}
+.fav{background:none;border:0;color:#fff;font-size:19px;line-height:1;cursor:pointer;padding:2px}
+.cb{padding:11px 12px 6px;display:flex;flex-direction:column;gap:6px;flex:1}
+.name{font-size:15.5px;font-weight:700;line-height:1.45}
+.line{font-size:12.5px;color:var(--muted);line-height:1.6}
+.badge{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:6px;margin-right:4px;font-weight:700}
+.badge.new{background:var(--new-bg);color:var(--new-ink)}
+.badge.third{background:var(--warn-bg);color:var(--warn-ink)}
+.cf{padding:6px 12px 12px;display:flex;flex-direction:column;gap:6px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.btn{display:flex;align-items:center;justify-content:center;border:0;border-radius:9px;padding:8px 4px;font-size:13.5px;font-weight:700;text-decoration:none;cursor:pointer;background:var(--co);color:#fff}
+.btn.off{background:var(--soft);color:var(--muted);cursor:default;font-weight:400}
+.btn.share{background:var(--share)}
+.more{display:block;margin:14px auto 0;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 22px;cursor:pointer}
+.empty{padding:36px 16px;text-align:center;color:var(--muted);background:var(--surface);border-radius:14px}
+.note{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.7}
+
+/* ===== 已選列、分頁 ===== */
+.selbar{position:fixed;left:0;right:0;bottom:calc(46px + env(safe-area-inset-bottom,0px));z-index:6;padding:8px 12px;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(20,40,70,.08)}
+.selbar .wrap{display:flex;align-items:center;gap:8px}
+.selbar .txt{flex:1;min-width:0;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.selbar .txt b{color:var(--accent);font-variant-numeric:tabular-nums}
+.selbar button{flex:none;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.selbar .see{background:var(--brand);color:var(--brand-ink)}
+.selbar .x{background:var(--soft)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:7}
+.tab{flex:1;background:none;border:0;color:var(--muted);padding:12px 0;font-size:13.5px;cursor:pointer}
 .tab[aria-selected="true"]{color:var(--accent);font-weight:700}
-.log{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
-.log div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
 .co-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.co-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.co-card{background:var(--surface);border:0;border-left:5px solid var(--co);border-radius:10px;padding:12px;cursor:pointer;text-align:left}
 .co-card b{display:block;font-size:16px}
-.co-card span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.co-card span{font-size:12.5px;color:var(--muted)}
+.log{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.log div{background:var(--surface);border-radius:8px;padding:8px 12px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ===== 轉發面板 ===== */
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(10,20,30,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet-in{background:var(--bg);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){.sheet{align-items:center}.sheet-in{border-radius:18px}}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sheet-top b{font-size:17px}
+.sheet-top button{border:0;background:none;font-size:24px;line-height:1;cursor:pointer;color:var(--muted)}
+.sheet .card{box-shadow:0 4px 16px rgba(20,40,70,.12)}
+.links{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:14px}
+.links a{color:#1d5fc4}
+.sharego{display:block;width:100%;margin-top:14px;border:0;border-radius:12px;background:var(--share);color:#fff;padding:13px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none}
+.sharego.alt{background:var(--surface);color:var(--ink);border:1px solid var(--line);margin-top:8px;font-size:14.5px}
 </style>
 
 <header><div class="wrap">
-  <h1>壽險商品雷達</h1>
+  <h1>財顧芸｜壽險商品雷達</h1>
   <div class="meta" id="meta">讀取資料中…</div>
-  <div class="search"><input id="q" type="search" placeholder="搜尋商品名稱、代號，例如 實支、WEHS" aria-label="搜尋商品"></div>
+  <div class="search"><input id="q" type="search" placeholder="直接打字：實支 45歲、凱基 癌症、WEHS" aria-label="搜尋商品"></div>
 </div></header>
 
-<div class="wrap filters" id="filters">
-  <div class="chips" id="coChips" role="group" aria-label="公司"></div>
-  <div class="chips" id="catChips" role="group" aria-label="險種"></div>
-</div>
-
 <main class="wrap">
-  <p class="count" id="count"></p>
+  <section id="qview">
+    <div class="panels" id="panels">
+      <div class="panel">
+        <div class="ph"><b>① 快速查</b><small>點一下直接看結果</small></div>
+        <div class="pb">
+          <button class="bignew" id="btnNew" aria-pressed="false"></button>
+          <div class="glabel">熱門保障</div>
+          <div class="opts" id="g-hot"></div>
+          <p class="hint">要組合條件（例如三家公司＋45 歲），往右滑複選 →<br>也可以直接在上方打字，例如：查 實支 45歲</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><b>② 險種・期間</b><small>可複選，點了會告訴你已選什麼；再點一次取消</small></div>
+        <div class="pb">
+          <div class="glabel">主約／附約</div><div class="opts" id="g-type"></div>
+          <div class="glabel">期間</div><div class="opts c3" id="g-term"></div>
+          <div class="glabel">幣別</div><div class="opts c3" id="g-cur"></div>
+          <div class="glabel">特色</div><div class="opts c3" id="g-feat"></div>
+          <p class="hint">年齡直接打字，例如：45歲</p>
+        </div>
+        <button class="go" data-go>送出查詢</button>
+      </div>
+      <div class="panel">
+        <div class="ph"><b>③ 保障</b><small>可複選，點了會告訴你已選什麼；再點一次取消</small></div>
+        <div class="pb"><div class="opts c3" id="g-cat"></div></div>
+        <button class="go" data-go>送出查詢</button>
+      </div>
+      <div class="panel">
+        <div class="ph"><b>④ 公司</b><small>可複選，點了會告訴你已選什麼；再點一次取消</small></div>
+        <div class="pb"><div class="opts c3" id="g-co"></div></div>
+        <button class="go" data-go>送出查詢</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="res-head" id="results">
+    <div class="summary" id="summary"></div>
+    <button class="clear" id="clearAll" hidden>清除條件</button>
+  </div>
   <div id="view"></div>
   <p class="note">資料由 AI 每日從各公司官網與公開資料整理，方便查找用。標「第三方來源」的商品尚未對過官方文件；投保年齡、保額與現售狀態，一律以保險公司正式條款與投保規則為準。</p>
 </main>
 
+<div class="selbar" id="selbar" hidden><div class="wrap">
+  <div class="txt" id="seltxt"></div>
+  <button class="x" id="selClear">清除</button>
+  <button class="see" data-go>看結果</button>
+</div></div>
+
 <nav class="tabs" role="tablist">
-  <button class="tab" role="tab" data-tab="all" id="tab-all">查詢</button>
-  <button class="tab" role="tab" data-tab="new" id="tab-new">新商品</button>
-  <button class="tab" role="tab" data-tab="fav" id="tab-fav">最愛</button>
-  <button class="tab" role="tab" data-tab="co" id="tab-co">公司</button>
+  <button class="tab" role="tab" data-tab="all">查詢</button>
+  <button class="tab" role="tab" data-tab="new">新商品</button>
+  <button class="tab" role="tab" data-tab="fav">最愛</button>
+  <button class="tab" role="tab" data-tab="co">公司</button>
 </nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-label="轉發商品">
+  <div class="sheet-in">
+    <div class="sheet-top"><b>轉發商品</b><button id="sheetX" aria-label="關閉">×</button></div>
+    <div id="sheetBody"></div>
+    <a class="sharego" id="lineGo" href="#" target="_blank" rel="noopener">用 LINE 選擇群組或好友並轉發</a>
+    <button class="sharego alt" id="nativeGo" hidden>用其他 App 分享</button>
+  </div>
+</div>
 
 <script id="radar-data" type="application/json">__DATA__</script>
 <script>
 const COMPANIES=["國泰","南山","富邦","新光","凱基","全球","保誠","遠雄"];
-const CATS=["重大疾病","癌症","實支實付","住院日額","手術","長照","失能","壽險定期","壽險終身","傷害","年金","利變/還本","投資型","小額終老","其他"];
-const NEW_DAYS=90;
+const CO_COLOR={"國泰":"#0b8a4e","南山":"#1b4f9c","富邦":"#127fa8","新光":"#d1262d","凱基":"#0f2f5c","全球":"#4a3c8c","保誠":"#c4122f","遠雄":"#b5462a"};
+const CATS=["實支實付","住院日額","手術","癌症","重大疾病","長照","失能","傷害","壽險定期","壽險終身","小額終老","利變/還本","年金","投資型","其他"];
+const HOT=["實支實付","癌症","重大疾病","長照","住院日額","手術","傷害","失能"];
+const NEW_DAYS=60;
+const LINE_ID_URL="https://lin.ee/oOvyuwU";
+const FB_URL="https://www.facebook.com/IFA.Fans/";
+const SITE_URL="https://www.allfreedom.info/";
+const PAGE=30;
+
 let all=[],log=[],metaDoc=null;
-const st={tab:"all",co:null,cat:null,q:"",open:null};
+const txt=p=>p.company+" "+p.name+" "+(p.code||"")+" "+(p.tags||[]).join(" ")+" "+p.category;
+const hasTag=(p,t)=>(p.tags||[]).some(x=>x.includes(t));
+const inTxt=(p,w)=>p.name.includes(w)||hasTag(p,w);
+const FX=/美元|外幣|澳幣|人民幣|OIU/;
+const GROUPS={
+  type:{name:"主附約",opts:[["主約",p=>hasTag(p,"主約")],["附約",p=>hasTag(p,"附約")||hasTag(p,"附加條款")]]},
+  term:{name:"期間",opts:[["一年期",p=>hasTag(p,"一年期")],["定期",p=>!hasTag(p,"一年期")&&(hasTag(p,"定期")||p.category==="壽險定期")],["終身",p=>hasTag(p,"終身")||p.category==="壽險終身"]]},
+  cur:{name:"幣別",opts:[["台幣",p=>!FX.test(txt(p))],["美元",p=>inTxt(p,"美元")],["其他外幣",p=>/澳幣|人民幣|OIU/.test(txt(p))||(hasTag(p,"外幣")&&!inTxt(p,"美元"))]]},
+  feat:{name:"特色",opts:[["自負額",p=>inTxt(p,"自負額")],["外溢型",p=>inTxt(p,"外溢")],["分紅",p=>inTxt(p,"分紅")],["還本",p=>inTxt(p,"還本")],["豁免",p=>inTxt(p,"豁免")],["實物給付",p=>inTxt(p,"實物給付")],["重大傷病",p=>inTxt(p,"重大傷病")],["特定傷病",p=>inTxt(p,"特定傷病")],["網路投保",p=>inTxt(p,"網路投保")],["兒童",p=>inTxt(p,"兒童")||inTxt(p,"幼兒")],["樂齡",p=>inTxt(p,"樂齡")],["微型",p=>inTxt(p,"微型")]]},
+  cat:{name:"保障",opts:CATS.map(c=>[c,p=>p.category===c])},
+  co:{name:"公司",opts:COMPANIES.map(c=>[c,p=>p.company===c])}
+};
+const ORDER=["co","cat","type","term","cur","feat"];
+const sel={};ORDER.forEach(k=>sel[k]=new Set());
+const st={tab:"all",onlyNew:false,q:"",shown:PAGE};
 let favs=new Set();
 try{favs=new Set(JSON.parse(localStorage.getItem("favs")||"[]"))}catch(e){}
-try{const t=localStorage.getItem("tab");if(t)st.tab=t}catch(e){}
+try{const t=localStorage.getItem("tab");if(t&&["all","new","fav","co"].includes(t))st.tab=t}catch(e){}
 const saveFavs=()=>{try{localStorage.setItem("favs",JSON.stringify([...favs]))}catch(e){}};
 const keyOf=p=>p.company+"|"+(p.code||p.name);
 const $=id=>document.getElementById(id);
@@ -122,82 +243,145 @@ const today=new Date();
 const SEED_DAY="2026-10-13";
 function newDate(p){return p.sale_date||((p.first_seen||"")>SEED_DAY?p.first_seen:"")}
 function isNew(p){const d=newDate(p);if(!d)return false;const t=new Date(d);return (today-t)/864e5<=NEW_DAYS&&t<=today}
-
-function chips(el,list,key){
-  el.innerHTML="";
-  const mk=(label,val)=>{const b=document.createElement("button");b.className="chip";b.textContent=label;
-    b.setAttribute("aria-pressed",String(st[key]===val));b.onclick=()=>{st[key]=st[key]===val?null:val;render()};el.appendChild(b)};
-  mk("全部",null);list.forEach(v=>mk(v,v));
-  el.firstChild.setAttribute("aria-pressed",String(st[key]===null));
+function ageRange(p){const m=/(\d+)\s*[-~～至]\s*(\d+)/.exec(p.age||"");return m?[+m[1],+m[2]]:null}
+function parseQ(){
+  let q=st.q.replace(/^查\s*/,"").trim(),age=null;
+  q=q.replace(/(\d{1,3})\s*歲/,(m,n)=>{age=+n;return " "}).trim();
+  if(age===null){const m=/^(\d{1,2})$/.exec(q);if(m){age=+m[1];q=""}}
+  return {age,words:q.toLowerCase().split(/\s+/).filter(Boolean)};
 }
+const base=()=>all.filter(p=>p.status!=="停售");
 
-function filtered(){
-  const q=st.q.trim().toLowerCase();
-  let r=all.filter(p=>p.status!=="停售");
+function results(){
+  const {age,words}=parseQ();
+  let r=base(),noAge=0;
   if(st.tab==="fav")r=r.filter(p=>favs.has(keyOf(p)));
-  if(st.tab==="new")r=r.filter(isNew);
-  if(st.co)r=r.filter(p=>p.company===st.co);
-  if(st.cat)r=r.filter(p=>p.category===st.cat);
-  if(q)r=r.filter(p=>(p.name+" "+p.code+" "+(p.tags||[]).join(" ")+" "+p.category).toLowerCase().includes(q));
-  return r.sort((a,b)=>(newDate(b)).localeCompare(newDate(a))||a.company.localeCompare(b.company));
+  if(st.tab==="new"||st.onlyNew)r=r.filter(isNew);
+  ORDER.forEach(k=>{if(sel[k].size){const fs=GROUPS[k].opts.filter(o=>sel[k].has(o[0])).map(o=>o[1]);r=r.filter(p=>fs.some(f=>f(p)))}});
+  if(words.length)r=r.filter(p=>{const t=txt(p).toLowerCase();return words.every(w=>t.includes(w))});
+  if(age!==null){const keep=[];r.forEach(p=>{const a=ageRange(p);if(!a)noAge++;else if(age>=a[0]&&age<=a[1])keep.push(p)});r=keep}
+  r.sort((a,b)=>newDate(b).localeCompare(newDate(a))||COMPANIES.indexOf(a.company)-COMPANIES.indexOf(b.company));
+  return {r,age,noAge};
+}
+function selLabels(){
+  const L=[];if(st.onlyNew)L.push(`新商品（${NEW_DAYS} 天內）`);
+  ORDER.forEach(k=>sel[k].forEach(v=>L.push(v)));
+  const {age,words}=parseQ();if(words.length)L.push("「"+words.join(" ")+"」");if(age!==null)L.push(age+" 歲");
+  return L;
+}
+const anySel=()=>st.onlyNew||st.q.trim()||ORDER.some(k=>sel[k].size);
+
+function drawOpts(){
+  const b=base();
+  ["type","term","cur","feat","cat","co"].forEach(k=>{
+    const el=$("g-"+k);
+    el.innerHTML=GROUPS[k].opts.map(([v,f])=>{const n=b.filter(f).length;
+      const co=k==="co"?` co" style="--co:${CO_COLOR[v]}`:"";
+      return `<button class="opt${co}" data-g="${k}" data-v="${esc(v)}" aria-pressed="${sel[k].has(v)}"${n||sel[k].has(v)?"":" disabled"}>${esc(v)}<i>${n}</i></button>`}).join("");
+  });
+  $("g-hot").innerHTML=HOT.map(c=>`<button class="opt" data-hot="${esc(c)}">${esc(c)}<i>${b.filter(p=>p.category===c).length}</i></button>`).join("");
+  $("btnNew").innerHTML=`新商品（${NEW_DAYS} 天內）<i>${b.filter(isNew).length}</i>`;
+  $("btnNew").setAttribute("aria-pressed",String(st.onlyNew));
 }
 
 function card(p){
-  const k=keyOf(p),open=st.open===k;
-  const tags=[];
-  if(isNew(p))tags.push(`<span class="tag new">新 ${esc(newDate(p).slice(5))}</span>`);
-  tags.push(`<span class="tag">${esc(p.category)}</span>`);
-  (p.tags||[]).slice(0,4).forEach(t=>{if(t!==p.category)tags.push(`<span class="tag">${esc(t)}</span>`)});
-  if(p.src==="第三方")tags.push(`<span class="tag third">第三方來源</span>`);
-  const det=open?`<div class="detail">
-      <div>銷售日：${esc(p.sale_date||"未標示")}　狀態：${esc(p.status||"未確認")}</div>
-      ${p.doc_url?`<a href="${esc(p.doc_url)}" target="_blank" rel="noopener">開啟條款／DM</a>`:"<div>尚無條款連結</div>"}
-      ${p.source_url?`<a href="${esc(p.source_url)}" target="_blank" rel="noopener">資料來源</a>`:""}
-    </div>`:"";
-  return `<article class="card" tabindex="0" data-k="${esc(k)}">
-    <div class="card-top"><span class="co">${esc(p.company)}</span><span class="d">${esc((p.sale_date||"").slice(0,7).replace("-","/"))}</span>
+  const k=keyOf(p),c=CO_COLOR[p.company]||"#1f3d5c",d=newDate(p);
+  const line=[...new Set([...(p.tags||[]),p.category])].slice(0,6).join("・");
+  const badges=(isNew(p)?`<span class="badge new">新品</span>`:"")+(p.src==="第三方"?`<span class="badge third">第三方來源</span>`:"");
+  return `<article class="card" style="--co:${c}">
+    <div class="ct"><div><b>${esc(p.company)}</b><small>${p.sale_date?"上架 "+esc(p.sale_date):"上架日未標示"}</small></div>
       <button class="fav" data-fav="${esc(k)}" aria-label="${favs.has(k)?"移出最愛":"加入最愛"}">${favs.has(k)?"♥":"♡"}</button></div>
-    <div class="card-body"><div class="name">${esc(p.name)}</div><div class="tags">${tags.join("")}</div>${det}</div>
-    <div class="card-foot"><span>${esc(p.code||"—")}</span><span>${esc(p.age||"年齡未標示")}</span></div></article>`;
+    <div class="cb"><div class="name">${esc(p.name)}</div>
+      <div class="line">${badges}${esc(line)}</div>
+      <div class="line">投保 ${esc(p.age?p.age.replace("-","～"):"年齡未標示")}　${esc(p.code||"")}</div></div>
+    <div class="cf"><div class="btns">
+      ${p.source_url?`<a class="btn" href="${esc(p.source_url)}" target="_blank" rel="noopener">商品</a>`:`<span class="btn off">無商品頁</span>`}
+      ${p.doc_url?`<a class="btn" href="${esc(p.doc_url)}" target="_blank" rel="noopener">條款／DM</a>`:`<span class="btn off">尚無條款</span>`}
+    </div><button class="btn share" data-share="${esc(k)}">轉發</button></div></article>`;
 }
 
 function render(){
   document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.tab===st.tab)));
   try{localStorage.setItem("tab",st.tab)}catch(e){}
-  chips($("coChips"),COMPANIES,"co");chips($("catChips"),CATS,"cat");
-  $("filters").hidden=st.tab==="co";
+  const isCo=st.tab==="co";
+  $("qview").hidden=st.tab!=="all";
+  $("results").hidden=isCo;
+  drawOpts();
   const v=$("view");
-  if(st.tab==="co"){
-    $("count").textContent=`${COMPANIES.length} 家公司`;
-    v.innerHTML=`<div class="co-grid">${COMPANIES.map(c=>{const n=all.filter(p=>p.company===c);const nn=n.filter(isNew).length;
-      return `<button class="co-card" data-co="${c}"><b>${c}人壽</b><span>${n.length} 個商品${nn?`・近期新品 ${nn}`:""}</span></button>`}).join("")}</div>
+  if(isCo){
+    $("selbar").hidden=true;
+    v.innerHTML=`<div class="co-grid">${COMPANIES.map(c=>{const n=all.filter(p=>p.company===c),nn=n.filter(isNew).length;
+      return `<button class="co-card" style="--co:${CO_COLOR[c]}" data-co="${c}"><b>${c}人壽</b><span>${n.length} 個商品${nn?`・近期新品 ${nn}`:""}</span></button>`}).join("")}</div>
       ${log.length?`<h2 style="font-size:15px;margin:20px 0 8px">每日更新紀錄</h2><div class="log">${log.slice(0,15).map(l=>`<div>${esc(l.date)}　${esc(l.text)}</div>`).join("")}</div>`:""}`;
-    v.querySelectorAll("[data-co]").forEach(b=>b.onclick=()=>{st.co=b.dataset.co;st.tab="all";render()});
     return;
   }
-  const r=filtered();
-  $("count").textContent=all.length?`${r.length} 個商品${st.tab==="new"?`（近 ${NEW_DAYS} 天上架）`:""}`:"";
   if(!all.length){v.innerHTML=`<div class="empty">商品資料還沒載入，請重新整理。</div>`;return}
-  if(!r.length){v.innerHTML=`<div class="empty">${st.tab==="fav"?"還沒有最愛商品，點卡片右上角的 ♡ 加入。":"沒有符合條件的商品，試試清除篩選。"}</div>`;return}
-  v.innerHTML=`<div class="grid">${r.slice(0,300).map(card).join("")}</div>${r.length>300?`<p class="count">只顯示前 300 筆，請用篩選縮小範圍</p>`:""}`;
+  const {r,age,noAge}=results(),L=selLabels();
+  const head=st.tab==="fav"?"我的最愛":st.tab==="new"?`新商品（${NEW_DAYS} 天內）`:(L.length?"複選："+L.map(esc).join("｜"):"全部現售商品");
+  const extra=age!==null&&noAge?`<br><small style="color:var(--muted)">另有 ${noAge} 筆官方未標示投保年齡，未列入</small>`:"";
+  $("summary").innerHTML=`${head}<br>共 <b>${r.length}</b> 筆${r.length?`，第 1～${Math.min(st.shown,r.length)} 筆（新到舊）`:""}${extra}`;
+  $("clearAll").hidden=!anySel();
+  $("seltxt").innerHTML=`已選：${L.map(esc).join("｜")}　<b>${r.length}</b> 筆`;
+  $("selbar").hidden=!(st.tab==="all"&&anySel());
+  if(!r.length){v.innerHTML=`<div class="empty">${st.tab==="fav"?"還沒有最愛商品，點卡片右上角的 ♡ 加入。":"沒有符合條件的商品，試試少選一個條件。"}</div>`;return}
+  v.innerHTML=`<div class="grid">${r.slice(0,st.shown).map(card).join("")}</div>${r.length>st.shown?`<button class="more" id="more">再看 ${Math.min(PAGE,r.length-st.shown)} 筆（還有 ${r.length-st.shown} 筆）</button>`:""}`;
 }
+function goResults(){st.shown=PAGE;render();$("results").scrollIntoView({behavior:"smooth",block:"start"})}
+function clearAll(){ORDER.forEach(k=>sel[k].clear());st.onlyNew=false;st.q="";$("q").value="";st.shown=PAGE;render()}
 
+/* ===== 轉發 ===== */
+let sharing=null;
+function shareText(p){
+  return [`【${p.company}】${p.name}`,
+    [...new Set([...(p.tags||[]),p.category])].join("・"),
+    `投保 ${p.age?p.age.replace("-","～"):"年齡未標示"}${p.code?"　代號 "+p.code:""}`,
+    p.source_url?`商品：${p.source_url}`:"",p.doc_url?`條款／DM：${p.doc_url}`:"",
+    "",`想了解適不適合你，歡迎問我 👉 ${LINE_ID_URL}`,"— 財顧芸 壽險商品雷達"].filter((x,i)=>x||i===5).join("\n");
+}
+function openShare(k){
+  const p=all.find(x=>keyOf(x)===k);if(!p)return;sharing=p;
+  $("sheetBody").innerHTML=card(p).replace(/<div class="cf">[\s\S]*<\/div><\/article>$/,`<div class="cf"><div class="links">
+    ${p.source_url?`<a href="${esc(p.source_url)}" target="_blank" rel="noopener">商品</a>`:""}
+    ${p.doc_url?`<a href="${esc(p.doc_url)}" target="_blank" rel="noopener">條款／DM</a>`:""}
+    <a href="${FB_URL}" target="_blank" rel="noopener">追蹤粉專</a>
+    <a href="${SITE_URL}" target="_blank" rel="noopener">官方網站</a></div></div></article>`).replace(/<button class="fav"[\s\S]*?<\/button>/,"");
+  $("lineGo").href="https://line.me/R/share?text="+encodeURIComponent(shareText(p));
+  $("nativeGo").hidden=!navigator.share;
+  $("sheet").hidden=false;
+}
+function closeShare(){$("sheet").hidden=true;sharing=null}
+$("sheetX").onclick=closeShare;
+$("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeShare()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("sheet").hidden)closeShare()});
+$("nativeGo").onclick=()=>{if(sharing&&navigator.share)navigator.share({title:sharing.name,text:shareText(sharing)}).catch(()=>{})};
+
+/* ===== 事件 ===== */
+$("panels").addEventListener("click",e=>{
+  const o=e.target.closest("[data-g]");
+  if(o){const s=sel[o.dataset.g],v=o.dataset.v;s.has(v)?s.delete(v):s.add(v);st.shown=PAGE;render();return}
+  const h=e.target.closest("[data-hot]");
+  if(h){ORDER.forEach(k=>sel[k].clear());st.onlyNew=false;sel.cat.add(h.dataset.hot);goResults();return}
+  if(e.target.closest("#btnNew")){const on=!st.onlyNew;ORDER.forEach(k=>sel[k].clear());st.onlyNew=on;on?goResults():render();return}
+});
+document.addEventListener("click",e=>{if(e.target.closest("[data-go]"))goResults()});
+$("clearAll").onclick=clearAll;$("selClear").onclick=clearAll;
 $("view").addEventListener("click",e=>{
   const f=e.target.closest("[data-fav]");
-  if(f){e.stopPropagation();const k=f.dataset.fav;favs.has(k)?favs.delete(k):favs.add(k);saveFavs();render();return}
-  if(e.target.closest("a"))return;
-  const c=e.target.closest(".card");if(c){st.open=st.open===c.dataset.k?null:c.dataset.k;render()}
+  if(f){const k=f.dataset.fav;favs.has(k)?favs.delete(k):favs.add(k);saveFavs();render();return}
+  const s=e.target.closest("[data-share]");if(s){openShare(s.dataset.share);return}
+  if(e.target.id==="more"){st.shown+=PAGE;render();return}
+  const c=e.target.closest("[data-co]");
+  if(c){ORDER.forEach(k=>sel[k].clear());sel.co.add(c.dataset.co);st.tab="all";goResults()}
 });
-$("view").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.classList.contains("card"))e.target.click()});
-document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{st.tab=t.dataset.tab;render();window.scrollTo(0,0)});
-let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;render()},150)});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{st.tab=t.dataset.tab;st.shown=PAGE;render();window.scrollTo(0,0)});
+let qt;$("q").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{st.q=e.target.value;st.shown=PAGE;if(st.tab!=="all"&&st.tab!=="fav")st.tab="all";render()},200)});
+$("q").addEventListener("keydown",e=>{if(e.key==="Enter"){st.q=e.target.value;e.target.blur();goResults()}});
 
 function updateMeta(){
   const cos=new Set(all.map(p=>p.company)).size;
   const d=metaDoc?.last_run||[...new Set(all.map(p=>p.updated||""))].sort().pop()||"";
   $("meta").textContent=all.length?`${all.length} 個商品・${cos} 家公司・資料 ${d.replace(/-/g,"/")}`:"尚無資料";
 }
-
 (function(){
   const raw=JSON.parse(document.getElementById("radar-data").textContent);
   raw.docs.forEach(d=>(d.items||[]).forEach(p=>all.push({...p,updated:d.updated})));
