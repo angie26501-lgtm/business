@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="googlebot" content="noindex, nofollow, noarchive">
+<title>捐棺行善｜收據作業總目錄</title>
+<style>
+:root{--bg:#F4F2ED;--paper:#FFFFFF;--ink:#1B2638;--muted:#6C7079;--line:#DAD6CC;--brass:#94733A;--err:#B4442E}
+@media (prefers-color-scheme:dark){:root{--bg:#12161D;--paper:#1A202A;--ink:#ECE7DC;--muted:#98968F;--line:#2D3543;--brass:#D0AC69;--err:#F08A72;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;padding:16px}
+form{background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--brass);border-radius:16px;padding:28px 26px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 32px);overflow-y:auto}
+.cons{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.cons b.h{font-size:14.5px}
+.cbox{max-height:150px;overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.75;color:var(--ink)}
+.cbox b{color:var(--brass)}
+label.ok{display:flex;gap:8px;align-items:flex-start;font-size:14px;cursor:pointer}
+label.ok input{margin-top:3px;width:18px;height:18px;accent-color:var(--brass);flex:none}
+.tip{font-size:12.5px;color:var(--muted);background:var(--bg);border-radius:10px;padding:8px 12px;line-height:1.6}
+.eb{font-size:13px;letter-spacing:.14em;color:var(--brass);font-weight:700;margin:0}
+h1{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif;font-size:24px;margin:0;line-height:1.35}
+p{margin:0;color:var(--muted);font-size:15px}
+.f{position:relative}
+input[type=password],input[type=text]{font:inherit;font-size:17px;padding:12px 76px 12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);width:100%}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer}
+label.rm{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer}
+label.rm input{width:18px;height:18px;accent-color:var(--brass)}
+button.go{font:inherit;font-size:16px;padding:12px;border:none;border-radius:999px;background:var(--ink);color:var(--bg);cursor:pointer}
+input:focus-visible,button:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.err{color:var(--err);font-size:14px;min-height:1.4em}
+</style></head><body>
+<form id="g" autocomplete="off">
+<p class="eb">一心仁愛協會｜捐棺行善</p>
+<h1>捐棺行善｜收據作業總目錄</h1>
+<p>請輸入收據作業通行碼</p>
+<div class="f"><input id="pw" type="password" aria-label="通行碼" autofocus><button type="button" class="eye" id="eye" aria-pressed="false">顯示</button></div>
+<label class="rm"><input type="checkbox" id="rm" checked>30 天內記住我（自己的手機或電腦才勾）</label>
+<div class="cons"><b class="h">🔒 使用說明與個人資料保護告知</b>
+<div class="cbox">
+<b>1. 使用範圍：</b>本網頁為一心仁愛協會「捐棺行善」收據與作業資料，僅供善款經手人、協會收款人與核對人員作業使用。<br>
+<b>2. 個資告知（個人資料保護法第 8 條）：</b>本頁含捐款人姓名與捐款金額，蒐集目的為開立捐款收據與善款核對；僅限上述作業人員於作業期間使用。捐款人可透過經手人請求查詢、更正或刪除。<br>
+<b>3. 保密：</b>請勿轉傳通行碼，或將名冊內容截圖、轉傳給無關人員。收據列印後請妥善保管。<br>
+<b>4. 保護設定：</b>本網頁內容已加密、不被搜尋引擎收錄，通行碼錯誤無法開啟內容。
+</div>
+<label class="ok"><input type="checkbox" id="cs">我已閱讀並同意上述使用說明與個人資料告知</label></div>
+<button type="submit" class="go">進入</button>
+<p class="err" id="e" role="alert"></p>
+<p class="tip">提醒：LINE 內建瀏覽器可能無法記住登入，建議點右上角「⋯」改用 Safari 或 Chrome 開啟。</p>
+</form>
+<script>
+document.addEventListener("contextmenu",function(e){e.preventDefault()});
+var P={"n": 250000, "i": "iGvrlgvzHpMxTsTd", "c": "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", "slots": [{"s": "7suTOStT8tGLEPqT/hbJhg==", "i": "GJ63b/huOgB0isrG", "k": "O5gOZqWoWZk9NubWLLuhhJspqfq1d6eWozeAo/qBWoSTabrBuUTCD1guXogZjWUQ"}]}, K='fy_coffin_pass', DAY=864e5;
+function b(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+function save(pw,remember){
+  try{sessionStorage.setItem(K,pw)}catch(e){}
+  try{ if(remember) localStorage.setItem(K,JSON.stringify({pw:pw,exp:Date.now()+30*DAY})); }catch(e){}
+}
+function clearAll(){try{sessionStorage.removeItem(K)}catch(e){} try{localStorage.removeItem(K)}catch(e){}}
+function stored(){
+  var out=[];
+  try{var s=sessionStorage.getItem(K); if(s) out.push(s)}catch(e){}
+  try{var l=JSON.parse(localStorage.getItem(K)||'null'); if(l&&l.exp>Date.now()) out.push(l.pw); else if(l) localStorage.removeItem(K)}catch(e){}
+  return out;
+}
+async function slot(pw,sl){
+  var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(sl.s),iterations:P.n,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  return crypto.subtle.decrypt({name:'AES-GCM',iv:b(sl.i)},key,b(sl.k));
+}
+async function open_(pw,remember){
+  var dk=null;
+  for(var j=0;j<P.slots.length;j++){try{dk=await slot(pw,P.slots[j]);break}catch(e){}}
+  if(!dk)throw new Error('bad');
+  var key=await crypto.subtle.importKey('raw',dk,{name:'AES-GCM'},false,['decrypt']);
+  var html=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b(P.i)},key,b(P.c)));
+  save(pw,remember);
+  var bar='<button type="button" id="fy-logout" style="position:fixed;right:12px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:9999;font:14px/1 sans-serif;padding:8px 12px;border-radius:999px;border:1px solid #C8A15A;background:#1E2A3F;color:#F6F1E8;cursor:pointer;opacity:.85">登出</button><script>document.getElementById("fy-logout").addEventListener("click",function(){try{sessionStorage.removeItem("'+K+'")}catch(e){}try{localStorage.removeItem("'+K+'")}catch(e){}location.reload()});<\/script>';
+  var guard='<style>@media print{#fy-logout{display:none!important}}</style><script>document.addEventListener("contextmenu",function(e){e.preventDefault()});<\/script>';
+  html=html.replace('</head>','<meta name="robots" content="noindex, nofollow, noarchive"></head>').replace('</body>',guard+bar+'</body>');
+  document.open();document.write(html);document.close();
+}
+document.getElementById('eye').addEventListener('click',function(){
+  var i=document.getElementById('pw'),show=i.type==='password';
+  i.type=show?'text':'password';this.textContent=show?'隱藏':'顯示';this.setAttribute('aria-pressed',show);i.focus();
+});
+document.getElementById('g').addEventListener('submit',function(ev){
+  ev.preventDefault();var e=document.getElementById('e');if(!document.getElementById('cs').checked){e.textContent='請先閱讀並勾選同意「使用說明與個人資料保護告知」。';return}e.textContent='解鎖中…';
+  if(!window.crypto||!crypto.subtle){e.textContent='這個瀏覽器無法解鎖，請改用 Chrome 或 Safari 開啟。';return}
+  open_(document.getElementById('pw').value.trim(),document.getElementById('rm').checked).catch(function(){e.textContent='通行碼不正確，請再試一次（注意大小寫）。'});
+});
+(async function(){var c=stored();for(var i=0;i<c.length;i++){try{await open_(c[i],false);return}catch(e){}}})();
+</script>
+</body></html>
