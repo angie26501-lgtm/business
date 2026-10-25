@@ -50,6 +50,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 </div>
 <iframe name="gfx" id="gfx" style="display:none" title="submit"></iframe>
 <script>
+var API="";  /* 進度查詢網址（Apps Script 網頁應用程式 /exec） */
 var ACTION="https://docs.google.com/forms/d/e/1FAIpQLSejhBzaZ53KDCxbPfnhvnHbPfjNxbaGcAn32-ZdKx6tti8OUQ/formResponse";
 /* 選項：[畫面顯示文字, 送出值(必須和 Google 表單原選項一字不差)] ；值為 "__other__" 代表「其他」 */
 function O(a){return a.map(function(x){return typeof x==="string"?[x,x]:x;});}
@@ -124,6 +125,7 @@ function render(keep){
   if(Object.keys(dd).length) h+='<p class="sec" style="text-align:center">這支手機已完成：</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd[x]?"ok":"")+'">'+x+(dd[x]?" ✓":"")+'</span>';}).join("")+'</div>';
   h+='<details class="rules"><summary>💚 我們的小約定（點開看）</summary>① 歡迎交流與提問，也請尊重每個人的經驗與選擇<br>② 不需要公開自己的收入、存款、負債或其他個人財務資料（這份問卷也不會問）<br>③ 請勿張貼廣告、陌生連結，或私訊推銷其他群友<br>④ 群內會分享免費知識，也可能介紹相關工具與付費活動，是否參與完全由你決定<br>⑤ 看到貼文，按一個表情或傳一張貼圖回應就好</details>';
   h+='<div class="nav"><button class="btn" data-go="start">開始填寫 →</button></div>';
+  h+='<div class="card" id="qbox"><p class="q">📊 查我的任務進度</p><p class="h">輸入你填問卷時用的暱稱，看看三天任務完成了幾天</p><div style="display:flex;gap:8px"><input type="text" id="qnick" placeholder="例如：布蘭達" value="'+esc(ls("ml_nick")||"")+'" autocomplete="off"><button class="btn" style="flex:0 0 auto;padding:10px 16px" data-act="query">查詢</button></div><div id="qres"></div></div>';
  } else if(cur==="end"){
   var dd2=doneDays();
   h+='<div class="done"><div class="big">🎉</div><h1>完成囉！謝謝你</h1><p class="sec">你的任務已經送出，芸琪收到了 🌱</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd2[x]?"ok":"")+'">'+x+(dd2[x]?" ✓":"")+'</span>';}).join("")+'</div>';
@@ -177,11 +179,26 @@ document.addEventListener("click",function(e){
  var a=e.target.closest("[data-act]"); if(!a) return;
  if(a.dataset.act==="back"){ cur=hist.pop()||"intro"; render(); }
  else if(a.dataset.act==="next"){ if(!valid()) return; var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
+ else if(a.dataset.act==="query"){ query(); }
  else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
 });
 document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; markChips(+t.dataset.e); var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
+
+function query(){ var n=(document.getElementById("qnick").value||"").trim(), box=document.getElementById("qres");
+ if(!n){ box.innerHTML='<p class="h" style="color:#c0392b">先輸入暱稱喔</p>'; return; }
+ if(!API){ box.innerHTML='<p class="h">查詢功能準備中，想知道進度可以直接私訊芸琪 😊</p>'; return; }
+ box.innerHTML='<p class="h">查詢中…</p>'; ls("ml_nick",n);
+ var cb="__q"+Date.now(), sc=document.createElement("script"), t=setTimeout(function(){ box.innerHTML='<p class="h">連線有點慢，請稍後再試，或私訊芸琪幫你查 🙏</p>'; },10000);
+ window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove();
+  if(!r||!r.ok){ box.innerHTML='<p class="h">查詢失敗，請再試一次</p>'; return; }
+  if(!r.found){ box.innerHTML='<div class="note">找不到「'+esc(n)+'」的紀錄。<br>可能還沒填過，或暱稱不太一樣（試試看填問卷時用的寫法）。</div>'; return; }
+  var d={DAY1:r.d1,DAY2:r.d2,DAY3:r.d3}, miss=Object.keys(d).filter(function(k){return !d[k];});
+  var h='<div class="days">'+Object.keys(d).map(function(k){return '<span class="'+(d[k]?"ok":"")+'">'+k+(d[k]?" ✓":"")+'</span>';}).join("")+'</div>';
+  h+=miss.length?'<div class="note">還差 '+miss.join("、")+'，完成就能參加加碼抽獎 🎁<br>按上面「開始填寫」，前面沒完成的天數不要打勾，就會帶你補上。</div>':'<div class="note">三天任務都完成了 👏 加碼抽獎已經有你一份，祝你好運！</div>';
+  box.innerHTML=h; try{ var dd=doneDays(); dd.DAY1=dd.DAY1||r.d1; dd.DAY2=dd.DAY2||r.d2; dd.DAY3=dd.DAY3||r.d3; ls("mlDays",JSON.stringify(dd)); }catch(e){} };
+ sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); box.innerHTML='<p class="h">查詢失敗，請稍後再試</p>'; }; document.body.appendChild(sc); }
 function submit(){
  var path=hist.concat([]), PI={start:0,d3:1,d2:2,d1:3,me:4}, used={};
  var f=document.createElement("form"); f.method="POST"; f.action=ACTION; f.target="gfx"; f.style.display="none";
