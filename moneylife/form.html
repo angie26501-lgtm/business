@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>每日任務打卡｜金錢好生活・芸琪共學圈</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--g:#2f6b3a;--g2:#8fb52a;--bg:#fbf7ee;--card:#fff;--tx:#2b2b2b;--mu:#6b6b6b;--gold:#d6aa46;--ln:#e6e0cf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;font-size:17px;line-height:1.6;-webkit-user-select:none;user-select:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+.wrap{max-width:600px;margin:0 auto;padding:16px 16px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;color:var(--mu)}
+.top button{border:1px solid #cfdcb5;background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;color:var(--g);cursor:pointer;white-space:nowrap}
+.steps{display:flex;gap:6px;margin:12px 0 4px}.steps i{flex:1;height:6px;border-radius:9px;background:#e9e3d2}.steps i.on{background:var(--g2)}
+h1{font-size:22px;color:var(--g);margin:14px 0 6px;line-height:1.4}
+.sec{font-size:15px;color:var(--mu);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:16px;margin:12px 0}
+.q{margin:0 0 4px;font-weight:700}.q .r{color:#c0392b;margin-left:4px}
+.h{font-size:14px;color:var(--mu);margin:0 0 10px;white-space:pre-line}
+.opt{display:flex;gap:10px;align-items:flex-start;border:2px solid var(--ln);border-radius:12px;padding:11px 12px;margin:8px 0;cursor:pointer;background:#fff}
+.opt .c{flex:0 0 22px;height:22px;border:2px solid #b9b19a;margin-top:2px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
+.opt.radio .c{border-radius:50%}.opt.chk .c{border-radius:6px}
+.opt.on{border-color:var(--g2);background:#f4f9e8}.opt.on .c{background:var(--g2);border-color:var(--g2)}
+.opt input.oth{margin-top:6px;width:100%}
+input[type=text],input[type=email],textarea{width:100%;font:inherit;border:2px solid var(--ln);border-radius:12px;padding:10px 12px;background:#fff;color:var(--tx)}
+input:focus,textarea:focus{outline:none;border-color:var(--g2)}
+textarea{min-height:84px;resize:vertical}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.scale button{font:inherit;padding:10px 0;border:2px solid var(--ln);border-radius:12px;background:#fff;cursor:pointer;color:var(--tx)}
+.scale button.on{background:var(--g2);border-color:var(--g2);color:#fff;font-weight:700}
+.scl{display:flex;justify-content:space-between;font-size:13px;color:var(--mu);margin-top:6px}
+.err{display:none;color:#c0392b;font-size:14px;margin-top:6px}.card.bad{border-color:#e7a29a}.card.bad .err{display:block}
+.nav{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;font:inherit;font-weight:700;padding:14px;border-radius:14px;border:0;background:var(--g);color:#fff;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--g);border:2px solid #cfdcb5;flex:0 0 32%}
+.btn:disabled{opacity:.6}
+.note{background:#fff8e6;border-left:5px solid var(--gold);border-radius:10px;padding:12px 14px;font-size:15px;margin:12px 0}
+.about{background:#f4f9e8;border-radius:14px;padding:14px;font-size:14px;white-space:pre-line}
+details.rules{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:10px 14px;margin:12px 0;font-size:15px}
+details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
+.done{text-align:center;padding:24px 8px}.done .big{font-size:56px}
+.days{display:flex;justify-content:center;gap:8px;margin:12px 0}.days span{padding:6px 12px;border-radius:999px;background:#eee;font-size:14px}.days span.ok{background:var(--g2);color:#fff}
+.ci{display:block;position:relative;margin:4px 0 12px;border-radius:12px;overflow:hidden;border:1px solid var(--ln)}.ci img{display:block;width:100%;height:auto}.ci span{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 9px;border-radius:999px}.h a{color:var(--g);word-break:break-all}
+.foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
+</style></head><body><div class="wrap">
+<div class="top"><span>🌱 金錢好生活・芸琪共學圈</span><button id="reset" type="button">↻ 重新填寫</button></div>
+<div class="steps" id="steps"></div>
+<div id="app"></div>
+<p class="foot">你的回答只用來讓芸琪了解大家的需求、安排分享內容、寄送抽獎禮物與直播連結，不會公開或轉給其他人。<br>——財顧芸｜家族傳承生活顧問</p>
+</div>
+<iframe name="gfx" id="gfx" style="display:none" title="submit"></iframe>
+<script>
+var ACTION="https://docs.google.com/forms/d/e/1FAIpQLSejhBzaZ53KDCxbPfnhvnHbPfjNxbaGcAn32-ZdKx6tti8OUQ/formResponse";
+/* 選項：[畫面顯示文字, 送出值(必須和 Google 表單原選項一字不差)] ；值為 "__other__" 代表「其他」 */
+function O(a){return a.map(function(x){return typeof x==="string"?[x,x]:x;});}
+var PAGES={
+ start:{pi:0,title:"開始打卡",sec:"每天看完群組分享，回來這裡完成當天的小任務 📝",items:[
+  {e:29880217,t:"暱稱",type:"text",req:1,h:"請填和群組自我介紹相同的暱稱；每次都用同一個暱稱，才能累計抽獎資格喔",save:"nick"},
+  {e:1252109571,t:"真實姓名",type:"text",h:"抽獎得獎時寄送禮物、聯絡用，只有芸琪看得到，不會公開。",save:"real"},
+  {e:398296623,t:"LINE ID",type:"text",h:"方便芸琪加你好友、私下回覆你的問題。不知道 ID：LINE →「主頁」→ 右上角齒輪 →「個人檔案」→「ID」。",paste:1,save:"line"},
+  {e:1091889686,t:"Gmail",type:"email",h:"用來寄 Zoom 直播連結、學習包和重點整理，只有芸琪看得到。",paste:1,save:"mail"},
+  {e:705787933,t:"這次要完成哪一天的任務？",type:"radio",req:1,h:"前面還沒完成的天數，完成一天可以接著完成下一天 🎁 三天任務都完成，可以參加加碼抽獎",
+   opts:O([["DAY3 任務（10/24）","DAY3 任務（10/24）"],["DAY2 任務（10/23）・完成後可接著完成 DAY3","DAY2 任務（10/23）・交完可接著交 DAY3"],["DAY1 任務（10/22）・完成後可接著完成 DAY2","DAY1 任務（10/22）・交完可接著交 DAY2"]]),
+   go:{"DAY3 任務（10/24）":"d3","DAY2 任務（10/23）・交完可接著交 DAY3":"d2","DAY1 任務（10/22）・交完可接著交 DAY2":"d1"}},
+  {type:"pre"}
+ ]},
+ d3:{pi:1,img:"cover",title:"📝 DAY3｜你以為有資產，就代表財務健康嗎？",sec:"看完 10/24 晚上的分享再填。還沒看的朋友，群組裡的圖文隨時都能看 🌱",items:[
+  {e:1979627192,t:"DAY3｜今天我完成了（可複選）",type:"chk",req:1,opts:O(["看完 DAY3 圖文分享","在群組回覆 A、B 或 C","用「五題自我檢視」問問自己"])},
+  {e:538666876,img:"ab",t:"你覺得哪個家庭的財務體質比較健康？",type:"radio",req:1,opts:O(["A｜收入與資產較高的 A 家庭","B｜現金流比較穩定的 B 家庭","C｜還需要更多資料，才能判斷"])},
+  {e:296049545,img:"check",t:"五題自我檢視，你能清楚回答幾題？",h:"還沒做的朋友，可以先點這裡互動版做做看 👉 https://angie26501-lgtm.github.io/business/moneylife/check.html",type:"radio",req:1,opts:O(["0–1 題","2–3 題","4–5 題"])},
+  {e:1537389618,t:"這三天，讓你最想為自己或家人重新做好的財務準備是什麼？",type:"para",h:"一句話就好 🌱"},
+  {e:75930892,t:"10/25（日）晚上 8:00 菁羚老師 Zoom 直播，你有來嗎？",type:"radio",req:1,opts:O([["有參加 🙋","會準時參加 🙋"],["有參加，比較晚到","會盡量參加，可能晚點到"],["沒能參加，想收到重點整理","不方便參加，想收到重點整理"]])},
+  {e:736748162,img:"sprout",t:"接下來，你想進一步了解哪些？（可複選）",type:"chk",opts:O(["綠芽財務健檢（看懂自己的財務體質）","《金錢整理五日實踐營》10/28–11/1","一對一財務健檢諮詢","先不用，謝謝"])},
+  {e:874796428,img:"blind2",t:"如果收入突然停了，你家的備用金大概夠撐多久？（不用寫數字）",type:"radio",opts:O(["不到 3 個月","3–6 個月","6 個月以上","沒算過"])},
+  {e:727104229,t:"DAY3 完成了，接下來？",type:"radio",req:1,nav:1,opts:O([["第一次填：接著填「認識你」","第一次填：接著填「認識你」"],["之前填過了：直接送出","之前填過了：直接送出"]]),go:{"第一次填：接著填「認識你」":"me","之前填過了：直接送出":"END"}}
+ ]},
+ d2:{pi:2,img:"f2",title:"📝 DAY2｜當家庭需要你，你有多少資源可以運用？",sec:"看完 10/23 晚上的分享再填。還沒看的朋友，群組裡的圖文隨時都能看 🌱",items:[
+  {e:1831249702,t:"DAY2｜今天我完成了（可複選）",type:"chk",req:1,opts:O(["看完 DAY2 圖文分享","在群組回覆 A、B、C、D","確認家裡保單和重要文件放在哪裡（不用寫出來）"])},
+  {e:1223452988,t:"如果明天家裡突然需要用錢，家裡的財務資料，家人找得到嗎？",type:"radio",req:1,opts:O(["A｜找得到，我們家有整理過","B｜只有我知道，別人不清楚","C｜我自己也不太清楚放在哪","D｜從來沒想過這個問題"])},
+  {e:1752938749,t:"整理完，你覺得家裡最需要補的是什麼？",type:"text",h:"例如：爸媽的保障、緊急預備金、跟家人溝通……一句話就好"},
+  {e:1303061912,t:"DAY2 的分享，你最有感的一句話是？",type:"text"},
+  {e:903342293,t:"DAY2 完成了，接下來？",type:"radio",req:1,nav:1,opts:O([["繼續完成 DAY3 任務","繼續交 DAY3 任務"],["第一次填：接著填「認識你」","第一次填：接著填「認識你」"],["之前填過了：直接送出","之前填過了：直接送出"]]),go:{"繼續交 DAY3 任務":"d3","第一次填：接著填「認識你」":"me","之前填過了：直接送出":"END"}}
+ ]},
+ d1:{pi:3,img:"f1",title:"📝 DAY1｜人生下半場，現在開始準備還來得及嗎？",sec:"看完 10/22 晚上的分享再填。還沒看的朋友，群組裡的圖文隨時都能看 🌱",items:[
+  {e:1298446902,t:"DAY1｜今天我完成了（可複選）",type:"chk",req:1,opts:O(["看完 DAY1 圖文分享","在群組回覆 A、B、C、D","寫下最擔心的三項未來財務支出（下面第 3 題）"])},
+  {e:1935922209,t:"如果現在要重新整理財務，你最需要先處理哪一件？",type:"radio",req:1,opts:O(["A｜不知道自己真正有多少資源","B｜擔心收入中斷或突發支出","C｜父母與孩子的責任越來越重","D｜不知道退休後的錢夠不夠用",["其他","__other__"]])},
+  {e:157034194,t:"寫下你最擔心的三項未來財務支出",type:"para",h:"不需要寫金額，也不用馬上找答案。例如：爸媽的照顧費、孩子的教育費、自己的退休生活、醫療費……先把模糊的擔心，變成看得見的問題。"},
+  {e:969486290,t:"DAY1 的分享，你最有感的一句話是？",type:"text"},
+  {e:2101946870,t:"DAY1 完成了，接下來？",type:"radio",req:1,nav:1,h:"兩天都還沒完成的朋友，選第一個就能一次完成 😊",opts:O([["繼續完成 DAY2 任務","繼續交 DAY2 任務"],["第一次填：接著填「認識你」","第一次填：接著填「認識你」"],["之前填過了：直接送出","之前填過了：直接送出"]]),go:{"繼續交 DAY2 任務":"d2","第一次填：接著填「認識你」":"me","之前填過了：直接送出":"END"}}
+ ]},
+ me:{pi:4,title:"🙋 認識你（第一次填才需要）",sec:"大約 2 分鐘，讓芸琪更了解你想聽什麼。",items:[
+  {e:199828828,t:"你是從哪裡知道共學圈的？",type:"radio",req:1,h:"想寫上介紹的朋友，可以選「其他」填：朋友介紹（朋友名字）",opts:O(["芸琪私訊邀請","FB 貼文","朋友介紹","海報 QR Code",["其他","__other__"]])},
+  {e:404177713,t:"年齡區間",type:"radio",req:1,opts:O(["45 歲以下","45–54 歲","55–64 歲","65 歲以上"])},
+  {e:647037812,t:"行業／職業",type:"text"},
+  {e:1267158054,t:"用一個詞形容你現在最想擁有的生活",type:"radio",req:1,opts:O(["安心","自由","喜悅","富足",["其他","__other__"]])},
+  {e:2125143468,t:"人生下半場，你最在意哪些事？（可複選）",type:"chk",opts:O(["退休金夠不夠用","父母的照顧","子女的支持","保單看不太懂","收支與存錢","房產與財產傳承","自己的健康與醫療"])},
+  {e:1037951223,t:"如果滿分 10 分，你現在的財務安心感有幾分？",type:"scale",req:1},
+  {e:472197894,t:"家裡的保單，你清楚保障內容嗎？",type:"radio",req:1,opts:O(["很清楚","大概知道","不太清楚","不知道保單放在哪"])},
+  {type:"about"},
+  {e:1325540524,t:"有沒有一個問題想問芸琪？",type:"para",h:"跟財務、保單、退休、照顧父母有關的問題都可以問，芸琪會私下回覆你。例如：保單太多看不懂，要從哪裡開始整理？"},
+  {e:1783233021,t:"想不想和芸琪約 30 分鐘，一對一聊聊你的財務狀況？",type:"radio",req:1,opts:O(["想，請芸琪跟我約時間","之後再說","先不用，謝謝"])}
+ ],next:"END"}
+};
+/* 10/25 直播題已過，原表單此題（entry.1540282421）在「認識你」頁為必填，送出時以「無法參加，想收到重點整理」以外的實際答案帶入：沿用 DAY3 直播題答案或預設「看情況」 */
+var LIVE_ME=1540282421;
+var ABOUT="公勝財富管理顧問公司 資深顧問、家族傳承生活顧問、AI 財務建築師\n馥芸財富學苑 創辦人\n・18 年財務規劃經驗，MDRT（2024–2025）\n・RFC／RFP／RFA 認證\n・專長：退休規劃、家庭財務與家族傳承、保單整理與保障檢視";
+var A={},OTH={},PRE={},hist=[],cur="intro";
+var DAYV={d3:"DAY3 任務（10/24）",d2:"DAY2 任務（10/23）・交完可接著交 DAY3",d1:"DAY1 任務（10/22）・交完可接著交 DAY2"};
+function chosen(){var v=A[705787933];for(var k in DAYV) if(DAYV[k]===v) return k; return null;}
+function chain(){var c=chosen(); if(!c) return []; var n=+c.slice(1),st=n; for(var i=n-1;i>=1;i--) if(!PRE["d"+i]) st=i; var out=[]; for(var j=st;j<=n;j++) out.push("d"+j); return out;}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+function imgH(k){return '<a class="ci" href="fimg/'+k+'.jpg" target="_blank" rel="noopener"><img src="fimg/'+k+'.jpg" alt="圖卡" loading="lazy"><span>🔍 點圖放大</span></a>';}
+function linky(s){return s.replace(/(https:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function doneDays(){var d={};try{d=JSON.parse(ls("mlDays")||"{}")||{};}catch(e){}return d;}
+function steps(){var order=["intro","start","d","me","end"],k=cur==="d1"||cur==="d2"||cur==="d3"?"d":cur,i=order.indexOf(k);document.getElementById("steps").innerHTML=order.map(function(_,n){return '<i class="'+(n<=i?"on":"")+'"></i>';}).join("");}
+function render(keep){
+ steps(); var app=document.getElementById("app"),h="";
+ if(cur==="intro"){
+  var dd=doneDays();
+  h+='<h1>🌱 創始成員問卷＋每日任務打卡</h1><p class="sec">每天看完分享，回來這裡完成當天的小任務 📝<br>三天任務都完成的創始群友，可以參加加碼抽獎 🎁</p>';
+  h+='<div class="note">⏰ 加碼抽獎：<b>10/26（一）晚上 8 點</b>抽出，之前完成都來得及！</div>';
+  h+='<div class="card">・第一次填：約 3 分鐘（任務＋認識你）<br>・已經填過：只要完成當天任務，約 1 分鐘<br>・沒完成的天數，可以一次接著完成</div>';
+  if(Object.keys(dd).length) h+='<p class="sec" style="text-align:center">這支手機已完成：</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd[x]?"ok":"")+'">'+x+(dd[x]?" ✓":"")+'</span>';}).join("")+'</div>';
+  h+='<details class="rules"><summary>💚 我們的小約定（點開看）</summary>① 歡迎交流與提問，也請尊重每個人的經驗與選擇<br>② 不需要公開自己的收入、存款、負債或其他個人財務資料（這份問卷也不會問）<br>③ 請勿張貼廣告、陌生連結，或私訊推銷其他群友<br>④ 群內會分享免費知識，也可能介紹相關工具與付費活動，是否參與完全由你決定<br>⑤ 看到貼文，按一個表情或傳一張貼圖回應就好</details>';
+  h+='<div class="nav"><button class="btn" data-go="start">開始填寫 →</button></div>';
+ } else if(cur==="end"){
+  var dd2=doneDays();
+  h+='<div class="done"><div class="big">🎉</div><h1>完成囉！謝謝你</h1><p class="sec">你的任務已經送出，芸琪收到了 🌱</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd2[x]?"ok":"")+'">'+x+(dd2[x]?" ✓":"")+'</span>';}).join("")+'</div>';
+  var miss=["DAY1","DAY2","DAY3"].filter(function(x){return !dd2[x];});
+  h+=miss.length?'<div class="note" style="text-align:left">這支手機還沒完成：'+miss.join("、")+'，再填一次就能補上，三天都完成就能參加加碼抽獎 🎁</div>':'<div class="note" style="text-align:left">三天任務都完成了 👏 10/26（一）晚上 8 點加碼抽獎，祝你好運！</div>';
+  h+='<p class="sec">回到群組，傳一個「✅ 完成」讓芸琪知道吧 💬</p><div class="nav"><button class="btn ghost" data-act="again" style="flex:1">再完成另一天</button></div></div>';
+ } else if(cur==="sending"){
+  h+='<div class="done"><div class="big">⏳</div><h1>送出中…</h1><p class="sec">請稍等，不要關閉頁面</p></div>';
+ } else {
+  var P=PAGES[cur]; h+='<h1>'+esc(P.title)+'</h1><p class="sec">'+esc(P.sec)+'</p>'+(P.img?imgH(P.img):'');
+  P.items.forEach(function(q,qi){ h+=qHTML(q,qi); });
+  h+='<div class="nav"><button class="btn ghost" data-act="back">← 上一頁</button><button class="btn" data-act="next">'+(nextOf(P)==="END"?"送出 ✓":"下一頁 →")+'</button></div>';
+ }
+ var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0);
+}
+function qHTML(q,qi){
+ if(q.type==="pre"){ var c=chosen(); if(!c||c==="d1") return ""; var n=+c.slice(1),h2='<div class="card"><p class="q">確認一下：前面的任務完成了嗎？<span class="r">*</span></p><p class="h">已經完成的請打勾；還沒完成的，會先帶你回去填，再接著完成 DAY'+n+' 😊</p>';
+  for(var i=1;i<n;i++){ var on=!!PRE["d"+i]; h2+='<div class="opt chk'+(on?" on":"")+'" data-pre="d'+i+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">DAY'+i+' 我之前已經完成了</div></div>'; }
+  var ch=chain(); if(ch.length>1) h2+='<div class="note">接下來會依序帶你完成：'+ch.map(function(x){return "DAY"+x.slice(1);}).join(" → ")+(ch.length===3&&PRE.d2?'<br>（問卷要依順序填，DAY2 再填一次也沒關係）':'')+'</div>';
+  return h2+'</div>'; }
+ if(q.type==="about") return '<div class="card"><p class="q">🌱 關於芸琪</p><div class="about">'+esc(ABOUT)+'</div></div>';
+ var v=A[q.e],h='<div class="card" data-qi="'+qi+'"><p class="q">'+esc(q.t)+(q.req?'<span class="r">*</span>':'')+'</p>'+(q.h?'<p class="h">'+linky(esc(q.h))+'</p>':'')+(q.img?imgH(q.img):'');
+ if(q.type==="text"||q.type==="email") h+='<input type="'+(q.type==="email"?"email":"text")+'" data-e="'+q.e+'" value="'+esc(v||"")+'"'+(q.paste?' data-paste="1"':'')+' autocomplete="off">';
+ else if(q.type==="para") h+='<textarea data-e="'+q.e+'">'+esc(v||"")+'</textarea>';
+ else if(q.type==="scale"){ h+='<div class="scale">'; for(var n=1;n<=10;n++) h+='<button type="button" data-sc="'+q.e+'" data-v="'+n+'" class="'+(String(v)===String(n)?"on":"")+'">'+n+'</button>'; h+='</div><div class="scl"><span>1 很不安心</span><span>10 非常安心</span></div>'; }
+ else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
+   h+='<div class="opt '+(multi?"chk":"radio")+(on?" on":"")+'" data-o="'+q.e+'" data-v="'+esc(o[1])+'" data-m="'+(multi?1:0)+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">'+esc(o[0])+(o[1]==="__other__"&&on?'<input type="text" class="oth" data-oth="'+q.e+'" placeholder="請寫下你的答案" value="'+esc(OTH[q.e]||"")+'">':'')+'</div></div>'; }); }
+ return h+'<div class="err">這題要先回答喔</div></div>';
+}
+function nextOf(P){ if(P===PAGES.start){ var ch=chain(); return ch[0]||"END"; } var n=P.next; P.items.forEach(function(q){ if(q.go&&A[q.e]&&q.go[A[q.e]]) n=q.go[A[q.e]]; }); return n||"END"; }
+function valid(){ var P=PAGES[cur],ok=true,first=null;
+ P.items.forEach(function(q,qi){ if(!q.req) return; var v=A[q.e],bad=!v||(Array.isArray(v)&&!v.length)||(typeof v==="string"&&!v.trim())||(v==="__other__"&&!(OTH[q.e]||"").trim());
+  var c=document.querySelector('.card[data-qi="'+qi+'"]'); if(c) c.classList.toggle("bad",bad); if(bad){ok=false; if(!first) first=c;} });
+ if(first) first.scrollIntoView({behavior:"smooth",block:"center"}); return ok; }
+document.addEventListener("click",function(e){
+ var g=e.target.closest("[data-go]"); if(g){ var dd0=doneDays(); PRE={d1:!!dd0.DAY1,d2:!!dd0.DAY2}; hist.push(cur); cur=g.dataset.go; prefill(); render(); return; }
+ var pr=e.target.closest("[data-pre]"); if(pr){ PRE[pr.dataset.pre]=!PRE[pr.dataset.pre]; render(true); return; }
+ var o=e.target.closest(".opt"); if(o&&!e.target.classList.contains("oth")){ var k=+o.dataset.o,val=o.dataset.v;
+  if(o.dataset.m==="1"){ var arr=(A[k]||[]).slice(),i=arr.indexOf(val); if(i>=0)arr.splice(i,1); else arr.push(val); A[k]=arr; } else A[k]=val;
+  var c=o.closest(".card"); var qi=+c.dataset.qi; c.outerHTML=qHTML(PAGES[cur].items[qi],qi);
+  var nb=document.querySelector('[data-act="next"]'); if(nb) nb.textContent=nextOf(PAGES[cur])==="END"?"送出 ✓":"下一頁 →";
+  if(cur==="start"&&k===705787933){ render(true); return; }
+  if(val==="__other__"){ var inp=document.querySelector('input[data-oth="'+k+'"]'); if(inp) inp.focus(); } return; }
+ var sc=e.target.closest("[data-sc]"); if(sc){ A[+sc.dataset.sc]=sc.dataset.v; var c2=sc.closest(".card"),qi2=+c2.dataset.qi; c2.outerHTML=qHTML(PAGES[cur].items[qi2],qi2); return; }
+ var a=e.target.closest("[data-act]"); if(!a) return;
+ if(a.dataset.act==="back"){ cur=hist.pop()||"intro"; render(); }
+ else if(a.dataset.act==="next"){ if(!valid()) return; var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
+ else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
+});
+document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
+function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
+function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
+function submit(){
+ var path=hist.concat([]), PI={start:0,d3:1,d2:2,d1:3,me:4}, used={};
+ var f=document.createElement("form"); f.method="POST"; f.action=ACTION; f.target="gfx"; f.style.display="none";
+ function add(n,v){ var i=document.createElement("input"); i.type="hidden"; i.name=n; i.value=v; f.appendChild(i); }
+ path.forEach(function(p){ if(!PAGES[p]) return; used[p]=1; PAGES[p].items.forEach(function(q){ if(!q.e) return; var v=A[q.e]; if(v===undefined||v===""||(Array.isArray(v)&&!v.length)) return;
+   if(Array.isArray(v)) v.forEach(function(x){ add("entry."+q.e,x); });
+   else if(v==="__other__"){ add("entry."+q.e,"__other_option__"); add("entry."+q.e+".other_option_response",OTH[q.e]||""); }
+   else if(q.e===705787933){ var fp=path.filter(function(x){return /^d[123]$/.test(x);})[0]; add("entry."+q.e, DAYV[fp]||v); }
+   else add("entry."+q.e,v); }); });
+ if(used.me){ var lv=A[75930892], map={"會準時參加 🙋":"會參加","會盡量參加，可能晚點到":"會參加","不方便參加，想收到重點整理":"無法參加，想收到重點整理"}; add("entry."+LIVE_ME, map[lv]||"看情況"); }
+ add("pageHistory",path.filter(function(p){return p in PI;}).map(function(p){return PI[p];}).join(","));
+ add("fvv","1");
+ document.body.appendChild(f);
+ var dd=doneDays(); if(used.d1) dd.DAY1=1; if(used.d2) dd.DAY2=1; if(used.d3) dd.DAY3=1;
+ cur="sending"; render();
+ var fr=document.getElementById("gfx"), fin=false; function ok(){ if(fin) return; fin=true; ls("mlDays",JSON.stringify(dd)); cur="end"; render(); }
+ fr.onload=ok; setTimeout(ok,6000); f.submit();
+}
+document.getElementById("reset").onclick=function(){ A={}; OTH={}; PRE={}; hist=[]; cur="intro"; render(); };
+["copy","cut","contextmenu"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.matches&&e.target.matches("input,textarea"))) e.preventDefault(); }); });
+document.addEventListener("paste",function(e){ var t=e.target; if(!(t.dataset&&t.dataset.paste)) e.preventDefault(); });
+render();
+</script></body></html>
