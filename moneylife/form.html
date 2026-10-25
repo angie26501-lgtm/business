@@ -41,6 +41,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 .days{display:flex;justify-content:center;gap:8px;margin:12px 0}.days span{padding:6px 12px;border-radius:999px;background:#eee;font-size:14px}.days span.ok{background:var(--g2);color:#fff}
 .ci{display:block;position:relative;margin:4px 0 12px;border-radius:12px;overflow:hidden;border:1px solid var(--ln)}.ci img{display:block;width:100%;height:auto}.ci span{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 9px;border-radius:999px}.h a{color:var(--g);word-break:break-all}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0}.chip{font:inherit;font-size:15px;padding:7px 12px;border-radius:999px;border:1.5px solid #cfdcb5;background:#fff;color:#3c4a30;cursor:pointer;text-align:left;line-height:1.4}.chip.on{background:#f4f9e8;border-color:var(--g2);font-weight:700}.chip.on::before{content:"✓ ";color:var(--g2)}
+#guide{position:fixed;right:14px;bottom:14px;z-index:50;width:min(340px,calc(100vw - 28px));background:#fff;border:2px solid var(--g2);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:14px 16px;font-size:15px;line-height:1.55;animation:gin .25s}#guide .gh{font-weight:700;color:var(--g);margin-bottom:4px}#guide p{margin:6px 0}#guide ul{margin:4px 0 4px 18px;padding:0}#guide .gs{color:var(--mu);font-size:14px}#guide .gx{position:absolute;top:6px;right:10px;border:0;background:none;font-size:22px;color:#999;cursor:pointer}#guide .gb{margin-top:8px}#guide .gb .btn{width:100%;padding:11px}@keyframes gin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
 </style></head><body><div class="wrap">
 <div class="top"><span>🌱 金錢好生活・芸琪共學圈</span><button id="reset" type="button">↻ 重新填寫</button></div>
@@ -139,7 +140,7 @@ function render(keep){
   P.items.forEach(function(q,qi){ h+=qHTML(q,qi); });
   h+='<div class="nav"><button class="btn ghost" data-act="back">← 上一頁</button><button class="btn" data-act="next">'+(nextOf(P)==="END"?"送出 ✓":"下一頁 →")+'</button></div>';
  }
- var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0); document.querySelectorAll("[data-ce]").forEach(function(b){ markChips(+b.dataset.ce); });
+ if(cur!=="start") closeGuide(); else loadNames(); var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0); document.querySelectorAll("[data-ce]").forEach(function(b){ markChips(+b.dataset.ce); });
 }
 function qHTML(q,qi){
  if(q.type==="pre"){ var c=chosen(); if(!c||c==="d1") return ""; var n=+c.slice(1),nk=(A[29880217]||"").trim(),R=(RES&&RES.nick===nk)?RES:null;
@@ -155,7 +156,8 @@ function qHTML(q,qi){
  var v=A[q.e],h='<div class="card" data-qi="'+qi+'"><p class="q">'+esc(q.t)+(q.req?'<span class="r">*</span>':'')+'</p>'+(q.h?'<p class="h">'+linky(esc(q.h))+'</p>':'')+(q.img?imgH(q.img):'');
  var chips=q.chips?'<div class="chips">'+q.chips.map(function(c){return '<button type="button" class="chip" data-ce="'+q.e+'" data-cm="'+q.cm+'" data-cv="'+esc(c)+'">'+esc(c)+'</button>';}).join('')+'</div><p class="h" style="margin:4px 0 8px">👆 點選就能帶入，也可以在下面自己修改或輸入</p>':'';
  h+=chips;
- if(q.type==="text"||q.type==="email") h+='<input type="'+(q.type==="email"?"email":"text")+'" data-e="'+q.e+'" value="'+esc(v||"")+'"'+(q.paste?' data-paste="1"':'')+' autocomplete="off">';
+ if(q.type==="text"||q.type==="email"){ var ph="", nk2=(A[29880217]||"").trim(), RR=(RES&&RES.nick===nk2&&RES.found)?RES:null; if(RR){ if(q.e===1252109571&&RR.real) ph="上次填過："+RR.real+"（可不用再填）"; if(q.e===398296623&&RR.line) ph="上次填過："+RR.line+"（可不用再填）"; if(q.e===1091889686&&RR.mail) ph="上次填過："+RR.mail+"（可不用再填）"; }
+   h+='<input type="'+(q.type==="email"?"email":"text")+'" data-e="'+q.e+'" value="'+esc(v||"")+'"'+(q.paste?' data-paste="1"':'')+(q.e===29880217?' list="nicklist" placeholder="輸入暱稱後，會幫你查之前填過什麼"':'')+(ph?' placeholder="'+esc(ph)+'"':'')+' autocomplete="off">'+(q.e===29880217?'<datalist id="nicklist">'+(NAMES||[]).map(function(x){return '<option value="'+esc(x)+'">';}).join("")+'</datalist>':''); }
  else if(q.type==="para") h+='<textarea data-e="'+q.e+'">'+esc(v||"")+'</textarea>';
  else if(q.type==="scale"){ h+='<div class="scale">'; for(var n=1;n<=10;n++) h+='<button type="button" data-sc="'+q.e+'" data-v="'+n+'" class="'+(String(v)===String(n)?"on":"")+'">'+n+'</button>'; h+='</div><div class="scl"><span>1 很不安心</span><span>10 非常安心</span></div>'; }
  else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
@@ -185,10 +187,12 @@ document.addEventListener("click",function(e){
  if(a.dataset.act==="back"){ cur=hist.pop()||"intro"; render(); }
  else if(a.dataset.act==="next"){ if(!valid()) return; var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
  else if(a.dataset.act==="query"){ query(); }
+ else if(a.dataset.act==="gclose"){ closeGuide(); }
+ else if(a.dataset.act==="gpick"){ A[705787933]=DAYV[a.dataset.d]; closeGuide(); render(true); var cq=document.querySelector('[data-o="705787933"]'); if(cq) cq.closest(".card").scrollIntoView({behavior:"smooth",block:"center"}); }
  else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
 });
 document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; markChips(+t.dataset.e); var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
-document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&chosen()&&chosen()!=="d1") autoPre(); });
+document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&cur==="start") autoPre(); });
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
@@ -197,8 +201,22 @@ function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4)
  window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
  sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
 function autoPre(){ var n=(A[29880217]||"").trim(); if(!API||!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; render(true);
- jsonp(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start") render(true); },
+ jsonp(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3,real:r&&r.real,line:r&&r.line,mail:r&&r.mail}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start"){ render(true); guide(); } },
   function(){ RES={nick:n,fail:1}; if(cur==="start") render(true); }); }
+var NAMES=null;
+function loadNames(){ if(!API||NAMES) return; NAMES=[]; var cb="__n"+Date.now(),sc=document.createElement("script"); window[cb]=function(r){ delete window[cb]; sc.remove(); NAMES=(r&&r.names)||[]; var dl=document.getElementById("nicklist"); if(dl) dl.innerHTML=NAMES.map(function(x){return '<option value="'+esc(x)+'">';}).join(""); }; sc.src=API+(API.indexOf("?")>=0?"&":"?")+"list=1&callback="+cb; document.body.appendChild(sc); }
+function closeGuide(){ var g=document.getElementById("guide"); if(g) g.remove(); }
+function guide(){ closeGuide(); var R=RES; if(!R||R.loading) return; var g=document.createElement("div"); g.id="guide"; var h='<button class="gx" data-act="gclose" aria-label="關閉">×</button><div class="gh">🌱 小綠芽提醒</div>';
+ if(R.fail){ h+='<p>現在查不到之前的紀錄，沒關係，照常往下填就好 😊</p>'; }
+ else if(!R.found){ h+='<p>找不到「'+esc(R.nick)+'」之前的紀錄。</p><p class="gs">第一次填嗎？歡迎你！如果之前填過，試試看當時用的暱稱寫法 🙂</p>'; }
+ else { var miss=[1,2,3].filter(function(z){return !R["d"+z];});
+  h+='<p>嗨 '+esc(R.nick)+' 👋 查到你之前填過：</p><ul>'+(R.real?'<li>真實姓名：'+esc(R.real)+'</li>':'')+(R.line?'<li>LINE ID：'+esc(R.line)+'</li>':'')+(R.mail?'<li>Gmail：'+esc(R.mail)+'</li>':'')+'</ul>';
+  if(R.real||R.line||R.mail) h+='<p class="gs">這些已經記錄了，下面可以不用再填 👍</p>';
+  h+='<div class="days" style="justify-content:flex-start">'+[1,2,3].map(function(z){return '<span class="'+(R["d"+z]?"ok":"")+'">DAY'+z+(R["d"+z]?" ✓":"")+'</span>';}).join("")+'</div>';
+  if(miss.length){ var last=miss[miss.length-1]; h+='<p>還差 '+miss.map(function(z){return "DAY"+z;}).join("、")+'，完成就能參加加碼抽獎 🎁</p><div class="gb"><button class="btn" data-act="gpick" data-d="d'+last+'">幫我選好要補的天數</button></div>'; }
+  else h+='<p>三天任務都完成了 👏 加碼抽獎已經有你一份！</p><p class="gs">想再分享心得也可以繼續填，不填也沒關係。</p>';
+ }
+ g.innerHTML=h; document.body.appendChild(g); }
 function query(){ var n=(document.getElementById("qnick").value||"").trim(), box=document.getElementById("qres");
  if(!n){ box.innerHTML='<p class="h" style="color:#c0392b">先輸入暱稱喔</p>'; return; }
  if(!API){ box.innerHTML='<p class="h">查詢功能準備中，想知道進度可以直接私訊芸琪 😊</p>'; return; }
