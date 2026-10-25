@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>人生下半場公開課｜免費報名</title>
+<style>
+:root{--g:#2f5d4a;--g2:#3f7a62;--gl:#e7f0ea;--cream:#faf6ee;--gold:#c9a24a;--ink:#2a2a2a;--mute:#6b6b6b;--line:#06c755;--r:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--cream);color:var(--ink);line-height:1.7}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 120px}
+header{background:linear-gradient(160deg,var(--g),var(--g2));color:#fff;padding:28px 20px 30px;border-radius:0 0 28px 28px;margin:0 -16px}
+.tag{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:3px 12px;border-radius:99px;font-size:13px}
+h1{font-size:26px;line-height:1.4;margin:14px 0 8px}
+.sub{opacity:.92;font-size:15px;margin:0}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.meta div{background:rgba(255,255,255,.13);border-radius:12px;padding:8px 6px;text-align:center;font-size:12px}
+.meta b{display:block;font-size:15px}
+.cd{margin-top:16px;background:#fff;color:var(--g);border-radius:14px;padding:10px;text-align:center;font-weight:700}
+.cd span{font-size:22px;letter-spacing:1px}
+section{background:#fff;border-radius:var(--r);padding:20px;margin-top:16px;box-shadow:0 2px 10px rgba(47,93,74,.06)}
+h2{font-size:19px;margin:0 0 12px;color:var(--g)}
+.pt{display:flex;gap:12px;margin:12px 0}
+.pt i{flex:0 0 28px;height:28px;border-radius:50%;background:var(--gl);color:var(--g);font-style:normal;font-weight:700;display:grid;place-items:center}
+.who{display:flex;gap:14px;align-items:flex-start}
+.av{flex:0 0 56px;height:56px;border-radius:50%;background:var(--gl);display:grid;place-items:center;font-size:24px;color:var(--g);font-weight:700}
+.who p{margin:0;font-size:14px;color:var(--mute)}
+.who b{color:var(--ink);font-size:16px}
+.choose{display:grid;gap:12px}
+.opt{border:2px solid var(--gl);border-radius:14px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit;width:100%}
+.opt:hover,.opt:focus{border-color:var(--g2);outline:none}
+.opt b{display:block;font-size:17px;color:var(--g)}
+.opt small{color:var(--mute)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input,select{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:10px;font-size:16px;font-family:inherit}
+input:focus,select:focus{border-color:var(--g2);outline:none}
+.err{color:#c0392b;font-size:13px;display:none;margin-top:4px}
+.note{font-size:12px;color:var(--mute);margin-top:12px}
+.btn{display:block;width:100%;padding:15px;border:0;border-radius:12px;background:var(--g);color:#fff;font-size:17px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;margin-top:16px;font-family:inherit}
+.btn.line{background:var(--line)}
+.btn.ghost{background:transparent;color:var(--g);border:1.5px solid var(--g);font-size:15px;padding:11px}
+.back{background:none;border:0;color:var(--mute);cursor:pointer;font:inherit;padding:0;margin-bottom:6px}
+.steps{counter-reset:s;padding:0;list-style:none}
+.steps li{counter-increment:s;padding-left:38px;position:relative;margin:10px 0}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--line);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.code{background:var(--gl);border-radius:12px;padding:12px;text-align:center;cursor:pointer;margin-top:10px}
+.code b{font-size:20px;color:var(--g);letter-spacing:1px}
+.msg{white-space:pre-wrap;background:#f6f6f6;border-radius:10px;padding:12px;font-size:14px;margin-top:8px}
+.qr{width:180px;margin:12px auto 4px;background:#fff;padding:8px;border-radius:10px;border:1px solid #eee}
+.qr svg{width:100%;height:auto;display:block}
+.desk{display:none}
+@media (min-width:700px){.desk{display:block}}
+.hide{display:none}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
+.toast.on{opacity:1}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(250,246,238,.96);padding:10px 16px 14px;border-top:1px solid #eadfca}
+.sticky .btn{max-width:528px;margin:0 auto}
+footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">🌱 免費 Zoom 公開課</span>
+  <h1>人生下半場，<br>你的財務準備好了嗎？</h1>
+  <p class="sub">把「金錢好生活」三天分享的重點，一次串起來</p>
+  <div class="meta">
+    <div>日期<b>10/25（日）</b></div>
+    <div>時間<b>20:00</b></div>
+    <div>形式<b>Zoom 線上</b></div>
+  </div>
+  <div class="cd" id="cd">距離開播 <span id="cdt">--:--:--</span></div>
+</header>
+
+<!-- 主頁 -->
+<div id="pMain">
+<section>
+  <h2>今晚會帶你看清楚</h2>
+  <div class="pt"><i>1</i><div>為什麼人生下半場，需要重新認識自己的財務？</div></div>
+  <div class="pt"><i>2</i><div>收入不低、資產不少，為什麼不一定代表財務健康？</div></div>
+  <div class="pt"><i>3</i><div>從知道到做到，怎麼為人生下半場建立選擇權？</div></div>
+</section>
+
+<section>
+  <h2>主講人</h2>
+  <div class="who">
+    <div class="av">菁</div>
+    <div><b>菁羚老師</b>
+      <p>曾在證券業服務十多年，2008 年金融海嘯後重新學習財務規劃，2016 年成為獨立財務建築師。常說：「理財第一步，從看懂自己的財務開始。」</p>
+    </div>
+  </div>
+  <div class="who" style="margin-top:16px">
+    <div class="av">芸</div>
+    <div><b>邀請人｜陳芸琪（財顧芸）</b>
+      <p>公勝財富管理顧問公司 資深顧問・家族傳承生活顧問・AI 財務建築師，18 年財務規劃經驗</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>適合誰來聽？</h2>
+  <div class="pt"><i>✓</i><div>45 歲以上，開始想「之後的日子怎麼安排」</div></div>
+  <div class="pt"><i>✓</i><div>家裡有長輩要照顧，或想先為自己做準備</div></div>
+  <div class="pt"><i>✓</i><div>有在存錢、有保險，但說不清楚夠不夠</div></div>
+</section>
+
+<section id="sChoose">
+  <h2>這次想怎麼了解？</h2>
+  <div class="choose">
+    <button class="opt" onclick="go('live')"><b>📺 參加今晚 8 點直播</b><small>免費，報名後在 LINE 收到 Zoom 連結</small></button>
+    <button class="opt" onclick="go('one')"><b>☕ 預約 1 對 1 財務對話</b><small>30 分鐘，和財顧芸聊聊你最在意的財務問題</small></button>
+  </div>
+</section>
+</div>
+
+<!-- 表單頁 -->
+<div id="pForm" class="hide">
+<section>
+  <button class="back" onclick="home()">← 返回選擇</button>
+  <h2 id="fTitle">報名今晚直播</h2>
+  <label for="nm">您的稱呼 *</label>
+  <input id="nm" autocomplete="name" placeholder="例：王小美">
+  <div class="err" id="eNm">請填寫稱呼</div>
+  <label for="ph">手機號碼 *</label>
+  <input id="ph" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="09xxxxxxxx">
+  <div class="err" id="ePh">請填寫正確的臺灣手機號碼（09 開頭 10 碼）</div>
+  <div id="oneBox" class="hide">
+    <label for="tm">方便的時段</label>
+    <select id="tm"><option>平日白天</option><option>平日晚上</option><option>週末白天</option><option>週末晚上</option></select>
+    <label for="tp">最想聊的主題</label>
+    <select id="tp"><option>退休準備夠不夠</option><option>長輩照顧與醫療費用</option><option>保單整理與檢視</option><option>資產傳承安排</option><option>還不確定，想先聊聊</option></select>
+  </div>
+  <button class="btn" onclick="submitF()">下一步：到 LINE 完成報名</button>
+  <p class="note">您填寫的資料只會出現在您自己傳給我們的 LINE 訊息中，網頁本身不會儲存或傳送任何資料；僅用於本次活動通知與聯繫。</p>
+</section>
+</div>
+
+<!-- 成功頁 -->
+<div id="pDone" class="hide">
+<section>
+  <h2>⚠️ 最後一步：請到 LINE 傳訊息</h2>
+  <p style="margin:0">加入官方 LINE 並傳出下面這段訊息，才算完成報名，我們會用 LINE 傳 Zoom 連結與開播提醒給你。</p>
+  <ol class="steps">
+    <li>按「複製報名訊息」</li>
+    <li>按「加入官方 LINE」</li>
+    <li>在聊天室貼上並送出</li>
+  </ol>
+  <div class="code" onclick="cp(code,'報名編號已複製')">報名編號（點擊複製）<br><b id="cdShow"></b></div>
+  <div class="msg" id="msg"></div>
+  <button class="btn ghost" onclick="cp(document.getElementById('msg').textContent,'報名訊息已複製')">📋 複製報名訊息</button>
+  <a class="btn line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" onclick="autoCopy()">加入官方 LINE 完成報名</a>
+  <div class="desk">
+    <p style="text-align:center;margin:16px 0 0;font-weight:600">用電腦看？請用手機掃描 QR Code 加入</p>
+    <div class="qr"><svg version="1.1" viewBox="0 0 29 29" xmlns="http://www.w3.org/2000/svg"><path d="M2,2H3V3H2zM3,2H4V3H3zM4,2H5V3H4zM5,2H6V3H5zM6,2H7V3H6zM7,2H8V3H7zM8,2H9V3H8zM10,2H11V3H10zM14,2H15V3H14zM16,2H17V3H16zM18,2H19V3H18zM20,2H21V3H20zM21,2H22V3H21zM22,2H23V3H22zM23,2H24V3H23zM24,2H25V3H24zM25,2H26V3H25zM26,2H27V3H26zM2,3H3V4H2zM8,3H9V4H8zM10,3H11V4H10zM13,3H14V4H13zM15,3H16V4H15zM18,3H19V4H18zM20,3H21V4H20zM26,3H27V4H26zM2,4H3V5H2zM4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM8,4H9V5H8zM11,4H12V5H11zM15,4H16V5H15zM17,4H18V5H17zM20,4H21V5H20zM22,4H23V5H22zM23,4H24V5H23zM24,4H25V5H24zM26,4H27V5H26zM2,5H3V6H2zM4,5H5V6H4zM5,5H6V6H5zM6,5H7V6H6zM8,5H9V6H8zM10,5H11V6H10zM11,5H12V6H11zM12,5H13V6H12zM13,5H14V6H13zM14,5H15V6H14zM15,5H16V6H15zM16,5H17V6H16zM20,5H21V6H20zM22,5H23V6H22zM23,5H24V6H23zM24,5H25V6H24zM26,5H27V6H26zM2,6H3V7H2zM4,6H5V7H4zM5,6H6V7H5zM6,6H7V7H6zM8,6H9V7H8zM11,6H12V7H11zM15,6H16V7H15zM18,6H19V7H18zM20,6H21V7H20zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM26,6H27V7H26zM2,7H3V8H2zM8,7H9V8H8zM11,7H12V8H11zM12,7H13V8H12zM15,7H16V8H15zM20,7H21V8H20zM26,7H27V8H26zM2,8H3V9H2zM3,8H4V9H3zM4,8H5V9H4zM5,8H6V9H5zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM14,8H15V9H14zM16,8H17V9H16zM18,8H19V9H18zM20,8H21V9H20zM21,8H22V9H21zM22,8H23V9H22zM23,8H24V9H23zM24,8H25V9H24zM25,8H26V9H25zM26,8H27V9H26zM10,9H11V10H10zM11,9H12V10H11zM12,9H13V10H12zM17,9H18V10H17zM18,9H19V10H18zM2,10H3V11H2zM4,10H5V11H4zM5,10H6V11H5zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM11,10H12V11H11zM16,10H17V11H16zM17,10H18V11H17zM18,10H19V11H18zM20,10H21V11H20zM23,10H24V11H23zM25,10H26V11H25zM26,10H27V11H26zM3,11H4V12H3zM5,11H6V12H5zM6,11H7V12H6zM7,11H8V12H7zM10,11H11V12H10zM13,11H14V12H13zM14,11H15V12H14zM16,11H17V12H16zM18,11H19V12H18zM21,11H22V12H21zM25,11H26V12H25zM5,12H6V13H5zM7,12H8V13H7zM8,12H9V13H8zM9,12H10V13H9zM11,12H12V13H11zM12,12H13V13H12zM13,12H14V13H13zM14,12H15V13H14zM18,12H19V13H18zM19,12H20V13H19zM20,12H21V13H20zM22,12H23V13H22zM2,13H3V14H2zM4,13H5V14H4zM7,13H8V14H7zM9,13H10V14H9zM10,13H11V14H10zM12,13H13V14H12zM13,13H14V14H13zM14,13H15V14H14zM15,13H16V14H15zM16,13H17V14H16zM17,13H18V14H17zM19,13H20V14H19zM22,13H23V14H22zM23,13H24V14H23zM24,13H25V14H24zM2,14H3V15H2zM3,14H4V15H3zM8,14H9V15H8zM10,14H11V15H10zM12,14H13V15H12zM13,14H14V15H13zM15,14H16V15H15zM16,14H17V15H16zM19,14H20V15H19zM20,14H21V15H20zM22,14H23V15H22zM24,14H25V15H24zM25,14H26V15H25zM26,14H27V15H26zM3,15H4V16H3zM5,15H6V16H5zM6,15H7V16H6zM9,15H10V16H9zM10,15H11V16H10zM11,15H12V16H11zM12,15H13V16H12zM13,15H14V16H13zM17,15H18V16H17zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM22,15H23V16H22zM26,15H27V16H26zM3,16H4V17H3zM4,16H5V17H4zM5,16H6V17H5zM6,16H7V17H6zM7,16H8V17H7zM8,16H9V17H8zM9,16H10V17H9zM14,16H15V17H14zM16,16H17V17H16zM19,16H20V17H19zM20,16H21V17H20zM22,16H23V17H22zM24,16H25V17H24zM25,16H26V17H25zM2,17H3V18H2zM4,17H5V18H4zM6,17H7V18H6zM9,17H10V18H9zM10,17H11V18H10zM14,17H15V18H14zM16,17H17V18H16zM17,17H18V18H17zM18,17H19V18H18zM21,17H22V18H21zM22,17H23V18H22zM26,17H27V18H26zM5,18H6V19H5zM8,18H9V19H8zM10,18H11V19H10zM11,18H12V19H11zM13,18H14V19H13zM18,18H19V19H18zM19,18H20V19H19zM20,18H21V19H20zM21,18H22V19H21zM22,18H23V19H22zM23,18H24V19H23zM24,18H25V19H24zM25,18H26V19H25zM26,18H27V19H26zM10,19H11V20H10zM14,19H15V20H14zM15,19H16V20H15zM16,19H17V20H16zM18,19H19V20H18zM22,19H23V20H22zM24,19H25V20H24zM26,19H27V20H26zM2,20H3V21H2zM3,20H4V21H3zM4,20H5V21H4zM5,20H6V21H5zM6,20H7V21H6zM7,20H8V21H7zM8,20H9V21H8zM10,20H11V21H10zM13,20H14V21H13zM14,20H15V21H14zM16,20H17V21H16zM18,20H19V21H18zM20,20H21V21H20zM22,20H23V21H22zM24,20H25V21H24zM25,20H26V21H25zM26,20H27V21H26zM2,21H3V22H2zM8,21H9V22H8zM10,21H11V22H10zM11,21H12V22H11zM14,21H15V22H14zM17,21H18V22H17zM18,21H19V22H18zM22,21H23V22H22zM25,21H26V22H25zM26,21H27V22H26zM2,22H3V23H2zM4,22H5V23H4zM5,22H6V23H5zM6,22H7V23H6zM8,22H9V23H8zM12,22H13V23H12zM13,22H14V23H13zM14,22H15V23H14zM15,22H16V23H15zM18,22H19V23H18zM19,22H20V23H19zM20,22H21V23H20zM21,22H22V23H21zM22,22H23V23H22zM23,22H24V23H23zM25,22H26V23H25zM2,23H3V24H2zM4,23H5V24H4zM5,23H6V24H5zM6,23H7V24H6zM8,23H9V24H8zM10,23H11V24H10zM11,23H12V24H11zM14,23H15V24H14zM15,23H16V24H15zM20,23H21V24H20zM22,23H23V24H22zM23,23H24V24H23zM24,23H25V24H24zM25,23H26V24H25zM26,23H27V24H26zM2,24H3V25H2zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM8,24H9V25H8zM10,24H11V25H10zM12,24H13V25H12zM13,24H14V25H13zM14,24H15V25H14zM15,24H16V25H15zM17,24H18V25H17zM19,24H20V25H19zM20,24H21V25H20zM22,24H23V25H22zM24,24H25V25H24zM25,24H26V25H25zM2,25H3V26H2zM8,25H9V26H8zM19,25H20V26H19zM20,25H21V26H20zM22,25H23V26H22zM24,25H25V26H24zM2,26H3V27H2zM3,26H4V27H3zM4,26H5V27H4zM5,26H6V27H5zM6,26H7V27H6zM7,26H8V27H7zM8,26H9V27H8zM10,26H11V27H10zM14,26H15V27H14zM16,26H17V27H16zM21,26H22V27H21zM22,26H23V27H22zM23,26H24V27H23zM24,26H25V27H24zM25,26H26V27H25zM26,26H27V27H26z" id="qr-path" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg></div>
+  </div>
+  <button class="btn ghost" style="margin-top:20px" onclick="home()">返回首頁</button>
+</section>
+</div>
+
+<footer>馥芸財富學苑・財顧芸｜幸福財務領航員<br>本活動為財務觀念分享，不涉及特定商品推介</footer>
+</div>
+
+<div class="sticky" id="stk"><button class="btn" onclick="toChoose()">立即免費報名</button></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var EVENT=new Date('2026-10-25T20:00:00+08:00'), END=new Date('2026-10-25T22:00:00+08:00');
+var mode='live', code='';
+var src=(new URLSearchParams(location.search).get('source')||'').replace(/[^\w\-]/g,'').slice(0,20);
+function $(i){return document.getElementById(i)}
+function show(p){['pMain','pForm','pDone'].forEach(function(x){$(x).classList.toggle('hide',x!==p)});$('stk').style.display=p==='pMain'?'':'none';scrollTo(0,0)}
+function home(){show('pMain')}
+function toChoose(){$('sChoose').scrollIntoView({behavior:'smooth'})}
+function go(m){mode=m;$('fTitle').textContent=m==='live'?'報名今晚 8 點直播':'預約 1 對 1 財務對話（30 分鐘）';$('oneBox').classList.toggle('hide',m!=='one');show('pForm')}
+function submitF(){
+  var nm=$('nm').value.trim(), ph=$('ph').value.replace(/\D/g,''), ok=true;
+  $('eNm').style.display=nm?'none':'block'; if(!nm)ok=false;
+  var pOk=/^09\d{8}$/.test(ph); $('ePh').style.display=pOk?'none':'block'; if(!pOk)ok=false;
+  if(!ok)return;
+  code=(mode==='live'?'L':'C')+'1025-'+ph.slice(-4)+(src?'-'+src:'');
+  var t=mode==='live'
+    ? '我要報名今晚 8 點菁羚老師 Zoom 公開課《人生下半場，你的財務準備好了嗎？》\n稱呼：'+nm+'\n手機：'+ph+'\n報名編號：'+code
+    : '我想預約 1 對 1 財務對話（30 分鐘）\n稱呼：'+nm+'\n手機：'+ph+'\n方便時段：'+$('tm').value+'\n想聊的主題：'+$('tp').value+'\n報名編號：'+code;
+  $('msg').textContent=t; $('cdShow').textContent=code; show('pDone');
+}
+function cp(t,m){
+  var done=function(){toast(m)};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,fb)}else fb();
+  function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast('請長按文字手動複製')}a.remove()}
+}
+function autoCopy(){cp($('msg').textContent,'報名訊息已複製，到 LINE 貼上送出')}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1800)}
+function tick(){
+  var n=new Date(), d=EVENT-n, el=$('cd');
+  if(d>0){var h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
+    $('cdt').textContent=(h>23?Math.floor(h/24)+' 天 ':'')+String(h%24).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+  else if(n<END){el.innerHTML='🔴 直播進行中，報名後在 LINE 索取連結'}
+  else{el.innerHTML='本場已結束，歡迎預約 1 對 1 財務對話'}
+}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
