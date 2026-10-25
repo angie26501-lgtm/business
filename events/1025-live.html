@@ -67,6 +67,9 @@ input:focus,select:focus{border-color:var(--or);outline:none}
 .tip i{font-style:normal;font-size:18px}
 .banner{display:block;width:calc(100% + 32px);margin:0 -16px;height:auto}
 @media (min-width:592px){.banner{width:100%;margin:12px 0 0;border-radius:16px}}
+.kw{background:linear-gradient(90deg,var(--or),var(--or2));color:#fff;border-radius:14px;text-align:center;padding:12px;cursor:pointer;margin-top:6px}
+.kw b{display:block;font-size:30px;letter-spacing:4px}
+.kw small{opacity:.9}
 .hide{display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
 .toast.on{opacity:1}
@@ -173,15 +176,16 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 <div id="pDone" class="hide">
 <section>
   <h2>⚠️ 最後一步：請到 LINE 傳訊息</h2>
-  <p style="margin:0">加入官方 LINE 並傳出下面這段訊息，才算完成報名，我們會用 LINE 傳 Zoom 連結與開播提醒給你。沒有 LINE 的朋友，可以改用最下方的 Email 報名。</p>
+  <p style="margin:0">加入官方 LINE 後<b>留言「直播」</b>，才算完成報名，我們會用 LINE 傳 Zoom 連結與開播提醒給你。沒有 LINE 的朋友，可以改用最下方的 Email 報名。</p>
   <ol class="steps">
-    <li>按「複製報名訊息」</li>
-    <li>按「加入官方 LINE」</li>
-    <li>在聊天室貼上並送出</li>
+    <li>按「加入官方 LINE」，加為好友</li>
+    <li>在聊天室<b style="color:var(--or)">留言關鍵字「直播」</b></li>
+    <li>收到 Zoom 連結與開播提醒</li>
   </ol>
+  <div class="kw" onclick="cp('直播','已複製「直播」，到 LINE 貼上送出')">LINE 留言關鍵字<br><b>直播</b><small>點一下複製</small></div>
   <div class="code" onclick="cp(code,'報名編號已複製')">報名編號（點擊複製）<br><b id="cdShow"></b></div>
   <div class="msg" id="msg"></div>
-  <button class="btn ghost" onclick="cp(document.getElementById('msg').textContent,'報名訊息已複製')">📋 複製報名訊息</button>
+  <button class="btn ghost" onclick="cp(document.getElementById('msg').textContent,'報名訊息已複製')">📋 複製完整報名訊息（含資料）</button>
   <a class="btn line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" onclick="autoCopy()">加入官方 LINE 完成報名</a>
   <p style="text-align:center;margin:16px 0 0;font-size:14px;color:var(--mute)">沒有 LINE 嗎？</p>
   <a class="btn ghost" id="mailBtn" href="#" onclick="mailIt();return false">✉️ 改用 Email 報名</a>
@@ -218,7 +222,7 @@ function submitF(){
   if(!ok)return;
   code=(mode==='live'?'L':'C')+'1025-'+ph.slice(-4)+(src?'-'+src:'');
   var t=mode==='live'
-    ? '我要報名今晚 8 點菁羚老師 Zoom 公開課《人生下半場，你的財務準備好了嗎？》\n稱呼：'+nm+'\n手機：'+ph+'\nEmail：'+em+'\n報名編號：'+code
+    ? '直播\n我要報名今晚 8 點菁羚老師 Zoom 公開課《人生下半場，你的財務準備好了嗎？》\n稱呼：'+nm+'\n手機：'+ph+'\nEmail：'+em+'\n報名編號：'+code
     : '我想預約 1 對 1 財務對話（30 分鐘）\n稱呼：'+nm+'\n手機：'+ph+'\nEmail：'+em+'\n方便時段：'+$('tm').value+'\n想聊的主題：'+$('tp').value+'\n報名編號：'+code;
   $('msg').textContent=t; $('cdShow').textContent=code; show('pDone');
 }
