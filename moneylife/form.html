@@ -142,8 +142,13 @@ function render(keep){
  var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0); document.querySelectorAll("[data-ce]").forEach(function(b){ markChips(+b.dataset.ce); });
 }
 function qHTML(q,qi){
- if(q.type==="pre"){ var c=chosen(); if(!c||c==="d1") return ""; var n=+c.slice(1),h2='<div class="card"><p class="q">確認一下：前面的任務完成了嗎？<span class="r">*</span></p><p class="h">已經完成的請打勾；還沒完成的，會先帶你回去填，再接著完成 DAY'+n+' 😊</p>';
-  for(var i=1;i<n;i++){ var on=!!PRE["d"+i]; h2+='<div class="opt chk'+(on?" on":"")+'" data-pre="d'+i+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">DAY'+i+' 我之前已經完成了</div></div>'; }
+ if(q.type==="pre"){ var c=chosen(); if(!c||c==="d1") return ""; var n=+c.slice(1),nk=(A[29880217]||"").trim(),R=(RES&&RES.nick===nk)?RES:null;
+  if(R&&R.loading) return '<div class="card"><p class="h">🔎 正在幫你查前面的任務完成了沒…</p></div>';
+  if(R&&R.found){ var all=true; for(var z=1;z<n;z++) if(!R["d"+z]) all=false;
+    if(all) return '<div class="card"><div class="note" style="margin:0">✅ 查到你前面的任務都完成了：'+[1,2].slice(0,n-1).map(function(z){return "DAY"+z;}).join("、")+'，直接完成 DAY'+n+' 就好 👍</div></div>'; }
+  var h2='<div class="card"><p class="q">確認一下：前面的任務完成了嗎？<span class="r">*</span></p><p class="h">已經完成的請打勾；還沒完成的，會先帶你回去填，再接著完成 DAY'+n+' 😊</p>';
+  if(R&&R.found) h2+='<p class="h">🔎 查到的紀錄：'+[1,2].slice(0,n-1).map(function(z){return "DAY"+z+(R["d"+z]?" ✓ 已完成":" 還沒完成");}).join("、")+'</p>';
+  for(var i=1;i<n;i++){ if(R&&R.found&&R["d"+i]) continue; var on=!!PRE["d"+i]; h2+='<div class="opt chk'+(on?" on":"")+'" data-pre="d'+i+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">DAY'+i+' 我之前已經完成了</div></div>'; }
   var ch=chain(); if(ch.length>1) h2+='<div class="note">接下來會依序帶你完成：'+ch.map(function(x){return "DAY"+x.slice(1);}).join(" → ")+(ch.length===3&&PRE.d2?'<br>（問卷要依順序填，DAY2 再填一次也沒關係）':'')+'</div>';
   return h2+'</div>'; }
  if(q.type==="about") return '<div class="card"><p class="q">🌱 關於芸琪</p><div class="about">'+esc(ABOUT)+'</div></div>';
@@ -170,7 +175,7 @@ document.addEventListener("click",function(e){
   if(o.dataset.m==="1"){ var arr=(A[k]||[]).slice(),i=arr.indexOf(val); if(i>=0)arr.splice(i,1); else arr.push(val); A[k]=arr; } else A[k]=val;
   var c=o.closest(".card"); var qi=+c.dataset.qi; c.outerHTML=qHTML(PAGES[cur].items[qi],qi);
   var nb=document.querySelector('[data-act="next"]'); if(nb) nb.textContent=nextOf(PAGES[cur])==="END"?"送出 ✓":"下一頁 →";
-  if(cur==="start"&&k===705787933){ render(true); return; }
+  if(cur==="start"&&k===705787933){ render(true); autoPre(); return; }
   if(val==="__other__"){ var inp=document.querySelector('input[data-oth="'+k+'"]'); if(inp) inp.focus(); } return; }
  var cp=e.target.closest("[data-ce]"); if(cp){ var ke=+cp.dataset.ce, cv=cp.dataset.cv, inp2=document.querySelector('[data-e="'+ke+'"]'), cur0=(A[ke]||"").trim();
    if(cp.dataset.cm==="add"){ var parts=cur0?cur0.split(/[、,，]\s*/):[]; var ix=parts.indexOf(cv); if(ix>=0) parts.splice(ix,1); else parts.push(cv); A[ke]=parts.join("、"); } else A[ke]=cv;
@@ -183,9 +188,17 @@ document.addEventListener("click",function(e){
  else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
 });
 document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; markChips(+t.dataset.e); var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
+document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&chosen()&&chosen()!=="d1") autoPre(); });
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
+var RES=null;
+function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement("script"), t=setTimeout(function(){ fail&&fail(); },10000);
+ window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
+ sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
+function autoPre(){ var n=(A[29880217]||"").trim(); if(!API||!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; render(true);
+ jsonp(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start") render(true); },
+  function(){ RES={nick:n,fail:1}; if(cur==="start") render(true); }); }
 function query(){ var n=(document.getElementById("qnick").value||"").trim(), box=document.getElementById("qres");
  if(!n){ box.innerHTML='<p class="h" style="color:#c0392b">先輸入暱稱喔</p>'; return; }
  if(!API){ box.innerHTML='<p class="h">查詢功能準備中，想知道進度可以直接私訊芸琪 😊</p>'; return; }
