@@ -321,7 +321,7 @@ img,video{-webkit-user-drag:none;user-drag:none}
         <div class="speed"><button data-r="1" class="on">1x</button><button data-r="1.25">1.25x</button><button data-r="1.5">1.5x</button></div>
       </div>
       <img src="life-half.jpg" alt="人生上半場與下半場的財務重點" loading="lazy">
-      <div class="aud-cta"><p>聽完有感覺？10/28 開營，一起動手整理 👇</p><a class="btn buy" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">立即加入綠芽＋五日實踐營<small>自動帶入推薦碼・共學圈優惠價</small></a></div>
+      <div class="aud-cta"><p id="audCtaTxt">聽完有感覺？10/28 開營，一起動手整理 👇</p><a class="btn buy" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">立即加入綠芽＋五日實踐營<small>自動帶入推薦碼・共學圈優惠價</small></a></div>
     </details>
   </section>
 
@@ -411,6 +411,11 @@ img,video{-webkit-user-drag:none;user-drag:none}
   })();
   (function(){var b=document.getElementById('shareBtn');if(!b)return;var U='https://angie26501-lgtm.github.io/business/greensprout/';
     b.addEventListener('click',function(){if(navigator.share){navigator.share({title:document.title,text:'你每年做健康檢查，那財務呢？一起來看看 🌱',url:U}).catch(function(){})}else{window.__allowCopy=true;var a=document.createElement('textarea');a.value=U;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a);window.__allowCopy=false;b.textContent='已複製網址 ✓';setTimeout(function(){b.textContent='其他方式分享'},1600)}});})();
+  (function(){var now=new Date(),st=new Date('2026-10-28T00:00:00+08:00'),en=new Date('2026-11-02T00:00:00+08:00');
+    if(now>=st&&now<en){var p=document.getElementById('audCtaTxt');if(p)p.textContent='聽完有感覺？實踐營進行中，現在加入一起跟上 👇';
+      var sm=document.querySelector('#audio summary');if(sm)sm.textContent='🎧 實踐營加碼｜年薪三百萬，為什麼還會財務雪崩？';
+      var bb=document.querySelector('#audio .ab > b');if(bb)bb.textContent='約 24 分鐘・搭配實踐營一起聽，更容易懂';}
+  })();
   // 選單
   var root=document.documentElement;
   function openM(){root.classList.add('menu-open')} function closeM(){root.classList.remove('menu-open')}
