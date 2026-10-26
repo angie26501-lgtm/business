@@ -45,6 +45,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 .chkbtn{display:block;width:100%;margin:10px 0 4px;font:inherit;font-weight:700;padding:12px;border-radius:12px;border:2px dashed var(--g2);background:#f4f9e8;color:var(--g);cursor:pointer}
 .recall{margin:-2px 0 10px 32px;background:#fffaf0;border-left:4px solid var(--gold);border-radius:10px;padding:10px 12px;font-size:15px}.recall .rq{margin:0;color:#8a6d2b;font-weight:700}.recall .rt{margin:4px 0 6px}.recall ul{margin:0;padding-left:18px}.recall li{margin:2px 0}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
+.top{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0;margin:-10px 0 0;box-shadow:0 6px 8px -8px rgba(0,0,0,.25)}
 </style></head><body><div class="wrap">
 <div class="top"><span>🌱 金錢好生活・芸琪共學圈</span><button id="reset" type="button">↻ 重新填寫</button></div>
 <div class="steps" id="steps"></div>
@@ -115,7 +116,7 @@ function chain(){var c=chosen(); if(!c) return []; var n=+c.slice(1),st=n; for(v
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 function recallH(r){ return '<div class="recall"><p class="rq">💭 幫你回憶一下，群組裡的題目是：</p><p class="rt">'+esc(r.q)+'</p>'+(r.img?imgH(r.img):'')+'<ul>'+r.o.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><p class="h" style="margin:4px 0 0">👇 下一題選你當時回覆的答案就好</p></div>'; }
 function imgH(k){return '<a class="ci" href="fimg/'+k+'.jpg" target="_blank" rel="noopener"><img src="fimg/'+k+'.jpg" alt="圖卡" loading="lazy"><span>🔍 點圖放大</span></a>';}
-function linky(s){return s.replace(/(https:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
+function linky(s){return s.replace(/(https:\/\/[^\s<]+)/g,'<a href="$1" target="_blank">$1</a>');}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 function doneDays(){var d={};try{d=JSON.parse(ls("mlDays")||"{}")||{};}catch(e){}return d;}
 function steps(){var order=["intro","start","d","me","end"],k=cur==="d1"||cur==="d2"||cur==="d3"?"d":cur,i=order.indexOf(k);document.getElementById("steps").innerHTML=order.map(function(_,n){return '<i class="'+(n<=i?"on":"")+'"></i>';}).join("");}

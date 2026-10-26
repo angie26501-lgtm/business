@@ -17,9 +17,12 @@ h1{font-size:23px;color:var(--g);margin:14px 0 4px;line-height:1.35}
 .res{background:#fff;border-left:5px solid var(--gold);border-radius:10px;padding:14px;margin-top:12px;font-size:16px;line-height:1.6}
 .cta{background:var(--g);color:#fff;border-radius:14px;padding:16px;margin-top:16px;font-size:16px;line-height:1.6;text-align:center}
 .cta b{color:#f3d68c}
+.back{display:flex;gap:10px;margin-top:14px}.back button,.back a{flex:1;text-align:center;font:inherit;font-size:16px;font-weight:700;padding:13px;border-radius:14px;text-decoration:none;cursor:pointer}.back button{background:#fff;color:var(--g);border:2px solid #cfdcb5}.back a{background:var(--g2);color:#fff;border:2px solid var(--g2)}
 .note{font-size:12px;color:var(--mu);margin-top:14px;line-height:1.5}
+.top button{white-space:nowrap;padding:5px 10px}.top>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0;margin:-10px 0 0;box-shadow:0 6px 8px -8px rgba(0,0,0,.25)}
 </style></head><body><div class="wrap">
-<div class="top"><span>🌱 金錢好生活・芸琪共學圈 DAY3</span><button id="reset">↻ 重新整理</button></div>
+<div class="top"><span>🌱 金錢好生活・芸琪共學圈 DAY3</span><span style="display:flex;gap:6px"><button id="goback2" type="button">← 上一頁</button><button id="reset">↻ 重新整理</button></span></div>
 <h1>你的財務體質，<br>經得起這五個問題嗎？</h1>
 <p class="sub">能清楚回答的，就點一下打勾。不用公開數字，誠實問自己就好。</p>
 <div id="list"></div>
@@ -27,6 +30,7 @@ h1{font-size:23px;color:var(--g);margin:14px 0 4px;line-height:1.35}
 <div class="cnt" id="cnt">已確認 0 / 5 題</div>
 <div class="res" id="res">先點點看，你能清楚回答幾題？</div>
 <div class="cta">回到群組，留言你的題數（0～5）💬<br>想進一步看懂自己的財務體質，留言「<b>健檢</b>」，芸琪陪你一步一步看 🌱</div>
+<div class="back"><button id="goback" type="button">← 回上一頁</button><a href="form.html">📝 去打卡問卷完成任務</a></div>
 <p class="note">這是自我覺察清單，不是經過驗證的財務健康評分工具，也不是投資或保險建議。<br>——財顧芸｜家族傳承生活顧問</p>
 </div>
 <script>
@@ -39,5 +43,7 @@ function draw(){L.innerHTML=Q.map(function(t,i){return '<div class="q'+(on[i]?' 
 L.addEventListener("click",function(e){var q=e.target.closest(".q"); if(!q)return; on[+q.dataset.i]^=1; draw();});
 document.getElementById("reset").onclick=function(){on=[0,0,0,0,0];draw();window.scrollTo(0,0);};
 ["contextmenu","copy","cut","paste","selectstart"].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault();});});
+document.getElementById("goback2").onclick=function(){ document.getElementById("goback").click(); };
+document.getElementById("goback").onclick=function(){ if((window.opener&&!window.opener.closed)||history.length<=1){ window.close(); setTimeout(function(){ history.length>1?history.back():location.href="form.html"; },300); } else if(history.length>1){ history.back(); } else { location.href="form.html"; } };
 draw();
 </script></body></html>
