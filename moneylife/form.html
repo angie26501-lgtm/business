@@ -42,6 +42,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 .ci{display:block;position:relative;margin:4px 0 12px;border-radius:12px;overflow:hidden;border:1px solid var(--ln)}.ci img{display:block;width:100%;height:auto}.ci span{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 9px;border-radius:999px}.h a{color:var(--g);word-break:break-all}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0}.chip{font:inherit;font-size:15px;padding:7px 12px;border-radius:999px;border:1.5px solid #cfdcb5;background:#fff;color:#3c4a30;cursor:pointer;text-align:left;line-height:1.4}.chip.on{background:#f4f9e8;border-color:var(--g2);font-weight:700}.chip.on::before{content:"✓ ";color:var(--g2)}
 #guide{position:fixed;right:14px;bottom:14px;z-index:50;width:min(340px,calc(100vw - 28px));background:#fff;border:2px solid var(--g2);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:14px 16px;font-size:15px;line-height:1.55;animation:gin .25s}#guide .gh{font-weight:700;color:var(--g);margin-bottom:4px}#guide p{margin:6px 0}#guide ul{margin:4px 0 4px 18px;padding:0}#guide .gs{color:var(--mu);font-size:14px}#guide .gx{position:absolute;top:6px;right:10px;border:0;background:none;font-size:22px;color:#999;cursor:pointer}#guide .gb{margin-top:8px}#guide .gb .btn{width:100%;padding:11px}@keyframes gin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.chkbtn{display:block;width:100%;margin:10px 0 4px;font:inherit;font-weight:700;padding:12px;border-radius:12px;border:2px dashed var(--g2);background:#f4f9e8;color:var(--g);cursor:pointer}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
 </style></head><body><div class="wrap">
 <div class="top"><span>🌱 金錢好生活・芸琪共學圈</span><button id="reset" type="button">↻ 重新填寫</button></div>
@@ -147,6 +148,7 @@ function qHTML(q,qi){
   if(R&&R.loading) return '<div class="card"><p class="h">🔎 正在幫你查前面的任務完成了沒…</p></div>';
   if(R&&R.found){ var all=true; for(var z=1;z<n;z++) if(!R["d"+z]) all=false;
     if(all) return '<div class="card"><div class="note" style="margin:0">✅ 查到你前面的任務都完成了：'+[1,2].slice(0,n-1).map(function(z){return "DAY"+z;}).join("、")+'，直接完成 DAY'+n+' 就好 👍</div></div>'; }
+  if(R&&R.found){ var chf=chain(); return '<div class="card"><div class="note" style="margin:0">🔎 查到你還要補 '+[1,2].slice(0,n-1).filter(function(z){return !R["d"+z];}).map(function(z){return "DAY"+z;}).join("、")+'，接下來會依序帶你完成：'+chf.map(function(x){return "DAY"+x.slice(1);}).join(" → ")+(chf.length===3&&R.d2?'<br>（問卷要依順序填，DAY2 再填一次也沒關係）':'')+'</div></div>'; }
   var h2='<div class="card"><p class="q">確認一下：前面的任務完成了嗎？<span class="r">*</span></p><p class="h">已經完成的請打勾；還沒完成的，會先帶你回去填，再接著完成 DAY'+n+' 😊</p>';
   if(R&&R.found) h2+='<p class="h">🔎 查到的紀錄：'+[1,2].slice(0,n-1).map(function(z){return "DAY"+z+(R["d"+z]?" ✓ 已完成":" 還沒完成");}).join("、")+'</p>';
   for(var i=1;i<n;i++){ if(R&&R.found&&R["d"+i]) continue; var on=!!PRE["d"+i]; h2+='<div class="opt chk'+(on?" on":"")+'" data-pre="d'+i+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">DAY'+i+' 我之前已經完成了</div></div>'; }
@@ -162,6 +164,7 @@ function qHTML(q,qi){
  else if(q.type==="scale"){ h+='<div class="scale">'; for(var n=1;n<=10;n++) h+='<button type="button" data-sc="'+q.e+'" data-v="'+n+'" class="'+(String(v)===String(n)?"on":"")+'">'+n+'</button>'; h+='</div><div class="scl"><span>1 很不安心</span><span>10 非常安心</span></div>'; }
  else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
    h+='<div class="opt '+(multi?"chk":"radio")+(on?" on":"")+'" data-o="'+q.e+'" data-v="'+esc(o[1])+'" data-m="'+(multi?1:0)+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">'+esc(o[0])+(o[1]==="__other__"&&on?'<input type="text" class="oth" data-oth="'+q.e+'" placeholder="請寫下你的答案" value="'+esc(OTH[q.e]||"")+'">':'')+'</div></div>'; }); }
+ if(q.e===705787933){ h+='<button type="button" class="chkbtn" data-act="autocheck">🔎 幫我檢查還差哪幾天</button><div id="acres">'+(AC_MSG||'')+'</div>'; }
  return h+'<div class="err">這題要先回答喔</div></div>';
 }
 function markChips(ke){ var v=(A[ke]||""); document.querySelectorAll('[data-ce="'+ke+'"]').forEach(function(b){ var on=b.dataset.cm==="add"?v.split(/[、,，]\s*/).indexOf(b.dataset.cv)>=0:v===b.dataset.cv; b.classList.toggle("on",on); }); }
@@ -188,6 +191,17 @@ document.addEventListener("click",function(e){
  else if(a.dataset.act==="next"){ if(!valid()) return; var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
  else if(a.dataset.act==="query"){ query(); }
  else if(a.dataset.act==="gclose"){ closeGuide(); }
+ else if(a.dataset.act==="autocheck"){ var nk3=(A[29880217]||"").trim();
+  if(!nk3){ AC_MSG='<div class="note">請先在最上面填暱稱，我才能幫你查喔 😊</div>'; render(true); var ni=document.querySelector('[data-e="29880217"]'); if(ni){ ni.focus(); ni.closest(".card").scrollIntoView({behavior:"smooth",block:"center"}); } return; }
+  AC_MSG='<p class="h">🔎 查詢中…</p>'; render(true);
+  lookup(nk3,function(r){ RES={nick:nk3,ok:true,found:r.found,d1:r.d1,d2:r.d2,d3:r.d3,real:r.real,line:r.line,mail:r.mail};
+   if(!r.found){ AC_MSG='<div class="note">找不到「'+esc(nk3)+'」的紀錄，可能是第一次填，或暱稱寫法不一樣。<br>第一次填的話，請從 <b>DAY1</b> 開始 👇</div>'; A[705787933]=DAYV.d1; PRE={}; }
+   else { var miss=[1,2,3].filter(function(z){return !r["d"+z];}); PRE.d1=!!r.d1; PRE.d2=!!r.d2;
+    if(!miss.length){ AC_MSG='<div class="note">✅ 你三天的任務都完成了，加碼抽獎已經有你一份！<br>想再分享心得也可以繼續填，不填也沒關係。</div>'; }
+    else { var last=miss[miss.length-1]; A[705787933]=DAYV["d"+last];
+     AC_MSG='<div class="note">查到你已完成：'+([1,2,3].filter(function(z){return r["d"+z];}).map(function(z){return "DAY"+z+" ✓";}).join("、")||"還沒有")+'<br>還要補：<b>'+miss.map(function(z){return "DAY"+z;}).join("、")+'</b><br>已經幫你選好，按下面「下一頁」就會依序帶你完成 👇</div>'; } }
+   render(true); var nb2=document.querySelector('[data-act="next"]'); if(nb2) nb2.scrollIntoView({behavior:"smooth",block:"center"}); });
+ }
  else if(a.dataset.act==="gpick"){ A[705787933]=DAYV[a.dataset.d]; closeGuide(); render(true); var cq=document.querySelector('[data-o="705787933"]'); if(cq) cq.closest(".card").scrollIntoView({behavior:"smooth",block:"center"}); }
  else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
 });
@@ -214,7 +228,7 @@ function nrm(x){return String(x||"").replace(/[\s　]/g,"").toLowerCase();}
 function localLookup(n){ var k=nrm(n),hit=null; LOCAL.forEach(function(r){ if(hit) return; r.n.forEach(function(a){ var b=nrm(a); if(b===k||(k.length>=2&&(b.indexOf(k)>=0||k.indexOf(b)>=0))) hit=r; }); });
  return hit?{ok:true,found:1,d1:!!hit.d[0],d2:!!hit.d[1],d3:!!hit.d[2],local:1}:{ok:true,found:0,local:1}; }
 function lookup(n,ok){ if(!API){ ok(localLookup(n)); return; } jsonp(n,function(r){ ok(r&&r.ok?r:localLookup(n)); },function(){ ok(localLookup(n)); }); }
-var RES=null;
+var RES=null, AC_MSG="";
 function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement("script"), t=setTimeout(function(){ fail&&fail(); },10000);
  window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
  sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
@@ -265,7 +279,7 @@ function submit(){
  var fr=document.getElementById("gfx"), fin=false; function ok(){ if(fin) return; fin=true; ls("mlDays",JSON.stringify(dd)); cur="end"; render(); }
  fr.onload=ok; setTimeout(ok,6000); f.submit();
 }
-document.getElementById("reset").onclick=function(){ A={}; OTH={}; PRE={}; hist=[]; cur="intro"; render(); };
+document.getElementById("reset").onclick=function(){ A={}; OTH={}; PRE={}; AC_MSG=""; RES=null; hist=[]; cur="intro"; render(); };
 ["copy","cut","contextmenu"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.matches&&e.target.matches("input,textarea"))) e.preventDefault(); }); });
 document.addEventListener("paste",function(e){ var t=e.target; if(!(t.dataset&&t.dataset.paste)) e.preventDefault(); });
 render();
