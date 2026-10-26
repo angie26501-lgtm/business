@@ -44,6 +44,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 #guide{position:fixed;right:14px;bottom:14px;z-index:50;width:min(340px,calc(100vw - 28px));background:#fff;border:2px solid var(--g2);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:14px 16px;font-size:15px;line-height:1.55;animation:gin .25s}#guide .gh{font-weight:700;color:var(--g);margin-bottom:4px}#guide p{margin:6px 0}#guide ul{margin:4px 0 4px 18px;padding:0}#guide .gs{color:var(--mu);font-size:14px}#guide .gx{position:absolute;top:6px;right:10px;border:0;background:none;font-size:22px;color:#999;cursor:pointer}#guide .gb{margin-top:8px}#guide .gb .btn{width:100%;padding:11px}@keyframes gin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .chkbtn{display:block;width:100%;margin:10px 0 4px;font:inherit;font-weight:700;padding:12px;border-radius:12px;border:2px dashed var(--g2);background:#f4f9e8;color:var(--g);cursor:pointer}
 .recall{margin:-2px 0 10px 32px;background:#fffaf0;border-left:4px solid var(--gold);border-radius:10px;padding:10px 12px;font-size:15px}.recall .rq{margin:0;color:#8a6d2b;font-weight:700}.recall .rt{margin:4px 0 6px}.recall ul{margin:0;padding-left:18px}.recall li{margin:2px 0}
+.green{background:#f4f9e8;border:2px solid var(--g2);border-radius:16px;padding:14px;margin:14px 0;text-align:left}.green .gq{margin:0;font-weight:700;color:var(--g);font-size:17px}.green .gt{margin:6px 0 10px;font-size:15px}.gbtns{display:flex;gap:8px}.gbtns a,.gbtns button{flex:1;text-align:center;font:inherit;font-weight:700;padding:11px;border-radius:12px;text-decoration:none;cursor:pointer}.gy{background:var(--g);color:#fff;border:2px solid var(--g)}.gn{background:#fff;color:var(--mu);border:2px solid var(--ln)}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
 .top{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0;margin:-10px 0 0;box-shadow:0 6px 8px -8px rgba(0,0,0,.25)}
 </style></head><body><div class="wrap">
@@ -75,7 +76,7 @@ var PAGES={
   {e:296049545,img:"check",t:"五題自我檢視，你能清楚回答幾題？",h:"還沒做的朋友，可以先點這裡互動版做做看 👉 https://angie26501-lgtm.github.io/business/moneylife/check.html",type:"radio",req:1,opts:O(["0–1 題","2–3 題","4–5 題"])},
   {e:1537389618,chips:["整理家裡的收支", "建立緊急預備金", "檢視家裡的保單", "跟家人聊保單放哪裡", "規劃自己的退休金", "安排爸媽的照顧"],cm:"add",t:"這三天，讓你最想為自己或家人重新做好的財務準備是什麼？",type:"para",h:"一句話就好 🌱"},
   {e:75930892,t:"10/25（日）晚上 8:00 菁羚老師 Zoom 直播，你有來嗎？",type:"radio",req:1,opts:O([["有參加 🙋","會準時參加 🙋"],["有參加，比較晚到","會盡量參加，可能晚點到"],["沒能參加，想收到重點整理","不方便參加，想收到重點整理"]])},
-  {e:736748162,img:"sprout",t:"接下來，你想進一步了解哪些？（可複選）",type:"chk",opts:O(["綠芽財務健檢（看懂自己的財務體質）","《金錢整理五日實踐營》10/28–11/1","一對一財務健檢諮詢","先不用，謝謝"])},
+  {e:736748162,img:"sprout",t:"接下來，你想進一步了解哪些？（可複選）",type:"chk",req:1,h:"都還不需要的話，選「先不用，謝謝」就好 😊",opts:O(["綠芽財務健檢（看懂自己的財務體質）","《金錢整理五日實踐營》10/28–11/1","一對一財務健檢諮詢","先不用，謝謝"])},
   {e:874796428,img:"blind2",t:"如果收入突然停了，你家的備用金大概夠撐多久？（不用寫數字）",type:"radio",opts:O(["不到 3 個月","3–6 個月","6 個月以上","沒算過"])},
   {e:727104229,t:"DAY3 完成了，接下來？",type:"radio",req:1,nav:1,opts:O([["第一次填：接著填「認識你」","第一次填：接著填「認識你」"],["之前填過了：直接送出","之前填過了：直接送出"]]),go:{"第一次填：接著填「認識你」":"me","之前填過了：直接送出":"END"}}
  ]},
@@ -114,6 +115,8 @@ var DAYV={d3:"DAY3 任務（10/24）",d2:"DAY2 任務（10/23）・交完可接�
 function chosen(){var v=A[705787933];for(var k in DAYV) if(DAYV[k]===v) return k; return null;}
 function chain(){var c=chosen(); if(!c) return []; var n=+c.slice(1),st=n; for(var i=n-1;i>=1;i--) if(!PRE["d"+i]) st=i; var out=[]; for(var j=st;j<=n;j++) out.push("d"+j); return out;}
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+var SPROUT_LINE="https://lin.ee/9SxK8ab";
+function greenH(){ return '<div class="green"><p class="gq">🌱 想看懂自己的財務體質嗎？</p><p class="gt">「綠芽財務健檢」透過 LINE 幫你初步檢視財務體質，搭配日常收支記錄，還送菁羚老師帶領的《金錢整理五日實踐營》（10/28–11/1）。</p><div class="gbtns"><a class="gy" href="'+SPROUT_LINE+'" target="_blank" data-act="sprout">💬 我想了解綠芽</a><button type="button" class="gn" data-act="sproutno">先不用</button></div><p class="h" style="margin:6px 0 0">按「我想了解」會開啟芸琪的 LINE，傳「綠芽」兩個字，芸琪會一步一步陪你看 😊</p></div>'; }
 function recallH(r){ return '<div class="recall"><p class="rq">💭 幫你回憶一下，群組裡的題目是：</p><p class="rt">'+esc(r.q)+'</p>'+(r.img?imgH(r.img):'')+'<ul>'+r.o.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><p class="h" style="margin:4px 0 0">👇 下一題選你當時回覆的答案就好</p></div>'; }
 function imgH(k){return '<a class="ci" href="fimg/'+k+'.jpg" target="_blank" rel="noopener"><img src="fimg/'+k+'.jpg" alt="圖卡" loading="lazy"><span>🔍 點圖放大</span></a>';}
 function linky(s){return s.replace(/(https:\/\/[^\s<]+)/g,'<a href="$1" target="_blank">$1</a>');}
@@ -128,6 +131,7 @@ function render(keep){
   h+='<div class="note">⏰ 加碼抽獎：<b>10/26（一）晚上 8 點</b>抽出，之前完成都來得及！</div>';
   h+='<div class="card">・第一次填：約 3 分鐘（任務＋認識你）<br>・已經填過：只要完成當天任務，約 1 分鐘<br>・沒完成的天數，可以一次接著完成</div>';
   if(Object.keys(dd).length) h+='<p class="sec" style="text-align:center">這支手機已完成：</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd[x]?"ok":"")+'">'+x+(dd[x]?" ✓":"")+'</span>';}).join("")+'</div>';
+  h+='<details class="rules"><summary>🎁 加碼抽獎說明（點開看）</summary><div class="note" style="margin:8px 0">📢 抽獎時間已延長到 <b>10/26（一）晚上 8 點</b>，圖卡上寫的 10/25 以這個時間為準。<br>三天任務都完成（同一個暱稱）就有抽獎資格 🎁</div>'+imgH("lottery")+'<details class="rules" style="margin:8px 0 0"><summary>🌿 獎品介紹：盜賊滾珠精油</summary>'+imgH("thieves")+'<p class="h">產品介紹圖由經銷商提供，僅供參考，不作為醫療或疾病預防用途。</p></details></details>';
   h+='<details class="rules"><summary>💚 我們的小約定（點開看）</summary>① 歡迎交流與提問，也請尊重每個人的經驗與選擇<br>② 不需要公開自己的收入、存款、負債或其他個人財務資料（這份問卷也不會問）<br>③ 請勿張貼廣告、陌生連結，或私訊推銷其他群友<br>④ 群內會分享免費知識，也可能介紹相關工具與付費活動，是否參與完全由你決定<br>⑤ 看到貼文，按一個表情或傳一張貼圖回應就好</details>';
   h+='<div class="nav"><button class="btn" data-go="start">開始填寫 →</button></div>';
   h+='<div class="card" id="qbox"><p class="q">📊 查我的任務進度</p><p class="h">輸入你填問卷時用的暱稱，看看三天任務完成了幾天</p><div style="display:flex;gap:8px"><input type="text" id="qnick" placeholder="例如：布蘭達" value="'+esc(ls("ml_nick")||"")+'" autocomplete="off"><button class="btn" style="flex:0 0 auto;padding:10px 16px" data-act="query">查詢</button></div><div id="qres"></div></div>';
@@ -135,7 +139,8 @@ function render(keep){
   var dd2=doneDays();
   h+='<div class="done"><div class="big">🎉</div><h1>完成囉！謝謝你</h1><p class="sec">你的任務已經送出，芸琪收到了 🌱</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd2[x]?"ok":"")+'">'+x+(dd2[x]?" ✓":"")+'</span>';}).join("")+'</div>';
   var miss=["DAY1","DAY2","DAY3"].filter(function(x){return !dd2[x];});
-  h+=miss.length?'<div class="note" style="text-align:left">這支手機還沒完成：'+miss.join("、")+'，再填一次就能補上，三天都完成就能參加加碼抽獎 🎁</div>':'<div class="note" style="text-align:left">三天任務都完成了 👏 10/26（一）晚上 8 點加碼抽獎，祝你好運！</div>';
+  h+=miss.length?'<div class="note" style="text-align:left">還沒完成：'+miss.join("、")+'，按下面「再完成另一天」就能補上，三天都完成就能參加加碼抽獎 🎁</div>':'<div class="note" style="text-align:left">三天任務都完成了 👏 10/26（一）晚上 8 點加碼抽獎，祝你好運！</div>';
+  h+=greenH();
   h+='<p class="sec">回到群組，傳一個「✅ 完成」讓芸琪知道吧 💬</p><div class="nav"><button class="btn ghost" data-act="again" style="flex:1">再完成另一天</button></div></div>';
  } else if(cur==="sending"){
   h+='<div class="done"><div class="big">⏳</div><h1>送出中…</h1><p class="sec">請稍等，不要關閉頁面</p></div>';
@@ -165,7 +170,8 @@ function qHTML(q,qi){
    h+='<input type="'+(q.type==="email"?"email":"text")+'" data-e="'+q.e+'" value="'+esc(v||"")+'"'+(q.paste?' data-paste="1"':'')+(q.e===29880217?' list="nicklist" placeholder="輸入暱稱後，會幫你查之前填過什麼"':'')+(ph?' placeholder="'+esc(ph)+'"':'')+' autocomplete="off">'+(q.e===29880217?'<datalist id="nicklist">'+(NAMES||[]).map(function(x){return '<option value="'+esc(x)+'">';}).join("")+'</datalist>':''); }
  else if(q.type==="para") h+='<textarea data-e="'+q.e+'">'+esc(v||"")+'</textarea>';
  else if(q.type==="scale"){ h+='<div class="scale">'; for(var n=1;n<=10;n++) h+='<button type="button" data-sc="'+q.e+'" data-v="'+n+'" class="'+(String(v)===String(n)?"on":"")+'">'+n+'</button>'; h+='</div><div class="scl"><span>1 很不安心</span><span>10 非常安心</span></div>'; }
- else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
+ else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; }
+   else { var nk4=(A[29880217]||"").trim(); if(RES&&RES.nick===nk4&&RES.found){ opts=q.opts.filter(function(o){return q.go[o[1]]==="END";}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
    h+='<div class="opt '+(multi?"chk":"radio")+(on?" on":"")+'" data-o="'+q.e+'" data-v="'+esc(o[1])+'" data-m="'+(multi?1:0)+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">'+esc(o[0])+(o[1]==="__other__"&&on?'<input type="text" class="oth" data-oth="'+q.e+'" placeholder="請寫下你的答案" value="'+esc(OTH[q.e]||"")+'">':'')+'</div></div>'+((on&&RECALL[q.e]&&o[1].indexOf("在群組回覆")===0)?recallH(RECALL[q.e]):''); }); }
  if(q.e===705787933){ h+='<button type="button" class="chkbtn" data-act="autocheck">🔎 幫我檢查還差哪幾天</button><div id="acres">'+(AC_MSG||'')+'</div>'; }
  return h+'<div class="err">這題要先回答喔</div></div>';
@@ -194,13 +200,15 @@ document.addEventListener("click",function(e){
  else if(a.dataset.act==="next"){ if(!valid()) return; var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
  else if(a.dataset.act==="query"){ query(); }
  else if(a.dataset.act==="gclose"){ closeGuide(); }
+ else if(a.dataset.act==="sprout"){ try{ navigator.clipboard&&navigator.clipboard.writeText("綠芽"); }catch(x){} ls("ml_sprout","yes"); return; }
+ else if(a.dataset.act==="sproutno"){ ls("ml_sprout","no"); var gc=a.closest(".green"); if(gc) gc.innerHTML='<p class="gt" style="margin:0">沒問題 😊 之後想了解，隨時私訊芸琪就好 🌱</p>'; }
  else if(a.dataset.act==="autocheck"){ var nk3=(A[29880217]||"").trim();
   if(!nk3){ AC_MSG='<div class="note">請先在最上面填暱稱，我才能幫你查喔 😊</div>'; render(true); var ni=document.querySelector('[data-e="29880217"]'); if(ni){ ni.focus(); ni.closest(".card").scrollIntoView({behavior:"smooth",block:"center"}); } return; }
   AC_MSG='<p class="h">🔎 查詢中…</p>'; render(true);
   lookup(nk3,function(r){ RES={nick:nk3,ok:true,found:r.found,d1:r.d1,d2:r.d2,d3:r.d3,real:r.real,line:r.line,mail:r.mail};
    if(!r.found){ AC_MSG='<div class="note">找不到「'+esc(nk3)+'」的紀錄，可能是第一次填，或暱稱寫法不一樣。<br>第一次填的話，請從 <b>DAY1</b> 開始 👇</div>'; A[705787933]=DAYV.d1; PRE={}; }
    else { var miss=[1,2,3].filter(function(z){return !r["d"+z];}); PRE.d1=!!r.d1; PRE.d2=!!r.d2;
-    if(!miss.length){ AC_MSG='<div class="note">✅ 你三天的任務都完成了，加碼抽獎已經有你一份！<br>想再分享心得也可以繼續填，不填也沒關係。</div>'; }
+    if(!miss.length){ AC_MSG='<div class="note">✅ 你三天的任務都完成了，加碼抽獎已經有你一份！<br>想再分享心得也可以繼續填，不填也沒關係。</div>'+greenH(); }
     else { var last=miss[miss.length-1]; A[705787933]=DAYV["d"+last];
      AC_MSG='<div class="note">查到你已完成：'+([1,2,3].filter(function(z){return r["d"+z];}).map(function(z){return "DAY"+z+" ✓";}).join("、")||"還沒有")+'<br>還要補：<b>'+miss.map(function(z){return "DAY"+z;}).join("、")+'</b><br>已經幫你選好，按下面「下一頁」就會依序帶你完成 👇</div>'; } }
    render(true); var nb2=document.querySelector('[data-act="next"]'); if(nb2) nb2.scrollIntoView({behavior:"smooth",block:"center"}); });
@@ -265,7 +273,7 @@ function query(){ var n=(document.getElementById("qnick").value||"").trim(), box
   if(!r.found){ box.innerHTML='<div class="note">找不到「'+esc(n)+'」的紀錄。<br>可能還沒填過，或暱稱不太一樣（試試看填問卷時用的寫法）。</div>'; return; }
   var d={DAY1:r.d1,DAY2:r.d2,DAY3:r.d3}, miss=Object.keys(d).filter(function(k){return !d[k];});
   var h='<div class="days">'+Object.keys(d).map(function(k){return '<span class="'+(d[k]?"ok":"")+'">'+k+(d[k]?" ✓":"")+'</span>';}).join("")+'</div>';
-  h+=miss.length?'<div class="note">還差 '+miss.join("、")+'，完成就能參加加碼抽獎 🎁<br>按上面「開始填寫」，會帶你補上。</div>':'<div class="note">三天任務都完成了 👏 加碼抽獎已經有你一份，祝你好運！</div>';
+  h+=miss.length?'<div class="note">還差 '+miss.join("、")+'，完成就能參加加碼抽獎 🎁<br>按上面「開始填寫」，會帶你補上。</div>':'<div class="note">三天任務都完成了 👏 加碼抽獎已經有你一份，祝你好運！</div>'+greenH();
   if(r.local) h+='<p class="h">（資料更新到 '+LOCAL_UPD+'，之後剛填的可能還沒顯示）</p>';
   box.innerHTML=h; });
 }
@@ -282,7 +290,7 @@ function submit(){
  add("pageHistory",path.filter(function(p){return p in PI;}).map(function(p){return PI[p];}).join(","));
  add("fvv","1");
  document.body.appendChild(f);
- var dd=doneDays(); if(used.d1) dd.DAY1=1; if(used.d2) dd.DAY2=1; if(used.d3) dd.DAY3=1;
+ var dd=doneDays(); if(used.d1) dd.DAY1=1; if(used.d2) dd.DAY2=1; if(used.d3) dd.DAY3=1; var nk5=(A[29880217]||"").trim(); if(RES&&RES.nick===nk5&&RES.found){ if(RES.d1) dd.DAY1=1; if(RES.d2) dd.DAY2=1; if(RES.d3) dd.DAY3=1; }
  cur="sending"; render();
  var fr=document.getElementById("gfx"), fin=false; function ok(){ if(fin) return; fin=true; ls("mlDays",JSON.stringify(dd)); cur="end"; render(); }
  fr.onload=ok; setTimeout(ok,6000); f.submit();
