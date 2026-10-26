@@ -51,7 +51,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 </div>
 <iframe name="gfx" id="gfx" style="display:none" title="submit"></iframe>
 <script>
-var API="https://script.google.com/macros/s/AKfycbyY27AB7_C_tUxYVmTybhDiYU1WALoBOYHqxBsv8qP_Br47gSmyADPfP690i6t9K2XF/exec";  /* 進度查詢網址（Apps Script 網頁應用程式 /exec） */
+var API="";  /* 待授權完成後填回：https://script.google.com/macros/s/AKfycbyY27AB7_C_tUxYVmTybhDiYU1WALoBOYHqxBsv8qP_Br47gSmyADPfP690i6t9K2XF/exec */  /* 進度查詢網址（Apps Script 網頁應用程式 /exec） */
 var ACTION="https://docs.google.com/forms/d/e/1FAIpQLSejhBzaZ53KDCxbPfnhvnHbPfjNxbaGcAn32-ZdKx6tti8OUQ/formResponse";
 /* 選項：[畫面顯示文字, 送出值(必須和 Google 表單原選項一字不差)] ；值為 "__other__" 代表「其他」 */
 function O(a){return a.map(function(x){return typeof x==="string"?[x,x]:x;});}
@@ -196,12 +196,29 @@ document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.da
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
+/* 進度資料（芸琪從試算表整理，更新：10/26 11:45）；Apps Script 查詢失敗時使用 */
+var LOCAL_UPD="10/26 11:45";
+var LOCAL=[
+ {n:["桂琴","余桂琴","sophia"],d:[0,1,1]},
+ {n:["Kenny","阿德","吳耿德"],d:[0,0,1]},
+ {n:["Esther","張雁筑","雁筑"],d:[0,1,0]},
+ {n:["靜靜","謝明靜"],d:[1,1,0]},
+ {n:["布蘭達","阿布媽媽","Brenda"],d:[0,1,1]},
+ {n:["霈均","段霈均"],d:[0,0,0]},
+ {n:["佳佳","吳佳純"],d:[1,1,1]},
+ {n:["佳倩","韓佳倩"],d:[1,1,1]},
+ {n:["雅娟","林雅娟"],d:[0,0,1]}
+];
+function nrm(x){return String(x||"").replace(/[\s　]/g,"").toLowerCase();}
+function localLookup(n){ var k=nrm(n),hit=null; LOCAL.forEach(function(r){ if(hit) return; r.n.forEach(function(a){ var b=nrm(a); if(b===k||(k.length>=2&&(b.indexOf(k)>=0||k.indexOf(b)>=0))) hit=r; }); });
+ return hit?{ok:true,found:1,d1:!!hit.d[0],d2:!!hit.d[1],d3:!!hit.d[2],local:1}:{ok:true,found:0,local:1}; }
+function lookup(n,ok){ if(!API){ ok(localLookup(n)); return; } jsonp(n,function(r){ ok(r&&r.ok?r:localLookup(n)); },function(){ ok(localLookup(n)); }); }
 var RES=null;
 function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement("script"), t=setTimeout(function(){ fail&&fail(); },10000);
  window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
  sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
-function autoPre(){ var n=(A[29880217]||"").trim(); if(!API||!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; render(true);
- jsonp(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3,real:r&&r.real,line:r&&r.line,mail:r&&r.mail}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start"){ render(true); guide(); } },
+function autoPre(){ var n=(A[29880217]||"").trim(); if(!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; render(true);
+ lookup(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3,real:r&&r.real,line:r&&r.line,mail:r&&r.mail}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start"){ render(true); guide(); } },
   function(){ RES={nick:n,fail:1}; if(cur==="start") render(true); }); }
 var NAMES=null;
 function loadNames(){ if(!API||NAMES) return; NAMES=[]; var cb="__n"+Date.now(),sc=document.createElement("script"); window[cb]=function(r){ delete window[cb]; sc.remove(); NAMES=(r&&r.names)||[]; var dl=document.getElementById("nicklist"); if(dl) dl.innerHTML=NAMES.map(function(x){return '<option value="'+esc(x)+'">';}).join(""); }; sc.src=API+(API.indexOf("?")>=0?"&":"?")+"list=1&callback="+cb; document.body.appendChild(sc); }
@@ -211,7 +228,7 @@ function guide(){ closeGuide(); var R=RES; if(!R||R.loading) return; var g=docum
  else if(!R.found){ h+='<p>找不到「'+esc(R.nick)+'」之前的紀錄。</p><p class="gs">第一次填嗎？歡迎你！如果之前填過，試試看當時用的暱稱寫法 🙂</p>'; }
  else { var miss=[1,2,3].filter(function(z){return !R["d"+z];});
   h+='<p>嗨 '+esc(R.nick)+' 👋 查到你之前填過：</p><ul>'+(R.real?'<li>真實姓名：'+esc(R.real)+'</li>':'')+(R.line?'<li>LINE ID：'+esc(R.line)+'</li>':'')+(R.mail?'<li>Gmail：'+esc(R.mail)+'</li>':'')+'</ul>';
-  if(R.real||R.line||R.mail) h+='<p class="gs">這些已經記錄了，下面可以不用再填 👍</p>';
+  if(R.real||R.line||R.mail) h+='<p class="gs">這些已經記錄了，下面可以不用再填 👍</p>'; else h=h.replace('<p>嗨 '+esc(R.nick)+' 👋 查到你之前填過：</p><ul></ul>','<p>嗨 '+esc(R.nick)+' 👋 查到你之前的任務紀錄：</p>');
   h+='<div class="days" style="justify-content:flex-start">'+[1,2,3].map(function(z){return '<span class="'+(R["d"+z]?"ok":"")+'">DAY'+z+(R["d"+z]?" ✓":"")+'</span>';}).join("")+'</div>';
   if(miss.length){ var last=miss[miss.length-1]; h+='<p>還差 '+miss.map(function(z){return "DAY"+z;}).join("、")+'，完成就能參加加碼抽獎 🎁</p><div class="gb"><button class="btn" data-act="gpick" data-d="d'+last+'">幫我選好要補的天數</button></div>'; }
   else h+='<p>三天任務都完成了 👏 加碼抽獎已經有你一份！</p><p class="gs">想再分享心得也可以繼續填，不填也沒關係。</p>';
@@ -219,17 +236,15 @@ function guide(){ closeGuide(); var R=RES; if(!R||R.loading) return; var g=docum
  g.innerHTML=h; document.body.appendChild(g); }
 function query(){ var n=(document.getElementById("qnick").value||"").trim(), box=document.getElementById("qres");
  if(!n){ box.innerHTML='<p class="h" style="color:#c0392b">先輸入暱稱喔</p>'; return; }
- if(!API){ box.innerHTML='<p class="h">查詢功能準備中，想知道進度可以直接私訊芸琪 😊</p>'; return; }
  box.innerHTML='<p class="h">查詢中…</p>'; ls("ml_nick",n);
- var cb="__q"+Date.now(), sc=document.createElement("script"), t=setTimeout(function(){ box.innerHTML='<p class="h">連線有點慢，請稍後再試，或私訊芸琪幫你查 🙏</p>'; },10000);
- window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove();
-  if(!r||!r.ok){ box.innerHTML='<p class="h">查詢失敗，請再試一次</p>'; return; }
+ lookup(n,function(r){
   if(!r.found){ box.innerHTML='<div class="note">找不到「'+esc(n)+'」的紀錄。<br>可能還沒填過，或暱稱不太一樣（試試看填問卷時用的寫法）。</div>'; return; }
   var d={DAY1:r.d1,DAY2:r.d2,DAY3:r.d3}, miss=Object.keys(d).filter(function(k){return !d[k];});
   var h='<div class="days">'+Object.keys(d).map(function(k){return '<span class="'+(d[k]?"ok":"")+'">'+k+(d[k]?" ✓":"")+'</span>';}).join("")+'</div>';
-  h+=miss.length?'<div class="note">還差 '+miss.join("、")+'，完成就能參加加碼抽獎 🎁<br>按上面「開始填寫」，前面沒完成的天數不要打勾，就會帶你補上。</div>':'<div class="note">三天任務都完成了 👏 加碼抽獎已經有你一份，祝你好運！</div>';
-  box.innerHTML=h; try{ var dd=doneDays(); dd.DAY1=dd.DAY1||r.d1; dd.DAY2=dd.DAY2||r.d2; dd.DAY3=dd.DAY3||r.d3; ls("mlDays",JSON.stringify(dd)); }catch(e){} };
- sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); box.innerHTML='<p class="h">查詢失敗，請稍後再試</p>'; }; document.body.appendChild(sc); }
+  h+=miss.length?'<div class="note">還差 '+miss.join("、")+'，完成就能參加加碼抽獎 🎁<br>按上面「開始填寫」，會帶你補上。</div>':'<div class="note">三天任務都完成了 👏 加碼抽獎已經有你一份，祝你好運！</div>';
+  if(r.local) h+='<p class="h">（資料更新到 '+LOCAL_UPD+'，之後剛填的可能還沒顯示）</p>';
+  box.innerHTML=h; });
+}
 function submit(){
  var path=hist.concat([]), PI={start:0,d3:1,d2:2,d1:3,me:4}, used={};
  var f=document.createElement("form"); f.method="POST"; f.action=ACTION; f.target="gfx"; f.style.display="none";
