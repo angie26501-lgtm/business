@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DAY4 學習包｜人生下半場的財務建築學</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--g:#2f6b3a;--g2:#8fb52a;--bg:#fbf7ee;--card:#fff;--tx:#2b2b2b;--mu:#6b6b6b;--gold:#d6aa46;--ln:#e6e0cf;--blue:#4a7fb5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;font-size:17px;line-height:1.7;-webkit-user-select:none;user-select:none}
+textarea{-webkit-user-select:text;user-select:text}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 60px}
+.top{position:sticky;top:0;z-index:30;background:var(--bg);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;font-size:13px;color:var(--mu);box-shadow:0 6px 8px -8px rgba(0,0,0,.25)}
+.top select{max-width:96px}.top>span:last-child{flex:0 0 auto}
+.top span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top button,.top select{font:inherit;font-size:13px;border:1px solid #cfdcb5;background:#fff;border-radius:999px;padding:5px 10px;color:var(--g);cursor:pointer;white-space:nowrap}
+.hero{background:linear-gradient(135deg,#2f6b3a,#5b8a3c);color:#fff;border-radius:20px;padding:22px 20px;margin:14px 0}
+.hero small{opacity:.9;font-size:14px}
+.hero h1{margin:6px 0 8px;font-size:24px;line-height:1.4}
+.hero p{margin:0;font-size:15px;opacity:.95}
+h2{font-size:20px;color:var(--g);margin:26px 0 8px;scroll-margin-top:60px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:16px;margin:12px 0}
+.quote{background:#fff8e6;border-left:5px solid var(--gold);border-radius:12px;padding:12px 16px;font-size:18px;font-weight:700;color:#6b5320;margin:12px 0}
+.img{display:block;border-radius:14px;overflow:hidden;border:1px solid var(--ln);margin:10px 0;position:relative}
+.img img{display:block;width:100%;height:auto}
+.img span{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 9px;border-radius:999px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vs div{border-radius:14px;padding:12px;font-size:15px}
+.vs .a{background:#eef4fb;border:1px solid #c9dbef}.vs .b{background:#fdf5e4;border:1px solid #efdcae}
+.vs b{display:block;font-size:16px;margin-bottom:4px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.three div{background:#f4f9e8;border-radius:12px;padding:10px 6px;font-size:14px}
+.three div i{display:block;font-style:normal;font-size:26px}
+.step{display:flex;gap:12px;align-items:flex-start;margin:10px 0}
+.step .n{flex:0 0 40px;height:40px;border-radius:50%;background:var(--g);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
+.step b{display:block;color:var(--g)}
+.step p{margin:2px 0 0;font-size:15px}
+.flow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flow div{border-radius:14px;padding:12px;font-size:15px;background:#f4f9e8;border:1px solid #cfe3a5}
+.flow div:last-child{background:#eef4fb;border-color:#c9dbef}
+.flow b{display:block}
+details{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:10px 14px;margin:10px 0}
+details summary{cursor:pointer;font-weight:700;color:var(--g)}
+.task{margin:12px 0}
+.task label{display:flex;gap:10px;align-items:flex-start;font-weight:700;cursor:pointer}
+.task input[type=checkbox]{width:22px;height:22px;accent-color:var(--g2);margin-top:3px;flex:0 0 22px}
+.task textarea{width:100%;min-height:80px;margin-top:6px;font:inherit;font-size:15px;border:2px solid var(--ln);border-radius:12px;padding:10px;background:#fff}
+.task textarea:focus{outline:none;border-color:var(--g2)}
+.prog{height:10px;background:#e9e3d2;border-radius:99px;overflow:hidden;margin:6px 0}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g2),var(--g));transition:.3s}
+.cta{background:var(--g);color:#fff;border-radius:16px;padding:18px;margin:20px 0;text-align:center}
+.cta p{margin:0 0 10px}
+.cta a{display:inline-block;background:#fff;color:var(--g);font-weight:700;padding:11px 18px;border-radius:999px;text-decoration:none;margin:4px}
+.note{font-size:12px;color:var(--mu);line-height:1.6;margin-top:20px}
+@media (max-width:420px){.three{grid-template-columns:1fr 1fr 1fr}.vs,.flow{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<div class="top"><span>🌱 金錢好生活・芸琪共學圈 DAY4</span><span style="display:flex;gap:6px;overflow:visible">
+<select id="jump" aria-label="跳到"><option value="">跳到…</option><option value="s1">① 重新認識財務</option><option value="s2">② 迷思與案例</option><option value="s3">③ 選擇權</option><option value="s4">④ 三步驟</option><option value="s5">⑤ 今晚三件事</option><option value="s6">⑥ 心智圖</option></select>
+<button id="reset" type="button">↻ 重新整理</button></span></div>
+
+<div class="hero"><small>10/25 菁羚老師 Zoom 公開課｜芸琪學習筆記</small>
+<h1>人生下半場的財務建築學：<br>從資產累積到生態平衡</h1>
+<p>人生下半場，財務不只是把錢變多，而是讓收入、資產和生活能互相支持。單靠高收入不能保證財務健康，還要有穩穩的資產底蘊，人生轉彎時才有選擇權。</p></div>
+
+<a class="img" href="fimg/d4-info.jpg" target="_blank" rel="noopener"><img src="fimg/d4-info.jpg" alt="人生下半場的財務建築學圖卡"><span>🔍 點圖放大</span></a>
+
+<h2 id="s1">① 重新認識財務：典範轉移</h2>
+<div class="vs">
+ <div class="a"><b>🌸 人生上半場（20–40 歲）</b>核心任務：累積資產、追求成長、增加收入。<br>財務重點：繁華枝葉（年收入與流量）</div>
+ <div class="b"><b>🌳 人生下半場（45 歲＋）</b>任務轉向「向外共生」：資源分配與照護支持。<br>財務重點：深厚根基（有效儲蓄與存量）</div>
+</div>
+<div class="card"><b>無法逆轉的三大改變</b>
+<div class="three" style="margin-top:8px"><div><i>💧</i>收入水源減少</div><div><i>🏥</i>醫療消耗增加</div><div><i>⏳</i>決策修復時間縮短</div></div>
+<p style="margin:10px 0 0;font-size:15px">年輕時做錯決定，還有時間慢慢修；人生下半場，容錯的空間變小了。</p></div>
+<div class="quote">核心思維轉變：從「累積資產」轉向「管理森林的生態平衡」</div>
+
+<h2 id="s2">② 財務健康的迷思與案例</h2>
+<div class="card"><b>高收入，不等於財務健康</b>
+<p style="margin:6px 0 0">老師分享了一個真實家庭：年薪超過 300 萬、有房有車，卻在 50 歲想轉職時發現，財務資源還需要重新安排。</p></div>
+<div class="quote">賺得多是能力，留得住才是選擇權；關鍵在於「有效儲蓄率」。</div>
+
+<h2 id="s3">③ 試算方案與選擇權</h2>
+<div class="card">
+<p style="margin:0">面對人生的岔路（轉職、退休、照顧家人），先試算：現在的收入、支出與資產，能不能支持我想走的那條路？</p>
+<p style="margin:8px 0 0">不夠的話，就調整方案：延後幾年、調整支出、提高儲蓄，或重新配置資產。<b>先看清楚，才有得選。</b></p></div>
+
+<h2 id="s4">④ 建立選擇權：自然法則三步驟</h2>
+<div class="card">
+ <div class="step"><div class="n">01</div><div><b>看見：土壤盤點財務體質</b><p>完整盤點每月收支、資產負債與可動用資金。</p></div></div>
+ <div class="step"><div class="n">02</div><div><b>整理：修剪枝葉優化配置</b><p>辨認財務優勢與缺口，動態調整生活目標與理財投入。</p></div></div>
+ <div class="step"><div class="n">03</div><div><b>行動：落實日常，生根發芽</b><p>把整理變成日常習慣，一步一步落實。</p></div></div>
+</div>
+<div class="card"><b>財務健康的雙重源泉</b>
+<div class="flow" style="margin-top:8px"><div><b>💧 流量健康</b>日常現金流的活水：收支與儲蓄</div><div><b>🏞️ 存量健康</b>長期資產的深潭：資產負債結構</div></div>
+<p style="margin:10px 0 0;font-size:15px">流量讓生活過得下去，存量讓人生轉彎時撐得住，兩個都要顧。</p></div>
+
+<h2 id="s5">⑤ 今晚可以開始的三件事 ✍️</h2>
+<div class="card">
+<p style="margin:0 0 4px;font-size:15px;color:var(--mu)">寫在這裡只會存在你自己的手機，芸琪看不到，安心寫 😊</p>
+<div class="prog"><i id="pf"></i></div><div id="pc" style="font-size:14px;color:var(--g);font-weight:700">完成 0 / 3</div>
+<div class="task"><label><input type="checkbox" data-k="t1">① 寫下每月收支（大概就好）</label><textarea data-k="n1" placeholder="例如：每月收入約＿＿，固定支出約＿＿，每月可存＿＿"></textarea></div>
+<div class="task"><label><input type="checkbox" data-k="t2">② 列一張資產清單</label><textarea data-k="n2" placeholder="例如：存款、保單、房子、投資……隨時能動用的有哪些？"></textarea></div>
+<div class="task"><label><input type="checkbox" data-k="t3">③ 寫下最想改善的一個財務問題</label><textarea data-k="n3" placeholder="例如：想知道退休金夠不夠、想整理保單、想存一筆備用金……"></textarea></div>
+</div>
+
+<h2 id="s6">⑥ 本堂心智圖</h2>
+<a class="img" href="fimg/d4-map.jpg" target="_blank" rel="noopener"><img src="fimg/d4-map.jpg" alt="人生下半場的財務準備心智圖"><span>🔍 點圖放大</span></a>
+
+<details><summary>💬 留給自己的反思（點開看）</summary>
+<p>・人生下半場，我的「森林」裡，最需要照顧的是哪一棵樹？</p>
+<p>・如果明天想轉彎（轉職、退休、照顧家人），我的財務撐得住嗎？</p>
+<p>・這週，我願意先做哪一個小小的整理？</p>
+</details>
+
+<div class="cta"><p>🌱 想把「看見、整理、行動」真的做起來？<br>10/28 開始的《金錢整理五日實踐營》會陪你從整理收支、盤點資產負債開始。</p>
+<a href="https://lin.ee/9SxK8ab" target="_blank" rel="noopener">💬 傳「綠芽」給芸琪了解</a><a href="form.html">📝 去完成任務打卡</a></div>
+
+<p class="note">本學習包為芸琪參加 10/25 菁羚老師公開課的學習筆記整理，內容為觀念分享，不構成投資或保險建議。<br>——財顧芸｜家族傳承生活顧問</p>
+</div>
+<script>
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){return null;}}
+var KEY="ml_d4_";
+function upd(){ var n=0; document.querySelectorAll('input[data-k]').forEach(function(c){ if(c.checked) n++; }); document.getElementById("pf").style.width=(n/3*100)+"%"; document.getElementById("pc").textContent="完成 "+n+" / 3"+(n===3?" 🎉 太棒了！":""); }
+document.querySelectorAll('input[data-k]').forEach(function(c){ c.checked=ls(KEY+c.dataset.k)==="1"; c.addEventListener("change",function(){ ls(KEY+c.dataset.k,c.checked?"1":null); upd(); }); });
+document.querySelectorAll('textarea[data-k]').forEach(function(t){ t.value=ls(KEY+t.dataset.k)||""; t.addEventListener("input",function(){ ls(KEY+t.dataset.k,t.value||null); var c=document.querySelector('input[data-k="t'+t.dataset.k.slice(1)+'"]'); if(t.value.trim()&&c&&!c.checked){ c.checked=true; ls(KEY+c.dataset.k,"1"); upd(); } }); });
+upd();
+document.getElementById("jump").onchange=function(){ var v=this.value; this.value=""; if(v) document.getElementById(v).scrollIntoView({behavior:"smooth",block:"start"}); };
+document.getElementById("reset").onclick=function(){ if(!confirmReset()) return; document.querySelectorAll('[data-k]').forEach(function(x){ ls(KEY+x.dataset.k,null); if(x.type==="checkbox") x.checked=false; else x.value=""; }); upd(); window.scrollTo(0,0); };
+function confirmReset(){ var b=document.getElementById("reset"); if(b.dataset.c==="1"){ b.dataset.c=""; b.textContent="↻ 重新整理"; return true; } b.dataset.c="1"; b.textContent="再按一次清空"; setTimeout(function(){ b.dataset.c=""; b.textContent="↻ 重新整理"; },3000); return false; }
+["copy","cut","contextmenu"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.matches&&e.target.matches("textarea"))) e.preventDefault(); }); });
+</script></body></html>
