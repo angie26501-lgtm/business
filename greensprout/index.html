@@ -163,6 +163,10 @@ img,video{-webkit-user-drag:none;user-drag:none}
 @media (max-width:380px){.sh{flex-direction:column}}
 .easy{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 6px}.easy div{background:#fff7e8;border:1px solid #f0dcae;border-radius:12px;padding:10px;text-align:center}.easy b{display:block;font-size:14.5px;color:var(--navy);line-height:1.4}.easy span{display:block;font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.45}.easy-note{margin:4px 0 10px;font-size:14px;color:#946512;font-weight:700;text-align:center}
 @media (max-width:520px){.easy{grid-template-columns:1fr;gap:6px}.easy div{display:flex;align-items:baseline;gap:10px;text-align:left;padding:10px 14px}.easy b{flex:0 0 auto;font-size:15.5px}.easy span{margin:0;font-size:13.5px}}
+.scene{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.scene span{background:#fff;border:1px solid #cfe0d4;border-radius:16px;padding:3px 10px;font-size:13px;color:var(--g)}
+.aud-cta{margin-top:14px;text-align:center}.aud-cta p{margin:0 0 4px;font-weight:800;color:var(--navy)}.aud-cta .btn{margin-top:8px}
+.aud-tip{display:block;margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff7e8;border:1px solid #f0dcae;color:#7a5410;font-weight:700;font-size:14.5px;text-decoration:none}
+.aud-tip[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -180,7 +184,7 @@ img,video{-webkit-user-drag:none;user-drag:none}
   <a href="#price">💚 優惠價格</a>
   <a href="#days">📅 五日實踐營主題</a>
   <a href="#join">🛒 立即訂購／領優惠碼</a>
-    <a href="#audio" id="audLink">🎧 有聲書</a>
+    <a href="#audio" id="audLink">🎧 開營前暖身有聲書</a>
   <a href="#faq">❓ 常見問題</a>
   <a href="#share">💌 分享給朋友</a>
   <button class="reload" id="reloadBtn">🔄 重新整理頁面</button>
@@ -202,6 +206,7 @@ img,video{-webkit-user-drag:none;user-drag:none}
       <button type="button">保單、存款、房貸很多張，從來沒有一起看過</button>
     </div>
     <p class="score" id="score">還沒選，先誠實點一點 🙂</p>
+    <a class="aud-tip" id="audTip" href="#audio" hidden>🎧 收入不少卻存不下錢？推薦你先聽這段有聲書（24 分鐘）→</a>
     <a class="next" href="#story">看看別人遇到的情況 <span>↓</span></a>
   </section>
 
@@ -307,14 +312,16 @@ img,video{-webkit-user-drag:none;user-drag:none}
 
   <section class="card rv">
     <details class="aud" id="audio">
-      <summary>🎧 有聲書｜年薪三百萬的財務雪崩</summary>
+      <summary>🎧 開營前暖身｜年薪三百萬，為什麼還會財務雪崩？</summary>
       <div class="ab">
-        <b>約 24 分鐘・通勤、做家事時聽</b>
+        <b>約 24 分鐘・先聽過，上實踐營更容易懂</b>
         <p class="hint" style="margin:4px 0 0">高收入不等於財務健康，人生下半場要怎麼準備？</p>
+        <div class="scene"><span>🚗 上下班通勤路上</span><span>🧺 洗碗、晾衣服的時候</span><span>🚶 晚餐後散步</span><span>🌙 睡前放鬆聽</span></div>
         <audio controls controlsList="nodownload noplaybackrate noremoteplayback" oncontextmenu="return false" preload="none" src="audio/salary-avalanche.mp3"></audio>
         <div class="speed"><button data-r="1" class="on">1x</button><button data-r="1.25">1.25x</button><button data-r="1.5">1.5x</button></div>
       </div>
       <img src="life-half.jpg" alt="人生上半場與下半場的財務重點" loading="lazy">
+      <div class="aud-cta"><p>聽完有感覺？10/28 開營，一起動手整理 👇</p><a class="btn buy" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">立即加入綠芽＋五日實踐營<small>自動帶入推薦碼・共學圈優惠價</small></a></div>
     </details>
   </section>
 
@@ -390,7 +397,8 @@ img,video{-webkit-user-drag:none;user-drag:none}
   (function(){
     var bs=document.querySelectorAll('.chk button'),sc=document.getElementById('score');
     var msg=['還沒選，先誠實點一點 🙂','中了 1 個：已經值得花 5 分鐘了解一下 👇','中了 2 個：建議幫自己的財務做一次健檢 👇','中了 3 個以上：你的財務正在發出訊號，往下看怎麼開始 👇'];
-    bs.forEach(function(b){b.addEventListener('click',function(){b.classList.toggle('on');var n=document.querySelectorAll('.chk button.on').length;sc.textContent=msg[Math.min(n,3)];})});
+    bs.forEach(function(b){b.addEventListener('click',function(){b.classList.toggle('on');var n=document.querySelectorAll('.chk button.on').length;sc.textContent=msg[Math.min(n,3)];var t=document.getElementById('audTip');if(t)t.hidden=!bs[0].classList.contains('on');})});
+    var at=document.getElementById('audTip');if(at)at.addEventListener('click',function(e){e.preventDefault();var d=document.getElementById('audio');d.open=true;d.closest('section').classList.add('in');d.scrollIntoView({behavior:'smooth',block:'start'});});
     var rv=document.querySelectorAll('.rv');
     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.08});rv.forEach(function(x){io.observe(x)});}
     else rv.forEach(function(x){x.classList.add('in')});
