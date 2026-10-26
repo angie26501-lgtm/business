@@ -192,7 +192,7 @@ document.addEventListener("click",function(e){
  else if(a.dataset.act==="again"){ var keep={}; ["29880217","1252109571","398296623","1091889686"].forEach(function(k){ if(A[k]) keep[k]=A[k]; }); A=keep; OTH={}; var dd1=doneDays(); PRE={d1:!!dd1.DAY1,d2:!!dd1.DAY2}; hist=[]; cur="start"; render(); }
 });
 document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; markChips(+t.dataset.e); var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
-document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&cur==="start") autoPre(); });
+document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&cur==="start") setTimeout(autoPre,300); });
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
@@ -217,8 +217,9 @@ var RES=null;
 function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement("script"), t=setTimeout(function(){ fail&&fail(); },10000);
  window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
  sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
-function autoPre(){ var n=(A[29880217]||"").trim(); if(!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; render(true);
- lookup(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3,real:r&&r.real,line:r&&r.line,mail:r&&r.mail}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start"){ render(true); guide(); } },
+function needPre(){ var c=chosen(); return c&&c!=="d1"; }
+function autoPre(){ var n=(A[29880217]||"").trim(); if(!n||(RES&&RES.nick===n)) return; RES={nick:n,loading:1}; if(needPre()) render(true);
+ lookup(n,function(r){ RES={nick:n,ok:r&&r.ok,found:r&&r.found,d1:r&&r.d1,d2:r&&r.d2,d3:r&&r.d3,real:r&&r.real,line:r&&r.line,mail:r&&r.mail}; if(RES.found){ PRE.d1=!!(PRE.d1||RES.d1); PRE.d2=!!(PRE.d2||RES.d2); } if(cur==="start"){ if(needPre()) render(true); guide(); } },
   function(){ RES={nick:n,fail:1}; if(cur==="start") render(true); }); }
 var NAMES=null;
 function loadNames(){ if(!API||NAMES) return; NAMES=[]; var cb="__n"+Date.now(),sc=document.createElement("script"); window[cb]=function(r){ delete window[cb]; sc.remove(); NAMES=(r&&r.names)||[]; var dl=document.getElementById("nicklist"); if(dl) dl.innerHTML=NAMES.map(function(x){return '<option value="'+esc(x)+'">';}).join(""); }; sc.src=API+(API.indexOf("?")>=0?"&":"?")+"list=1&callback="+cb; document.body.appendChild(sc); }
