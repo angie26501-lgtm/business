@@ -193,6 +193,7 @@ document.addEventListener("click",function(e){
 });
 document.addEventListener("input",function(e){ var t=e.target; if(t.dataset.e){ A[+t.dataset.e]=t.value; markChips(+t.dataset.e); var c=t.closest(".card"); if(c&&t.value.trim()) c.classList.remove("bad"); } if(t.dataset.oth){ OTH[+t.dataset.oth]=t.value; } });
 document.addEventListener("change",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&cur==="start") setTimeout(autoPre,300); });
+var NICK_T=null; document.addEventListener("input",function(e){ if(e.target.dataset&&e.target.dataset.e==="29880217"&&cur==="start"&&!e.isComposing){ clearTimeout(NICK_T); NICK_T=setTimeout(function(){ if((A[29880217]||"").trim().length>=2) autoPre(); },900); } });
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
