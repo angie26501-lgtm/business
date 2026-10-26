@@ -223,7 +223,7 @@ function autoPre(){ var n=(A[29880217]||"").trim(); if(!n||(RES&&RES.nick===n)) 
 var NAMES=null;
 function loadNames(){ if(!API||NAMES) return; NAMES=[]; var cb="__n"+Date.now(),sc=document.createElement("script"); window[cb]=function(r){ delete window[cb]; sc.remove(); NAMES=(r&&r.names)||[]; var dl=document.getElementById("nicklist"); if(dl) dl.innerHTML=NAMES.map(function(x){return '<option value="'+esc(x)+'">';}).join(""); }; sc.src=API+(API.indexOf("?")>=0?"&":"?")+"list=1&callback="+cb; document.body.appendChild(sc); }
 function closeGuide(){ var g=document.getElementById("guide"); if(g) g.remove(); }
-function guide(){ closeGuide(); var R=RES; if(!R||R.loading) return; var g=document.createElement("div"); g.id="guide"; var h='<button class="gx" data-act="gclose" aria-label="關閉">×</button><div class="gh">🌱 小綠芽提醒</div>';
+function guide(){ closeGuide(); var R=RES; if(!R||R.loading||R.fail||!R.found) return; var g=document.createElement("div"); g.id="guide"; var h='<button class="gx" data-act="gclose" aria-label="關閉">×</button><div class="gh">🌱 小綠芽提醒</div>';
  if(R.fail){ h+='<p>現在查不到之前的紀錄，沒關係，照常往下填就好 😊</p>'; }
  else if(!R.found){ h+='<p>找不到「'+esc(R.nick)+'」之前的紀錄。</p><p class="gs">第一次填嗎？歡迎你！如果之前填過，試試看當時用的暱稱寫法 🙂</p>'; }
  else { var miss=[1,2,3].filter(function(z){return !R["d"+z];});
