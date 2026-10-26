@@ -237,18 +237,21 @@ var NICK_T=null; document.addEventListener("input",function(e){ if(e.target.data
 function saveBasics(){ PAGES.start.items.forEach(function(q){ if(q.save&&A[q.e]) ls("ml_"+q.save,A[q.e]); }); }
 function prefill(){ if(cur!=="start") return; PAGES.start.items.forEach(function(q){ if(q.save&&!A[q.e]){ var v=ls("ml_"+q.save); if(v) A[q.e]=v; } }); }
 
-/* 進度資料（芸琪從試算表整理，更新：10/26 11:45）；Apps Script 查詢失敗時使用 */
-var LOCAL_UPD="10/26 11:45";
+/* 進度資料（芸琪從試算表整理，更新：10/26 18:30）；Apps Script 查詢失敗時使用 */
+var LOCAL_UPD="10/26 18:30";
 var LOCAL=[
- {n:["桂琴","余桂琴","sophia"],d:[0,1,1]},
+ {n:["桂琴","余桂琴","sophia"],d:[1,1,1]},
  {n:["Kenny","阿德","吳耿德"],d:[0,0,1]},
  {n:["Esther","張雁筑","雁筑"],d:[0,1,0]},
  {n:["靜靜","謝明靜"],d:[1,1,0]},
- {n:["布蘭達","阿布媽媽","Brenda"],d:[0,1,1]},
+ {n:["布蘭達","阿布媽媽","Brenda","賴季芳"],d:[1,1,1]},
  {n:["霈均","段霈均"],d:[0,0,0]},
  {n:["佳佳","吳佳純"],d:[1,1,1]},
  {n:["佳倩","韓佳倩"],d:[1,1,1]},
- {n:["雅娟","林雅娟"],d:[0,0,1]}
+ {n:["雅娟","林雅娟"],d:[0,0,1]},
+ {n:["Lucie","游淑峰"],d:[1,0,0]},
+ {n:["宏","吳昱宏","昱宏"],d:[1,1,1]},
+ {n:["小歪","吳晏妤"],d:[1,1,1]}
 ];
 function nrm(x){return String(x||"").replace(/[\s　]/g,"").toLowerCase();}
 function localLookup(n){ var k=nrm(n),hit=null; LOCAL.forEach(function(r){ if(hit) return; r.n.forEach(function(a){ var b=nrm(a); if(b===k||(k.length>=2&&(b.indexOf(k)>=0||k.indexOf(b)>=0))) hit=r; }); });
