@@ -161,6 +161,8 @@ img,video{-webkit-user-drag:none;user-drag:none}
 .prog{position:fixed;left:0;top:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),#d9b766);z-index:30;transition:width .1s}
 .sh{display:flex;gap:14px;align-items:center;margin-top:12px}.sh img{flex:0 0 132px;border-radius:10px;border:1px solid var(--bd)}.sh>div{flex:1;min-width:0}.sh .btn{font-size:16px;padding:12px;margin-top:0}.sh .btn+.btn{margin-top:8px}
 @media (max-width:380px){.sh{flex-direction:column}}
+.easy{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 6px}.easy div{background:#fff7e8;border:1px solid #f0dcae;border-radius:12px;padding:10px;text-align:center}.easy b{display:block;font-size:14.5px;color:var(--navy);line-height:1.4}.easy span{display:block;font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.45}.easy-note{margin:4px 0 10px;font-size:14px;color:#946512;font-weight:700;text-align:center}
+@media (max-width:520px){.easy{grid-template-columns:1fr;gap:6px}.easy div{display:flex;align-items:baseline;gap:10px;text-align:left;padding:10px 14px}.easy b{flex:0 0 auto;font-size:15.5px}.easy span{margin:0;font-size:13.5px}}
 </style>
 </head>
 <body>
@@ -234,6 +236,12 @@ img,video{-webkit-user-drag:none;user-drag:none}
   <section class="card rv" id="days">
     <span class="step">STEP 4／6・有人陪你</span>
     <h2>五天，陪你真正開始了解自己的財務現況</h2>
+    <div class="easy">
+      <div><b>⏱️ 每天 20 分鐘以內</b><span>一支短短的教學影片</span></div>
+      <div><b>✍️ 簡單財務小任務</b><span>跟著做，不用很會算</span></div>
+      <div><b>🕊️ 不用固定時間</b><span>不必準時上直播，照自己的步調</span></div>
+    </div>
+    <p class="easy-note">工作再忙、家裡再多事，也能跟得上 💛</p>
     <ul class="days">
       <li><span class="d">Day 1</span><div><b>看見我的財務現況</b><span>整理收入與支出</span></div></li>
       <li><span class="d">Day 2</span><div><b>看見我的財務家底</b><span>完成資產與負債盤點</span></div></li>
