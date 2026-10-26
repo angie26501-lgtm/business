@@ -267,7 +267,7 @@ function submitF(){
   var em=$('em').value.trim(), eOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em); $('eEm').style.display=eOk?'none':'block'; if(!eOk)ok=false;
   if(!ok)return;
   code=(mode==='mail'?'M':'C')+'1025-'+ph.slice(-4)+(src?'-'+src:'');
-  var rec={type:mode==='mail'?'Email 報名直播':'預約 1 對 1 財務對話',name:nm,phone:ph,email:em,time:mode==='one'?$('tm').value:'',topic:mode==='one'?$('tp').value:'',code:code,src:src};
+  var rec={event:EVENT_NAME,type:mode==='mail'?'Email 報名直播':'預約 1 對 1 財務對話',name:nm,phone:ph,email:em,time:mode==='one'?$('tm').value:'',topic:mode==='one'?$('tp').value:'',code:code,src:src};
   sendGF(rec);
   if(mode==='mail'){$('mName').textContent=nm;$('mMail').textContent=em;
     if(!GF.url){mailIt(rec)}
@@ -302,7 +302,9 @@ function ics(){
 
 var MAILTO='angie26501@gmail.com';
 /* Google 表單設定：建好表單後填入 url（…/formResponse）與各題 entry 編號 */
-var GF={url:'',ids:{type:'',name:'',phone:'',email:'',time:'',topic:'',code:'',src:''}};
+var GF={url:'https://docs.google.com/forms/d/e/1FAIpQLSc-ZuyxVjlUeEvodzOlDiTVx5E0Fy0kwKJhXDt8PmGxFLa_lw/formResponse',
+ ids:{event:'entry.1745961178',type:'entry.369497671',name:'entry.2032343358',phone:'entry.919827499',email:'entry.794037502',time:'entry.69406418',topic:'entry.1405620963',code:'entry.896961882',src:'entry.529371748'}};
+var EVENT_NAME='10/25 人生下半場公開課（顏菁羚老師）';
 function sendGF(r){if(!GF.url)return;try{var b=new URLSearchParams();for(var k in GF.ids){if(GF.ids[k])b.append(GF.ids[k],r[k]||'')}
   fetch(GF.url,{method:'POST',mode:'no-cors',body:b})}catch(e){}}
 function mailIt(r){var sub='【Email 報名】10/25 人生下半場公開課｜'+r.name;
