@@ -49,6 +49,8 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 .ref{margin-top:10px;background:#fff;border:1px dashed var(--g2);border-radius:12px;padding:8px 12px}.ref summary{cursor:pointer;font-weight:700;color:var(--g);font-size:15px}
 #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:#2b2b2b;color:#fff;padding:10px 16px;border-radius:999px;font-size:15px;opacity:0;transition:.25s;z-index:60;max-width:calc(100vw - 32px);text-align:center}#toast.on{opacity:1;transform:translateX(-50%)}
 .stamp{display:inline-block;margin-top:6px;font-size:13px;background:#f4f9e8;color:var(--g);padding:3px 10px;border-radius:999px}.shot{background:#fff;border:2px solid var(--g);border-radius:16px;padding:14px;margin:14px 0;text-align:left}.shot .sq{margin:0;font-weight:700;color:var(--g);font-size:17px}.shot .st{margin:6px 0 10px;font-size:15px}
+#missbar{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:55;font:inherit;font-size:15px;background:#c0392b;color:#fff;border:0;border-radius:999px;padding:11px 18px;box-shadow:0 6px 18px rgba(0,0,0,.25);cursor:pointer;max-width:calc(100vw - 24px);white-space:nowrap}#missbar b{font-size:17px}.card.flash{animation:fl 1s}@keyframes fl{0%,100%{box-shadow:none}30%{box-shadow:0 0 0 4px rgba(192,57,43,.35)}}
+.chainbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 0;font-size:13px}.chainbar span{padding:3px 10px;border-radius:999px;background:#eee;color:#777}.chainbar span.ok{background:var(--g2);color:#fff}.chainbar span.now{background:var(--g);color:#fff;font-weight:700}.chainbar i{font-style:normal;color:#aaa}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
 .top{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0;margin:-10px 0 0;box-shadow:0 6px 8px -8px rgba(0,0,0,.25)}
 </style></head><body><div class="wrap">
@@ -138,6 +140,7 @@ function render(keep){
   if(Object.keys(dd).length) h+='<p class="sec" style="text-align:center">這支手機已完成：</p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd[x]?"ok":"")+'">'+x+(dd[x]?" ✓":"")+'</span>';}).join("")+'</div>';
   h+='<details class="rules"><summary>🎁 加碼抽獎說明（點開看）</summary><div class="note" style="margin:8px 0">📢 抽獎時間已延長到 <b>10/26（一）晚上 8 點</b>，圖卡上寫的 10/25 以這個時間為準。<br>三天任務都完成（同一個暱稱）就有抽獎資格 🎁</div>'+imgH("lottery")+'<details class="rules" style="margin:8px 0 0"><summary>🌿 獎品介紹：盜賊滾珠精油</summary>'+imgH("thieves")+'<p class="h">產品介紹圖由經銷商提供，僅供參考，不作為醫療或疾病預防用途。</p></details></details>';
   h+='<details class="rules"><summary>💚 我們的小約定（點開看）</summary>① 歡迎交流與提問，也請尊重每個人的經驗與選擇<br>② 不需要公開自己的收入、存款、負債或其他個人財務資料（這份問卷也不會問）<br>③ 請勿張貼廣告、陌生連結，或私訊推銷其他群友<br>④ 群內會分享免費知識，也可能介紹相關工具與付費活動，是否參與完全由你決定<br>⑤ 看到貼文，按一個表情或傳一張貼圖回應就好</details>';
+  var dr=getDraft(); if(dr) h+='<div class="note">📝 你上次填到一半（暱稱：'+esc(dr.A[29880217])+'），要接著填嗎？<div class="gbtns" style="margin-top:8px"><button type="button" class="gy" data-act="resume">繼續上次的填寫</button><button type="button" class="gn" data-act="discard">重新開始</button></div></div>';
   h+='<div class="nav"><button class="btn" data-go="start">開始填寫 →</button></div>';
   h+='<div class="card" id="qbox"><p class="q">📊 查我的任務進度</p><p class="h">輸入你填問卷時用的暱稱，看看三天任務完成了幾天</p><div style="display:flex;gap:8px"><input type="text" id="qnick" placeholder="例如：布蘭達" value="'+esc(ls("ml_nick")||"")+'" autocomplete="off"><button class="btn" style="flex:0 0 auto;padding:10px 16px" data-act="query">查詢</button></div><div id="qres"></div></div>';
  } else if(cur==="end"){
@@ -153,11 +156,12 @@ function render(keep){
  } else if(cur==="sending"){
   h+='<div class="done"><div class="big">⏳</div><h1>送出中…</h1><p class="sec">請稍等，不要關閉頁面</p></div>';
  } else {
-  var P=PAGES[cur]; h+='<h1>'+esc(P.title)+'</h1><p class="sec">'+esc(P.sec)+'</p>'+(P.img?imgH(P.img):'');
+  var P=PAGES[cur], chP=chain(); if(/^d[123]$/.test(cur)&&chP.length>1){ var ci=chP.indexOf(cur); h+='<div class="chainbar">'+chP.map(function(x,i){ return '<span class="'+(i<ci?"ok":i===ci?"now":"")+'">'+(i<ci?"✓ ":"")+"DAY"+x.slice(1)+'</span>'; }).join('<i>→</i>')+'<i>→</i><span>送出</span></div>'; }
+  h+='<h1>'+esc(P.title)+'</h1><p class="sec">'+esc(P.sec)+'</p>'+(P.img?imgH(P.img):'');
   P.items.forEach(function(q,qi){ h+=qHTML(q,qi); });
   h+='<div class="nav"><button class="btn ghost" data-act="back">← 上一頁</button><button class="btn" data-act="next">'+(nextOf(P)==="END"?"送出 ✓":"下一頁 →")+'</button></div>';
  }
- if(cur!=="start") closeGuide(); else loadNames(); var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0); document.querySelectorAll("[data-ce]").forEach(function(b){ markChips(+b.dataset.ce); });
+ var mb=document.getElementById("missbar"); if(mb) mb.remove(); if(cur!=="start") closeGuide(); else loadNames(); var y=window.scrollY; app.innerHTML=h; window.scrollTo(0,keep?y:0); document.querySelectorAll("[data-ce]").forEach(function(b){ markChips(+b.dataset.ce); });
 }
 function qHTML(q,qi){
  if(q.type==="pre"){ var c=chosen(); if(!c||c==="d1") return ""; var n=+c.slice(1),nk=(A[29880217]||"").trim(),R=(RES&&RES.nick===nk)?RES:null;
@@ -206,8 +210,10 @@ document.addEventListener("click",function(e){
  var sc=e.target.closest("[data-sc]"); if(sc){ A[+sc.dataset.sc]=sc.dataset.v; var c2=sc.closest(".card"),qi2=+c2.dataset.qi; c2.outerHTML=qHTML(PAGES[cur].items[qi2],qi2); return; }
  var a=e.target.closest("[data-act]"); if(!a) return;
  if(a.dataset.act==="back"){ cur=hist.pop()||"intro"; render(); }
- else if(a.dataset.act==="next"){ closeGuide(); if(!valid()){ var bad=document.querySelectorAll(".card.bad").length; toast("還有 "+bad+" 題沒回答，已幫你標紅色 👆"); return; } var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
+ else if(a.dataset.act==="next"){ closeGuide(); if(!valid()){ var bad=document.querySelectorAll(".card.bad").length; missBar(); return; } var n=nextOf(PAGES[cur]); if(cur==="start") saveBasics(); if(n==="END"){ hist.push(cur); submit(); } else { hist.push(cur); cur=n; render(); } }
  else if(a.dataset.act==="query"){ query(); }
+ else if(a.dataset.act==="resume"){ var d=getDraft(); if(d){ A=d.A||{}; OTH=d.OTH||{}; PRE=d.PRE||{}; hist=d.hist||[]; cur=d.cur||"start"; render(); toast("已接續上次的填寫 👍"); } }
+ else if(a.dataset.act==="discard"){ clearDraft(); render(true); }
  else if(a.dataset.act==="gclose"){ closeGuide(); }
  else if(a.dataset.act==="sprout"){ try{ navigator.clipboard&&navigator.clipboard.writeText("綠芽"); }catch(x){} ls("ml_sprout","yes"); return; }
  else if(a.dataset.act==="sproutno"){ ls("ml_sprout","no"); var gc=a.closest(".green"); if(gc) gc.innerHTML='<p class="gt" style="margin:0">沒問題 😊 之後想了解，隨時私訊芸琪就好 🌱</p>'; }
@@ -286,6 +292,20 @@ function query(){ var n=(document.getElementById("qnick").value||"").trim(), box
   if(r.local) h+='<p class="h">（資料更新到 '+LOCAL_UPD+'，之後剛填的可能還沒顯示）</p>';
   box.innerHTML=h; });
 }
+function missBar(){ var n=document.querySelectorAll("#app .card.bad").length, t=document.getElementById("missbar");
+ if(!n){ if(t) t.remove(); return; }
+ if(!t){ t=document.createElement("button"); t.id="missbar"; t.type="button"; document.body.appendChild(t);
+  t.onclick=function(){ var cs=[].slice.call(document.querySelectorAll("#app .card.bad")); if(!cs.length){ missBar(); return; } var mid=window.innerHeight*0.35, nx=null;
+   for(var i=0;i<cs.length;i++){ if(cs[i].getBoundingClientRect().top>mid+10){ nx=cs[i]; break; } } if(!nx) nx=cs[0];
+   nx.scrollIntoView({behavior:"smooth",block:"center"}); nx.classList.remove("flash"); void nx.offsetWidth; nx.classList.add("flash"); }; }
+ t.innerHTML='⚠️ 還有 <b>'+n+'</b> 題沒回答・點我跳到下一題 👉'; }
+document.addEventListener("click",function(){ setTimeout(missBar,30); });
+document.addEventListener("input",function(){ setTimeout(missBar,30); });
+function saveDraft(){ if(["start","d1","d2","d3","me"].indexOf(cur)<0) return; try{ localStorage.setItem("ml_draft",JSON.stringify({t:Date.now(),A:A,OTH:OTH,PRE:PRE,hist:hist,cur:cur})); }catch(e){} }
+function getDraft(){ try{ var d=JSON.parse(localStorage.getItem("ml_draft")||"null"); if(d&&Date.now()-d.t<86400000&&d.A&&d.A[29880217]) return d; }catch(e){} return null; }
+function clearDraft(){ try{ localStorage.removeItem("ml_draft"); }catch(e){} }
+document.addEventListener("click",function(){ setTimeout(saveDraft,60); },true);
+document.addEventListener("input",function(){ setTimeout(saveDraft,60); },true);
 function toast(m){ var t=document.getElementById("toast"); if(!t){ t=document.createElement("div"); t.id="toast"; document.body.appendChild(t); } t.textContent=m; t.className="on"; clearTimeout(t._h); t._h=setTimeout(function(){ t.className=""; },2600); }
 function submit(){ if(navigator.onLine===false){ toast("目前沒有網路，請連上網路後再按一次送出 🙏"); hist.pop(); return; }
  var path=hist.concat([]), PI={start:0,d3:1,d2:2,d1:3,me:4}, used={};
@@ -302,10 +322,10 @@ function submit(){ if(navigator.onLine===false){ toast("目前沒有網路，請
  document.body.appendChild(f);
  var dd=doneDays(); if(used.d1) dd.DAY1=1; if(used.d2) dd.DAY2=1; if(used.d3) dd.DAY3=1; var nk5=(A[29880217]||"").trim(); if(RES&&RES.nick===nk5&&RES.found){ if(RES.d1) dd.DAY1=1; if(RES.d2) dd.DAY2=1; if(RES.d3) dd.DAY3=1; }
  cur="sending"; render();
- var fr=document.getElementById("gfx"), fin=false; function ok(){ if(fin) return; fin=true; ls("mlDays",JSON.stringify(dd)); cur="end"; render(); }
+ var fr=document.getElementById("gfx"), fin=false; function ok(){ if(fin) return; fin=true; clearDraft(); ls("mlDays",JSON.stringify(dd)); cur="end"; render(); }
  fr.onload=ok; setTimeout(ok,6000); f.submit();
 }
-document.getElementById("reset").onclick=function(){ A={}; OTH={}; PRE={}; AC_MSG=""; RES=null; hist=[]; cur="intro"; render(); };
+document.getElementById("reset").onclick=function(){ A={}; OTH={}; PRE={}; AC_MSG=""; RES=null; hist=[]; cur="intro"; clearDraft(); render(); };
 ["copy","cut","contextmenu"].forEach(function(ev){ document.addEventListener(ev,function(e){ if(!(e.target.matches&&e.target.matches("input,textarea"))) e.preventDefault(); }); });
 document.addEventListener("paste",function(e){ var t=e.target; if(!(t.dataset&&t.dataset.paste)) e.preventDefault(); });
 render();
