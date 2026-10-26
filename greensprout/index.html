@@ -10,48 +10,67 @@
 <meta property="og:description" content="共學圈優惠價 NT$1,800（原價 NT$3,600），再贈送《金錢整理五日實踐營》10/28–11/1。傳「綠芽」給芸琪，領優惠碼 🌱">
 <meta property="og:image" content="https://angie26501-lgtm.github.io/business/greensprout/poster.jpg">
 <meta property="og:url" content="https://angie26501-lgtm.github.io/business/greensprout/">
-<meta name="theme-color" content="#1f4e79">
+<meta name="theme-color" content="#17375e">
 <style>
-:root{--navy:#1b3f66;--blue:#1f6fb2;--sky:#eaf3fb;--g:#2f6b3f;--gl:#e8f3ea;--cream:#fbfaf6;--gold:#c99a3f;--line:#06c755;--ink:#22303c;--mut:#667684;--r:18px}
+:root{--navy:#17375e;--blue:#25507f;--sky:#eef2f7;--g:#2e6e52;--gl:#e9f1ec;--cream:#f7f5ef;--gold:#b08a3e;--line:#1f8a52;--lined:#16683d;--ink:#1f2a36;--mut:#5f6b78;--bd:#e2e7ee;--r:16px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(180deg,#f2f7fc 0,#fbfaf6 520px);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%;padding-bottom:92px}
+body{margin:0;background:#f3f5f8;color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;-webkit-text-size-adjust:100%;padding-bottom:92px}
 .wrap{max-width:600px;margin:0 auto;padding:0 16px}
 .poster{display:block;width:100%;height:auto;border-radius:0 0 22px 22px;box-shadow:0 10px 30px rgba(27,63,102,.15)}
 @media (min-width:640px){.poster{border-radius:22px;margin-top:16px}}
-.card{background:#fff;border-radius:var(--r);padding:20px;margin-top:16px;box-shadow:0 4px 18px rgba(27,63,102,.08)}
+.page{max-width:600px;margin:0 auto}
+.side .side-btn{display:none}
+@media (min-width:640px){.poster{max-width:600px;margin:16px auto 0}}
+@media (min-width:960px){
+ body{padding-bottom:40px}
+ .page{max-width:1120px;display:grid;grid-template-columns:400px minmax(0,1fr);gap:32px;padding:24px 24px 0;align-items:start}
+ .side{position:sticky;top:24px}
+ .poster{margin:0 auto;border-radius:16px;width:auto;max-width:100%;max-height:calc(100vh - 130px);box-shadow:0 8px 24px rgba(23,55,94,.14)}
+ .side .side-btn{display:block;margin-top:14px;font-size:17px;padding:14px;box-shadow:0 4px 0 var(--lined)}
+ .wrap{max-width:none;padding:0}
+ .wrap>.card:first-child{margin-top:0}
+ .bar{display:none}
+ .page .feat{grid-template-columns:1fr 1fr;max-width:440px}
+ .strip{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;margin:12px 0 0;padding:0}
+ .steps div{font-size:14.5px}
+ .price .now{font-size:48px}
+}
+@media (min-width:1200px){.page{grid-template-columns:440px minmax(0,1fr);gap:40px}}
+
+.card{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:22px;margin-top:16px;box-shadow:0 2px 10px rgba(23,55,94,.05)}
 h2{font-size:21px;line-height:1.4;margin:0 0 12px;color:var(--navy)}
-.kicker{display:inline-block;font-size:13px;font-weight:700;color:var(--blue);background:var(--sky);border-radius:20px;padding:2px 12px;margin-bottom:8px}
+.kicker{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.08em;color:var(--gold);border-bottom:1.5px solid var(--gold);padding:0 0 2px;margin-bottom:10px}
 .price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .price .now{font-size:42px;font-weight:900;color:var(--navy);line-height:1.1}
 .price .now small{font-size:16px;font-weight:700}
 .price .old{color:var(--mut);text-decoration:line-through}
 .sub{color:var(--mut);margin:6px 0 0}
-.gift{margin-top:14px;background:#fff7e8;border:1.5px dashed var(--gold);border-radius:14px;padding:12px 14px}
-.gift b{color:#946512}
+.gift{margin-top:16px;background:var(--cream);border-left:4px solid var(--gold);border-radius:4px 12px 12px 4px;padding:12px 16px}
+.gift b{color:var(--navy)}
 .days{list-style:none;padding:0;margin:0}
 .days li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #edf1f5}
 .days li:last-child{border:0}
-.days .d{flex:0 0 58px;height:28px;border-radius:14px;background:var(--blue);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.days .d{flex:0 0 58px;height:28px;border-radius:6px;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .days b{display:block}.days span{color:var(--mut);font-size:14px}
 .team{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.team div{background:var(--sky);border-radius:14px;padding:12px}
-.team b{font-size:17px;color:var(--navy)}.team em{font-style:normal;font-size:12px;color:var(--blue);margin-left:4px}
+.team div{background:var(--sky);border-radius:12px;padding:12px 14px;border-left:3px solid var(--navy)}
+.team b{font-size:17px;color:var(--navy)}.team em{font-style:normal;font-size:12px;color:var(--gold);margin-left:6px;font-weight:700}
 .team p{margin:4px 0 0;font-size:13px;color:var(--mut);line-height:1.55}
-.cta{background:linear-gradient(160deg,#1f4e79,#163a5c);color:#fff;text-align:center}
+.cta{background:linear-gradient(160deg,#1d4470,#132c4a);color:#fff;text-align:center;border:0}
 .cta h2{color:#fff}
 .cta p{margin:0 0 4px;opacity:.92}
 .btn{display:block;width:100%;text-align:center;text-decoration:none;font-weight:900;font-size:19px;line-height:1.35;border:0;border-radius:16px;padding:17px 12px;cursor:pointer;font-family:inherit}
-.btn.line{background:var(--line);color:#fff;box-shadow:0 6px 0 #04913f;margin-top:16px}
-.btn.line:active{transform:translateY(3px);box-shadow:0 3px 0 #04913f}
+.btn.line{background:var(--line);color:#fff;box-shadow:0 5px 0 var(--lined);margin-top:16px}
+.btn.line:active{transform:translateY(3px);box-shadow:0 2px 0 var(--lined)}
 .btn.line small{display:block;font-size:13px;font-weight:500;opacity:.95}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;text-align:left}
-.steps div{background:rgba(255,255,255,.1);border-radius:12px;padding:10px;font-size:13.5px;line-height:1.5}
-.steps i{display:flex;width:24px;height:24px;border-radius:50%;background:#fff;color:var(--navy);font-style:normal;font-weight:900;align-items:center;justify-content:center;margin-bottom:6px;font-size:13px}
+.steps div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;font-size:13.5px;line-height:1.5}
+.steps i{display:flex;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#fff;font-style:normal;font-weight:900;align-items:center;justify-content:center;margin-bottom:6px;font-size:13px}
 .copyk{margin-top:12px;background:transparent;border:1.5px solid rgba(255,255,255,.6);color:#fff;border-radius:12px;padding:8px 14px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer}
 .vids h2{margin-bottom:4px}
 .feat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.v{position:relative;border-radius:14px;overflow:hidden;background:#0f2236;aspect-ratio:9/16;cursor:pointer}
+.v{position:relative;border-radius:12px;overflow:hidden;background:#0f2236;aspect-ratio:9/16;cursor:pointer}
 .v img,.v video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .v .play{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 .v .play:after{content:"";position:absolute;left:23px;top:17px;border-left:18px solid var(--navy);border-top:12px solid transparent;border-bottom:12px solid transparent}
@@ -76,7 +95,9 @@ footer b{color:var(--navy);font-size:15px}
 </style>
 </head>
 <body>
-<img class="poster" src="poster.jpg" width="800" height="1486" alt="綠芽｜財務體質管理系統・金錢整理五日實踐營 10/28–11/1・共學圈優惠價 1800 元（原價 3600 元）">
+<div class="page">
+<aside class="side"><img class="poster" src="poster.jpg" width="800" height="1431" alt="綠芽｜財務體質管理系統・金錢整理五日實踐營 10/28–11/1・共學圈優惠價 1800 元（原價 3600 元）">
+<a class="btn line side-btn" href="https://lin.ee/8ipLGMe" target="_blank" rel="noopener">傳「綠芽」給芸琪，領優惠碼</a></aside>
 <div class="wrap">
 
   <section class="card">
@@ -97,7 +118,7 @@ footer b{color:var(--navy);font-size:15px}
       <li><span class="d">Day 5</span><div><b>我的 90 天財務養成計畫</b><span>完成三項具體行動</span></div></li>
     </ul>
     <div class="team" style="margin-top:14px">
-      <div><b>顏菁羚</b><em>帶領</em><p>菁喜商學創辦人<br>首席財務建築師<br>金錢關係諮詢師</p></div>
+      <div><b>顏菁羚</b><em>帶領</em><p>首席財務建築師<br>金錢關係諮詢師</p></div>
       <div><b>陳芸琪</b><em>助教</em><p>馥芸財富學苑創辦人<br>家族傳承生活顧問<br>財務建築師</p></div>
     </div>
   </section>
@@ -147,6 +168,7 @@ footer b{color:var(--navy);font-size:15px}
   <footer><b>馥芸財富學苑・財顧芸｜陳芸琪</b><br>家族傳承生活顧問</footer>
 </div>
 
+</div>
 <div class="bar" id="bar"><a class="btn line" href="https://lin.ee/8ipLGMe" target="_blank" rel="noopener">傳「綠芽」給芸琪，領優惠碼</a></div>
 <div class="toast" id="toast">已複製「綠芽」✓ 到 LINE 貼上送出就好</div>
 <script>
