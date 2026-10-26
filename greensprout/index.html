@@ -32,7 +32,7 @@ body{margin:0;background:#f3f5f8;color:var(--ink);font-family:"Noto Sans TC","Pi
  .wrap>.card:first-child{margin-top:0}
  .bar{display:none}
  .page .feat{grid-template-columns:1fr 1fr;max-width:440px}
- .strip{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;margin:12px 0 0;padding:0}
+ .page .strip{max-width:440px}
  .steps div{font-size:14.5px}
  .price .now{font-size:48px}
 }
@@ -86,9 +86,9 @@ h2{font-size:21px;line-height:1.4;margin:0 0 12px;color:var(--navy)}
 .v .cap{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 9px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-size:13.5px;font-weight:700;line-height:1.4}
 .v .cap span{display:block;font-weight:400;font-size:12px;opacity:.85}
 .v.on .play,.v.on .cap,.v.on img{display:none}
-.strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:12px -16px 0;padding:0 16px 6px}
-.strip .v{flex:0 0 44%;scroll-snap-align:start}
-@media (min-width:640px){.strip{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible;margin:12px 0 0;padding:0}.strip .v{flex:auto}}
+.strip{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 0}
+
+
 .hint{font-size:13px;color:var(--mut);margin:6px 0 0}
 .faq details{border-bottom:1px solid #edf1f5;padding:10px 0}
 .faq details:last-child{border:0}
@@ -132,6 +132,8 @@ img,video{-webkit-user-drag:none;user-drag:none}
 .bar .two{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:568px;margin:0 auto}
 .bar .two .btn{font-size:15px;padding:12px 6px;margin:0;box-shadow:none}
 @media (max-width:959px){.side .side-buy{display:none}}
+.v.wide{aspect-ratio:16/9;margin-top:12px}
+@media (min-width:960px){.page .v.wide{max-width:560px}}
 </style>
 </head>
 <body>
@@ -208,16 +210,15 @@ img,video{-webkit-user-drag:none;user-drag:none}
   <section class="card vids" id="videos">
     <h2>先看影片，認識綠芽 🎬</h2>
     <p class="hint">點畫面就能播放，記得開聲音。</p>
+    <div class="v wide" data-src="videos/official.mp4"><img src="videos/official.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">綠芽是什麼？<span>官方介紹・56 秒・3 步驟看懂財務體質</span></div></div>
     <div class="feat">
       <div class="v" data-src="videos/intro.mp4"><img src="videos/intro.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">綠芽的初心<span>芸琪親口說・71 秒</span></div></div>
       <div class="v" data-src="videos/doctor.mp4"><img src="videos/doctor.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">財務也要看醫生<span>小綠芽×芸琪・62 秒</span></div></div>
     </div>
     <h2 style="margin-top:20px">人生金錢偵探｜動畫短片</h2>
-    <p class="hint">左右滑動看更多 👉</p>
+    <p class="hint">一個講生活痛點，一個是芸琪的真實體會。</p>
     <div class="strip">
-      <div class="v" data-src="videos/story01.mp4"><img src="videos/story01.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">你的財務生病了嗎？<span>36 秒</span></div></div>
       <div class="v" data-src="videos/story02.mp4"><img src="videos/story02.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">月薪不低，錢去哪了？<span>37 秒</span></div></div>
-      <div class="v" data-src="videos/story03.mp4"><img src="videos/story03.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">如果明天半年不能工作<span>37 秒</span></div></div>
       <div class="v" data-src="videos/story04.mp4"><img src="videos/story04.jpg" alt="" loading="lazy"><span class="play"></span><div class="cap">媽媽住院後的體會<span>42 秒</span></div></div>
     </div>
   </section>
