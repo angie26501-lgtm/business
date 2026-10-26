@@ -43,6 +43,7 @@ details.rules summary{cursor:pointer;color:var(--g);font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0}.chip{font:inherit;font-size:15px;padding:7px 12px;border-radius:999px;border:1.5px solid #cfdcb5;background:#fff;color:#3c4a30;cursor:pointer;text-align:left;line-height:1.4}.chip.on{background:#f4f9e8;border-color:var(--g2);font-weight:700}.chip.on::before{content:"✓ ";color:var(--g2)}
 #guide{position:fixed;right:14px;bottom:14px;z-index:50;width:min(340px,calc(100vw - 28px));background:#fff;border:2px solid var(--g2);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:14px 16px;font-size:15px;line-height:1.55;animation:gin .25s}#guide .gh{font-weight:700;color:var(--g);margin-bottom:4px}#guide p{margin:6px 0}#guide ul{margin:4px 0 4px 18px;padding:0}#guide .gs{color:var(--mu);font-size:14px}#guide .gx{position:absolute;top:6px;right:10px;border:0;background:none;font-size:22px;color:#999;cursor:pointer}#guide .gb{margin-top:8px}#guide .gb .btn{width:100%;padding:11px}@keyframes gin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .chkbtn{display:block;width:100%;margin:10px 0 4px;font:inherit;font-weight:700;padding:12px;border-radius:12px;border:2px dashed var(--g2);background:#f4f9e8;color:var(--g);cursor:pointer}
+.recall{margin:-2px 0 10px 32px;background:#fffaf0;border-left:4px solid var(--gold);border-radius:10px;padding:10px 12px;font-size:15px}.recall .rq{margin:0;color:#8a6d2b;font-weight:700}.recall .rt{margin:4px 0 6px}.recall ul{margin:0;padding-left:18px}.recall li{margin:2px 0}
 .foot{font-size:12px;color:var(--mu);text-align:center;margin-top:24px;line-height:1.5}
 </style></head><body><div class="wrap">
 <div class="top"><span>🌱 金錢好生活・芸琪共學圈</span><button id="reset" type="button">↻ 重新填寫</button></div>
@@ -112,6 +113,7 @@ var DAYV={d3:"DAY3 任務（10/24）",d2:"DAY2 任務（10/23）・交完可接�
 function chosen(){var v=A[705787933];for(var k in DAYV) if(DAYV[k]===v) return k; return null;}
 function chain(){var c=chosen(); if(!c) return []; var n=+c.slice(1),st=n; for(var i=n-1;i>=1;i--) if(!PRE["d"+i]) st=i; var out=[]; for(var j=st;j<=n;j++) out.push("d"+j); return out;}
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+function recallH(r){ return '<div class="recall"><p class="rq">💭 幫你回憶一下，群組裡的題目是：</p><p class="rt">'+esc(r.q)+'</p>'+(r.img?imgH(r.img):'')+'<ul>'+r.o.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><p class="h" style="margin:4px 0 0">👇 下一題選你當時回覆的答案就好</p></div>'; }
 function imgH(k){return '<a class="ci" href="fimg/'+k+'.jpg" target="_blank" rel="noopener"><img src="fimg/'+k+'.jpg" alt="圖卡" loading="lazy"><span>🔍 點圖放大</span></a>';}
 function linky(s){return s.replace(/(https:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
@@ -163,7 +165,7 @@ function qHTML(q,qi){
  else if(q.type==="para") h+='<textarea data-e="'+q.e+'">'+esc(v||"")+'</textarea>';
  else if(q.type==="scale"){ h+='<div class="scale">'; for(var n=1;n<=10;n++) h+='<button type="button" data-sc="'+q.e+'" data-v="'+n+'" class="'+(String(v)===String(n)?"on":"")+'">'+n+'</button>'; h+='</div><div class="scl"><span>1 很不安心</span><span>10 非常安心</span></div>'; }
  else { var multi=q.type==="chk", opts=q.opts; if(q.nav){ var ch2=chain(), idx=ch2.indexOf(cur); if(idx>=0&&idx<ch2.length-1){ var nx=ch2[idx+1]; opts=q.opts.filter(function(o){return q.go[o[1]]===nx;}); if(A[q.e]!==opts[0][1]) A[q.e]=opts[0][1]; } } opts.forEach(function(o){ var on=multi?(v||[]).indexOf(o[1])>=0:v===o[1];
-   h+='<div class="opt '+(multi?"chk":"radio")+(on?" on":"")+'" data-o="'+q.e+'" data-v="'+esc(o[1])+'" data-m="'+(multi?1:0)+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">'+esc(o[0])+(o[1]==="__other__"&&on?'<input type="text" class="oth" data-oth="'+q.e+'" placeholder="請寫下你的答案" value="'+esc(OTH[q.e]||"")+'">':'')+'</div></div>'; }); }
+   h+='<div class="opt '+(multi?"chk":"radio")+(on?" on":"")+'" data-o="'+q.e+'" data-v="'+esc(o[1])+'" data-m="'+(multi?1:0)+'"><span class="c">'+(on?"✓":"")+'</span><div style="flex:1">'+esc(o[0])+(o[1]==="__other__"&&on?'<input type="text" class="oth" data-oth="'+q.e+'" placeholder="請寫下你的答案" value="'+esc(OTH[q.e]||"")+'">':'')+'</div></div>'+((on&&RECALL[q.e]&&o[1].indexOf("在群組回覆")===0)?recallH(RECALL[q.e]):''); }); }
  if(q.e===705787933){ h+='<button type="button" class="chkbtn" data-act="autocheck">🔎 幫我檢查還差哪幾天</button><div id="acres">'+(AC_MSG||'')+'</div>'; }
  return h+'<div class="err">這題要先回答喔</div></div>';
 }
@@ -229,6 +231,11 @@ function localLookup(n){ var k=nrm(n),hit=null; LOCAL.forEach(function(r){ if(hi
  return hit?{ok:true,found:1,d1:!!hit.d[0],d2:!!hit.d[1],d3:!!hit.d[2],local:1}:{ok:true,found:0,local:1}; }
 function lookup(n,ok){ if(!API){ ok(localLookup(n)); return; } jsonp(n,function(r){ ok(r&&r.ok?r:localLookup(n)); },function(){ ok(localLookup(n)); }); }
 var RES=null, AC_MSG="";
+var RECALL={
+ 1298446902:{q:"如果現在要重新整理自己的財務，你覺得最需要先處理的是哪一件事？",o:["A｜不知道自己真正有多少資源","B｜擔心收入中斷或突發支出","C｜父母與孩子的責任越來越重","D｜不知道退休後的錢夠不夠用"]},
+ 1831249702:{q:"如果明天家裡突然需要用錢，家裡的財務資料，家人找得到嗎？",o:["A｜找得到，我們家有整理過","B｜只有我知道，別人不清楚","C｜我自己也不太清楚放在哪","D｜從來沒想過這個問題"]},
+ 1979627192:{q:"A 家庭月收入 30 萬、資產 5,000 萬；B 家庭月收入 12 萬、資產 1,500 萬，你覺得哪個家庭的財務體質比較健康？",o:["A｜收入與資產較高的 A 家庭","B｜現金流比較穩定的 B 家庭","C｜還需要更多資料，才能判斷"],img:"ab"}
+};
 function jsonp(n,ok,fail){ var cb="__q"+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement("script"), t=setTimeout(function(){ fail&&fail(); },10000);
  window[cb]=function(r){ clearTimeout(t); delete window[cb]; sc.remove(); ok(r); };
  sc.src=API+(API.indexOf("?")>=0?"&":"?")+"nick="+encodeURIComponent(n)+"&callback="+cb; sc.onerror=function(){ clearTimeout(t); fail&&fail(); }; document.body.appendChild(sc); }
