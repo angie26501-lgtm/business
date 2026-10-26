@@ -84,11 +84,36 @@ input:focus,select:focus{border-color:var(--or);outline:none}
 .sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(255,248,236,.96);padding:10px 16px 14px;border-top:1px solid #eadfca}
 .sticky .btn{max-width:528px;margin:0 auto}
 footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
+
+/* ===== 電腦版（網頁版）===== */
+@media (min-width:960px){
+  body{background:linear-gradient(180deg,#fff3d6 0,#fff8ec 420px)}
+  .wrap{max-width:1180px;padding:24px 32px 60px}
+  .hero{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:stretch}
+  .hero .banner{width:100%;margin:0;border-radius:20px;box-shadow:0 8px 28px rgba(200,140,40,.18);align-self:center}
+  .hero header{margin:0;border-radius:20px;padding:28px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 8px 28px rgba(200,140,40,.12)}
+  .hero .tag{align-self:flex-start}
+  h1{font-size:30px}
+  #pMain:not(.hide){display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:start;margin-top:8px}
+  #pMain .col section:first-child,#pMain .side section:first-child{margin-top:16px}
+  .side{position:sticky;top:20px}
+  .choose{gap:10px}
+  .opt{padding:14px 16px}
+  .opt:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(240,120,24,.15)}
+  .opt{transition:.15s}
+  #pForm section,#pDone section,#pMail section,#pEnd section{max-width:620px;margin-left:auto;margin-right:auto}
+  .sticky{display:none!important}
+  section{padding:26px}
+  .who{gap:18px}
+  .av{flex:0 0 64px;height:64px;font-size:28px}
+  footer{margin-top:40px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+<div class="hero">
 <img class="banner" src="1025-banner.jpg" alt="人生下半場 財務覺醒3日分享會｜10/25 晚上 8:00 菁羚老師 Zoom 特別直播" width="1200" height="629">
 <header>
   <span class="tag">🌱 免費 Zoom 公開課</span>
@@ -101,9 +126,11 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   </div>
   <div class="cd" id="cd">距離開播 <span id="cdt">--:--:--</span></div>
 </header>
+</div>
 
 <!-- 主頁 -->
 <div id="pMain">
+<div class="col">
 <section>
   <h2>今晚會帶你看清楚</h2>
   <div class="pt"><i>1</i><div>為什麼人生下半場，需要重新認識自己的財務？</div></div>
@@ -134,6 +161,8 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <div class="pt"><i>✓</i><div>有在存錢、有保險，但說不清楚夠不夠</div></div>
 </section>
 
+</div>
+<aside class="side">
 <section>
   <h2>近期場次</h2>
   <div class="sess"><b>10/25（週日）20:00–22:00</b>
@@ -154,6 +183,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
     <button class="opt" onclick="go('one')"><b>☕ 預約 1 對 1 財務對話</b><small>30 分鐘，和財顧芸聊聊你最在意的財務問題</small></button>
   </div>
 </section>
+</aside>
 </div>
 
 <!-- 表單頁 -->
