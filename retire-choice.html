@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>50+ 退休選擇權健診</title>
+<meta name="description" content="財顧芸｜輸入 6 個數字，看退休後每月缺口、資產能撐到幾歲，以及遇到通膨和股市下跌時的影響。">
+<meta property="og:title" content="50+ 退休選擇權健診｜財顧芸">
+<meta property="og:description" content="退休不是不工作，而是有能力選擇自己的生活。免費試算你的退休缺口。">
+<style>
+/* 一欄：標題 → 輸入 → 結論卡 → 三情境 → 走勢圖 → 下一步 */
+:root{--bg:#faf8f3;--card:#ffffff;--ink:#22302a;--mut:#66726b;--line:#e6e1d6;--g:#24443a;--g2:#2f6b55;--soft:#f5f0e4;--gold:#b0883a;--ok:#2f7d55;--okbg:#e6f3ec;--mid:#a86d12;--midbg:#fbf0dc;--bad:#b1452f;--badbg:#f9e5df;--line2:#06c755;
+--f:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a17;--card:#1c2420;--ink:#e8eee9;--mut:#a3aea7;--line:#2f3a34;--g:#cfe3d8;--g2:#7cc3a2;--soft:#232c27;--gold:#d8b064;--ok:#7fd3a5;--okbg:#1d3328;--mid:#f0b860;--midbg:#3a2d16;--bad:#f09a85;--badbg:#3a221c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141a17;--card:#1c2420;--ink:#e8eee9;--mut:#a3aea7;--line:#2f3a34;--g:#cfe3d8;--g2:#7cc3a2;--soft:#232c27;--gold:#d8b064;--ok:#7fd3a5;--okbg:#1d3328;--mid:#f0b860;--midbg:#3a2d16;--bad:#f09a85;--badbg:#3a221c;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.7;font-size:15.5px;-webkit-text-size-adjust:100%}
+.wrap{max-width:760px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
+.hero{background:var(--soft);border-radius:18px;padding:20px 22px}
+.hero .eb{font-size:13px;font-weight:700;color:var(--mut);letter-spacing:.06em;margin:0}
+.hero h1{margin:6px 0 4px;font-size:25px;line-height:1.35;text-wrap:balance}
+.hero p{margin:0;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.grid .full{grid-column:1/-1}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+label{display:flex;flex-direction:column;gap:5px;font-weight:600;font-size:14.5px}
+label small{font-weight:400;color:var(--mut);font-size:12.5px;line-height:1.5}
+.in{position:relative}
+input{font:inherit;font-size:17px;width:100%;padding:11px 50px 11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+.in span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:13.5px;pointer-events:none}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.go{font:inherit;font-size:17px;font-weight:800;width:100%;margin-top:16px;padding:14px;border:0;border-radius:14px;background:var(--g);color:var(--bg);cursor:pointer}
+.verdict{border-radius:16px;padding:18px;border:2px solid}
+.verdict.ok{background:var(--okbg);border-color:var(--ok)}.verdict.mid{background:var(--midbg);border-color:var(--mid)}.verdict.bad{background:var(--badbg);border-color:var(--bad)}
+.verdict .tag{display:inline-block;font-size:13px;font-weight:800;border-radius:999px;padding:3px 12px;color:#fff}
+.ok .tag{background:var(--ok)}.mid .tag{background:var(--mid)}.bad .tag{background:var(--bad)}
+.verdict h2{margin:8px 0 6px;font-size:22px;line-height:1.4;text-wrap:balance}
+.verdict p{margin:0}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:520px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.kpi span{display:block;font-size:12.5px;color:var(--mut)}
+.kpi b{display:block;font-size:22px;font-variant-numeric:tabular-nums;color:var(--g)}
+.kpi em{font-style:normal;font-size:12.5px;color:var(--mut)}
+h3{margin:0 0 10px;font-size:17px}
+.sc{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--bg)}
+.row b{font-variant-numeric:tabular-nums}
+.row small{display:block;color:var(--mut);font-size:12.5px}
+.pill{font-size:12px;font-weight:800;border-radius:999px;padding:2px 9px}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.mid{background:var(--midbg);color:var(--mid)}.pill.bad{background:var(--badbg);color:var(--bad)}
+.chart{width:100%;overflow-x:auto}
+svg text{font-family:var(--f)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.next{background:var(--g);color:var(--bg);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.next h3{color:var(--bg);margin:0}
+.next p{margin:0;opacity:.9}
+.kw{background:rgba(255,255,255,.12);border:1px dashed rgba(255,255,255,.5);border-radius:12px;padding:10px;text-align:center;cursor:pointer}
+.kw b{font-size:20px;letter-spacing:.1em}
+.btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:16.5px;padding:13px;border-radius:14px;background:var(--line2);color:#fff}
+.note{font-size:12.5px;color:var(--mut);line-height:1.6}
+ul.tips{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:10}
+footer{text-align:center;font-size:13px;color:var(--mut)}
+footer a{color:var(--g2)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eb">財顧芸・家族傳承生活顧問</p>
+    <h1>🌱 50+ 退休選擇權健診</h1>
+    <p>退休不是不工作，而是有能力選擇自己的生活。輸入幾個數字，看看你離安心退休還差多少。</p>
+  </header>
+
+  <form class="card" id="f" novalidate>
+    <div class="grid">
+      <label for="age">目前年齡<div class="in"><input id="age" type="number" inputmode="numeric" value="50" min="20" max="85"><span>歲</span></div></label>
+      <label for="ret">預計退休年齡<div class="in"><input id="ret" type="number" inputmode="numeric" value="60" min="30" max="85"><span>歲</span></div></label>
+      <label for="exp">目前每月生活費<small>以現在的物價估算</small><div class="in"><input id="exp" type="number" inputmode="numeric" value="50000" min="0" step="1000"><span>元</span></div></label>
+      <label for="inc">退休後每月固定收入<small>勞保年金、勞退月領、租金等（現在幣值）</small><div class="in"><input id="inc" type="number" inputmode="numeric" value="25000" min="0" step="1000"><span>元</span></div></label>
+      <label for="ast">目前可動用退休資產<small>存款＋可變現投資（不含自住房）</small><div class="in"><input id="ast" type="number" inputmode="decimal" value="500" min="0" step="10"><span>萬元</span></div></label>
+      <label for="sav">退休前每月還能存<small>沒有就填 0</small><div class="in"><input id="sav" type="number" inputmode="numeric" value="0" min="0" step="1000"><span>元</span></div></label>
+      <label for="rr">年化投資報酬率<div class="in"><input id="rr" type="number" inputmode="decimal" value="4" step="0.5"><span>%</span></div></label>
+      <label for="inf">年通膨率<div class="in"><input id="inf" type="number" inputmode="decimal" value="2" step="0.5"><span>%</span></div></label>
+      <label for="end" class="full">規劃到幾歲？<small>台灣人平均壽命逐年增加，建議至少規劃到 90 歲</small><div class="in"><input id="end" type="number" inputmode="numeric" value="90" min="60" max="110"><span>歲</span></div></label>
+    </div>
+    <button class="go" type="submit">開始試算退休選擇權 →</button>
+  </form>
+
+  <section id="out" hidden aria-live="polite">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="verdict" id="verdict"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="card"><h3>📉 三種情境壓力測試</h3><div class="sc" id="sc"></div></div>
+      <div class="card"><h3>📈 退休資產走勢</h3><div class="chart" id="chart"></div>
+        <div class="legend"><span><i style="background:var(--g2)"></i>一般情境</span><span><i style="background:var(--mid)"></i>退休第一年股市跌 30%</span><span><i style="background:var(--bad)"></i>通膨 3%＋報酬 2%</span></div></div>
+      <div class="card"><h3>💡 你可以怎麼調整</h3><ul class="tips" id="tips"></ul></div>
+      <div class="next">
+        <h3>想知道缺口怎麼補？</h3>
+        <p>把這頁截圖傳給芸琪，我陪你一起看：退休現金流、家庭責任、保障缺口，找出最適合你的退休節奏。</p>
+        <div class="kw" id="kw" role="button" tabindex="0">LINE 傳送關鍵字<br><b>退休試算</b><br><small>點一下複製</small></div>
+        <a class="btn" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">加芸琪官方 LINE・免費聊 30 分鐘</a>
+      </div>
+      <p class="note">⚠️ 本試算為簡化估算，假設報酬率與通膨率每年固定、收支以年為單位計算，未計入稅負、保險理賠、房產變現與突發大額支出，僅供參考，不構成投資建議。實際規劃請依個人狀況與專業顧問討論。</p>
+    </div>
+  </section>
+
+  <footer>財顧芸｜陳芸琪・家族傳承生活顧問<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識芸琪</a></footer>
+</div>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+function num(id){var v=parseFloat($(id).value);return isFinite(v)?v:0}
+function fmtW(x){ // 元 → 萬
+  var w=x/10000; if(Math.abs(w)>=1) return (Math.round(w*10)/10).toLocaleString('zh-TW')+' 萬'; return Math.round(x).toLocaleString('zh-TW')+' 元'; }
+function fmt(x){return Math.round(x).toLocaleString('zh-TW')}
+// 逐年模擬：回傳 {path:[{age,v}], depletedAge}
+function sim(p,opt){
+  var r=opt.r, i=opt.i, v=p.ast, path=[], dep=null;
+  for(var a=p.age;a<=p.end;a++){
+    path.push({age:a,v:Math.max(0,v)});
+    if(v<=0&&dep===null&&a>=p.ret){dep=a}
+    var t=a-p.age, yr;
+    if(a<p.ret){ v=v*(1+r)+p.sav*12; }
+    else{
+      var need=(p.exp-p.inc-(opt.extra||0))*12*Math.pow(1+i,t);
+      yr=(a===p.ret&&opt.crash)? -0.30 : r;
+      v=v*(1+yr)-Math.max(0,need);
+    }
+  }
+  if(dep===null&&v<0) dep=p.end+1;
+  return {path:path,dep:dep,last:v};
+}
+function lastsTo(p,o){var s=sim(p,o);return s.dep===null?Infinity:s.dep}
+function extraNeeded(p,o){ // 退休後每月要多賺多少（現值）才撐到 end
+  if(lastsTo(p,o)>p.end) return 0; var lo=0,hi=Math.max(p.exp,1)*2;
+  for(var k=0;k<40;k++){var m=(lo+hi)/2; if(lastsTo(p,Object.assign({},o,{extra:m}))>p.end) hi=m; else lo=m;} return hi;}
+function needAtRet(p,o){ // 退休當下需要多少資產撐到 end（名目）
+  var tot=0; for(var a=p.end;a>=p.ret;a--){var t=a-p.age; var need=Math.max(0,(p.exp-p.inc)*12*Math.pow(1+o.i,t)); tot=(tot+need)/(1+o.r);} return tot*(1+o.r);}
+function run(e){
+  if(e) e.preventDefault();
+  var p={age:num('age'),ret:num('ret'),exp:num('exp'),inc:num('inc'),ast:num('ast')*10000,sav:num('sav'),end:num('end')};
+  var r=num('rr')/100,i=num('inf')/100;
+  if(p.ret<p.age) p.ret=p.age; if(p.end<=p.ret) p.end=p.ret+1;
+  var base={r:r,i:i}, crash={r:r,i:i,crash:true}, hard={r:0.02,i:0.03};
+  var sB=sim(p,base), sC=sim(p,crash), sH=sim(p,hard);
+  var yrsToRet=p.ret-p.age, gapNow=Math.max(0,p.exp-p.inc), gapRet=gapNow*Math.pow(1+i,yrsToRet);
+  var astRet=sB.path[Math.min(yrsToRet,sB.path.length-1)].v;
+  var need=needAtRet(p,base), short=Math.max(0,need-astRet);
+  var ext=extraNeeded(p,base);
+  var dB=sB.dep, dC=sC.dep;
+  var cls,title,desc;
+  if(gapNow<=0){cls='ok';title='退休後的固定收入已經夠支付生活費';desc='每月固定收入大於或等於生活費，退休資產主要用來應付醫療、長照和夢想清單。';}
+  else if(dB===null&&dC===null){cls='ok';title='你可以考慮依計畫退休 🎉';desc='一般情境和退休第一年股災時，資產都能撐到 '+p.end+' 歲。接下來可以把重點放在保障和傳承安排。';}
+  else if(dB===null||(dB&&dB>=p.end-10)){cls='mid';title='適合「半退休」：少工作一點，也很接近目標';desc=(dB===null?'一般情境能撐到 '+p.end+' 歲，但遇到退休初期股災會在 '+dC+' 歲左右用完。':'資產大約在 '+dB+' 歲用完，離 '+p.end+' 歲還差一段。')+'退休後每月多一份約 '+fmt(Math.ceil(ext/1000)*1000)+' 元的收入（兼職、租金或年金），就能撐到 '+p.end+' 歲。';}
+  else{cls='bad';title='建議繼續準備，再調整退休計畫';desc='依目前的數字，資產大約在 '+dB+' 歲用完，離 '+p.end+' 歲還差 '+(p.end-dB)+' 年。別擔心，提早知道就有時間調整。';}
+  $('verdict').className='verdict '+cls;
+  $('verdict').innerHTML='<span class="tag">'+(cls==='ok'?'可考慮退休':cls==='mid'?'適合半退休':'需要持續準備')+'</span><h2>'+title+'</h2><p>'+desc+'</p>';
+  $('kpis').innerHTML=
+    '<div class="kpi"><span>退休時每月缺口</span><b>'+fmt(gapRet)+'</b><em>元（已含通膨，現值 '+fmt(gapNow)+'）</em></div>'+
+    '<div class="kpi"><span>退休時預估資產</span><b>'+fmtW(astRet)+'</b><em>'+p.ret+' 歲時</em></div>'+
+    '<div class="kpi"><span>資產用完時</span><b>'+(dB===null?'撐到 '+p.end+' 歲':dB+' 歲')+'</b><em>一般情境</em></div>'+
+    '<div class="kpi"><span>撐到 '+p.end+' 歲需要</span><b>'+fmtW(need)+'</b><em>退休當下的資產</em></div>'+
+    '<div class="kpi"><span>還差</span><b>'+(short>0?fmtW(short):'已足夠')+'</b><em>'+(short>0?'退休時要多準備':'目前規劃足夠')+'</em></div>'+
+    '<div class="kpi"><span>退休後每月要多</span><b>'+(ext>0?fmt(Math.ceil(ext/1000)*1000):'0')+'</b><em>元收入就能撐到 '+p.end+' 歲</em></div>';
+  function rowH(name,sub,d){var c=d===null?'ok':(d>=p.end-10?'mid':'bad');return '<div class="row"><div>'+name+'<small>'+sub+'</small></div><div><span class="pill '+c+'">'+(d===null?'撐到 '+p.end+' 歲':d+' 歲用完')+'</span></div></div>'}
+  $('sc').innerHTML=rowH('一般情境','報酬 '+(r*100)+'%、通膨 '+(i*100)+'%',dB)+rowH('退休第一年股市跌 30%','退休初期遇到股災，被迫在低點提領',dC)+rowH('高通膨、低報酬','通膨 3%、報酬只有 2%',sH.dep);
+  drawChart([sB.path,sC.path,sH.path],p);
+  var tips=[];
+  if(cls!=='ok'||short>0){
+    tips.push('<b>延後 2～3 年退休</b>：多存幾年、少領幾年，是最有效的調整方式。');
+    tips.push('<b>增加退休後的固定收入</b>：確認勞保、勞退可領金額，評估年金或穩定配息的工具。');
+    tips.push('<b>檢視每月生活費</b>：每月少花 5,000 元，30 年就是 180 萬（未計通膨）。');
+  }
+  tips.push('<b>準備 1～2 年生活費的現金</b>：股市下跌時先用現金，不必在低點賣出投資。');
+  tips.push('<b>醫療和長照另外準備</b>：大筆醫療支出會打亂退休計畫，先確認保障缺口。');
+  $('tips').innerHTML=tips.map(function(t){return '<li>'+t+'</li>'}).join('');
+  $('out').hidden=false;
+  if(e) $('out').scrollIntoView({behavior:'smooth',block:'start'});
+  try{localStorage.setItem('retireChoice',JSON.stringify(['age','ret','exp','inc','ast','sav','rr','inf','end'].map(function(k){return $(k).value})))}catch(x){}
+}
+function drawChart(paths,p){
+  var css=getComputedStyle(document.documentElement);
+  var col=[css.getPropertyValue('--g2'),css.getPropertyValue('--mid'),css.getPropertyValue('--bad')],mut=css.getPropertyValue('--mut'),ln=css.getPropertyValue('--line');
+  var W=680,H=320,L=78,R=16,T=18,B=40,mx=0;
+  paths.forEach(function(ps){ps.forEach(function(d){if(d.v>mx)mx=d.v})});
+  var step=niceStep(mx/4)||1; mx=Math.ceil(mx/step)*step||1;
+  var x=function(a){return L+(a-p.age)/(p.end-p.age)*(W-L-R)}, y=function(v){return T+(1-v/mx)*(H-T-B)};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="退休資產走勢圖">';
+  for(var g=0;g<=mx+1;g+=step){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="'+ln+'" stroke-width="1"/><text x="'+(L-6)+'" y="'+(y(g)+4)+'" text-anchor="end" font-size="17" fill="'+mut+'">'+Math.round(g/10000)+'萬</text>'}
+  var ag=Math.max(5,Math.ceil((p.end-p.age)/7/5)*5);
+  for(var a=Math.ceil(p.age/ag)*ag;a<=p.end;a+=ag){s+='<text x="'+x(a)+'" y="'+(H-12)+'" text-anchor="middle" font-size="17" fill="'+mut+'">'+a+'歲</text>'}
+  if(p.ret>p.age&&p.ret<p.end){s+='<line x1="'+x(p.ret)+'" x2="'+x(p.ret)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="'+mut+'" stroke-dasharray="4 4"/><text x="'+(x(p.ret)+4)+'" y="'+(T+11)+'" font-size="17" fill="'+mut+'">退休</text>'}
+  paths.slice().reverse().forEach(function(ps,ri){var k=paths.length-1-ri;s+='<polyline fill="none" stroke="'+col[k]+'" stroke-width="'+(k===0?3:2)+'" stroke-linejoin="round" points="'+ps.map(function(d){return x(d.age).toFixed(1)+','+y(d.v).toFixed(1)}).join(' ')+'"/>'});
+  s+='</svg>'; $('chart').innerHTML=s;
+}
+function niceStep(v){if(v<=0)return 0;var e=Math.pow(10,Math.floor(Math.log10(v)));var m=v/e;return (m<=1?1:m<=2?2:m<=5?5:10)*e}
+try{var sv=JSON.parse(localStorage.getItem('retireChoice')||'null');if(sv)['age','ret','exp','inc','ast','sav','rr','inf','end'].forEach(function(k,j){if(sv[j]!==undefined&&sv[j]!=='')$(k).value=sv[j]})}catch(x){}
+$('f').addEventListener('submit',run);
+function toast(t){var d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},2200)}
+function cp(){var t='退休試算';(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('已複製「退休試算」，到 LINE 貼上送出')},function(){toast('請在 LINE 輸入「退休試算」')})}
+$('kw').onclick=cp;$('kw').onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();cp()}};
+run();
+})();
+</script></body></html>
