@@ -51,6 +51,15 @@ button,.btn{font:inherit;cursor:pointer}
 .note{font-size:13px;color:var(--mut);text-align:center}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:9}
 a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fmenu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fb{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:15.5px;padding:12px 8px;border-radius:14px;background:var(--card);border:1.5px solid var(--navy);color:var(--navy);line-height:1.4}
+.fb small{display:block;font-size:12.5px;font-weight:500;color:var(--mut)}
+.fb.buy{grid-column:1/-1;background:var(--lime);border-color:var(--lime);color:#1f2a10;font-size:18px;padding:14px}
+.fb.buy small{color:#3d4a12}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--card);border-top:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;grid-template-columns:1.4fr 1fr;gap:8px}
+.bar a{text-align:center;text-decoration:none;font-weight:800;font-size:15.5px;padding:11px 6px;border-radius:12px}
+.bar .b1{background:var(--lime);color:#1f2a10}.bar .b2{background:var(--line2);color:#fff}
+body{padding-bottom:84px}
 footer{text-align:center;font-size:13px;color:var(--mut)}
 footer a{color:var(--g)}
 </style></head><body>
@@ -115,8 +124,15 @@ footer a{color:var(--g)}
     </ul>
   </section>
 
-  <footer>財顧芸｜陳芸琪・家族傳承生活顧問<br><a href="index.html">綠芽介紹頁（影片＋有聲書）</a>｜<a href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識芸琪</a></footer>
+  <nav class="fmenu" aria-label="綠芽選單">
+    <a class="fb buy" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">🛒 立即訂購綠芽<small>自動帶入推薦碼 FKJ5589</small></a>
+    <a class="fb" href="index.html">🎬 綠芽介紹頁<small>影片＋有聲書</small></a>
+    <a class="fb" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener">💬 加芸琪 LINE<small>傳付款截圖・問問題</small></a>
+    <a class="fb" style="grid-column:1/-1" href="https://www.allfreedom.info/" target="_blank" rel="noopener">🌿 認識芸琪<small>個人網站</small></a>
+  </nav>
+  <footer>財顧芸｜陳芸琪・家族傳承生活顧問</footer>
 </div>
+<div class="bar"><a class="b1" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">🛒 立即訂購</a><a class="b2" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener">傳截圖給芸琪</a></div>
 <script>
 document.getElementById('cp').onclick=function(){var t='FKJ5589';function ok(){var d=document.createElement('div');d.className='toast';d.textContent='已複製推薦碼 FKJ5589';document.body.appendChild(d);setTimeout(function(){d.remove()},2000)}
  if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,function(){var r=document.createRange();r.selectNode(document.getElementById('code'));getSelection().removeAllRanges();getSelection().addRange(r)});};
