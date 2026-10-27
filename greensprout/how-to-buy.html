@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>綠芽訂購教學</title>
+<meta name="description" content="綠芽財務管理系統：先免費體驗、填 4 份財務表看免費報告，想看完整版再解鎖。推薦碼 FKJ5589。">
+<meta property="og:title" content="綠芽訂購教學｜先免費體驗，再決定解鎖">
+<meta property="og:description" content="照著 5 個步驟做就不會卡住。購買時輸入推薦碼 FKJ5589，加送《金錢整理五日實踐營》。">
+<style>
+/* 一欄手機：標題 → 免費體驗說明 → 5 步驟（圖＋說明）→ 小提醒 → 按鈕 */
+:root{--bg:#f3f5f8;--card:#fff;--ink:#1f2a36;--mut:#5f6b78;--navy:#17375e;--g:#2e6e52;--gl:#e9f1ec;--lime:#c2d62e;--gold:#b08a3e;--red:#c8452c;--line:#e2e7ee;--line2:#06c755;
+--f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121821;--card:#1b2330;--ink:#e6ebf1;--mut:#a3adba;--navy:#9cc0ea;--g:#7cc3a2;--gl:#1d2f27;--gold:#d8b064;--red:#f0927e;--line:#2c3644;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121821;--card:#1b2330;--ink:#e6ebf1;--mut:#a3adba;--navy:#9cc0ea;--g:#7cc3a2;--gl:#1d2f27;--gold:#d8b064;--red:#f0927e;--line:#2c3644;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.75;font-size:16px;-webkit-text-size-adjust:100%}
+.wrap{max-width:620px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:16px}
+.hero{background:var(--navy);color:#fff;border-radius:18px;padding:22px}
+.hero .eb{margin:0;font-size:13px;letter-spacing:.08em;opacity:.85;font-weight:700}
+.hero h1{margin:6px 0 8px;font-size:25px;line-height:1.35;text-wrap:balance}
+.hero p{margin:0;opacity:.92}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:#20385a}}
+:root[data-theme="dark"] .hero{background:#20385a}
+.free{background:var(--gl);border:2px solid var(--g);border-radius:16px;padding:16px 18px}
+.free h2{margin:0 0 6px;font-size:19px;color:var(--g)}
+.free p{margin:0}
+.free ul{margin:8px 0 0;padding-left:20px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sh{display:flex;gap:12px;align-items:flex-start}
+.num{flex:none;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:17px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .num{background:#2f5d8a}}
+.sh h3{margin:2px 0 0;font-size:18px;line-height:1.45}
+.sh p{margin:4px 0 0;color:var(--mut);font-size:15px}
+.shot{border-radius:12px;border:1px solid var(--line);max-width:100%;display:block;margin:0 auto}
+.shot.narrow{max-width:300px;width:100%}
+.key{background:#fff5f2;border-left:4px solid var(--red);border-radius:4px 10px 10px 4px;padding:10px 12px;color:#7a2b1b;font-size:15px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .key{background:#3a221c;color:#f5c2b5}}
+:root[data-theme="dark"] .key{background:#3a221c;color:#f5c2b5}
+.code{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.code b{font-size:24px;letter-spacing:.12em;color:var(--red);font-variant-numeric:tabular-nums}
+button,.btn{font:inherit;cursor:pointer}
+.cp{border:1px solid var(--red);background:transparent;color:var(--red);border-radius:999px;padding:4px 14px;font-size:14px;font-weight:700}
+.btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:17px;padding:14px;border-radius:14px}
+.btn.buy{background:var(--lime);color:#1f2a10}
+.btn.me{background:var(--line2);color:#fff}
+.btn small{display:block;font-size:13px;font-weight:600;opacity:.85}
+.tips{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.tips h3{margin:0 0 6px;font-size:17px}
+.tips ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.gift{background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.gift h3{margin:0;font-size:18px;color:var(--gold)}
+.gift p{margin:0}
+.note{font-size:13px;color:var(--mut);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:9}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+footer{text-align:center;font-size:13px;color:var(--mut)}
+footer a{color:var(--g)}
+</style></head><body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eb">🌱 綠芽財務管理系統</p>
+    <h1>訂購教學｜先免費體驗，再決定解鎖</h1>
+    <p>照著 5 個步驟做就不會卡住。卡在哪一步，截圖傳給芸琪，我陪你一起完成。</p>
+  </header>
+
+  <section class="free">
+    <h2>✨ 可以先免費體驗</h2>
+    <p>綠芽不是一點進去就結帳的購物頁。你可以先加入官方帳號、填寫財務表，<b>免費看一份財務健康報告</b>。覺得適合自己，想看完整分析時，再解鎖付費就好。</p>
+    <ul>
+      <li>第一次不用填得很完整，先填你知道的數字</li>
+      <li>解鎖付費後，還有一次重新輸入資料的機會，可以補齊、修正</li>
+    </ul>
+  </section>
+
+  <section class="step">
+    <div class="sh"><span class="num">1</span><div><h3>點連結，加入「綠點財務建築學苑」官方帳號</h3><p>加入後，點下方選單的「綠芽財務健檢」。</p></div></div>
+    <img class="shot" src="howto/s1-menu.jpg" alt="官方帳號下方選單：綠芽財務健檢、查看報告" loading="lazy">
+    <a class="btn buy" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">加入綠芽官方帳號<small>透過芸琪的專屬連結</small></a>
+  </section>
+
+  <section class="step">
+    <div class="sh"><span class="num">2</span><div><h3>完成 4 份財務表</h3><p>收入表、支出表等，點「立即填寫」。<b>要先完成這 4 份，才會進到付款階段。</b>不確定的數字先估，之後可以再改。</p></div></div>
+    <img class="shot narrow" src="howto/s2-form.jpg" alt="財務健檢卡片：收入表、立即填寫" loading="lazy">
+  </section>
+
+  <section class="step">
+    <div class="sh"><span class="num">3</span><div><h3>點「查看報告」，先看免費版報告</h3><p>這一步免費。先看看自己的財務體質大概長什麼樣子。</p></div></div>
+  </section>
+
+  <section class="step">
+    <div class="sh"><span class="num">4</span><div><h3>想看完整版：點「解鎖完整版報告」</h3><p>完整版包含完整財務指標與分析、專屬改善建議，並贈送 ABC 帳戶管理 1 年使用權。</p></div></div>
+    <img class="shot" src="howto/s3-unlock.jpg" alt="解鎖完整版報告畫面，下方有前往付款按鈕" loading="lazy">
+    <div class="key">👉 <b>先輸入推薦碼，再按「前往付款」</b><br>付款頁的「推薦碼」欄位也要填，並按「套用」。</div>
+    <div class="code"><span>推薦碼</span><b id="code">FKJ5589</b><button class="cp" id="cp" type="button">複製推薦碼</button></div>
+    <img class="shot" src="howto/s4-pay.jpg" alt="綠芽付款頁，推薦碼欄位填入 FKJ5589 並按套用（示意）" loading="lazy">
+    <p class="note">付款頁示意圖：紅框處填入推薦碼 FKJ5589，按「套用」。</p>
+  </section>
+
+  <section class="step">
+    <div class="sh"><span class="num">5</span><div><h3>付款完成，回 LINE 看完整版報告</h3><p>點「返回 LINE」→「查看報告」。LINE 通知可能稍後才會到。</p></div></div>
+    <img class="shot" src="howto/s5-done.jpg" alt="綠芽付款完成畫面" loading="lazy">
+  </section>
+
+  <section class="gift">
+    <h3>🎁 用推薦碼 FKJ5589 購買，加送《金錢整理五日實踐營》</h3>
+    <p>綠芽剛推出市場，菁羚老師特別加碼支持，帶大家一起把資料整理清楚。<br>📅 10/28～11/1｜每天 20 分鐘以內的影片＋小任務，搭車、做家事時就能邊聽邊學。</p>
+    <p><b>付款完成後，加芸琪 LINE（ID：angie26501），傳付款截圖給我，我邀你進實踐營群組。</b></p>
+    <a class="btn me" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener">加芸琪 LINE 傳截圖<small>LINE ID：angie26501</small></a>
+  </section>
+
+  <section class="tips">
+    <h3>💡 小提醒</h3>
+    <ul>
+      <li>付款頁顯示的是「七天優惠價 NT$1,800（原價 NT$3,600）」，請以付款頁顯示的優惠期限為準。</li>
+      <li>解鎖後一年內，可以點「財務健檢」重新輸入一次財務資料，資料補齊再更新報告。</li>
+      <li>忘了輸入推薦碼？先別付款，回到上一步補上再按「前往付款」。</li>
+    </ul>
+  </section>
+
+  <footer>財顧芸｜陳芸琪・家族傳承生活顧問<br><a href="index.html">綠芽介紹頁（影片＋有聲書）</a>｜<a href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識芸琪</a></footer>
+</div>
+<script>
+document.getElementById('cp').onclick=function(){var t='FKJ5589';function ok(){var d=document.createElement('div');d.className='toast';d.textContent='已複製推薦碼 FKJ5589';document.body.appendChild(d);setTimeout(function(){d.remove()},2000)}
+ if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,function(){var r=document.createRange();r.selectNode(document.getElementById('code'));getSelection().removeAllRanges();getSelection().addRange(r)});};
+</script>
+</body></html>
