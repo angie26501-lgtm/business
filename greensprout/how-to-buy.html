@@ -30,6 +30,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);line-he
 .sh h3{margin:2px 0 0;font-size:18px;line-height:1.45}
 .sh p{margin:4px 0 0;color:var(--mut);font-size:15px}
 .shot{border-radius:12px;border:1px solid var(--line);max-width:100%;display:block;margin:0 auto}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}.pair figure{margin:0}.pair figcaption{text-align:center;font-size:13px;color:var(--mut);margin-top:4px}
 .shot.narrow{max-width:300px;width:100%}
 .key{background:#fff5f2;border-left:4px solid var(--red);border-radius:4px 10px 10px 4px;padding:10px 12px;color:#7a2b1b;font-size:15px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .key{background:#3a221c;color:#f5c2b5}}
@@ -74,7 +75,7 @@ footer a{color:var(--g)}
     <h2>✨ 可以先免費體驗</h2>
     <p>綠芽不是一點進去就結帳的購物頁。你可以先加入官方帳號、填寫財務表，<b>免費看一份財務健康報告</b>。覺得適合自己，想看完整分析時，再解鎖付費就好。</p>
     <ul>
-      <li>第一次不用填得很完整，先填你知道的數字</li>
+      <li>第一次不用填得很完整，先填你知道的數字；送出前檢查一下，送出後四張表會鎖定</li>
       <li>解鎖付費後，還有一次重新輸入資料的機會，可以補齊、修正</li>
     </ul>
   </section>
@@ -92,6 +93,9 @@ footer a{color:var(--g)}
 
   <section class="step">
     <div class="sh"><span class="num">3</span><div><h3>點「查看報告」，先看免費版報告</h3><p>這一步免費。先看看自己的財務體質大概長什麼樣子。</p></div></div>
+    <div class="pair"><figure><img class="shot" src="howto/r-good.jpg" alt="免費版報告範例：生龍活虎" loading="lazy"><figcaption>範例：生龍活虎</figcaption></figure><figure><img class="shot" src="howto/r-weak.jpg" alt="免費版報告範例：弱不禁風" loading="lazy"><figcaption>範例：弱不禁風</figcaption></figure></div>
+    <p style="margin:0">免費版會告訴你屬於哪一種財務體質，以及流量健康、存量健康分數（健康範圍 ±100）；體質說明、財務壓力和調整建議，要解鎖完整版才看得到。</p>
+    <div class="key">⚠️ <b>送出查看報告後，四張表會鎖定，不能再自己修改。</b><br>所以送出前先檢查一次數字。解鎖完整版後，還有一次重新輸入資料的機會。</div>
   </section>
 
   <section class="step">
