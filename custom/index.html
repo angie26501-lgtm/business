@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>客製化需求問卷</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap">
+<style>
+/* 單欄問卷：頂部進度 → 四段題組 → 產生摘要 → 傳給芸琪 */
+:root{
+  --bg:#eef2ec; --paper:#ffffff; --ink:#1f2a22; --mut:#5c6a60; --line:#d5dfd6;
+  --g:#2c6446; --gd:#1b4430; --gold:#b8862b; --chip:#e3ece4; --chipOn:#2c6446; --chipOnFg:#ffffff;
+  --f:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --fd:"Noto Serif TC","Songti TC",serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121915; --paper:#1b241e; --ink:#e6eee7; --mut:#9fb0a4; --line:#2d3a31;
+  --g:#62b487; --gd:#8fd1ab; --gold:#e0b65a; --chip:#243029; --chipOn:#62b487; --chipOnFg:#0e1a13; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121915; --paper:#1b241e; --ink:#e6eee7; --mut:#9fb0a4; --line:#2d3a31;
+  --g:#62b487; --gd:#8fd1ab; --gold:#e0b65a; --chip:#243029; --chipOn:#62b487; --chipOnFg:#0e1a13; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);line-height:1.7;margin:0;
+  padding-block:0 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  -webkit-user-select:none;user-select:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.w{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0 8px;display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:8px;border-radius:8px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--g);transition:width .3s}
+.cnt{font-size:13px;color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+#menuBtn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:20px;padding:5px 12px;font:inherit;font-size:14px;cursor:pointer}
+.menu{position:absolute;right:0;top:46px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:6px;min-width:200px;box-shadow:0 10px 30px rgba(0,0,0,.15);display:flex;flex-direction:column}
+.menu a,.menu button{display:block;text-align:left;padding:9px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font:inherit;font-size:15px;background:none;border:0;cursor:pointer}
+.menu a:hover,.menu button:hover{background:var(--chip)}
+.menu hr{border:0;border-top:1px solid var(--line);margin:4px 6px}
+header{padding:22px 0 4px}
+.eyebrow{font-size:13px;letter-spacing:.12em;color:var(--gold);font-weight:700}
+h1{font-family:var(--fd);font-size:30px;line-height:1.3;margin:6px 0 10px;text-wrap:balance}
+.lead{color:var(--mut);margin:0;font-size:16px}
+.time{display:inline-flex;gap:8px;margin-top:12px;font-size:14px;color:var(--mut)}
+.time b{color:var(--ink)}
+section{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px 18px;display:flex;flex-direction:column;gap:20px;scroll-margin-top:70px}
+section h2{font-family:var(--fd);font-size:21px;margin:0;display:flex;align-items:baseline;gap:10px;text-wrap:balance}
+section h2 span{font-family:var(--f);font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.08em}
+.q{display:flex;flex-direction:column;gap:8px;min-width:0}
+.q>label,.q>.lb{font-weight:700;font-size:16px}
+.q .hint{font-size:13px;color:var(--mut);font-weight:400}
+.req{color:var(--gold);font-size:13px;margin-left:4px}
+input[type=text],textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+textarea{min-height:96px;resize:vertical}
+input:focus-visible,textarea:focus-visible,button:focus-visible,.chips label:focus-within{outline:3px solid var(--gold);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative;display:inline-flex;align-items:center;background:var(--chip);border-radius:22px;padding:8px 14px;font-size:15px;cursor:pointer;border:1px solid transparent;line-height:1.4}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips label:has(input:checked){background:var(--chipOn);color:var(--chipOnFg);font-weight:700}
+.chips.money label{font-variant-numeric:tabular-nums}
+.other{margin-top:4px}
+.done{display:flex;flex-direction:column;gap:12px}
+.btn{display:block;width:100%;text-align:center;font:inherit;font-weight:900;font-size:18px;border:0;border-radius:14px;padding:15px 12px;cursor:pointer;text-decoration:none}
+.btn.main{background:var(--g);color:var(--chipOnFg)}
+.btn.line{background:#06c755;color:#fff}
+.btn.ghost{background:transparent;color:var(--g);border:1.5px solid var(--g);font-size:16px;padding:11px}
+#sum{white-space:pre-wrap;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:14px;font-size:15px;max-height:360px;overflow:auto}
+.note{font-size:14px;color:var(--mut);margin:0}
+.lineid{font-weight:700;color:var(--ink);-webkit-user-select:text;user-select:text}
+footer{text-align:center;color:var(--mut);font-size:13px;padding-top:8px}
+footer b{color:var(--ink);font-size:15px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,90px);opacity:0;background:var(--gd);color:var(--bg);padding:10px 18px;border-radius:22px;transition:.25s;font-size:15px;z-index:20}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.miss{color:var(--gold);font-size:14px;margin:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="w">
+  <div class="top" id="top">
+    <div class="bar" aria-hidden="true"><i id="barI"></i></div>
+    <span class="cnt" id="cnt">已填 0 / 14</span>
+    <button id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">☰ 選單</button>
+    <div class="menu" id="menu" hidden>
+      <a href="#s1">一、你想做什麼</a>
+      <a href="#s2">二、內容與時程</a>
+      <a href="#s3">三、付費方式與預算</a>
+      <a href="#s4">四、其他想法</a>
+      <a href="#s5">送出給芸琪</a>
+      <hr>
+      <button type="button" id="reload">↻ 重新整理頁面</button>
+      <button type="button" id="clear">✕ 清除全部重填</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="eyebrow">財顧芸｜客製化服務</div>
+    <h1>幫你做專屬的影片、網頁和圖卡之前，先了解你的需要</h1>
+    <p class="lead">你好！我是芸琪。想請你花幾分鐘填這份問卷，讓我知道你想做什麼、什麼時候要用，以及你習慣的付費方式。沒有標準答案，照你目前的想法勾就好。</p>
+    <div class="time"><span>⏱ 約 <b>5 分鐘</b></span><span>·</span><span>填完按「產生摘要」傳給我</span></div>
+  </header>
+
+  <form id="f" autocomplete="off">
+  <div class="w">
+
+  <section id="s1">
+    <h2><span>PART 1</span>你想做什麼</h2>
+    <div class="q"><label for="name">怎麼稱呼你？<span class="req">必填</span></label>
+      <input type="text" id="name" name="name" placeholder="例如：小美"></div>
+    <div class="q"><label for="job">你的工作或單位</label>
+      <input type="text" id="job" name="job" placeholder="例如：公勝 業務／講師／自己開店"></div>
+    <div class="q"><div class="lb">想請我幫你客製化哪些東西？<span class="hint">（可複選）</span><span class="req">必填</span></div>
+      <div class="chips" data-q="what">
+        <label><input type="checkbox" name="what" value="短影片（AI 動畫、口白、字幕）">短影片（AI 動畫、口白、字幕）</label>
+        <label><input type="checkbox" name="what" value="推廣頁／報名頁">推廣頁／報名頁</label>
+        <label><input type="checkbox" name="what" value="綠芽推廣頁（換成自己的 QR）">綠芽推廣頁（換成自己的 QR）</label>
+        <label><input type="checkbox" name="what" value="LINE 圖卡／貼圖">LINE 圖卡／貼圖</label>
+        <label><input type="checkbox" name="what" value="講座簡報">講座簡報</label>
+        <label><input type="checkbox" name="what" value="AI 小工具／試算網頁">AI 小工具／試算網頁</label>
+        <label><input type="checkbox" name="what" value="個人品牌形象（角色、三視圖）">個人品牌形象（角色、三視圖）</label>
+        <label><input type="checkbox" name="what" value="其他" data-other="whatO">其他</label>
+      </div>
+      <input type="text" class="other" id="whatO" name="whatO" placeholder="其他：請寫下來" hidden></div>
+    <div class="q"><div class="lb">做好之後主要用在哪裡？<span class="hint">（可複選）</span></div>
+      <div class="chips" data-q="use">
+        <label><input type="checkbox" name="use" value="找新客戶">找新客戶</label>
+        <label><input type="checkbox" name="use" value="經營老客戶">經營老客戶</label>
+        <label><input type="checkbox" name="use" value="增員">增員</label>
+        <label><input type="checkbox" name="use" value="活動／講座招生">活動／講座招生</label>
+        <label><input type="checkbox" name="use" value="經營個人品牌">經營個人品牌</label>
+        <label><input type="checkbox" name="use" value="FB／IG 廣告">FB／IG 廣告</label>
+      </div></div>
+    <div class="q"><label for="desc">用幾句話說說你心中想要的樣子</label>
+      <textarea id="desc" name="desc" placeholder="例如：想要一支 30 秒影片，介紹我的退休規劃服務，結尾放我的 LINE QR"></textarea></div>
+  </section>
+
+  <section id="s2">
+    <h2><span>PART 2</span>內容與時程</h2>
+    <div class="q"><div class="lb">你希望客製化到什麼程度？</div>
+      <div class="chips" data-q="level">
+        <label><input type="radio" name="level" value="套用芸琪現成的版本，只換我的名字、照片、QR">套用現成版本，只換名字、照片、QR</label>
+        <label><input type="radio" name="level" value="用現成版本，部分內容依我需求調整">用現成版本，部分內容依我需求調整</label>
+        <label><input type="radio" name="level" value="從頭幫我量身設計">從頭幫我量身設計</label>
+        <label><input type="radio" name="level" value="還不確定，想先聽建議">還不確定，想先聽建議</label>
+      </div></div>
+    <div class="q"><div class="lb">素材你準備得如何？<span class="hint">（可複選）</span></div>
+      <div class="chips" data-q="material">
+        <label><input type="checkbox" name="material" value="有自己的照片">有自己的照片</label>
+        <label><input type="checkbox" name="material" value="可以自己錄口白">可以自己錄口白</label>
+        <label><input type="checkbox" name="material" value="有文案或腳本">有文案或腳本</label>
+        <label><input type="checkbox" name="material" value="有 LOGO／品牌色">有 LOGO／品牌色</label>
+        <label><input type="checkbox" name="material" value="都還沒有，需要幫我寫">都還沒有，需要幫我寫</label>
+      </div></div>
+    <div class="q"><div class="lb">什麼時候需要用到？</div>
+      <div class="chips" data-q="when">
+        <label><input type="radio" name="when" value="1 週內">1 週內</label>
+        <label><input type="radio" name="when" value="2～4 週">2～4 週</label>
+        <label><input type="radio" name="when" value="1 個月以上">1 個月以上</label>
+        <label><input type="radio" name="when" value="不急，先了解">不急，先了解</label>
+      </div></div>
+    <div class="q"><div class="lb">完成後，你希望可以修改幾次？</div>
+      <div class="chips" data-q="revise">
+        <label><input type="radio" name="revise" value="1 次就好">1 次就好</label>
+        <label><input type="radio" name="revise" value="2～3 次">2～3 次</label>
+        <label><input type="radio" name="revise" value="之後內容常常要更新">之後內容常常要更新</label>
+      </div></div>
+  </section>
+
+  <section id="s3">
+    <h2><span>PART 3</span>付費方式與預算</h2>
+    <div class="q"><div class="lb">你比較喜歡哪種付費方式？<span class="hint">（可複選）</span><span class="req">必填</span></div>
+      <div class="chips" data-q="pay">
+        <label><input type="checkbox" name="pay" value="單次買斷（做好就是我的）">單次買斷（做好就是我的）</label>
+        <label><input type="checkbox" name="pay" value="按件計費（一支影片、一頁網頁算一次）">按件計費（每件算一次）</label>
+        <label><input type="checkbox" name="pay" value="月租（每月固定費用，內容可更新）">月租（每月付，內容可更新）</label>
+        <label><input type="checkbox" name="pay" value="年租（一次付一年，比月租划算）">年租（一年付一次）</label>
+        <label><input type="checkbox" name="pay" value="教我自己做（陪跑教學）">教我自己做（陪跑教學）</label>
+        <label><input type="checkbox" name="pay" value="分期付款">分期付款</label>
+      </div></div>
+    <div class="q"><div class="lb">這次客製化，一次付清的預算大約是？</div>
+      <div class="chips money" data-q="budget">
+        <label><input type="radio" name="budget" value="NT$1,000 以下">NT$1,000 以下</label>
+        <label><input type="radio" name="budget" value="NT$1,000～3,000">NT$1,000～3,000</label>
+        <label><input type="radio" name="budget" value="NT$3,000～6,000">NT$3,000～6,000</label>
+        <label><input type="radio" name="budget" value="NT$6,000～10,000">NT$6,000～10,000</label>
+        <label><input type="radio" name="budget" value="NT$10,000～20,000">NT$10,000～20,000</label>
+        <label><input type="radio" name="budget" value="NT$20,000 以上">NT$20,000 以上</label>
+        <label><input type="radio" name="budget" value="想先聽報價再決定">想先聽報價再決定</label>
+      </div></div>
+    <div class="q"><div class="lb">如果是月租，每月可以接受多少？</div>
+      <div class="chips money" data-q="monthly">
+        <label><input type="radio" name="monthly" value="NT$99">NT$99</label>
+        <label><input type="radio" name="monthly" value="NT$199">NT$199</label>
+        <label><input type="radio" name="monthly" value="NT$299">NT$299</label>
+        <label><input type="radio" name="monthly" value="NT$499">NT$499</label>
+        <label><input type="radio" name="monthly" value="NT$999 以上">NT$999 以上</label>
+        <label><input type="radio" name="monthly" value="不考慮月租">不考慮月租</label>
+      </div></div>
+    <div class="q"><div class="lb">方便的付款管道<span class="hint">（可複選）</span></div>
+      <div class="chips" data-q="channel">
+        <label><input type="checkbox" name="channel" value="銀行轉帳">銀行轉帳</label>
+        <label><input type="checkbox" name="channel" value="LINE Pay">LINE Pay</label>
+        <label><input type="checkbox" name="channel" value="信用卡">信用卡</label>
+        <label><input type="checkbox" name="channel" value="現金">現金</label>
+      </div></div>
+    <div class="q"><div class="lb">決定要不要做，你最在意什麼？<span class="hint">（最多選 2 個）</span></div>
+      <div class="chips" data-q="care" data-max="2">
+        <label><input type="checkbox" name="care" value="價格">價格</label>
+        <label><input type="checkbox" name="care" value="成品質感">成品質感</label>
+        <label><input type="checkbox" name="care" value="交件速度">交件速度</label>
+        <label><input type="checkbox" name="care" value="之後我能自己改">之後我能自己改</label>
+        <label><input type="checkbox" name="care" value="有人一步一步教">有人一步一步教</label>
+        <label><input type="checkbox" name="care" value="做出來真的有效果">做出來真的有效果</label>
+      </div></div>
+  </section>
+
+  <section id="s4">
+    <h2><span>PART 4</span>其他想法</h2>
+    <div class="q"><div class="lb">願意當「首批體驗者」嗎？<span class="hint">（完成後給我使用回饋，換體驗優惠）</span></div>
+      <div class="chips" data-q="pilot">
+        <label><input type="radio" name="pilot" value="願意">願意</label>
+        <label><input type="radio" name="pilot" value="看情況">看情況</label>
+        <label><input type="radio" name="pilot" value="先不用">先不用</label>
+      </div></div>
+    <div class="q"><label for="more">還有什麼想跟我說的？</label>
+      <textarea id="more" name="more" placeholder="例如：想先看過你做的範例、希望用某種風格……"></textarea></div>
+  </section>
+
+  <section id="s5">
+    <h2><span>最後一步</span>把答案傳給芸琪</h2>
+    <div class="done">
+      <p class="miss" id="miss" hidden></p>
+      <button type="submit" class="btn main" id="gen">產生我的需求摘要</button>
+      <div id="out" hidden>
+        <div id="sum"></div>
+        <button type="button" class="btn ghost" id="copy" style="margin-top:12px">① 複製摘要</button>
+        <a class="btn line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" style="margin-top:10px">② 打開 LINE 貼給芸琪</a>
+        <p class="note" style="margin-top:8px">LINE 打不開的話，請搜尋官方帳號加入後貼上：<span class="lineid">lin.ee/oOvyuwU</span></p>
+      </div>
+    </div>
+  </section>
+
+  </div>
+  </form>
+
+  <footer><b>財顧芸｜陳芸琪</b><br>家族傳承生活顧問・AI 財務建築師</footer>
+</div>
+<div class="toast" id="toast" role="status">已複製 ✓</div>
+
+<script>
+(function(){
+  var f=document.getElementById('f'),KEY='yunCustomSurvey';
+  var TOTAL_KEYS=['name','job','what','use','desc','level','material','when','revise','pay','budget','monthly','channel','care'];
+  var LABELS={name:'稱呼',job:'工作／單位',what:'想客製化',whatO:'其他項目',use:'用途',desc:'想要的樣子',level:'客製程度',material:'已有素材',when:'需要時間',revise:'修改次數',pay:'付費方式',budget:'一次付清預算',monthly:'月租可接受',channel:'付款管道',care:'最在意',pilot:'首批體驗',more:'其他想法'};
+  var ORDER=['name','job','what','whatO','use','desc','level','material','when','revise','pay','budget','monthly','channel','care','pilot','more'];
+
+  /* 禁止複製、剪下、右鍵（輸入框內仍可正常打字） */
+  ['copy','cut','contextmenu','dragstart'].forEach(function(ev){
+    document.addEventListener(ev,function(e){var t=e.target;if(ev==='contextmenu'||!(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')))e.preventDefault();});
+  });
+  document.addEventListener('paste',function(e){e.preventDefault();toast('這份問卷請直接打字填寫喔');});
+
+  function vals(){var d={};ORDER.forEach(function(k){var els=f.querySelectorAll('[name="'+k+'"]');if(!els.length)return;
+    if(els[0].type==='checkbox'){d[k]=[].filter.call(els,function(e){return e.checked}).map(function(e){return e.value})}
+    else if(els[0].type==='radio'){var c=[].find.call(els,function(e){return e.checked});d[k]=c?c.value:''}
+    else d[k]=els[0].value.trim();});return d}
+  function filled(v){return Array.isArray(v)?v.length>0:!!v}
+  function progress(){var d=vals(),n=TOTAL_KEYS.filter(function(k){return filled(d[k])}).length;
+    document.getElementById('cnt').textContent='已填 '+n+' / '+TOTAL_KEYS.length;
+    document.getElementById('barI').style.width=(n/TOTAL_KEYS.length*100)+'%'}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(vals()))}catch(e){}}
+  function load(){var d;try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){d=null}if(!d)return;
+    Object.keys(d).forEach(function(k){var els=f.querySelectorAll('[name="'+k+'"]');[].forEach.call(els,function(e){
+      if(e.type==='checkbox')e.checked=(d[k]||[]).indexOf(e.value)>=0;else if(e.type==='radio')e.checked=e.value===d[k];else e.value=d[k]||''})})}
+  function syncOther(){var o=f.querySelector('[data-other]'),t=document.getElementById(o.getAttribute('data-other'));t.hidden=!o.checked}
+
+  f.addEventListener('change',function(e){var g=e.target.closest('[data-max]');
+    if(g&&e.target.checked){var max=+g.getAttribute('data-max'),on=g.querySelectorAll('input:checked');if(on.length>max){e.target.checked=false;toast('最多選 '+max+' 個')}}
+    syncOther();progress();save()});
+  f.addEventListener('input',function(){progress();save()});
+
+  f.addEventListener('submit',function(e){e.preventDefault();var d=vals(),miss=[];
+    if(!d.name)miss.push('稱呼');if(!d.what.length)miss.push('想客製化的項目');if(!d.pay.length)miss.push('付費方式');
+    var m=document.getElementById('miss');
+    if(miss.length){m.hidden=false;m.textContent='還差：'+miss.join('、')+'，填好再按一次';return}
+    m.hidden=true;
+    var lines=['芸琪你好～這是我的客製化需求問卷：',''];
+    ORDER.forEach(function(k){var v=d[k];if(!filled(v))return;lines.push('【'+LABELS[k]+'】'+(Array.isArray(v)?v.join('、'):v))});
+    document.getElementById('sum').textContent=lines.join('\n');
+    var out=document.getElementById('out');out.hidden=false;out.scrollIntoView({behavior:'smooth',block:'start'})});
+
+  var toastEl=document.getElementById('toast'),tm;
+  function toast(t){toastEl.textContent=t;toastEl.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){toastEl.classList.remove('on')},1600)}
+  document.getElementById('copy').addEventListener('click',function(){var t=document.getElementById('sum').textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('sum'));var s=getSelection();s.removeAllRanges();s.addRange(r);toast('請長按選取的文字複製')}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('已複製 ✓ 接著打開 LINE 貼上')},sel)}else sel()});
+
+  var mb=document.getElementById('menuBtn'),menu=document.getElementById('menu');
+  mb.addEventListener('click',function(){menu.hidden=!menu.hidden;mb.setAttribute('aria-expanded',String(!menu.hidden))});
+  menu.addEventListener('click',function(e){if(e.target.tagName==='A'){e.preventDefault();var s=document.querySelector(e.target.getAttribute('href'));if(s)s.scrollIntoView({behavior:'smooth'});menu.hidden=true;mb.setAttribute('aria-expanded','false')}});
+  document.addEventListener('click',function(e){if(!menu.hidden&&!menu.contains(e.target)&&e.target!==mb){menu.hidden=true;mb.setAttribute('aria-expanded','false')}});
+  document.getElementById('reload').addEventListener('click',function(){location.reload()});
+  var armed=false,cb=document.getElementById('clear');
+  cb.addEventListener('click',function(){if(!armed){armed=true;cb.textContent='再按一次確認清除';setTimeout(function(){armed=false;cb.textContent='✕ 清除全部重填'},3000);return}
+    f.reset();try{localStorage.removeItem(KEY)}catch(e){}syncOther();progress();document.getElementById('out').hidden=true;armed=false;cb.textContent='✕ 清除全部重填';menu.hidden=true;scrollTo(0,0);toast('已清除')});
+
+  load();syncOther();progress();
+})();
+</script>
+</body>
+</html>
