@@ -232,6 +232,7 @@ footer b{color:var(--ink);font-size:15px}
     <div class="done">
       <p class="miss" id="miss" hidden></p>
       <button type="submit" class="btn main" id="gen">產生我的需求摘要</button>
+      <p class="note" id="saved" hidden></p>
       <div id="out" hidden>
         <div id="sum"></div>
         <button type="button" class="btn ghost" id="copy" style="margin-top:12px">① 複製摘要</button>
@@ -253,6 +254,15 @@ footer b{color:var(--ink);font-size:15px}
   var f=document.getElementById('f'),KEY='yunCustomSurvey';
   var TOTAL_KEYS=['name','job','what','use','desc','level','material','when','revise','pay','budget','monthly','channel','care'];
   var LABELS={name:'稱呼',job:'工作／單位',what:'想客製化',whatO:'其他項目',use:'用途',desc:'想要的樣子',level:'客製程度',material:'已有素材',when:'需要時間',revise:'修改次數',pay:'付費方式',budget:'一次付清預算',monthly:'月租可接受',channel:'付款管道',care:'最在意',pilot:'首批體驗',more:'其他想法'};
+  /* Google 表單：按「產生摘要」時同時送進表單，回覆自動存到試算表 */
+  var GFORM='https://docs.google.com/forms/d/e/1FAIpQLSevbxozI8kFxzQIvuUu__CerzMmboBGOXDxL5mD_pLhZIaUXw/formResponse';
+  var ENTRY={name:1596322835,job:1088974693,what:683087172,whatO:1765097398,use:1638131994,desc:861278523,level:989400993,material:1714672848,when:589212472,revise:638657393,pay:1360758869,budget:390082184,monthly:146294460,channel:880503324,care:984693196,pilot:1470292078,more:24597312};
+  var lastSent='';
+  function sendForm(d){var key=JSON.stringify(d);if(key===lastSent)return;var p=new URLSearchParams();
+    Object.keys(ENTRY).forEach(function(k){var v=d[k];if(!filled(v))return;(Array.isArray(v)?v:[v]).forEach(function(x){p.append('entry.'+ENTRY[k],x)})});
+    var s=document.getElementById('saved');s.hidden=false;s.textContent='正在幫你存檔…';
+    fetch(GFORM,{method:'POST',mode:'no-cors',body:p}).then(function(){lastSent=key;s.textContent='✓ 你的答案已送到芸琪這邊存檔了，也歡迎用下面的 LINE 再傳一次給我'})
+      .catch(function(){s.textContent='網路不穩沒存到，沒關係，請用下面「複製摘要＋LINE」傳給我就好'})}
   var ORDER=['name','job','what','whatO','use','desc','level','material','when','revise','pay','budget','monthly','channel','care','pilot','more'];
 
   /* 禁止複製、剪下、右鍵（輸入框內仍可正常打字） */
@@ -288,6 +298,7 @@ footer b{color:var(--ink);font-size:15px}
     var lines=['芸琪你好～這是我的客製化需求問卷：',''];
     ORDER.forEach(function(k){var v=d[k];if(!filled(v))return;lines.push('【'+LABELS[k]+'】'+(Array.isArray(v)?v.join('、'):v))});
     document.getElementById('sum').textContent=lines.join('\n');
+    sendForm(d);
     var out=document.getElementById('out');out.hidden=false;out.scrollIntoView({behavior:'smooth',block:'start'})});
 
   var toastEl=document.getElementById('toast'),tm;
@@ -303,7 +314,7 @@ footer b{color:var(--ink);font-size:15px}
   document.getElementById('reload').addEventListener('click',function(){location.reload()});
   var armed=false,cb=document.getElementById('clear');
   cb.addEventListener('click',function(){if(!armed){armed=true;cb.textContent='再按一次確認清除';setTimeout(function(){armed=false;cb.textContent='✕ 清除全部重填'},3000);return}
-    f.reset();try{localStorage.removeItem(KEY)}catch(e){}syncOther();progress();document.getElementById('out').hidden=true;armed=false;cb.textContent='✕ 清除全部重填';menu.hidden=true;scrollTo(0,0);toast('已清除')});
+    f.reset();try{localStorage.removeItem(KEY)}catch(e){}syncOther();progress();document.getElementById('out').hidden=true;document.getElementById('saved').hidden=true;lastSent='';armed=false;cb.textContent='✕ 清除全部重填';menu.hidden=true;scrollTo(0,0);toast('已清除')});
 
   load();syncOther();progress();
 })();
