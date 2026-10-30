@@ -73,6 +73,20 @@ footer b{color:var(--ink);font-size:15px}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,90px);opacity:0;background:var(--gd);color:var(--bg);padding:10px 18px;border-radius:22px;transition:.25s;font-size:15px;z-index:20}
 .toast.on{transform:translate(-50%,0);opacity:1}
 .miss{color:var(--gold);font-size:14px;margin:0}
+.ex{border:1px dashed var(--gold);border-radius:14px;background:var(--bg);margin-top:4px}
+.ex summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:15px;font-weight:700;color:var(--g)}
+.ex summary::-webkit-details-marker{display:none}
+.ex summary::after{content:"＋";float:right;color:var(--gold)}
+.ex[open] summary::after{content:"－"}
+.exg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:0 12px 12px}
+.exc{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.exc img{width:100%;height:150px;object-fit:cover;object-position:top;display:block;background:var(--chip);-webkit-user-drag:none}
+.exc .t{padding:8px 10px 0;font-weight:700;font-size:14.5px;color:var(--g)}
+.exc .d{padding:2px 10px 8px;font-size:13px;color:var(--mut);line-height:1.6;flex:1}
+.exc a{display:block;margin:0 10px 10px;text-align:center;font-size:13px;font-weight:700;color:var(--g);border:1px solid var(--g);border-radius:10px;padding:5px;text-decoration:none}
+.exc a:hover{background:var(--g);color:var(--chipOnFg)}
+@media (max-width:560px){.exg{grid-template-columns:1fr 1fr;gap:8px;padding:0 8px 10px}.exc img{height:115px}.exc .d{font-size:12.5px}}
+
 .perk{border:1px solid var(--gold);background:var(--chip);border-radius:12px;padding:10px 12px;font-size:14.5px}
 .perk b{color:var(--g)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -126,7 +140,16 @@ footer b{color:var(--ink);font-size:15px}
         <label><input type="checkbox" name="what" value="個人品牌形象（角色、三視圖）">個人品牌形象（角色、三視圖）</label>
         <label><input type="checkbox" name="what" value="其他" data-other="whatO">其他</label>
       </div>
-      <input type="text" class="other" id="whatO" name="whatO" placeholder="其他：請寫下來" hidden></div>
+      <input type="text" class="other" id="whatO" name="whatO" placeholder="其他：請寫下來" hidden>
+      <details class="ex"><summary>📌 不確定差在哪？點這裡看每一項的說明和範例</summary><div class="exg">
+        <div class="exc"><img src="img/ex-video.jpg" alt="短影片範例" loading="lazy"><div class="t">短影片</div><div class="d">30～60 秒直式影片：AI 動畫＋口白＋字幕，適合 FB、IG、LINE 分享。</div><a href="../greensprout/videos/doctor.mp4" target="_blank" rel="noopener">看範例影片 ↗</a></div>
+        <div class="exc"><img src="img/ex-page.jpg" alt="推廣頁／報名頁範例" loading="lazy"><div class="t">推廣頁／報名頁</div><div class="d">一頁式網頁：活動介紹、報名按鈕、加 LINE、加入行事曆，報名名單自動進試算表。</div><a href="../events/1025-live.html" target="_blank" rel="noopener">看範例網頁 ↗</a></div>
+        <div class="exc"><img src="img/ex-green.jpg" alt="綠芽推廣頁範例" loading="lazy"><div class="t">綠芽推廣頁</div><div class="d">芸琪現成的綠芽推廣頁，換成你的 QR 和連結就能用，最快當天交件。</div><a href="../greensprout/" target="_blank" rel="noopener">看範例網頁 ↗</a></div>
+        <div class="exc"><img src="img/ex-card.jpg" alt="LINE 圖卡／貼圖範例" loading="lazy"><div class="t">LINE 圖卡／貼圖</div><div class="d">方形或直式知識圖卡、活動海報；也可以做你的專屬 LINE 貼圖。</div><a href="../moneylife/fimg/cover.jpg" target="_blank" rel="noopener">看大圖 ↗</a></div>
+        <div class="exc"><img src="img/ex-deck.jpg" alt="講座簡報範例" loading="lazy"><div class="t">講座簡報</div><div class="d">講座 DM、上台簡報（網頁版或 PPT）、學習單，整套一次備齊。</div><a href="../CLASS/1151016/img/dm-1016.png" target="_blank" rel="noopener">看大圖 ↗</a></div>
+        <div class="exc"><img src="img/ex-tool.jpg" alt="AI 小工具／試算網頁範例" loading="lazy"><div class="t">AI 小工具／試算網頁</div><div class="d">互動快篩、測驗、試算機：填完自動算出結果，再引導加你的 LINE。</div><a href="../asset-checkup-lite.html" target="_blank" rel="noopener">實際玩玩看 ↗</a></div>
+        <div class="exc"><img src="img/ex-brand.jpg" alt="個人品牌形象範例" loading="lazy"><div class="t">個人品牌形象</div><div class="d">你的 Q 版角色、三視圖、頭像，之後可延伸做貼圖、圖卡和影片主角。</div><a href="../CLASS/1151016/img/avatar.jpg" target="_blank" rel="noopener">看大圖 ↗</a></div>
+      </div></details></div>
     <div class="q"><div class="lb">做好之後主要用在哪裡？<span class="hint">（可複選）</span></div>
       <div class="chips" data-q="use">
         <label><input type="checkbox" name="use" value="找新客戶">找新客戶</label>
