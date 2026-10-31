@@ -63,8 +63,6 @@ footer{font-size:13px;color:var(--soft);text-align:center;padding:18px}
 @media print{.links,.cta,details,.noprint{display:none}header{background:#fff;color:var(--navy)}.scroll{max-height:none}}
 
 /* 防複製 + 功能選單 */
-body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-input,select{-webkit-user-select:text;user-select:text}
 .fmenu{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 .fmenu .mb{border:0;border-radius:30px;padding:12px 18px;font-size:16px;font-weight:700;background:var(--navy);color:#F3EBDD;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;font-family:inherit}
 .fmenu .list{display:none;flex-direction:column;gap:6px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,.18);min-width:220px}
@@ -106,7 +104,7 @@ input,select{-webkit-user-select:text;user-select:text}
 ・<b>保險公司官網「投資型保險專區／投資標的查詢」</b>：輸入標的代碼，看「淨值資料」「配息紀錄」「績效表現」分頁。<br>
 ・<b>基金資訊觀測站</b>（投信投顧公會）、<b>基富通</b>、<b>MoneyDJ 理財網</b>：搜尋基金名稱，看「歷史淨值」「配息」。<br>
 找到基金頁面後，把網址貼到下方該基金的「🔗 基金查詢連結」欄，之後就能一鍵開啟查詢。<span class="qlinks" style="margin:8px 0"><a href="https://kgilife.moneydj.com/main.asp?sUrl=$W$HTML$SELECT]DJHTM" target="_blank" rel="noopener noreferrer">🔎 參考：凱基人壽 投資標的查詢</a></span>其他保險公司也有類似的「投資標的」頁，請以自己保單所屬公司為準。<br>建議每個月取<u>月底那一天</u>的淨值；配息型基金另外記下每月「每單位配息」。</li>
-<li><b>貼進下方工具</b>一檔基金一個框，選好資料類型後，點右下角「☰ 功能選單 → 📋 貼上基金資料」（或直接點基金的資料框），把從網頁或 Excel 複製的資料貼進去。查不到逐日淨值也沒關係，很多網站的「績效表現」頁有<u>各月報酬率</u>，改選「各月報酬率」貼上也能算。</li>
+<li><b>貼進下方工具</b>一檔基金一個框，選好資料類型後，把從網頁或 Excel 複製的資料直接貼進該基金的資料框即可（也可以用右下角「☰ 功能選單 → 📋 貼上基金資料」）。查不到逐日淨值也沒關係，很多網站的「績效表現」頁有<u>各月報酬率</u>，改選「各月報酬率」貼上也能算。</li>
 </ol>
 <details open><summary>資料格式範例（數字為虛構示意）</summary>
 <p class="note" style="margin:8px 0 4px">類型 A｜淨值：<code>日期, 淨值, 每單位配息（沒有就留空）, 匯率（外幣才需要，可留空）</code></p>
@@ -191,7 +189,6 @@ input,select{-webkit-user-select:text;user-select:text}
 
 <div class="fmenu noprint" id="fmenu">
 <div class="list">
-<span class="hint">本頁已關閉直接複製貼上，請用這裡操作</span>
 <button onclick="location.reload()">🔄 重新整理頁面</button>
 <button onclick="openPaste()">📋 貼上基金資料</button>
 <button onclick="copyResult()">📄 複製回測結果</button>
@@ -230,7 +227,7 @@ function fundHTML(f){return '<div class="fund"><div class="top"><b>基金</b><bu
  '<div><label>資料類型</label><select class="ft"><option value="nav"'+(f.type=="nav"?" selected":"")+'>A｜淨值（可含配息）</option><option value="ret"'+(f.type=="ret"?" selected":"")+'>B｜各月報酬率%</option></select></div>'+
  '<div><label>計價幣別</label><select class="fc"><option'+(f.ccy=="TWD"?" selected":"")+'>TWD</option><option'+(f.ccy=="USD"?" selected":"")+'>USD</option><option'+(f.ccy=="其他外幣"?" selected":"")+'>其他外幣</option></select></div>'+
  '<div><label>固定匯率（外幣才需要）</label><input class="ff" type="number" step="0.01" value="'+f.fx+'"></div></div>'+
- '<label style="margin-top:8px">基金資料（點下方框，或用功能選單「📋 貼上基金資料」）</label><textarea class="fd" readonly onclick="this.closest(\'.fund\').classList.add(\'sel\');document.querySelectorAll(\'.fund\').forEach(function(x){x.classList.toggle(\'sel\',x===this.closest(\'.fund\'))},this);openPaste()" placeholder="2025/9/30, 10.00\n2025/10/31, 10.20, 0.05">'+esc(f.data)+'</textarea><p class="note fi" style="margin:4px 0 0"></p></div>'}
+ '<label style="margin-top:8px">基金資料（可直接貼上，或用功能選單「📋 貼上基金資料」）</label><textarea class="fd" placeholder="2025/9/30, 10.00\n2025/10/31, 10.20, 0.05">'+esc(f.data)+'</textarea><p class="note fi" style="margin:4px 0 0"></p></div>'}
 function setFunds(list){$("funds").innerHTML=list.map(fundHTML).join("");refresh(true)}
 function addFund(){$("funds").insertAdjacentHTML("beforeend",fundHTML({name:"",w:0,type:"nav",ccy:"TWD",fx:1,data:""}));refresh(false)}
 function demo(){setFunds(DEMO)}
@@ -297,19 +294,9 @@ function qlinks(el){var box=el.parentNode.querySelector(".qlinks"),u=el.value.tr
  if(m){var dir=m[1],code=m[2],pre=/\/wb\/$/i.test(dir)?"wb":"wr";h+=a(dir+pre+"02.djhtm?a="+code,"淨值資料","sub")+a(dir+pre+"10.djhtm?a="+code,"配息紀錄","sub")+a(dir+pre+"03.djhtm?a="+code,"績效表現（各月報酬率）","sub")}
  box.innerHTML=h}
 document.addEventListener("input",function(e){if(e.target.classList&&e.target.classList.contains("fl"))qlinks(e.target)},true);
-// ===== 防複製貼上 =====
+// ===== 功能選單 =====
 function inPasteBox(t){return t&&t.closest&&t.closest("#pmodal")}
-["copy","cut","paste","contextmenu","dragstart","selectstart"].forEach(function(ev){
- document.addEventListener(ev,function(e){var t=e.target;
-  if(inPasteBox(t))return;
-  if(ev=="paste"&&t&&t.classList&&t.classList.contains("fl"))return;
-  if(ev=="contextmenu"&&t&&t.classList&&t.classList.contains("fl"))return;
-  if(ev=="selectstart"&&t&&(t.tagName=="INPUT"))return;
-  e.preventDefault();if(ev=="copy"||ev=="paste"||ev=="cut")toast("請使用右下角「☰ 功能選單」複製或貼上");},true)});
-document.addEventListener("keydown",function(e){if(inPasteBox(e.target))return;if(e.target.classList&&e.target.classList.contains("fl")&&(e.key||"").toLowerCase()=="v")return;var k=(e.key||"").toLowerCase();
- if((e.ctrlKey||e.metaKey)&&["c","x","v","a","s","u","p"].indexOf(k)>=0&&!(k=="p")){e.preventDefault();toast("請使用右下角「☰ 功能選單」操作")}
- if(k=="f12"){e.preventDefault()}},true);
-// 基金框：只能透過選單貼上，點選框會成為貼上目標
+// 點選基金框時標記為貼上目標
 document.addEventListener("focusin",function(e){var f=e.target.closest&&e.target.closest(".fund");if(f){document.querySelectorAll(".fund").forEach(function(x){x.classList.toggle("sel",x===f)})}});
 function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},2200)}
 function openPaste(){var fs=[].slice.call(document.querySelectorAll(".fund"));if(!fs.length){addFund();fs=[].slice.call(document.querySelectorAll(".fund"))}
