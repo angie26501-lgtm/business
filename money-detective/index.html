@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>人生金錢偵探社｜財富航海群島</title>
+<style>
+:root{--sea:#cfe9ef;--sea2:#b6dde6;--ink:#1f3a44;--mut:#5f7680;--card:#fffdf7;--line:#e6dccb;--gold:#d9a441;--green:#2f7f6b}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;background:#f4efe4;color:var(--ink)}
+a{color:var(--green)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.brand{font-weight:800;font-size:15px}.brand small{font-weight:400;color:var(--mut);margin-left:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center}
+.hero h1{font-size:30px;margin:4px 0 6px}
+.badge{display:inline-block;font-size:12px;background:#eef5f1;color:var(--green);border-radius:20px;padding:2px 10px}
+.lead{font-size:18px;margin:6px 0 12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;min-width:92px}
+.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--mut)}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.tile:hover{border-color:var(--green)}.tile b{display:block;font-size:16px}.tile span{font-size:13px;color:var(--mut)}
+.guidebar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
+.gtab{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px}
+.gtab.on{background:var(--green);color:#fff;border-color:var(--green)}
+.toggles{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--mut);margin:6px 0 10px}
+.toggles label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.mapbox{position:relative;background:var(--sea);border-radius:18px;overflow:hidden;border:1px solid #a9d3dd}
+#map{width:100%;display:block;transition:transform 1.2s ease}
+.isle{cursor:pointer;transition:transform .25s}
+.isle:hover,.isle.focus{transform:translateY(-6px)}
+.nametag{font-size:13px;font-weight:700}
+.hideTags .nametag,.hideTags .tagbg{display:none}
+.guide{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px;align-items:center}
+.guide .who{text-align:center;font-size:12px;color:var(--mut)}
+.ctrl{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:13px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink)}
+.btn.pri{background:var(--green);color:#fff;border-color:var(--green)}
+.btn:disabled{opacity:.45;cursor:default}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.lcard{background:#fff;border:1px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:10px 12px;cursor:pointer}
+.lcard b{display:block}.lcard small{color:var(--mut)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
+.phead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.phead h2{margin:0;font-size:22px}
+.chip{display:inline-block;font-size:12px;border-radius:20px;padding:2px 10px;background:#fff;border:1px solid var(--line);margin:2px 4px 2px 0}
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:12px}
+.case{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.case h4{margin:0 0 4px;font-size:15px}.case .hk{font-size:13px;background:#fff6dd;border-radius:8px;padding:4px 8px;margin:4px 0}
+.case details{font-size:13px;margin-top:6px}.case summary{cursor:pointer;color:var(--green)}
+.case p{margin:4px 0;font-size:13px}
+.game{margin-top:16px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:14px;user-select:none;-webkit-user-select:none}
+.game h3{margin:0 0 4px}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;border:1px solid var(--line);background:#fffdf7;border-radius:10px;padding:8px 12px;cursor:pointer;font:inherit}
+.opt.ok{background:#e3f4ea;border-color:#3f8f6b}.opt.no{background:#fbe6e3;border-color:#c0603f}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:8px}
+.bin{border:2px solid var(--line);border-radius:12px;padding:8px;min-height:80px;cursor:pointer;background:#fffdf7}
+.bin b{display:block;font-size:14px;margin-bottom:4px}
+.item{display:inline-block;margin:4px;padding:6px 10px;border-radius:20px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.item.sel{background:var(--gold);color:#fff;border-color:var(--gold)}
+.item.ok{background:#e3f4ea;border-color:#3f8f6b}.item.no{background:#fbe6e3;border-color:#c0603f}
+.fb{margin-top:8px;font-size:14px;min-height:20px}
+.stamp{display:inline-block;border:3px solid #c0603f;color:#c0603f;border-radius:10px;padding:2px 10px;font-weight:800;transform:rotate(-6deg)}
+.prog{height:8px;background:#e8e1d2;border-radius:4px;overflow:hidden}.prog i{display:block;height:8px;background:var(--green)}
+.idx input{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-bottom:8px}
+.idx table{width:100%;border-collapse:collapse;font-size:14px}.idx td{border-top:1px solid var(--line);padding:6px 4px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 14px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.hero h1{font-size:24px}}
+</style></head>
+<body>
+<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><button class="btn" id="shareTop">分享此區</button></div>
+<div class="wrap">
+<section class="hero">
+ <div>
+  <span class="badge">家庭財務長養成航記</span>
+  <h1>財富航海群島</h1>
+  <p class="lead">點一座島，破一個財務案，完成小遊戲就能升級船員。</p>
+  <div class="stats" id="stats"></div>
+ </div>
+ <div class="mapbox" id="heroMini"></div>
+</section>
+<div class="tiles">
+ <button class="tile" data-go="S1"><b>新手起航</b><span>從迷霧港開始，檢查財務亞健康</span></button>
+ <button class="tile" data-go="next"><b>繼續我的航程</b><span id="nextTip">前往下一座未破案的島</span></button>
+ <button class="tile" data-go="index"><b>全部案件索引</b><span>31 案一次找，搜尋關鍵字</span></button>
+</div>
+
+<div class="guidebar" id="tabs">
+ <button class="gtab on" data-v="map">跟多多逛群島</button>
+ <button class="gtab" data-v="tour">多多導覽</button>
+ <button class="gtab" data-v="index">索引</button>
+ <button class="gtab" data-v="voyage">我的航程</button>
+</div>
+<div class="toggles">
+ <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
+ <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
+ <label><input type="checkbox" id="tgList">改用清單版</label>
+</div>
+
+<section id="vMap">
+ <div class="mapbox" id="mapbox"></div>
+ <div class="list" id="listView" style="display:none"></div>
+</section>
+<section id="vTour" style="display:none"></section>
+<section id="vIndex" class="panel idx" style="display:none"></section>
+<section id="vVoyage" class="panel" style="display:none"></section>
+<section id="detail"></section>
+</div>
+<footer>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」</footer>
+<div class="toast" id="toast"></div>
+<script>
+const ST = [{"id": "S1", "island": "迷霧港", "theme": "財務亞健康覺察", "rank": "旅人 → 新手船員", "service": "短影音／每週三公益講座", "color": "#5b6b7a", "eps": [{"name": "第1案｜薪水消失事件", "topic": "月光族", "hook": "薪水才入帳五天，就不見了？", "shots": [["胖胖幣", "救命！月初我還胖胖的，現在只剩一層皮！", "胖胖幣在空錢包裡發抖"], ["多多", "多多來了！不是錢不見，是你沒看見它去哪！", "多多叼著放大鏡飛進來"], ["小綠芽", "我們先把這個月的支出，一筆一筆找出來。", "小綠芽攤開收支清單"], ["Angie", "月光不是因為賺太少，而是錢沒有先分好家。", "Angie 在船上對鏡頭說"], ["Angie", "你的薪水撐得到月底嗎？留言「破案」，我陪你找線索。", "Angie 微笑揮手"]], "point": "先分配再花費：薪水入帳先撥儲蓄與固定支出，剩下才是生活費。", "q": "你的薪水通常撐到第幾天？", "link": ""}, {"name": "第2案｜分期付款的陷阱", "topic": "刷卡分期", "hook": "每期只要一千多，為什麼越刷越累？", "shots": [["多多", "每期一千多？加起來是一台機車！", "多多拿計算機狂按"], ["胖胖幣", "我以為分期很輕鬆，結果每個月都被扣住…", "胖胖幣被好幾條帳單鎖鏈綁住"], ["小綠芽", "把所有分期列出來，看每月固定被扣多少。", "小綠芽展示分期清單"], ["Angie", "分期不是省錢，是把未來的收入先花掉。", "Angie 認真看鏡頭"], ["Angie", "你有幾筆分期還在扣？留言「破案」，一起算清楚。", "Angie 點頭"]], "point": "分期總額＝未來收入的預支；新增分期前先看「每月固定負擔」占比。", "q": "你現在有幾筆分期？", "link": ""}, {"name": "第3案｜存不了錢之謎", "topic": "存錢困難", "hook": "每個月都說要存，為什麼總是存不到？", "shots": [["胖胖幣", "我每個月都想存錢，可是月底就沒了…", "胖胖幣看著空撲滿"], ["多多", "因為你都「剩下才存」，結果永遠不會剩！", "多多翻白眼"], ["小綠芽", "改成先存再花，入帳當天就自動轉帳。", "小綠芽按下自動轉帳按鈕"], ["Angie", "存錢靠的不是意志力，是好的流程。", "Angie 在船舵旁"], ["Angie", "想開始第一筆自動存款嗎？留言「破案」。", "Angie 比讚"]], "point": "「先存後花」＋自動轉帳，讓存錢不用靠意志力。", "q": "你是先存還是剩下才存？", "link": ""}, {"name": "第4案｜財務亞健康自我檢查", "topic": "財務亞健康", "hook": "沒負債、有收入，就代表財務健康嗎？", "shots": [["Angie", "沒有大問題，不代表沒有小症狀。", "Angie 拿著航海日誌"], ["多多", "月底緊、沒預備金、不知道錢去哪，三個中一個就要注意！", "多多舉牌（無字）指向三個圖示"], ["胖胖幣", "我…好像全中了。", "胖胖幣冒冷汗"], ["小綠芽", "別怕，先做一次財務體質檢查，就知道從哪裡調。", "小綠芽遞出聽診器"], ["Angie", "你中了幾項？留言「破案」，我陪你啟航。", "Angie 站在船首"]], "point": "財務亞健康常見症狀：月底吃緊、沒有緊急預備金、說不出錢的去向。", "q": "三個症狀你中了幾個？", "link": ""}]}, {"id": "S2", "island": "初航島", "theme": "三日營｜記帳起步", "rank": "新手船員", "service": "三日營（入門體驗）", "color": "#3f8f6b", "eps": [{"name": "第5案｜三個錢囊", "topic": "分帳管理", "hook": "錢都放在同一個帳戶，難怪會亂！", "shots": [["胖胖幣", "我只有一個帳戶，錢全部混在一起！", "胖胖幣被一團亂麻纏住"], ["小綠芽", "我們準備三個錢囊：生活、儲蓄、夢想。", "小綠芽拿出三個小袋子"], ["多多", "分開放，誰偷吃一眼就看出來！", "多多盯著錢囊"], ["Angie", "三個錢囊，就是你家財務的第一張航海圖。", "Angie 把三個錢囊放上地圖"], ["Angie", "你想先打造哪一個錢囊？留言「破案」。", "Angie 微笑"]], "point": "分帳三錢囊：生活支出、儲蓄預備、夢想目標，各自獨立管理。", "q": "你現在有幾個帳戶在用？", "link": ""}, {"name": "第6案｜第一天記帳就放棄？", "topic": "記帳習慣", "hook": "記帳三天就放棄，是你沒毅力嗎？", "shots": [["胖胖幣", "我記帳記三天就忘了…", "胖胖幣趴在帳本上睡著"], ["多多", "因為你想記太細！誰會記到一顆茶葉蛋！", "多多翻帳本"], ["小綠芽", "先記大類就好：吃、住、行、其他。", "小綠芽排出四個圖示"], ["Angie", "記帳不是為了記得完美，是為了看見方向。", "Angie 對鏡頭"], ["Angie", "你記帳最長撐了幾天？留言「破案」。", "Angie 笑著揮手"]], "point": "記帳先求「有」再求「細」：從四大類開始，連續一週就有感。", "q": "你記帳最長撐了幾天？", "link": ""}, {"name": "第7案｜需要還是想要？", "topic": "消費判斷", "hook": "買下去之前，先問一個問題。", "shots": [["胖胖幣", "這個好可愛，我好需要它！", "胖胖幣盯著櫥窗"], ["多多", "你是「需要」，還是「想要」？說實話！", "多多擋在胖胖幣前面"], ["小綠芽", "想要的東西，先放進願望清單等三天。", "小綠芽寫下願望清單"], ["Angie", "三天後還想要，再用夢想錢囊去買，買得安心。", "Angie 點頭"], ["Angie", "你最近一次衝動購物是什麼？留言「破案」。", "Angie 微笑"]], "point": "「等三天」法則：分辨需要與想要，想要的用夢想錢囊安心買。", "q": "你最近一次衝動購物是什麼？", "link": ""}]}, {"id": "S3", "island": "燈塔", "theme": "綠芽推播｜養成好習慣", "rank": "新手船員 → 副船長", "service": "綠芽財務管理系統（每日推播）", "color": "#d9a441", "eps": [{"name": "第8案｜燈塔每天亮一次", "topic": "每日提醒", "hook": "為什麼好習慣總是撐不過一週？", "shots": [["胖胖幣", "我總是忘記看自己的錢…", "胖胖幣在霧裡迷路"], ["小綠芽", "燈塔每天亮一次，提醒你看一眼財務。", "燈塔亮起，小綠芽指向光"], ["多多", "一天一分鐘，比一年一次大掃除有用！", "多多停在燈塔上"], ["Angie", "好習慣需要提醒，綠芽就是你的財務燈塔。", "Angie 在甲板上"], ["Angie", "想要每天被提醒一次嗎？留言「破案」。", "Angie 揮手"]], "point": "每天一分鐘看收支，比一年一次大整理更能及早發現問題。", "q": "你多久看一次自己的帳戶？", "link": ""}, {"name": "第9案｜看不見的訂閱費", "topic": "小額漏財", "hook": "每個月偷偷扣款的，不只一筆。", "shots": [["多多", "多多來了！影音、雲端、App，每個月都在偷吃！", "多多抓到一串小怪獸"], ["胖胖幣", "一筆才一兩百，我根本沒感覺…", "胖胖幣被小怪獸咬"], ["小綠芽", "把訂閱全部列出來，用不到的立刻取消。", "小綠芽打勾刪除"], ["Angie", "小額固定支出，一年加起來常常超乎想像。", "Angie 認真看鏡頭"], ["Angie", "你有幾個訂閱在扣款？留言「破案」。", "Angie 點頭"]], "point": "每季檢查一次訂閱與自動扣款，取消用不到的。", "q": "你有幾個訂閱在扣款？", "link": ""}, {"name": "第10案｜21天財務好習慣", "topic": "習慣養成", "hook": "連續21天，你的錢會開始聽話。", "shots": [["小綠芽", "我們來挑戰21天，每天只做一件小事。", "小綠芽拿出打卡表"], ["胖胖幣", "只要一件嗎？那我可以！", "胖胖幣舉手"], ["多多", "第一天就是：看一眼昨天花了什麼！", "多多指著打卡表"], ["Angie", "小步驟持續做，就是家庭財務長的第一個能力。", "Angie 船上微笑"], ["Angie", "要一起挑戰21天嗎？留言「破案」。", "Angie 比出加油"]], "point": "用「一天一件小事」累積財務習慣：看帳、分類、轉存、檢查。", "q": "你願意挑戰21天嗎？", "link": ""}]}, {"id": "S4", "island": "體質島", "theme": "財務體質檢測（體驗版）", "rank": "副船長", "service": "綠芽檢測財務體質（體驗版）", "color": "#2f7f9a", "eps": [{"name": "第11案｜現金流健康指數", "topic": "現金流", "hook": "收入很高，為什麼現金流還是負的？", "shots": [["胖胖幣", "我收入不錯啊，怎麼還是不夠用？", "胖胖幣看著漏水的船"], ["多多", "收入高不重要，留得住才重要！", "多多指著船底破洞"], ["小綠芽", "用現金流健康指數，看每月結餘是正還是負。", "小綠芽量測儀表"], ["Angie", "先堵住破洞，船才開得遠。", "Angie 對鏡頭"], ["Angie", "想知道你的現金流指數嗎？留言「破案」。", "Angie 微笑"]], "point": "每月結餘＝收入－支出；長期為負，就是財務體質的第一個警訊。", "q": "你每月結餘是正還是負？", "link": ""}, {"name": "第12案｜緊急預備金夠嗎？", "topic": "緊急預備金", "hook": "如果明天不能工作，你撐得了幾個月？", "shots": [["Angie", "人生的風暴，從來不會先通知。", "暴風雨中的船"], ["胖胖幣", "如果收入停了，房租、保費還是要付啊！", "胖胖幣抱頭"], ["小綠芽", "先算每月必要支出，再看預備金能撐幾個月。", "小綠芽寫下算式"], ["多多", "撐不過三個月？那就是今天的第一個任務！", "多多敲鐘"], ["Angie", "你的預備金能撐幾個月？留言「破案」。", "Angie 站在船舵旁"]], "point": "預備金月數＝可動用存款 ÷ 每月必要支出；常見建議為 3～6 個月。", "q": "你的預備金能撐幾個月？", "link": ""}, {"name": "第13案｜負債有沒有超載？", "topic": "負債比", "hook": "房貸、車貸、信貸，你的船載得動嗎？", "shots": [["多多", "這艘船裝太多貨了，快沉了！", "多多看著吃水很深的船"], ["胖胖幣", "房貸、車貸、信貸…我都扛著…", "胖胖幣背著大箱子"], ["小綠芽", "算一下每月還款占收入幾成。", "小綠芽拿出天平"], ["Angie", "負債不是壞事，超過能力才是問題。", "Angie 冷靜說明"], ["Angie", "你的還款占收入幾成？留言「破案」。", "Angie 點頭"]], "point": "每月還款占收入比例是重要指標；比例越高，抗風險能力越低。", "q": "你的每月還款占收入幾成？", "link": ""}, {"name": "第14案｜保障有沒有缺口？", "topic": "保障缺口", "hook": "保單一大疊，真的保到重點了嗎？", "shots": [["胖胖幣", "我買了好多張保單，應該很安全吧？", "胖胖幣坐在保單堆上"], ["多多", "張數多不等於保得對！醫療、失能、壽險，缺哪個？", "多多翻保單"], ["小綠芽", "把保單整理成一張表，缺口一眼就看見。", "小綠芽展示保障表格"], ["Angie", "保單健診，是保護家人的一次大掃除。", "Angie 誠懇看鏡頭"], ["Angie", "你知道自己的保障缺口嗎？留言「破案」。", "Angie 微笑"]], "point": "保單整理成一張表：醫療、失能、重疾、壽險、長照，逐項看缺口。", "q": "你上次整理保單是什麼時候？", "link": ""}]}, {"id": "S5", "island": "解鎖之門", "theme": "解鎖完整版｜看懂全家財務", "rank": "船長", "service": "綠芽財務管理系統（完整版）", "color": "#8a5cc2", "eps": [{"name": "第15案｜體驗版之後呢？", "topic": "從檢測到行動", "hook": "做完檢測，最怕的是看完就忘。", "shots": [["胖胖幣", "我做完檢測了，然後呢？", "胖胖幣拿著報告發呆"], ["小綠芽", "解鎖完整版，系統會幫你排出改善順序。", "小綠芽打開一扇發光的門"], ["多多", "有順序，才不會什麼都想改、什麼都沒改！", "多多點頭"], ["Angie", "看懂問題是起點，跟著航線走才會改變。", "Angie 站在門前"], ["Angie", "想打開你的解鎖之門嗎？留言「破案」。", "Angie 伸手邀請"]], "point": "檢測後最重要的是「排序」：先處理影響最大、最容易做到的一項。", "q": "你做過財務檢測嗎？", "link": ""}, {"name": "第16案｜家庭財務會議", "topic": "家人共識", "hook": "錢的事，只有一個人煩惱嗎？", "shots": [["Angie", "家裡的錢，不該只有一個人扛。", "Angie 坐在餐桌旁"], ["胖胖幣", "每次講到錢，家裡就吵架…", "胖胖幣躲在桌下"], ["小綠芽", "用同一張數字表開會，大家就看得懂。", "小綠芽把報表放在桌上"], ["多多", "先聊目標，再聊數字，不准翻舊帳！", "多多當主持人"], ["Angie", "你家多久開一次財務會議？留言「破案」。", "Angie 微笑"]], "point": "家庭財務會議三步：先談共同目標→再看數字→最後分工。", "q": "你家誰在管錢？", "link": ""}, {"name": "第17案｜升任船長的第一個任務", "topic": "設定目標", "hook": "沒有目的地，風再大也到不了。", "shots": [["多多", "船長，你要開去哪裡？", "多多站在羅盤上"], ["胖胖幣", "呃…有錢的地方？", "胖胖幣搔頭"], ["小綠芽", "目標要具體：金額、時間、用途。", "小綠芽寫下目標卡"], ["Angie", "把夢想寫成數字，就是航線的起點。", "Angie 拿著地圖"], ["Angie", "你今年最想完成的財務目標是什麼？留言「破案」。", "Angie 對鏡頭"]], "point": "好目標＝金額＋時間＋用途，例如「兩年存二十萬當教育金」。", "q": "你今年最想完成的財務目標？", "link": ""}]}, {"id": "S6", "island": "掌舵島", "theme": "五日營｜金錢整理實踐", "rank": "船長 → 家庭財務長", "service": "金錢整理五日實踐營", "color": "#c0603f", "eps": [{"name": "第18案｜Day1 全面盤點", "topic": "盤點", "hook": "整理金錢的第一天，先別急著省。", "shots": [["小綠芽", "第一天，把所有帳戶、保單、負債都找出來。", "小綠芽搬出寶箱"], ["胖胖幣", "原來我有一個忘記的帳戶！", "胖胖幣發現金幣"], ["多多", "還有一張忘記的卡在扣年費！", "多多抓出一張卡"], ["Angie", "盤點，是讓你看見全貌的第一步。", "Angie 翻開清單"], ["Angie", "你有忘記的帳戶嗎？留言「破案」。", "Angie 微笑"]], "point": "盤點清單：存款、投資、保單、負債、固定扣款，全部列出。", "q": "你有幾個帳戶？", "link": ""}, {"name": "第19案｜Day2 支出分類", "topic": "分類", "hook": "同樣是花錢，有的會回來，有的不會。", "shots": [["多多", "這筆是吃，這筆是玩，這筆是…到底是什麼！", "多多分類卡片"], ["小綠芽", "分成固定、變動、年度三種，就清楚了。", "小綠芽排成三列"], ["胖胖幣", "原來年度保費和稅金，才是我月底大失血的原因！", "胖胖幣恍然大悟"], ["Angie", "把年度支出攤到每個月，就不會突然被嚇到。", "Angie 點頭"], ["Angie", "你最常被哪一筆年度支出嚇到？留言「破案」。", "Angie 對鏡頭"]], "point": "支出三分法：固定、變動、年度；年度支出每月預存。", "q": "哪筆年度支出最嚇人？", "link": ""}, {"name": "第20案｜Day3 做預算", "topic": "預算", "hook": "預算不是限制，是幫你的錢排班。", "shots": [["胖胖幣", "做預算是不是就不能花錢了？", "胖胖幣害怕"], ["小綠芽", "預算是先決定每一塊錢的工作。", "小綠芽幫金幣排班"], ["多多", "有預算，花錢反而更理直氣壯！", "多多拍翅膀"], ["Angie", "好的預算，讓你花得安心、存得踏實。", "Angie 微笑"], ["Angie", "你有做預算的習慣嗎？留言「破案」。", "Angie 揮手"]], "point": "預算＝為每一塊錢安排工作：生活、儲蓄、目標、保障。", "q": "你有做預算嗎？", "link": ""}, {"name": "第21案｜Day4 設定目標", "topic": "目標", "hook": "短中長期目標，一次排好。", "shots": [["Angie", "今天我們把夢想排進時間表。", "Angie 展開航海圖"], ["小綠芽", "一年內、三到五年、十年以上，各寫一個。", "小綠芽貼上三張目標卡"], ["胖胖幣", "我想要家庭旅遊、換車、還有安心退休！", "胖胖幣興奮"], ["多多", "有排順序，錢才知道先去哪！", "多多指著地圖"], ["Angie", "你的三個目標是什麼？留言「破案」。", "Angie 對鏡頭"]], "point": "目標分短、中、長期，每個目標對應一個錢囊或帳戶。", "q": "你的長期目標是什麼？", "link": ""}, {"name": "第22案｜Day5 行動與陪跑", "topic": "行動", "hook": "整理完不是結束，是開始掌舵。", "shots": [["胖胖幣", "五天結束了，我會不會又打回原形？", "胖胖幣擔心"], ["小綠芽", "每月一次檢視，系統幫你追蹤進度。", "小綠芽打開月曆"], ["多多", "有人陪跑，偷懶就會被我抓到！", "多多盯著胖胖幣"], ["Angie", "恭喜你，正式成為家庭財務長。", "Angie 頒發徽章給胖胖幣"], ["Angie", "想要有人陪你一起走嗎？留言「破案」。", "Angie 微笑揮手"]], "point": "持續的關鍵：每月檢視一次＋有人陪跑。", "q": "你最需要哪種陪伴？", "link": ""}]}, {"id": "S7", "island": "遠洋航線", "theme": "家庭財務長的日常", "rank": "家庭財務長", "service": "年度陪跑／五大航線服務", "color": "#2c5aa0", "eps": [{"name": "第23案｜教育金的時間魔法", "topic": "教育金", "hook": "孩子的學費，越早準備越輕鬆。", "shots": [["胖胖幣", "孩子還小，學費以後再說吧？", "胖胖幣搖搖手"], ["多多", "以後再說，到時候就變大石頭！", "多多推著一顆大石頭"], ["小綠芽", "提早每月一點點，時間會幫你分擔。", "小綠芽把石頭切成小塊"], ["Angie", "教育金最好的幫手，是時間。", "Angie 對鏡頭"], ["Angie", "你開始準備教育金了嗎？留言「破案」。", "Angie 微笑"]], "point": "大目標拆成每月小額，越早開始每月負擔越輕。", "q": "孩子幾歲開始準備？", "link": ""}, {"name": "第24案｜房貸要不要提前還？", "topic": "房貸", "hook": "有閒錢，該先還房貸還是先存？", "shots": [["胖胖幣", "有一筆獎金，要不要拿去還房貸？", "胖胖幣拿著紅包"], ["多多", "先看預備金夠不夠！別把救生圈丟了！", "多多拿救生圈"], ["小綠芽", "比較房貸利率、預備金、其他目標，再決定。", "小綠芽列比較表"], ["Angie", "沒有標準答案，只有適合你家的順序。", "Angie 冷靜說明"], ["Angie", "你會怎麼選？留言「破案」。", "Angie 點頭"]], "point": "提前還款前先確認：預備金足夠、無更高利率負債、其他目標不受影響。", "q": "你會先還房貸還是先存？", "link": ""}, {"name": "第25案｜退休要準備多少？", "topic": "退休", "hook": "退休金，不是一個數字，是一種生活。", "shots": [["Angie", "你想過的退休生活，長什麼樣子？", "Angie 看著海平線"], ["胖胖幣", "我想每年出國一次，還想學畫畫！", "胖胖幣畫出夢想"], ["小綠芽", "先估每月生活費，再扣掉勞保、勞退，看缺口。", "小綠芽寫算式"], ["多多", "缺口算出來，就不用一直焦慮了！", "多多點頭"], ["Angie", "想算算你的退休缺口嗎？留言「破案」。", "Angie 微笑"]], "point": "退休缺口＝期望生活費－可預期收入（勞保、勞退等），先估再補。", "q": "你理想的退休生活是什麼？", "link": ""}, {"name": "第26案｜投資前的三個問題", "topic": "投資配置", "hook": "還沒問這三題，先別急著投資。", "shots": [["胖胖幣", "朋友說這支會漲，我要全部投下去！", "胖胖幣衝向海浪"], ["多多", "停！你知道要放多久、能承受多少波動嗎？", "多多擋住"], ["小綠芽", "先問：用途、期間、風險承受度。", "小綠芽舉出三根手指"], ["Angie", "投資是航線的一部分，不是一次賭注。", "Angie 認真說"], ["Angie", "你投資前會先問自己哪一題？留言「破案」。", "Angie 點頭"]], "point": "投資前三問：這筆錢的用途、能放多久、能承受多少波動。", "q": "你投資前會先問什麼？", "link": ""}, {"name": "第27案｜保單年度健檢", "topic": "保單年檢", "hook": "人生變了，保單有跟著變嗎？", "shots": [["多多", "結婚、生子、換工作，保單還停在十年前！", "多多翻舊保單"], ["胖胖幣", "我以為買了就不用管了…", "胖胖幣搔頭"], ["小綠芽", "每年檢視一次，跟著人生階段調整。", "小綠芽更新表格"], ["Angie", "保單年檢，是家庭財務長每年的固定任務。", "Angie 微笑"], ["Angie", "你上次檢視保單是什麼時候？留言「破案」。", "Angie 對鏡頭"]], "point": "人生階段改變（結婚、生子、買房、換工作）就是保單檢視的時機。", "q": "你上次檢視保單是何時？", "link": ""}]}, {"id": "S8", "island": "幸福藍海", "theme": "三力平衡與家族傳承", "rank": "家庭財務長（傳承者）", "service": "家族傳承規劃／三力共學", "color": "#1f8a8a", "eps": [{"name": "第28案｜財力、心力、體力", "topic": "幸福三力", "hook": "有錢就幸福嗎？還少了兩種力。", "shots": [["Angie", "真正的安心，需要財力、心力、體力一起平衡。", "Angie 站在藍海前"], ["胖胖幣", "我只顧著存錢，最近好累…", "胖胖幣癱坐"], ["小綠芽", "照顧好身體和心情，才能好好管錢。", "小綠芽遞上一杯茶"], ["多多", "三力少一個，船就會歪！", "多多歪著站"], ["Angie", "你最想補強哪一力？留言「破案」。", "Angie 微笑"]], "point": "幸福三力：財力（財富）、心力（心理）、體力（健康），缺一不可。", "q": "你最想補強哪一力？", "link": ""}, {"name": "第29案｜意定監護與長照預備", "topic": "長照預備", "hook": "如果有一天無法自己做決定，誰幫你？", "shots": [["Angie", "這個問題不舒服，但越早想越安心。", "Angie 溫柔看鏡頭"], ["胖胖幣", "我還年輕，不用想這些吧？", "胖胖幣搖頭"], ["多多", "準備不是因為會發生，是因為愛家人！", "多多認真"], ["小綠芽", "可以先了解意定監護和長照的準備方式。", "小綠芽展示清單"], ["Angie", "你和家人聊過這件事嗎？留言「破案」。", "Angie 點頭"]], "point": "意定監護讓你預先指定信任的人；長照準備包含資金、照顧安排與家人共識。", "q": "你和家人聊過長照嗎？", "link": ""}, {"name": "第30案｜傳承，是愛的延續", "topic": "家族傳承", "hook": "傳承不只是財產，更是價值觀。", "shots": [["Angie", "傳承，是把愛和觀念一起交到孩子手上。", "Angie 和家人在甲板"], ["胖胖幣", "原來不是有錢人才需要傳承！", "胖胖幣驚訝"], ["小綠芽", "先整理資產清單，再和家人溝通想法。", "小綠芽拿出家族地圖"], ["多多", "先講清楚，家人才不會吵架！", "多多點頭"], ["Angie", "你最想傳承給孩子的是什麼？留言「破案」。", "Angie 微笑"]], "point": "傳承三步：整理資產清單→家人溝通共識→專業工具規劃。", "q": "你最想傳承什麼給孩子？", "link": ""}, {"name": "第31案｜下一位家庭財務長", "topic": "親子財商", "hook": "最好的傳承，是教孩子自己掌舵。", "shots": [["小綠芽", "我們用桌遊，讓孩子玩出理財觀念！", "小綠芽擺出桌遊"], ["胖胖幣", "孩子學會分錢囊，比我還厲害！", "胖胖幣鼓掌"], ["多多", "從小會管錢，長大不迷航！", "多多飛過孩子頭頂"], ["Angie", "培養下一位家庭財務長，就是幸福的延續。", "Angie 和孩子一起玩"], ["Angie", "你想讓孩子從幾歲開始學理財？留言「破案」。", "Angie 對鏡頭揮手"]], "point": "用遊戲與零用錢練習分錢囊，從小培養管錢能力。", "q": "你想讓孩子幾歲開始學理財？", "link": ""}]}];
+const RANKS=['旅人','新手船員','副船長','船長','家庭財務長','傳承者'];
+const POS=[[110,330],[250,250],[400,320],[540,230],[680,300],[820,220],[930,330],[790,420]];
+const GAMES = {
+ S1:{type:'quiz',title:'症狀偵查：哪些是財務亞健康警訊？',qs:[
+  {q:'薪水入帳不到兩週就快用完了',a:['是警訊','不是'],c:0,why:'月光是最常見的亞健康症狀。'},
+  {q:'每月固定先存一筆錢再花',a:['是警訊','不是'],c:1,why:'先存後花是健康習慣。'},
+  {q:'說不出上個月錢花到哪裡',a:['是警訊','不是'],c:0,why:'看不見錢的去向，就無法調整。'},
+  {q:'身上有三筆以上分期在扣款',a:['是警訊','不是'],c:0,why:'分期會預支未來收入。'}]},
+ S2:{type:'sort',title:'三錢囊分類：把錢放進對的錢囊',bins:['生活錢囊','儲蓄錢囊','夢想錢囊'],items:[
+  ['房租水電',0],['緊急預備金',1],['家庭旅遊基金',2],['每週買菜',0],['孩子學費預存',1],['想學的課程',2]]},
+ S3:{type:'sort',title:'燈塔巡邏：好習慣還是漏財？',bins:['好習慣 點亮燈塔','漏財 要堵住'],items:[
+  ['每天看一眼收支',0],['忘記取消的試用訂閱',1],['入帳自動轉存',0],['每季檢查自動扣款',0],['沒在用的健身房月費',1],['小額訂閱一直累積',1]]},
+ S4:{type:'quiz',title:'體質檢測：算算看',qs:[
+  {q:'可動用存款 18 萬，每月必要支出 3 萬，預備金能撐幾個月？',a:['3 個月','6 個月','9 個月'],c:1,why:'18 ÷ 3 ＝ 6 個月。'},
+  {q:'月收入 6 萬，月支出 6.5 萬，現金流是？',a:['正的','負的','剛好打平'],c:1,why:'支出大於收入，每月少 5 千。'},
+  {q:'保單有一大疊，代表保障一定足夠嗎？',a:['一定足夠','要整理成一張表看缺口'],c:1,why:'張數多不等於保得對。'}]},
+ S5:{type:'quiz',title:'解鎖之門：選出能打開門的目標卡',qs:[
+  {q:'哪一張是好的財務目標？',a:['我想變有錢','兩年存 20 萬當孩子教育金','以後再說'],c:1,why:'好目標＝金額＋時間＋用途。'},
+  {q:'家庭財務會議的第一步是？',a:['先翻舊帳','先談共同目標','直接砍預算'],c:1,why:'先談目標，再看數字，最後分工。'}]},
+ S6:{type:'order',title:'五日營掌舵：把五天任務排出正確順序',steps:['全面盤點','支出分類','做預算','設定目標','行動與陪跑']},
+ S7:{type:'quiz',title:'遠洋航線情境題',qs:[
+  {q:'拿到一筆獎金，預備金只夠 1 個月，最先做什麼？',a:['全部提前還房貸','先補足預備金','全部拿去投資'],c:1,why:'先有救生圈，再談加速。'},
+  {q:'投資前要先問自己哪三題？',a:['用途、期間、風險承受度','誰報的明牌','哪支漲最多'],c:0,why:'投資是航線的一部分，不是賭注。'},
+  {q:'什麼時候該檢視保單？',a:['買了就不用管','結婚、生子、買房、換工作時','只有理賠時'],c:1,why:'人生階段改變就是檢視時機。'}]},
+ S8:{type:'sort',title:'幸福三力配對',bins:['財力','心力','體力'],items:[
+  ['每月固定儲蓄',0],['和家人開家庭會議',1],['規律運動',2],['保單年度健檢',0],['每天留時間給自己',1],['定期健康檢查',2]]}
+};
+let st={done:{},tags:true};
+try{const s=JSON.parse(localStorage.getItem('hanji_v1')||'{}');if(s.done)st.done=s.done}catch(e){}
+const save=()=>{try{localStorage.setItem('hanji_v1',JSON.stringify({done:st.done}))}catch(e){}};
+const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const total=ST.reduce((a,s)=>a+s.eps.length,0);
+const doneCount=()=>ST.filter(s=>st.done[s.id]).length;
+const rank=()=>RANKS[Math.min(RANKS.length-1,Math.ceil(doneCount()*5/8))];
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1600)}
+function copyLink(h){const u=location.href.split('#')[0]+(h?'#'+h:'');const done=()=>toast('連結已複製，可貼到 LINE 分享');
+ try{navigator.clipboard.writeText(u).then(done,()=>fallback(u,done))}catch(e){fallback(u,done)}}
+function fallback(u,done){const a=document.createElement('textarea');a.value=u;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast(u)}a.remove()}
+
+function island(s,i,big){const [x,y]=POS[i];const d=st.done[s.id];
+ return `<g class="isle" data-id="${s.id}" tabindex="0" role="button" aria-label="${esc(s.island)}">
+ <ellipse cx="${x}" cy="${y+26}" rx="78" ry="22" fill="#9fcad5"/>
+ <ellipse cx="${x}" cy="${y+14}" rx="70" ry="26" fill="#e9d7a8"/>
+ <ellipse cx="${x}" cy="${y}" rx="60" ry="30" fill="${s.color}"/>
+ <ellipse cx="${x-14}" cy="${y-8}" rx="30" ry="12" fill="#ffffff" opacity=".18"/>
+ <polygon points="${x+18},${y-48} ${x+18},${y-14} ${x+42},${y-20}" fill="#fff"/><line x1="${x+18}" y1="${y-50}" x2="${x+18}" y2="${y-6}" stroke="#5b4630" stroke-width="2"/>
+ ${d?`<circle cx="${x-34}" cy="${y-26}" r="13" fill="#fff" stroke="#c0603f" stroke-width="2"/><text x="${x-34}" y="${y-22}" text-anchor="middle" font-size="11" fill="#c0603f" font-weight="800">破案</text>`:''}
+ <rect class="tagbg" x="${x-58}" y="${y+44}" width="116" height="24" rx="12" fill="#fff" opacity=".92"/>
+ <text class="nametag" x="${x}" y="${y+61}" text-anchor="middle" fill="${s.color}">${i+1}. ${esc(s.island)}</text></g>`}
+function mapSvg(){let route='';for(let i=0;i<POS.length-1;i++){const[a,b]=POS[i],[c,d]=POS[i+1];route+=`M${a} ${b+10} Q${(a+c)/2} ${(b+d)/2+60} ${c} ${d+10} `}
+ let waves='';for(let k=0;k<14;k++){const x=40+((k*137)%960),y=60+((k*89)%400);waves+=`<path d="M${x} ${y} q8 -6 16 0 q8 6 16 0" stroke="#ffffff" stroke-width="2" fill="none" opacity=".6"/>`}
+ return `<svg id="map" viewBox="0 0 1040 500" role="img" aria-label="財富航海群島地圖">${waves}
+ <path d="${route}" stroke="#2f5d6a" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".5"/>
+ ${ST.map((s,i)=>island(s,i)).join('')}
+ <g transform="translate(965,60)"><circle r="26" fill="#fff" opacity=".85"/><text y="-8" text-anchor="middle" font-size="12" fill="#2f5d6a">N</text><polygon points="0,-18 5,0 0,18 -5,0" fill="#c0603f"/></g></svg>`}
+function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
+ document.querySelectorAll('#mapbox .isle').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
+ $('#heroMini').innerHTML=`<div style="padding:16px"><div style="font-weight:800;margin-bottom:6px">我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可蓋章</div></div>`;
+ $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}"><b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
+ document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
+ $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
+ const nx=ST.find(s=>!st.done[s.id]);$('#nextTip').textContent=nx?`下一站：${nx.island}`:'全部破案，恭喜成為傳承者！';}
+
+function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];
+ document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
+ try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
+ $('#detail').innerHTML=`<div class="panel" style="border-top:6px solid ${s.color}">
+ <div class="phead"><div><h2>${i+1}. ${esc(s.island)}｜${esc(s.theme)}</h2>
+ <span class="chip">船員等級：${esc(s.rank)}</span><span class="chip">對應服務：${esc(s.service)}</span><span class="chip">${s.eps.length} 案</span></div>
+ <div><button class="btn" id="shareSt">分享這一島</button></div></div>
+ <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
+ <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
+ <details><summary>看劇情</summary>${e.shots.map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
+ <p style="color:#5f7680">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener">看 FB 原文影片</a>`:'影片連結：準備中'}</p></div>`).join('')}</div>
+ <div class="game" id="game"></div>
+ <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
+ $('#shareSt').onclick=()=>copyLink(id.toLowerCase());
+ $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
+ game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style="font-size:13px;color:#5f7680">全部答對即可在 ${esc(s.island)} 蓋上「破案」章　${st.done[s.id]?'<span class="stamp">已破案</span>':''}</div>`}
+function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
+function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
+ $('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，目前等級：<b>${rank()}</b>。看完影片記得留言「破案」。`}
+function game(s){const g=GAMES[s.id],box=$('#game');
+ if(g.type==='quiz'){let right=0,ans=0;const qs=shuffle(g.qs);
+  box.innerHTML=head(s,g)+qs.map((q,k)=>`<div style="margin-top:10px"><b>Q${k+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="opt" data-k="${k}" data-j="${j}">${esc(a)}</button>`).join('')}<div class="fb" id="w${k}"></div></div>`).join('')+foot();
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const k=+b.dataset.k,j=+b.dataset.j,q=qs[k];
+   if(box.querySelector(`.opt[data-k="${k}"].ok`))return;
+   if(j===q.c){b.classList.add('ok');$('#w'+k).textContent='答對！'+q.why;ans++;if(ans===qs.length)win(s)}
+   else{b.classList.add('no');$('#w'+k).textContent='再想想：'+q.why}})}
+ if(g.type==='sort'){const items=shuffle(g.items);let sel=null,ok=0;
+  box.innerHTML=head(s,g)+`<p style="font-size:14px">先點一個項目，再點它該去的地方。</p><div id="pool">${items.map((it,k)=>`<span class="item" data-k="${k}">${esc(it[0])}</span>`).join('')}</div><div class="bins">${g.bins.map((b,j)=>`<div class="bin" data-j="${j}"><b>${esc(b)}</b></div>`).join('')}</div>`+foot();
+  box.querySelectorAll('.item').forEach(e=>e.onclick=()=>{if(e.classList.contains('ok'))return;box.querySelectorAll('.item').forEach(x=>x.classList.remove('sel'));e.classList.add('sel');sel=e});
+  box.querySelectorAll('.bin').forEach(bn=>bn.onclick=()=>{if(!sel)return;const it=items[+sel.dataset.k];
+   if(it[1]===+bn.dataset.j){sel.classList.remove('sel','no');sel.classList.add('ok');bn.appendChild(sel);ok++;$('#fb').textContent='放對了！';sel=null;if(ok===items.length)win(s)}
+   else{sel.classList.add('no');$('#fb').textContent='這個不屬於「'+g.bins[+bn.dataset.j]+'」，再試一次。'}})}
+ if(g.type==='order'){const sh=shuffle(g.steps);let n=0;
+  box.innerHTML=head(s,g)+`<p style="font-size:14px">依 Day1 → Day5 的順序點選。</p><div>${sh.map(t=>`<span class="item" data-t="${esc(t)}">${esc(t)}</span>`).join('')}</div><ol id="ord" style="font-size:14px"></ol>`+foot();
+  box.querySelectorAll('.item').forEach(e=>e.onclick=()=>{if(e.classList.contains('ok'))return;
+   if(e.dataset.t===g.steps[n]){e.classList.add('ok');$('#ord').insertAdjacentHTML('beforeend',`<li>Day${n+1} ${esc(g.steps[n])}</li>`);n++;$('#fb').textContent='正確！';if(n===g.steps.length)win(s)}
+   else{e.classList.add('no');setTimeout(()=>e.classList.remove('no'),600);$('#fb').textContent='順序不對喔，Day'+(n+1)+' 應該先做什麼？'}})}
+ $('#reset').onclick=()=>game(s);
+ ['copy','cut','paste','contextmenu','selectstart','dragstart'].forEach(ev=>box.addEventListener(ev,e=>e.preventDefault()))}
+
+function renderTour(){let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
+ const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true"><ellipse cx="40" cy="48" rx="22" ry="26" fill="#f4a321"/><circle cx="40" cy="28" r="18" fill="#f7c234"/><path d="M28 50 q-14 6 -10 20 q10 -4 14 -16z" fill="#4c9a3a"/><path d="M52 50 q14 6 10 20 q-10 -4 -14 -16z" fill="#4c9a3a"/><circle cx="34" cy="26" r="4" fill="#222"/><circle cx="46" cy="26" r="4" fill="#222"/><path d="M36 33 q4 6 8 0 q-4 -2 -8 0z" fill="#333"/></svg>多多｜社區管家</div>
+ <div><div style="font-size:16px">${esc(s.t)}</div><div class="ctrl"><button class="btn" id="tp">←</button><span>${k+1} / ${steps.length}</span><button class="btn" id="tn">→</button><button class="btn" id="ta">${timer?'暫停':'自動播放'}</button>${s.id?`<button class="btn pri" id="tgo">去這座島</button>`:''}</div></div></div>`;
+  $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw()};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw()};
+  $('#ta').onclick=()=>{if(timer){clearInterval(timer);timer=null}else{timer=setInterval(()=>{k=(k+1)%steps.length;draw()},4500)}draw()};
+  if(s.id)$('#tgo').onclick=()=>{if(timer){clearInterval(timer);timer=null}view('map');openSt(s.id)}};draw()}
+function renderIndex(){const rows=ST.flatMap((s,i)=>s.eps.map(e=>({s,i,e})));
+ $('#vIndex').innerHTML=`<input id="q" placeholder="搜尋案件，例如：預備金、分期、傳承"><table id="it"></table>`;
+ const f=()=>{const q=$('#q').value.trim();$('#it').innerHTML=rows.filter(r=>!q||(r.e.name+r.e.topic+r.e.hook+r.e.point+r.s.island).includes(q)).map(r=>`<tr data-id="${r.s.id}" style="cursor:pointer"><td style="color:${r.s.color};white-space:nowrap">${r.i+1}. ${esc(r.s.island)}</td><td><b>${esc(r.e.name)}</b><br><small style="color:#5f7680">${esc(r.e.hook)}</small></td></tr>`).join('')||'<tr><td>找不到相關案件，換個關鍵字試試。</td></tr>';
+  document.querySelectorAll('#it tr[data-id]').forEach(t=>t.onclick=()=>{view('map');openSt(t.dataset.id)})};$('#q').oninput=f;f()}
+function renderVoyage(){$('#vVoyage').innerHTML=`<h3 style="margin-top:0">我的航程｜目前等級：${rank()}</h3><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div>
+ <div class="cases">${ST.map((s,i)=>`<div class="case" style="border-left:6px solid ${s.color}"><h4>${i+1}. ${esc(s.island)}</h4><p>${esc(s.theme)}</p><p>${st.done[s.id]?'<span class="stamp">已破案</span>':'<button class="btn" data-id="'+s.id+'">前往破案</button>'}</p></div>`).join('')}</div>
+ <p style="font-size:13px;color:#5f7680">進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p><button class="btn" id="clr">清除我的進度</button>`;
+ document.querySelectorAll('#vVoyage button[data-id]').forEach(b=>b.onclick=()=>{view('map');openSt(b.dataset.id)});
+ $('#clr').onclick=()=>{st.done={};save();renderMap();renderVoyage();toast('進度已清除')}}
+function view(v){document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+ $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';
+ if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage()}
+document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'){view('index');$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
+$('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
+$('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
+let idle=0,ai=0;['pointerdown','keydown','wheel','touchstart'].forEach(e=>addEventListener(e,()=>idle=0,{passive:true}));
+setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id))}},2000);
+$('#shareTop').onclick=()=>copyLink('');
+renderMap();
+function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(ST.some(s=>s.id===h))openSt(h,true)}
+addEventListener('hashchange',fromHash);fromHash();
+</script></body></html>
