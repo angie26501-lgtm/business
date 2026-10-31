@@ -109,7 +109,7 @@ footer{font-size:13px;color:var(--soft);text-align:center;padding:18px}
 ・<b>保險公司官網「投資型保險專區／投資標的查詢」</b>：輸入標的代碼，看「淨值資料」「配息紀錄」「績效表現」分頁。<br>
 ・<b>基金資訊觀測站</b>（投信投顧公會）、<b>基富通</b>、<b>MoneyDJ 理財網</b>：搜尋基金名稱，看「歷史淨值」「配息」。<br>
 找到基金頁面後，把網址貼到下方該基金的「🔗 基金查詢連結」欄，之後就能一鍵開啟查詢。<span class="qlinks" style="margin:8px 0"><a href="https://kgilife.moneydj.com/main.asp?sUrl=$W$HTML$SELECT]DJHTM" target="_blank" rel="noopener noreferrer">🔎 參考：凱基人壽 投資標的查詢</a></span>其他保險公司也有類似的「投資標的」頁，請以自己保單所屬公司為準。<br>建議每個月取<u>月底那一天</u>的淨值；配息型基金另外記下每月「每單位配息」。</li>
-<li><b>貼進下方工具（兩種方式擇一）</b><b style="display:inline">方式一</b>：照範例格式整理好貼上，或直接上傳 .txt／.csv 文字檔。<br><b style="display:inline">方式二</b>：貼上基金的查詢連結，點「淨值資料」開啟後整頁全選複製貼回，網頁會自動挑出日期與淨值（配息紀錄頁也可以照做）。<br>查不到淨值也沒關係，很多網站的「績效表現」頁有<u>各月報酬率</u>，改選「各月報酬率」貼上也能算。</li>
+<li><b>貼進下方工具（兩種方式擇一）</b><b style="display:inline">方式一（最簡單）</b>：貼上基金網址，按「🔍 自動查詢」，網頁會自動抓淨值與配息。<br><b style="display:inline">方式二</b>：照範例格式貼上，或上傳 .txt／.csv 文字檔。<br>查不到淨值也沒關係，很多網站的「績效表現」頁有<u>各月報酬率</u>，改選「各月報酬率」貼上也能算。</li>
 </ol>
 <details open><summary>資料格式範例（數字為虛構示意）</summary>
 <p class="note" style="margin:8px 0 4px">類型 A｜淨值：<code>日期, 淨值, 每單位配息（沒有就留空）, 匯率（外幣才需要，可留空）</code></p>
@@ -231,14 +231,15 @@ function fundHTML(f){return '<div class="fund"><div class="top"><b>基金</b><bu
  '<div><label>資料類型</label><select class="ft"><option value="nav"'+(f.type=="nav"?" selected":"")+'>A｜淨值（可含配息）</option><option value="ret"'+(f.type=="ret"?" selected":"")+'>B｜各月報酬率%</option></select></div>'+
  '<div><label>計價幣別</label><select class="fc"><option'+(f.ccy=="TWD"?" selected":"")+'>TWD</option><option'+(f.ccy=="USD"?" selected":"")+'>USD</option><option'+(f.ccy=="其他外幣"?" selected":"")+'>其他外幣</option></select></div>'+
  '<div><label>固定匯率（外幣才需要）</label><input class="ff" type="number" step="0.01" value="'+f.fx+'"></div></div>'+
- '<div class="mtabs"><button type="button" class="mt on" data-m="1">📝 方式一｜貼上文字／上傳文字檔</button><button type="button" class="mt" data-m="2">🔗 方式二｜用標的連結查詢</button></div>'+
- '<div class="mp" data-p="1"><label>貼上資料（格式見上方範例），或上傳 .txt／.csv 文字檔</label><textarea class="fd" placeholder="2025/9/30, 10.00\n2025/10/31, 10.20, 0.05">'+esc(f.data)+'</textarea>'+
+ '<div class="mtabs"><button type="button" class="mt on" data-m="2">🔗 方式一｜輸入基金連結（自動查詢）</button><button type="button" class="mt" data-m="1">📝 方式二｜貼上文字／上傳文字檔</button></div>'+
+ '<div class="mp" data-p="1" hidden><label>貼上資料（格式見上方範例），或上傳 .txt／.csv 文字檔</label><textarea class="fd" placeholder="2025/9/30, 10.00\n2025/10/31, 10.20, 0.05">'+esc(f.data)+'</textarea>'+
  '<label class="upl">📂 上傳文字檔（.txt／.csv）<input class="fu" type="file" accept=".txt,.csv,text/plain,text/csv" hidden></label></div>'+
- '<div class="mp" data-p="2" hidden><label>① 貼上這檔基金的查詢網址</label><input class="fl" type="url" inputmode="url" placeholder="https://…（例：保險公司投資標的頁的基金網址）" value="'+esc(f.link||"")+'"><div class="qlinks"></div>'+
- '<p class="note" style="margin:8px 0 4px">② 點上方「淨值資料」開啟後，在該頁<b>全選（Ctrl+A／長按全選）→ 複製</b>，整頁貼到下面；網頁會自動挑出日期和淨值，每月取月底那一筆。想看更長期間，先在該頁選好時間區間再複製。</p>'+
+ '<div class="mp" data-p="2"><label>貼上這檔基金的網址，按「自動查詢」</label><div style="display:flex;gap:8px"><input class="fl" type="url" inputmode="url" placeholder="https://…（例：保險公司投資標的頁的基金網址）" value="'+esc(f.link||"")+'" style="flex:1"><button type="button" class="btn go" style="background:var(--navy);color:#fff;white-space:nowrap">🔍 自動查詢</button></div><div class="qlinks"></div><p class="note pi" style="margin:6px 0 0"></p>'+
+ '<details class="manual"><summary>自動查詢不到時：改用整頁貼上</summary>'+
+ '<p class="note" style="margin:8px 0 4px">① 點上方「淨值資料」開啟後，在該頁<b>全選（Ctrl+A／長按全選）→ 複製</b>，整頁貼到下面；網頁會自動挑出日期和淨值，每月取月底那一筆。</p>'+
  '<textarea class="pn" placeholder="把「淨值資料」頁整頁貼在這裡"></textarea>'+
- '<p class="note" style="margin:8px 0 4px">③ 配息型基金：再開「配息紀錄」頁，同樣全選複製貼到下面（不配息的可略過）。</p>'+
- '<textarea class="pd" placeholder="把「配息紀錄」頁整頁貼在這裡（選填）"></textarea><p class="note pi" style="margin:6px 0 0"></p></div>'+
+ '<p class="note" style="margin:8px 0 4px">② 配息型基金：再開「配息紀錄」頁，同樣全選複製貼到下面（不配息的可略過）。</p>'+
+ '<textarea class="pd" placeholder="把「配息紀錄」頁整頁貼在這裡（選填）"></textarea></details></div>'+
  '<p class="note fi" style="margin:4px 0 0"></p></div>'}
 function setFunds(list){$("funds").innerHTML=list.map(fundHTML).join("");refresh(true)}
 function addFund(){$("funds").insertAdjacentHTML("beforeend",fundHTML({name:"",w:0,type:"nav",ccy:"TWD",fx:1,data:""}));refresh(false)}
@@ -297,7 +298,7 @@ document.addEventListener("input",function(ev){if(ev.target.closest(".fund"))ref
 document.addEventListener("change",function(ev){if(ev.target.closest(".fund"))refresh(false);else run()});
 
 
-function qlinks(el){var box=el.parentNode.querySelector(".qlinks"),u=el.value.trim();box.innerHTML="";if(!u)return;
+function qlinks(el){var box=el.closest(".mp").querySelector(".qlinks"),u=el.value.trim();box.innerHTML="";if(!u)return;
  if(!/^https?:\/\//i.test(u)){box.innerHTML='<span class="bad">請貼完整網址（https:// 開頭）</span>';return}
  var url;try{url=new URL(u)}catch(e){box.innerHTML='<span class="bad">網址格式不正確</span>';return}
  function a(h,t,c){return '<a class="'+(c||"")+'" href="'+esc(h)+'" target="_blank" rel="noopener noreferrer">'+t+'</a>'}
@@ -322,8 +323,25 @@ function convertPage(f){var nv=scanNav(f.querySelector(".pn").value),dv=scanDiv(
  if(!ks.length){pi.innerHTML=f.querySelector(".pn").value.trim()?'<span class="bad">沒有讀到「日期＋淨值」，請確認貼的是淨值資料頁</span>':"";return}
  f.querySelector(".fd").value=ks.map(function(k){var r=nv[k],dv1=dv.m[k];return r.y+"/"+r.m+"/"+r.d+","+r.v+","+(dv1?+dv1.toFixed(6):"")}).join("\n");
  f.querySelector(".ft").value="nav";refresh(false);
- pi.innerHTML="✅ 已轉換：讀到 "+ks.length+" 個月的月底淨值（"+fk(ks[0])+"～"+fk(ks[ks.length-1])+"）"+(dv.n?"、"+dv.n+" 筆配息":"")+"。結果已放進「方式一」資料框，可切過去查看或修改。"+(ks.length<13?'<br><span class="bad">月份較少：如要回測更長期間，請在淨值頁先選時間區間再複製。</span>':"")}
+ pi.innerHTML="✅ 已轉換：讀到 "+ks.length+" 個月的月底淨值（"+fk(ks[0])+"～"+fk(ks[ks.length-1])+"）"+(dv.n?"、"+dv.n+" 筆配息":"")+"。結果已放進「方式二」資料框，可切過去查看或修改。"+(ks.length<13?'<br><span class="bad">月份較少：此網站預設只提供近一年淨值。</span>':"")}
 document.addEventListener("input",function(e){var t=e.target;if(t.classList&&(t.classList.contains("pn")||t.classList.contains("pd")))convertPage(t.closest(".fund"))},true);
+
+// ===== 輸入連結自動查詢（透過 Apps Script 小幫手） =====
+var API=""; // ← 部署 Apps Script 後填入網頁應用程式網址
+function autoFetch(f){var u=f.querySelector(".fl").value.trim(),pi=f.querySelector(".pi");
+ if(!/^https?:\/\//i.test(u)){pi.innerHTML='<span class="bad">請先貼上完整網址（https:// 開頭）</span>';return}
+ if(!API){pi.innerHTML='<span class="bad">自動查詢尚未啟用，請先用下方「整頁貼上」或方式二。</span>';f.querySelector(".manual").open=true;return}
+ pi.textContent="⏳ 查詢中，約需 5～15 秒…";var btn=f.querySelector(".go");btn.disabled=true;
+ fetch(API+"?url="+encodeURIComponent(u)).then(function(r){return r.json()}).then(function(d){btn.disabled=false;
+  if(!d||!d.ok){pi.innerHTML='<span class="bad">查不到：'+esc((d&&d.error)||"未知原因")+'。可改用下方「整頁貼上」。</span>';f.querySelector(".manual").open=true;return}
+  var fn=f.querySelector(".fn");if(!fn.value.trim()&&d.name)fn.value=d.name;
+  if(/美元|USD/i.test(d.ccy||"")){f.querySelector(".fc").value="USD";var fx=f.querySelector(".ff");if(+fx.value<=1)fx.value=32}
+  else if(/台幣|臺幣|新臺幣|TWD/i.test(d.ccy||""))f.querySelector(".fc").value="TWD";
+  f.querySelector(".pn").value=d.navText||"";f.querySelector(".pd").value=d.divText||"";convertPage(f);
+  pi.innerHTML=pi.innerHTML.replace("✅ 已轉換","✅ 自動查詢完成"+(d.name?"（"+esc(d.name)+"）":""))+(f.querySelector(".fc").value=="USD"?'<br>外幣基金：匯率預設 32，可在上方「固定匯率」修改。':"")})
+ .catch(function(){btn.disabled=false;pi.innerHTML='<span class="bad">連線失敗，請稍後再試，或改用下方「整頁貼上」。</span>';f.querySelector(".manual").open=true})}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".go");if(b)autoFetch(b.closest(".fund"))});
+document.addEventListener("keydown",function(e){if(e.key=="Enter"&&e.target.classList&&e.target.classList.contains("fl")){e.preventDefault();autoFetch(e.target.closest(".fund"))}});
 // ===== 功能選單 =====
 function inPasteBox(t){return t&&t.closest&&t.closest("#pmodal")}
 // 點選基金框時標記為貼上目標
