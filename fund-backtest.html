@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>財顧芸｜基金回測體驗</title>
+<style>
+:root{--navy:#14213D;--gold:#B7862F;--gold2:#E9D7B0;--bg:#FBF8F2;--line:#E4DED2;--soft:#4A5568;--blue:#2F5D8A;--warn:#9A3B12;--ok:#2F6B3F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--navy);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;font-size:17px;line-height:1.75}
+a{color:inherit}
+header{background:var(--navy);color:#F3EBDD;padding:28px 20px 24px;text-align:center}
+header .brand{font-size:15px;letter-spacing:2px;color:var(--gold2)}
+header h1{margin:6px 0 4px;font-size:28px}
+header p{margin:0;color:#CFC6B4;font-size:16px}
+.links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.lk{display:inline-block;padding:10px 18px;border-radius:30px;text-decoration:none;font-size:15px;font-weight:700}
+.lk.line{background:#06C755;color:#fff}.lk.web{background:var(--gold);color:#fff}.lk.client{background:#fff;color:var(--navy)}
+main{max-width:1000px;margin:0 auto;padding:18px}
+.card{background:#FFFDF9;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+h2{font-size:21px;margin:0 0 12px;border-left:5px solid var(--gold);padding-left:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+label{display:block;font-size:15px;color:var(--soft);margin-bottom:4px}
+input,select,textarea{width:100%;padding:11px;font-size:17px;border:1px solid #CFC6B4;border-radius:10px;background:#fff;color:var(--navy);font-family:inherit}
+textarea{min-height:130px;font-family:Consolas,monospace;font-size:14px}
+.fund{border:1px dashed #CFC6B4;border-radius:14px;padding:14px;margin-bottom:12px;background:#fff}
+.fund .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding:12px 12px 12px 54px;margin-bottom:10px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.steps li:before{content:counter(s);position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--gold);color:#fff;font-weight:700;text-align:center;line-height:30px}
+.steps b{display:block}
+code{background:#F4EFE5;padding:1px 6px;border-radius:6px;font-size:15px}
+.ex{background:#F4EFE5;border-radius:10px;padding:10px 12px;font-family:Consolas,monospace;font-size:14px;white-space:pre;overflow:auto}
+.del{border-color:var(--warn);color:var(--warn);padding:4px 10px;font-size:14px}
+.fund .nm{font-weight:700}.fund .sub{font-size:14px;color:var(--soft)}
+.sum{font-size:15px;margin-top:8px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:#F4EFE5;border-radius:14px;padding:14px}
+.kpi .t{font-size:14px;color:var(--soft)}.kpi .v{font-size:25px;font-weight:700}.kpi .s{font-size:13px;color:var(--soft)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{background:#F4EFE5;position:sticky;top:0}
+td:first-child,th:first-child{text-align:left}
+tr.end td{font-weight:700;background:#FBF3E4}
+.scroll{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.note{font-size:14px;color:var(--soft)}
+.bad{color:var(--warn);font-weight:700}.ok{color:var(--ok);font-weight:700}
+.chart{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+.legend{display:flex;gap:16px;font-size:14px;color:var(--soft);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.svc div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.svc b{display:block;font-size:17px;margin-bottom:4px}
+.svc span{font-size:14px;color:var(--soft)}
+.cta{background:var(--navy);color:#F3EBDD;border-radius:16px;padding:22px;text-align:center}
+.cta h2{border:0;padding:0;color:#fff;margin-bottom:6px}
+.cta p{margin:0 0 6px;color:#CFC6B4}
+details{margin-top:12px}summary{cursor:pointer;color:var(--blue);font-size:15px}
+.btn{padding:9px 14px;font-size:15px;border-radius:10px;border:1px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer;font-family:inherit}
+.disc{font-size:13px;color:var(--soft);line-height:1.7}
+footer{font-size:13px;color:var(--soft);text-align:center;padding:18px}
+@media(max-width:520px){header h1{font-size:24px}}
+@media print{.links,.cta,details,.noprint{display:none}header{background:#fff;color:var(--navy)}.scroll{max-height:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">財顧芸｜幸福財務領航員</div>
+<h1>基金回測體驗</h1>
+<p>手把手教你查基金淨值、自己算出「如果當初買了，現在會怎樣」</p>
+<div class="links">
+<a class="lk line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">💬 加入財顧芸官方 LINE</a>
+<a class="lk web" href="https://www.allfreedom.info/" target="_blank" rel="noopener">🌿 認識財顧芸</a>
+<a class="lk client" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">🛡️ 保戶專用 LINE@</a>
+</div>
+</header>
+<main>
+
+<section class="card">
+<h2>📖 教學：三步驟自己查資料</h2>
+<ol class="steps">
+<li><b>找到你的投資標的</b>打開保單對帳單或保險公司 App，記下每檔基金（投資標的）的<u>完整名稱、標的代碼、計價幣別</u>，以及目前的配置比例。</li>
+<li><b>到公開網站查淨值與配息</b>常見查詢管道：<br>
+・<b>保險公司官網「投資型保險專區／投資標的查詢」</b>：輸入標的代碼，看「淨值資料」「配息紀錄」「績效表現」分頁。<br>
+・<b>基金資訊觀測站</b>（投信投顧公會）、<b>基富通</b>、<b>MoneyDJ 理財網</b>：搜尋基金名稱，看「歷史淨值」「配息」。<br>
+建議每個月取<u>月底那一天</u>的淨值；配息型基金另外記下每月「每單位配息」。</li>
+<li><b>貼進下方工具</b>一檔基金一個框，選資料類型後，從網頁或 Excel 複製貼上即可。查不到逐日淨值也沒關係，很多網站的「績效表現」頁有<u>各月報酬率</u>，改選「各月報酬率」貼上也能算。</li>
+</ol>
+<details open><summary>資料格式範例（數字為虛構示意）</summary>
+<p class="note" style="margin:8px 0 4px">類型 A｜淨值：<code>日期, 淨值, 每單位配息（沒有就留空）, 匯率（外幣才需要，可留空）</code></p>
+<div class="ex">2025/9/30, 10.00,
+2025/10/31, 10.20, 0.05
+2025/11/28, 10.10, 0.05</div>
+<p class="note" style="margin:10px 0 4px">類型 B｜各月報酬率：<code>月份, 報酬率%</code>（不配息基金適用；配息型基金請用類型 A）</p>
+<div class="ex">2025/10, 2.35
+2025/11, -1.20
+2025/12, 0.85</div>
+</details>
+</section>
+
+<section class="card">
+<h2>① 輸入你的基金資料</h2>
+<div id="funds"></div>
+<div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn" onclick="addFund()">＋ 新增一檔基金</button>
+<button class="btn" onclick="demo()">先用虛構資料試玩</button>
+<button class="btn" onclick="reset()">全部清空</button>
+</div>
+<p class="sum" id="wsum"></p>
+</section>
+
+<section class="card">
+<h2>② 選擇投資方式</h2>
+<div class="grid">
+<div><label>投資方式</label><select id="mode"><option value="lump">單筆投入</option><option value="dca">每月定期定額</option></select></div>
+<div><label id="amtL">投入金額（台幣）</label><input id="amt" type="number" value="1000000" step="10000" min="0"></div>
+<div><label>配息怎麼處理</label><select id="reinv"><option value="cash">每月領現金</option><option value="re">配息再投入</option></select></div>
+<div><label>從哪個月開始</label><select id="s"></select></div>
+<div><label>算到哪個月</label><select id="e"></select></div>
+</div>
+<p class="note">時間以「月」對齊，只會計算所有基金都有資料的月份。</p>
+</section>
+
+<section class="card">
+<h2>③ 回測結果</h2>
+<div class="kpis" id="kpis"></div>
+<p class="note" id="desc"></p>
+<svg id="chart" class="chart" viewBox="0 0 1000 320" style="margin-top:10px"></svg>
+<div class="legend"><span><i style="background:#B7862F"></i>資產價值＋已領配息</span><span><i style="background:#2F5D8A"></i>累計投入本金</span></div>
+<div id="perfund" style="margin-top:14px"></div>
+<details><summary>看每個月的明細</summary><div class="scroll" style="margin-top:8px"><table id="tbl"></table></div></details>
+<p class="note" style="margin-top:10px">💡 「含息總報酬」是把帳上資產價值和已經領到的配息加在一起算。配息率高不代表報酬率高，配息有可能來自本金。</p>
+</section>
+
+<section class="cta">
+<h2>查資料卡關？想看自己保單的完整回測？</h2>
+<p>把保單的投資標的和配置傳給我，我幫你逐檔核對淨值與配息，整理成專屬的回測與配置建議。</p>
+<div class="links">
+<a class="lk line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">💬 LINE 預約諮詢</a>
+<a class="lk client" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener">🛡️ 已是保戶？點這裡</a>
+</div>
+</section>
+
+<section class="card" style="margin-top:16px">
+<h2>財顧芸 服務項目</h2>
+<div class="svc">
+<div><b>📋 保單健診</b><span>把散落各家的保單整理成一張保障全貌，看清楚重複與缺口</span></div>
+<div><b>📈 投資型保單配置與再平衡</b><span>定期檢視標的表現，比例偏掉時協助調整股債配置</span></div>
+<div><b>💰 月配息追蹤通知</b><span>每月整理配息與帳戶價值，透過保戶專用 LINE@ 通知</span></div>
+<div><b>🏖️ 退休規劃</b><span>勞保、勞退、個人準備一起算，找出退休金缺口</span></div>
+<div><b>🌳 家族傳承規劃</b><span>生前、失能、身後三個階段，愛要留下，不要留下麻煩</span></div>
+<div><b>🧭 FNA 財務需求分析</b><span>五大財務目標盤點，給你一份看得懂的財務藍圖</span></div>
+<div><b>🎓 財商與 AI 應用課程</b><span>財商桌遊、理財講座、AI 應用賦能課程</span></div>
+</div>
+<p class="note" style="margin-top:12px">顧問的價值，在於替你向各家窗口交叉溝通、整理資料到給出建議，幫你省下篩選商品的時間。</p>
+</section>
+
+<section class="card">
+<h2>使用說明與聲明</h2>
+<div class="disc">
+・本工具不提供、也不推薦任何基金標的，所有數字依你自行輸入的資料計算；資料都在你的電腦裡運算，不會上傳。<br>
+・輸入「各月報酬率」時，系統以 100 為起點自動換算成淨值指數，只用於計算報酬，不代表實際淨值。<br>
+・外幣基金請填匯率；未逐月填匯率時以固定匯率計算，不含匯率漲跌影響。<br>
+・未計入保單相關費用、申購／轉換費用；實際帳戶價值以保險公司對帳單為準。<br>
+・本工具僅供試算與教育參考，不構成投資建議或任何保證。<b>基金過去績效不代表未來表現</b>，投資有賺有賠，申購前請詳閱公開說明書。配息型基金之配息可能涉及本金。
+</div>
+</section>
+</main>
+<footer>© 財顧芸 陳芸琪｜馥芸財富學苑｜本頁為教學試算工具，請勿轉作商業用途</footer>
+<script>
+var DEMO=[{name:"示範基金 A（虛構・月配息）",w:70,type:"nav",ccy:"USD",fx:32,data:"2025/9/30,10.00,\n2025/10/31,10.10,0.06\n2025/11/28,9.95,0.06\n2025/12/31,10.05,0.06\n2026/1/30,10.20,0.06\n2026/2/26,10.15,0.06\n2026/3/31,9.70,0.06\n2026/4/30,10.10,0.06\n2026/5/29,10.30,0.06\n2026/6/30,10.25,0.06\n2026/7/31,10.00,0.06\n2026/8/31,10.15,0.06\n2026/9/30,10.05,0.06"},
+ {name:"示範基金 B（虛構・不配息）",w:30,type:"ret",ccy:"TWD",fx:1,data:"2025/10,3.2\n2025/11,-1.5\n2025/12,2.1\n2026/1,4.0\n2026/2,1.2\n2026/3,-6.5\n2026/4,7.8\n2026/5,2.5\n2026/6,-0.8\n2026/7,-4.2\n2026/8,3.6\n2026/9,0.9"}];
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function n0(x){return Math.round(x).toLocaleString("zh-TW")}
+function nd(x,d){return Number(x).toLocaleString("zh-TW",{minimumFractionDigits:d,maximumFractionDigits:d})}
+function pc(x){return isFinite(x)?(x>=0?"+":"")+nd(x*100,2)+"%":"—"}
+function card(t,v,s){return '<div class="kpi"><div class="t">'+t+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>'}
+function fundHTML(f){return '<div class="fund"><div class="top"><b>基金</b><button class="btn del" onclick="this.closest(\'.fund\').remove();refresh(true)">刪除</button></div>'+
+ '<div class="grid"><div style="grid-column:1/-1"><label>基金名稱（自己看得懂就好）</label><input class="fn" value="'+esc(f.name)+'"></div>'+
+ '<div><label>配置比例（%）</label><input class="fw" type="number" min="0" step="0.01" value="'+f.w+'"></div>'+
+ '<div><label>資料類型</label><select class="ft"><option value="nav"'+(f.type=="nav"?" selected":"")+'>A｜淨值（可含配息）</option><option value="ret"'+(f.type=="ret"?" selected":"")+'>B｜各月報酬率%</option></select></div>'+
+ '<div><label>計價幣別</label><select class="fc"><option'+(f.ccy=="TWD"?" selected":"")+'>TWD</option><option'+(f.ccy=="USD"?" selected":"")+'>USD</option><option'+(f.ccy=="其他外幣"?" selected":"")+'>其他外幣</option></select></div>'+
+ '<div><label>固定匯率（外幣才需要）</label><input class="ff" type="number" step="0.01" value="'+f.fx+'"></div></div>'+
+ '<label style="margin-top:8px">貼上資料</label><textarea class="fd" placeholder="2025/9/30, 10.00\n2025/10/31, 10.20, 0.05">'+esc(f.data)+'</textarea><p class="note fi" style="margin:4px 0 0"></p></div>'}
+function setFunds(list){$("funds").innerHTML=list.map(fundHTML).join("");refresh(true)}
+function addFund(){$("funds").insertAdjacentHTML("beforeend",fundHTML({name:"",w:0,type:"nav",ccy:"TWD",fx:1,data:""}));refresh(false)}
+function demo(){setFunds(DEMO)}
+function reset(){setFunds([{name:"",w:100,type:"nav",ccy:"TWD",fx:1,data:""}])}
+function pdate(s){s=String(s).trim().replace(/[.\-年月]/g,"/").replace(/日/,"").replace(/\/$/,"");var m=s.match(/^(\d{2,4})\/(\d{1,2})(?:\/(\d{1,2}))?$/);if(!m)return null;var y=+m[1];if(y<1911)y+=1911;return{k:y*100+(+m[2]),d:new Date(y,+m[2]-1,m[3]?+m[3]:28)}}
+function pnum(s){if(s==null)return NaN;s=String(s).replace(/[,\s"%]/g,"");return s===""?NaN:+s}
+function prevK(k){var y=Math.floor(k/100),m=k%100;return m==1?(y-1)*100+12:k-1}
+function parse(text,type){var rows=[];String(text).split(/\r?\n/).forEach(function(line){if(!line.trim())return;var c=line.split(/\t|,|，/);var p=pdate(c[0]);if(!p)return;var v=pnum(c[1]);if(!isFinite(v))return;rows.push({k:p.k,d:p.d,v:v,div:pnum(c[2])||0,fx:pnum(c[3])})});
+ rows.sort(function(a,b){return a.d-b.d});var m={};
+ if(type=="ret"){if(!rows.length)return m;var nav=100,k0=prevK(rows[0].k);m[k0]={nav:100,div:0,fx:NaN,lab:Math.floor(k0/100)+"/"+k0%100+" 起點"};rows.forEach(function(r){if(m[r.k])return;nav*=1+r.v/100;m[r.k]={nav:nav,div:0,fx:NaN}});return m}
+ rows.forEach(function(r){if(!(r.v>0))return;if(!m[r.k])m[r.k]={nav:r.v,div:0,fx:r.fx};m[r.k].div+=r.div});return m}
+function readFunds(){return[].map.call(document.querySelectorAll(".fund"),function(el){var f={name:el.querySelector(".fn").value||"未命名基金",w:Math.max(0,+el.querySelector(".fw").value||0),type:el.querySelector(".ft").value,ccy:el.querySelector(".fc").value,fx0:+el.querySelector(".ff").value||1};
+ f.m=parse(el.querySelector(".fd").value,f.type);f.keys=Object.keys(f.m).map(Number).sort(function(a,b){return a-b});
+ el.querySelector(".fi").innerHTML=f.keys.length?"✅ 讀到 "+f.keys.length+" 個月份（"+fk(f.keys[0])+"～"+fk(f.keys[f.keys.length-1])+"）":'尚未貼上資料';return f})}
+function fk(k){return Math.floor(k/100)+"/"+("0"+k%100).slice(-2)}
+function common(fs){var a=fs.filter(function(f){return f.w>0});if(!a.length)return[];return a[0].keys.filter(function(k){return a.every(function(f){return f.m[k]})})}
+function refresh(reset){var fs=readFunds(),ks=common(fs),os=+$("s").value,oe=+$("e").value;$("s").innerHTML="";$("e").innerHTML="";
+ ks.forEach(function(k){$("s").add(new Option(fk(k),k));$("e").add(new Option(fk(k),k))});
+ if(ks.length){if(!reset&&ks.indexOf(os)>=0&&ks.indexOf(oe)>=0){$("s").value=os;$("e").value=oe}else{$("s").value=ks[0];$("e").value=ks[ks.length-1]}}run()}
+function irr(fl){var lo=-0.99,hi=20;function v(r){return fl.reduce(function(a,f){return a+f.cf/Math.pow(1+r,f.t)},0)}if(v(lo)*v(hi)>0)return NaN;for(var k=0;k<200;k++){var m=(lo+hi)/2;if(v(lo)*v(m)<=0)hi=m;else lo=m}return(lo+hi)/2}
+function kdate(k){return new Date(Math.floor(k/100),k%100-1,28)}
+function run(){var fs=readFunds(),act=fs.filter(function(f){return f.w>0}),tw=act.reduce(function(a,f){return a+f.w},0);
+ $("wsum").innerHTML=fs.length?"比例合計："+(Math.abs(tw-100)<0.05?'<span class="ok">'+nd(tw,2)+'%</span>':'<span class="bad">'+nd(tw,2)+'%</span>（會自動按比例換算成 100%）'):"";
+ var ks=common(fs),s=+$("s").value,e=+$("e").value,amt=+$("amt").value||0,dca=$("mode").value=="dca",re=$("reinv").value=="re";
+ $("amtL").textContent=dca?"每月扣款金額（台幣）":"投入金額（台幣）";
+ function clear(msg){$("kpis").innerHTML='<p class="note">'+msg+'</p>';$("tbl").innerHTML="";$("perfund").innerHTML="";$("chart").innerHTML="";$("desc").textContent=""}
+ if(!act.length||!ks.length)return clear("👆 先在「① 輸入你的基金資料」貼上至少一檔基金的資料，並填上配置比例，結果就會出現在這裡。也可以按「先用虛構資料試玩」看看效果。");
+ if(!(e>s)||!(amt>0))return clear("請確認金額大於 0，而且「算到哪個月」要晚於「開始」。");
+ var path=ks.filter(function(k){return k>=s&&k<=e});function fx(f,r){return f.ccy=="TWD"?1:(r.fx>0?r.fx:f.fx0)}
+ act.forEach(function(f){f.u=0;f.inv=0;f.cash=0;f.wn=f.w/tw});
+ var inv=0,cash=0,rows=[],fl=[],peak=0,mdd=0,t0=kdate(path[0]);
+ path.forEach(function(k,i){var mc=0;
+  if(i>0)act.forEach(function(f){var r=f.m[k],c=f.u*r.div*fx(f,r);if(c>0){if(re)f.u+=c/(r.nav*fx(f,r));else{f.cash+=c;mc+=c}}});
+  if(i==0||dca){act.forEach(function(f){var r=f.m[k],x=amt*f.wn;f.u+=x/(r.nav*fx(f,r));f.inv+=x});inv+=amt;fl.push({t:(kdate(k)-t0)/864e5/365,cf:-amt})}
+  cash+=mc;var V=act.reduce(function(z,f){var r=f.m[k];return z+f.u*r.nav*fx(f,r)},0),idx=(V+cash)/inv;peak=Math.max(peak,idx);mdd=Math.min(mdd,idx/peak-1);
+  rows.push({k:k,inv:inv,mc:mc,cash:cash,V:V,tot:(V+cash)/inv-1})});
+ var L=rows[rows.length-1],yrs=(path.length-1)/12;fl.push({t:yrs,cf:L.V+L.cash});
+ var ann=dca?irr(fl):Math.pow(1+L.tot,1/yrs)-1,paid=rows.filter(function(r){return r.mc>0});
+ $("kpis").innerHTML=card("現在的帳上價值",n0(L.V)+" 元","累計投入 "+n0(L.inv)+" 元")+
+  (re?card("配息","已再投入","換成更多單位數"):card("已領到的配息",n0(L.cash)+" 元",paid.length?"平均每月約 "+n0(L.cash/paid.length)+" 元":"這個配置沒有配息"))+
+  card("含息總報酬",pc(L.tot),"帳上價值＋已領配息")+card(dca?"年化報酬（內部報酬率）":"年化報酬",pc(ann),"期間約 "+nd(yrs,1)+" 年")+card("期間最大跌幅",pc(mdd),"從高點回落最多的幅度");
+ $("desc").textContent="期間 "+fk(path[0])+" → "+fk(L.k)+(dca?"，每月扣款 "+n0(amt)+" 元":"")+"。未計保單費用；外幣未逐月填匯率時以固定匯率計算。";
+ var ph='<div class="scroll" style="max-height:none"><table><tr><th>基金</th><th>比例</th><th>投入</th><th>現在價值</th><th>已領配息</th><th>含息報酬</th></tr>';
+ act.forEach(function(f){var r=f.m[L.k],v=f.u*r.nav*fx(f,r);ph+='<tr><td>'+esc(f.name)+'</td><td>'+nd(f.wn*100,1)+'%</td><td>'+n0(f.inv)+'</td><td>'+n0(v)+'</td><td>'+n0(f.cash)+'</td><td>'+pc((v+f.cash)/f.inv-1)+'</td></tr>'});
+ $("perfund").innerHTML=ph+'</table></div>';
+ var t="<tr><th>月份</th><th>累計投入</th><th>當月配息</th><th>累計配息</th><th>帳上價值</th><th>含息報酬</th></tr>";
+ rows.forEach(function(r,i){t+="<tr"+(i==rows.length-1?' class="end"':"")+"><td>"+fk(r.k)+(i==0?"（開始）":"")+"</td><td>"+n0(r.inv)+"</td><td>"+(r.mc?n0(r.mc):"—")+"</td><td>"+n0(r.cash)+"</td><td>"+n0(r.V)+"</td><td>"+pc(r.tot)+"</td></tr>"});$("tbl").innerHTML=t;
+ var W=1000,H=320,pl=70,pr=20,pt=20,pb=40,mx=Math.max.apply(null,rows.map(function(r){return Math.max(r.V+r.cash,r.inv)}))*1.05,n=rows.length;
+ function X(i){return pl+(W-pl-pr)*(n==1?0:i/(n-1))}function Y(v){return pt+(H-pt-pb)*(1-v/mx)}
+ var g="";for(var j=0;j<=4;j++){var v=mx*j/4;g+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#E4DED2"/><text x="'+(pl-6)+'" y="'+(Y(v)+5)+'" font-size="14" text-anchor="end" fill="#4A5568">'+nd(v/1e4,0)+'萬</text>'}
+ var st=Math.max(1,Math.ceil(n/7));rows.forEach(function(r,i){if(i%st==0||i==n-1)g+='<text x="'+X(i)+'" y="'+(H-12)+'" font-size="14" text-anchor="middle" fill="#4A5568">'+fk(r.k).slice(2)+'</text>'});
+ function ln(f,c){return'<polyline fill="none" stroke="'+c+'" stroke-width="3.5" stroke-linejoin="round" points="'+rows.map(function(r,i){return X(i)+","+Y(f(r))}).join(" ")+'"/>'}
+ $("chart").innerHTML=g+ln(function(r){return r.inv},"#2F5D8A")+ln(function(r){return r.V+r.cash},"#B7862F")}
+document.addEventListener("input",function(ev){if(ev.target.closest(".fund"))refresh(false);else run()});
+document.addEventListener("change",function(ev){if(ev.target.closest(".fund"))refresh(false);else run()});
+reset();
+</script>
+</body>
+</html>
