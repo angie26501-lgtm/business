@@ -1,0 +1,238 @@
+<!doctype html><html lang="zh-Hant-TW"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow, noarchive">
+<title>月配息投資型保單｜總目錄</title><style>
+:root{--gold:#FFC850;--gold2:#E9A92A;--brown:#8B6F4E;--brown2:#5E4A33;--th:#FFD98A;--c1:#FFEFD2;--cell:#EEF1EC;
+--blue:#1E6FB8;--red:#A3182A;--band:#2e8b57;--cream:#FFF7E6;--grey:#f1f2f4;--ink:#2b2b2b}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e9e4dc;color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.75;font-size:16px}
+#app{display:none}
+body.authed #app{display:block}
+body.authed #gate{display:none}
+#gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#8B6F4E,#5E4A33);padding:16px;z-index:50;overflow:auto}
+.gcard{background:#fff;border-top:8px solid var(--gold);border-radius:14px;padding:28px 26px;max-width:400px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.gcard h1{font-size:20px;margin:0 0 4px;color:var(--brown2)}
+.gcard p{margin:4px 0 14px;font-size:14px;color:#666}
+.gcard .row{display:flex;gap:6px}
+.gcard input[type=password],.gcard input[type=text]{flex:1;min-width:0;font-size:16px;padding:10px 12px;border:1px solid #ccc;border-radius:8px}
+.gcard button{font-size:15px;padding:10px 14px;border:0;border-radius:8px;background:var(--gold2);color:#fff;cursor:pointer}
+.gcard .eye{background:#eee;color:#555}
+.gcard .err{color:#b3261e;font-size:14px;min-height:20px;margin-top:6px}
+.gcard .tip{font-size:12.5px;color:#8a6d3b;background:var(--cream);padding:8px 10px;border-radius:8px;margin-top:10px}
+.gcard .gmenu{margin-top:14px;border-top:1px dashed #ddd;padding-top:10px}
+.gcard .gmenu b{font-size:13px;color:var(--brown)}
+.gcard .gmenu a{display:block;padding:7px 10px;margin:5px 0;border-radius:8px;background:#faf6ee;color:var(--brown2);text-decoration:none;font-size:14.5px}
+.gcard .gmenu a.on{background:var(--th);font-weight:700}
+.band{position:sticky;top:0;z-index:20;background:var(--band);color:#fff;font-size:13px;padding:6px 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.band.internal{background:#b3261e}
+.tools{position:fixed;right:14px;top:40px;z-index:21;display:flex;gap:6px}
+.tools button,.tools select{font-size:13px;padding:6px 10px;border-radius:8px;border:1px solid var(--brown);background:#fff;color:var(--brown2);cursor:pointer}
+.tools button.pri{background:var(--brown);color:#fff}
+.wrap{max-width:1060px;margin:0 auto;padding:18px 14px 80px}
+.page{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);margin:0 0 22px;padding:26px 34px 30px;position:relative;overflow:hidden}
+.phead{display:flex;align-items:stretch;height:22px;margin:0 -34px 18px}
+.phead .arrow{width:88px;background:var(--brown);clip-path:polygon(0 0,82% 0,100% 50%,82% 100%,0 100%)}
+.phead .bar{flex:1;background:var(--gold);margin-left:4px;position:relative}
+.phead .pno{position:absolute;right:14px;bottom:-20px;font-size:12px;color:#999}
+h2.t{color:var(--blue);letter-spacing:.1em;font-size:26px;margin:6px 0 12px}
+h3.s{color:var(--brown2);font-size:18px;margin:18px 0 8px}
+h3.s:before{content:"➤ "}
+.lead{font-size:17px}
+table.tb{border-collapse:separate;border-spacing:2px;width:100%;font-size:15px;margin:8px 0}
+.tb th{background:var(--th);text-align:center;padding:7px 8px;font-weight:700}
+.tb td{background:var(--cell);padding:7px 10px}
+.tb td:first-child{background:var(--c1);font-weight:700}
+.tb td.num,.tb th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tb tr.tot td{background:var(--gold);font-weight:700}
+.box{background:var(--cream);border-left:5px solid var(--gold2);padding:10px 14px;border-radius:6px;margin:12px 0}
+.gbox{background:var(--grey);padding:10px 14px;border-radius:6px;margin:12px 0;font-size:14.5px;color:#444}
+.warn{background:#fff1f0;border-left:5px solid #b3261e;padding:10px 14px;border-radius:6px;margin:12px 0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.card{background:#FFF6E3;border:1px solid #F1D9A6;border-radius:12px;padding:14px 16px}
+.card h4{margin:0 0 6px;color:var(--brown2);font-size:17px}
+.card.hl{border:2px solid #d33;background:#fff}
+.big{font-size:30px;font-weight:800;color:var(--red);line-height:1.2}
+.mid{font-size:22px;font-weight:800;color:var(--blue)}
+.muted{color:#777;font-size:13.5px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:0 6px;border-radius:5px;color:#fff;vertical-align:1px;margin-left:4px;line-height:18px}
+.tA{background:#2e8b57}.tB{background:#1E6FB8}.tC{background:#E8923A}.tD{background:#999}
+.red{color:#c0392b}.grn{color:#2e7d32}
+.dot{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--gold2);color:#fff;align-items:center;justify-content:center;font-weight:800;margin-right:6px;flex:none}
+.foot{font-size:12.5px;color:#888;border-top:1px dashed #ddd;margin-top:16px;padding-top:8px}
+.risk{font-weight:800;color:#fff;background:#1b3a6b;display:inline-block;padding:6px 12px;border-radius:8px;font-size:14px}
+.cover{min-height:640px;display:flex;flex-direction:column}
+.cover .date{color:#E8923A;font-weight:700}
+.cover .brand{text-align:right;color:var(--brown2);font-weight:800;font-size:22px;margin-top:6px}
+.cover .brand small{display:block;font-size:14px;font-weight:500;color:var(--brown)}
+.cover .mainT{text-align:center;margin:40px 0 10px}
+.cover .mainT .a{font-size:46px;font-weight:900;color:var(--red);letter-spacing:.06em}
+.cover .mainT .b{font-size:28px;font-weight:800;color:var(--blue);margin-top:8px;letter-spacing:.2em}
+.cover .sig{margin-top:auto;text-align:right;color:var(--brown2)}
+.calc{background:#f7fbff;border:1px solid #cfe0f3;border-radius:12px;padding:14px 16px;margin:12px 0}
+.calc label{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:15px;margin:6px 0}
+.calc input[type=number]{width:140px;font-size:16px;padding:6px 8px;border:1px solid #bbb;border-radius:6px;text-align:right}
+.calc input[type=range]{flex:1}
+.calc .out{background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #e3e3e3}
+.calc .out div{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dotted #eee}
+.calc .out b{font-variant-numeric:tabular-nums}
+.bars{display:flex;align-items:flex-end;gap:10px;height:180px;padding:10px 4px 0;border-bottom:2px solid #ccc}
+.bars .b{flex:1;background:linear-gradient(#FFC850,#E9A92A);border-radius:6px 6px 0 0;position:relative;min-width:20px}
+.bars .b span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:12.5px;font-weight:700;white-space:nowrap}
+.bars .b em{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:12px;font-style:normal;color:#666;white-space:nowrap}
+.toc a{display:flex;gap:8px;padding:8px 10px;border-radius:8px;text-decoration:none;color:var(--ink);background:#faf6ee;margin:5px 0}
+.toc a:hover{background:#FFEFD2}
+.links a.btn{display:inline-block;margin:4px 6px 4px 0;padding:8px 14px;border-radius:20px;background:#fff;border:1px solid var(--gold2);color:var(--brown2);text-decoration:none}
+.new{display:inline-block;background:#A3182A;color:#fff;font-size:11px;border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:2px}
+/* 現金流 & 金蘋果 */
+.benefit{display:flex;gap:12px;align-items:flex-start}
+.benefit .dot{width:34px;height:34px;font-size:17px}
+.banner{background:linear-gradient(135deg,#4d5b2a,#6b7a36);color:#fff;border-radius:14px;padding:16px 18px;text-align:center;font-size:21px;font-weight:800;margin:16px 0}
+.banner small{display:block;font-size:14px;font-weight:500;opacity:.9}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:stretch}
+.flow .arr{display:flex;align-items:center;font-size:28px;color:var(--gold2)}
+.flow .card{text-align:center}
+.flow .card .k{font-size:13px;color:var(--brown);letter-spacing:.05em}
+.flow .card .v{font-size:30px;font-weight:900;color:var(--red);line-height:1.25;font-variant-numeric:tabular-nums}
+.meter{height:22px;background:#eee;border-radius:11px;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#F2C06B,#8BC79A);width:0}
+.m-only{display:none}
+body.present{background:#222}
+body.present .page{display:none;margin:0;border-radius:0;min-height:calc(100vh - 30px)}
+body.present .page.cur{display:block}
+body.present .wrap{max-width:none;padding:0}
+body.present .wrap>.m-note{display:none}
+.pnav{display:none;position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(0,0,0,.65);border-radius:24px;padding:4px 8px;color:#fff;font-size:14px;align-items:center;gap:8px}
+body.present .pnav{display:flex}
+.pnav button{background:transparent;color:#fff;border:0;font-size:20px;cursor:pointer;padding:2px 10px}
+@media (max-width:760px){
+ body{font-size:14.5px;line-height:1.7}
+ .wrap{padding:8px 6px 90px}
+ .page{padding:16px 14px 20px;border-radius:10px}
+ .phead{height:16px;margin:0 -14px 14px}.phead .arrow{width:56px}
+ h2.t{font-size:20px}h3.s{font-size:15px}
+ .g2,.g3,.g4,.g5{grid-template-columns:1fr}
+ .g5.keep2,.g4.keep2{grid-template-columns:1fr 1fr}
+ .flow{grid-template-columns:1fr}.flow .arr{justify-content:center;transform:rotate(90deg);font-size:22px}
+ .banner{font-size:17px}
+ .band{font-size:11.5px;padding:5px 8px}
+ .tools{top:auto;bottom:12px;left:10px;right:auto}
+ .tools button,.tools select{font-size:12px;padding:5px 8px}
+ .cover{min-height:auto}
+ .cover .mainT .a{font-size:30px}.cover .mainT .b{font-size:18px}
+ .big{font-size:24px}
+ .m-only{display:block}
+ body:not(.full) .m-hide{display:none!important}
+ table.tb.cardify thead{display:none}
+ table.tb.cardify,table.tb.cardify tbody,table.tb.cardify tr,table.tb.cardify td{display:block;width:100%}
+ table.tb.cardify tr{margin:0 0 10px;border-radius:8px;overflow:hidden}
+ table.tb.cardify td{display:flex;justify-content:space-between;gap:10px;text-align:right}
+ table.tb.cardify td:before{content:attr(data-label);color:#777;font-weight:500;text-align:left}
+ table.tb.cardify td:first-child{justify-content:flex-start;text-align:left}
+ table.tb.cardify td:first-child:before{content:none}
+ .calc input[type=number]{width:110px}
+ .bars{height:140px;gap:5px}.bars .b span{font-size:10.5px}.bars .b em{font-size:10px}
+}
+.m-note{background:#fff8e1;border:1px solid #f1d9a6;border-radius:10px;padding:8px 10px;margin:0 0 10px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.m-note button{font-size:12.5px;padding:4px 8px;border-radius:6px;border:1px solid var(--brown);background:#fff}
+@media print{
+ @page{size:A4 landscape;margin:8mm}
+ html,body{background:#fff}
+ .band,.tools,.m-note,.pnav,.noprint,#gate{display:none!important}
+ .wrap{max-width:none;padding:0}
+ .page{box-shadow:none;border-radius:0;margin:0;page-break-after:always;break-after:page;padding:10px 18px;zoom:var(--pz,.7);width:calc(279mm / var(--pz,.7))}
+ #p1{--pz:.6} #p10{--pz:.64} #p15{--pz:.66} #p8{--pz:.68} #papple{--pz:.66} #pcash{--pz:.66}
+ .page:last-child{page-break-after:auto}
+ .m-hide{display:block!important}
+ a.btn:after{content:" (" attr(href) ")";font-size:11px}
+ .calc input{border:0}
+}
+
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,select,#pw{-webkit-user-select:text;user-select:text}
+.fmenu{position:fixed;right:14px;bottom:14px;z-index:55;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.fmenu .mb{border:0;border-radius:30px;padding:11px 17px;font-size:15px;font-weight:700;background:#5E4A33;color:#FFF7E6;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;font-family:inherit}
+.fmenu .list{display:none;flex-direction:column;gap:6px;background:#fff;border:1px solid #e3d6bd;border-radius:14px;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,.18);min-width:230px}
+.fmenu.open .list{display:flex}
+.fmenu .list button{text-align:left;border:0;background:#FFF6E3;border-radius:10px;padding:10px 12px;font-size:15px;cursor:pointer;font-family:inherit;color:#5E4A33}
+.fmenu .list .hint{font-size:12px;color:#8a7a66;padding:0 4px}
+.pmodal{position:fixed;inset:0;background:rgba(40,30,20,.55);z-index:70;display:none;align-items:center;justify-content:center;padding:16px}
+.pmodal.show{display:flex}
+.pmodal .pbox{background:#fff;border-radius:16px;padding:18px;max-width:520px;width:100%}
+.pmodal textarea{width:100%;font-size:16px;padding:8px;border:1px solid #ccc;border-radius:8px;-webkit-user-select:text;user-select:text}
+.pmodal select{width:100%;font-size:15px;padding:6px;margin:6px 0 10px}
+.ytoast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#5E4A33;color:#fff;padding:10px 18px;border-radius:30px;font-size:15px;z-index:80;display:none;max-width:90vw;text-align:center}
+.gnote{max-height:150px;overflow-y:auto;background:#FFF7E6;border:1px solid #f1d9a6;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.7;color:#5E4A33;margin-top:10px}
+.gok{display:flex;gap:6px;align-items:flex-start;font-size:13.5px;margin-top:8px;color:#444}
+@media (max-width:760px){.fmenu{right:10px;bottom:10px}.fmenu .mb{padding:9px 13px;font-size:13.5px}}
+@media print{.fmenu,.pmodal,.ytoast{display:none!important}}
+</style></head><body>
+<div id="gate"><div class="gcard">
+<h1>🔒 月配息投資型保單｜總目錄</h1><p>請輸入通行碼</p>
+<div class="row"><input id="pw" type="password" placeholder="請輸入通行碼" onkeydown="if(event.key==='Enter')tryLogin()">
+<button class="eye" type="button" onclick="eye()" aria-label="顯示或隱藏通行碼">👁</button></div>
+<div class="gnote"><b>使用說明與個資告知</b><br>
+1. 本網頁為講座教材，僅供聽眾個人學習使用，請勿轉傳通行碼。<br>
+2. 本網頁不蒐集個人資料；試算器輸入的數字只在您的裝置上計算，不會傳送或儲存。登入狀態會記在這台裝置 30 天，可隨時按「登出」清除。<br>
+3. 內容為觀念說明與去識別化個案，不構成投資建議；投資有賺有賠，申購前應詳閱公開說明書。<br>
+4. 保護設定：本網頁不被搜尋引擎收錄、已關閉直接複製貼上，通行碼錯誤無法開啟內容。</div>
+<label class="gok"><input type="checkbox" id="agree"> 我已閱讀並同意上述使用說明與個資告知</label><button style="width:100%;margin-top:12px" onclick="tryLogin()">進入</button>
+<div class="err" id="err"></div>
+<div class="tip">✅ 登入後這台裝置會記住 30 天。LINE 內建瀏覽器可能無法記住登入，建議用 Chrome／Safari 開啟。</div>
+<div class="gmenu"><b>切換頁面</b><a href="index.html" class=on>📚 總目錄</a><a href="lecture.html">🎤 講座網頁版</a></div>
+</div></div>
+<div id="app"></div><div class="fmenu noprint" id="fmenu"><div class="list">
+<span class="hint">本頁已關閉直接複製貼上，請用這裡操作</span>
+<button onclick="location.reload()">🔄 重新整理頁面</button>
+<button onclick="copyText(location.href.split('#')[0],'已複製本頁連結')">🔗 複製本頁連結</button>
+</div><button class="mb" onclick="this.parentNode.classList.toggle('open')">☰ 功能選單</button></div>
+<div class="pmodal" id="pmodal"><div class="pbox"><h3 style="margin:0 0 6px;color:#5E4A33">📋 貼上數字到試算器</h3>
+<label style="font-size:14px">要貼到哪一格</label><select id="ptarget"></select>
+<textarea id="ptext" rows="3" placeholder="在這裡長按或 Ctrl+V 貼上數字，例如 1,000,000"></textarea>
+<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button onclick="readClip()">讀取剪貼簿</button><button class="pri" onclick="applyPaste()" style="background:#8B6F4E;color:#fff">放入試算器</button><button onclick="document.getElementById('pmodal').classList.remove('show')">取消</button></div></div></div>
+<div class="ytoast" id="ytoast"></div>
+<script>
+var P={"n": 250000, "s": "mfCE6j5LgHQubKNMkZbeDg==", "i": "MxWsvH67l53TB8LD", "c": "SOOrcvk7UxQ8PC9AleGTuTetTyXbFMFCFzTh9MhrNzDqW+rPaKpmnCT6GxR5JJ0oKOAsdYsi9J4dFlh9PM3RR/iFevL0QkSCzyWE4/Yj+0NKuwyJMSxMKrABHov5Gxoab7pi96joR9u8T8OR9wcsR2QJLbvHbn/v1RRlc5YpJsaEBbBRlPDX8SKpyzZFFM5hZlMFTZ/XHu2trUgoUJb3nwCRBPXzvmNMyznM/C/vFTZ5cLJxaKyKbEvVVtyIl8q1Czb2Tx84pd/hdbiCQq7xB+LDgGU/nPQXUZ0qM+FadVJV812RayJpfgrgH2wcRV+RiqmCYp5kA7P+J6QhwsD57SHLCli4I1ofIYvj8xV4YBqvffPkYaqESKBY6fdR1tawYFdwMNFwww6lNGLSA9xEj7m46UWojMf+qmogU7CptIDdiG39EJUFJTRmqt+iyciwKloQ8hvxw7Az9Nd5I+rLN+D8dxfuPMz53/0P81vkZMa1Rc7tYKSdQBj5RnKGin/72lFf0yTE9veaN7PkiB1CQpA9/kAIDAmXChyjCUpgxio1+QmrYA7k24rmbvUEY2EbEE6V+HwP7jv3R+CZvg5FV1leKMpb+78+DbYPMm9+lxSOBFTed/0KfrmuQn/XIcizI32P41ePmRgn+jn2YZg50Vs95SrLStN4pCryDzWGkQwMqrUajpMQ5zQYvO0/aT72g2oeZRPtgDG/8/8gYGlqLIxfPurRqvE/wunoboxSu2+P+gJdehanL8HnNSqzIU3QGy26GqFY6vcs4Z9oW/gErAa83yQwenWvwAKATFaINlo6NKGI7r8E/cTM+oDx1XkX0fF7JkJX3wqV4WFKavhWgxwD1nnQbI9zfnN52BW5ZkDozwCy9e3oy8lPzf6JuRouYRHdVsClCmfkNxiWXOYkbntOpPqW649Qk4yqTX9pjlX+7XUGaL12Cn08n/LpC3n3ud9zmtTHrw2FN4bAjGLhUDDHGV+hANW23/LxzeEKhbIHwQvCaGZ7vAIAlFHw09YH1S+3aFGaW7fPiQRpnCxMJMHcibcIUOc3vZU6SCrCXl/dL5du/YQ5E4NI2KbJG6TaY2+fHWBDOvFNma1BVf2Z9fFOunyI92S5pI51oBZ1n5xt2K6XucaN405LUIEWaqdjRz55H37tqPh+m/4g"},KEY='ilp_md_client_web';
+function b64(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})}
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+async function dec(pw){var km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+ var k=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(P.s),iterations:P.n,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+ var h=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(P.i)},k,b64(P.c)));document.getElementById('app').innerHTML=h}
+function ok(){document.body.classList.add('authed');if(window._ready&&window.onAuthed)onAuthed()}
+(function(){var s=ls(KEY);if(!s)return;try{var o=JSON.parse(s);if(o.x>Date.now())dec(o.pw).then(ok).catch(function(){ls(KEY,null)});else ls(KEY,null)}catch(e){}})();
+function tryLogin(){var v=document.getElementById('pw').value.trim(),c=document.getElementById('agree');
+ if(c&&!c.checked){document.getElementById('err').textContent='請先勾選「我已閱讀並同意」。';return}
+ if(!window.crypto||!crypto.subtle){document.getElementById('err').textContent='這個瀏覽器不支援解密，請改用 Chrome／Safari 開啟。';return}
+ document.getElementById('err').textContent='驗證中⋯';
+ dec(v).then(function(){ls(KEY,JSON.stringify({pw:v,x:Date.now()+30*864e5}));document.getElementById('err').textContent='';ok()}).catch(function(){document.getElementById('err').textContent='通行碼不正確，請再試一次。'})}
+function logout(){ls(KEY,null);location.reload()}
+function eye(){var i=document.getElementById('pw');i.type=i.type==='password'?'text':'password'}
+
+
+function ytoast(m){var t=document.getElementById('ytoast');if(!t)return;t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(function(){t.style.display='none'},2200)}
+function ymClose(){var f=document.getElementById('fmenu');if(f)f.classList.remove('open')}
+function okZone(t){return t&&t.closest&&(t.closest('#pmodal')||t.id==='pw')}
+['copy','cut','paste','contextmenu','dragstart','selectstart'].forEach(function(ev){
+ document.addEventListener(ev,function(e){var t=e.target;if(okZone(t))return;
+  if(ev==='selectstart'&&t&&/INPUT|SELECT/.test(t.tagName))return;
+  e.preventDefault();if(ev==='copy'||ev==='paste'||ev==='cut')ytoast('請使用右下角「☰ 功能選單」操作');},true)});
+document.addEventListener('keydown',function(e){if(okZone(e.target))return;var k=(e.key||'').toLowerCase();
+ if((e.ctrlKey||e.metaKey)&&['c','x','v','a','s','u'].indexOf(k)>=0){e.preventDefault();ytoast('請使用右下角「☰ 功能選單」操作')}
+ if(k==='f12')e.preventDefault()},true);
+function copyText(txt,msg){ymClose();function ok(){ytoast(msg||'已複製')}
+ function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';(document.getElementById('pmodal')||document.body).appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){ytoast('複製失敗，請截圖保存')}ta.remove()}
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(ok,fb)}else fb()}
+function calcInputs(){return [].slice.call(document.querySelectorAll('#app .calc input[type=number]')).filter(function(i){return i.offsetParent!==null||true})}
+function labelOf(i){var l=i.closest('label');var pg=i.closest('.page');var h=pg?pg.querySelector('h2.t'):null;var pn=pg?pg.querySelector('.pno'):null;
+ return (pn?pn.textContent+' ':'')+(h?h.textContent.slice(0,12)+'｜':'')+(l?l.childNodes[0].textContent.trim():i.id)}
+function openPaste(){ymClose();var sel=document.getElementById('ptarget');sel.innerHTML='';var cur=window._lastIn;
+ calcInputs().forEach(function(i){var o=new Option(labelOf(i),i.id);if(cur&&cur.id===i.id)o.selected=true;sel.add(o)});
+ document.getElementById('ptext').value='';document.getElementById('pmodal').classList.add('show');setTimeout(function(){document.getElementById('ptext').focus()},50)}
+document.addEventListener('focusin',function(e){if(e.target&&e.target.closest&&e.target.closest('.calc')&&e.target.type==='number')window._lastIn=e.target});
+function readClip(){if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(function(t){document.getElementById('ptext').value=t;ytoast('已讀取剪貼簿')}).catch(function(){ytoast('瀏覽器不允許讀取，請在框內長按或 Ctrl+V 貼上')})}else ytoast('請在框內長按或 Ctrl+V 貼上')}
+function applyPaste(){var id=document.getElementById('ptarget').value,raw=document.getElementById('ptext').value,m=raw.replace(/[,，\s]/g,'').match(/-?\d+(\.\d+)?/);
+ if(!m){ytoast('沒有讀到數字，請再確認');return}var el=document.getElementById(id);el.value=m[0];el.dispatchEvent(new Event('input',{bubbles:true}));
+ document.getElementById('pmodal').classList.remove('show');el.scrollIntoView({block:'center'});ytoast('已放入：'+m[0])}
+
+window._ready=true;</script></body></html>
