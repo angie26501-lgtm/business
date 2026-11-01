@@ -109,7 +109,7 @@ function submitBox(){var m=me(),st=stat();
  return '<div class="login" id="sub"><b style="color:#c25a6b;font-size:19px">📤 送出積分登記（'+CAMPNAME+'）</b>'+
  '<div style="font-size:16px;margin:6px 0">夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'<br>本營隊積分 <b style="color:#c25a6b">'+st.p+'</b> 點｜完成 '+st.c+' / '+st.n+' 題</div>'+
  '<div style="font-size:15px;color:#6b7a60;margin-top:4px">兩種方式選一種就好 👇</div>'+
- '<div style="background:#eefaf2;border-radius:14px;padding:10px 12px;margin:8px 0"><b style="color:#06a34a">方式一｜傳給芸琪 LINE 一對一（最簡單）</b><div style="font-size:14px;color:#5b6650">按下按鈕會自動複製你的積分結果，並打開芸琪的 LINE；貼上送出，也可以附上截圖。</div><button class="btn l" style="width:100%;margin-top:6px" onclick="doLine()">💬 傳結果給芸琪 LINE 一對一</button></div>'+
+ '<div style="background:#eefaf2;border-radius:14px;padding:10px 12px;margin:8px 0"><b style="color:#06a34a">方式一｜傳給芸琪 LINE 一對一（最簡單）</b><div style="font-size:14px;color:#5b6650">按下按鈕會先顯示你的積分紀錄，複製後再前往芸琪的 LINE 貼上送出，也可以附上截圖。</div><button class="btn l" style="width:100%;margin-top:6px" onclick="doLine()">💬 傳結果給芸琪 LINE 一對一</button></div>'+
  '<b style="color:#c25a6b">方式二｜上傳截圖登記</b>'+
  '<div style="font-size:15px;color:#6b7a60">① 先把這個畫面截圖（含上方編號與積分）<br>② 在下面選擇截圖檔案 → ③ 按送出</div>'+
  '<input type="file" id="shot" accept="image/*" style="margin:8px 0"><img id="pv" style="display:none;max-width:100%;border-radius:10px;margin:6px 0">'+
@@ -118,9 +118,17 @@ function submitBox(){var m=me(),st=stat();
 var LINE_1ON1="https://lin.ee/8ipLGMe";
 function resultText(){var m=me(),st=stat();return "【復習闖關積分登記】\n夥伴編號："+m.id+"\n暱稱："+m.n+"\n營隊："+CAMPNAME+"\n積分："+st.p+" 點（完成 "+st.c+" / "+st.n+" 題）"}
 function doLine(){var m=me();if(!m||!m.id){toast("請先登記編號");return}var t=resultText(),st=stat();
- if(SCRIPT_URL){try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",id:m.id,nick:m.n,camp:CAMP,campName:CAMPNAME,pts:st.p,done:st.c,total:st.n,img:""})})}catch(e){}}
- var go=function(){toast("已複製結果，貼到 LINE 對話框送出就完成 💛");setTimeout(function(){location.href=LINE_1ON1},900)};
- if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(go,function(){alert(t+"\n\n（請手動記下以上內容，傳給芸琪）");location.href=LINE_1ON1})}else{alert(t);location.href=LINE_1ON1}}
+ if(SCRIPT_URL){try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",id:m.id,nick:m.n,camp:CAMP,campName:CAMPNAME,pts:st.p,done:st.c,total:st.n,img:""})}).catch(function(){})}catch(e){}}
+ var e=document.getElementById("rv");e.innerHTML='<div class="pn"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:18px">💬 傳給芸琪 LINE 一對一</b><button class="btn r" style="flex:0 0 auto;padding:6px 14px" onclick="closeRv()">✕ 關閉</button></div>'+
+  '<div style="font-size:15px;color:#5b6650;margin:8px 0">① 確認下面的積分紀錄 → ② 按「複製文字」→ ③ 按「前往 LINE」，在對話框貼上送出（也可以附上截圖）</div>'+
+  '<pre class="allowcopy" id="lt2" style="white-space:pre-wrap;font-family:inherit;font-size:17px;background:#fff;border:2px dashed #9cb98e;border-radius:14px;padding:14px;margin:0;-webkit-user-select:text;user-select:text">'+esc(t)+'</pre>'+
+  '<button class="btn g" style="width:100%;margin-top:10px" onclick="cpLine()">📋 複製文字</button>'+
+  '<a class="btn l" style="display:block;margin-top:8px" href="'+LINE_1ON1+'" target="_blank" rel="noopener">💬 前往芸琪 LINE 送出</a>'+
+  '<div style="font-size:13px;color:#8a9a80;margin-top:8px">複製不成功的話，可以長按上面的文字自己選取複製，或直接截圖傳給芸琪 💛</div></div>';
+ e.style.display="flex"}
+function cpLine(){var t=resultText();function ok(){toast("已複製！接著按「前往芸琪 LINE 送出」")}
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,fb)}else fb();
+ function fb(){var a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){toast("請長按文字手動複製")}a.remove()}}
 var shotData="";
 document.addEventListener("change",function(e){if(e.target&&e.target.id==="shot"){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var w=Math.min(720,im.width),h=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);shotData=c.toDataURL("image/jpeg",.7);var pv=document.getElementById("pv");pv.src=shotData;pv.style.display="block"};im.src=r.result};r.readAsDataURL(f)}});
 function doSubmit(){var m=me(),st=stat();if(!shotData){toast("請先選擇截圖");return}if(!SCRIPT_URL){toast("積分登記即將開放");return}
@@ -165,7 +173,7 @@ function nx(){if(qi<cur.q.length-1){qi++;show()}else{toast("🎉 完成「"+cur.
 function refreshMenu(){if(cur){mkOrd();show();toast("選項順序已重新整理")}else{home();toast("選單已重新整理")}}
 function fly(n){var e=document.createElement("div");e.className="fly";e.textContent="+"+n+" ⭐";document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
 function toast(t){var e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(function(){e.style.display="none"},1300)}
-["copy","cut","paste","contextmenu","selectstart","dragstart"].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault()})});
+["copy","cut","paste","contextmenu","selectstart","dragstart"].forEach(function(ev){document.addEventListener(ev,function(e){var t=e.target;if(t&&t.closest&&(t.closest(".allowcopy")||t.closest("input")))return;if(ev==="copy"&&window.getSelection&&String(window.getSelection()).length&&document.getElementById("lt2"))return;e.preventDefault()})});
 document.addEventListener("keydown",function(e){if((e.ctrlKey||e.metaKey)&&/^[acvxsup]$/i.test(e.key))e.preventDefault()});
 ld();syncAll();home();
 </script></body></html>
