@@ -14,22 +14,37 @@
 .tip{background:#fff7e0;border-radius:16px;padding:14px 16px;margin:14px 0;font-size:16px}
 details{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0}summary{font-weight:800;cursor:pointer;color:#3e6b3a}
 .foot{text-align:center;font-size:13px;color:#7d8a72;margin-top:20px}
+.fl{display:block;font-size:16px;font-weight:800;color:#3e6b3a;margin-top:10px}.fl i{color:#c25a6b;font-style:normal}
+#fbox input[type=text],#fbox input:not([type]),#fbox input[inputmode]{font:inherit;font-size:17px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:9px 10px;margin-top:4px}
+.ck label{display:block;font-size:16px;margin:4px 0}.ck input{width:18px;height:18px;vertical-align:-3px;margin-right:6px}
+.res{background:#eef7e8;border:2px solid #4f7a4a;border-radius:16px;padding:14px;margin-top:10px;text-align:center}
+.res .cd{font-size:36px;font-weight:900;letter-spacing:6px;color:#c25a6b;font-family:monospace}
 </style></head><body><div class="wrap">
 <div class="hero"><div style="font-size:15px">🌱 金錢好生活｜芸琪共學圈</div><h1>復習闖關賺積分<br>使用說明</h1>
 <div>邊復習、邊答題、邊累積積分，<b>積分可以兌換抽獎活動贈品</b> 🎁<br>跟著下面 6 步，3 分鐘就上手！</div></div>
 
-<div class="step"><div class="n">1</div><div><h3>私訊芸琪，領取個人通行碼</h3>
-傳訊息給芸琪 LINE，說「我要參加復習闖關」，芸琪會給你：<div class="mock">🎫 夥伴編號：ML0XX<br>🔐 個人通行碼：6 位數字</div>
-<a class="btn l" href="https://lin.ee/8ipLGMe" target="_blank" rel="noopener">💬 私訊芸琪 LINE 領通行碼</a>
-<div style="font-size:15px;color:#6b7a60">通行碼是你專屬的，請不要分享給別人喔。</div></div></div>
+<div class="step"><div class="n">1</div><div><h3>加入社群、自我介紹、加芸琪好友</h3>
+在共學社群裡簡單自我介紹（暱稱、住哪裡、最想學什麼），再私訊芸琪加好友 💛<br>芸琪會傳這個「使用說明」給你，你現在看到的就是這一頁 😊
+<a class="btn l" href="https://lin.ee/8ipLGMe" target="_blank" rel="noopener">💬 還沒加芸琪好友？點這裡</a></div></div>
 
-<div class="step"><div class="n">2</div><div><h3>打開總目錄，選你的營隊</h3>
-三日營（金錢好生活共學圈）或五日營（金錢整理五日實踐營），兩個都參加的，兩個都可以玩，積分會合計。
-<a class="btn g" href="index.html">📚 打開復習闖關總目錄</a></div></div>
+<div class="step" id="sform"><div class="n">2</div><div style="flex:1;min-width:0"><h3>填報名問卷，馬上領通行碼</h3>
+<div style="font-size:15px;color:#6b7a60">送出後，畫面會直接顯示你的「夥伴編號＋個人通行碼」</div>
+<div id="fbox">
+<label class="fl">群組暱稱 <i>*</i></label><input id="f_nick" maxlength="20" placeholder="跟社群裡的名字一樣">
+<label class="fl">LINE 名稱 <i>*</i></label><input id="f_line" maxlength="30" placeholder="芸琪才找得到你">
+<label class="fl">參加的營隊 <i>*</i></label>
+<div class="ck"><label><input type="checkbox" id="f_c3"> 🎯 三日營（金錢好生活共學圈）</label><label><input type="checkbox" id="f_c5"> 🌱 五日營（金錢整理五日實踐營）</label></div>
+<label class="fl">手機末 3 碼 <i>*</i></label><input id="f_tail" inputmode="numeric" maxlength="3" placeholder="忘記通行碼時，用來幫你找回">
+<label class="fl">想透過復習闖關學到什麼？（選填）</label><input id="f_wish" maxlength="100" placeholder="例如：把記帳習慣養起來">
+<label class="ck" style="display:block;margin-top:8px"><input type="checkbox" id="f_ok"> 我了解：資料只用於這次活動的積分與兌換，不會公開</label>
+<button class="btn g" style="width:100%;border:none;cursor:pointer" onclick="signup()">📝 送出問卷，領取通行碼</button>
+<div id="fmsg" style="color:#c25a6b;min-height:22px;font-size:15px"></div>
+<div style="font-size:13px;color:#8a9a80">忘記通行碼？用同樣的暱稱和手機末 3 碼再填一次，就會顯示原本的通行碼。</div></div>
+<div id="fres" style="display:none"></div></div></div>
 
 <div class="step"><div class="n">3</div><div><h3>輸入通行碼登入</h3>
-輸入 6 位數字通行碼，按「🌱 進入闖關」。<br>登入成功後，畫面上方會一直顯示：<div class="mock">🎫 編號 ML0XX｜你的暱稱</div>
-這支手機會記住 30 天，之後打開就不用再輸入。</div></div>
+填完問卷可以直接按「開始闖關」，系統會自動幫你登入。<br>之後從總目錄進入時，輸入 6 位數字通行碼就好，畫面上方會一直顯示：<div class="mock">🎫 編號 ML0XX｜你的暱稱</div>
+這支手機會記住 30 天。</div></div>
 
 <div class="step"><div class="n">4</div><div><h3>選關卡、答題賺積分</h3>
 <div class="mock">① 點選一個答案（再點一次可以取消）<br>② 按「✅ 確認答案」<br>③ 看解說，按「下一題」</div>
@@ -51,4 +66,21 @@ details{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0}summar
 
 <a class="btn y" href="index.html">👉 我懂了，開始闖關！</a>
 <div class="foot">財顧芸 陳芸琪｜家族傳承生活顧問</div>
-</div></body></html>
+</div><script>
+var U="https://script.google.com/macros/s/AKfycbxeCPFR3rsTa9Y10mRDxVseRfoLuab52mCsb7nEMPxVw818qQGnpUJo_MJQnGPU4GT3LQ/exec";
+function jp(p,cb){var n="s"+Date.now();window[n]=function(d){delete window[n];cb(d)};var q=[];for(var k in p)q.push(k+"="+encodeURIComponent(p[k]));var sc=document.createElement("script");sc.src=U+"?"+q.join("&")+"&callback="+n;sc.onerror=function(){cb(null)};document.body.appendChild(sc)}
+function v(id){return document.getElementById(id).value.trim()}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function signup(){var m=document.getElementById("fmsg"),c=[document.getElementById("f_c3").checked?"三日營":"",document.getElementById("f_c5").checked?"五日營":""].filter(Boolean);
+ if(!v("f_nick")){m.textContent="請填群組暱稱";return}if(!v("f_line")){m.textContent="請填 LINE 名稱";return}if(!c.length){m.textContent="請勾選參加的營隊";return}
+ if(!/^\d{3}$/.test(v("f_tail"))){m.textContent="手機末 3 碼請填 3 個數字";return}if(!document.getElementById("f_ok").checked){m.textContent="請勾選同意";return}
+ m.style.color="#6b7a60";m.textContent="送出中…";
+ jp({action:"signup",nick:v("f_nick"),line:v("f_line"),camps:c.join(","),tail:v("f_tail"),wish:v("f_wish")},function(d){m.style.color="#c25a6b";
+  if(!d||!d.ok){m.textContent=d?"資料不完整，請再檢查一次":"連線不穩，請稍後再試";return}
+  var exp=Date.now()+30*864e5,acc=String(d.access||"");
+  try{localStorage.setItem("moneylife_quiz_me",JSON.stringify({n:d.nick,t:"",id:d.id}));if(acc.indexOf("三日營")>=0)localStorage.setItem("gate2_camp3",JSON.stringify({id:d.id,exp:exp}));if(acc.indexOf("五日營")>=0)localStorage.setItem("gate2_camp5",JSON.stringify({id:d.id,exp:exp}))}catch(e){}
+  document.getElementById("fbox").style.display="none";var r=document.getElementById("fres");r.style.display="block";
+  r.innerHTML='<div class="res">'+(d.again?'🔎 找到你的資料了！':'🎉 報名完成！')+'<div style="margin-top:6px">夥伴編號 <b style="font-size:22px">'+esc(d.id)+'</b>｜'+esc(d.nick)+'</div><div style="margin-top:6px">你的個人通行碼</div><div class="cd">'+esc(d.code)+'</div><div style="font-size:15px">可進入：'+esc(acc.replace(/,/g,"、"))+'</div><div style="font-size:14px;color:#c25a6b;margin-top:6px">📸 請截圖或抄下來，換手機時會用到</div></div>'+
+  (acc.indexOf("三日營")>=0?'<a class="btn g" href="camp3.html">🎯 開始三日營闖關</a>':'')+(acc.indexOf("五日營")>=0?'<a class="btn g" href="camp5.html">🌱 開始五日營闖關</a>':'');
+ })}
+</script></body></html>
