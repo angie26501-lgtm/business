@@ -75,21 +75,36 @@ var STAGES=[
 ];
 var POLL=[["安全感守護型","先確認緊急預備金（約 3～6 個月生活費）夠了，再替多出來的錢設定目標。"],["成長累積型","投資前先把生活費和預備金安排好，也想清楚自己能承受多大的波動。"],["生活享受型","犒賞自己很好！準備一個「享受帳戶」，花得開心又不心虛。"],["平衡規劃型","你的直覺就是 Day 4 的 ABC 帳戶精神 👏 下一步：替每一份設定比例和用途。"]];
 
-var SCRIPT_URL="";var CAMP="camp3";
+var SCRIPT_URL="";var CAMP="camp3";var CAMPNAME="三日營";
 function me(){try{return JSON.parse(localStorage.getItem("moneylife_quiz_me")||"null")}catch(e){return null}}
 function setMe(o){try{localStorage.setItem("moneylife_quiz_me",JSON.stringify(o))}catch(e){}}
-function dev(){var d;try{d=localStorage.getItem("moneylife_quiz_dev");if(!d){d=Math.random().toString(36).slice(2,10);localStorage.setItem("moneylife_quiz_dev",d)}}catch(e){d="x"}return d}
-function loginBox(){var m=me();if(m)return '<div class="who"><span>👤 '+esc(m.n)+'（末 3 碼 '+esc(m.t)+'）</span><button onclick="logout()">更換</button></div>';
- return '<div class="login"><b style="color:#3e6b3a;font-size:19px">🎟️ 先登記，答題積分可以兌換抽獎！</b><div style="font-size:15px;color:#6b7a60;margin:4px 0">請填群組裡的暱稱＋手機末 3 碼（用來對應你的積分，不會公開）</div><input id="ln" placeholder="群組暱稱，例如：小芸" maxlength="20"><input id="lt" placeholder="手機末 3 碼" inputmode="numeric" maxlength="3"><button class="btn g" style="width:100%;margin-top:6px" onclick="doLogin()">✅ 登記並開始</button><div style="font-size:13px;color:#8a9a80;margin-top:6px">不登記也可以玩，但積分只存在這支手機，無法兌換。</div></div>'}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function doLogin(){var n=document.getElementById("ln").value.trim(),t=document.getElementById("lt").value.trim();if(!n){toast("請填暱稱");return}if(!/^\d{3}$/.test(t)){toast("手機末 3 碼請填 3 個數字");return}setMe({n:n,t:t});syncAll();home();toast("登記完成！開始闖關吧 🌱")}
-function logout(){if(confirm("要更換登記的暱稱嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me")}catch(e){}home()}}
-function send(stage,q,pts){var m=me();if(!m||!SCRIPT_URL)return;try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nick:m.n,tail:m.t,dev:dev(),camp:CAMP,stage:stage,q:q,pts:pts})})}catch(e){}}
-function syncAll(){var m=me();if(!m||!SCRIPT_URL)return;var rows=[];for(var k in S){var r=/^p_(.+)_(\d+)$/.exec(k);if(r)rows.push({stage:r[1],q:+r[2],pts:S[k]})}if(!rows.length)return;try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nick:m.n,tail:m.t,dev:dev(),camp:CAMP,rows:rows})})}catch(e){}}
-function cloud(){var el=document.getElementById("cloud"),m=me();if(!el)return;if(!m){el.textContent="☁️ 尚未登記：積分只存在這支手機";return}
- if(!SCRIPT_URL){el.textContent="☁️ 雲端積分登記即將開放，目前先存在手機，開放後會自動補登";return}
- el.textContent="☁️ 查詢雲端累計積分中…";var cb="cb"+Date.now();window[cb]=function(d){el.textContent=d&&d.ok?"☁️ 雲端累計（兩個營隊合計）："+d.total+" 點｜已兌換 "+d.redeemed+"｜可兌換 "+d.available+" 點":"☁️ 雲端暫時查不到，稍後再試";delete window[cb]};
- var sc=document.createElement("script");sc.src=SCRIPT_URL+"?action=me&nick="+encodeURIComponent(m.n)+"&tail="+encodeURIComponent(m.t)+"&callback="+cb;sc.onerror=function(){el.textContent="☁️ 雲端暫時連不上，積分已先存在手機"};document.body.appendChild(sc)}
+function jsonp(params,cb){if(!SCRIPT_URL){cb(null);return}var n="cb"+Date.now()+Math.floor(Math.random()*999);window[n]=function(d){cb(d);delete window[n]};var q=[];for(var k in params)q.push(k+"="+encodeURIComponent(params[k]));var s=document.createElement("script");s.src=SCRIPT_URL+"?"+q.join("&")+"&callback="+n;s.onerror=function(){cb(null)};document.body.appendChild(s)}
+function loginBox(){var m=me();
+ if(m&&m.id)return '<div class="who"><span>🎫 夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'</span><button onclick="logout()">更換</button></div>';
+ return '<div class="login"><b style="color:#3e6b3a;font-size:19px">🎫 第一次來？先登記領取夥伴編號</b><div style="font-size:15px;color:#6b7a60;margin:4px 0">填群組暱稱＋手機末 3 碼，系統會給你一個專屬編號，之後積分都用這個編號登記、兌換抽獎。</div><input id="ln" placeholder="群組暱稱，例如：小芸" maxlength="20"><input id="lt" placeholder="手機末 3 碼" inputmode="numeric" maxlength="3"><button class="btn g" style="width:100%;margin-top:6px" onclick="doLogin()">🎫 登記並領取編號</button><div style="font-size:13px;color:#8a9a80;margin-top:6px">已經有編號？一樣填同樣的暱稱和末 3 碼，會找回原本的編號。</div></div>'}
+function doLogin(){var n=document.getElementById("ln").value.trim(),t=document.getElementById("lt").value.trim();if(!n){toast("請填暱稱");return}if(!/^\d{3}$/.test(t)){toast("手機末 3 碼請填 3 個數字");return}
+ if(!SCRIPT_URL){toast("編號登記即將開放，請稍後再試");return}
+ toast("領取編號中…");jsonp({action:"register",nick:n,tail:t},function(d){if(d&&d.ok){setMe({n:n,t:t,id:d.id});home();toast((d.isNew?"歡迎！你的夥伴編號是 ":"歡迎回來！你的編號是 ")+d.id)}else toast("連線失敗，請稍後再試")})}
+function logout(){if(confirm("要更換登記的編號嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me")}catch(e){}home()}}
+function send(){}
+function syncAll(){}
+function stat(){var p=0,c=0,n=0;STAGES.forEach(function(s){s.q.forEach(function(_,i){n++;var v=S["p_"+s.id+"_"+i];if(v!==undefined){p+=v;if(S["d_"+s.id+"_"+i])c++}})});return{p:p,c:c,n:n}}
+function cloud(){var el=document.getElementById("cloud"),m=me();if(!el)return;
+ if(!m||!m.id){el.textContent="🎫 尚未登記編號：積分只存在這支手機";return}
+ el.textContent="☁️ 查詢已登記積分中…";jsonp({action:"me",id:m.id},function(d){el.textContent=d&&d.ok?"☁️ 已登記積分（各營隊合計）："+d.total+" 點｜已兌換 "+d.redeemed+"｜可兌換 "+d.available+" 點":"☁️ 暫時查不到已登記積分"})}
+function submitBox(){var m=me(),st=stat();
+ if(!m||!m.id)return '<div class="login"><b>📤 送出積分登記</b><div style="font-size:15px;color:#6b7a60">請先在上方登記領取夥伴編號。</div></div>';
+ return '<div class="login" id="sub"><b style="color:#c25a6b;font-size:19px">📤 送出積分登記（'+CAMPNAME+'）</b>'+
+ '<div style="font-size:16px;margin:6px 0">夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'<br>本營隊積分 <b style="color:#c25a6b">'+st.p+'</b> 點｜完成 '+st.c+' / '+st.n+' 題</div>'+
+ '<div style="font-size:15px;color:#6b7a60">① 先把這個畫面截圖（含上方積分）<br>② 在下面選擇截圖檔案 → ③ 按送出</div>'+
+ '<input type="file" id="shot" accept="image/*" style="margin:8px 0"><img id="pv" style="display:none;max-width:100%;border-radius:10px;margin:6px 0">'+
+ '<button class="btn p" style="width:100%" onclick="doSubmit()">📤 送出積分登記</button>'+
+ '<div style="font-size:13px;color:#8a9a80;margin-top:6px">可以多次送出，系統以每個營隊最後一次的積分為準；芸琪確認截圖後列入兌換。</div></div>'}
+var shotData="";
+document.addEventListener("change",function(e){if(e.target&&e.target.id==="shot"){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var w=Math.min(720,im.width),h=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);shotData=c.toDataURL("image/jpeg",.7);var pv=document.getElementById("pv");pv.src=shotData;pv.style.display="block"};im.src=r.result};r.readAsDataURL(f)}});
+function doSubmit(){var m=me(),st=stat();if(!shotData){toast("請先選擇截圖");return}if(!SCRIPT_URL){toast("積分登記即將開放");return}
+ toast("送出中…");try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",id:m.id,nick:m.n,camp:CAMP,campName:CAMPNAME,pts:st.p,done:st.c,total:st.n,img:shotData})}).then(function(){toast("✅ 已送出！芸琪確認後就會列入積分");shotData="";setTimeout(cloud,2500);var s=document.getElementById("sub");if(s)s.innerHTML='<b style="color:#3e6b3a">✅ 積分登記已送出</b><div style="font-size:15px">截圖也可以貼到群組，和夥伴分享 🌱</div>'}).catch(function(){toast("送出失敗，請稍後再試")})}catch(e){toast("送出失敗，請稍後再試")}}
 var K="camp3_quiz_v1",S={},cur=null,qi=0,ord=[];
 function ld(){try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){S={}}}
 function sv(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
@@ -98,11 +113,11 @@ function maxPts(){var n=0;STAGES.forEach(function(s){n+=s.poll?10:s.q.length*10}
 function badge(p){var m=maxPts();return p>=m?"🏆 財務長":p>=m*.7?"🌳 大樹":p>=m*.4?"🌿 小樹苗":p>0?"🌱 綠芽":"🫘 種子"}
 function head(){var p=total();document.getElementById("pt").textContent=p;document.getElementById("pbar").style.width=Math.min(100,p/maxPts()*100)+"%";document.getElementById("bd").textContent=badge(p)+"｜滿分 "+maxPts()}
 function sp(s){var n=0;s.q.forEach(function(_,i){n+=S["p_"+s.id+"_"+i]||0});return n}
-function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：登記暱稱後，答題積分會累計到雲端，可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>；加分關分享選擇 <b>+10 點</b>。完成後截圖回群組報到 🌱</div>';
+function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：先登記領取夥伴編號 → 闖關賺積分 → 到頁面最下方截圖並「送出積分登記」，確認後可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>；加分關分享選擇 <b>+10 點</b>。</div>';
  STAGES.forEach(function(s,i){var mx=s.poll?10:s.q.length*10,got=sp(s),dn=s.q.every(function(_,j){return S["d_"+s.id+"_"+j]});
   h+='<button class="stage'+(dn?' done':'')+'" onclick="go('+i+')"><span class="d"><big>'+(dn?'✓':s.day.replace("Day ",""))+'</big>'+(s.poll?'':'Day')+'</span><span class="t"><b>'+s.t+'</b><span>'+s.s+'｜'+s.q.length+' 題</span></span><span class="s">'+got+'/'+mx+'</span></button>'});
  var p=total(),txt="我在「金錢好生活三日營｜復習闖關」拿到 "+p+" 點，等級："+badge(p)+" 🌱";
- h+='<div class="nav"><a class="btn l" target="_blank" rel="noopener" href="https://line.me/R/msg/text/?'+encodeURIComponent(txt)+'">💬 用 LINE 回報我的點數</a></div>';
+ h+=submitBox();h+='<div class="nav"><a class="btn l" target="_blank" rel="noopener" href="https://line.me/R/msg/text/?'+encodeURIComponent(txt)+'">💬 用 LINE 回報我的點數</a></div>';
  document.getElementById("view").innerHTML=h;window.scrollTo(0,0)}
 function go(i){cur=STAGES[i];qi=0;mkOrd();show()}
 function mkOrd(){ord=cur.q.map(function(q){var a=q[1].map(function(_,j){return j});if(!cur.poll)for(var x=a.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var t=a[x];a[x]=a[y];a[y]=t}return a})}
