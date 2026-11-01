@@ -103,10 +103,19 @@ function submitBox(){var m=me(),st=stat();
  if(!m||!m.id)return '<div class="login"><b>📤 送出積分登記</b><div style="font-size:15px;color:#6b7a60">請先在上方登記領取夥伴編號。</div></div>';
  return '<div class="login" id="sub"><b style="color:#c25a6b;font-size:19px">📤 送出積分登記（'+CAMPNAME+'）</b>'+
  '<div style="font-size:16px;margin:6px 0">夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'<br>本營隊積分 <b style="color:#c25a6b">'+st.p+'</b> 點｜完成 '+st.c+' / '+st.n+' 題</div>'+
- '<div style="font-size:15px;color:#6b7a60">① 先把這個畫面截圖（含上方積分）<br>② 在下面選擇截圖檔案 → ③ 按送出</div>'+
+ '<div style="font-size:15px;color:#6b7a60;margin-top:4px">兩種方式選一種就好 👇</div>'+
+ '<div style="background:#eefaf2;border-radius:14px;padding:10px 12px;margin:8px 0"><b style="color:#06a34a">方式一｜傳給芸琪 LINE 一對一（最簡單）</b><div style="font-size:14px;color:#5b6650">按下按鈕會自動複製你的積分結果，並打開芸琪的 LINE；貼上送出，也可以附上截圖。</div><button class="btn l" style="width:100%;margin-top:6px" onclick="doLine()">💬 傳結果給芸琪 LINE 一對一</button></div>'+
+ '<b style="color:#c25a6b">方式二｜上傳截圖登記</b>'+
+ '<div style="font-size:15px;color:#6b7a60">① 先把這個畫面截圖（含上方編號與積分）<br>② 在下面選擇截圖檔案 → ③ 按送出</div>'+
  '<input type="file" id="shot" accept="image/*" style="margin:8px 0"><img id="pv" style="display:none;max-width:100%;border-radius:10px;margin:6px 0">'+
  '<button class="btn p" style="width:100%" onclick="doSubmit()">📤 送出積分登記</button>'+
  '<div style="font-size:13px;color:#8a9a80;margin-top:6px">可以多次送出，系統以每個營隊最後一次的積分為準；芸琪確認截圖後列入兌換。</div></div>'}
+var LINE_1ON1="https://lin.ee/8ipLGMe";
+function resultText(){var m=me(),st=stat();return "【復習闖關積分登記】\n夥伴編號："+m.id+"\n暱稱："+m.n+"\n營隊："+CAMPNAME+"\n積分："+st.p+" 點（完成 "+st.c+" / "+st.n+" 題）"}
+function doLine(){var m=me();if(!m||!m.id){toast("請先登記編號");return}var t=resultText(),st=stat();
+ if(SCRIPT_URL){try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",id:m.id,nick:m.n,camp:CAMP,campName:CAMPNAME,pts:st.p,done:st.c,total:st.n,img:""})})}catch(e){}}
+ var go=function(){toast("已複製結果，貼到 LINE 對話框送出就完成 💛");setTimeout(function(){location.href=LINE_1ON1},900)};
+ if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(go,function(){alert(t+"\n\n（請手動記下以上內容，傳給芸琪）");location.href=LINE_1ON1})}else{alert(t);location.href=LINE_1ON1}}
 var shotData="";
 document.addEventListener("change",function(e){if(e.target&&e.target.id==="shot"){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var w=Math.min(720,im.width),h=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);shotData=c.toDataURL("image/jpeg",.7);var pv=document.getElementById("pv");pv.src=shotData;pv.style.display="block"};im.src=r.result};r.readAsDataURL(f)}});
 function doSubmit(){var m=me(),st=stat();if(!shotData){toast("請先選擇截圖");return}if(!SCRIPT_URL){toast("積分登記即將開放");return}
@@ -123,7 +132,7 @@ function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌
  STAGES.forEach(function(s,i){var mx=s.poll?10:s.q.length*10,got=sp(s),dn=s.q.every(function(_,j){return S["d_"+s.id+"_"+j]});
   h+='<button class="stage'+(dn?' done':'')+'" onclick="go('+i+')"><span class="d"><big>'+(dn?'✓':s.day.replace("Day ",""))+'</big>'+(s.poll?'':'Day')+'</span><span class="t"><b>'+s.t+'</b><span>'+s.s+'｜'+s.q.length+' 題</span></span><span class="s">'+got+'/'+mx+'</span></button>'});
  var p=total(),txt="我在「金錢整理五日營｜復習闖關」拿到 "+p+" 點，等級："+badge(p)+" 🌱";
- h+=submitBox();h+='<div class="nav"><a class="btn l" target="_blank" rel="noopener" href="https://line.me/R/msg/text/?'+encodeURIComponent(txt)+'">💬 用 LINE 回報我的點數</a></div>';
+ h+=submitBox();h+='<div class="nav"><a class="btn l" target="_blank" rel="noopener" href="https://line.me/R/msg/text/?'+encodeURIComponent(txt)+'">📣 分享我的點數到群組</a></div>';
  document.getElementById("view").innerHTML=h;window.scrollTo(0,0)}
 function go(i){cur=STAGES[i];qi=0;mkOrd();show()}
 function mkOrd(){ord=cur.q.map(function(q){var a=q[1].map(function(_,j){return j});if(!cur.poll)for(var x=a.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var t=a[x];a[x]=a[y];a[y]=t}return a})}
