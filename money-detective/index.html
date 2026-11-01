@@ -18,7 +18,7 @@ a{color:var(--green)}
 .stats{display:flex;gap:10px;flex-wrap:wrap}
 .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;min-width:92px}
 .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--mut)}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:16px 0}
 .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;text-align:left;font:inherit;color:inherit}
 .tile:hover{border-color:var(--green)}.tile b{display:block;font-size:16px}.tile span{font-size:13px;color:var(--mut)}
 .guidebar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
@@ -91,7 +91,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 @media(max-width:720px){.brand small{display:none}.top .btn{padding:5px 9px;font-size:13px;white-space:nowrap}.hero{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.hero h1{font-size:24px}}
 </style></head>
 <body>
-<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
+<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
 <section class="hero">
@@ -107,6 +107,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <button class="tile" data-go="S1"><b>新手起航</b><span>從迷霧港開始，檢查財務亞健康</span></button>
  <button class="tile" data-go="next"><b>繼續我的航程</b><span id="nextTip">前往下一座未破案的島</span></button>
  <button class="tile" data-go="index"><b>全部案件索引</b><span>31 案一次找，搜尋關鍵字</span></button>
+ <a class="tile" href="https://angie26501-lgtm.github.io/business/quiz/" style="text-decoration:none"><b>營隊複習闖關</b><span>三日營、五日營夥伴：答題賺積分、換抽獎</span></a>
 </div>
 
 <div class="guidebar" id="tabs">
