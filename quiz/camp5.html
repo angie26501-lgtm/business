@@ -23,6 +23,7 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 .qn{font-size:15px;color:#8a9a80;font-weight:700}
 .q{font-size:21px;font-weight:800;color:#3e6b3a;margin:6px 0 10px;line-height:1.5}
 .op{display:block;width:100%;text-align:left;font:inherit;font-size:17px;background:#f6f7f1;border:3px solid transparent;border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer;color:#33402e}
+.op.sel{border-color:#3e6b3a;background:#eef4e8;box-shadow:0 0 0 3px rgba(79,122,74,.2)}
 .op.ok{border-color:#4f7a4a;background:#eef7e8}.op.ng{border-color:#c25a6b;background:#fff1f3}
 .op:disabled{cursor:default}
 .shake{animation:shk .35s}@keyframes shk{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
@@ -47,7 +48,7 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 .who button{font:inherit;font-size:14px;border:none;background:#fff;color:#3e6b3a;border-radius:10px;padding:4px 10px;cursor:pointer}
 </style></head><body>
 <div class="wrap">
- <div class="top"><h1>🌱 金錢整理五日營｜復習闖關</h1>
+ <div class="top"><h1>🌱 金錢整理五日營｜復習闖關</h1><div id="meline" style="display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:2px 14px;font-size:16px;font-weight:800;margin-top:4px"></div>
   <div class="pts">⭐ <b id="pt">0</b> 點<div class="bar"><i id="pbar"></i></div><span class="badge" id="bd"></span></div><div id="cloud" style="font-size:14px;margin-top:4px;opacity:.95"></div></div>
  <div id="view"></div>
  <div class="cta">還沒做財務體質檢測？<br>綠芽可以<b>先免費探索</b><br><a href="https://reurl.cc/zOaa40" target="_blank" rel="noopener">🌱 免費探索綠芽</a><div style="font-size:15px;margin-top:6px">推薦碼 <b>FKJ5589</b></div></div>
@@ -90,7 +91,7 @@ function loginBox(){var m=me();
  return '<div class="login"><b style="color:#3e6b3a;font-size:19px">🎫 第一次來？先登記領取夥伴編號</b><div style="font-size:15px;color:#6b7a60;margin:4px 0">填群組暱稱＋手機末 3 碼，系統會給你一個專屬編號，之後積分都用這個編號登記、兌換抽獎。</div><input id="ln" placeholder="群組暱稱，例如：小芸" maxlength="20"><input id="lt" placeholder="手機末 3 碼" inputmode="numeric" maxlength="3"><button class="btn g" style="width:100%;margin-top:6px" onclick="doLogin()">🎫 登記並領取編號</button><div style="font-size:13px;color:#8a9a80;margin-top:6px">已經有編號？一樣填同樣的暱稱和末 3 碼，會找回原本的編號。</div></div>'}
 function doLogin(){var n=document.getElementById("ln").value.trim(),t=document.getElementById("lt").value.trim();if(!n){toast("請填暱稱");return}if(!/^\d{3}$/.test(t)){toast("手機末 3 碼請填 3 個數字");return}
  if(!SCRIPT_URL){toast("編號登記即將開放，請稍後再試");return}
- toast("領取編號中…");jsonp({action:"register",nick:n,tail:t},function(d){if(d&&d.ok){setMe({n:n,t:t,id:d.id});home();toast((d.isNew?"歡迎！你的夥伴編號是 ":"歡迎回來！你的編號是 ")+d.id)}else toast("連線失敗，請稍後再試")})}
+ toast("領取編號中…");jsonp({action:"register",nick:n,tail:t},function(d){if(d&&d.ok){setMe({n:n,t:t,id:d.id});home();head();toast((d.isNew?"歡迎！你的夥伴編號是 ":"歡迎回來！你的編號是 ")+d.id)}else toast("連線失敗，請稍後再試")})}
 function logout(){if(confirm("要更換登記的編號嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me")}catch(e){}home()}}
 function send(){}
 function syncAll(){}
@@ -116,7 +117,7 @@ function sv(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
 function total(){var n=0;for(var k in S)if(/^p_/.test(k))n+=S[k];return n}
 function maxPts(){var n=0;STAGES.forEach(function(s){n+=s.poll?10:s.q.length*10});return n}
 function badge(p){var m=maxPts();return p>=m?"🏆 財務長":p>=m*.7?"🌳 大樹":p>=m*.4?"🌿 小樹苗":p>0?"🌱 綠芽":"🫘 種子"}
-function head(){var p=total();document.getElementById("pt").textContent=p;document.getElementById("pbar").style.width=Math.min(100,p/maxPts()*100)+"%";document.getElementById("bd").textContent=badge(p)+"｜滿分 "+maxPts()}
+function head(){var ml=document.getElementById("meline"),mm=me();if(ml)ml.innerHTML=mm&&mm.id?"🎫 編號 <b style=\"color:#ffe9a8\">"+esc(mm.id)+"</b>｜"+esc(mm.n):"🎫 尚未登記編號";var p=total();document.getElementById("pt").textContent=p;document.getElementById("pbar").style.width=Math.min(100,p/maxPts()*100)+"%";document.getElementById("bd").textContent=badge(p)+"｜滿分 "+maxPts()}
 function sp(s){var n=0;s.q.forEach(function(_,i){n+=S["p_"+s.id+"_"+i]||0});return n}
 function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：先登記領取夥伴編號 → 闖關賺積分 → 到頁面最下方截圖並「送出積分登記」，確認後可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>。</div>';
  STAGES.forEach(function(s,i){var mx=s.poll?10:s.q.length*10,got=sp(s),dn=s.q.every(function(_,j){return S["d_"+s.id+"_"+j]});
@@ -129,16 +130,18 @@ function mkOrd(){ord=cur.q.map(function(q){var a=q[1].map(function(_,j){return j
 function show(){var q=cur.q[qi],k=cur.id+"_"+qi,tries=0;
  var h='<div class="card"><div class="qn">'+cur.day+'｜'+cur.t+'　第 '+(qi+1)+' / '+cur.q.length+' 題</div><div class="dots">'+cur.q.map(function(_,j){return '<i class="'+(j===qi?'on':(S["d_"+cur.id+"_"+j]?'ok':''))+'"></i>'}).join("")+'</div><div class="q">'+q[0]+'</div>';
  ord[qi].forEach(function(j){h+='<button class="op" data-j="'+j+'">'+q[1][j]+'</button>'});
- h+='<div class="ex" id="ex"></div><div class="nav"><button class="btn r" onclick="'+(qi>0?'qi--;show()':'home()')+'">← '+(qi>0?'上一題':'回關卡')+'</button><button class="btn g" onclick="nx()">'+(qi<cur.q.length-1?'下一題 →':'完成這關 ✓')+'</button></div></div>';
+ h+='<button class="btn p" id="okb" style="width:100%;margin-top:6px">✅ 確認答案</button><div style="font-size:13px;color:#8a9a80;text-align:center;margin-top:4px">點選答案後按確認；再點一次同一個選項可以取消</div><div class="ex" id="ex"></div><div class="nav"><button class="btn r" onclick="'+(qi>0?'qi--;show()':'home()')+'">← '+(qi>0?'上一題':'回關卡')+'</button><button class="btn g" onclick="nx()">'+(qi<cur.q.length-1?'下一題 →':'完成這關 ✓')+'</button></div></div>';
  document.getElementById("view").innerHTML=h;window.scrollTo(0,0);
  var ex=document.getElementById("ex");
- if(S["d_"+k]){ex.style.display="block";ex.innerHTML=cur.poll?pollTxt(S["c_"+k]):'✅ 這題已經完成了！<br>'+q[3];document.querySelectorAll(".op").forEach(function(b){b.disabled=true;if(+b.dataset.j===(cur.poll?S["c_"+k]:q[2]))b.classList.add("ok")});return}
- document.querySelectorAll(".op").forEach(function(b){b.onclick=function(){var j=+b.dataset.j;
+ if(S["d_"+k]){ex.style.display="block";document.getElementById("okb").style.display="none";ex.innerHTML=cur.poll?pollTxt(S["c_"+k]):'✅ 這題已經完成了！<br>'+q[3];document.querySelectorAll(".op").forEach(function(b){b.disabled=true;if(+b.dataset.j===(cur.poll?S["c_"+k]:q[2]))b.classList.add("ok")});return}
+ var selB=null;document.getElementById("okb").onclick=function(){if(!selB){toast("請先點選一個答案");return}var b=selB;selB.classList.remove("sel");selB=null;answer(b,+b.dataset.j)};
+ document.querySelectorAll(".op").forEach(function(b){b.onclick=function(){if(b.classList.contains("sel")){b.classList.remove("sel");selB=null;return}document.querySelectorAll(".op.sel").forEach(function(x){x.classList.remove("sel")});b.classList.add("sel");selB=b}});
+ function answer(b,j){
   if(cur.poll){S["c_"+k]=j;S["d_"+k]=1;S["p_"+k]=10;sv();send(cur.id,qi,10);b.classList.add("ok");fly(10);lock();ex.style.display="block";ex.innerHTML=pollTxt(j);head();return}
   tries++;if(j===q[2]){var g=tries===1?10:tries===2?5:0;S["p_"+k]=g;S["d_"+k]=1;sv();send(cur.id,qi,g);b.classList.add("ok");if(g)fly(g);lock();ex.style.display="block";ex.innerHTML='🎉 答對了！'+(g?'+'+g+' 點':'')+'<br>'+q[3];head()}
-  else{b.classList.add("ng","shake");setTimeout(function(){b.classList.remove("ng","shake")},900);var left=tries===1?"再答對可得 5 點":"這題答對不加分，但一樣可以看解說";toast("不是這個喔～再想想看！"+left)}}})}
+  else{b.classList.add("ng","shake");setTimeout(function(){b.classList.remove("ng","shake")},900);var left=tries===1?"再答對可得 5 點":"這題答對不加分，但一樣可以看解說";toast("不是這個喔～再想想看！"+left)}}}
 function pollTxt(j){return '你選了：<b>'+["A","B","C","D"][j]+'｜'+POLL[j][0]+'</b><br>'+POLL[j][1]+'<br>沒有標準答案，記得到群組留言說說你為什麼這樣選 💛'}
-function lock(){document.querySelectorAll(".op").forEach(function(b){b.disabled=true})}
+function lock(){document.querySelectorAll(".op").forEach(function(b){b.disabled=true});var o=document.getElementById("okb");if(o)o.style.display="none"}
 function nx(){if(qi<cur.q.length-1){qi++;show()}else{toast("🎉 完成「"+cur.t+"」！");home()}}
 function refreshMenu(){if(cur){mkOrd();show();toast("選項順序已重新整理")}else{home();toast("選單已重新整理")}}
 function fly(n){var e=document.createElement("div");e.className="fly";e.textContent="+"+n+" ⭐";document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
