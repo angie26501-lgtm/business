@@ -41,8 +41,9 @@ a{color:var(--green)}
 .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
 .lcard{background:#fff;border:1px solid var(--line);border-left:6px solid var(--c);border-radius:12px;padding:10px 12px;cursor:pointer}
 .lcard b{display:block}.lcard small{color:var(--mut)}
-.simg{border-radius:12px;overflow:hidden;margin:-4px 0 12px;height:clamp(180px,36vw,380px)}.simg img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block}
+.simg{border-radius:12px;overflow:hidden;margin:-4px 0 12px;max-width:900px}.simg img{width:100%;height:auto;aspect-ratio:3/2;display:block}
 .lthumb{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:6px;display:block}
+.duoimg{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #f7c234;flex:none;display:block}.duoimg.big{width:84px;height:84px;margin:0 auto 4px}
 .duo{display:flex;gap:10px;align-items:flex-start;margin:6px 0 10px}.bubble{background:#fff6dd;border:1px solid #ecd9a6;border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.7}
 .gsteps{font-size:15px;line-height:1.9;padding-left:22px}.kw{background:#2f7f6b;color:#fff;border-radius:6px;padding:1px 8px}
 .gtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}.gt{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px}.gt.on{background:var(--green);color:#fff;border-color:var(--green)}
@@ -54,6 +55,8 @@ a{color:var(--green)}
 .tk-l{font-size:12px;color:#2f7f6b;font-weight:700;letter-spacing:2px}.tk-c{font-size:22px;font-weight:800;color:#1d4e5f}
 .gp{position:fixed;right:16px;bottom:72px;width:330px;max-width:calc(100vw - 24px);background:#fff;border:2px solid var(--green);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:60;font-size:var(--gpf,14px)}
 .gp-h{display:flex;justify-content:space-between;align-items:center;background:var(--green);color:#fff;padding:6px 8px 6px 12px;border-radius:11px 11px 0 0;cursor:move;user-select:none;touch-action:none;font-weight:700}
+.gp-t{display:flex;align-items:center;gap:6px}.gp-ic{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid #fff}
+.gp.col .gp-b{display:none}.gp.col{width:auto!important}
 .gp-btns button{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:6px;width:28px;height:26px;margin-left:4px;cursor:pointer;font:inherit;font-size:14px}
 .gp-b{padding:8px 12px 12px;max-height:60vh;overflow:auto;line-height:1.7}.gp-b ol{padding-left:20px;margin:4px 0}.gp-tip{background:#fff6dd;border-radius:8px;padding:6px 8px;margin-top:6px;font-size:.92em}
 .gp-open{position:fixed;right:16px;bottom:18px;z-index:59;border:0;background:var(--green);color:#fff;border-radius:22px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18);display:none}
@@ -129,7 +132,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <footer>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」</footer>
 <div class="toast" id="toast"></div>
 <div id="guideP" class="gp" role="dialog" aria-label="引導說明">
- <div class="gp-h" id="gpH"><span>⛵ 航海引導說明</span><span class="gp-btns"><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
+ <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
  <div class="gp-b" id="gpB">
  <ol>
  <li><b>領登船通行碼</b>：點任一座島，填好「登島問卷」送出，就能拿到通行碼。</li>
@@ -139,7 +142,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <li><b>升級船員</b>：破案越多，等級從旅人一路升到傳承者。</li>
  </ol>
  <div class="gp-tip">其他功能：上方「多多導覽」一島一島介紹；「索引」可搜尋案件；「我的航程」看進度。</div>
- <div class="gp-tip">這個說明框可以拖曳標題列移動、按 ＋／－ 放大縮小、按 ✕ 關閉；右下角「說明」按鈕可再打開。</div>
+ <div class="gp-tip">這個說明框可以拖曳標題列移動、按 ▾ 收合／展開、按 ＋／－ 放大縮小、按 ✕ 關閉；右下角「說明」按鈕可再打開。</div>
  </div></div>
 <button id="gpOpen" class="gp-open" aria-label="打開引導說明">❓ 說明</button>
 <script>
@@ -245,7 +248,7 @@ function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll(
  const i=ST.indexOf(s),nx=ST[i+1];
  $('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，目前等級：<b>${rank()}</b>。`+(nx?`<div class="ticket"><div class="tk-l">登島通行碼</div><div class="tk-c">${esc(islandCode(i+1))}</div><div style="font-size:13px">多多：「通行碼已自動收進你的航海日誌，下一站 ${esc(nx.island)} 解鎖了！」</div><button class="btn pri" id="goNext">登上 ${esc(nx.island)} →</button></div>`:`<div class="ticket"><div class="tk-l">全島破案</div><div class="tk-c">家庭財務長・傳承者</div><div style="font-size:13px">Angie：「恭喜你走完整趟航程！留言「破案」，我陪你規劃下一段人生航線。」</div></div>`);
  if(nx)$('#goNext').onclick=()=>openSt(nx.id)}
-function duoSay(t){return `<div class="duo"><svg viewBox="0 0 80 80" width="64" height="64" aria-hidden="true"><ellipse cx="40" cy="48" rx="22" ry="26" fill="#f4a321"/><circle cx="40" cy="28" r="18" fill="#f7c234"/><path d="M28 50 q-14 6 -10 20 q10 -4 14 -16z" fill="#4c9a3a"/><path d="M52 50 q14 6 10 20 q-10 -4 -14 -16z" fill="#4c9a3a"/><circle cx="34" cy="26" r="4" fill="#222"/><circle cx="46" cy="26" r="4" fill="#222"/><path d="M36 33 q4 6 8 0 q-4 -2 -8 0z" fill="#333"/></svg><div class="bubble">${t}</div></div>`}
+function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg" style="filter:saturate(.6)"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖"></div>`:''}
  <h2 style="margin:0 0 8px">⚓ 登島前，先領「登船通行碼」</h2>
@@ -309,7 +312,7 @@ function game(s){const g=GAMES[s.id],box=$('#game');
  ['copy','cut','paste','contextmenu','selectstart','dragstart'].forEach(ev=>box.addEventListener(ev,e=>e.preventDefault()))}
 
 function renderTour(){let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
- const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true"><ellipse cx="40" cy="48" rx="22" ry="26" fill="#f4a321"/><circle cx="40" cy="28" r="18" fill="#f7c234"/><path d="M28 50 q-14 6 -10 20 q10 -4 14 -16z" fill="#4c9a3a"/><path d="M52 50 q14 6 10 20 q-10 -4 -14 -16z" fill="#4c9a3a"/><circle cx="34" cy="26" r="4" fill="#222"/><circle cx="46" cy="26" r="4" fill="#222"/><path d="M36 33 q4 6 8 0 q-4 -2 -8 0z" fill="#333"/></svg>多多｜社區管家</div>
+ const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><img class="duoimg big" src="img/duo.jpg" alt="多多">多多｜社區管家</div>
  <div><div style="font-size:16px">${esc(s.t)}</div><div class="ctrl"><button class="btn" id="tp">←</button><span>${k+1} / ${steps.length}</span><button class="btn" id="tn">→</button><button class="btn" id="ta">${timer?'暫停':'自動播放'}</button>${s.id?`<button class="btn pri" id="tgo">去這座島</button>`:''}</div></div></div>`;
   $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw()};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw()};
   $('#ta').onclick=()=>{if(timer){clearInterval(timer);timer=null}else{timer=setInterval(()=>{k=(k+1)%steps.length;draw()},4500)}draw()};
@@ -336,11 +339,12 @@ $('#shareTop').onclick=()=>copyLink('');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(ST.some(s=>s.id===h))openSt(h,true)}
 addEventListener('hashchange',fromHash);fromHash();
-(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null};
+(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:false};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
  const clamp=()=>{if(g.x==null)return;const r=P.getBoundingClientRect();g.x=Math.max(4,Math.min(innerWidth-r.width-4,g.x));g.y=Math.max(4,Math.min(innerHeight-40,g.y));P.style.left=g.x+'px';P.style.top=g.y+'px';P.style.right='auto';P.style.bottom='auto'};
- const draw=()=>{P.style.display=g.open?'':'none';O.style.display=g.open?'none':'block';P.style.setProperty('--gpf',g.f+'px');P.style.width=Math.round(330*g.f/14)+'px';clamp()};
+ const draw=()=>{P.style.display=g.open?'':'none';P.classList.toggle('col',!!g.col);$('#gpC').textContent=g.col?'▸':'▾';$('#gpC').setAttribute('aria-label',g.col?'展開':'收合');O.style.display=g.open?'none':'block';P.style.setProperty('--gpf',g.f+'px');P.style.width=g.col?'':Math.round(330*g.f/14)+'px';clamp()};
+ $('#gpC').onclick=()=>{g.col=!g.col;sv();draw()};
  $('#gpX').onclick=()=>{g.open=false;sv();draw()};O.onclick=()=>{g.open=true;sv();draw()};
  $('#gpL').onclick=()=>{g.f=Math.min(22,g.f+2);sv();draw()};$('#gpS').onclick=()=>{g.f=Math.max(12,g.f-2);sv();draw()};
  let d=null;H.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;const r=P.getBoundingClientRect();d={dx:e.clientX-r.left,dy:e.clientY-r.top};H.setPointerCapture(e.pointerId)});
