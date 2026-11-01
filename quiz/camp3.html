@@ -46,6 +46,14 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 .login input{font:inherit;font-size:18px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:10px;margin:6px 0;-webkit-user-select:text;user-select:text}
 .who{background:#eef4e8;border-radius:14px;padding:8px 14px;font-size:15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .who button{font:inherit;font-size:14px;border:none;background:#fff;color:#3e6b3a;border-radius:10px;padding:4px 10px;cursor:pointer}
+.rv{position:fixed;inset:0;background:rgba(30,40,25,.55);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.rv .pn{background:#fbfaf2;width:100%;max-width:600px;max-height:88vh;overflow:auto;border-radius:22px 22px 0 0;padding:16px 16px 24px}
+.rv .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px}
+.rv .tabs button{flex:0 0 auto;font:inherit;font-size:14px;font-weight:800;border:1px solid #9cb98e;background:#fff;color:#3e6b3a;border-radius:20px;padding:4px 12px;cursor:pointer}
+.rv .tabs button.on{background:#3e6b3a;color:#fff}
+.rv h3{color:#3e6b3a;font-size:19px;margin:8px 0}
+.rv li{margin:6px 0;font-size:16px}
+.rv img{width:100%;border-radius:12px;margin-top:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 </style></head><body>
 <div class="wrap">
  <div class="top"><h1>🎯 金錢好生活三日營｜復習闖關</h1><div id="meline" style="display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:2px 14px;font-size:16px;font-weight:800;margin-top:4px"></div>
@@ -54,7 +62,8 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
  <div class="cta">還沒做財務體質檢測？<br>綠芽可以<b>先免費探索</b><br><a href="https://reurl.cc/zOaa40" target="_blank" rel="noopener">🌱 免費探索綠芽</a><div style="font-size:15px;margin-top:6px">推薦碼 <b>FKJ5589</b></div></div>
  <div class="foot">財顧芸 陳芸琪｜家族傳承生活顧問<br>內容整理自「金錢好生活・芸琪共學圈」三日分享，僅供夥伴復習，不構成投資建議</div>
 </div>
-<div class="menu"><a href="index.html" style="text-decoration:none"><button class="h">📚 目錄</button></a><button class="h" onclick="home()">🏠 關卡</button><button onclick="refreshMenu()">🔄 重新整理選單</button></div>
+<div class="menu"><button class="h" onclick="openRv(cur?cur.id:null)">📖 重點</button><a href="index.html" style="text-decoration:none"><button class="h">📚 目錄</button></a><button class="h" onclick="home()">🏠 關卡</button><button onclick="refreshMenu()">🔄 重新整理選單</button></div>
+<div class="rv" id="rv" onclick="if(event.target===this)closeRv()"></div>
 <div class="toast" id="toast"></div>
 <script>
 var STAGES=[
@@ -116,6 +125,11 @@ var shotData="";
 document.addEventListener("change",function(e){if(e.target&&e.target.id==="shot"){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var w=Math.min(720,im.width),h=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);shotData=c.toDataURL("image/jpeg",.7);var pv=document.getElementById("pv");pv.src=shotData;pv.style.display="block"};im.src=r.result};r.readAsDataURL(f)}});
 function doSubmit(){var m=me(),st=stat();if(!shotData){toast("請先選擇截圖");return}if(!SCRIPT_URL){toast("積分登記即將開放");return}
  toast("送出中…");try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"submit",id:m.id,nick:m.n,camp:CAMP,campName:CAMPNAME,pts:st.p,done:st.c,total:st.n,img:shotData})}).then(function(){toast("✅ 已送出！芸琪確認後就會列入積分");shotData="";setTimeout(cloud,2500);var s=document.getElementById("sub");if(s)s.innerHTML='<b style="color:#3e6b3a">✅ 積分登記已送出</b><div style="font-size:15px">截圖也可以貼到群組，和夥伴分享 🌱</div>'}).catch(function(){toast("送出失敗，請稍後再試")})}catch(e){toast("送出失敗，請稍後再試")}}
+var REVIEW={"t1": {"t": "DAY 1｜人生下半場，想過什麼樣的生活", "p": ["人生上半場，我們努力累積；人生下半場，我們要學會「安排」", "安排的不只是錢，還有時間、健康、家庭，以及自己真正想過的生活", "大家想要的不只是錢，而是一種「可以選擇」的生活", "小任務：寫下最擔心的三項未來財務支出，不用算金額，先讓擔心變成看得見的問題", "讓我們不安的不是問題本身，而是從來沒有好好看過它"], "i": []}, "t2": {"t": "DAY 2｜當家庭需要你，你有多少資源可以運用？", "p": ["三明治世代：上有父母、下有孩子，也要準備自己的未來", "家庭資源整理三步驟：看見全貌 → 建立結構 → 讓家人接得住", "小任務：先列出家裡的保單放在哪裡", "讓家人接得住：萬一自己沒辦法處理，家人找得到、看得懂、接得上"], "i": []}, "t3": {"t": "DAY 3｜你以為有資產，就代表財務健康嗎？", "p": ["月收入 30 萬的人，可能比月收入 10 萬的人更缺錢", "會賺錢是一種能力；把錢變成支持生活的資源，是另一種能力", "有房子、有股票，不一定代表財務健康，還要看收支與負債", "第一步：先把收入、支出、資產、負債看清楚"], "i": []}, "bonus": {"t": "加分｜多給你 10,000 元，你會怎麼安排？", "p": ["A 安全感守護型：先確認緊急預備金（約 3～6 個月生活費）夠了，再替多的錢設定目標", "B 成長累積型：投資前先安排好生活費與預備金，了解自己能承受的波動", "C 生活享受型：準備一個「享受帳戶」，花得開心又不心虛", "D 平衡規劃型：就是 ABC 帳戶的精神，替每一份設定比例與用途", "沒有標準答案，重點是先看清楚自己的錢"], "i": []}};
+function openRv(id){var ks=Object.keys(REVIEW);if(!REVIEW[id])id=ks[0];var r=REVIEW[id];
+ var h='<div class="pn"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:18px">📖 重點復習</b><button class="btn r" style="flex:0 0 auto;padding:6px 14px" onclick="closeRv()">✕ 回到題目</button></div><div class="tabs">'+ks.map(function(k){return '<button class="'+(k===id?'on':'')+'" onclick="openRv(\''+k+'\')">'+REVIEW[k].t.split("｜")[0]+'</button>'}).join("")+'</div><h3>'+r.t+'</h3><ul>'+r.p.map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul>'+r.i.map(function(x){return '<img src="'+x+'">'}).join("")+'<div style="font-size:13px;color:#8a9a80;margin-top:10px">完整圖文也可以到群組「記事本」或相簿復習 🌱</div></div>';
+ var e=document.getElementById("rv");e.innerHTML=h;e.style.display="flex";e.querySelector(".pn").scrollTop=0}
+function closeRv(){document.getElementById("rv").style.display="none"}
 var K="camp3_quiz_v1",S={},cur=null,qi=0,ord=[];
 function ld(){try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){S={}}}
 function sv(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
@@ -144,7 +158,7 @@ function show(){var q=cur.q[qi],k=cur.id+"_"+qi,tries=0;
  function answer(b,j){
   if(cur.poll){S["c_"+k]=j;S["d_"+k]=1;S["p_"+k]=10;sv();send(cur.id,qi,10);b.classList.add("ok");fly(10);lock();ex.style.display="block";ex.innerHTML=pollTxt(j);head();return}
   tries++;if(j===q[2]){var g=tries===1?10:tries===2?5:0;S["p_"+k]=g;S["d_"+k]=1;sv();send(cur.id,qi,g);b.classList.add("ok");if(g)fly(g);lock();ex.style.display="block";ex.innerHTML='🎉 答對了！'+(g?'+'+g+' 點':'')+'<br>'+q[3];head()}
-  else{b.classList.add("ng","shake");setTimeout(function(){b.classList.remove("ng","shake")},900);var left=tries===1?"再答對可得 5 點":"這題答對不加分，但一樣可以看解說";toast("不是這個喔～再想想看！"+left)}}}
+  else{b.classList.add("ng","shake");setTimeout(function(){b.classList.remove("ng","shake")},900);var left=tries===1?"再答對可得 5 點":"這題答對不加分，但一樣可以看解說";toast("不是這個喔～再想想看！"+left);ex.style.display="block";ex.innerHTML='🤔 不確定嗎？<button class="btn g" style="width:100%;margin-top:6px" onclick="openRv(cur.id)">📖 看「'+cur.t+'」重點復習</button>'}}}
 function pollTxt(j){return '你選了：<b>'+["A","B","C","D"][j]+'｜'+POLL[j][0]+'</b><br>'+POLL[j][1]+'<br>沒有標準答案，記得到群組留言說說你為什麼這樣選 💛'}
 function lock(){document.querySelectorAll(".op").forEach(function(b){b.disabled=true});var o=document.getElementById("okb");if(o)o.style.display="none"}
 function nx(){if(qi<cur.q.length-1){qi++;show()}else{toast("🎉 完成「"+cur.t+"」！");home()}}
