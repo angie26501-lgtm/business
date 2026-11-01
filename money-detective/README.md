@@ -12,7 +12,7 @@
 | `img/s1.jpg`～`s8.jpg` | 各島情境圖（8 島齊全） | — |
 
 - 直接開某座島：`index.html#s1` ～ `#s8`
-- 登船通行碼：`綠芽登島`（改碼請改 `index.html` 裡的 `PASS_CODE`）；LINE 關鍵字「登島」
+- 登船通行碼：`綠芽登島`（改碼請改 `index.html` 裡的 `PASS_CODE`）；學員填「登島問卷」後自動取得
 - 新增島嶼圖片：放進 `img/` 並在 `index.html` 的 `IMGS` 加上對應檔名
 - 影片連結：填在 `index.html` 裡每案的 `link` 欄位
 - Angie｜家族傳承生活顧問
