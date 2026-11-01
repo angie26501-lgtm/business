@@ -79,8 +79,13 @@ function signup(){var m=document.getElementById("fmsg"),c=[document.getElementBy
   if(!d||!d.ok){m.textContent=d?"資料不完整，請再檢查一次":"連線不穩，請稍後再試";return}
   var exp=Date.now()+30*864e5,acc=String(d.access||"");
   try{localStorage.setItem("moneylife_quiz_me",JSON.stringify({n:d.nick,t:"",id:d.id}));if(acc.indexOf("三日營")>=0)localStorage.setItem("gate2_camp3",JSON.stringify({id:d.id,exp:exp}));if(acc.indexOf("五日營")>=0)localStorage.setItem("gate2_camp5",JSON.stringify({id:d.id,exp:exp}))}catch(e){}
+  try{localStorage.setItem("quiz_signup",JSON.stringify({d:d,exp:exp}))}catch(e){}
+  showRes(d)})}
+function showRes(d){var acc=String(d.access||"");
   document.getElementById("fbox").style.display="none";var r=document.getElementById("fres");r.style.display="block";
-  r.innerHTML='<div class="res">'+(d.again?'🔎 找到你的資料了！':'🎉 報名完成！')+'<div style="margin-top:6px">夥伴編號 <b style="font-size:22px">'+esc(d.id)+'</b>｜'+esc(d.nick)+'</div><div style="margin-top:6px">你的個人通行碼</div><div class="cd">'+esc(d.code)+'</div><div style="font-size:15px">可進入：'+esc(acc.replace(/,/g,"、"))+'</div><div style="font-size:14px;color:#c25a6b;margin-top:6px">📸 請截圖或抄下來，換手機時會用到</div></div>'+
-  (acc.indexOf("三日營")>=0?'<a class="btn g" href="camp3.html">🎯 開始三日營闖關</a>':'')+(acc.indexOf("五日營")>=0?'<a class="btn g" href="camp5.html">🌱 開始五日營闖關</a>':'');
- })}
+  r.innerHTML='<div class="res">'+(d.again?'🔐 你的通行碼（已記住）':'🎉 報名完成！')+'<div style="margin-top:6px">夥伴編號 <b style="font-size:22px">'+esc(d.id)+'</b>｜'+esc(d.nick)+'</div><div style="margin-top:6px">你的個人通行碼</div><div class="cd">'+esc(d.code)+'</div><div style="font-size:15px">可進入：'+esc(acc.replace(/,/g,"、"))+'</div><div style="font-size:14px;color:#c25a6b;margin-top:6px">📸 請截圖或抄下來，換手機時會用到</div></div>'+
+  (acc.indexOf("三日營")>=0?'<a class="btn g" href="camp3.html">🎯 開始三日營闖關</a>':'')+(acc.indexOf("五日營")>=0?'<a class="btn g" href="camp5.html">🌱 開始五日營闖關</a>':'')+'<div style="text-align:center;font-size:13px;color:#8a9a80;margin-top:4px">這支手機會記住 30 天 ｜ <a href="#" onclick="forget();return false" style="color:#8a9a80">不是我？重新填寫</a></div>';
+}
+function forget(){try{localStorage.removeItem("quiz_signup")}catch(e){}document.getElementById("fres").style.display="none";document.getElementById("fbox").style.display="block"}
+try{var sv=JSON.parse(localStorage.getItem("quiz_signup")||"null");if(sv&&sv.exp>Date.now()&&sv.d){sv.d.again=true;showRes(sv.d)}else if(sv)localStorage.removeItem("quiz_signup")}catch(e){}
 </script></body></html>
