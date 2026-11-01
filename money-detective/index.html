@@ -9,6 +9,8 @@ a{color:var(--green)}
 .top{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
 .brand{font-weight:800;font-size:15px}.brand small{font-weight:400;color:var(--mut);margin-left:6px}
 .wrap{max-width:1080px;margin:0 auto;padding:16px}
+.banner{border-radius:18px;overflow:hidden;margin-bottom:14px;border:1px solid var(--line);height:clamp(220px,42vw,440px)}
+.banner img{width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block}
 .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center}
 .hero h1{font-size:30px;margin:4px 0 6px}
 .badge{display:inline-block;font-size:12px;background:#eef5f1;color:var(--green);border-radius:20px;padding:2px 10px}
@@ -71,6 +73,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><button class="btn" id="shareTop">分享此區</button></div>
 <div class="wrap">
+<div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
 <section class="hero">
  <div>
   <span class="badge">家庭財務長養成航記</span>
