@@ -58,18 +58,21 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 <div id="gate" style="position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 20% 0%,#fbfaf0,#f1efdf 60%,#e9e7d2);display:flex;align-items:center;justify-content:center;padding:20px">
 <div style="background:#fff;border-radius:22px;padding:24px;max-width:420px;width:100%;box-shadow:0 10px 30px rgba(60,70,40,.15);text-align:center">
 <div style="font-size:44px">🔐</div><h2 style="color:#3e6b3a;margin:6px 0">金錢整理五日營｜復習闖關</h2>
-<div style="font-size:15px;color:#6b7a60">請輸入群組公告的通行碼<br>（登入一次，這支手機記住 30 天）</div>
-<input id="gpw" type="password" placeholder="通行碼" style="font:inherit;font-size:18px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:10px;margin:14px 0 8px;text-align:center;-webkit-user-select:text;user-select:text" onkeydown="if(event.key==='Enter')gateGo()">
-<button onclick="gateGo()" style="font:inherit;font-size:18px;font-weight:800;width:100%;border:none;border-radius:14px;padding:12px;background:#4f7a4a;color:#fff;cursor:pointer">🌱 進入闖關</button>
+<div style="font-size:15px;color:#6b7a60">請輸入芸琪私訊給你的「個人通行碼」（6 位數字）<br>登入一次，這支手機記住 30 天</div>
+<input id="gpw" inputmode="numeric" maxlength="6" placeholder="例如 123456" style="font:inherit;font-size:22px;letter-spacing:4px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:10px;margin:14px 0 8px;text-align:center;-webkit-user-select:text;user-select:text" onkeydown="if(event.key==='Enter')gateGo()">
+<button id="gbtn" onclick="gateGo()" style="font:inherit;font-size:18px;font-weight:800;width:100%;border:none;border-radius:14px;padding:12px;background:#4f7a4a;color:#fff;cursor:pointer">🌱 進入闖關</button>
 <div id="gmsg" style="color:#c25a6b;font-size:15px;min-height:22px;margin-top:6px"></div>
-<div style="border-top:1px dashed #d6dfcc;margin-top:10px;padding-top:10px;font-size:15px">📚 切換頁面：
-<a href="index.html" style="color:#3e6b3a;font-weight:800">總目錄</a>｜<a href="camp3.html" style="color:#3e6b3a;font-weight:800">三日營</a>｜<a href="camp5.html" style="color:#3e6b3a;font-weight:800">五日營</a></div>
-<div style="font-size:13px;color:#8a9a80;margin-top:8px">忘記通行碼？請到群組記事本查看，或私訊芸琪</div></div></div>
+<a href="https://lin.ee/8ipLGMe" target="_blank" rel="noopener" style="display:block;background:#06C755;color:#fff;border-radius:14px;padding:10px;font-weight:800;text-decoration:none;margin-top:4px">💬 還沒有通行碼？私訊芸琪 LINE 領取</a>
+<div style="border-top:1px dashed #d6dfcc;margin-top:12px;padding-top:10px;font-size:15px">📚 切換頁面：
+<a href="index.html" style="color:#3e6b3a;font-weight:800">總目錄</a>｜<a href="guide.html" style="color:#3e6b3a;font-weight:800">使用說明</a>｜<a href="camp3.html" style="color:#3e6b3a;font-weight:800">三日營</a>｜<a href="camp5.html" style="color:#3e6b3a;font-weight:800">五日營</a></div></div></div>
 <script>
-(function(){var K="gate_camp5",H="9a350a3d";
-function fnv(s){var h=0x811c9dc5,b=new TextEncoder().encode(s);for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,0x01000193)>>>0}return ("0000000"+h.toString(16)).slice(-8)}
-try{var v=JSON.parse(localStorage.getItem(K)||"null");if(v&&v.h===H&&v.exp>Date.now())document.getElementById("gate").style.display="none"}catch(e){}
-window.gateGo=function(){var x=document.getElementById("gpw").value.trim();if(fnv(x)===H){try{localStorage.setItem(K,JSON.stringify({h:H,exp:Date.now()+30*864e5}))}catch(e){}document.getElementById("gate").style.display="none"}else document.getElementById("gmsg").textContent="通行碼不對，再試一次 🙏"};})();
+(function(){var K="gate2_camp5",U="https://script.google.com/macros/s/AKfycbxeCPFR3rsTa9Y10mRDxVseRfoLuab52mCsb7nEMPxVw818qQGnpUJo_MJQnGPU4GT3LQ/exec",CAMP_N="五日營";
+try{var v=JSON.parse(localStorage.getItem(K)||"null");if(v&&v.exp>Date.now()&&v.id){document.getElementById("gate").style.display="none"}}catch(e){}
+window.gateGo=function(){var c=document.getElementById("gpw").value.replace(/\D/g,""),m=document.getElementById("gmsg");if(c.length!==6){m.textContent="請輸入 6 位數字的通行碼";return}
+ m.style.color="#6b7a60";m.textContent="確認中…";var n="gcb"+Date.now();window[n]=function(d){delete window[n];m.style.color="#c25a6b";
+  if(d&&d.ok){try{localStorage.setItem(K,JSON.stringify({id:d.id,exp:Date.now()+30*864e5}));localStorage.setItem("moneylife_quiz_me",JSON.stringify({n:d.nick,t:"",id:d.id}))}catch(e){}document.getElementById("gate").style.display="none";if(window.home)home();if(window.head)head()}
+  else m.textContent=d&&d.msg==="noaccess"?"這組通行碼沒有開放「"+CAMP_N+"」，請私訊芸琪":"通行碼不對，再試一次 🙏"};
+ var sc=document.createElement("script");sc.src=U+"?action=login&camp="+encodeURIComponent(CAMP_N)+"&code="+c+"&callback="+n;sc.onerror=function(){m.textContent="連線不穩，請稍後再試"};document.body.appendChild(sc)};})();
 </script>
 <div class="wrap">
  <div class="top"><h1>🌱 金錢整理五日營｜復習闖關</h1><div id="meline" style="display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:2px 14px;font-size:16px;font-weight:800;margin-top:4px"></div>
@@ -111,13 +114,11 @@ function me(){try{return JSON.parse(localStorage.getItem("moneylife_quiz_me")||"
 function setMe(o){try{localStorage.setItem("moneylife_quiz_me",JSON.stringify(o))}catch(e){}}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function jsonp(params,cb){if(!SCRIPT_URL){cb(null);return}var n="cb"+Date.now()+Math.floor(Math.random()*999);window[n]=function(d){cb(d);delete window[n]};var q=[];for(var k in params)q.push(k+"="+encodeURIComponent(params[k]));var s=document.createElement("script");s.src=SCRIPT_URL+"?"+q.join("&")+"&callback="+n;s.onerror=function(){cb(null)};document.body.appendChild(s)}
-function loginBox(){var m=me();
- if(m&&m.id)return '<div class="who"><span>🎫 夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'</span><button onclick="logout()">更換</button></div>';
- return '<div class="login"><b style="color:#3e6b3a;font-size:19px">🎫 第一次來？先登記領取夥伴編號</b><div style="font-size:15px;color:#6b7a60;margin:4px 0">填群組暱稱＋手機末 3 碼，系統會給你一個專屬編號，之後積分都用這個編號登記、兌換抽獎。</div><input id="ln" placeholder="群組暱稱，例如：小芸" maxlength="20"><input id="lt" placeholder="手機末 3 碼" inputmode="numeric" maxlength="3"><button class="btn g" style="width:100%;margin-top:6px" onclick="doLogin()">🎫 登記並領取編號</button><div style="font-size:13px;color:#8a9a80;margin-top:6px">已經有編號？一樣填同樣的暱稱和末 3 碼，會找回原本的編號。</div></div>'}
+function loginBox(){var m=me();if(m&&m.id)return '<div class="who"><span>🎫 夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'</span><button onclick="logout()">登出</button></div>';return ''}
 function doLogin(){var n=document.getElementById("ln").value.trim(),t=document.getElementById("lt").value.trim();if(!n){toast("請填暱稱");return}if(!/^\d{3}$/.test(t)){toast("手機末 3 碼請填 3 個數字");return}
  if(!SCRIPT_URL){toast("編號登記即將開放，請稍後再試");return}
  toast("領取編號中…");jsonp({action:"register",nick:n,tail:t},function(d){if(d&&d.ok){setMe({n:n,t:t,id:d.id});home();head();toast((d.isNew?"歡迎！你的夥伴編號是 ":"歡迎回來！你的編號是 ")+d.id)}else toast("連線失敗，請稍後再試")})}
-function logout(){if(confirm("要更換登記的編號嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me")}catch(e){}home()}}
+function logout(){if(confirm("要登出嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me");localStorage.removeItem("gate2_camp5")}catch(e){}location.reload()}}
 function send(){}
 function syncAll(){}
 function stat(){var p=0,c=0,n=0;STAGES.forEach(function(s){s.q.forEach(function(_,i){n++;var v=S["p_"+s.id+"_"+i];if(v!==undefined){p+=v;if(S["d_"+s.id+"_"+i])c++}})});return{p:p,c:c,n:n}}
@@ -125,7 +126,7 @@ function cloud(){var el=document.getElementById("cloud"),m=me();if(!el)return;
  if(!m||!m.id){el.textContent="🎫 尚未登記編號：積分只存在這支手機";return}
  el.textContent="☁️ 查詢已登記積分中…";jsonp({action:"me",id:m.id},function(d){el.textContent=d&&d.ok?"☁️ 已登記積分（各營隊合計）："+d.total+" 點｜已兌換 "+d.redeemed+"｜可兌換 "+d.available+" 點":"☁️ 暫時查不到已登記積分"})}
 function submitBox(){var m=me(),st=stat();
- if(!m||!m.id)return '<div class="login"><b>📤 送出積分登記</b><div style="font-size:15px;color:#6b7a60">請先在上方登記領取夥伴編號。</div></div>';
+ if(!m||!m.id)return '<div class="login"><b>📤 送出積分登記</b><div style="font-size:15px;color:#6b7a60">請先用個人通行碼登入。</div></div>';
  return '<div class="login" id="sub"><b style="color:#c25a6b;font-size:19px">📤 送出積分登記（'+CAMPNAME+'）</b>'+
  '<div style="font-size:16px;margin:6px 0">夥伴編號 <b>'+esc(m.id)+'</b>｜'+esc(m.n)+'<br>本營隊積分 <b style="color:#c25a6b">'+st.p+'</b> 點｜完成 '+st.c+' / '+st.n+' 題</div>'+
  '<div style="font-size:15px;color:#6b7a60;margin-top:4px">兩種方式選一種就好 👇</div>'+
@@ -166,7 +167,7 @@ function maxPts(){var n=0;STAGES.forEach(function(s){n+=s.poll?10:s.q.length*10}
 function badge(p){var m=maxPts();return p>=m?"🏆 財務長":p>=m*.7?"🌳 大樹":p>=m*.4?"🌿 小樹苗":p>0?"🌱 綠芽":"🫘 種子"}
 function head(){var ml=document.getElementById("meline"),mm=me();if(ml)ml.innerHTML=mm&&mm.id?"🎫 編號 <b style=\"color:#ffe9a8\">"+esc(mm.id)+"</b>｜"+esc(mm.n):"🎫 尚未登記編號";var p=total();document.getElementById("pt").textContent=p;document.getElementById("pbar").style.width=Math.min(100,p/maxPts()*100)+"%";document.getElementById("bd").textContent=badge(p)+"｜滿分 "+maxPts()}
 function sp(s){var n=0;s.q.forEach(function(_,i){n+=S["p_"+s.id+"_"+i]||0});return n}
-function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：先登記領取夥伴編號 → 闖關賺積分 → 到頁面最下方截圖並「送出積分登記」，確認後可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>。</div>';
+function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：用個人通行碼登入 → 闖關賺積分 → 到頁面最下方截圖並「送出積分登記」，確認後可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>。</div>';
  STAGES.forEach(function(s,i){var mx=s.poll?10:s.q.length*10,got=sp(s),dn=s.q.every(function(_,j){return S["d_"+s.id+"_"+j]});
   h+='<button class="stage'+(dn?' done':'')+'" onclick="go('+i+')"><span class="d"><big>'+(dn?'✓':s.day.replace("Day ",""))+'</big>'+(s.poll?'':'Day')+'</span><span class="t"><b>'+s.t+'</b><span>'+s.s+'｜'+s.q.length+' 題</span></span><span class="s">'+got+'/'+mx+'</span></button>'});
  var p=total(),txt="我在「金錢整理五日營｜復習闖關」拿到 "+p+" 點，等級："+badge(p)+" 🌱";

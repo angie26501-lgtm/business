@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>復習闖關｜夥伴通行碼管理</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:#f4f2e6;color:#33402e;font-size:17px;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding:16px}header{background:linear-gradient(135deg,#3e6b3a,#6f9a5f);color:#fff;border-radius:16px;padding:16px 20px}
+header h1{margin:0;font-size:22px}.nav a{color:#ffe9a8;font-weight:800;margin-right:12px;font-size:15px}
+.card{background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 3px 12px rgba(60,80,40,.08)}
+input,select{font:inherit;font-size:16px;border:2px solid #cfdcc3;border-radius:10px;padding:8px 10px}
+button{font:inherit;font-size:15px;font-weight:800;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;background:#4f7a4a;color:#fff}
+button.l{background:#e6eddc;color:#3e6b3a}button.g{background:#06C755}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:8px;border-bottom:1px solid #e8eee0;text-align:left}th{background:#e6eddc;position:sticky;top:0}
+.code{font-family:monospace;font-size:18px;font-weight:900;color:#c25a6b;letter-spacing:2px}
+.kpi{display:flex;gap:10px;flex-wrap:wrap}.kpi span{background:#eef4e8;border-radius:12px;padding:4px 12px;font-weight:800}
+#gate{position:fixed;inset:0;background:#f4f2e6;display:flex;align-items:center;justify-content:center;z-index:9;padding:20px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#33402e;color:#fff;padding:8px 20px;border-radius:20px;display:none;z-index:10}
+.new{background:#fff7e0;border:2px dashed #e0a340;border-radius:14px;padding:12px;margin-top:10px;display:none}
+.tw{overflow-x:auto;max-height:70vh}
+</style></head><body>
+<div id="gate"><div class="card" style="max-width:400px;width:100%;text-align:center"><div style="font-size:40px">🛡️</div><h2 style="color:#3e6b3a;margin:4px 0">夥伴通行碼管理（芸琪專用）</h2>
+<input id="ak" type="password" placeholder="管理密碼" style="width:100%;margin:10px 0;text-align:center" onkeydown="if(event.key==='Enter')login()"><button style="width:100%" onclick="login()">登入（記住 30 天）</button><div id="gm" style="color:#c25a6b;min-height:22px;margin-top:6px"></div>
+<div style="font-size:15px;margin-top:6px">📚 切換頁面：<a href="index.html">總目錄</a>｜<a href="guide.html">使用說明</a>｜<a href="camp3.html">三日營</a>｜<a href="camp5.html">五日營</a></div></div></div>
+<div class="wrap"><header><h1>🛡️ 復習闖關｜夥伴編號與通行碼管理</h1><div class="nav"><a href="index.html">總目錄</a><a href="guide.html">使用說明</a><a href="camp3.html">三日營</a><a href="camp5.html">五日營</a><a href="https://docs.google.com/spreadsheets/d/19T_P6VGFDoJwat-e0ONaHXcceXRss9T9wD5vBV6dpY8/edit" target="_blank">試算表</a><a href="#" onclick="logout()">登出</a></div></header>
+<div class="card"><b style="font-size:19px;color:#3e6b3a">➕ 新增夥伴（自動發編號＋通行碼）</b>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center"><input id="nn" placeholder="暱稱（群組名稱）" style="flex:1;min-width:160px"><label><input type="checkbox" id="a3" checked> 三日營</label><label><input type="checkbox" id="a5" checked> 五日營</label><input id="nt" placeholder="備註（選填）" style="flex:1;min-width:140px"><button onclick="add()">➕ 新增</button></div>
+<div class="new" id="newbox"></div></div>
+<div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between"><input id="q" placeholder="🔍 搜尋編號、暱稱或通行碼" oninput="draw()" style="flex:1;min-width:200px"><button class="l" onclick="load()">🔄 重新整理</button></div>
+<div class="kpi" id="kpi" style="margin:10px 0"></div><div class="tw"><table><thead><tr><th>編號</th><th>暱稱</th><th>通行碼</th><th>可進入</th><th>三日營</th><th>五日營</th><th>可兌換</th><th>私訊</th></tr></thead><tbody id="tb"><tr><td colspan="8">載入中…</td></tr></tbody></table></div>
+<div style="font-size:14px;color:#6b7a60;margin-top:8px">要修改「可進入」或刪除夥伴，請直接到試算表「夥伴名冊」分頁修改；積分確認在「積分登記」分頁把狀態改成「已確認」或「不採計」。</div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+var U="https://script.google.com/macros/s/AKfycbxeCPFR3rsTa9Y10mRDxVseRfoLuab52mCsb7nEMPxVw818qQGnpUJo_MJQnGPU4GT3LQ/exec",K="quiz_admin_key",KEY="",ROWS=[],GUIDE=location.href.replace(/admin\.html.*$/,"guide.html");
+function jp(p,cb){var n="a"+Date.now()+Math.floor(Math.random()*999);window[n]=function(d){delete window[n];cb(d)};var q=[];for(var k in p)q.push(k+"="+encodeURIComponent(p[k]));var s=document.createElement("script");s.src=U+"?"+q.join("&")+"&callback="+n;s.onerror=function(){cb(null)};document.body.appendChild(s)}
+function toast(t){var e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(function(){e.style.display="none"},1500)}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function copy(t){function ok(){toast("已複製，貼到 LINE 私訊就好")}if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(ok,fb);else fb();function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){}a.remove()}}
+function dm(r){var acc=String(r.access||"三日營,五日營");return r.nick+" 你好 🌱\n歡迎參加「復習闖關賺積分」！\n\n🎫 你的夥伴編號："+r.id+"\n🔐 個人通行碼："+r.code+"\n✅ 可進入："+acc.replace(/,/g,"、")+"\n\n📖 先看使用說明（3 分鐘就懂）：\n"+GUIDE+"\n\n通行碼是你專屬的，請不要分享給別人喔 💛\n—— 芸琪"}
+function login(){var k=document.getElementById("ak").value.trim();if(!k)return;document.getElementById("gm").textContent="確認中…";jp({action:"admin_list",key:k},function(d){if(d&&d.ok){KEY=k;try{localStorage.setItem(K,JSON.stringify({k:k,exp:Date.now()+30*864e5}))}catch(e){}document.getElementById("gate").style.display="none";ROWS=d.rows;draw()}else document.getElementById("gm").textContent=d?"管理密碼不對":"連線失敗，請稍後再試"})}
+function logout(){try{localStorage.removeItem(K)}catch(e){}location.reload()}
+function load(){jp({action:"admin_list",key:KEY},function(d){if(d&&d.ok){ROWS=d.rows;draw();toast("已更新")}else toast("載入失敗")})}
+function draw(){var q=document.getElementById("q").value.trim().toLowerCase(),r=ROWS.filter(function(x){return !q||(x.id+" "+x.nick+" "+x.code).toLowerCase().indexOf(q)>=0});
+ document.getElementById("kpi").innerHTML="<span>夥伴 "+ROWS.length+" 位</span><span>有積分 "+ROWS.filter(function(x){return x.tot>0}).length+" 位</span><span>顯示 "+r.length+" 筆</span>";
+ document.getElementById("tb").innerHTML=r.length?r.map(function(x){return "<tr><td><b>"+esc(x.id)+"</b></td><td>"+esc(x.nick)+(x.note?"<div style='font-size:13px;color:#8a9a80'>"+esc(x.note)+"</div>":"")+"</td><td class='code'>"+esc(x.code)+"</td><td>"+esc(String(x.access||"").replace(/,/g,"、"))+"</td><td>"+x.c3+"</td><td>"+x.c5+"</td><td><b>"+x.av+"</b></td><td><button class='g' onclick='copy(dm(ROWS["+ROWS.indexOf(x)+"]))'>📋 複製私訊</button></td></tr>"}).join(""):"<tr><td colspan='8'>沒有符合的夥伴</td></tr>"}
+function add(){var n=document.getElementById("nn").value.trim();if(!n){toast("請填暱稱");return}var acc=[document.getElementById("a3").checked?"三日營":"",document.getElementById("a5").checked?"五日營":""].filter(Boolean).join(",");if(!acc){toast("請至少勾一個營隊");return}
+ toast("新增中…");jp({action:"admin_add",key:KEY,nick:n,access:acc,note:document.getElementById("nt").value.trim()},function(d){if(d&&d.ok){var b=document.getElementById("newbox");b.style.display="block";b.innerHTML="✅ 已新增 <b>"+esc(d.id)+"｜"+esc(d.nick)+"</b>　通行碼 <span class='code'>"+esc(d.code)+"</span><br><pre style='white-space:pre-wrap;font-family:inherit;background:#fff;border-radius:10px;padding:10px'>"+esc(dm(d))+"</pre><button class='g' onclick='copy(LAST)'>📋 複製私訊文字</button>";window.LAST=dm(d);document.getElementById("nn").value="";document.getElementById("nt").value="";load()}else toast(d&&d.msg==="key"?"管理密碼失效，請重新登入":"新增失敗，請稍後再試")})}
+try{var v=JSON.parse(localStorage.getItem(K)||"null");if(v&&v.exp>Date.now()){KEY=v.k;document.getElementById("gate").style.display="none";load()}}catch(e){}
+</script></body></html>
