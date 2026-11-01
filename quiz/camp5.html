@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>金錢整理五日營｜復習闖關賺點數</title>
+<style>
+*{box-sizing:border-box;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:radial-gradient(circle at 20% 0%,#fbfaf0,#f1efdf 60%,#e9e7d2);color:#33402e;font-size:18px;line-height:1.7;min-height:100vh}
+.wrap{max-width:600px;margin:0 auto;padding:16px 16px 90px}
+.top{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,#3e6b3a,#6f9a5f);color:#fff;border-radius:0 0 20px 20px;padding:12px 16px;margin:-16px -16px 14px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.top h1{margin:0;font-size:20px}
+.pts{display:flex;align-items:center;gap:10px;margin-top:6px}
+.pts b{font-size:30px;color:#ffe9a8}
+.bar{flex:1;height:12px;background:rgba(255,255,255,.3);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:#ffe9a8;transition:width .4s}
+.badge{font-size:14px;background:rgba(255,255,255,.2);border-radius:14px;padding:1px 10px}
+.stage{display:flex;gap:14px;align-items:center;width:100%;font:inherit;text-align:left;background:#fff;border:none;border-radius:18px;padding:14px 16px;margin:10px 0;box-shadow:0 4px 12px rgba(60,70,40,.08);cursor:pointer;color:#33402e}
+.stage .d{flex:0 0 64px;height:64px;border-radius:16px;background:#e6eddc;color:#3e6b3a;font-weight:900;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;line-height:1.2}
+.stage .d big{font-size:24px}
+.stage.done .d{background:#4f7a4a;color:#fff}
+.stage .t{flex:1}.stage .t b{display:block;font-size:19px}.stage .t span{font-size:15px;color:#6b7a60}
+.stage .s{font-size:15px;font-weight:800;color:#c25a6b;white-space:nowrap}
+.card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 6px 18px rgba(60,70,40,.1)}
+.qn{font-size:15px;color:#8a9a80;font-weight:700}
+.q{font-size:21px;font-weight:800;color:#3e6b3a;margin:6px 0 10px;line-height:1.5}
+.op{display:block;width:100%;text-align:left;font:inherit;font-size:17px;background:#f6f7f1;border:3px solid transparent;border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer;color:#33402e}
+.op.ok{border-color:#4f7a4a;background:#eef7e8}.op.ng{border-color:#c25a6b;background:#fff1f3}
+.op:disabled{cursor:default}
+.ex{display:none;margin-top:10px;border-radius:14px;padding:12px 14px;font-size:16px;background:#fff7e0}
+.nav{display:flex;gap:10px;margin-top:14px}
+.btn{flex:1;font:inherit;font-size:17px;font-weight:800;border:none;border-radius:14px;padding:12px;cursor:pointer;text-align:center;text-decoration:none}
+.g{background:#4f7a4a;color:#fff}.r{background:#e6eddc;color:#3e6b3a}.p{background:#c25a6b;color:#fff}.l{background:#06C755;color:#fff}
+.dots{display:flex;gap:6px;justify-content:center;margin:10px 0}.dots i{width:10px;height:10px;border-radius:50%;background:#d6dfcc}.dots i.on{background:#c25a6b}.dots i.ok{background:#4f7a4a}
+.rule{background:#fff;border-radius:16px;padding:12px 16px;font-size:15px;color:#5b6650;margin-bottom:6px}
+.cta{background:#4f7a4a;color:#fff;border-radius:20px;padding:16px;margin-top:20px;text-align:center}.cta b{color:#ffe9a8}
+.cta a{display:inline-block;margin-top:8px;background:#fff;color:#3e6b3a;border-radius:30px;padding:8px 20px;font-weight:800;text-decoration:none}
+.foot{text-align:center;font-size:13px;color:#7d8a72;margin-top:18px}
+.menu{position:fixed;right:12px;bottom:12px;z-index:9;display:flex;gap:8px}
+.menu button{font:inherit;font-size:15px;font-weight:800;background:#3e6b3a;color:#fff;border:none;border-radius:30px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.2);cursor:pointer}
+.menu button.h{background:#fff;color:#3e6b3a}
+.toast{position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#33402e;color:#fff;padding:8px 18px;border-radius:20px;font-size:15px;display:none;z-index:10;white-space:nowrap}
+.fly{position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);font-size:40px;font-weight:900;color:#c25a6b;pointer-events:none;animation:fly 1s forwards;z-index:11}
+@keyframes fly{to{opacity:0;transform:translate(-50%,-160%)}}
+.login{background:#fff;border-radius:20px;padding:18px;box-shadow:0 6px 18px rgba(60,70,40,.1);margin-bottom:12px}
+.login input{font:inherit;font-size:18px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:10px;margin:6px 0;-webkit-user-select:text;user-select:text}
+.who{background:#eef4e8;border-radius:14px;padding:8px 14px;font-size:15px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.who button{font:inherit;font-size:14px;border:none;background:#fff;color:#3e6b3a;border-radius:10px;padding:4px 10px;cursor:pointer}
+</style></head><body>
+<div class="wrap">
+ <div class="top"><h1>🌱 金錢整理五日營｜復習闖關</h1>
+  <div class="pts">⭐ <b id="pt">0</b> 點<div class="bar"><i id="pbar"></i></div><span class="badge" id="bd"></span></div><div id="cloud" style="font-size:14px;margin-top:4px;opacity:.95"></div></div>
+ <div id="view"></div>
+ <div class="cta">還沒做財務體質檢測？<br>綠芽可以<b>先免費探索</b><br><a href="https://reurl.cc/zOaa40" target="_blank" rel="noopener">🌱 免費探索綠芽</a><div style="font-size:15px;margin-top:6px">推薦碼 <b>FKJ5589</b></div></div>
+ <div class="foot">財顧芸 陳芸琪｜家族傳承生活顧問<br>內容整理自《金錢整理五日實踐營》，僅供學員復習，不構成投資建議</div>
+</div>
+<div class="menu"><a href="index.html" style="text-decoration:none"><button class="h">📚 目錄</button></a><button class="h" onclick="home()">🏠 關卡</button><button onclick="refreshMenu()">🔄 重新整理選單</button></div>
+<div class="toast" id="toast"></div>
+<script>
+var STAGES=[
+{id:"d1",day:"Day 1",t:"看見我的財務現況",s:"收入與支出怎麼填",q:[
+ ["年終獎金一年只領一次，在綠芽要怎麼填？",["填在「年收入」","除以 12，填在月收入","月收入、年收入兩邊都填","不用填"],0,"一年只領一次或少數幾次的收入，填「年收入」就好，不要月、年兩邊都填，避免重複計算。"],
+ ["平常沒有記帳，支出不知道怎麼填，怎麼辦？",["先空著，等開始記帳再說","用近 1～3 個月的帳單、信用卡明細、銀行紀錄估算，不確定的標記待補","隨便填一個大概的數字","問朋友都花多少"],1,"先用手邊的帳單和明細整理估算，未確認的金額標記「待補」，之後再核對。"],
+ ["用信用卡刷卡買東西，支出要怎麼算？",["整張卡費算一筆「信用卡」支出","依實際消費的項目歸類，繳卡費時不要再重複算一次","刷卡不算支出","刷卡和繳卡費都要算"],1,"依照實際消費內容分類（例如飲食、交通）；繳信用卡帳單時，避免把已經列入的消費再算一次。"],
+ ["保險費是一年繳一次的，填支出時要注意什麼？",["直接填進每月支出","依欄位的期間與分類填，不要把年繳金額當成每月支出","不用填","除以 4"],1,"有些支出每月發生，有些每季或每年才付，請依綠芽欄位的期間填寫，不要把年繳誤當成月繳。"]]},
+{id:"d2",day:"Day 2",t:"看見我的財務家底",s:"資產與負債盤點",q:[
+ ["「淨資產」怎麼算？",["總收入－總支出","總資產－總負債","存款＋投資","房子價值－房貸"],1,"淨資產＝總資產－總負債。這個數字不是用來跟別人比，而是了解自己目前站在哪裡。"],
+ ["股票、基金、ETF 要填什麼金額？",["當初買進的成本","目前的市值","最高點的價格","每月扣款金額"],1,"投資資產填「目前市值」，不是當初買進的成本。"],
+ ["房貸在負債欄要填多少？",["當初借的總金額","目前剩餘未償還的本金","每月要繳的金額","房子的總價"],1,"填目前剩餘未償還本金；每月還款金額另外列在支出表。"],
+ ["房子要填多少價值？",["當初購買的價格","目前的價值","貸款金額","不用填"],1,"房屋與投資資產，都填目前的價值，不是當初購買的價格。"],
+ ["保單的身故保額，可以直接當成資產填進去嗎？",["可以，保額越高資產越多","不能把身故保障額直接當成可動用資產；有保單價值的（例如儲蓄險），先確認系統分類和可實現價值再填","只填一半","全部保單都不用理"],1,"保障額不是可動用的錢。有保單價值的特殊資產，要先確認分類與可實現價值。"]]},
+{id:"d3",day:"Day 3",t:"解讀財務體質",s:"流量、存量與報告",q:[
+ ["「流量健康」主要在看什麼？",["過去累積的資產","金錢的流入、流出與儲蓄情況","房子值多少","投資報酬率"],1,"流量反映金錢的流入、流出與儲蓄，是「現在」的金錢運作能力。"],
+ ["「存量健康」主要在看什麼？",["每個月花多少","已累積的資產、負債及淨值結構","收入高不高","有沒有記帳"],1,"存量反映過去累積下來的財務基礎：資產、負債與淨值。"],
+ ["報告裡某個指標不理想，該怎麼看待？",["代表我理財很失敗","不用責怪自己，看見問題是為了讓改善有方向","趕快把報告刪掉","跟別人比一比"],1,"財務體質沒有好壞標籤；健康指標是了解現況的工具，不代表對未來的保證。"],
+ ["在群組分享 Day 3 成果時，要注意什麼？",["把完整報告截圖貼上來","分享體質名稱和發現就好，不需要公開財務數字或帳戶資訊","公布自己的淨資產","不能分享任何東西"],1,"財務數據屬於個人隱私；我們分享的是學習心得與行動，不是比較數字。"]]},
+{id:"d4",day:"Day 4",t:"建立 ABC 帳戶管理",s:"設定管理方式與優先順序",q:[
+ ["金錢管理的目的，比較接近哪一個？",["盡量限制自己不要花錢","讓每一筆錢，都能支持自己真正想過的生活","把錢全部拿去投資","只要多賺就好"],1,"金錢管理不是限制花錢，而是讓每一筆錢都有它該去的地方。"],
+ ["菁羚老師說，真正的財務自由是什麼？",["想買什麼就買什麼","清楚知道自己的錢可以怎麼安排，讓生活安心又有選擇","不用工作","存款超過一千萬"],1,"真正的財務自由，不是想買什麼就買什麼，而是清楚知道錢可以怎麼安排。"],
+ ["夥伴分享：「有意識紀錄消費」最大的好處是？",["可以跟朋友炫耀","知道花錢的邊界在哪裡，才能掌握自己的財務","記帳本很漂亮","沒有好處"],1,"有意識地記錄，會知道花錢的邊界在哪裡。"]]}
+];
+var POLL=[["安全感守護型","先確認緊急預備金（約 3～6 個月生活費）夠了，再替多出來的錢設定目標。"],["成長累積型","投資前先把生活費和預備金安排好，也想清楚自己能承受多大的波動。"],["生活享受型","犒賞自己很好！準備一個「享受帳戶」，花得開心又不心虛。"],["平衡規劃型","你的直覺就是 Day 4 的 ABC 帳戶精神 👏 下一步：替每一份設定比例和用途。"]];
+
+var SCRIPT_URL="";var CAMP="camp5";
+function me(){try{return JSON.parse(localStorage.getItem("moneylife_quiz_me")||"null")}catch(e){return null}}
+function setMe(o){try{localStorage.setItem("moneylife_quiz_me",JSON.stringify(o))}catch(e){}}
+function dev(){var d;try{d=localStorage.getItem("moneylife_quiz_dev");if(!d){d=Math.random().toString(36).slice(2,10);localStorage.setItem("moneylife_quiz_dev",d)}}catch(e){d="x"}return d}
+function loginBox(){var m=me();if(m)return '<div class="who"><span>👤 '+esc(m.n)+'（末 3 碼 '+esc(m.t)+'）</span><button onclick="logout()">更換</button></div>';
+ return '<div class="login"><b style="color:#3e6b3a;font-size:19px">🎟️ 先登記，答題積分可以兌換抽獎！</b><div style="font-size:15px;color:#6b7a60;margin:4px 0">請填群組裡的暱稱＋手機末 3 碼（用來對應你的積分，不會公開）</div><input id="ln" placeholder="群組暱稱，例如：小芸" maxlength="20"><input id="lt" placeholder="手機末 3 碼" inputmode="numeric" maxlength="3"><button class="btn g" style="width:100%;margin-top:6px" onclick="doLogin()">✅ 登記並開始</button><div style="font-size:13px;color:#8a9a80;margin-top:6px">不登記也可以玩，但積分只存在這支手機，無法兌換。</div></div>'}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function doLogin(){var n=document.getElementById("ln").value.trim(),t=document.getElementById("lt").value.trim();if(!n){toast("請填暱稱");return}if(!/^\d{3}$/.test(t)){toast("手機末 3 碼請填 3 個數字");return}setMe({n:n,t:t});syncAll();home();toast("登記完成！開始闖關吧 🌱")}
+function logout(){if(confirm("要更換登記的暱稱嗎？（這支手機的作答紀錄會保留）")){try{localStorage.removeItem("moneylife_quiz_me")}catch(e){}home()}}
+function send(stage,q,pts){var m=me();if(!m||!SCRIPT_URL)return;try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nick:m.n,tail:m.t,dev:dev(),camp:CAMP,stage:stage,q:q,pts:pts})})}catch(e){}}
+function syncAll(){var m=me();if(!m||!SCRIPT_URL)return;var rows=[];for(var k in S){var r=/^p_(.+)_(\d+)$/.exec(k);if(r)rows.push({stage:r[1],q:+r[2],pts:S[k]})}if(!rows.length)return;try{fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({nick:m.n,tail:m.t,dev:dev(),camp:CAMP,rows:rows})})}catch(e){}}
+function cloud(){var el=document.getElementById("cloud"),m=me();if(!el)return;if(!m){el.textContent="☁️ 尚未登記：積分只存在這支手機";return}
+ if(!SCRIPT_URL){el.textContent="☁️ 雲端積分登記即將開放，目前先存在手機，開放後會自動補登";return}
+ el.textContent="☁️ 查詢雲端累計積分中…";var cb="cb"+Date.now();window[cb]=function(d){el.textContent=d&&d.ok?"☁️ 雲端累計（兩個營隊合計）："+d.total+" 點｜已兌換 "+d.redeemed+"｜可兌換 "+d.available+" 點":"☁️ 雲端暫時查不到，稍後再試";delete window[cb]};
+ var sc=document.createElement("script");sc.src=SCRIPT_URL+"?action=me&nick="+encodeURIComponent(m.n)+"&tail="+encodeURIComponent(m.t)+"&callback="+cb;sc.onerror=function(){el.textContent="☁️ 雲端暫時連不上，積分已先存在手機"};document.body.appendChild(sc)}
+var K="camp5_quiz_v2",S={},cur=null,qi=0,ord=[];
+function ld(){try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){S={}}}
+function sv(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+function total(){var n=0;for(var k in S)if(/^p_/.test(k))n+=S[k];return n}
+function maxPts(){var n=0;STAGES.forEach(function(s){n+=s.poll?10:s.q.length*10});return n}
+function badge(p){var m=maxPts();return p>=m?"🏆 財務長":p>=m*.7?"🌳 大樹":p>=m*.4?"🌿 小樹苗":p>0?"🌱 綠芽":"🫘 種子"}
+function head(){var p=total();document.getElementById("pt").textContent=p;document.getElementById("pbar").style.width=Math.min(100,p/maxPts()*100)+"%";document.getElementById("bd").textContent=badge(p)+"｜滿分 "+maxPts()}
+function sp(s){var n=0;s.q.forEach(function(_,i){n+=S["p_"+s.id+"_"+i]||0});return n}
+function home(){cur=null;head();cloud();var h=loginBox()+'<div class="rule">📌 規則：登記暱稱後，答題積分會累計到雲端，可兌換抽獎活動贈品（兌換方式見群組公告）。每題第一次就答對 <b>+10 點</b>，第二次答對 <b>+5 點</b>。完成後截圖回群組報到 🌱</div>';
+ STAGES.forEach(function(s,i){var mx=s.poll?10:s.q.length*10,got=sp(s),dn=s.q.every(function(_,j){return S["d_"+s.id+"_"+j]});
+  h+='<button class="stage'+(dn?' done':'')+'" onclick="go('+i+')"><span class="d"><big>'+(dn?'✓':s.day.replace("Day ",""))+'</big>'+(s.poll?'':'Day')+'</span><span class="t"><b>'+s.t+'</b><span>'+s.s+'｜'+s.q.length+' 題</span></span><span class="s">'+got+'/'+mx+'</span></button>'});
+ var p=total(),txt="我在「金錢整理五日營｜復習闖關」拿到 "+p+" 點，等級："+badge(p)+" 🌱";
+ h+='<div class="nav"><a class="btn l" target="_blank" rel="noopener" href="https://line.me/R/msg/text/?'+encodeURIComponent(txt)+'">💬 用 LINE 回報我的點數</a></div>';
+ document.getElementById("view").innerHTML=h;window.scrollTo(0,0)}
+function go(i){cur=STAGES[i];qi=0;mkOrd();show()}
+function mkOrd(){ord=cur.q.map(function(q){var a=q[1].map(function(_,j){return j});if(!cur.poll)for(var x=a.length-1;x>0;x--){var y=Math.floor(Math.random()*(x+1));var t=a[x];a[x]=a[y];a[y]=t}return a})}
+function show(){var q=cur.q[qi],k=cur.id+"_"+qi,tries=0;
+ var h='<div class="card"><div class="qn">'+cur.day+'｜'+cur.t+'　第 '+(qi+1)+' / '+cur.q.length+' 題</div><div class="dots">'+cur.q.map(function(_,j){return '<i class="'+(j===qi?'on':(S["d_"+cur.id+"_"+j]?'ok':''))+'"></i>'}).join("")+'</div><div class="q">'+q[0]+'</div>';
+ ord[qi].forEach(function(j){h+='<button class="op" data-j="'+j+'">'+q[1][j]+'</button>'});
+ h+='<div class="ex" id="ex"></div><div class="nav"><button class="btn r" onclick="'+(qi>0?'qi--;show()':'home()')+'">← '+(qi>0?'上一題':'回關卡')+'</button><button class="btn g" onclick="nx()">'+(qi<cur.q.length-1?'下一題 →':'完成這關 ✓')+'</button></div></div>';
+ document.getElementById("view").innerHTML=h;window.scrollTo(0,0);
+ var ex=document.getElementById("ex");
+ if(S["d_"+k]){ex.style.display="block";ex.innerHTML=cur.poll?pollTxt(S["c_"+k]):'✅ 這題已經完成了！<br>'+q[3];document.querySelectorAll(".op").forEach(function(b){b.disabled=true;if(+b.dataset.j===(cur.poll?S["c_"+k]:q[2]))b.classList.add("ok")});return}
+ document.querySelectorAll(".op").forEach(function(b){b.onclick=function(){var j=+b.dataset.j;
+  if(cur.poll){S["c_"+k]=j;S["d_"+k]=1;S["p_"+k]=10;sv();send(cur.id,qi,10);b.classList.add("ok");fly(10);lock();ex.style.display="block";ex.innerHTML=pollTxt(j);head();return}
+  tries++;if(j===q[2]){var g=tries===1?10:tries===2?5:0;S["p_"+k]=g;S["d_"+k]=1;sv();send(cur.id,qi,g);b.classList.add("ok");if(g)fly(g);lock();ex.style.display="block";ex.innerHTML='🎉 答對了！'+(g?'+'+g+' 點':'')+'<br>'+q[3];head()}
+  else{b.classList.add("ng");b.disabled=true;toast("再想想看～")}}})}
+function pollTxt(j){return '你選了：<b>'+["A","B","C","D"][j]+'｜'+POLL[j][0]+'</b><br>'+POLL[j][1]+'<br>沒有標準答案，記得到群組留言說說你為什麼這樣選 💛'}
+function lock(){document.querySelectorAll(".op").forEach(function(b){b.disabled=true})}
+function nx(){if(qi<cur.q.length-1){qi++;show()}else{toast("🎉 完成「"+cur.t+"」！");home()}}
+function refreshMenu(){if(cur){mkOrd();show();toast("選項順序已重新整理")}else{home();toast("選單已重新整理")}}
+function fly(n){var e=document.createElement("div");e.className="fly";e.textContent="+"+n+" ⭐";document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
+function toast(t){var e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(function(){e.style.display="none"},1300)}
+["copy","cut","paste","contextmenu","selectstart","dragstart"].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault()})});
+document.addEventListener("keydown",function(e){if((e.ctrlKey||e.metaKey)&&/^[acvxsup]$/i.test(e.key))e.preventDefault()});
+ld();syncAll();home();
+</script></body></html>
