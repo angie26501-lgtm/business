@@ -14,6 +14,7 @@ a{color:var(--green)}
 .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:center}
 .hero h1{font-size:30px;margin:4px 0 6px}
 .badge{display:inline-block;font-size:12px;background:#eef5f1;color:var(--green);border-radius:20px;padding:2px 10px}
+.vision{font-size:17px;font-weight:700;color:#2f7f6b;margin:4px 0 2px}
 .lead{font-size:18px;margin:6px 0 12px}
 .stats{display:flex;gap:10px;flex-wrap:wrap}
 .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;min-width:92px}
@@ -97,8 +98,9 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
 <section class="hero">
  <div>
-  <span class="badge">家庭財務長養成航記</span>
+  <span class="badge">綠芽財富成長計畫｜家庭財務長養成航記</span>
   <h1>財富航海群島</h1>
+  <p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p>
   <p class="lead">點一座島，破一個財務案，完成小遊戲就能升級船員。</p>
   <div class="stats" id="stats"></div>
  </div>
@@ -133,7 +135,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <section id="vVoyage" class="panel" style="display:none"></section>
 <section id="detail"></section>
 </div>
-<footer>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a></footer>
+<footer><b>《綠芽財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a></footer>
 <div class="toast" id="toast"></div>
 <div id="guideP" class="gp" role="dialog" aria-label="引導說明">
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
