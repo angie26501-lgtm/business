@@ -55,6 +55,22 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 .rv li{margin:6px 0;font-size:16px}
 .rv img{width:100%;border-radius:12px;margin-top:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 </style></head><body>
+<div id="gate" style="position:fixed;inset:0;z-index:50;background:radial-gradient(circle at 20% 0%,#fbfaf0,#f1efdf 60%,#e9e7d2);display:flex;align-items:center;justify-content:center;padding:20px">
+<div style="background:#fff;border-radius:22px;padding:24px;max-width:420px;width:100%;box-shadow:0 10px 30px rgba(60,70,40,.15);text-align:center">
+<div style="font-size:44px">🔐</div><h2 style="color:#3e6b3a;margin:6px 0">金錢整理五日營｜復習闖關</h2>
+<div style="font-size:15px;color:#6b7a60">請輸入群組公告的通行碼<br>（登入一次，這支手機記住 30 天）</div>
+<input id="gpw" type="password" placeholder="通行碼" style="font:inherit;font-size:18px;width:100%;border:2px solid #cfdcc3;border-radius:12px;padding:10px;margin:14px 0 8px;text-align:center;-webkit-user-select:text;user-select:text" onkeydown="if(event.key==='Enter')gateGo()">
+<button onclick="gateGo()" style="font:inherit;font-size:18px;font-weight:800;width:100%;border:none;border-radius:14px;padding:12px;background:#4f7a4a;color:#fff;cursor:pointer">🌱 進入闖關</button>
+<div id="gmsg" style="color:#c25a6b;font-size:15px;min-height:22px;margin-top:6px"></div>
+<div style="border-top:1px dashed #d6dfcc;margin-top:10px;padding-top:10px;font-size:15px">📚 切換頁面：
+<a href="index.html" style="color:#3e6b3a;font-weight:800">總目錄</a>｜<a href="camp3.html" style="color:#3e6b3a;font-weight:800">三日營</a>｜<a href="camp5.html" style="color:#3e6b3a;font-weight:800">五日營</a></div>
+<div style="font-size:13px;color:#8a9a80;margin-top:8px">忘記通行碼？請到群組記事本查看，或私訊芸琪</div></div></div>
+<script>
+(function(){var K="gate_camp5",H="9a350a3d";
+function fnv(s){var h=0x811c9dc5,b=new TextEncoder().encode(s);for(var i=0;i<b.length;i++){h^=b[i];h=Math.imul(h,0x01000193)>>>0}return ("0000000"+h.toString(16)).slice(-8)}
+try{var v=JSON.parse(localStorage.getItem(K)||"null");if(v&&v.h===H&&v.exp>Date.now())document.getElementById("gate").style.display="none"}catch(e){}
+window.gateGo=function(){var x=document.getElementById("gpw").value.trim();if(fnv(x)===H){try{localStorage.setItem(K,JSON.stringify({h:H,exp:Date.now()+30*864e5}))}catch(e){}document.getElementById("gate").style.display="none"}else document.getElementById("gmsg").textContent="通行碼不對，再試一次 🙏"};})();
+</script>
 <div class="wrap">
  <div class="top"><h1>🌱 金錢整理五日營｜復習闖關</h1><div id="meline" style="display:inline-block;background:rgba(255,255,255,.22);border-radius:20px;padding:2px 14px;font-size:16px;font-weight:800;margin-top:4px"></div>
   <div class="pts">⭐ <b id="pt">0</b> 點<div class="bar"><i id="pbar"></i></div><span class="badge" id="bd"></span></div><div id="cloud" style="font-size:14px;margin-top:4px;opacity:.95"></div></div>
