@@ -25,6 +25,7 @@ body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans
 .op{display:block;width:100%;text-align:left;font:inherit;font-size:17px;background:#f6f7f1;border:3px solid transparent;border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer;color:#33402e}
 .op.ok{border-color:#4f7a4a;background:#eef7e8}.op.ng{border-color:#c25a6b;background:#fff1f3}
 .op:disabled{cursor:default}
+.shake{animation:shk .35s}@keyframes shk{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .ex{display:none;margin-top:10px;border-radius:14px;padding:12px 14px;font-size:16px;background:#fff7e0}
 .nav{display:flex;gap:10px;margin-top:14px}
 .btn{flex:1;font:inherit;font-size:17px;font-weight:800;border:none;border-radius:14px;padding:12px;cursor:pointer;text-align:center;text-decoration:none}
@@ -131,7 +132,7 @@ function show(){var q=cur.q[qi],k=cur.id+"_"+qi,tries=0;
  document.querySelectorAll(".op").forEach(function(b){b.onclick=function(){var j=+b.dataset.j;
   if(cur.poll){S["c_"+k]=j;S["d_"+k]=1;S["p_"+k]=10;sv();send(cur.id,qi,10);b.classList.add("ok");fly(10);lock();ex.style.display="block";ex.innerHTML=pollTxt(j);head();return}
   tries++;if(j===q[2]){var g=tries===1?10:tries===2?5:0;S["p_"+k]=g;S["d_"+k]=1;sv();send(cur.id,qi,g);b.classList.add("ok");if(g)fly(g);lock();ex.style.display="block";ex.innerHTML='🎉 答對了！'+(g?'+'+g+' 點':'')+'<br>'+q[3];head()}
-  else{b.classList.add("ng");b.disabled=true;toast("再想想看～")}}})}
+  else{b.classList.add("ng","shake");setTimeout(function(){b.classList.remove("ng","shake")},900);var left=tries===1?"再答對可得 5 點":"這題答對不加分，但一樣可以看解說";toast("不是這個喔～再想想看！"+left)}}})}
 function pollTxt(j){return '你選了：<b>'+["A","B","C","D"][j]+'｜'+POLL[j][0]+'</b><br>'+POLL[j][1]+'<br>沒有標準答案，記得到群組留言說說你為什麼這樣選 💛'}
 function lock(){document.querySelectorAll(".op").forEach(function(b){b.disabled=true})}
 function nx(){if(qi<cur.q.length-1){qi++;show()}else{toast("🎉 完成「"+cur.t+"」！");home()}}
