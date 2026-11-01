@@ -45,6 +45,9 @@ a{color:var(--green)}
 .lthumb{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:6px;display:block}
 .duo{display:flex;gap:10px;align-items:flex-start;margin:6px 0 10px}.bubble{background:#fff6dd;border:1px solid #ecd9a6;border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.7}
 .gsteps{font-size:15px;line-height:1.9;padding-left:22px}.kw{background:#2f7f6b;color:#fff;border-radius:6px;padding:1px 8px}
+.gtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}.gt{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px}.gt.on{background:var(--green);color:#fff;border-color:var(--green)}
+.svbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;max-width:560px}.svbox .fl{display:block;font-weight:700;font-size:14px;margin:10px 0 4px}.svbox .fl i{color:#c0603f;font-style:normal}
+.svbox input:not([type=radio]):not([type=checkbox]){width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;box-sizing:border-box}.svbox .ck{display:block;font-size:14px;margin:3px 0;cursor:pointer}
 .pform{display:flex;gap:8px;max-width:420px}.pform input{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:10px;font:inherit}
 .gmenu{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .ticket{margin-top:10px;border:2px dashed #2f7f6b;border-radius:14px;padding:10px 14px;background:#f1faf5;display:grid;gap:6px;max-width:460px}
@@ -126,6 +129,9 @@ const IMGS={S1:'img/s1.jpg',S2:'img/s2.jpg',S3:'img/s3.jpg',S4:'img/s4.jpg',S5:'
 const PASS_CODE='綠芽登島';
 const LINE_URL='https://lin.ee/oOvyuwU';
 const LINE_KEY='登島';
+const SURVEY_URL='';
+const SURVEY_Q1=['每個月錢都不知道花去哪','存不了錢、月底常不夠用','分期或卡債壓力','保單很多但不清楚保到什麼','想開始規劃退休或傳承'];
+const SURVEY_Q2=['薪水撐不到月底','沒有 3 個月以上預備金','說不出上個月花了多少','有 2 筆以上分期在扣款','都沒有，只是想學更多'];
 const RANKS=['旅人','新手船員','副船長','船長','家庭財務長','傳承者'];
 const POS=[[110,330],[250,250],[400,320],[540,230],[680,300],[820,220],[930,330],[790,420]];
 const GAMES = {
@@ -224,17 +230,46 @@ function duoSay(t){return `<div class="duo"><svg viewBox="0 0 80 80" width="64" 
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg" style="filter:saturate(.6)"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖"></div>`:''}
  <h2 style="margin:0 0 8px">⚓ 登島前，先領「登船通行碼」</h2>
- ${duoSay(`多多來了！船員請注意～ <b>${esc(s.island)}</b> 就在前面，但偵探社的島嶼只讓「有通行碼」的船員登島喔！三步驟就能拿到：`)}
- <ol class="gsteps"><li><b>加入</b> Angie 的 LINE 官方帳號：<a href="${LINE_URL}" target="_blank" rel="noopener">${LINE_URL}</a></li>
+ ${duoSay(`多多來了！船員請注意～ <b>${esc(s.island)}</b> 就在前面，但偵探社的島嶼只讓「有通行碼」的船員登島喔！兩種方法任選一種就能拿到：加 LINE 官方帳號，或填一份登島問卷。`)}
+ <div class="gtabs"><button class="gt on" data-g="line">方法一：加 LINE 官方帳號</button><button class="gt" data-g="sv">方法二：填登島問卷</button></div>
+ <div id="g_line"><ol class="gsteps"><li><b>加入</b> Angie 的 LINE 官方帳號：<a href="${LINE_URL}" target="_blank" rel="noopener">${LINE_URL}</a></li>
  <li>在聊天室輸入關鍵字 <span class="kw">${esc(LINE_KEY)}</span>，就會收到你的通行碼</li>
  <li>回到這裡輸入通行碼，按「登島」</li></ol>
- <form id="pf" class="pform"><input id="pc" autocomplete="off" placeholder="輸入登船通行碼" aria-label="登船通行碼"><button class="btn pri">登島</button></form><div class="fb" id="pfb"></div>
+ <form id="pf" class="pform"><input id="pc" autocomplete="off" placeholder="輸入登船通行碼" aria-label="登船通行碼"><button class="btn pri">登島</button></form><div class="fb" id="pfb"></div></div>
+ <div id="g_sv" class="svbox" style="display:none">
+ <p style="margin:4px 0 8px">回答 3 個小問題，送出後畫面會直接顯示你的登船通行碼。</p>
+ <label class="fl">暱稱 <i>*</i></label><input id="s_nick" maxlength="20" placeholder="大家怎麼稱呼你">
+ <label class="fl">LINE 名稱 <i>*</i></label><input id="s_line" maxlength="30" placeholder="方便 Angie 找到你">
+ <label class="fl">1. 你最想先解決哪一個財務狀況？ <i>*</i></label><div id="s_q1">${SURVEY_Q1.map((o,k)=>`<label class="ck"><input type="radio" name="q1" value="${esc(o)}"> ${esc(o)}</label>`).join('')}</div>
+ <label class="fl">2. 下面哪些「財務亞健康」症狀你有中？（可複選） <i>*</i></label><div id="s_q2">${SURVEY_Q2.map(o=>`<label class="ck"><input type="checkbox" value="${esc(o)}"> ${esc(o)}</label>`).join('')}</div>
+ <label class="fl">3. 想跟 Angie 說的話（選填）</label><input id="s_msg" maxlength="100" placeholder="例如：想學會記帳">
+ <label class="ck" style="margin-top:8px"><input type="checkbox" id="s_ok"> 我同意這份問卷只用於這次活動與後續財務學習資訊，不會公開</label>
+ <div style="display:flex;gap:8px;margin-top:10px"><button class="btn pri" id="s_go">送出問卷，領通行碼</button><button class="btn" id="s_reset" type="button">重新整理選單</button></div>
+ <div class="fb" id="sfb"></div></div>
  <div style="font-size:13px;color:#5f7680;margin-top:6px">登島一次，這台裝置會記住 30 天。還沒登島前，也可以先逛：</div>
  <div class="gmenu"><button class="btn" data-v="tour">多多導覽</button><button class="btn" data-v="index">案件索引</button><button class="btn" data-v="voyage">我的航程</button></div></div>`;
  $('#pf').onsubmit=e=>{e.preventDefault();const v=$('#pc').value.trim();
   if(!v){$('#pfb').textContent='請先輸入通行碼。';return}
   if(v===PASS_CODE){st.pass=Date.now();save();renderMap();toast('登島成功！');openSt(s.id)}else{$('#pfb').textContent='通行碼不對喔，請到 LINE 輸入「'+LINE_KEY+'」再確認一次。'}};
  $('#pc').oninput=()=>$('#pfb').textContent='';
+ document.querySelectorAll('.gt').forEach(b=>b.onclick=()=>{document.querySelectorAll('.gt').forEach(x=>x.classList.toggle('on',x===b));$('#g_line').style.display=b.dataset.g==='line'?'':'none';$('#g_sv').style.display=b.dataset.g==='sv'?'':'none'});
+ const sv=$('#g_sv');['copy','cut','paste','contextmenu','dragstart','drop'].forEach(ev=>sv.addEventListener(ev,e=>e.preventDefault()));
+ sv.querySelectorAll('input').forEach(x=>x.addEventListener('input',()=>$('#sfb').textContent=''));
+ $('#s_reset').onclick=()=>{sv.querySelectorAll('input[type=text],input:not([type])').forEach(x=>x.value='');sv.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(x=>x.checked=false);$('#sfb').textContent=''};
+ $('#s_go').onclick=()=>{const f=$('#sfb'),nick=$('#s_nick').value.trim(),line=$('#s_line').value.trim(),q1=(sv.querySelector('input[name=q1]:checked')||{}).value,q2=[...sv.querySelectorAll('#s_q2 input:checked')].map(x=>x.value);
+  f.style.color='#c0603f';
+  if(!nick){f.textContent='請填暱稱。';return}if(!line){f.textContent='請填 LINE 名稱。';return}if(!q1){f.textContent='請選第 1 題。';return}if(!q2.length){f.textContent='第 2 題至少勾一項。';return}if(!$('#s_ok').checked){f.textContent='請勾選同意。';return}
+  const data={action:'island_signup',nick,line,q1,q2:q2.join('、'),msg:$('#s_msg').value.trim(),src:location.href.split('#')[0]};
+  try{localStorage.setItem('hanji_survey',JSON.stringify(Object.assign({t:Date.now()},data)))}catch(e){}
+  const done=()=>{st.pass=Date.now();save();renderMap();
+   sv.innerHTML=`<div class="ticket"><div class="tk-l">登船通行碼</div><div class="tk-c">${esc(PASS_CODE)}</div><div style="font-size:14px">多多：「${esc(nick)}，謝謝你填問卷！通行碼已經幫你輸入好，這台裝置會記住 30 天。請截圖留存喔！」</div><button class="btn pri" id="s_enter">登上 ${esc(s.island)} →</button></div>`;
+   $('#s_enter').onclick=()=>openSt(s.id)};
+  if(!SURVEY_URL){done();return}
+  f.style.color='#5f7680';f.textContent='送出中…';
+  const n='cb'+Date.now();let ok=false;window[n]=()=>{ok=true;delete window[n];done()};
+  const sc=document.createElement('script');sc.src=SURVEY_URL+'?'+Object.entries(data).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&')+'&callback='+n;
+  sc.onerror=()=>{f.style.color='#c0603f';f.textContent='連線不穩，請稍後再試，或改用方法一 LINE 領取。'};document.body.appendChild(sc);
+  setTimeout(()=>{if(!ok&&f.textContent==='送出中…'){f.style.color='#c0603f';f.textContent='連線不穩，請稍後再試，或改用方法一 LINE 領取。'}},12000)};
  document.querySelectorAll('.gmenu .btn').forEach(b=>b.onclick=()=>{view(b.dataset.v);$('#tabs').scrollIntoView({behavior:'smooth'})});
  if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 function lockedIsle(s,i,noScroll){const pv=ST[i-1];$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
