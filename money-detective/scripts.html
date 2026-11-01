@@ -1,0 +1,686 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>人生金錢偵探社｜家庭財務長養成航記｜腳本包</title>
+<style>
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f4efe4;color:#2b2b2b}
+header{background:linear-gradient(135deg,#1d4e5f,#2f7f6b);color:#fff;padding:22px 20px}
+header h1{margin:0 0 6px;font-size:24px} header p{margin:2px 0;opacity:.9;font-size:14px}
+.wrap{max-width:1100px;margin:0 auto;padding:14px}
+.route{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 14px}
+.isl{background:#fff;border:2px solid var(--c);border-radius:12px;padding:6px 10px;cursor:pointer;text-align:center;min-width:86px}
+.isl b{display:inline-block;background:var(--c);color:#fff;border-radius:50%;width:22px;height:22px;line-height:22px;font-size:12px}
+.isl span{display:block;font-weight:700;color:var(--c)} .isl small{font-size:11px;color:#666} .route i{color:#999;font-style:normal}
+.roles{background:#fff;border-radius:12px;padding:10px 14px;font-size:13px;margin-bottom:12px} .roles ul{margin:4px 0;padding-left:18px} .roles b{margin-right:6px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;background:#f4efe4;padding:8px 0;z-index:5}
+.tab{border:2px solid var(--c);background:#fff;color:var(--c);border-radius:20px;padding:6px 12px;cursor:pointer;font-weight:700}
+.tab.on{background:var(--c);color:#fff}
+.panel{display:none} .panel.on{display:block}
+.sh{color:#fff;border-radius:12px;padding:10px 14px;margin:8px 0} .sh h2{margin:0;font-size:19px} .sh p{margin:4px 0 0;font-size:13px}
+.card{background:#fff;border-radius:12px;padding:12px 14px;margin:10px 0;box-shadow:0 1px 3px #0001}
+.ch{display:flex;justify-content:space-between;align-items:center} .no{font-weight:800;font-size:17px} .tp{background:#eef5f1;color:#2f7f6b;border-radius:10px;padding:2px 8px;font-size:12px}
+.hook{background:#fff6dd;border-left:4px solid #d9a441;padding:6px 10px;margin:8px 0;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14px} td{border-top:1px solid #eee;padding:6px 4px;vertical-align:top}
+td.s{color:#999;width:28px} td.r{width:64px;font-weight:700} td.p{color:#777;font-size:12px;width:30%}
+.r-Angie{color:#b0476b} .r-多多{color:#d07a12} .r-小綠芽{color:#2f8a4a} .r-胖胖幣{color:#b08a00}
+.pt{font-size:13px;margin-top:6px} .pt b{display:inline-block;background:#1d4e5f;color:#fff;border-radius:6px;padding:0 6px;margin-right:6px;font-size:12px}
+.btns{margin-top:8px;display:flex;gap:8px} .cp{border:0;background:#2f7f6b;color:#fff;border-radius:8px;padding:6px 12px;cursor:pointer} .cp.ok{background:#d9a441}
+footer{text-align:center;font-size:12px;color:#888;padding:20px}
+</style></head><body>
+<header><h1>人生金錢偵探社｜家庭財務長養成航記</h1>
+<p>主軸：財務亞健康 → 航海人生 → 幸福導航　｜　8 站・31 集・每集 5 鏡（約 30–40 秒）</p>
+<p>Angie｜家族傳承生活顧問　｜　CTA：留言「破案」</p></header>
+<div class="wrap">
+<div class="route"><div class="isl" style="--c:#5b6b7a" data-t="S1"><b>1</b><span>迷霧港</span><small>財務亞健康覺察</small></div><i>➜</i><div class="isl" style="--c:#3f8f6b" data-t="S2"><b>2</b><span>初航島</span><small>三日營｜記帳起步</small></div><i>➜</i><div class="isl" style="--c:#d9a441" data-t="S3"><b>3</b><span>燈塔</span><small>綠芽推播｜養成好習慣</small></div><i>➜</i><div class="isl" style="--c:#2f7f9a" data-t="S4"><b>4</b><span>體質島</span><small>財務體質檢測（體驗版）</small></div><i>➜</i><div class="isl" style="--c:#8a5cc2" data-t="S5"><b>5</b><span>解鎖之門</span><small>解鎖完整版｜看懂全家財務</small></div><i>➜</i><div class="isl" style="--c:#c0603f" data-t="S6"><b>6</b><span>掌舵島</span><small>五日營｜金錢整理實踐</small></div><i>➜</i><div class="isl" style="--c:#2c5aa0" data-t="S7"><b>7</b><span>遠洋航線</span><small>家庭財務長的日常</small></div><i>➜</i><div class="isl" style="--c:#1f8a8a" data-t="S8"><b>8</b><span>幸福藍海</span><small>三力平衡與家族傳承</small></div></div>
+<div class="roles">角色設定<ul><li><b>Angie</b>真人開口｜溫暖、專業、肯定句收尾</li><li><b>多多</b>綠頰小太陽鸚鵡｜吐槽、一針見血，口頭禪「多多來了，真相不遠了！」</li><li><b>小綠芽</b>貼心小秘書｜溫柔、條理，負責拿出工具與步驟</li><li><b>胖胖幣</b>荷包守護者｜愛哭、常被花掉，代表觀眾的錢包</li></ul>船員晉級：旅人 → 新手船員 → 副船長 → 船長 → 家庭財務長</div>
+<nav class="tabs"><button class="tab on" data-t="S1" style="--c:#5b6b7a">1. 迷霧港</button><button class="tab" data-t="S2" style="--c:#3f8f6b">2. 初航島</button><button class="tab" data-t="S3" style="--c:#d9a441">3. 燈塔</button><button class="tab" data-t="S4" style="--c:#2f7f9a">4. 體質島</button><button class="tab" data-t="S5" style="--c:#8a5cc2">5. 解鎖之門</button><button class="tab" data-t="S6" style="--c:#c0603f">6. 掌舵島</button><button class="tab" data-t="S7" style="--c:#2c5aa0">7. 遠洋航線</button><button class="tab" data-t="S8" style="--c:#1f8a8a">8. 幸福藍海</button></nav>
+<section class="panel on" id="S1">
+<div class="sh" style="background:#5b6b7a"><h2>第1站｜迷霧港：財務亞健康覺察</h2>
+<p>船員等級：旅人 → 新手船員　｜　對應服務：短影音／每週三公益講座　｜　4 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第1案｜薪水消失事件</span><span class="tp">月光族</span></div>
+<div class="hook">開場字卡：薪水才入帳五天，就不見了？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">救命！月初我還胖胖的，現在只剩一層皮！</td><td class="p">胖胖幣在空錢包裡發抖</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">多多來了！不是錢不見，是你沒看見它去哪！</td><td class="p">多多叼著放大鏡飛進來</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">我們先把這個月的支出，一筆一筆找出來。</td><td class="p">小綠芽攤開收支清單</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">月光不是因為賺太少，而是錢沒有先分好家。</td><td class="p">Angie 在船上對鏡頭說</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你的薪水撐得到月底嗎？留言「破案」，我陪你找線索。</td><td class="p">Angie 微笑揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>先分配再花費：薪水入帳先撥儲蓄與固定支出，剩下才是生活費。</div>
+<div class="pt"><b>置頂留言</b>你的薪水通常撐到第幾天？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第1案｜薪水消失事件】主題：月光族｜迷霧港・財務亞健康覺察
+開場字卡：薪水才入帳五天，就不見了？
+S1｜胖胖幣：救命！月初我還胖胖的，現在只剩一層皮！（畫面：胖胖幣在空錢包裡發抖）
+S2｜多多：多多來了！不是錢不見，是你沒看見它去哪！（畫面：多多叼著放大鏡飛進來）
+S3｜小綠芽：我們先把這個月的支出，一筆一筆找出來。（畫面：小綠芽攤開收支清單）
+S4｜Angie：月光不是因為賺太少，而是錢沒有先分好家。（畫面：Angie 在船上對鏡頭說）
+S5｜Angie：你的薪水撐得到月底嗎？留言「破案」，我陪你找線索。（畫面：Angie 微笑揮手）
+財商重點：先分配再花費：薪水入帳先撥儲蓄與固定支出，剩下才是生活費。
+置頂留言互動：你的薪水通常撐到第幾天？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：救命！月初我還胖胖的，現在只剩一層皮！
+多多：多多來了！不是錢不見，是你沒看見它去哪！
+小綠芽：我們先把這個月的支出，一筆一筆找出來。
+Angie：月光不是因為賺太少，而是錢沒有先分好家。
+Angie：你的薪水撐得到月底嗎？留言「破案」，我陪你找線索。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第2案｜分期付款的陷阱</span><span class="tp">刷卡分期</span></div>
+<div class="hook">開場字卡：每期只要一千多，為什麼越刷越累？</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">每期一千多？加起來是一台機車！</td><td class="p">多多拿計算機狂按</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我以為分期很輕鬆，結果每個月都被扣住…</td><td class="p">胖胖幣被好幾條帳單鎖鏈綁住</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">把所有分期列出來，看每月固定被扣多少。</td><td class="p">小綠芽展示分期清單</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">分期不是省錢，是把未來的收入先花掉。</td><td class="p">Angie 認真看鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你有幾筆分期還在扣？留言「破案」，一起算清楚。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>分期總額＝未來收入的預支；新增分期前先看「每月固定負擔」占比。</div>
+<div class="pt"><b>置頂留言</b>你現在有幾筆分期？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第2案｜分期付款的陷阱】主題：刷卡分期｜迷霧港・財務亞健康覺察
+開場字卡：每期只要一千多，為什麼越刷越累？
+S1｜多多：每期一千多？加起來是一台機車！（畫面：多多拿計算機狂按）
+S2｜胖胖幣：我以為分期很輕鬆，結果每個月都被扣住…（畫面：胖胖幣被好幾條帳單鎖鏈綁住）
+S3｜小綠芽：把所有分期列出來，看每月固定被扣多少。（畫面：小綠芽展示分期清單）
+S4｜Angie：分期不是省錢，是把未來的收入先花掉。（畫面：Angie 認真看鏡頭）
+S5｜Angie：你有幾筆分期還在扣？留言「破案」，一起算清楚。（畫面：Angie 點頭）
+財商重點：分期總額＝未來收入的預支；新增分期前先看「每月固定負擔」占比。
+置頂留言互動：你現在有幾筆分期？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：每期一千多？加起來是一台機車！
+胖胖幣：我以為分期很輕鬆，結果每個月都被扣住…
+小綠芽：把所有分期列出來，看每月固定被扣多少。
+Angie：分期不是省錢，是把未來的收入先花掉。
+Angie：你有幾筆分期還在扣？留言「破案」，一起算清楚。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第3案｜存不了錢之謎</span><span class="tp">存錢困難</span></div>
+<div class="hook">開場字卡：每個月都說要存，為什麼總是存不到？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我每個月都想存錢，可是月底就沒了…</td><td class="p">胖胖幣看著空撲滿</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">因為你都「剩下才存」，結果永遠不會剩！</td><td class="p">多多翻白眼</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">改成先存再花，入帳當天就自動轉帳。</td><td class="p">小綠芽按下自動轉帳按鈕</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">存錢靠的不是意志力，是好的流程。</td><td class="p">Angie 在船舵旁</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想開始第一筆自動存款嗎？留言「破案」。</td><td class="p">Angie 比讚</td></tr></table>
+<div class="pt"><b>財商重點</b>「先存後花」＋自動轉帳，讓存錢不用靠意志力。</div>
+<div class="pt"><b>置頂留言</b>你是先存還是剩下才存？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第3案｜存不了錢之謎】主題：存錢困難｜迷霧港・財務亞健康覺察
+開場字卡：每個月都說要存，為什麼總是存不到？
+S1｜胖胖幣：我每個月都想存錢，可是月底就沒了…（畫面：胖胖幣看著空撲滿）
+S2｜多多：因為你都「剩下才存」，結果永遠不會剩！（畫面：多多翻白眼）
+S3｜小綠芽：改成先存再花，入帳當天就自動轉帳。（畫面：小綠芽按下自動轉帳按鈕）
+S4｜Angie：存錢靠的不是意志力，是好的流程。（畫面：Angie 在船舵旁）
+S5｜Angie：想開始第一筆自動存款嗎？留言「破案」。（畫面：Angie 比讚）
+財商重點：「先存後花」＋自動轉帳，讓存錢不用靠意志力。
+置頂留言互動：你是先存還是剩下才存？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我每個月都想存錢，可是月底就沒了…
+多多：因為你都「剩下才存」，結果永遠不會剩！
+小綠芽：改成先存再花，入帳當天就自動轉帳。
+Angie：存錢靠的不是意志力，是好的流程。
+Angie：想開始第一筆自動存款嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第4案｜財務亞健康自我檢查</span><span class="tp">財務亞健康</span></div>
+<div class="hook">開場字卡：沒負債、有收入，就代表財務健康嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">沒有大問題，不代表沒有小症狀。</td><td class="p">Angie 拿著航海日誌</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">月底緊、沒預備金、不知道錢去哪，三個中一個就要注意！</td><td class="p">多多舉牌（無字）指向三個圖示</td></tr><tr><td class="s">S3</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我…好像全中了。</td><td class="p">胖胖幣冒冷汗</td></tr><tr><td class="s">S4</td><td class="r r-小綠芽">小綠芽</td><td class="l">別怕，先做一次財務體質檢查，就知道從哪裡調。</td><td class="p">小綠芽遞出聽診器</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你中了幾項？留言「破案」，我陪你啟航。</td><td class="p">Angie 站在船首</td></tr></table>
+<div class="pt"><b>財商重點</b>財務亞健康常見症狀：月底吃緊、沒有緊急預備金、說不出錢的去向。</div>
+<div class="pt"><b>置頂留言</b>三個症狀你中了幾個？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第4案｜財務亞健康自我檢查】主題：財務亞健康｜迷霧港・財務亞健康覺察
+開場字卡：沒負債、有收入，就代表財務健康嗎？
+S1｜Angie：沒有大問題，不代表沒有小症狀。（畫面：Angie 拿著航海日誌）
+S2｜多多：月底緊、沒預備金、不知道錢去哪，三個中一個就要注意！（畫面：多多舉牌（無字）指向三個圖示）
+S3｜胖胖幣：我…好像全中了。（畫面：胖胖幣冒冷汗）
+S4｜小綠芽：別怕，先做一次財務體質檢查，就知道從哪裡調。（畫面：小綠芽遞出聽診器）
+S5｜Angie：你中了幾項？留言「破案」，我陪你啟航。（畫面：Angie 站在船首）
+財商重點：財務亞健康常見症狀：月底吃緊、沒有緊急預備金、說不出錢的去向。
+置頂留言互動：三個症狀你中了幾個？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：沒有大問題，不代表沒有小症狀。
+多多：月底緊、沒預備金、不知道錢去哪，三個中一個就要注意！
+胖胖幣：我…好像全中了。
+小綠芽：別怕，先做一次財務體質檢查，就知道從哪裡調。
+Angie：你中了幾項？留言「破案」，我陪你啟航。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S2">
+<div class="sh" style="background:#3f8f6b"><h2>第2站｜初航島：三日營｜記帳起步</h2>
+<p>船員等級：新手船員　｜　對應服務：三日營（入門體驗）　｜　3 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第5案｜三個錢囊</span><span class="tp">分帳管理</span></div>
+<div class="hook">開場字卡：錢都放在同一個帳戶，難怪會亂！</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我只有一個帳戶，錢全部混在一起！</td><td class="p">胖胖幣被一團亂麻纏住</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">我們準備三個錢囊：生活、儲蓄、夢想。</td><td class="p">小綠芽拿出三個小袋子</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">分開放，誰偷吃一眼就看出來！</td><td class="p">多多盯著錢囊</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">三個錢囊，就是你家財務的第一張航海圖。</td><td class="p">Angie 把三個錢囊放上地圖</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你想先打造哪一個錢囊？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>分帳三錢囊：生活支出、儲蓄預備、夢想目標，各自獨立管理。</div>
+<div class="pt"><b>置頂留言</b>你現在有幾個帳戶在用？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第5案｜三個錢囊】主題：分帳管理｜初航島・三日營｜記帳起步
+開場字卡：錢都放在同一個帳戶，難怪會亂！
+S1｜胖胖幣：我只有一個帳戶，錢全部混在一起！（畫面：胖胖幣被一團亂麻纏住）
+S2｜小綠芽：我們準備三個錢囊：生活、儲蓄、夢想。（畫面：小綠芽拿出三個小袋子）
+S3｜多多：分開放，誰偷吃一眼就看出來！（畫面：多多盯著錢囊）
+S4｜Angie：三個錢囊，就是你家財務的第一張航海圖。（畫面：Angie 把三個錢囊放上地圖）
+S5｜Angie：你想先打造哪一個錢囊？留言「破案」。（畫面：Angie 微笑）
+財商重點：分帳三錢囊：生活支出、儲蓄預備、夢想目標，各自獨立管理。
+置頂留言互動：你現在有幾個帳戶在用？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我只有一個帳戶，錢全部混在一起！
+小綠芽：我們準備三個錢囊：生活、儲蓄、夢想。
+多多：分開放，誰偷吃一眼就看出來！
+Angie：三個錢囊，就是你家財務的第一張航海圖。
+Angie：你想先打造哪一個錢囊？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第6案｜第一天記帳就放棄？</span><span class="tp">記帳習慣</span></div>
+<div class="hook">開場字卡：記帳三天就放棄，是你沒毅力嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我記帳記三天就忘了…</td><td class="p">胖胖幣趴在帳本上睡著</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">因為你想記太細！誰會記到一顆茶葉蛋！</td><td class="p">多多翻帳本</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">先記大類就好：吃、住、行、其他。</td><td class="p">小綠芽排出四個圖示</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">記帳不是為了記得完美，是為了看見方向。</td><td class="p">Angie 對鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你記帳最長撐了幾天？留言「破案」。</td><td class="p">Angie 笑著揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>記帳先求「有」再求「細」：從四大類開始，連續一週就有感。</div>
+<div class="pt"><b>置頂留言</b>你記帳最長撐了幾天？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第6案｜第一天記帳就放棄？】主題：記帳習慣｜初航島・三日營｜記帳起步
+開場字卡：記帳三天就放棄，是你沒毅力嗎？
+S1｜胖胖幣：我記帳記三天就忘了…（畫面：胖胖幣趴在帳本上睡著）
+S2｜多多：因為你想記太細！誰會記到一顆茶葉蛋！（畫面：多多翻帳本）
+S3｜小綠芽：先記大類就好：吃、住、行、其他。（畫面：小綠芽排出四個圖示）
+S4｜Angie：記帳不是為了記得完美，是為了看見方向。（畫面：Angie 對鏡頭）
+S5｜Angie：你記帳最長撐了幾天？留言「破案」。（畫面：Angie 笑著揮手）
+財商重點：記帳先求「有」再求「細」：從四大類開始，連續一週就有感。
+置頂留言互動：你記帳最長撐了幾天？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我記帳記三天就忘了…
+多多：因為你想記太細！誰會記到一顆茶葉蛋！
+小綠芽：先記大類就好：吃、住、行、其他。
+Angie：記帳不是為了記得完美，是為了看見方向。
+Angie：你記帳最長撐了幾天？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第7案｜需要還是想要？</span><span class="tp">消費判斷</span></div>
+<div class="hook">開場字卡：買下去之前，先問一個問題。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">這個好可愛，我好需要它！</td><td class="p">胖胖幣盯著櫥窗</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">你是「需要」，還是「想要」？說實話！</td><td class="p">多多擋在胖胖幣前面</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">想要的東西，先放進願望清單等三天。</td><td class="p">小綠芽寫下願望清單</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">三天後還想要，再用夢想錢囊去買，買得安心。</td><td class="p">Angie 點頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你最近一次衝動購物是什麼？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>「等三天」法則：分辨需要與想要，想要的用夢想錢囊安心買。</div>
+<div class="pt"><b>置頂留言</b>你最近一次衝動購物是什麼？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第7案｜需要還是想要？】主題：消費判斷｜初航島・三日營｜記帳起步
+開場字卡：買下去之前，先問一個問題。
+S1｜胖胖幣：這個好可愛，我好需要它！（畫面：胖胖幣盯著櫥窗）
+S2｜多多：你是「需要」，還是「想要」？說實話！（畫面：多多擋在胖胖幣前面）
+S3｜小綠芽：想要的東西，先放進願望清單等三天。（畫面：小綠芽寫下願望清單）
+S4｜Angie：三天後還想要，再用夢想錢囊去買，買得安心。（畫面：Angie 點頭）
+S5｜Angie：你最近一次衝動購物是什麼？留言「破案」。（畫面：Angie 微笑）
+財商重點：「等三天」法則：分辨需要與想要，想要的用夢想錢囊安心買。
+置頂留言互動：你最近一次衝動購物是什麼？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：這個好可愛，我好需要它！
+多多：你是「需要」，還是「想要」？說實話！
+小綠芽：想要的東西，先放進願望清單等三天。
+Angie：三天後還想要，再用夢想錢囊去買，買得安心。
+Angie：你最近一次衝動購物是什麼？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S3">
+<div class="sh" style="background:#d9a441"><h2>第3站｜燈塔：綠芽推播｜養成好習慣</h2>
+<p>船員等級：新手船員 → 副船長　｜　對應服務：綠芽財務管理系統（每日推播）　｜　3 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第8案｜燈塔每天亮一次</span><span class="tp">每日提醒</span></div>
+<div class="hook">開場字卡：為什麼好習慣總是撐不過一週？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我總是忘記看自己的錢…</td><td class="p">胖胖幣在霧裡迷路</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">燈塔每天亮一次，提醒你看一眼財務。</td><td class="p">燈塔亮起，小綠芽指向光</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">一天一分鐘，比一年一次大掃除有用！</td><td class="p">多多停在燈塔上</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">好習慣需要提醒，綠芽就是你的財務燈塔。</td><td class="p">Angie 在甲板上</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想要每天被提醒一次嗎？留言「破案」。</td><td class="p">Angie 揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>每天一分鐘看收支，比一年一次大整理更能及早發現問題。</div>
+<div class="pt"><b>置頂留言</b>你多久看一次自己的帳戶？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第8案｜燈塔每天亮一次】主題：每日提醒｜燈塔・綠芽推播｜養成好習慣
+開場字卡：為什麼好習慣總是撐不過一週？
+S1｜胖胖幣：我總是忘記看自己的錢…（畫面：胖胖幣在霧裡迷路）
+S2｜小綠芽：燈塔每天亮一次，提醒你看一眼財務。（畫面：燈塔亮起，小綠芽指向光）
+S3｜多多：一天一分鐘，比一年一次大掃除有用！（畫面：多多停在燈塔上）
+S4｜Angie：好習慣需要提醒，綠芽就是你的財務燈塔。（畫面：Angie 在甲板上）
+S5｜Angie：想要每天被提醒一次嗎？留言「破案」。（畫面：Angie 揮手）
+財商重點：每天一分鐘看收支，比一年一次大整理更能及早發現問題。
+置頂留言互動：你多久看一次自己的帳戶？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我總是忘記看自己的錢…
+小綠芽：燈塔每天亮一次，提醒你看一眼財務。
+多多：一天一分鐘，比一年一次大掃除有用！
+Angie：好習慣需要提醒，綠芽就是你的財務燈塔。
+Angie：想要每天被提醒一次嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第9案｜看不見的訂閱費</span><span class="tp">小額漏財</span></div>
+<div class="hook">開場字卡：每個月偷偷扣款的，不只一筆。</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">多多來了！影音、雲端、App，每個月都在偷吃！</td><td class="p">多多抓到一串小怪獸</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">一筆才一兩百，我根本沒感覺…</td><td class="p">胖胖幣被小怪獸咬</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">把訂閱全部列出來，用不到的立刻取消。</td><td class="p">小綠芽打勾刪除</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">小額固定支出，一年加起來常常超乎想像。</td><td class="p">Angie 認真看鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你有幾個訂閱在扣款？留言「破案」。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>每季檢查一次訂閱與自動扣款，取消用不到的。</div>
+<div class="pt"><b>置頂留言</b>你有幾個訂閱在扣款？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第9案｜看不見的訂閱費】主題：小額漏財｜燈塔・綠芽推播｜養成好習慣
+開場字卡：每個月偷偷扣款的，不只一筆。
+S1｜多多：多多來了！影音、雲端、App，每個月都在偷吃！（畫面：多多抓到一串小怪獸）
+S2｜胖胖幣：一筆才一兩百，我根本沒感覺…（畫面：胖胖幣被小怪獸咬）
+S3｜小綠芽：把訂閱全部列出來，用不到的立刻取消。（畫面：小綠芽打勾刪除）
+S4｜Angie：小額固定支出，一年加起來常常超乎想像。（畫面：Angie 認真看鏡頭）
+S5｜Angie：你有幾個訂閱在扣款？留言「破案」。（畫面：Angie 點頭）
+財商重點：每季檢查一次訂閱與自動扣款，取消用不到的。
+置頂留言互動：你有幾個訂閱在扣款？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：多多來了！影音、雲端、App，每個月都在偷吃！
+胖胖幣：一筆才一兩百，我根本沒感覺…
+小綠芽：把訂閱全部列出來，用不到的立刻取消。
+Angie：小額固定支出，一年加起來常常超乎想像。
+Angie：你有幾個訂閱在扣款？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第10案｜21天財務好習慣</span><span class="tp">習慣養成</span></div>
+<div class="hook">開場字卡：連續21天，你的錢會開始聽話。</div>
+<table><tr><td class="s">S1</td><td class="r r-小綠芽">小綠芽</td><td class="l">我們來挑戰21天，每天只做一件小事。</td><td class="p">小綠芽拿出打卡表</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">只要一件嗎？那我可以！</td><td class="p">胖胖幣舉手</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">第一天就是：看一眼昨天花了什麼！</td><td class="p">多多指著打卡表</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">小步驟持續做，就是家庭財務長的第一個能力。</td><td class="p">Angie 船上微笑</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">要一起挑戰21天嗎？留言「破案」。</td><td class="p">Angie 比出加油</td></tr></table>
+<div class="pt"><b>財商重點</b>用「一天一件小事」累積財務習慣：看帳、分類、轉存、檢查。</div>
+<div class="pt"><b>置頂留言</b>你願意挑戰21天嗎？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第10案｜21天財務好習慣】主題：習慣養成｜燈塔・綠芽推播｜養成好習慣
+開場字卡：連續21天，你的錢會開始聽話。
+S1｜小綠芽：我們來挑戰21天，每天只做一件小事。（畫面：小綠芽拿出打卡表）
+S2｜胖胖幣：只要一件嗎？那我可以！（畫面：胖胖幣舉手）
+S3｜多多：第一天就是：看一眼昨天花了什麼！（畫面：多多指著打卡表）
+S4｜Angie：小步驟持續做，就是家庭財務長的第一個能力。（畫面：Angie 船上微笑）
+S5｜Angie：要一起挑戰21天嗎？留言「破案」。（畫面：Angie 比出加油）
+財商重點：用「一天一件小事」累積財務習慣：看帳、分類、轉存、檢查。
+置頂留言互動：你願意挑戰21天嗎？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="小綠芽：我們來挑戰21天，每天只做一件小事。
+胖胖幣：只要一件嗎？那我可以！
+多多：第一天就是：看一眼昨天花了什麼！
+Angie：小步驟持續做，就是家庭財務長的第一個能力。
+Angie：要一起挑戰21天嗎？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S4">
+<div class="sh" style="background:#2f7f9a"><h2>第4站｜體質島：財務體質檢測（體驗版）</h2>
+<p>船員等級：副船長　｜　對應服務：綠芽檢測財務體質（體驗版）　｜　4 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第11案｜現金流健康指數</span><span class="tp">現金流</span></div>
+<div class="hook">開場字卡：收入很高，為什麼現金流還是負的？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我收入不錯啊，怎麼還是不夠用？</td><td class="p">胖胖幣看著漏水的船</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">收入高不重要，留得住才重要！</td><td class="p">多多指著船底破洞</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">用現金流健康指數，看每月結餘是正還是負。</td><td class="p">小綠芽量測儀表</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">先堵住破洞，船才開得遠。</td><td class="p">Angie 對鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想知道你的現金流指數嗎？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>每月結餘＝收入－支出；長期為負，就是財務體質的第一個警訊。</div>
+<div class="pt"><b>置頂留言</b>你每月結餘是正還是負？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第11案｜現金流健康指數】主題：現金流｜體質島・財務體質檢測（體驗版）
+開場字卡：收入很高，為什麼現金流還是負的？
+S1｜胖胖幣：我收入不錯啊，怎麼還是不夠用？（畫面：胖胖幣看著漏水的船）
+S2｜多多：收入高不重要，留得住才重要！（畫面：多多指著船底破洞）
+S3｜小綠芽：用現金流健康指數，看每月結餘是正還是負。（畫面：小綠芽量測儀表）
+S4｜Angie：先堵住破洞，船才開得遠。（畫面：Angie 對鏡頭）
+S5｜Angie：想知道你的現金流指數嗎？留言「破案」。（畫面：Angie 微笑）
+財商重點：每月結餘＝收入－支出；長期為負，就是財務體質的第一個警訊。
+置頂留言互動：你每月結餘是正還是負？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我收入不錯啊，怎麼還是不夠用？
+多多：收入高不重要，留得住才重要！
+小綠芽：用現金流健康指數，看每月結餘是正還是負。
+Angie：先堵住破洞，船才開得遠。
+Angie：想知道你的現金流指數嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第12案｜緊急預備金夠嗎？</span><span class="tp">緊急預備金</span></div>
+<div class="hook">開場字卡：如果明天不能工作，你撐得了幾個月？</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">人生的風暴，從來不會先通知。</td><td class="p">暴風雨中的船</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">如果收入停了，房租、保費還是要付啊！</td><td class="p">胖胖幣抱頭</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">先算每月必要支出，再看預備金能撐幾個月。</td><td class="p">小綠芽寫下算式</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">撐不過三個月？那就是今天的第一個任務！</td><td class="p">多多敲鐘</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你的預備金能撐幾個月？留言「破案」。</td><td class="p">Angie 站在船舵旁</td></tr></table>
+<div class="pt"><b>財商重點</b>預備金月數＝可動用存款 ÷ 每月必要支出；常見建議為 3～6 個月。</div>
+<div class="pt"><b>置頂留言</b>你的預備金能撐幾個月？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第12案｜緊急預備金夠嗎？】主題：緊急預備金｜體質島・財務體質檢測（體驗版）
+開場字卡：如果明天不能工作，你撐得了幾個月？
+S1｜Angie：人生的風暴，從來不會先通知。（畫面：暴風雨中的船）
+S2｜胖胖幣：如果收入停了，房租、保費還是要付啊！（畫面：胖胖幣抱頭）
+S3｜小綠芽：先算每月必要支出，再看預備金能撐幾個月。（畫面：小綠芽寫下算式）
+S4｜多多：撐不過三個月？那就是今天的第一個任務！（畫面：多多敲鐘）
+S5｜Angie：你的預備金能撐幾個月？留言「破案」。（畫面：Angie 站在船舵旁）
+財商重點：預備金月數＝可動用存款 ÷ 每月必要支出；常見建議為 3～6 個月。
+置頂留言互動：你的預備金能撐幾個月？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：人生的風暴，從來不會先通知。
+胖胖幣：如果收入停了，房租、保費還是要付啊！
+小綠芽：先算每月必要支出，再看預備金能撐幾個月。
+多多：撐不過三個月？那就是今天的第一個任務！
+Angie：你的預備金能撐幾個月？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第13案｜負債有沒有超載？</span><span class="tp">負債比</span></div>
+<div class="hook">開場字卡：房貸、車貸、信貸，你的船載得動嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">這艘船裝太多貨了，快沉了！</td><td class="p">多多看著吃水很深的船</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">房貸、車貸、信貸…我都扛著…</td><td class="p">胖胖幣背著大箱子</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">算一下每月還款占收入幾成。</td><td class="p">小綠芽拿出天平</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">負債不是壞事，超過能力才是問題。</td><td class="p">Angie 冷靜說明</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你的還款占收入幾成？留言「破案」。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>每月還款占收入比例是重要指標；比例越高，抗風險能力越低。</div>
+<div class="pt"><b>置頂留言</b>你的每月還款占收入幾成？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第13案｜負債有沒有超載？】主題：負債比｜體質島・財務體質檢測（體驗版）
+開場字卡：房貸、車貸、信貸，你的船載得動嗎？
+S1｜多多：這艘船裝太多貨了，快沉了！（畫面：多多看著吃水很深的船）
+S2｜胖胖幣：房貸、車貸、信貸…我都扛著…（畫面：胖胖幣背著大箱子）
+S3｜小綠芽：算一下每月還款占收入幾成。（畫面：小綠芽拿出天平）
+S4｜Angie：負債不是壞事，超過能力才是問題。（畫面：Angie 冷靜說明）
+S5｜Angie：你的還款占收入幾成？留言「破案」。（畫面：Angie 點頭）
+財商重點：每月還款占收入比例是重要指標；比例越高，抗風險能力越低。
+置頂留言互動：你的每月還款占收入幾成？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：這艘船裝太多貨了，快沉了！
+胖胖幣：房貸、車貸、信貸…我都扛著…
+小綠芽：算一下每月還款占收入幾成。
+Angie：負債不是壞事，超過能力才是問題。
+Angie：你的還款占收入幾成？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第14案｜保障有沒有缺口？</span><span class="tp">保障缺口</span></div>
+<div class="hook">開場字卡：保單一大疊，真的保到重點了嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我買了好多張保單，應該很安全吧？</td><td class="p">胖胖幣坐在保單堆上</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">張數多不等於保得對！醫療、失能、壽險，缺哪個？</td><td class="p">多多翻保單</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">把保單整理成一張表，缺口一眼就看見。</td><td class="p">小綠芽展示保障表格</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">保單健診，是保護家人的一次大掃除。</td><td class="p">Angie 誠懇看鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你知道自己的保障缺口嗎？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>保單整理成一張表：醫療、失能、重疾、壽險、長照，逐項看缺口。</div>
+<div class="pt"><b>置頂留言</b>你上次整理保單是什麼時候？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第14案｜保障有沒有缺口？】主題：保障缺口｜體質島・財務體質檢測（體驗版）
+開場字卡：保單一大疊，真的保到重點了嗎？
+S1｜胖胖幣：我買了好多張保單，應該很安全吧？（畫面：胖胖幣坐在保單堆上）
+S2｜多多：張數多不等於保得對！醫療、失能、壽險，缺哪個？（畫面：多多翻保單）
+S3｜小綠芽：把保單整理成一張表，缺口一眼就看見。（畫面：小綠芽展示保障表格）
+S4｜Angie：保單健診，是保護家人的一次大掃除。（畫面：Angie 誠懇看鏡頭）
+S5｜Angie：你知道自己的保障缺口嗎？留言「破案」。（畫面：Angie 微笑）
+財商重點：保單整理成一張表：醫療、失能、重疾、壽險、長照，逐項看缺口。
+置頂留言互動：你上次整理保單是什麼時候？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我買了好多張保單，應該很安全吧？
+多多：張數多不等於保得對！醫療、失能、壽險，缺哪個？
+小綠芽：把保單整理成一張表，缺口一眼就看見。
+Angie：保單健診，是保護家人的一次大掃除。
+Angie：你知道自己的保障缺口嗎？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S5">
+<div class="sh" style="background:#8a5cc2"><h2>第5站｜解鎖之門：解鎖完整版｜看懂全家財務</h2>
+<p>船員等級：船長　｜　對應服務：綠芽財務管理系統（完整版）　｜　3 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第15案｜體驗版之後呢？</span><span class="tp">從檢測到行動</span></div>
+<div class="hook">開場字卡：做完檢測，最怕的是看完就忘。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我做完檢測了，然後呢？</td><td class="p">胖胖幣拿著報告發呆</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">解鎖完整版，系統會幫你排出改善順序。</td><td class="p">小綠芽打開一扇發光的門</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">有順序，才不會什麼都想改、什麼都沒改！</td><td class="p">多多點頭</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">看懂問題是起點，跟著航線走才會改變。</td><td class="p">Angie 站在門前</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想打開你的解鎖之門嗎？留言「破案」。</td><td class="p">Angie 伸手邀請</td></tr></table>
+<div class="pt"><b>財商重點</b>檢測後最重要的是「排序」：先處理影響最大、最容易做到的一項。</div>
+<div class="pt"><b>置頂留言</b>你做過財務檢測嗎？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第15案｜體驗版之後呢？】主題：從檢測到行動｜解鎖之門・解鎖完整版｜看懂全家財務
+開場字卡：做完檢測，最怕的是看完就忘。
+S1｜胖胖幣：我做完檢測了，然後呢？（畫面：胖胖幣拿著報告發呆）
+S2｜小綠芽：解鎖完整版，系統會幫你排出改善順序。（畫面：小綠芽打開一扇發光的門）
+S3｜多多：有順序，才不會什麼都想改、什麼都沒改！（畫面：多多點頭）
+S4｜Angie：看懂問題是起點，跟著航線走才會改變。（畫面：Angie 站在門前）
+S5｜Angie：想打開你的解鎖之門嗎？留言「破案」。（畫面：Angie 伸手邀請）
+財商重點：檢測後最重要的是「排序」：先處理影響最大、最容易做到的一項。
+置頂留言互動：你做過財務檢測嗎？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：我做完檢測了，然後呢？
+小綠芽：解鎖完整版，系統會幫你排出改善順序。
+多多：有順序，才不會什麼都想改、什麼都沒改！
+Angie：看懂問題是起點，跟著航線走才會改變。
+Angie：想打開你的解鎖之門嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第16案｜家庭財務會議</span><span class="tp">家人共識</span></div>
+<div class="hook">開場字卡：錢的事，只有一個人煩惱嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">家裡的錢，不該只有一個人扛。</td><td class="p">Angie 坐在餐桌旁</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">每次講到錢，家裡就吵架…</td><td class="p">胖胖幣躲在桌下</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">用同一張數字表開會，大家就看得懂。</td><td class="p">小綠芽把報表放在桌上</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">先聊目標，再聊數字，不准翻舊帳！</td><td class="p">多多當主持人</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你家多久開一次財務會議？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>家庭財務會議三步：先談共同目標→再看數字→最後分工。</div>
+<div class="pt"><b>置頂留言</b>你家誰在管錢？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第16案｜家庭財務會議】主題：家人共識｜解鎖之門・解鎖完整版｜看懂全家財務
+開場字卡：錢的事，只有一個人煩惱嗎？
+S1｜Angie：家裡的錢，不該只有一個人扛。（畫面：Angie 坐在餐桌旁）
+S2｜胖胖幣：每次講到錢，家裡就吵架…（畫面：胖胖幣躲在桌下）
+S3｜小綠芽：用同一張數字表開會，大家就看得懂。（畫面：小綠芽把報表放在桌上）
+S4｜多多：先聊目標，再聊數字，不准翻舊帳！（畫面：多多當主持人）
+S5｜Angie：你家多久開一次財務會議？留言「破案」。（畫面：Angie 微笑）
+財商重點：家庭財務會議三步：先談共同目標→再看數字→最後分工。
+置頂留言互動：你家誰在管錢？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：家裡的錢，不該只有一個人扛。
+胖胖幣：每次講到錢，家裡就吵架…
+小綠芽：用同一張數字表開會，大家就看得懂。
+多多：先聊目標，再聊數字，不准翻舊帳！
+Angie：你家多久開一次財務會議？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第17案｜升任船長的第一個任務</span><span class="tp">設定目標</span></div>
+<div class="hook">開場字卡：沒有目的地，風再大也到不了。</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">船長，你要開去哪裡？</td><td class="p">多多站在羅盤上</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">呃…有錢的地方？</td><td class="p">胖胖幣搔頭</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">目標要具體：金額、時間、用途。</td><td class="p">小綠芽寫下目標卡</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">把夢想寫成數字，就是航線的起點。</td><td class="p">Angie 拿著地圖</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你今年最想完成的財務目標是什麼？留言「破案」。</td><td class="p">Angie 對鏡頭</td></tr></table>
+<div class="pt"><b>財商重點</b>好目標＝金額＋時間＋用途，例如「兩年存二十萬當教育金」。</div>
+<div class="pt"><b>置頂留言</b>你今年最想完成的財務目標？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第17案｜升任船長的第一個任務】主題：設定目標｜解鎖之門・解鎖完整版｜看懂全家財務
+開場字卡：沒有目的地，風再大也到不了。
+S1｜多多：船長，你要開去哪裡？（畫面：多多站在羅盤上）
+S2｜胖胖幣：呃…有錢的地方？（畫面：胖胖幣搔頭）
+S3｜小綠芽：目標要具體：金額、時間、用途。（畫面：小綠芽寫下目標卡）
+S4｜Angie：把夢想寫成數字，就是航線的起點。（畫面：Angie 拿著地圖）
+S5｜Angie：你今年最想完成的財務目標是什麼？留言「破案」。（畫面：Angie 對鏡頭）
+財商重點：好目標＝金額＋時間＋用途，例如「兩年存二十萬當教育金」。
+置頂留言互動：你今年最想完成的財務目標？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：船長，你要開去哪裡？
+胖胖幣：呃…有錢的地方？
+小綠芽：目標要具體：金額、時間、用途。
+Angie：把夢想寫成數字，就是航線的起點。
+Angie：你今年最想完成的財務目標是什麼？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S6">
+<div class="sh" style="background:#c0603f"><h2>第6站｜掌舵島：五日營｜金錢整理實踐</h2>
+<p>船員等級：船長 → 家庭財務長　｜　對應服務：金錢整理五日實踐營　｜　5 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第18案｜Day1 全面盤點</span><span class="tp">盤點</span></div>
+<div class="hook">開場字卡：整理金錢的第一天，先別急著省。</div>
+<table><tr><td class="s">S1</td><td class="r r-小綠芽">小綠芽</td><td class="l">第一天，把所有帳戶、保單、負債都找出來。</td><td class="p">小綠芽搬出寶箱</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">原來我有一個忘記的帳戶！</td><td class="p">胖胖幣發現金幣</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">還有一張忘記的卡在扣年費！</td><td class="p">多多抓出一張卡</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">盤點，是讓你看見全貌的第一步。</td><td class="p">Angie 翻開清單</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你有忘記的帳戶嗎？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>盤點清單：存款、投資、保單、負債、固定扣款，全部列出。</div>
+<div class="pt"><b>置頂留言</b>你有幾個帳戶？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第18案｜Day1 全面盤點】主題：盤點｜掌舵島・五日營｜金錢整理實踐
+開場字卡：整理金錢的第一天，先別急著省。
+S1｜小綠芽：第一天，把所有帳戶、保單、負債都找出來。（畫面：小綠芽搬出寶箱）
+S2｜胖胖幣：原來我有一個忘記的帳戶！（畫面：胖胖幣發現金幣）
+S3｜多多：還有一張忘記的卡在扣年費！（畫面：多多抓出一張卡）
+S4｜Angie：盤點，是讓你看見全貌的第一步。（畫面：Angie 翻開清單）
+S5｜Angie：你有忘記的帳戶嗎？留言「破案」。（畫面：Angie 微笑）
+財商重點：盤點清單：存款、投資、保單、負債、固定扣款，全部列出。
+置頂留言互動：你有幾個帳戶？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="小綠芽：第一天，把所有帳戶、保單、負債都找出來。
+胖胖幣：原來我有一個忘記的帳戶！
+多多：還有一張忘記的卡在扣年費！
+Angie：盤點，是讓你看見全貌的第一步。
+Angie：你有忘記的帳戶嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第19案｜Day2 支出分類</span><span class="tp">分類</span></div>
+<div class="hook">開場字卡：同樣是花錢，有的會回來，有的不會。</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">這筆是吃，這筆是玩，這筆是…到底是什麼！</td><td class="p">多多分類卡片</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">分成固定、變動、年度三種，就清楚了。</td><td class="p">小綠芽排成三列</td></tr><tr><td class="s">S3</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">原來年度保費和稅金，才是我月底大失血的原因！</td><td class="p">胖胖幣恍然大悟</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">把年度支出攤到每個月，就不會突然被嚇到。</td><td class="p">Angie 點頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你最常被哪一筆年度支出嚇到？留言「破案」。</td><td class="p">Angie 對鏡頭</td></tr></table>
+<div class="pt"><b>財商重點</b>支出三分法：固定、變動、年度；年度支出每月預存。</div>
+<div class="pt"><b>置頂留言</b>哪筆年度支出最嚇人？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第19案｜Day2 支出分類】主題：分類｜掌舵島・五日營｜金錢整理實踐
+開場字卡：同樣是花錢，有的會回來，有的不會。
+S1｜多多：這筆是吃，這筆是玩，這筆是…到底是什麼！（畫面：多多分類卡片）
+S2｜小綠芽：分成固定、變動、年度三種，就清楚了。（畫面：小綠芽排成三列）
+S3｜胖胖幣：原來年度保費和稅金，才是我月底大失血的原因！（畫面：胖胖幣恍然大悟）
+S4｜Angie：把年度支出攤到每個月，就不會突然被嚇到。（畫面：Angie 點頭）
+S5｜Angie：你最常被哪一筆年度支出嚇到？留言「破案」。（畫面：Angie 對鏡頭）
+財商重點：支出三分法：固定、變動、年度；年度支出每月預存。
+置頂留言互動：哪筆年度支出最嚇人？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：這筆是吃，這筆是玩，這筆是…到底是什麼！
+小綠芽：分成固定、變動、年度三種，就清楚了。
+胖胖幣：原來年度保費和稅金，才是我月底大失血的原因！
+Angie：把年度支出攤到每個月，就不會突然被嚇到。
+Angie：你最常被哪一筆年度支出嚇到？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第20案｜Day3 做預算</span><span class="tp">預算</span></div>
+<div class="hook">開場字卡：預算不是限制，是幫你的錢排班。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">做預算是不是就不能花錢了？</td><td class="p">胖胖幣害怕</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">預算是先決定每一塊錢的工作。</td><td class="p">小綠芽幫金幣排班</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">有預算，花錢反而更理直氣壯！</td><td class="p">多多拍翅膀</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">好的預算，讓你花得安心、存得踏實。</td><td class="p">Angie 微笑</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你有做預算的習慣嗎？留言「破案」。</td><td class="p">Angie 揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>預算＝為每一塊錢安排工作：生活、儲蓄、目標、保障。</div>
+<div class="pt"><b>置頂留言</b>你有做預算嗎？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第20案｜Day3 做預算】主題：預算｜掌舵島・五日營｜金錢整理實踐
+開場字卡：預算不是限制，是幫你的錢排班。
+S1｜胖胖幣：做預算是不是就不能花錢了？（畫面：胖胖幣害怕）
+S2｜小綠芽：預算是先決定每一塊錢的工作。（畫面：小綠芽幫金幣排班）
+S3｜多多：有預算，花錢反而更理直氣壯！（畫面：多多拍翅膀）
+S4｜Angie：好的預算，讓你花得安心、存得踏實。（畫面：Angie 微笑）
+S5｜Angie：你有做預算的習慣嗎？留言「破案」。（畫面：Angie 揮手）
+財商重點：預算＝為每一塊錢安排工作：生活、儲蓄、目標、保障。
+置頂留言互動：你有做預算嗎？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：做預算是不是就不能花錢了？
+小綠芽：預算是先決定每一塊錢的工作。
+多多：有預算，花錢反而更理直氣壯！
+Angie：好的預算，讓你花得安心、存得踏實。
+Angie：你有做預算的習慣嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第21案｜Day4 設定目標</span><span class="tp">目標</span></div>
+<div class="hook">開場字卡：短中長期目標，一次排好。</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">今天我們把夢想排進時間表。</td><td class="p">Angie 展開航海圖</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">一年內、三到五年、十年以上，各寫一個。</td><td class="p">小綠芽貼上三張目標卡</td></tr><tr><td class="s">S3</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我想要家庭旅遊、換車、還有安心退休！</td><td class="p">胖胖幣興奮</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">有排順序，錢才知道先去哪！</td><td class="p">多多指著地圖</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你的三個目標是什麼？留言「破案」。</td><td class="p">Angie 對鏡頭</td></tr></table>
+<div class="pt"><b>財商重點</b>目標分短、中、長期，每個目標對應一個錢囊或帳戶。</div>
+<div class="pt"><b>置頂留言</b>你的長期目標是什麼？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第21案｜Day4 設定目標】主題：目標｜掌舵島・五日營｜金錢整理實踐
+開場字卡：短中長期目標，一次排好。
+S1｜Angie：今天我們把夢想排進時間表。（畫面：Angie 展開航海圖）
+S2｜小綠芽：一年內、三到五年、十年以上，各寫一個。（畫面：小綠芽貼上三張目標卡）
+S3｜胖胖幣：我想要家庭旅遊、換車、還有安心退休！（畫面：胖胖幣興奮）
+S4｜多多：有排順序，錢才知道先去哪！（畫面：多多指著地圖）
+S5｜Angie：你的三個目標是什麼？留言「破案」。（畫面：Angie 對鏡頭）
+財商重點：目標分短、中、長期，每個目標對應一個錢囊或帳戶。
+置頂留言互動：你的長期目標是什麼？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：今天我們把夢想排進時間表。
+小綠芽：一年內、三到五年、十年以上，各寫一個。
+胖胖幣：我想要家庭旅遊、換車、還有安心退休！
+多多：有排順序，錢才知道先去哪！
+Angie：你的三個目標是什麼？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第22案｜Day5 行動與陪跑</span><span class="tp">行動</span></div>
+<div class="hook">開場字卡：整理完不是結束，是開始掌舵。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">五天結束了，我會不會又打回原形？</td><td class="p">胖胖幣擔心</td></tr><tr><td class="s">S2</td><td class="r r-小綠芽">小綠芽</td><td class="l">每月一次檢視，系統幫你追蹤進度。</td><td class="p">小綠芽打開月曆</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">有人陪跑，偷懶就會被我抓到！</td><td class="p">多多盯著胖胖幣</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">恭喜你，正式成為家庭財務長。</td><td class="p">Angie 頒發徽章給胖胖幣</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想要有人陪你一起走嗎？留言「破案」。</td><td class="p">Angie 微笑揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>持續的關鍵：每月檢視一次＋有人陪跑。</div>
+<div class="pt"><b>置頂留言</b>你最需要哪種陪伴？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第22案｜Day5 行動與陪跑】主題：行動｜掌舵島・五日營｜金錢整理實踐
+開場字卡：整理完不是結束，是開始掌舵。
+S1｜胖胖幣：五天結束了，我會不會又打回原形？（畫面：胖胖幣擔心）
+S2｜小綠芽：每月一次檢視，系統幫你追蹤進度。（畫面：小綠芽打開月曆）
+S3｜多多：有人陪跑，偷懶就會被我抓到！（畫面：多多盯著胖胖幣）
+S4｜Angie：恭喜你，正式成為家庭財務長。（畫面：Angie 頒發徽章給胖胖幣）
+S5｜Angie：想要有人陪你一起走嗎？留言「破案」。（畫面：Angie 微笑揮手）
+財商重點：持續的關鍵：每月檢視一次＋有人陪跑。
+置頂留言互動：你最需要哪種陪伴？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：五天結束了，我會不會又打回原形？
+小綠芽：每月一次檢視，系統幫你追蹤進度。
+多多：有人陪跑，偷懶就會被我抓到！
+Angie：恭喜你，正式成為家庭財務長。
+Angie：想要有人陪你一起走嗎？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S7">
+<div class="sh" style="background:#2c5aa0"><h2>第7站｜遠洋航線：家庭財務長的日常</h2>
+<p>船員等級：家庭財務長　｜　對應服務：年度陪跑／五大航線服務　｜　5 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第23案｜教育金的時間魔法</span><span class="tp">教育金</span></div>
+<div class="hook">開場字卡：孩子的學費，越早準備越輕鬆。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">孩子還小，學費以後再說吧？</td><td class="p">胖胖幣搖搖手</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">以後再說，到時候就變大石頭！</td><td class="p">多多推著一顆大石頭</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">提早每月一點點，時間會幫你分擔。</td><td class="p">小綠芽把石頭切成小塊</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">教育金最好的幫手，是時間。</td><td class="p">Angie 對鏡頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你開始準備教育金了嗎？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>大目標拆成每月小額，越早開始每月負擔越輕。</div>
+<div class="pt"><b>置頂留言</b>孩子幾歲開始準備？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第23案｜教育金的時間魔法】主題：教育金｜遠洋航線・家庭財務長的日常
+開場字卡：孩子的學費，越早準備越輕鬆。
+S1｜胖胖幣：孩子還小，學費以後再說吧？（畫面：胖胖幣搖搖手）
+S2｜多多：以後再說，到時候就變大石頭！（畫面：多多推著一顆大石頭）
+S3｜小綠芽：提早每月一點點，時間會幫你分擔。（畫面：小綠芽把石頭切成小塊）
+S4｜Angie：教育金最好的幫手，是時間。（畫面：Angie 對鏡頭）
+S5｜Angie：你開始準備教育金了嗎？留言「破案」。（畫面：Angie 微笑）
+財商重點：大目標拆成每月小額，越早開始每月負擔越輕。
+置頂留言互動：孩子幾歲開始準備？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：孩子還小，學費以後再說吧？
+多多：以後再說，到時候就變大石頭！
+小綠芽：提早每月一點點，時間會幫你分擔。
+Angie：教育金最好的幫手，是時間。
+Angie：你開始準備教育金了嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第24案｜房貸要不要提前還？</span><span class="tp">房貸</span></div>
+<div class="hook">開場字卡：有閒錢，該先還房貸還是先存？</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">有一筆獎金，要不要拿去還房貸？</td><td class="p">胖胖幣拿著紅包</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">先看預備金夠不夠！別把救生圈丟了！</td><td class="p">多多拿救生圈</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">比較房貸利率、預備金、其他目標，再決定。</td><td class="p">小綠芽列比較表</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">沒有標準答案，只有適合你家的順序。</td><td class="p">Angie 冷靜說明</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你會怎麼選？留言「破案」。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>提前還款前先確認：預備金足夠、無更高利率負債、其他目標不受影響。</div>
+<div class="pt"><b>置頂留言</b>你會先還房貸還是先存？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第24案｜房貸要不要提前還？】主題：房貸｜遠洋航線・家庭財務長的日常
+開場字卡：有閒錢，該先還房貸還是先存？
+S1｜胖胖幣：有一筆獎金，要不要拿去還房貸？（畫面：胖胖幣拿著紅包）
+S2｜多多：先看預備金夠不夠！別把救生圈丟了！（畫面：多多拿救生圈）
+S3｜小綠芽：比較房貸利率、預備金、其他目標，再決定。（畫面：小綠芽列比較表）
+S4｜Angie：沒有標準答案，只有適合你家的順序。（畫面：Angie 冷靜說明）
+S5｜Angie：你會怎麼選？留言「破案」。（畫面：Angie 點頭）
+財商重點：提前還款前先確認：預備金足夠、無更高利率負債、其他目標不受影響。
+置頂留言互動：你會先還房貸還是先存？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：有一筆獎金，要不要拿去還房貸？
+多多：先看預備金夠不夠！別把救生圈丟了！
+小綠芽：比較房貸利率、預備金、其他目標，再決定。
+Angie：沒有標準答案，只有適合你家的順序。
+Angie：你會怎麼選？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第25案｜退休要準備多少？</span><span class="tp">退休</span></div>
+<div class="hook">開場字卡：退休金，不是一個數字，是一種生活。</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">你想過的退休生活，長什麼樣子？</td><td class="p">Angie 看著海平線</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我想每年出國一次，還想學畫畫！</td><td class="p">胖胖幣畫出夢想</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">先估每月生活費，再扣掉勞保、勞退，看缺口。</td><td class="p">小綠芽寫算式</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">缺口算出來，就不用一直焦慮了！</td><td class="p">多多點頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">想算算你的退休缺口嗎？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>退休缺口＝期望生活費－可預期收入（勞保、勞退等），先估再補。</div>
+<div class="pt"><b>置頂留言</b>你理想的退休生活是什麼？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第25案｜退休要準備多少？】主題：退休｜遠洋航線・家庭財務長的日常
+開場字卡：退休金，不是一個數字，是一種生活。
+S1｜Angie：你想過的退休生活，長什麼樣子？（畫面：Angie 看著海平線）
+S2｜胖胖幣：我想每年出國一次，還想學畫畫！（畫面：胖胖幣畫出夢想）
+S3｜小綠芽：先估每月生活費，再扣掉勞保、勞退，看缺口。（畫面：小綠芽寫算式）
+S4｜多多：缺口算出來，就不用一直焦慮了！（畫面：多多點頭）
+S5｜Angie：想算算你的退休缺口嗎？留言「破案」。（畫面：Angie 微笑）
+財商重點：退休缺口＝期望生活費－可預期收入（勞保、勞退等），先估再補。
+置頂留言互動：你理想的退休生活是什麼？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：你想過的退休生活，長什麼樣子？
+胖胖幣：我想每年出國一次，還想學畫畫！
+小綠芽：先估每月生活費，再扣掉勞保、勞退，看缺口。
+多多：缺口算出來，就不用一直焦慮了！
+Angie：想算算你的退休缺口嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第26案｜投資前的三個問題</span><span class="tp">投資配置</span></div>
+<div class="hook">開場字卡：還沒問這三題，先別急著投資。</div>
+<table><tr><td class="s">S1</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">朋友說這支會漲，我要全部投下去！</td><td class="p">胖胖幣衝向海浪</td></tr><tr><td class="s">S2</td><td class="r r-多多">多多</td><td class="l">停！你知道要放多久、能承受多少波動嗎？</td><td class="p">多多擋住</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">先問：用途、期間、風險承受度。</td><td class="p">小綠芽舉出三根手指</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">投資是航線的一部分，不是一次賭注。</td><td class="p">Angie 認真說</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你投資前會先問自己哪一題？留言「破案」。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>投資前三問：這筆錢的用途、能放多久、能承受多少波動。</div>
+<div class="pt"><b>置頂留言</b>你投資前會先問什麼？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第26案｜投資前的三個問題】主題：投資配置｜遠洋航線・家庭財務長的日常
+開場字卡：還沒問這三題，先別急著投資。
+S1｜胖胖幣：朋友說這支會漲，我要全部投下去！（畫面：胖胖幣衝向海浪）
+S2｜多多：停！你知道要放多久、能承受多少波動嗎？（畫面：多多擋住）
+S3｜小綠芽：先問：用途、期間、風險承受度。（畫面：小綠芽舉出三根手指）
+S4｜Angie：投資是航線的一部分，不是一次賭注。（畫面：Angie 認真說）
+S5｜Angie：你投資前會先問自己哪一題？留言「破案」。（畫面：Angie 點頭）
+財商重點：投資前三問：這筆錢的用途、能放多久、能承受多少波動。
+置頂留言互動：你投資前會先問什麼？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="胖胖幣：朋友說這支會漲，我要全部投下去！
+多多：停！你知道要放多久、能承受多少波動嗎？
+小綠芽：先問：用途、期間、風險承受度。
+Angie：投資是航線的一部分，不是一次賭注。
+Angie：你投資前會先問自己哪一題？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第27案｜保單年度健檢</span><span class="tp">保單年檢</span></div>
+<div class="hook">開場字卡：人生變了，保單有跟著變嗎？</div>
+<table><tr><td class="s">S1</td><td class="r r-多多">多多</td><td class="l">結婚、生子、換工作，保單還停在十年前！</td><td class="p">多多翻舊保單</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我以為買了就不用管了…</td><td class="p">胖胖幣搔頭</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">每年檢視一次，跟著人生階段調整。</td><td class="p">小綠芽更新表格</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">保單年檢，是家庭財務長每年的固定任務。</td><td class="p">Angie 微笑</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你上次檢視保單是什麼時候？留言「破案」。</td><td class="p">Angie 對鏡頭</td></tr></table>
+<div class="pt"><b>財商重點</b>人生階段改變（結婚、生子、買房、換工作）就是保單檢視的時機。</div>
+<div class="pt"><b>置頂留言</b>你上次檢視保單是何時？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第27案｜保單年度健檢】主題：保單年檢｜遠洋航線・家庭財務長的日常
+開場字卡：人生變了，保單有跟著變嗎？
+S1｜多多：結婚、生子、換工作，保單還停在十年前！（畫面：多多翻舊保單）
+S2｜胖胖幣：我以為買了就不用管了…（畫面：胖胖幣搔頭）
+S3｜小綠芽：每年檢視一次，跟著人生階段調整。（畫面：小綠芽更新表格）
+S4｜Angie：保單年檢，是家庭財務長每年的固定任務。（畫面：Angie 微笑）
+S5｜Angie：你上次檢視保單是什麼時候？留言「破案」。（畫面：Angie 對鏡頭）
+財商重點：人生階段改變（結婚、生子、買房、換工作）就是保單檢視的時機。
+置頂留言互動：你上次檢視保單是何時？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="多多：結婚、生子、換工作，保單還停在十年前！
+胖胖幣：我以為買了就不用管了…
+小綠芽：每年檢視一次，跟著人生階段調整。
+Angie：保單年檢，是家庭財務長每年的固定任務。
+Angie：你上次檢視保單是什麼時候？留言「破案」。">複製配音台詞</button></div>
+</article></section><section class="panel" id="S8">
+<div class="sh" style="background:#1f8a8a"><h2>第8站｜幸福藍海：三力平衡與家族傳承</h2>
+<p>船員等級：家庭財務長（傳承者）　｜　對應服務：家族傳承規劃／三力共學　｜　4 集</p></div>
+<article class="card">
+<div class="ch"><span class="no">第28案｜財力、心力、體力</span><span class="tp">幸福三力</span></div>
+<div class="hook">開場字卡：有錢就幸福嗎？還少了兩種力。</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">真正的安心，需要財力、心力、體力一起平衡。</td><td class="p">Angie 站在藍海前</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我只顧著存錢，最近好累…</td><td class="p">胖胖幣癱坐</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">照顧好身體和心情，才能好好管錢。</td><td class="p">小綠芽遞上一杯茶</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">三力少一個，船就會歪！</td><td class="p">多多歪著站</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你最想補強哪一力？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>幸福三力：財力（財富）、心力（心理）、體力（健康），缺一不可。</div>
+<div class="pt"><b>置頂留言</b>你最想補強哪一力？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第28案｜財力、心力、體力】主題：幸福三力｜幸福藍海・三力平衡與家族傳承
+開場字卡：有錢就幸福嗎？還少了兩種力。
+S1｜Angie：真正的安心，需要財力、心力、體力一起平衡。（畫面：Angie 站在藍海前）
+S2｜胖胖幣：我只顧著存錢，最近好累…（畫面：胖胖幣癱坐）
+S3｜小綠芽：照顧好身體和心情，才能好好管錢。（畫面：小綠芽遞上一杯茶）
+S4｜多多：三力少一個，船就會歪！（畫面：多多歪著站）
+S5｜Angie：你最想補強哪一力？留言「破案」。（畫面：Angie 微笑）
+財商重點：幸福三力：財力（財富）、心力（心理）、體力（健康），缺一不可。
+置頂留言互動：你最想補強哪一力？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：真正的安心，需要財力、心力、體力一起平衡。
+胖胖幣：我只顧著存錢，最近好累…
+小綠芽：照顧好身體和心情，才能好好管錢。
+多多：三力少一個，船就會歪！
+Angie：你最想補強哪一力？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第29案｜意定監護與長照預備</span><span class="tp">長照預備</span></div>
+<div class="hook">開場字卡：如果有一天無法自己做決定，誰幫你？</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">這個問題不舒服，但越早想越安心。</td><td class="p">Angie 溫柔看鏡頭</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">我還年輕，不用想這些吧？</td><td class="p">胖胖幣搖頭</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">準備不是因為會發生，是因為愛家人！</td><td class="p">多多認真</td></tr><tr><td class="s">S4</td><td class="r r-小綠芽">小綠芽</td><td class="l">可以先了解意定監護和長照的準備方式。</td><td class="p">小綠芽展示清單</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你和家人聊過這件事嗎？留言「破案」。</td><td class="p">Angie 點頭</td></tr></table>
+<div class="pt"><b>財商重點</b>意定監護讓你預先指定信任的人；長照準備包含資金、照顧安排與家人共識。</div>
+<div class="pt"><b>置頂留言</b>你和家人聊過長照嗎？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第29案｜意定監護與長照預備】主題：長照預備｜幸福藍海・三力平衡與家族傳承
+開場字卡：如果有一天無法自己做決定，誰幫你？
+S1｜Angie：這個問題不舒服，但越早想越安心。（畫面：Angie 溫柔看鏡頭）
+S2｜胖胖幣：我還年輕，不用想這些吧？（畫面：胖胖幣搖頭）
+S3｜多多：準備不是因為會發生，是因為愛家人！（畫面：多多認真）
+S4｜小綠芽：可以先了解意定監護和長照的準備方式。（畫面：小綠芽展示清單）
+S5｜Angie：你和家人聊過這件事嗎？留言「破案」。（畫面：Angie 點頭）
+財商重點：意定監護讓你預先指定信任的人；長照準備包含資金、照顧安排與家人共識。
+置頂留言互動：你和家人聊過長照嗎？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：這個問題不舒服，但越早想越安心。
+胖胖幣：我還年輕，不用想這些吧？
+多多：準備不是因為會發生，是因為愛家人！
+小綠芽：可以先了解意定監護和長照的準備方式。
+Angie：你和家人聊過這件事嗎？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第30案｜傳承，是愛的延續</span><span class="tp">家族傳承</span></div>
+<div class="hook">開場字卡：傳承不只是財產，更是價值觀。</div>
+<table><tr><td class="s">S1</td><td class="r r-Angie">Angie</td><td class="l">傳承，是把愛和觀念一起交到孩子手上。</td><td class="p">Angie 和家人在甲板</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">原來不是有錢人才需要傳承！</td><td class="p">胖胖幣驚訝</td></tr><tr><td class="s">S3</td><td class="r r-小綠芽">小綠芽</td><td class="l">先整理資產清單，再和家人溝通想法。</td><td class="p">小綠芽拿出家族地圖</td></tr><tr><td class="s">S4</td><td class="r r-多多">多多</td><td class="l">先講清楚，家人才不會吵架！</td><td class="p">多多點頭</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你最想傳承給孩子的是什麼？留言「破案」。</td><td class="p">Angie 微笑</td></tr></table>
+<div class="pt"><b>財商重點</b>傳承三步：整理資產清單→家人溝通共識→專業工具規劃。</div>
+<div class="pt"><b>置頂留言</b>你最想傳承什麼給孩子？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第30案｜傳承，是愛的延續】主題：家族傳承｜幸福藍海・三力平衡與家族傳承
+開場字卡：傳承不只是財產，更是價值觀。
+S1｜Angie：傳承，是把愛和觀念一起交到孩子手上。（畫面：Angie 和家人在甲板）
+S2｜胖胖幣：原來不是有錢人才需要傳承！（畫面：胖胖幣驚訝）
+S3｜小綠芽：先整理資產清單，再和家人溝通想法。（畫面：小綠芽拿出家族地圖）
+S4｜多多：先講清楚，家人才不會吵架！（畫面：多多點頭）
+S5｜Angie：你最想傳承給孩子的是什麼？留言「破案」。（畫面：Angie 微笑）
+財商重點：傳承三步：整理資產清單→家人溝通共識→專業工具規劃。
+置頂留言互動：你最想傳承什麼給孩子？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="Angie：傳承，是把愛和觀念一起交到孩子手上。
+胖胖幣：原來不是有錢人才需要傳承！
+小綠芽：先整理資產清單，再和家人溝通想法。
+多多：先講清楚，家人才不會吵架！
+Angie：你最想傳承給孩子的是什麼？留言「破案」。">複製配音台詞</button></div>
+</article><article class="card">
+<div class="ch"><span class="no">第31案｜下一位家庭財務長</span><span class="tp">親子財商</span></div>
+<div class="hook">開場字卡：最好的傳承，是教孩子自己掌舵。</div>
+<table><tr><td class="s">S1</td><td class="r r-小綠芽">小綠芽</td><td class="l">我們用桌遊，讓孩子玩出理財觀念！</td><td class="p">小綠芽擺出桌遊</td></tr><tr><td class="s">S2</td><td class="r r-胖胖幣">胖胖幣</td><td class="l">孩子學會分錢囊，比我還厲害！</td><td class="p">胖胖幣鼓掌</td></tr><tr><td class="s">S3</td><td class="r r-多多">多多</td><td class="l">從小會管錢，長大不迷航！</td><td class="p">多多飛過孩子頭頂</td></tr><tr><td class="s">S4</td><td class="r r-Angie">Angie</td><td class="l">培養下一位家庭財務長，就是幸福的延續。</td><td class="p">Angie 和孩子一起玩</td></tr><tr><td class="s">S5</td><td class="r r-Angie">Angie</td><td class="l">你想讓孩子從幾歲開始學理財？留言「破案」。</td><td class="p">Angie 對鏡頭揮手</td></tr></table>
+<div class="pt"><b>財商重點</b>用遊戲與零用錢練習分錢囊，從小培養管錢能力。</div>
+<div class="pt"><b>置頂留言</b>你想讓孩子幾歲開始學理財？　<b>CTA</b>留言「破案」</div>
+<div class="btns"><button class="cp" data-txt="【第31案｜下一位家庭財務長】主題：親子財商｜幸福藍海・三力平衡與家族傳承
+開場字卡：最好的傳承，是教孩子自己掌舵。
+S1｜小綠芽：我們用桌遊，讓孩子玩出理財觀念！（畫面：小綠芽擺出桌遊）
+S2｜胖胖幣：孩子學會分錢囊，比我還厲害！（畫面：胖胖幣鼓掌）
+S3｜多多：從小會管錢，長大不迷航！（畫面：多多飛過孩子頭頂）
+S4｜Angie：培養下一位家庭財務長，就是幸福的延續。（畫面：Angie 和孩子一起玩）
+S5｜Angie：你想讓孩子從幾歲開始學理財？留言「破案」。（畫面：Angie 對鏡頭揮手）
+財商重點：用遊戲與零用錢練習分錢囊，從小培養管錢能力。
+置頂留言互動：你想讓孩子幾歲開始學理財？
+CTA：留言「破案」">複製完整腳本</button><button class="cp" data-txt="小綠芽：我們用桌遊，讓孩子玩出理財觀念！
+胖胖幣：孩子學會分錢囊，比我還厲害！
+多多：從小會管錢，長大不迷航！
+Angie：培養下一位家庭財務長，就是幸福的延續。
+Angie：你想讓孩子從幾歲開始學理財？留言「破案」。">複製配音台詞</button></div>
+</article></section>
+</div><footer>單檔離線版・雙擊即開　｜　人生金錢偵探社｜家庭財務長養成航記</footer>
+<script>
+function show(t){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===t));}
+document.querySelectorAll('.tab,.isl').forEach(b=>b.onclick=()=>{show(b.dataset.t);document.querySelector('.tabs').scrollIntoView({behavior:'smooth'});});
+document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{const t=b.dataset.txt;const done=()=>{const o=b.textContent;b.textContent='已複製 ✓';b.classList.add('ok');setTimeout(()=>{b.textContent=o;b.classList.remove('ok')},1500)};
+if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done);else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove();done();}});
+</script></body></html>
