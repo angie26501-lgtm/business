@@ -79,7 +79,7 @@ var STAGES=[
 ];
 var POLL=[["安全感守護型","先確認緊急預備金（約 3～6 個月生活費）夠了，再替多出來的錢設定目標。"],["成長累積型","投資前先把生活費和預備金安排好，也想清楚自己能承受多大的波動。"],["生活享受型","犒賞自己很好！準備一個「享受帳戶」，花得開心又不心虛。"],["平衡規劃型","你的直覺就是 Day 4 的 ABC 帳戶精神 👏 下一步：替每一份設定比例和用途。"]];
 
-var SCRIPT_URL="";var CAMP="camp5";var CAMPNAME="五日營";
+var SCRIPT_URL="https://script.google.com/macros/s/AKfycbxeCPFR3rsTa9Y10mRDxVseRfoLuab52mCsb7nEMPxVw818qQGnpUJo_MJQnGPU4GT3LQ/exec";var CAMP="camp5";var CAMPNAME="五日營";
 function me(){try{return JSON.parse(localStorage.getItem("moneylife_quiz_me")||"null")}catch(e){return null}}
 function setMe(o){try{localStorage.setItem("moneylife_quiz_me",JSON.stringify(o))}catch(e){}}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
