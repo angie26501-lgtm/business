@@ -9,7 +9,7 @@
 | `scripts.html` | 31 案短影音腳本包 | 內部製作 |
 | `prompts.html` | ChatGPT 情境圖指示詞（總覽＋8 島） | 內部製作 |
 | `hero.jpg` | 主視覺 | — |
-| `img/s1.jpg`～`s8.jpg` | 各島情境圖（目前有 s1、s2、s5、s6、s8） | — |
+| `img/s1.jpg`～`s8.jpg` | 各島情境圖（8 島齊全） | — |
 
 - 直接開某座島：`index.html#s1` ～ `#s8`
 - 登船通行碼：`綠芽登島`（改碼請改 `index.html` 裡的 `PASS_CODE`）；LINE 關鍵字「登島」
