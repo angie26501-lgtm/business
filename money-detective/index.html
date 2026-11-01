@@ -35,6 +35,7 @@ a{color:var(--green)}
 .guide{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px;align-items:center}
 .guide .who{text-align:center;font-size:12px;color:var(--mut)}
 .ctrl{display:flex;gap:6px;align-items:center;margin-top:8px;font-size:13px}
+a.btn{text-decoration:none;display:inline-block}
 .btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink)}
 .btn.pri{background:var(--green);color:#fff;border-color:var(--green)}
 .btn:disabled{opacity:.45;cursor:default}
@@ -87,10 +88,10 @@ a{color:var(--green)}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 14px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50}
 .toast.on{opacity:1}
 footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
-@media(max-width:720px){.hero{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.hero h1{font-size:24px}}
+@media(max-width:720px){.brand small{display:none}.top .btn{padding:5px 9px;font-size:13px;white-space:nowrap}.hero{grid-template-columns:1fr}.tiles{grid-template-columns:1fr}.hero h1{font-size:24px}}
 </style></head>
 <body>
-<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><button class="btn" id="shareTop">分享此區</button></div>
+<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
 <section class="hero">
@@ -129,7 +130,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <section id="vVoyage" class="panel" style="display:none"></section>
 <section id="detail"></section>
 </div>
-<footer>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」</footer>
+<footer>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a></footer>
 <div class="toast" id="toast"></div>
 <div id="guideP" class="gp" role="dialog" aria-label="引導說明">
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
