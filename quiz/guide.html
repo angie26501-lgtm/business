@@ -33,7 +33,8 @@ details{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0}summar
 <label class="fl">群組暱稱 <i>*</i></label><input id="f_nick" maxlength="20" placeholder="跟社群裡的名字一樣">
 <label class="fl">LINE 名稱 <i>*</i></label><input id="f_line" maxlength="30" placeholder="芸琪才找得到你">
 <label class="fl">參加的營隊 <i>*</i></label>
-<div class="ck"><label><input type="checkbox" id="f_c3"> 🎯 三日營（金錢好生活共學圈）</label><label><input type="checkbox" id="f_c5"> 🌱 五日營（金錢整理五日實踐營）</label></div>
+<div class="ck"><label><input type="checkbox" id="f_c3"> 🎯 三日營（金錢好生活共學圈）｜免費</label><label><input type="checkbox" id="f_c5" onchange="document.getElementById('obox').style.display=this.checked?'block':'none'"> 🌱 五日營（金錢整理五日實踐營）｜付費</label></div>
+<div id="obox" style="display:none"><label class="fl">綠芽訂單編號 <i>*</i></label><input id="f_order" maxlength="40" autocomplete="off" placeholder="購買綠芽後收到的訂單編號"><div style="font-size:13px;color:#8a9a80">五日營是購買綠芽財務管理系統的贈送課程，請填你的綠芽訂單編號才能開通。</div></div>
 <label class="fl">手機末 3 碼 <i>*</i></label><input id="f_tail" inputmode="numeric" maxlength="3" placeholder="忘記通行碼時，用來幫你找回">
 <label class="fl">想透過複習闖關學到什麼？（選填）</label><input id="f_wish" maxlength="100" placeholder="例如：把記帳習慣養起來">
 <label class="ck" style="display:block;margin-top:8px"><input type="checkbox" id="f_ok"> 我了解：資料只用於這次活動的積分與兌換，不會公開</label>
@@ -73,10 +74,10 @@ function v(id){return document.getElementById(id).value.trim()}
 function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function signup(){var m=document.getElementById("fmsg"),c=[document.getElementById("f_c3").checked?"三日營":"",document.getElementById("f_c5").checked?"五日營":""].filter(Boolean);
  if(!v("f_nick")){m.textContent="請填群組暱稱";return}if(!v("f_line")){m.textContent="請填 LINE 名稱";return}if(!c.length){m.textContent="請勾選參加的營隊";return}
- if(!/^\d{3}$/.test(v("f_tail"))){m.textContent="手機末 3 碼請填 3 個數字";return}if(!document.getElementById("f_ok").checked){m.textContent="請勾選同意";return}
+ if(!/^\d{3}$/.test(v("f_tail"))){m.textContent="手機末 3 碼請填 3 個數字";return}if(document.getElementById("f_c5").checked&&v("f_order").replace(/[^0-9A-Za-z\-]/g,"").length<5){m.textContent="參加五日營請填綠芽訂單編號";return}if(!document.getElementById("f_ok").checked){m.textContent="請勾選同意";return}
  m.style.color="#6b7a60";m.textContent="送出中…";
- jp({action:"signup",nick:v("f_nick"),line:v("f_line"),camps:c.join(","),tail:v("f_tail"),wish:v("f_wish")},function(d){m.style.color="#c25a6b";
-  if(!d||!d.ok){m.textContent=d?"資料不完整，請再檢查一次":"連線不穩，請稍後再試";return}
+ jp({action:"signup",nick:v("f_nick"),line:v("f_line"),camps:c.join(","),tail:v("f_tail"),wish:v("f_wish"),order:document.getElementById("f_c5").checked?v("f_order"):""},function(d){m.style.color="#c25a6b";
+  if(!d||!d.ok){m.textContent=!d?"連線不穩，請稍後再試":d.msg==="order"?"參加五日營請填綠芽訂單編號":"資料不完整，請再檢查一次";return}
   var exp=Date.now()+30*864e5,acc=String(d.access||"");
   try{localStorage.setItem("moneylife_quiz_me",JSON.stringify({n:d.nick,t:"",id:d.id}));if(acc.indexOf("三日營")>=0)localStorage.setItem("gate2_camp3",JSON.stringify({id:d.id,exp:exp}));if(acc.indexOf("五日營")>=0)localStorage.setItem("gate2_camp5",JSON.stringify({id:d.id,exp:exp}))}catch(e){}
   try{localStorage.setItem("quiz_signup",JSON.stringify({d:d,exp:exp}))}catch(e){}
