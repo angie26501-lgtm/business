@@ -14,7 +14,7 @@
 | `img/s1.jpg`～`s8.jpg` | 各島情境圖（8 島齊全） | — |
 
 - 直接開某座島：`index.html#s1` ～ `#s8`
-- 五日營任務進度：`index.html#camp`（Day 1～5 每日任務打勾、雲端教室、回報句、11 月第一筆記帳；資料在 `index.html` 的 `CAMP`）
+- 營隊任務進度：`index.html#camp3`（三日營，資料在 `CAMP3`）、`index.html#camp5`（五日營，資料在 `CAMP`）；逐日解鎖、完成可複習
 - 登船通行碼：`綠芽登島`（改碼請改 `index.html` 裡的 `PASS_CODE`）；學員填「登島問卷」後自動取得
 - 新增島嶼圖片：放進 `img/` 並在 `index.html` 的 `IMGS` 加上對應檔名
 - 影片連結：填在 `index.html` 裡每案的 `link` 欄位
