@@ -385,7 +385,7 @@ function bindCampBtn(root){(root||document).querySelectorAll('[data-camp]').forE
 function renderCamp(){const n=campCount(),all=n===CAMP.length;
  $('#vCamp').innerHTML=`<div class="camphead"><img src="${IMGS.S6}" alt="" class="campimg"><div><span class="badge">6. 掌舵島｜金錢整理五日實踐營</span><h3 style="margin:6px 0 4px">我的五日營任務進度（10/28～11/1）</h3>
  <div class="prog"><i style="width:${n/5*100}%"></i></div><div style="font-size:14px;margin-top:6px">已完成 <b>${n}</b> / 5 天　${all?'<span class="stamp">🎓 結營完成</span>':''}</div></div></div>
- <div class="campnote">📌 雲端教學文件開放到 <b>${CAMP_DEADLINE}</b>。第一次打開請先把 Google 帳號 Email <b>私訊給菁羚老師</b>開通權限（不要留在群組裡）。<br>群組分享心得就好，<b>不需要公開收入、存款或任何財務數字</b>。</div>
+ <div class="campnote">📌 雲端教學文件開放到 <b>${CAMP_DEADLINE}</b>。第一次打開請先把 Google 帳號 Email <b>私訊給芸琪</b>開通權限（不要留在群組裡）。<br>群組分享心得就好，<b>不需要公開收入、存款或任何財務數字</b>。</div>
  ${campMeBar()}
  <div class="campmotto"><span>✨ 不比較</span><span>✨ 不求完美</span><span>✨ 願意行動</span></div>
  ${duoSay(all?'太厲害了！五天任務全部完成，你已經是會掌舵的船長了！記得去掌舵島玩驗收小遊戲，再到「營隊複習闖關」賺積分喔！':`每完成一項就打勾，三項都勾完，這一天就完成，下一天的任務才會出現喔！還沒做完的不用急，慢慢補，${CAMP_DEADLINE} 前都可以看雲端教學。`)}
