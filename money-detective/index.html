@@ -399,7 +399,7 @@ function renderCamp(){const n=campCount(),all=n===CAMP.length;
  ${cp.bonus&&!cpOpen.b?`<div class="day bonus ok done"><div class="dayh"><b>✅ 加碼任務｜${esc(CAMP_BONUS.t)}</b><span class="stamp">完成</span></div><div class="days-s">${esc(CAMP_BONUS.s)}</div><div class="dayb"><button class="btn pri" data-rev="b">🔁 複習這一項</button></div></div>`:`<div class="day bonus${cp.bonus?' ok':''}"><div class="dayh"><b>🎯 加碼任務｜${esc(CAMP_BONUS.t)}</b>${cp.bonus?'<span class="stamp">完成</span>':''}</div><div class="days-s">${esc(CAMP_BONUS.s)}</div>
   <label class="ck task"><input type="checkbox" id="cpBonus" ${cp.bonus?'checked disabled':''}> ${esc(CAMP_BONUS.task)}</label>
   <div class="rep"><div class="rep-l">完成後到群組留言：</div><div class="rep-t">${esc(CAMP_BONUS.r)}</div><div class="rep-l" style="margin-top:6px">還沒開始的話，可以留言：</div><div class="rep-t">${esc(CAMP_BONUS.help)}</div></div>
-  <div class="dayw">操作卡住了，截圖告訴菁羚老師卡在哪一步。我們不比誰做得快，而是一起練習把金錢管理變成生活習慣。</div>
+  <div class="dayw">操作卡住了，截圖告訴芸琪卡在哪一步。我們不比誰做得快，而是一起練習把金錢管理變成生活習慣。</div>
   <div class="dayb"><button class="btn" data-copy="b">複製回報句</button>${cp.bonus?'<button class="btn" data-fold="b">收合 ▲</button>':''}</div></div>`}</div>
  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn pri" id="cpIsle">前往掌舵島看 5 個案件</button><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">營隊複習闖關</a><button class="btn" id="cpClr">清除任務進度</button></div>
  <p style="font-size:13px;color:#5f7680">任務進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p>`;
