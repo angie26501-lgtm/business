@@ -5,6 +5,8 @@
 | 檔案 | 用途 | 對象 |
 |---|---|---|
 | `index.html` | 財富航海群島：8 座島、31 案、驗收小遊戲、登船通行碼、逐島解鎖 | 學員（對外） |
+| `admin.html` | 成員學習進度（管理者，需管理密碼） | Angie |
+| `progress-script.gs` | 進度資料庫 Apps Script（部署後網址填進 index.html、admin.html 的 `PROGRESS_URL`；管理密碼只填在 Apps Script，不推上 GitHub） | Angie |
 | `catalog.html` | 總目錄：所有頁面入口與各島直連 | Angie／學員 |
 | `scripts.html` | 31 案短影音腳本包 | 內部製作 |
 | `prompts.html` | ChatGPT 情境圖指示詞（總覽＋8 島） | 內部製作 |

@@ -107,6 +107,8 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .rep{background:#f7f3ea;border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px}.rep-l{color:var(--mut)}.rep-t{font-weight:700}
 .dayw{font-size:13px;color:#7a4b3a;margin:4px 0}
 .dayb{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.dayb .btn{text-decoration:none}
+.campme{background:#eef7f0;border:1px solid #cfe5d4;border-radius:10px;padding:8px 12px;margin:8px 0;font-size:14px}
+.campme .btn{padding:3px 10px;font-size:13px}.campmef{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.campmef input{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-width:120px;flex:1}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -183,6 +185,8 @@ const SURVEY_Q2=['薪水撐不到月底','沒有 3 個月以上預備金','說�
 const CAMP=[{"d": "Day 1", "date": "10/28（三）", "t": "看見我的財務現況", "s": "整理收入與支出，看看錢從哪裡來、往哪裡去", "tasks": ["觀看 Day 1 教學影片", "打開 LINE 綠芽，跟著影片輸入自己的收入與支出", "回到群組，分享今天最大的發現"], "r": "Day 1 完成 🌱 我今天最大的發現是＿＿＿＿。", "w": "不用和別人比較，也不用急著一次做到完美。今天只要願意開始，就是很棒的進步！", "url": "https://docs.google.com/document/d/1hx4ek0K-GLjt1ip9O1SCVL6cbiqSRGfh-4yPAYt0GLc/edit?tab=t.ewn4hhev2jtr"}, {"d": "Day 2", "date": "10/29（四）", "t": "看見我的財務家底", "s": "完成資產與負債盤點", "tasks": ["盤點自己的現金、存款、投資與其他資產", "整理房貸、車貸、信貸等尚未償還的負債", "透過綠芽系統，看見自己的財務家底"], "r": "Day 2 完成！🌱 今天盤點財務家底後，我最大的發現是＿＿＿＿。", "w": "財務整理不是為了證明自己有多少錢，而是讓我們清楚知道，自己目前站在哪裡。", "url": "https://docs.google.com/document/d/1hx4ek0K-GLjt1ip9O1SCVL6cbiqSRGfh-4yPAYt0GLc/edit?tab=t.1vqoyy3t9hbk"}, {"d": "Day 3", "date": "10/30（五）", "t": "解讀我的財務體質", "s": "理解流量、存量與財務報告", "tasks": ["找到自己的綠芽財務體質，了解體質代表的意義", "看懂流量與存量健康指標，認識目前的優勢與需要改善的地方", "找出自己最值得優先改善的一個財務方向"], "r": "Day 3 完成！🌱 我的財務體質是＿＿＿＿。今天最大的發現是＿＿＿＿。我想優先改善的是＿＿＿＿。", "w": "財務健檢不是為了告訴你哪裡不好，而是幫助你看見，自己還可以往哪個方向變得更好。", "url": "https://docs.google.com/document/d/1hx4ek0K-GLjt1ip9O1SCVL6cbiqSRGfh-4yPAYt0GLc/edit?tab=t.wapbfu41eeoa"}, {"d": "Day 4", "date": "10/31（六）", "t": "建立我的 ABC 帳戶管理", "s": "設定管理方式與金錢使用的優先順序", "tasks": ["觀看 Day 4 教學影片", "在綠芽設定 ABC 帳戶的管理方式", "排出金錢使用的優先順序，完成 ABC 帳戶預算編列"], "r": "Day 4 完成！🌱 建立 ABC 帳戶後，我最想優先照顧的是＿＿＿＿。", "w": "金錢管理不是限制自己花錢，而是讓每一筆錢，都能支持自己真正想過的生活。", "url": "https://docs.google.com/document/d/1hx4ek0K-GLjt1ip9O1SCVL6cbiqSRGfh-4yPAYt0GLc/edit"}, {"d": "Day 5", "date": "11/1（日）", "t": "我的 90 天財務養成計畫", "s": "完成三項具體行動", "tasks": ["建立日常消費記錄的習慣", "學會定期檢視 ABC 帳戶預算", "為自己訂下未來 90 天的三項具體行動"], "r": "Day 5 完成！我畢業了！🎓 這五天，我最大的收穫是＿＿＿＿。未來 90 天，我想培養的三個習慣是：① ＿＿＿＿ ② ＿＿＿＿ ③ ＿＿＿＿", "w": "五天的整理，是開始；90 天的持續，才是真正的改變。", "url": "https://docs.google.com/document/d/1hx4ek0K-GLjt1ip9O1SCVL6cbiqSRGfh-4yPAYt0GLc/edit?tab=t.evrsiuoyljdz"}];
 const CAMP_BONUS={t:'11 月第一筆記帳',s:'11/1 是綠芽新一個月記帳週期的開始',task:'記下 11 月的第一筆消費（一杯咖啡、一份早餐、一筆生活採買都可以）',r:'🌱 我的11月第一筆記帳完成了！',help:'我還沒開始，需要一點協助。'};
 const CAMP_DEADLINE='12/1（二）23:59';
+// 管理者看進度用：部署 progress-script.gs 後，把網址（…/exec）填在這裡；空白時進度只存在學員自己的手機
+const PROGRESS_URL='';
 const RANKS=['旅人','新手船員','副船長','船長','家庭財務長','傳承者'];
 const POS=[[110,330],[250,250],[400,320],[540,230],[680,300],[820,220],[930,330],[790,420]];
 const GAMES = {
@@ -217,6 +221,18 @@ let cp={};try{cp=JSON.parse(localStorage.getItem('hanji_camp5')||'{}')||{}}catch
 const cpSave=()=>{try{localStorage.setItem('hanji_camp5',JSON.stringify(cp))}catch(e){}};
 const dayDone=k=>CAMP[k].tasks.every((_,j)=>cp['d'+k+'_'+j]);
 const campCount=()=>CAMP.filter((_,k)=>dayDone(k)).length;
+let cme=null;try{cme=JSON.parse(localStorage.getItem('hanji_camp5_me')||'null')}catch(e){}
+if(!cme){try{const q=JSON.parse(localStorage.getItem('moneylife_quiz_me')||'null');if(q&&q.id&&q.n)cme={uid:'Q'+q.id,qid:String(q.id),nick:q.n,tail:''}}catch(e){}}
+const cmeSave=()=>{try{localStorage.setItem('hanji_camp5_me',JSON.stringify(cme))}catch(e){}};
+const campCode=()=>CAMP.map((c,k)=>c.tasks.filter((_,j)=>cp['d'+k+'_'+j]).length).join('')+(cp.bonus?'1':'0');
+let syncT=null;
+function campSync(now){if(!PROGRESS_URL||!cme)return;clearTimeout(syncT);syncT=setTimeout(()=>{
+ const n='cs'+Date.now()+Math.floor(Math.random()*999);window[n]=d=>{delete window[n];if(d&&d.ok){cme.sync=Date.now();cmeSave();const e=$('#cpSyncTip');if(e)e.textContent='☁️ 已同步給 Angie（剛剛）'}};
+ const q={action:'camp_save',uid:cme.uid,qid:cme.qid||'',nick:cme.nick,tail:cme.tail||'',p:campCode(),callback:n};
+ const sc=document.createElement('script');sc.src=PROGRESS_URL+'?'+Object.entries(q).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');sc.onerror=()=>{const e=$('#cpSyncTip');if(e)e.textContent='☁️ 連線不穩，下次打勾會再同步'};document.body.appendChild(sc)},now?0:800)}
+function campMeBar(){if(!PROGRESS_URL)return '';
+ if(cme)return `<div class="campme">☁️ 學習進度會同步給 Angie：<b>${esc(cme.nick)}</b>${cme.qid?`（夥伴編號 ${esc(cme.qid)}）`:''}　<small id="cpSyncTip">${cme.sync?'已同步':'等待同步'}</small>　<button class="btn" id="cpMeX" type="button">不是我？</button></div>`;
+ return `<div class="campme"><b>☁️ 登記一下，讓 Angie 看得到你的進度、適時陪你：</b><div class="campmef"><input id="cpNick" maxlength="20" placeholder="群組暱稱"><input id="cpTail" maxlength="3" inputmode="numeric" placeholder="手機末 3 碼"><button class="btn pri" id="cpMeGo" type="button">登記</button></div><small>只用來辨認你是誰，不會公開；換手機時填一樣的暱稱和末 3 碼就好。</small><div class="fb" id="cpMeFb"></div></div>`}
 function copyText(x,msg){const done=()=>toast(msg||'已複製，可貼到 LINE 群組');try{navigator.clipboard.writeText(x).then(done,()=>fallback(x,done))}catch(e){fallback(x,done)}}
 const hasPass=()=>st.pass&&Date.now()-st.pass<30*864e5;
 const unlocked=i=>i===0||!!st.done[ST[i-1].id];
@@ -367,6 +383,7 @@ function renderCamp(){const n=campCount(),all=n===CAMP.length;
  $('#vCamp').innerHTML=`<div class="camphead"><img src="${IMGS.S6}" alt="" class="campimg"><div><span class="badge">6. 掌舵島｜金錢整理五日實踐營</span><h3 style="margin:6px 0 4px">我的五日營任務進度（10/28～11/1）</h3>
  <div class="prog"><i style="width:${n/5*100}%"></i></div><div style="font-size:14px;margin-top:6px">已完成 <b>${n}</b> / 5 天　${all?'<span class="stamp">🎓 結營完成</span>':''}</div></div></div>
  <div class="campnote">📌 雲端教學文件開放到 <b>${CAMP_DEADLINE}</b>。第一次打開請先把 Google 帳號 Email <b>私訊給菁羚老師</b>開通權限（不要留在群組裡）。<br>群組分享心得就好，<b>不需要公開收入、存款或任何財務數字</b>。</div>
+ ${campMeBar()}
  <div class="campmotto"><span>✨ 不比較</span><span>✨ 不求完美</span><span>✨ 願意行動</span></div>
  ${duoSay(all?'太厲害了！五天任務全部完成，你已經是會掌舵的船長了！記得去掌舵島玩驗收小遊戲，再到「營隊複習闖關」賺積分喔！':`每完成一項就打勾，三項都勾完，這一天就完成，隔天的任務才會解鎖喔！還沒做完的不用急，慢慢補，${CAMP_DEADLINE} 前都可以看雲端教學。`)}
  <div class="days">${CAMP.map((c,k)=>{const ok=dayDone(k);if(k>0&&!dayDone(k-1))return `<div class="day lock"><div class="dayh"><b>🔒 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small></div><div class="days-s">完成 ${esc(CAMP[k-1].d)} 的三項任務後，就會解鎖這一天的任務。</div><button class="btn" data-goday="${k-1}">回到 ${esc(CAMP[k-1].d)} →</button></div>`;return `<div class="day${ok?' ok':''}" id="cday${k}"><div class="dayh"><b>🌿 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small>${ok?'<span class="stamp">完成</span>':''}</div>
@@ -382,16 +399,20 @@ function renderCamp(){const n=campCount(),all=n===CAMP.length;
   <div class="dayb"><button class="btn" data-copy="b">複製回報句</button></div></div></div>
  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn pri" id="cpIsle">前往掌舵島看 5 個案件</button><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">營隊複習闖關</a><button class="btn" id="cpClr">清除任務進度</button></div>
  <p style="font-size:13px;color:#5f7680">任務進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p>`;
- $('#vCamp').querySelectorAll('input[data-k]').forEach(x=>x.onchange=()=>{const k=+x.dataset.k,was=dayDone(k);cp['d'+k+'_'+x.dataset.j]=x.checked;cpSave();
+ if($('#cpMeX'))$('#cpMeX').onclick=()=>{cme=null;try{localStorage.removeItem('hanji_camp5_me')}catch(e){}renderCamp()};
+ if($('#cpMeGo'))$('#cpMeGo').onclick=()=>{const nk=$('#cpNick').value.trim(),tl=$('#cpTail').value.trim(),f=$('#cpMeFb');f.style.color='#c0603f';
+  if(!nk){f.textContent='請填群組暱稱。';return}if(!/^\d{3}$/.test(tl)){f.textContent='手機末 3 碼請填 3 個數字。';return}
+  cme={uid:'N'+nk+'#'+tl,qid:'',nick:nk,tail:tl};cmeSave();renderCamp();campSync(true);toast('登記完成，進度會自動同步給 Angie 🌱')};
+ $('#vCamp').querySelectorAll('input[data-k]').forEach(x=>x.onchange=()=>{const k=+x.dataset.k,was=dayDone(k);cp['d'+k+'_'+x.dataset.j]=x.checked;cpSave();campSync();
   if(!was&&dayDone(k))toast(CAMP[k].d+' 完成！'+(CAMP[k+1]?CAMP[k+1].d+' 解鎖了 🔓':'恭喜結營 🎓')+' 記得到群組留言回報 🌱');renderCamp();renderMap()});
  $('#vCamp').querySelectorAll('[data-goday]').forEach(b=>b.onclick=()=>{const e=$('#cday'+b.dataset.goday);if(e)e.scrollIntoView({behavior:'smooth',block:'center'})});
- $('#cpBonus').onchange=e=>{cp.bonus=e.target.checked;cpSave();if(cp.bonus)toast('11 月第一筆記帳完成！🌱');renderCamp()};
+ $('#cpBonus').onchange=e=>{cp.bonus=e.target.checked;cpSave();campSync();if(cp.bonus)toast('11 月第一筆記帳完成！🌱');renderCamp()};
  $('#vCamp').querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{const v=b.dataset.copy;copyText(v==='b'?CAMP_BONUS.r:CAMP[+v].r,'回報句已複製，貼到 LINE 群組再填空就好')});
  $('#cpIsle').onclick=()=>{view('map');openSt('S6')};
- $('#cpClr').onclick=()=>{cp={};cpSave();renderCamp();renderMap();toast('任務進度已清除')}}
+ $('#cpClr').onclick=()=>{cp={};cpSave();campSync(true);renderCamp();renderMap();toast('任務進度已清除')}}
 function view(v){document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';
- if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp')renderCamp()}
+ if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
 document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);

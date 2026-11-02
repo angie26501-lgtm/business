@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>財富航海群島｜成員學習進度（管理者）</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;background:#f6f1e6;color:#1f3a44;font-size:16px;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}header{background:linear-gradient(135deg,#2f5d6a,#c0603f);color:#fff;border-radius:16px;padding:16px 20px}
+header h1{margin:0;font-size:22px}.nav a{color:#ffe9a8;font-weight:800;margin-right:12px;font-size:15px;text-decoration:none}
+.card{background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 3px 12px rgba(40,60,70,.08)}
+input,select{font:inherit;font-size:16px;border:2px solid #e6dccb;border-radius:10px;padding:8px 10px}
+button{font:inherit;font-size:15px;font-weight:800;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;background:#2f6b4f;color:#fff}
+button.l{background:#eef4ef;color:#2f5d6a}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{padding:8px;border-bottom:1px solid #efe8da;text-align:center;white-space:nowrap}th{background:#f3ecdd;position:sticky;top:0}td.n,th.n{text-align:left}
+.kpi{display:flex;gap:8px;flex-wrap:wrap}.kpi span{background:#f3ecdd;border-radius:12px;padding:4px 12px;font-weight:800;font-size:15px}
+.ok{color:#2f6b4f;font-weight:900}.part{color:#c0603f;font-weight:800}.no{color:#b9b2a3}
+.bar{height:8px;background:#e8e1d2;border-radius:4px;overflow:hidden;width:90px;display:inline-block;vertical-align:middle}.bar i{display:block;height:8px;background:#2f6b4f}
+.st{border-radius:20px;padding:2px 10px;font-size:13px;font-weight:800}.s5{background:#e3f3e8;color:#2f6b4f}.s1{background:#fff1e3;color:#c0603f}.s0{background:#efefef;color:#777}
+#gate{position:fixed;inset:0;background:#f6f1e6;display:flex;align-items:center;justify-content:center;z-index:9;padding:20px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1f3a44;color:#fff;padding:8px 20px;border-radius:20px;display:none;z-index:10}
+.tw{overflow-x:auto;max-height:70vh}.warn{background:#fff7e0;border:2px dashed #d9a441;border-radius:12px;padding:10px 14px;margin-top:14px;display:none}
+.menu{font-size:15px;margin-top:8px}.menu a{color:#2f5d6a;font-weight:700}
+</style></head><body>
+<div id="gate"><div class="card" style="max-width:420px;width:100%;text-align:center"><div style="font-size:40px">🧭</div><h2 style="color:#2f5d6a;margin:4px 0">成員學習進度（芸琪專用）</h2>
+<input id="ak" type="password" placeholder="管理密碼" style="width:100%;margin:10px 0;text-align:center" onkeydown="if(event.key==='Enter')login()"><button style="width:100%" onclick="login()">登入（記住 30 天）</button><div id="gm" style="color:#c0603f;min-height:22px;margin-top:6px"></div>
+<div class="menu">📚 切換頁面：<a href="index.html">財富航海群島</a>｜<a href="index.html#camp">五日營任務</a>｜<a href="catalog.html">總目錄</a>｜<a href="../quiz/admin.html">複習闖關管理</a></div></div></div>
+<div class="wrap"><header><h1>🧭 財富航海群島｜成員學習進度</h1><div class="nav"><a href="index.html">財富航海群島</a><a href="index.html#camp">五日營任務頁</a><a href="catalog.html">總目錄</a><a href="../quiz/admin.html">複習闖關管理</a><a id="sheetA" href="#" target="_blank" style="display:none">試算表</a><a href="#" onclick="logout();return false">登出</a></div></header>
+<div class="warn" id="warn">⚠️ 還沒連上進度資料庫：請部署 <b>progress-script.gs</b>，再把網址填進 <b>admin.html</b> 和 <b>index.html</b> 的 <code>PROGRESS_URL</code>。學員在手機上的進度不受影響，連上之後他們再打勾一次就會同步。</div>
+<div class="card"><b style="font-size:18px;color:#2f5d6a">🌿 金錢整理五日實踐營｜任務進度（10/28～11/1）</b>
+<div class="kpi" id="kpi" style="margin:10px 0"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="q" placeholder="🔍 搜尋暱稱或編號" oninput="draw()" style="flex:1;min-width:180px">
+<select id="f" onchange="draw()"><option value="all">全部成員</option><option value="grad">已結營（5 天完成）</option><option value="doing">進行中</option><option value="none">還沒開始</option><option value="nobonus">還沒完成 11 月第一筆記帳</option></select>
+<button class="l" onclick="load()">🔄 重新整理</button><button class="l" onclick="copyStuck()">📋 複製關心名單</button></div>
+<div class="tw" style="margin-top:10px"><table><thead><tr><th class="n">暱稱</th><th>編號</th><th>Day 1</th><th>Day 2</th><th>Day 3</th><th>Day 4</th><th>Day 5</th><th>11月記帳</th><th>進度</th><th>狀態</th><th>最後更新</th></tr></thead><tbody id="tb"><tr><td colspan="11">載入中…</td></tr></tbody></table></div>
+<div style="font-size:14px;color:#5f7680;margin-top:8px">✅ 三項任務都完成｜2/3 完成部分任務｜— 還沒開始。學員在「五日營任務」頁登記暱稱（或已有複習闖關的夥伴編號）後，每次打勾都會自動同步到這裡。</div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+// 部署 progress-script.gs 後，把網址（…/exec）填在這裡（index.html 也要填同一個）
+var PROGRESS_URL="",K="hanji_admin_key",KEY="",ROWS=[];
+var DAYS=["收入與支出","資產與負債","財務體質","ABC 帳戶","90 天計畫"];
+function jp(p,cb){if(!PROGRESS_URL){cb(null);return}var n="a"+Date.now()+Math.floor(Math.random()*999);window[n]=function(d){delete window[n];cb(d)};var q=[];for(var k in p)q.push(k+"="+encodeURIComponent(p[k]));var s=document.createElement("script");s.src=PROGRESS_URL+"?"+q.join("&")+"&callback="+n;s.onerror=function(){cb(null)};document.body.appendChild(s)}
+function toast(t){var e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(function(){e.style.display="none"},1600)}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function copy(t){function ok(){toast("已複製，可貼到 LINE")}if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(ok,fb);else fb();function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){}a.remove()}}
+function login(){var k=document.getElementById("ak").value.trim();if(!k)return;var m=document.getElementById("gm");
+ if(!PROGRESS_URL){m.textContent="還沒連上進度資料庫（PROGRESS_URL 未填）";return}
+ m.textContent="確認中…";jp({action:"admin_progress",key:k},function(d){if(d&&d.ok){KEY=k;try{localStorage.setItem(K,JSON.stringify({k:k,exp:Date.now()+30*864e5}))}catch(e){}document.getElementById("gate").style.display="none";got(d)}else m.textContent=d?"管理密碼不對":"連線失敗，請稍後再試"})}
+function logout(){try{localStorage.removeItem(K)}catch(e){}location.reload()}
+function got(d){ROWS=d.rows||[];if(d.sheet){var a=document.getElementById("sheetA");a.href=d.sheet;a.style.display=""}draw()}
+function load(){jp({action:"admin_progress",key:KEY},function(d){if(d&&d.ok){got(d);toast("已更新")}else toast("載入失敗")})}
+function cur(r){for(var i=0;i<5;i++)if(r.d[i]<3)return i;return 5}
+function stOf(r){var c=cur(r),any=r.d.some(function(x){return x>0});return c===5?["s5","🎓 已結營"]:any?["s1","進行到 Day "+(c+1)]:["s0","還沒開始"]}
+function cell(x){return '<td>'+(x===3?'<span class="ok">✅</span>':x>0?'<span class="part">'+x+'/3</span>':'<span class="no">—</span>')+'</td>'}
+function draw(){var q=document.getElementById("q").value.trim().toLowerCase(),f=document.getElementById("f").value;
+ var r=ROWS.filter(function(x){var c=cur(x),any=x.d.some(function(v){return v>0});
+  if(q&&(x.nick+" "+x.qid).toLowerCase().indexOf(q)<0)return false;
+  if(f==="grad")return c===5;if(f==="doing")return any&&c<5;if(f==="none")return !any;if(f==="nobonus")return !x.bonus;return true});
+ r.sort(function(a,b){return String(b.last).localeCompare(String(a.last))});
+ var k='<span>登記 '+ROWS.length+' 位</span>';
+ for(var i=0;i<5;i++)k+='<span>Day '+(i+1)+' 完成 '+ROWS.filter(function(x){return x.d[i]===3}).length+'</span>';
+ k+='<span>🎓 已結營 '+ROWS.filter(function(x){return cur(x)===5}).length+'</span><span>11月記帳 '+ROWS.filter(function(x){return x.bonus}).length+'</span><span>顯示 '+r.length+' 筆</span>';
+ document.getElementById("kpi").innerHTML=k;
+ document.getElementById("tb").innerHTML=r.length?r.map(function(x){var s=stOf(x);return '<tr><td class="n"><b>'+esc(x.nick)+'</b>'+(x.tail?' <small style="color:#999">#'+esc(x.tail)+'</small>':'')+'</td><td>'+(esc(x.qid)||'—')+'</td>'+x.d.map(cell).join('')+'<td>'+(x.bonus?'<span class="ok">✅</span>':'<span class="no">—</span>')+'</td><td><span class="bar"><i style="width:'+(x.days*20)+'%"></i></span> '+x.days+'/5</td><td><span class="st '+s[0]+'">'+s[1]+'</span></td><td>'+esc(x.last)+'</td></tr>'}).join(''):'<tr><td colspan="11">'+(ROWS.length?'沒有符合條件的成員':'還沒有成員登記進度')+'</td></tr>'}
+function copyStuck(){var g={};ROWS.forEach(function(x){var c=cur(x);if(c<5){var key=x.d.some(function(v){return v>0})?"卡在 Day "+(c+1)+"｜"+DAYS[c]:"還沒開始";(g[key]=g[key]||[]).push(x.nick)}});
+ var ks=Object.keys(g).sort();if(!ks.length){toast("大家都結營了 🎉");return}
+ copy("🌱 五日營任務關心名單\n"+ks.map(function(k){return k+"："+g[k].join("、")}).join("\n")+"\n\n雲端教學文件開放到 12/1（二）23:59")}
+if(!PROGRESS_URL){document.getElementById("warn").style.display="block"}
+try{var s=JSON.parse(localStorage.getItem(K)||"null");if(s&&s.exp>Date.now()&&PROGRESS_URL){KEY=s.k;jp({action:"admin_progress",key:KEY},function(d){if(d&&d.ok){document.getElementById("gate").style.display="none";got(d)}})}}catch(e){}
+</script></body></html>
