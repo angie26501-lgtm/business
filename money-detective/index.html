@@ -166,7 +166,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <div class="gp-b" id="gpB">
  <ol>
  <li><b>領登船通行碼</b>：點任一座島，填好「登島問卷」送出，就能拿到通行碼。</li>
- <li><b>從迷霧港出發</b>：島嶼要依序解鎖，第 1 站是迷霧港。</li>
+ <li><b>從迷霧港出發</b>：島嶼要依序解鎖，第 1 站是迷霧港；三日營夥伴有通行碼就能直接登上第 2 站初航島。</li>
  <li><b>看案件</b>：每座島有 3～5 個財商案件，點「看劇情」可以看完整故事。</li>
  <li><b>玩驗收小遊戲</b>：全部答對就能蓋「破案」章，並拿到下一島的通行碼。</li>
  <li><b>升級船員</b>：破案越多，等級從旅人一路升到傳承者。</li>
@@ -231,12 +231,12 @@ const CAMPS={
  c3:{key:'c3',name:'三日營',full:'金錢好生活・芸琪共學圈三日營',range:'10/22～10/24',isle:'S2',isleName:'2. 初航島',pre:'t',bk:'bonus3',
   days:CAMP3,bonus:CAMP3_BONUS,rl:'在群組回覆：',tipT:'🌱 芸琪的重點整理',
   note:'📌 三日營是在「金錢好生活・芸琪共學圈」的圖文任務。看完每天的圖文分享，在群組回覆選項，再填「任務回報」就完成了。<br>群組分享心得就好，<b>不需要公開收入、存款或任何財務數字</b>。',
-  grad:'三天任務全部完成！DAY4 學習包已經解鎖，記得去看 10/25 菁羚老師直播的重點喔！'},
+  grad:'三天任務全部完成！DAY4 學習包和五日營任務都解鎖了，記得去看 10/25 菁羚老師直播的重點喔！'},
  c5:{key:'c5',name:'五日營',full:'金錢整理五日實踐營',range:'10/28～11/1',isle:'S6',isleName:'6. 掌舵島',pre:'d',bk:'bonus',
   days:CAMP,bonus:Object.assign({ul:'',help:CAMP_BONUS.help,foot:'操作卡住了，截圖告訴芸琪卡在哪一步。我們不比誰做得快，而是一起練習把金錢管理變成生活習慣。'},CAMP_BONUS),rl:'完成後到群組留言：',tipT:'💗 菁羚老師的今日叮嚀',copy:1,
   note:'📌 雲端教學文件開放到 <b>'+CAMP_DEADLINE+'</b>。第一次打開請先把 Google 帳號 Email <b>私訊給芸琪</b>開通權限（不要留在群組裡）。<br>群組分享心得就好，<b>不需要公開收入、存款或任何財務數字</b>。',
   grad:'太厲害了！五天任務全部完成，你已經是會掌舵的船長了！記得去掌舵島玩驗收小遊戲，再到「營隊複習闖關」賺積分喔！'}};
-let campSel='c5';try{const s=localStorage.getItem('hanji_camp_sel');if(CAMPS[s])campSel=s}catch(e){}
+let campSel='c3';try{const s=localStorage.getItem('hanji_camp_sel');if(CAMPS[s])campSel=s}catch(e){}
 const dDone=(C,k)=>C.days[k].tasks.every((_,j)=>cp[C.pre+k+'_'+j]);
 const cCount=C=>C.days.filter((_,k)=>dDone(C,k)).length;
 const dayDone=k=>dDone(CAMPS.c5,k);
@@ -256,7 +256,7 @@ function campMeBar(){if(!PROGRESS_URL)return '';
  return `<div class="campme"><b>☁️ 登記一下，讓 Angie 看得到你的進度、適時陪你：</b><div class="campmef"><input id="cpNick" maxlength="20" placeholder="群組暱稱"><input id="cpTail" maxlength="3" inputmode="numeric" placeholder="手機末 3 碼"><button class="btn pri" id="cpMeGo" type="button">登記</button></div><small>只用來辨認你是誰，不會公開；換手機時填一樣的暱稱和末 3 碼就好。</small><div class="fb" id="cpMeFb"></div></div>`}
 function copyText(x,msg){const done=()=>toast(msg||'已複製，可貼到 LINE 群組');try{navigator.clipboard.writeText(x).then(done,()=>fallback(x,done))}catch(e){fallback(x,done)}}
 const hasPass=()=>st.pass&&Date.now()-st.pass<30*864e5;
-const unlocked=i=>i===0||!!st.done[ST[i-1].id];
+const unlocked=i=>i===0||ST[i].id==='S2'||!!st.done[ST[i-1].id]; // 初航島（三日營）有通行碼就能登島
 const islandCode=i=>ST[i].island+'-'+String(i+1).padStart(2,'0');
 const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const total=ST.reduce((a,s)=>a+s.eps.length,0);
@@ -401,10 +401,14 @@ function renderVoyage(){$('#vVoyage').innerHTML=`<h3 style="margin-top:0">我的
 function campCard(ck){const C=CAMPS[ck||'c5'],n=cCount(C),N=C.days.length;return `<div class="campcall"><div><b>📋 ${C.name}任務進度：${n} / ${N} 天</b><div class="prog" style="margin-top:6px"><i style="width:${n/N*100}%"></i></div></div><button class="btn pri" data-camp="${C.key}">打開任務清單 →</button></div>`}
 function bindCampBtn(root){(root||document).querySelectorAll('[data-camp]').forEach(b=>b.onclick=()=>{if(CAMPS[b.dataset.camp])campSel=b.dataset.camp;view('camp');$('#tabs').scrollIntoView({behavior:'smooth'})})}
 function linkBtn(u,l){return u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a>`:''}
-function renderCamp(){try{localStorage.setItem('hanji_camp_sel',campSel)}catch(e){}
+function renderCamp(){
+ if(!hasPass()){$('#vCamp').innerHTML=`<h3 style="margin-top:0">⚓ 營隊任務需要「登船通行碼」</h3>${duoSay('多多來了！營隊任務只給有通行碼的船員看喔～先填好「登島問卷」領通行碼，就能打開三日營任務！')}<button class="btn pri" id="cpGate">填登島問卷，領通行碼 →</button><div style="font-size:13px;color:#5f7680;margin-top:8px">登島一次，這台裝置會記住 30 天。</div>`;$('#cpGate').onclick=()=>{view('map');openSt('S2')};return}
+ const c3ok=cCount(CAMPS.c3)===CAMPS.c3.days.length;
+ if(campSel==='c5'&&!c3ok){$('#vCamp').innerHTML=`<div class="campsw">${Object.values(CAMPS).map(x=>`<button class="gtab${x.key===campSel?' on':''}" data-sw="${x.key}">${x.key==='c5'?'🔒 ':''}${x.name}（${x.range}）</button>`).join('')}</div><h3 style="margin-top:0">🔒 五日營還沒解鎖</h3>${duoSay(`船長請注意！先完成三日營的 3 天任務（目前 ${cCount(CAMPS.c3)} / 3 天），五日營的任務就會打開喔！`)}<button class="btn pri" data-sw="c3">先去完成三日營 →</button>`;$('#vCamp').querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{campSel=b.dataset.sw;renderCamp()});return}
+ try{localStorage.setItem('hanji_camp_sel',campSel)}catch(e){}
  const C=CAMPS[campSel],D=C.days,N=D.length,n=cCount(C),all=n===N,B=C.bonus,bk=C.bk,bOpen=!B.lockAll||all,ob=C.key+'b';
  const ul=c=>c.ul||`打開 ${c.d} 雲端教室`;
- $('#vCamp').innerHTML=`<div class="campsw">${Object.values(CAMPS).map(x=>`<button class="gtab${x.key===campSel?' on':''}" data-sw="${x.key}">${x.name}（${x.range}）${cCount(x)===x.days.length?' 🎓':''}</button>`).join('')}</div>
+ $('#vCamp').innerHTML=`<div class="campsw">${Object.values(CAMPS).map(x=>`<button class="gtab${x.key===campSel?' on':''}" data-sw="${x.key}">${x.key==='c5'&&!c3ok?'🔒 ':''}${x.name}（${x.range}）${cCount(x)===x.days.length?' 🎓':''}</button>`).join('')}</div>
  <div class="camphead"><img src="${IMGS[C.isle]}" alt="" class="campimg"><div><span class="badge">${C.isleName}｜${C.full}</span><h3 style="margin:6px 0 4px">我的${C.name}任務進度（${C.range}）</h3>
  <div class="prog"><i style="width:${n/N*100}%"></i></div><div style="font-size:14px;margin-top:6px">已完成 <b>${n}</b> / ${N} 天　${all?'<span class="stamp">🎓 完成</span>':''}</div></div></div>
  <div class="campnote">${C.note}</div>
@@ -437,7 +441,7 @@ function renderCamp(){try{localStorage.setItem('hanji_camp_sel',campSel)}catch(e
   if(!nk){f.textContent='請填群組暱稱。';return}if(!/^\d{3}$/.test(tl)){f.textContent='手機末 3 碼請填 3 個數字。';return}
   cme={uid:'N'+nk+'#'+tl,qid:'',nick:nk,tail:tl};cmeSave();renderCamp();campSync(true);toast('登記完成，進度會自動同步給 Angie 🌱')};
  V.querySelectorAll('input[data-k]').forEach(x=>x.onchange=()=>{const k=+x.dataset.k,was=dDone(C,k);cp[C.pre+k+'_'+x.dataset.j]=x.checked;cpSave();campSync();
-  if(!was&&dDone(C,k))toast(D[k].d+' 完成！'+(D[k+1]?D[k+1].d+' 解鎖了 🔓':(B.lockAll?'加碼解鎖了 🔓':'恭喜結營 🎓'))+(C.copy?' 記得到群組留言回報 🌱':''));renderCamp();renderMap()});
+  if(!was&&dDone(C,k))toast(D[k].d+' 完成！'+(D[k+1]?D[k+1].d+' 解鎖了 🔓':(B.lockAll?'DAY4 學習包和五日營解鎖了 🔓':'恭喜結營 🎓'))+(C.copy?' 記得到群組留言回報 🌱':''));renderCamp();renderMap()});
  V.querySelectorAll('[data-goday]').forEach(b=>b.onclick=()=>{const e=$('#cday'+b.dataset.goday);if(e)e.scrollIntoView({behavior:'smooth',block:'center'})});
  V.querySelectorAll('[data-rev]').forEach(b=>b.onclick=()=>{cpOpen[b.dataset.rev]=1;renderCamp();const e=b.dataset.k!=null?$('#cday'+b.dataset.k):null;if(e)e.scrollIntoView({behavior:'smooth',block:'nearest'})});
  V.querySelectorAll('[data-fold]').forEach(b=>b.onclick=()=>{delete cpOpen[b.dataset.fold];renderCamp()});
