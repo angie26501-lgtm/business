@@ -100,6 +100,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .days{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:10px}
 .day{background:#fff;border:1px solid var(--line);border-left:6px solid #c0603f;border-radius:12px;padding:10px 12px}
 .day.lock{background:#f4f1ea;border-left-color:#b9b2a3;color:#7d7668}.day.lock .dayh b{color:#7d7668}
+.day.done{padding-bottom:12px}.day.done .dayh b{color:#2f6b4f}
 .day.ok{background:#f3faf4;border-left-color:var(--green)}.day.bonus{border-left-color:var(--gold)}
 .dayh{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.dayh small{color:var(--mut)}
 .days-s{font-size:13px;color:var(--mut);margin:2px 0 6px}
@@ -220,6 +221,7 @@ const save=()=>{try{localStorage.setItem('hanji_v1',JSON.stringify({done:st.done
 let cp={};try{cp=JSON.parse(localStorage.getItem('hanji_camp5')||'{}')||{}}catch(e){cp={}}
 const cpSave=()=>{try{localStorage.setItem('hanji_camp5',JSON.stringify(cp))}catch(e){}};
 const dayDone=k=>CAMP[k].tasks.every((_,j)=>cp['d'+k+'_'+j]);
+const cpOpen={};
 const campCount=()=>CAMP.filter((_,k)=>dayDone(k)).length;
 let cme=null;try{cme=JSON.parse(localStorage.getItem('hanji_camp5_me')||'null')}catch(e){}
 if(!cme){try{const q=JSON.parse(localStorage.getItem('moneylife_quiz_me')||'null');if(q&&q.id&&q.n)cme={uid:'Q'+q.id,qid:String(q.id),nick:q.n,tail:''}}catch(e){}}
@@ -386,17 +388,17 @@ function renderCamp(){const n=campCount(),all=n===CAMP.length;
  ${campMeBar()}
  <div class="campmotto"><span>✨ 不比較</span><span>✨ 不求完美</span><span>✨ 願意行動</span></div>
  ${duoSay(all?'太厲害了！五天任務全部完成，你已經是會掌舵的船長了！記得去掌舵島玩驗收小遊戲，再到「營隊複習闖關」賺積分喔！':`每完成一項就打勾，三項都勾完，這一天就完成，隔天的任務才會解鎖喔！還沒做完的不用急，慢慢補，${CAMP_DEADLINE} 前都可以看雲端教學。`)}
- <div class="days">${CAMP.map((c,k)=>{const ok=dayDone(k);if(k>0&&!dayDone(k-1))return `<div class="day lock"><div class="dayh"><b>🔒 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small></div><div class="days-s">完成 ${esc(CAMP[k-1].d)} 的三項任務後，就會解鎖這一天的任務。</div><button class="btn" data-goday="${k-1}">回到 ${esc(CAMP[k-1].d)} →</button></div>`;return `<div class="day${ok?' ok':''}" id="cday${k}"><div class="dayh"><b>🌿 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small>${ok?'<span class="stamp">完成</span>':''}</div>
+ <div class="days">${CAMP.map((c,k)=>{const ok=dayDone(k);if(k>0&&!dayDone(k-1))return `<div class="day lock"><div class="dayh"><b>🔒 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small></div><div class="days-s">完成 ${esc(CAMP[k-1].d)} 的三項任務後，就會解鎖這一天的任務。</div><button class="btn" data-goday="${k-1}">回到 ${esc(CAMP[k-1].d)} →</button></div>`;if(ok&&!cpOpen[k])return `<div class="day ok done" id="cday${k}"><div class="dayh"><b>✅ ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small><span class="stamp">完成</span></div><div class="days-s">${esc(c.s)}・三項任務都完成了</div><div class="dayb"><button class="btn pri" data-rev="${k}">🔁 複習這一天</button><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">打開 ${esc(c.d)} 雲端教室</a></div></div>`;return `<div class="day${ok?' ok':''}" id="cday${k}"><div class="dayh"><b>🌿 ${esc(c.d)}｜${esc(c.t)}</b><small>${esc(c.date)}</small>${ok?'<span class="stamp">完成</span>':''}</div>
   <div class="days-s">${esc(c.s)}</div>
-  ${c.tasks.map((x,j)=>`<label class="ck task"><input type="checkbox" data-k="${k}" data-j="${j}" ${cp['d'+k+'_'+j]?'checked':''}> ${esc(x)}</label>`).join('')}
+  ${c.tasks.map((x,j)=>`<label class="ck task"><input type="checkbox" data-k="${k}" data-j="${j}" ${cp['d'+k+'_'+j]?'checked':''} ${ok?'disabled':''}> ${esc(x)}</label>`).join('')}
   <div class="rep"><div class="rep-l">完成後到群組留言：</div><div class="rep-t">${esc(c.r)}</div></div>
   <div class="dayw">❤️ ${esc(c.w)}</div>
-  <div class="dayb"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">打開 ${esc(c.d)} 雲端教室</a><button class="btn" data-copy="${k}">複製回報句</button></div></div>`}).join('')}
- <div class="day bonus${cp.bonus?' ok':''}"><div class="dayh"><b>🎯 加碼任務｜${esc(CAMP_BONUS.t)}</b>${cp.bonus?'<span class="stamp">完成</span>':''}</div><div class="days-s">${esc(CAMP_BONUS.s)}</div>
-  <label class="ck task"><input type="checkbox" id="cpBonus" ${cp.bonus?'checked':''}> ${esc(CAMP_BONUS.task)}</label>
+  <div class="dayb"><a class="btn" href="${esc(c.url)}" target="_blank" rel="noopener">打開 ${esc(c.d)} 雲端教室</a><button class="btn" data-copy="${k}">複製回報句</button>${ok?`<button class="btn" data-fold="${k}">收合 ▲</button>`:''}</div>${ok?'<div class="days-s" style="margin-top:6px">複習模式：這一天已完成，任務勾選已鎖定，不會影響後面的進度。</div>':''}</div>`}).join('')}
+ ${cp.bonus&&!cpOpen.b?`<div class="day bonus ok done"><div class="dayh"><b>✅ 加碼任務｜${esc(CAMP_BONUS.t)}</b><span class="stamp">完成</span></div><div class="days-s">${esc(CAMP_BONUS.s)}</div><div class="dayb"><button class="btn pri" data-rev="b">🔁 複習這一項</button></div></div>`:`<div class="day bonus${cp.bonus?' ok':''}"><div class="dayh"><b>🎯 加碼任務｜${esc(CAMP_BONUS.t)}</b>${cp.bonus?'<span class="stamp">完成</span>':''}</div><div class="days-s">${esc(CAMP_BONUS.s)}</div>
+  <label class="ck task"><input type="checkbox" id="cpBonus" ${cp.bonus?'checked disabled':''}> ${esc(CAMP_BONUS.task)}</label>
   <div class="rep"><div class="rep-l">完成後到群組留言：</div><div class="rep-t">${esc(CAMP_BONUS.r)}</div><div class="rep-l" style="margin-top:6px">還沒開始的話，可以留言：</div><div class="rep-t">${esc(CAMP_BONUS.help)}</div></div>
   <div class="dayw">操作卡住了，截圖告訴菁羚老師卡在哪一步。我們不比誰做得快，而是一起練習把金錢管理變成生活習慣。</div>
-  <div class="dayb"><button class="btn" data-copy="b">複製回報句</button></div></div></div>
+  <div class="dayb"><button class="btn" data-copy="b">複製回報句</button>${cp.bonus?'<button class="btn" data-fold="b">收合 ▲</button>':''}</div></div>`}</div>
  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn pri" id="cpIsle">前往掌舵島看 5 個案件</button><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">營隊複習闖關</a><button class="btn" id="cpClr">清除任務進度</button></div>
  <p style="font-size:13px;color:#5f7680">任務進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p>`;
  if($('#cpMeX'))$('#cpMeX').onclick=()=>{cme=null;try{localStorage.removeItem('hanji_camp5_me')}catch(e){}renderCamp()};
@@ -406,7 +408,9 @@ function renderCamp(){const n=campCount(),all=n===CAMP.length;
  $('#vCamp').querySelectorAll('input[data-k]').forEach(x=>x.onchange=()=>{const k=+x.dataset.k,was=dayDone(k);cp['d'+k+'_'+x.dataset.j]=x.checked;cpSave();campSync();
   if(!was&&dayDone(k))toast(CAMP[k].d+' 完成！'+(CAMP[k+1]?CAMP[k+1].d+' 解鎖了 🔓':'恭喜結營 🎓')+' 記得到群組留言回報 🌱');renderCamp();renderMap()});
  $('#vCamp').querySelectorAll('[data-goday]').forEach(b=>b.onclick=()=>{const e=$('#cday'+b.dataset.goday);if(e)e.scrollIntoView({behavior:'smooth',block:'center'})});
- $('#cpBonus').onchange=e=>{cp.bonus=e.target.checked;cpSave();campSync();if(cp.bonus)toast('11 月第一筆記帳完成！🌱');renderCamp()};
+ $('#vCamp').querySelectorAll('[data-rev]').forEach(b=>b.onclick=()=>{cpOpen[b.dataset.rev]=1;renderCamp();const e=$('#cday'+b.dataset.rev);if(e)e.scrollIntoView({behavior:'smooth',block:'nearest'})});
+ $('#vCamp').querySelectorAll('[data-fold]').forEach(b=>b.onclick=()=>{delete cpOpen[b.dataset.fold];renderCamp()});
+ if($('#cpBonus'))$('#cpBonus').onchange=e=>{cp.bonus=e.target.checked;cpSave();campSync();if(cp.bonus)toast('11 月第一筆記帳完成！🌱');renderCamp()};
  $('#vCamp').querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{const v=b.dataset.copy;copyText(v==='b'?CAMP_BONUS.r:CAMP[+v].r,'回報句已複製，貼到 LINE 群組再填空就好')});
  $('#cpIsle').onclick=()=>{view('map');openSt('S6')};
  $('#cpClr').onclick=()=>{cp={};cpSave();campSync(true);renderCamp();renderMap();toast('任務進度已清除')}}
