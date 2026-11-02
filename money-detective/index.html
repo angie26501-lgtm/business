@@ -112,6 +112,46 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .campsw{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .campme{background:#eef7f0;border:1px solid #cfe5d4;border-radius:10px;padding:8px 12px;margin:8px 0;font-size:14px}
 .campme .btn{padding:3px 10px;font-size:13px}.campmef{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.campmef input{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-width:120px;flex:1}
+
+/* 船員裝備間 */
+.crew{display:flex;gap:12px;align-items:center;padding:14px}
+.crew .av{width:120px;flex:0 0 120px;cursor:pointer}
+.crew .info{flex:1;min-width:0}
+.gearbtn{margin-top:8px;border:0;background:linear-gradient(135deg,#ffb36b,#f07a8a);color:#fff;font:inherit;font-weight:800;border-radius:20px;padding:7px 14px;cursor:pointer;box-shadow:0 3px 0 #c85a6a}
+.gearbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #c85a6a}
+.newdot{display:inline-block;background:#e5484d;color:#fff;font-size:11px;border-radius:10px;padding:0 6px;margin-left:4px;vertical-align:2px}
+.gm{position:fixed;inset:0;background:rgba(20,40,50,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:12px}
+.gm.on{display:flex}
+.gbox{background:#fffdf7;border-radius:22px;max-width:760px;width:100%;max-height:92vh;overflow:auto;border:3px solid #f3c98b;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.ghead{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff3df;border-bottom:1px dashed #f3c98b;position:sticky;top:0;z-index:2}
+.ghead b{font-size:17px}.ghead button{border:0;background:#fff;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer}
+.gbody{display:grid;grid-template-columns:240px 1fr;gap:14px;padding:14px}
+@media(max-width:640px){.gbody{grid-template-columns:1fr}.gstage{max-width:240px;margin:0 auto}}
+.gstage{text-align:center}
+.gstage .av{width:100%}
+.gname{display:flex;gap:6px;margin-top:6px}.gname input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:6px 8px;font:inherit}
+.gtabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.gt{border:1px solid #f3c98b;background:#fff;border-radius:16px;padding:5px 11px;cursor:pointer;font:inherit;font-size:14px}
+.gt.on{background:#f07a8a;border-color:#f07a8a;color:#fff}
+.gitems{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.gi{position:relative;border:2px solid #eee3cf;background:#fff;border-radius:14px;padding:8px 4px;cursor:pointer;font:inherit;text-align:center;transition:transform .15s}
+.gi:hover{transform:translateY(-2px)}
+.gi .e{font-size:30px;display:block;line-height:1.2}.gi .e img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.gi small{display:block;font-size:12px;margin-top:2px}
+.gi.on{border-color:#f07a8a;background:#fff0f2}
+.gi.on::after{content:'穿著中';position:absolute;top:-8px;right:-4px;background:#f07a8a;color:#fff;font-size:10px;border-radius:8px;padding:1px 5px}
+.gi.lock{filter:grayscale(1);opacity:.55;cursor:default}
+.gi.lock small{color:var(--mut)}
+.gi .nw{position:absolute;top:-8px;left:-4px;background:#e5484d;color:#fff;font-size:10px;border-radius:8px;padding:1px 5px}
+.gsay{display:flex;gap:8px;align-items:center;background:#eef7f3;border-radius:14px;padding:8px 10px;margin:10px 0;font-size:14px}
+.gsay img{width:36px;height:36px;border-radius:50%;object-fit:cover;flex:0 0 36px}
+.gact{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.gact button{border:1px solid var(--line);background:#fff;border-radius:16px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px}
+.av.pop{animation:gpop .45s}
+@keyframes gpop{0%{transform:scale(1)}40%{transform:scale(1.08) rotate(-3deg)}70%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1)}}
+.av .bob{animation:gbob 2.6s ease-in-out infinite;transform-origin:100px 200px}
+@keyframes gbob{50%{transform:translateY(-3px)}}
+.gcount{font-size:13px;color:var(--mut);margin-top:4px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -285,9 +325,84 @@ function mapSvg(){let route='';for(let i=0;i<POS.length-1;i++){const[a,b]=POS[i]
  <path d="${route}" stroke="#2f5d6a" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".5"/>
  ${ST.map((s,i)=>island(s,i)).join('')}
  <g transform="translate(965,60)"><circle r="26" fill="#fff" opacity=".85"/><text y="-8" text-anchor="middle" font-size="12" fill="#2f5d6a">N</text><polygon points="0,-18 5,0 0,18 -5,0" fill="#c0603f"/></g></svg>`}
+
+// ===== 船員裝備間 =====
+const GSLOT=[['hat','帽子'],['outfit','服裝'],['hand','手上'],['acc','小配件'],['pet','夥伴'],['bg','背景']];
+const GEAR={
+ hat:[{k:'h0',e:'👒',n:'旅人草帽',u:{r:0},say:'戴上草帽，遮陽也遮住迷惘！'},{k:'h1',e:'🧢',n:'水手帽',u:{r:1},say:'新手船員報到！帽子戴正，航線就不歪。'},{k:'h2',e:'🎀',n:'幸運蝴蝶結',u:{s:'S3'},say:'燈塔送的蝴蝶結，每天亮一次好心情！'},{k:'h3',e:'🎩',n:'船長禮帽',u:{r:3},say:'船長駕到！今天由你決定航向。'},{k:'h4',e:'👑',n:'傳承皇冠',u:{r:5},say:'皇冠不是用來炫耀，是把愛傳下去的承諾。'},{k:'hx',e:'',n:'不戴帽',u:{r:0},say:'清爽出航也很可愛！'}],
+ outfit:[{k:'o0',c:'#e9d7a8',c2:'#d8c08a',n:'旅人亞麻衫',u:{r:0},say:'簡單舒服，最適合踏上第一座島。'},{k:'o1',c:'#ffffff',c2:'#2c5aa0',st:1,n:'條紋水手服',u:{r:1},say:'藍白條紋！一看就是可靠的船員。'},{k:'o2',c:'#5aa7c9',c2:'#2f7f9a',n:'體質島防水外套',u:{s:'S4'},say:'風浪再大，體質好就不怕！'},{k:'o3',c:'#2c5aa0',c2:'#d9a441',n:'副船長外套',u:{r:2},say:'金色鈕扣閃閃發亮，副船長就是你！'},{k:'o4',c:'#ffffff',c2:'#d9a441',n:'船長白制服',u:{r:3},say:'白制服配金邊，全船都在看你！'},{k:'o5',c:'#2f7f6b',c2:'#8fd3a8',n:'家庭財務長綠披風',u:{r:4},say:'綠披風一披，全家的錢都安心了！'},{k:'o6',c:'#f3c66b',c2:'#c0903a',n:'傳承金袍',u:{r:5},say:'金袍上繡著全家人的名字呢。'}],
+ hand:[{k:'d0',e:'🗺️',n:'航海地圖',u:{r:0},say:'地圖在手，八座島都找得到！'},{k:'d1',e:'🔍',n:'偵探放大鏡',u:{s:'S1'},say:'多多同款放大鏡！錢的去向無所遁形。'},{k:'d2',e:'📝',n:'任務小本子',u:{s:'S2'},say:'把擔心寫下來，就是破案的開始。'},{k:'d3',e:'🔭',n:'望遠鏡',u:{r:2},say:'看得遠，才不怕暗礁。'},{k:'d4',e:'☸️',n:'船舵',u:{s:'S6'},say:'掌舵的感覺真好！方向由你決定。'},{k:'d5',e:'📒',n:'家庭帳本',u:{r:4},say:'家庭財務長的祕密武器！'},{k:'dx',e:'',n:'空手',u:{r:0},say:'雙手空空，準備好迎接新任務！'}],
+ acc:[{k:'a0',e:'🎒',n:'旅行背包',u:{r:0},say:'背包裡裝滿好奇心。'},{k:'a1',e:'🌱',n:'綠芽胸花',u:{s:'S2'},say:'小綠芽說：我會陪你一起長大！'},{k:'a2',e:'🔦',n:'燈塔小手電',u:{s:'S3'},say:'霧再濃，也照得見前方。'},{k:'a3',e:'🧭',n:'金色羅盤',u:{s:'S4'},say:'羅盤指向你真正想要的生活。'},{k:'a4',e:'🗝️',n:'解鎖鑰匙',u:{s:'S5'},say:'這把鑰匙，打開全家財務的大門！'},{k:'a5',e:'🏅',n:'掌舵徽章',u:{s:'S6'},say:'五日營的榮譽徽章，閃亮亮！'},{k:'a6',e:'⚓',n:'遠洋船錨',u:{s:'S7'},say:'穩穩下錨，日子也穩穩的。'},{k:'a7',e:'🐚',n:'藍海貝殼',u:{s:'S8'},say:'貼近耳朵，聽得到幸福的海浪聲。'},{k:'ax',e:'',n:'不戴配件',u:{r:0},say:'輕裝上陣！'}],
+ pet:[{k:'p0',img:'img/duo.jpg',e:'🦜',n:'多多',u:{r:0},say:'多多來了！我就停在你肩膀上幫你找線索！'},{k:'p1',e:'🪙',n:'胖胖幣',u:{s:'S1'},say:'胖胖幣：跟著你，我終於不會瘦成一層皮了！'},{k:'p2',e:'🌱',n:'小綠芽',u:{s:'S3'},say:'小綠芽：每天看一眼，我就長高一點！'},{k:'px',e:'',n:'獨自航行',u:{r:0},say:'一個人也能出航，但夥伴會讓你走更遠喔。'}],
+ bg:[{k:'b0',g:['#cfe9ef','#9fcad5'],n:'迷霧港清晨',u:{r:0},say:'清晨的港口，一切剛剛開始。'},{k:'b1',g:['#fff1c9','#ffd27a'],n:'燈塔金光',u:{s:'S3'},say:'燈塔的光，把你照得好有精神！'},{k:'b2',g:['#ffd1b5','#f08a7a'],n:'遠洋夕陽',u:{s:'S7'},say:'夕陽下的甲板，最適合想想未來。'},{k:'b3',g:['#bff0e6','#4fb8c9'],n:'幸福藍海',u:{s:'S8'},say:'終於抵達幸福藍海，辛苦了！'}]
+};
+const GDEF={hat:'h0',outfit:'o0',hand:'d0',acc:'a0',pet:'p0',bg:'b0'};
+let gw={eq:Object.assign({},GDEF),seen:{},nick:''};
+try{const v=JSON.parse(localStorage.getItem('hanji_gear')||'{}');if(v.eq)Object.assign(gw.eq,v.eq);if(v.seen)gw.seen=v.seen;if(v.nick)gw.nick=v.nick}catch(e){}
+const gSave=()=>{try{localStorage.setItem('hanji_gear',JSON.stringify(gw))}catch(e){}};
+const rankIdx=()=>Math.min(RANKS.length-1,Math.ceil(doneCount()*5/8));
+const gOpen=it=>it.u.s?!!st.done[it.u.s]:rankIdx()>=it.u.r;
+const gHint=it=>it.u.s?`完成「${(ST.find(x=>x.id===it.u.s)||{}).island}」解鎖`:`升到「${RANKS[it.u.r]}」解鎖`;
+const gGet=(sl,k)=>GEAR[sl].find(x=>x.k===k)||GEAR[sl][0];
+const gCur=sl=>{const it=gGet(sl,gw.eq[sl]);return gOpen(it)?it:gGet(sl,GDEF[sl])};
+const gNew=()=>{let n=0;GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(it.e!==''||it.c||it.g)if(gOpen(it)&&!gw.seen[it.k]&&it.u.r!==0)n++}));return n};
+function avatarSvg(id){const H=gCur('hat'),O=gCur('outfit'),D=gCur('hand'),A=gCur('acc'),P=gCur('pet'),B=gCur('bg');
+ const stripe=O.st?`<pattern id="stp${id}" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff"/><rect y="6" width="10" height="4" fill="${O.c2}"/></pattern>`:'';
+ const fill=O.st?`url(#stp${id})`:O.c;
+ const pet=P.img?`<g transform="translate(150,98)"><circle r="21" fill="#fff"/><clipPath id="pc${id}"><circle r="19"/></clipPath><image href="${P.img}" x="-19" y="-19" width="38" height="38" preserveAspectRatio="xMidYMid slice" clip-path="url(#pc${id})"/></g>`:(P.e?`<text x="152" y="112" font-size="34" text-anchor="middle">${P.e}</text>`:'');
+ return `<svg class="av" id="${id}" viewBox="0 0 200 220" role="img" aria-label="我的船員造型"><defs><linearGradient id="bgg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${B.g[0]}"/><stop offset="1" stop-color="${B.g[1]}"/></linearGradient>${stripe}</defs>
+ <circle cx="100" cy="112" r="96" fill="url(#bgg${id})"/>
+ <path d="M18 170 q20 -10 40 0 t40 0 t40 0 t40 0 v40 h-160z" fill="#ffffff" opacity=".35"/>
+ <g class="bob">
+ <ellipse cx="100" cy="206" rx="46" ry="7" fill="#000" opacity=".12"/>
+ <rect x="62" y="126" width="76" height="72" rx="30" fill="${fill}" stroke="${O.c2}" stroke-width="3"/>
+ <path d="M88 128 l12 16 l12 -16" fill="none" stroke="${O.c2}" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="100" cy="160" r="3" fill="${O.c2}"/><circle cx="100" cy="174" r="3" fill="${O.c2}"/>
+ <circle cx="58" cy="160" r="11" fill="#ffe0c7"/><circle cx="142" cy="160" r="11" fill="#ffe0c7"/>
+ <circle cx="100" cy="92" r="42" fill="#ffe0c7"/>
+ <path d="M60 84 q8 -38 40 -38 q32 0 40 38 q-14 -14 -40 -16 q-26 2 -40 16z" fill="#6b4a3a"/>
+ <ellipse cx="86" cy="96" rx="4.5" ry="6" fill="#2b2b2b"/><ellipse cx="114" cy="96" rx="4.5" ry="6" fill="#2b2b2b"/>
+ <circle cx="87.5" cy="93.5" r="1.6" fill="#fff"/><circle cx="115.5" cy="93.5" r="1.6" fill="#fff"/>
+ <ellipse cx="76" cy="108" rx="7" ry="4" fill="#ff9aa8" opacity=".7"/><ellipse cx="124" cy="108" rx="7" ry="4" fill="#ff9aa8" opacity=".7"/>
+ <path d="M92 112 q8 8 16 0" fill="none" stroke="#8a4a3a" stroke-width="2.6" stroke-linecap="round"/>
+ ${H.e?`<text x="100" y="66" font-size="54" text-anchor="middle">${H.e}</text>`:''}
+ ${A.e?`<text x="80" y="184" font-size="24" text-anchor="middle">${A.e}</text>`:''}
+ ${D.e?`<text x="150" y="176" font-size="32" text-anchor="middle">${D.e}</text>`:''}
+ ${pet}
+ </g></svg>`}
+let gTab='hat',gLine='';
+function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.id='gearM';m.className='gm';m.setAttribute('role','dialog');m.setAttribute('aria-label','船員裝備間');document.body.appendChild(m);
+  m.addEventListener('click',e=>{if(e.target===m)gearClose()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('on'))gearClose()})}
+ const list=GEAR[gTab],got=GSLOT.reduce((a,[sl])=>a+GEAR[sl].filter(x=>(x.e||x.c||x.g)&&gOpen(x)).length,0),all=GSLOT.reduce((a,[sl])=>a+GEAR[sl].filter(x=>x.e||x.c||x.g).length,0);
+ m.innerHTML=`<div class="gbox"><div class="ghead"><b>🎒 船員裝備間</b><button type="button" id="gmX" aria-label="關閉">✕</button></div>
+ <div class="gbody"><div class="gstage">${avatarSvg('avBig')}
+  <div style="font-weight:800;margin-top:4px">${esc(gw.nick||'無名船員')}｜${rank()}</div>
+  <div class="gcount">已收集 ${got} / ${all} 件裝備</div>
+  <div class="gname"><input id="gNick" maxlength="10" placeholder="幫船員取個名字" value="${esc(gw.nick)}"><button class="btn" id="gNickOk" type="button">好</button></div></div>
+ <div><div class="gtabs">${GSLOT.map(([sl,n])=>{const nn=GEAR[sl].filter(it=>gOpen(it)&&!gw.seen[it.k]&&it.u.r!==0).length;return `<button type="button" class="gt ${sl===gTab?'on':''}" data-t="${sl}">${n}${nn?`<span class="newdot">${nn}</span>`:''}</button>`}).join('')}</div>
+  <div class="gitems">${list.map(it=>{const op=gOpen(it),on=gCur(gTab).k===it.k,nw=op&&!gw.seen[it.k]&&it.u.r!==0;
+   const ic=it.img?`<img src="${it.img}" alt="">`:(it.e||(it.c?`<span style="display:inline-block;width:30px;height:30px;border-radius:9px;background:${it.st?`repeating-linear-gradient(0deg,#fff 0 5px,${it.c2} 5px 8px)`:it.c};border:2px solid ${it.c2}"></span>`:(it.g?`<span style="display:inline-block;width:30px;height:30px;border-radius:50%;background:linear-gradient(${it.g[0]},${it.g[1]})"></span>`:'🚫')));
+   return `<button type="button" class="gi ${on?'on':''} ${op?'':'lock'}" data-k="${it.k}" ${op?'':'aria-disabled="true"'}>${nw?'<span class="nw">NEW</span>':''}<span class="e">${op?ic:'🔒'}</span><small>${esc(it.n)}</small>${op?'':`<small>${esc(gHint(it))}</small>`}</button>`}).join('')}</div>
+  <div class="gsay"><img src="img/duo.jpg" alt="多多"><span>${esc(gLine||'點裝備就能換上！破案越多，解鎖越多可愛裝備喔～')}</span></div>
+  <div class="gact"><button type="button" id="gRnd">🎲 隨機穿搭</button><button type="button" id="gReset">↺ 換回旅人裝</button><button type="button" id="gShare">📣 分享我的船員證</button></div>
+ </div></div></div>`;
+ m.classList.add('on');
+ $('#gmX').onclick=gearClose;
+ m.querySelectorAll('.gt').forEach(b=>b.onclick=()=>{gTab=b.dataset.t;gLine='';gearPanel()});
+ m.querySelectorAll('.gi').forEach(b=>b.onclick=()=>{const it=gGet(gTab,b.dataset.k);if(!gOpen(it)){gLine='這件還沒解鎖：'+gHint(it)+'。加油，再破一案！';gearPanel();return}
+  gw.eq[gTab]=it.k;gw.seen[it.k]=1;gLine=it.say;gSave();gearPanel();gPop()});
+ $('#gNickOk').onclick=()=>{gw.nick=$('#gNick').value.trim().slice(0,10);gSave();gLine=gw.nick?`「${gw.nick}」好好聽！歡迎上船～`:'';gearPanel()};
+ $('#gNick').onkeydown=e=>{if(e.key==='Enter')$('#gNickOk').click()};
+ $('#gRnd').onclick=()=>{GSLOT.forEach(([sl])=>{const ok=GEAR[sl].filter(gOpen);const it=ok[Math.floor(Math.random()*ok.length)];gw.eq[sl]=it.k;gw.seen[it.k]=1});gLine='🎲 今天的穿搭交給命運！滿意嗎？';gSave();gearPanel();gPop()};
+ $('#gReset').onclick=()=>{gw.eq=Object.assign({},GDEF);gLine='換回旅人裝，初心不忘！';gSave();gearPanel();gPop()};
+ $('#gShare').onclick=()=>{const eq=GSLOT.map(([sl])=>gCur(sl)).filter(x=>x.e).map(x=>x.e).join('');
+  copyText(`⚓ 我是財富航海群島的船員「${gw.nick||'無名船員'}」\n等級：${rank()}｜已破案 ${doneCount()} / 8 座島\n今天的裝備：${eq||'輕裝上陣'}\n一起來破案、升級船員吧！\n${location.href.split('#')[0]}`,'船員證已複製，可貼到 LINE 群組')};
+}
+function gPop(){const a=$('#avBig');if(a){a.classList.remove('pop');void a.getBoundingClientRect();a.classList.add('pop')}}
+function gearClose(){const m=$('#gearM');if(m)m.classList.remove('on');GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(gOpen(it))gw.seen[it.k]=1}));gSave();gLine='';renderMap()}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
  document.querySelectorAll('#mapbox .isle').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
- $('#heroMini').innerHTML=`<div style="padding:16px"><div style="font-weight:800;margin-bottom:6px">我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：點任一座島領通行碼'}</div></div>`;
+ $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：點任一座島領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
  $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
@@ -405,7 +520,7 @@ function linkBtn(u,l){return u?`<a class="btn" href="${esc(u)}" target="_blank" 
 const hasCode=k=>{try{const v=+localStorage.getItem('hanji_'+k+'pass');return v&&Date.now()-v<30*864e5}catch(e){return false}};
 function campSw(){return `<div class="campsw">${Object.values(CAMPS).map(x=>`<button class="gtab${x.key===campSel?' on':''}" data-sw="${x.key}">${hasCode(x.key)?'':'🔒 '}${x.name}（${x.range}）${hasCode(x.key)&&cCount(x)===x.days.length?' 🎓':''}</button>`).join('')}</div>`}
 function renderCamp(){
- if(!hasCode(campSel)){const C=CAMPS[campSel];$('#vCamp').innerHTML=`${campSw()}<h3 style="margin-top:0">🎫 ${C.name}任務需要「${C.name}專用通行碼」</h3>${duoSay(`多多來了！${C.full}的任務，只給${C.name}夥伴看喔～輸入芸琪私訊給你的「${C.name}專用通行碼」就能打開！`)}<div class="campme"><div class="campmef"><input id="ccode" maxlength="20" placeholder="${C.name}專用通行碼" autocomplete="off"><button class="btn pri" id="cgo" type="button">打開${C.name}任務</button></div><small>通行碼請私訊芸琪索取；輸入一次，這台裝置會記住 30 天。</small><div class="fb" id="cfb"></div></div>`;
+ if(!hasCode(campSel)){const C=CAMPS[campSel];$('#vCamp').innerHTML=`${campSw()}<h3 style="margin-top:0">🎫 ${C.name}任務需要「${C.name}專用通行碼」</h3>${duoSay(`多多來了！${C.full}的任務，只給${C.name}夥伴看喔～輸入芸琪私訊給你的「${C.name}專用通行碼」就能打開！`)}<div class="campme"><div class="campmef"><input id="ccode" maxlength="20" placeholder="${C.name}專用通行碼" autocomplete="off"><button class="btn pri" id="cgo" type="button">打開${C.name}任務</button></div><small>通行碼請私訊芸琪索取；輸入一次，這台裝置會記住 30 天。</small>${campSel==='c3'?'<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff7e6;font-size:14px">還不是三日營夥伴？三日營是<b>免費</b>的，先報名，芸琪會把通行碼私訊給你 🌱<br><a class="btn pri" style="margin-top:6px;display:inline-block" href="https://angie26501-lgtm.github.io/business/quiz/guide.html" target="_blank" rel="noopener">免費報名三日營 →</a></div>':'<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff7e6;font-size:14px">還沒報名五日營？到報名頁填寫，記得附上綠芽訂單編號。<br><a class="btn" style="margin-top:6px;display:inline-block" href="https://angie26501-lgtm.github.io/business/quiz/guide.html" target="_blank" rel="noopener">前往報名頁 →</a></div>'}<div class="fb" id="cfb"></div></div>`;
   $('#vCamp').querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{campSel=b.dataset.sw;renderCamp()});
   const go=()=>{const v=$('#ccode').value.trim(),f=$('#cfb');f.style.color='#c0603f';if(v!==CAMP_CODES[campSel]){f.textContent='通行碼不對，再試一次，或私訊芸琪 🙏';return}
    try{localStorage.setItem('hanji_'+campSel+'pass',String(Date.now()))}catch(e){}renderCamp();toast(C.name+'任務已打開 🌱')};
@@ -467,7 +582,7 @@ $('#shareTop').onclick=()=>copyLink('');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
 addEventListener('hashchange',fromHash);fromHash();
-(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:false};
+(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:innerWidth<700};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
  const clamp=()=>{if(g.x==null)return;const r=P.getBoundingClientRect();g.x=Math.max(4,Math.min(innerWidth-r.width-4,g.x));g.y=Math.max(4,Math.min(innerHeight-40,g.y));P.style.left=g.x+'px';P.style.top=g.y+'px';P.style.right='auto';P.style.bottom='auto'};
