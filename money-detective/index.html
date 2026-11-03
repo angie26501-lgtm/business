@@ -152,6 +152,17 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .av .bob{animation:gbob 2.6s ease-in-out infinite;transform-origin:100px 200px}
 @keyframes gbob{50%{transform:translateY(-3px)}}
 .gcount{font-size:13px;color:var(--mut);margin-top:4px}
+
+.gd-hero{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;align-items:center;background:#fff8ec;border:2px solid #e8c88f;border-radius:18px;padding:14px;margin-bottom:12px}
+@media(max-width:720px){.gd-hero{grid-template-columns:1fr}}.gd-hero:not(:has(.gd-img)){grid-template-columns:1fr}
+.gd-img{border-radius:14px;overflow:hidden;aspect-ratio:3/2;background:linear-gradient(160deg,#ffe3b3,#f2b77a)}.gd-img img{width:100%;height:100%;object-fit:cover;display:block}
+.gd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.gd-card{background:#fff;border:1px solid var(--line);border-top:6px solid var(--c);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.gd-card .gd-img{border-radius:0}.gd-card .bd{padding:10px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.gd-card b{font-size:16px;color:var(--c)}.gd-card p{margin:0;font-size:14px;line-height:1.7}
+.gd-say{font-size:13px;background:#f4efe4;border-radius:10px;padding:6px 8px}
+.gd-cta{display:inline-block;background:#06c755;color:#fff;border-radius:22px;padding:10px 18px;font-weight:800;text-decoration:none;margin-top:6px}
+.gd-cta.sm{padding:6px 12px;font-size:14px;font-weight:700;align-self:flex-start;margin-top:auto}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -172,6 +183,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <button class="tile" data-go="next"><b>繼續我的航程</b><span id="nextTip">前往下一座未破案的島</span></button>
  <button class="tile" data-go="index"><b>全部案件索引</b><span>31 案一次找，搜尋關鍵字</span></button>
  <a class="tile" href="https://reurl.cc/zOaa40" target="_blank" rel="noopener" style="text-decoration:none"><b>加入綠芽財務管理</b><span>看懂全家財務，一步一步跟著做</span></a>
+ <button class="tile" data-go="guard" style="border-color:#e8c88f;background:#fff8ec"><b>🏡 已經是財顧芸的保戶或客戶？</b><span>到「守護灣｜保戶專屬港」，不用通行碼</span></button>
  <button class="tile" data-go="camp"><b>營隊任務進度</b><span id="campTip">三日營、五日營每日任務與回報</span></button>
  <a class="tile" href="https://angie26501-lgtm.github.io/business/quiz/" style="text-decoration:none"><b>營隊複習闖關</b><span>三日營、五日營夥伴：答題賺積分、換抽獎</span></a>
 </div>
@@ -182,6 +194,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <button class="gtab" data-v="index">索引</button>
  <button class="gtab" data-v="voyage">我的航程</button>
  <button class="gtab" data-v="camp">營隊任務</button>
+ <button class="gtab" data-v="guard">保戶專屬港</button>
 </div>
 <div class="toggles">
  <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
@@ -197,6 +210,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <section id="vIndex" class="panel idx" style="display:none"></section>
 <section id="vVoyage" class="panel" style="display:none"></section>
 <section id="vCamp" class="panel" style="display:none"></section>
+<section id="vGuard" class="panel" style="display:none"></section>
 <section id="detail"></section>
 </div>
 <footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a></footer>
@@ -323,7 +337,7 @@ function mapSvg(){let route='';for(let i=0;i<POS.length-1;i++){const[a,b]=POS[i]
  let waves='';for(let k=0;k<14;k++){const x=40+((k*137)%960),y=60+((k*89)%400);waves+=`<path d="M${x} ${y} q8 -6 16 0 q8 6 16 0" stroke="#ffffff" stroke-width="2" fill="none" opacity=".6"/>`}
  return `<svg id="map" viewBox="0 0 1040 500" role="img" aria-label="財富航海群島地圖">${waves}
  <path d="${route}" stroke="#2f5d6a" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".5"/>
- ${ST.map((s,i)=>island(s,i)).join('')}
+ ${ST.map((s,i)=>island(s,i)).join('')}${guardPin()}
  <g transform="translate(965,60)"><circle r="26" fill="#fff" opacity=".85"/><text y="-8" text-anchor="middle" font-size="12" fill="#2f5d6a">N</text><polygon points="0,-18 5,0 0,18 -5,0" fill="#c0603f"/></g></svg>`}
 
 // ===== 船員裝備間 =====
@@ -400,8 +414,35 @@ function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.
 }
 function gPop(){const a=$('#avBig');if(a){a.classList.remove('pop');void a.getBoundingClientRect();a.classList.add('pop')}}
 function gearClose(){const m=$('#gearM');if(m)m.classList.remove('on');GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(gOpen(it))gw.seen[it.k]=1}));gSave();gLine='';renderMap()}
+
+// ===== 守護灣｜保戶專屬港（不用通行碼） =====
+const GUARD_LINE='https://lin.ee/56YIX1v';
+const GUARD=[
+ {t:'專屬碼頭｜歡迎回港',c:'#b0863a',p:'加入「保戶專用 LINE@」，之後的服務通知、周年檢視提醒和活動邀請，都會從這裡送到你手上。',say:'多多：歡迎回港！先把船繫好，加入 LINE@ 就不會漏掉芸琪的消息喔！',b:'加入保戶專用 LINE@'},
+ {t:'保障地圖室｜保單整理',c:'#2f7f9a',p:'想知道全家保了什麼、哪裡還不夠？芸琪幫你把保單整理成一張看得懂的保障地圖。',say:'小綠芽：保單一大疊不用怕，整理成一張圖就清楚了！',b:'在 LINE@ 說「保單整理」'},
+ {t:'周年回航站｜每年保障檢視',c:'#2c5aa0',p:'每年回來看一次。結婚、生子、換工作、買房，都是調整保障的好時機。',say:'多多：人生會長大，保障也要跟著長大！',b:'在 LINE@ 說「周年檢視」'},
+ {t:'風雨守護站｜理賠協助',c:'#3f6f7a',p:'生病或發生意外需要理賠時，先別慌。芸琪陪你一起準備資料、一步一步處理。',say:'胖胖幣：風雨來了，躲進港灣就安心了。',b:'在 LINE@ 說「理賠協助」'},
+ {t:'家人寶箱島｜家庭資料整理',c:'#1f8a8a',p:'把保單和重要資料整理好，讓家人找得到、看得懂、接得上。這是送給家人最安心的禮物。',say:'小綠芽：寶箱的鑰匙，要交給最信任的人。',b:'在 LINE@ 說「家人寶箱」'},
+ {t:'甲板茶會｜保戶專屬聚會',c:'#c0603f',p:'保戶專屬的下午茶、分享會與好禮活動，時間地點會在保戶專用 LINE@ 公告。',say:'多多：茶會的點心，胖胖幣已經偷吃一塊了！',b:'看保戶 LINE@ 活動公告'}];
+const gdImg=(n,alt)=>`<div class="gd-img"><img src="img/g${n}.jpg" alt="${esc(alt)}" loading="lazy" onerror="this.parentNode.remove()"></div>`;
+function renderGuard(){$('#vGuard').innerHTML=`<div class="gd-hero">${gdImg(0,'守護灣情境圖')}<div>
+ <span class="badge" style="background:#f6ead3;color:#7a5230">守護灣｜保戶專屬港</span>
+ <h3 style="margin:8px 0 6px">已經是財顧芸的保戶或客戶，歡迎回港 🏡</h3>
+ <p style="margin:0 0 6px;font-size:15px;line-height:1.7">不管你是芸琪的保戶，還是做過財務規劃、保單健診的客戶，這座港灣都為你留著。這裡不用通行碼，加入保戶專用 LINE@，有需要隨時找得到芸琪。</p>
+ <a class="gd-cta" href="${GUARD_LINE}" target="_blank" rel="noopener">加入保戶專用 LINE@</a>
+ <p style="font-size:13px;color:#5f7680;margin:8px 0 0">還不是保戶也沒關係，可以先從 <a href="#s1" id="gdS1">1. 迷霧港</a> 開始，一島一島認識自己的財務。</p></div></div>
+ ${duoSay('多多來了！守護灣有 6 個站，每一站都是芸琪陪你照顧家人的方式。想要哪一項，加入 LINE@ 後傳訊息告訴芸琪就好！')}
+ <div class="gd-grid">${GUARD.map((g,k)=>`<div class="gd-card" style="--c:${g.c}">${gdImg(k+1,g.t)}<div class="bd"><b>${k+1}. ${esc(g.t)}</b><p>${esc(g.p)}</p><div class="gd-say">${esc(g.say)}</div><a class="gd-cta sm" href="${GUARD_LINE}" target="_blank" rel="noopener">${esc(g.b)} →</a></div></div>`).join('')}</div>
+ <p style="font-size:13px;color:#5f7680;margin-top:12px">財顧芸 陳芸琪｜家族傳承生活顧問　·　<a href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a></p>`;
+ $('#gdS1').onclick=e=>{e.preventDefault();view('map');openSt('S1')}}
+function guardPin(){return `<g class="isle" id="gdPin" tabindex="0" role="button" aria-label="守護灣 保戶專屬港" style="cursor:pointer">
+ <ellipse cx="962" cy="196" rx="54" ry="16" fill="#9fcad5"/><path d="M914 192 q48 -46 96 0" fill="#e9d7a8"/><ellipse cx="962" cy="190" rx="40" ry="14" fill="#7a5230"/>
+ <rect x="948" y="150" width="10" height="34" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="944,150 962,138 980,150" fill="#c0603f"/><circle cx="953" cy="158" r="4" fill="#ffd27a"/>
+ <rect x="968" y="166" width="24" height="18" rx="3" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="964,168 980,156 996,168" fill="#d9a441"/>
+ <rect class="tagbg" x="906" y="212" width="112" height="24" rx="12" fill="#fff8ec" stroke="#e8c88f"/><text class="nametag" x="962" y="229" text-anchor="middle" fill="#7a5230">🏡 守護灣</text></g>`}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
- document.querySelectorAll('#mapbox .isle').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
+ if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
+ document.querySelectorAll('#mapbox .isle:not(#gdPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
  $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：點任一座島領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
@@ -570,17 +611,17 @@ function renderCamp(){
  $('#cpIsle').onclick=()=>{view('map');openSt(C.isle)};
  $('#cpClr').onclick=()=>{Object.keys(cp).forEach(k=>{if(k.startsWith(C.pre)&&/_\d+$/.test(k)||k===bk)delete cp[k]});cpSave();campSync(true);renderCamp();renderMap();toast(C.name+'進度已清除')}}
 function view(v){document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
- $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';
+ $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
-document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
 $('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
 let idle=0,ai=0;['pointerdown','keydown','wheel','touchstart'].forEach(e=>addEventListener(e,()=>idle=0,{passive:true}));
 setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id))}},2000);
 $('#shareTop').onclick=()=>copyLink('');
 renderMap();
-function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
+function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
 addEventListener('hashchange',fromHash);fromHash();
 (function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:innerWidth<700};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
