@@ -361,7 +361,7 @@ function island(s,i,big){const [x,y]=POS[i];const d=st.done[s.id],lk=!unlocked(i
  <ellipse cx="${x}" cy="${y+14}" rx="70" ry="26" fill="#e9d7a8"/>
  <ellipse cx="${x}" cy="${y}" rx="60" ry="30" fill="${s.color}"/>
  <ellipse cx="${x-14}" cy="${y-8}" rx="30" ry="12" fill="#ffffff" opacity=".18"/>
- ${im?`<clipPath id="cp${i}"><circle cx="${x}" cy="${y-38}" r="46"/></clipPath><circle cx="${x}" cy="${y-38}" r="50" fill="#fff"/><image href="${im}" x="${x-70}" y="${y-85}" width="140" height="94" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp${i})" ${lk?'opacity=".45"':''}/>`:`<circle cx="${x}" cy="${y-38}" r="50" fill="#fff"/><circle cx="${x}" cy="${y-38}" r="46" fill="${s.color}" opacity=".18"/><text x="${x}" y="${y-44}" text-anchor="middle" font-size="12" fill="${s.color}" font-weight="700">情境圖</text><text x="${x}" y="${y-26}" text-anchor="middle" font-size="12" fill="${s.color}">準備中</text>`}
+ ${im?`<clipPath id="cp${i}"><circle cx="${x}" cy="${y-38}" r="46"/></clipPath><circle cx="${x}" cy="${y-38}" r="50" fill="#fff"/><image href="${im}" x="${x-70}" y="${y-85}" width="140" height="94" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp${i})" ${lk?'opacity=".45"':''}/>`:`<circle cx="${x}" cy="${y-38}" r="50" fill="#fff"/><circle cx="${x}" cy="${y-38}" r="46" fill="${s.color}" opacity=".18"/><text x="${x}" y="${y-30}" text-anchor="middle" font-size="26">🏝️</text>`}
  ${lk?`<g transform="translate(${x+30},${y-74})"><circle r="15" fill="#1f3a44"/><rect x="-7" y="-2" width="14" height="10" rx="2" fill="#fff"/><path d="M-4 -2 v-4 a4 4 0 0 1 8 0 v4" stroke="#fff" stroke-width="2" fill="none"/></g>`:''}
  ${d?`<circle cx="${x-38}" cy="${y-74}" r="13" fill="#fff" stroke="#c0603f" stroke-width="2"/><text x="${x-38}" y="${y-70}" text-anchor="middle" font-size="11" fill="#c0603f" font-weight="800">破案</text>`:''}
  <rect class="tagbg" x="${x-58}" y="${y+44}" width="116" height="24" rx="12" fill="#fff" opacity=".92"/>
@@ -616,8 +616,8 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看看案件、玩下面的小遊戲，全部答對就能破案。破案後再領登船通行碼，繼續到下一座島！'):''}
  <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
  <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
- <details><summary>看劇情</summary>${e.shots.map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
- <p style="color:#5f7680">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener">看 FB 原文影片</a>`:'影片連結：準備中'}　<a href="scripts.html#${s.id}" target="_blank" rel="noopener">📝 看短影音腳本</a></p></div>`).join('')}</div>
+ <details><summary>看劇情</summary>${e.shots.filter(x=>!/留言/.test(x[1])).map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
+ ${e.link?`<p style="color:#5f7680"><a href="${esc(e.link)}" target="_blank" rel="noopener">▶ 看影片</a></p>`:''}</div>`).join('')}</div>
  <div class="game" id="game"></div>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
