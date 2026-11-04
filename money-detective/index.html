@@ -612,7 +612,7 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
  <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
  <details><summary>看劇情</summary>${e.shots.map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
- <p style="color:#5f7680">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener">看 FB 原文影片</a>`:'影片連結：準備中'}</p></div>`).join('')}</div>
+ <p style="color:#5f7680">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener">看 FB 原文影片</a>`:'影片連結：準備中'}　<a href="scripts.html#${s.id}" target="_blank" rel="noopener">📝 看短影音腳本</a></p></div>`).join('')}</div>
  <div class="game" id="game"></div>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
