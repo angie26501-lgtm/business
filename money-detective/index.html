@@ -183,6 +183,14 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .crow{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--line);padding:8px 0;font-size:14px}
 .crow button{border:0;background:none;color:#c0603f;cursor:pointer;font:inherit}
 .supall .isl{margin:10px 0 4px;font-weight:800}
+
+.nx{position:fixed;left:14px;bottom:64px;z-index:56;width:290px;max-width:calc(100vw - 28px);background:#1f3a44;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.25);font-size:14px;line-height:1.6}
+.nx .h{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px}.nx .h button{border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:8px;width:26px;height:26px;cursor:pointer}
+.nx .go{display:inline-block;margin-top:6px;border:0;background:#f3c66b;color:#1f3a44;font:inherit;font-weight:800;border-radius:16px;padding:5px 12px;cursor:pointer}
+.nx .sub{font-size:12px;opacity:.85;margin-top:4px}.nx .sub a{color:#ffe7a8;cursor:pointer;text-decoration:underline}
+.nx.min{width:auto;padding:6px 12px;cursor:pointer}.nx.min .bd{display:none}.nx.min .h{margin:0}.nx.min .h button{display:none}
+.nx.pulse{animation:nxp .8s}@keyframes nxp{50%{transform:scale(1.05)}}
+@media(max-width:720px){.nx{bottom:118px}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -468,6 +476,7 @@ function guardPin(){return `<g class="isle" id="gdPin" tabindex="0" role="button
 const SVC_PAGE='https://angie26501-lgtm.github.io/private/course/service.html';
 const ORDER_LINE='https://lin.ee/oOvyuwU';
 const SVC={
+ abc:{n:'ABC 帳戶試算（網頁版）',p:0,pt:'免費',u:'631 法則 × ABC 三帳戶',fit:'想把每月收入分成 A 生活、B 年度、C 夢想三個帳戶',inc:['先填收入，631 幫你抓好目標','先付給自己（C 夢想），再排 A、B，一眼看懂有沒有收支有餘'],free:1,url:'https://angie26501-lgtm.github.io/business/payyourself.html',ul:'打開 ABC 試算'},
  lazy:{n:'保單自己盤點懶人包',p:990,pt:'990 元',u:'個人／家庭同價',fit:'想先自己動手，看清楚家裡有哪些保單',inc:['Excel 保單整理表、自我檢核小工具','到期與繳費日曆、看懂保單 5 重點','30 天內升級其他方案，可折抵 990 元']},
  consult:{n:'預約諮詢 30 分鐘',p:2000,pt:'2,000 元',u:'',fit:'不知道從哪裡開始，想先聊聊',inc:['說說你的狀況，芸琪幫你看適合從哪一步開始','30 天內購買「保單現況盤點」以上方案，可全額折抵']},
  camp3:{n:'三日營｜人生下半場財務覺醒',p:0,pt:'免費',u:'',fit:'想先輕鬆體驗，跟大家一起起步',inc:['三天圖文任務，在共學圈一起完成','不用公開任何財務數字'],free:1,url:'https://angie26501-lgtm.github.io/business/quiz/guide.html',ul:'免費報名'},
@@ -482,7 +491,7 @@ const SVC={
  care:{n:'安心樂活規劃（退休與安養）',p:0,pt:'依需求另外報價',u:'',fit:'開始想退休後的生活與照護安排',inc:['安養財務評估、照護費用估算','意定監護、安養信託：協助媒合專業窗口']},
  legacy:{n:'財富傳承規劃',p:0,pt:'依需求另外報價',u:'',fit:'想把資產和心意好好交到家人手上',inc:['傳承深度會談、家族繼承系統表','遺贈稅試算、信託、遺囑：協助媒合專業窗口']}
 };
-const SUP={S1:['lazy','consult'],S2:['camp3','gs'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['camp5','coach','plan'],S7:['annual','coach','report'],S8:['legacy','care','annual']};
+const SUP={S1:['lazy','consult'],S2:['camp3','gs'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['abc','camp5','coach','plan'],S7:['abc','annual','coach','report'],S8:['legacy','care','annual']};
 const SUP_SAY={S1:'多多：霧裡看不清？先拿一份地圖，或找芸琪聊 30 分鐘！',S2:'小綠芽：第一步免費，跟大家一起出發最安心！',S3:'小綠芽：讓燈塔每天亮一次，綠芽幫你記得看帳。',S4:'多多：想知道自己是哪一型體質？先免費測一次！',S5:'胖胖幣：門後面是全家的財務地圖，一起打開吧！',S6:'多多：五天掌舵，之後有人陪跑，比較不會迷航！',S7:'小綠芽：遠洋航行最需要的，是一整年都有人在。',S8:'胖胖幣：傳承不是有錢人的事，是愛家人的事。'};
 let cart={};try{cart=JSON.parse(localStorage.getItem('hanji_cart')||'{}')||{}}catch(e){cart={}}
 const cartSave=()=>{try{localStorage.setItem('hanji_cart',JSON.stringify(cart))}catch(e){}cartBtn()};
@@ -557,6 +566,27 @@ function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
  g.onclick=()=>{const n=root.querySelector('#certNick').value.trim();if(!n){root.querySelector('#certFb').textContent='請輸入證書上的名字。';return}root.querySelector('#certFb').textContent='';
   const d=new Date();if(!cert)cert={no:certNo(),date:d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()};cert.nick=n;try{localStorage.setItem('hanji_cert',JSON.stringify(cert))}catch(e){}show()};
  if(cert&&cert.nick)show()}
+
+// ===== 浮動「下一步」引導框 =====
+let nxMin=false;try{nxMin=localStorage.getItem('hanji_nx')==='1'}catch(e){}
+function nxStep(){const cur=window.__cur,v=window.__v||'map',gameGo=()=>{const g=$('#game');if(g)g.scrollIntoView({behavior:'smooth',block:'start'})};
+ if(!st.done.S1)return cur==='S1'&&v==='map'?{t:'往下滑，玩「症狀偵查」小遊戲，全部答對就破案！不用填任何資料。',b:'到小遊戲 ↓',f:gameGo}:{t:'先到第 1 站「迷霧港」免費試玩，看看自己有沒有財務亞健康。',b:'前往迷霧港',f:()=>{view('map');openSt('S1')}};
+ if(!hasPass())return {t:'迷霧港破案了！填 1 分鐘的登島問卷，領登船通行碼，繼續到初航島。',b:'領登船通行碼',f:()=>{view('map');gate(ST[1])}};
+ const i=ST.findIndex(x=>!st.done[x.id]);
+ if(i<0)return {t:'八座島都破案了，你是傳承者！看看航程補給站，或到守護灣找芸琪。',b:'看航程補給站',f:()=>view('supply')};
+ const nx=ST[i];
+ if(cur===nx.id&&v==='map')return {t:`你在 ${i+1}. ${nx.island}：先看上面的案件，再往下玩驗收小遊戲，破案就能前往下一站。`,b:'到小遊戲 ↓',f:gameGo};
+ return {t:`下一站：${i+1}. ${nx.island}｜${nx.theme}`,b:`前往${nx.island}`,f:()=>{view('map');openSt(nx.id)}}}
+function nxUpdate(){let b=$('#nxBox');if(!b){b=document.createElement('div');b.id='nxBox';b.className='nx';document.body.appendChild(b)}
+ const x=nxStep(),c3=CAMPS.c3,c5=CAMPS.c5;let sub='';
+ if(st.done.S1&&hasCode('c3')&&cCount(c3)<c3.days.length)sub=`三日營任務 ${cCount(c3)} / ${c3.days.length} 天　<a data-nx="c3">繼續 →</a>`;
+ else if(hasCode('c5')&&cCount(c5)<c5.days.length)sub=`五日營任務 ${cCount(c5)} / ${c5.days.length} 天　<a data-nx="c5">繼續 →</a>`;
+ const old=b.dataset.t;b.dataset.t=x.t;
+ b.innerHTML=`<div class="h"><span>🧭 下一步</span><button type="button" id="nxMin" aria-label="收合">－</button></div><div class="bd"><div>${esc(x.t)}</div><button type="button" class="go" id="nxGo">${esc(x.b)}</button>${sub?`<div class="sub">${sub}</div>`:''}</div>`;
+ b.classList.toggle('min',nxMin);if(old&&old!==x.t){b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse')}
+ $('#nxGo').onclick=x.f;$('#nxMin').onclick=e=>{e.stopPropagation();nxMin=true;try{localStorage.setItem('hanji_nx','1')}catch(e){}nxUpdate()};
+ b.onclick=()=>{if(nxMin){nxMin=false;try{localStorage.setItem('hanji_nx','0')}catch(e){}nxUpdate()}};
+ b.querySelectorAll('[data-nx]').forEach(a=>a.onclick=e=>{e.stopPropagation();campSel=a.dataset.nx;view('camp');$('#tabs').scrollIntoView({behavior:'smooth'})})}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  document.querySelectorAll('#mapbox .isle:not(#gdPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
@@ -564,9 +594,9 @@ function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.togg
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
  $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
- if($('#campTip'))$('#campTip').textContent=`三日營 ${cCount(CAMPS.c3)}/3 天・五日營 ${cCount(CAMPS.c5)}/5 天`;const nx=ST.find(s=>!st.done[s.id]);$('#nextTip').textContent=nx?`下一站：${nx.island}`:'全部破案，恭喜成為傳承者！';}
+ if($('#campTip'))$('#campTip').textContent=`三日營 ${cCount(CAMPS.c3)}/3 天・五日營 ${cCount(CAMPS.c5)}/5 天`;const nx=ST.find(s=>!st.done[s.id]);$('#nextTip').textContent=nx?`下一站：${nx.island}`:'全部破案，恭喜成為傳承者！';if(window.nxUpdate)setTimeout(nxUpdate,0);}
 
-function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];
+function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
  if(!hasPass()&&id!=='S1'){gate(s,noScroll);return}
@@ -642,25 +672,33 @@ function lockedIsle(s,i,noScroll){const pv=ST[i-1];$('#detail').innerHTML=`<div 
  ${duoSay(`等等！船長，這座島的「登島通行碼」藏在上一站 <b>${esc(pv.island)}</b>。先去那裡破案、完成驗收小遊戲，通行碼就會自動收進你的航海日誌！`)}
  <button class="btn pri" id="goPrev">前往 ${esc(pv.island)} 領通行碼</button></div>`;
  $('#goPrev').onclick=()=>openSt(pv.id);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
-function game(s){const g=GAMES[s.id],box=$('#game');
- if(g.type==='quiz'){let right=0,ans=0;const qs=shuffle(g.qs);
-  box.innerHTML=head(s,g)+qs.map((q,k)=>`<div style="margin-top:10px"><b>Q${k+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="opt" data-k="${k}" data-j="${j}">${esc(a)}</button>`).join('')}<div class="fb" id="w${k}"></div></div>`).join('')+foot();
+let GM={};try{GM=JSON.parse(localStorage.getItem('hanji_gm')||'{}')||{}}catch(e){GM={}}
+const gmSave=()=>{try{localStorage.setItem('hanji_gm',JSON.stringify(GM))}catch(e){}};
+function game(s){const g=GAMES[s.id],box=$('#game');const m=GM[s.id]=GM[s.id]||{q:{},s:{},o:0};
+ const memo=()=>{const n=g.type==='quiz'?Object.keys(m.q).length:g.type==='sort'?Object.keys(m.s).length:m.o;const N=g.type==='quiz'?g.qs.length:g.type==='sort'?g.items.length:g.steps.length;
+  return n?`<div style="font-size:13px;background:#eef7f3;border-radius:10px;padding:6px 10px;margin:6px 0">💾 作答進度已自動記住：${n} / ${N}${st.done[s.id]?'（已破案）':'，下次回來可以接著玩'}</div>`:''};
+ if(g.type==='quiz'){let ans=0;const qs=shuffle(g.qs);
+  box.innerHTML=head(s,g)+memo()+qs.map((q,k)=>`<div style="margin-top:10px"><b>Q${k+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="opt" data-k="${k}" data-j="${j}">${esc(a)}</button>`).join('')}<div class="fb" id="w${k}"></div></div>`).join('')+foot();
+  qs.forEach((q,k)=>{if(m.q[q.q]){const b=box.querySelector(`.opt[data-k="${k}"][data-j="${q.c}"]`);b.classList.add('ok');$('#w'+k).textContent='答對！'+q.why;ans++}});
   box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const k=+b.dataset.k,j=+b.dataset.j,q=qs[k];
    if(box.querySelector(`.opt[data-k="${k}"].ok`))return;
-   if(j===q.c){b.classList.add('ok');$('#w'+k).textContent='答對！'+q.why;ans++;if(ans===qs.length)win(s)}
+   if(j===q.c){b.classList.add('ok');$('#w'+k).textContent='答對！'+q.why;ans++;m.q[q.q]=1;gmSave();if(ans===qs.length&&!st.done[s.id])win(s)}
    else{b.classList.add('no');$('#w'+k).textContent='再想想：'+q.why}})}
  if(g.type==='sort'){const items=shuffle(g.items);let sel=null,ok=0;
-  box.innerHTML=head(s,g)+`<p style="font-size:14px">先點一個項目，再點它該去的地方。</p><div id="pool">${items.map((it,k)=>`<span class="item" data-k="${k}">${esc(it[0])}</span>`).join('')}</div><div class="bins">${g.bins.map((b,j)=>`<div class="bin" data-j="${j}"><b>${esc(b)}</b></div>`).join('')}</div>`+foot();
+  box.innerHTML=head(s,g)+memo()+`<p style="font-size:14px">先點一個項目，再點它該去的地方。</p><div id="pool">${items.map((it,k)=>`<span class="item" data-k="${k}">${esc(it[0])}</span>`).join('')}</div><div class="bins">${g.bins.map((b,j)=>`<div class="bin" data-j="${j}"><b>${esc(b)}</b></div>`).join('')}</div>`+foot();
+  items.forEach((it,k)=>{if(m.s[it[0]]){const e=box.querySelector(`.item[data-k="${k}"]`);e.classList.add('ok');box.querySelector(`.bin[data-j="${it[1]}"]`).appendChild(e);ok++}});
   box.querySelectorAll('.item').forEach(e=>e.onclick=()=>{if(e.classList.contains('ok'))return;box.querySelectorAll('.item').forEach(x=>x.classList.remove('sel'));e.classList.add('sel');sel=e});
   box.querySelectorAll('.bin').forEach(bn=>bn.onclick=()=>{if(!sel)return;const it=items[+sel.dataset.k];
-   if(it[1]===+bn.dataset.j){sel.classList.remove('sel','no');sel.classList.add('ok');bn.appendChild(sel);ok++;$('#fb').textContent='放對了！';sel=null;if(ok===items.length)win(s)}
+   if(it[1]===+bn.dataset.j){sel.classList.remove('sel','no');sel.classList.add('ok');bn.appendChild(sel);ok++;m.s[it[0]]=1;gmSave();$('#fb').textContent='放對了！';sel=null;if(ok===items.length&&!st.done[s.id])win(s)}
    else{sel.classList.add('no');$('#fb').textContent='這個不屬於「'+g.bins[+bn.dataset.j]+'」，再試一次。'}})}
  if(g.type==='order'){const sh=shuffle(g.steps);let n=0;
-  box.innerHTML=head(s,g)+`<p style="font-size:14px">依 Day1 → Day5 的順序點選。</p><div>${sh.map(t=>`<span class="item" data-t="${esc(t)}">${esc(t)}</span>`).join('')}</div><ol id="ord" style="font-size:14px"></ol>`+foot();
+  box.innerHTML=head(s,g)+memo()+`<p style="font-size:14px">依 Day1 → Day5 的順序點選。</p><div>${sh.map(t=>`<span class="item" data-t="${esc(t)}">${esc(t)}</span>`).join('')}</div><ol id="ord" style="font-size:14px"></ol>`+foot();
+  const add=()=>{box.querySelector(`.item[data-t="${CSS.escape(g.steps[n])}"]`).classList.add('ok');$('#ord').insertAdjacentHTML('beforeend',`<li>Day${n+1} ${esc(g.steps[n])}</li>`);n++};
+  while(n<Math.min(m.o||0,g.steps.length))add();
   box.querySelectorAll('.item').forEach(e=>e.onclick=()=>{if(e.classList.contains('ok'))return;
-   if(e.dataset.t===g.steps[n]){e.classList.add('ok');$('#ord').insertAdjacentHTML('beforeend',`<li>Day${n+1} ${esc(g.steps[n])}</li>`);n++;$('#fb').textContent='正確！';if(n===g.steps.length)win(s)}
+   if(e.dataset.t===g.steps[n]){add();m.o=n;gmSave();$('#fb').textContent='正確！';if(n===g.steps.length&&!st.done[s.id])win(s)}
    else{e.classList.add('no');setTimeout(()=>e.classList.remove('no'),600);$('#fb').textContent='順序不對喔，Day'+(n+1)+' 應該先做什麼？'}})}
- $('#reset').onclick=()=>game(s);
+ $('#reset').onclick=()=>{GM[s.id]={q:{},s:{},o:0};gmSave();game(s);toast('已重新整理，可以重玩一次')};
  ['copy','cut','paste','contextmenu','selectstart','dragstart'].forEach(ev=>box.addEventListener(ev,e=>e.preventDefault()))}
 
 function renderTour(){let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
@@ -734,7 +772,7 @@ function renderCamp(){
  V.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{const v=b.dataset.copy;copyText(v==='b'?B.r:D[+v].r,'回報句已複製，貼到 LINE 群組再填空就好')});
  $('#cpIsle').onclick=()=>{view('map');openSt(C.isle)};
  $('#cpClr').onclick=()=>{Object.keys(cp).forEach(k=>{if(k.startsWith(C.pre)&&/_\d+$/.test(k)||k===bk)delete cp[k]});cpSave();campSync(true);renderCamp();renderMap();toast(C.name+'進度已清除')}}
-function view(v){document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+function view(v){window.__v=v;setTimeout(nxUpdate,0);document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
@@ -746,7 +784,7 @@ setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.disp
 $('#shareTop').onclick=()=>copyLink('');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='SUPPLY'){view('supply');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
-addEventListener('hashchange',fromHash);fromHash();cartBtn();
+addEventListener('hashchange',fromHash);fromHash();cartBtn();nxUpdate();
 (function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:innerWidth<700};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
