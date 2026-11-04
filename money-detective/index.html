@@ -242,7 +242,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
  <div class="gp-b" id="gpB">
  <ol>
- <li><b>領登船通行碼</b>：點任一座島，填好「登島問卷」送出，就能拿到通行碼。</li>
+ <li><b>先免費試玩</b>：迷霧港不用填資料，看案件、玩小遊戲；破案後填「登島問卷」，就能拿到登船通行碼，繼續到下一座島。</li>
  <li><b>從迷霧港出發</b>：島嶼要依序解鎖，第 1 站是迷霧港。</li>
  <li><b>看案件</b>：每座島有 3～5 個財商案件，點「看劇情」可以看完整故事。</li>
  <li><b>玩驗收小遊戲</b>：全部答對就能蓋「破案」章，並拿到下一島的通行碼。</li>
@@ -521,10 +521,46 @@ function cartOpen(){let m=$('#cartM');if(!m){m=document.createElement('div');m.i
  m.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{delete cart[b.dataset.rm];cartSave();cartOpen();document.querySelectorAll(`[data-sv="${b.dataset.rm}"]`).forEach(x=>{x.classList.remove('in');x.textContent='＋ 加入補給清單'})});
  if($('#cGo'))$('#cGo').onclick=()=>{const n=$('#cNick').value.trim();if(!n){$('#cFb').textContent='請填你的稱呼。';return}$('#cFb').textContent='';
   copyText(cartText(n,$('#cWhen').value,$('#cMsg').value.trim()),'清單已複製，到 LINE 貼上送出就完成了');setTimeout(()=>window.open(ORDER_LINE,'_blank','noopener'),600)}}
+
+// ===== 家庭財務長結業證書（有編號，可對應五日營名單） =====
+let cert=null;try{cert=JSON.parse(localStorage.getItem('hanji_cert')||'null')}catch(e){cert=null}
+const certOk=()=>cCount(CAMPS.c5)===CAMPS.c5.days.length&&!!st.done.S6;
+function certNo(){const d=new Date(),ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+ let suf='';if(cme&&cme.qid)suf='Q'+String(cme.qid).replace(/[^0-9A-Za-z]/g,'');else{const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(let i=0;i<4;i++)suf+=A[Math.floor(Math.random()*A.length)]}
+ return 'FCFO-'+ymd+'-'+suf}
+function certBlock(){const n5=cCount(CAMPS.c5),N=CAMPS.c5.days.length;
+ if(!certOk())return `<div class="sup" style="border-color:#d9a441"><h3>🎓 家庭財務長結業證書</h3><p class="sub">完成五日營 5 天任務＋掌舵島小遊戲破案，就能領一張有編號的結業證書。<br>目前：五日營 ${n5} / ${N} 天・掌舵島 ${st.done.S6?'已破案 ✅':'還沒破案'}</p></div>`;
+ const nick=(cert&&cert.nick)||(cme&&cme.nick)||gw.nick||'';
+ return `<div class="sup" style="border-color:#d9a441;background:#fffbea" id="certBox"><h3>🎓 恭喜！你可以領「家庭財務長結業證書」了</h3>
+ <p class="sub">輸入要印在證書上的名字，按「產生證書」。證書編號會記在這台裝置，之後再打開也是同一個號碼。</p>
+ <div style="display:flex;gap:6px;flex-wrap:wrap"><input id="certNick" maxlength="12" value="${esc(nick)}" placeholder="證書上的名字" style="flex:1;min-width:160px;padding:8px;border:1px solid var(--line);border-radius:10px;font:inherit"><button class="btn pri" id="certGo" type="button">產生證書</button></div>
+ <div class="fb" id="certFb" style="color:#c0603f"></div><div id="certOut"></div></div>`}
+function drawCert(nick,no,date){const W=1600,H=1100,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+ x.fillStyle='#fffaf0';x.fillRect(0,0,W,H);x.strokeStyle='#d9a441';x.lineWidth=14;x.strokeRect(40,40,W-80,H-80);x.lineWidth=3;x.strokeRect(70,70,W-140,H-140);
+ x.fillStyle='#2f7f6b';x.beginPath();x.arc(W/2,190,62,0,Math.PI*2);x.fill();x.fillStyle='#fff';x.font='bold 64px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('☸',W/2,192);
+ x.textBaseline='alphabetic';x.fillStyle='#1f3a44';x.font='bold 84px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('家庭財務長結業證書',W/2,350);
+ x.font='34px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#7a5230';x.fillText('金錢整理五日實踐營｜人生金錢偵探社・財富航海群島',W/2,415);
+ x.fillStyle='#1f3a44';x.font='bold 96px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText(nick,W/2,555);x.fillStyle='#d9a441';x.fillRect(W/2-320,580,640,4);
+ x.fillStyle='#1f3a44';x.font='36px "Noto Sans TC","Microsoft JhengHei",sans-serif';
+ ['完成金錢整理五日實踐營全部任務與掌舵島驗收，','能整理收支與家底、為每一筆錢排出順序，','並訂下 90 天的三項行動，特頒此證。'].forEach((t,i)=>x.fillText(t,W/2,660+i*58));
+ x.font='30px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#5f7680';x.textAlign='left';x.fillText('證書編號：'+no,140,930);x.fillText('頒發日期：'+date,140,980);
+ x.textAlign='right';x.fillStyle='#1f3a44';x.font='bold 34px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('財顧芸 陳芸琪',W-140,930);x.font='28px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#5f7680';x.fillText('家族傳承生活顧問',W-140,975);
+ x.textAlign='center';x.fillStyle='#2f7f6b';x.font='26px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。',W/2,1035);
+ return new Promise(r=>{const im=new Image();im.onload=()=>{x.save();x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.clip();x.drawImage(im,W-315,115,170,170);x.restore();x.strokeStyle='#d9a441';x.lineWidth=6;x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.stroke();r(c)};im.onerror=()=>r(c);im.src='img/duo.jpg'})}
+function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
+ const show=async()=>{const c=await drawCert(cert.nick,cert.no,cert.date);const u=c.toDataURL('image/jpeg',.9);
+  root.querySelector('#certOut').innerHTML=`<img src="${u}" alt="家庭財務長結業證書" style="width:100%;border-radius:10px;margin-top:10px;border:1px solid var(--line)">
+  <div style="font-size:14px;margin:6px 0">證書編號：<b>${esc(cert.no)}</b></div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap"><a class="btn pri" href="${u}" download="家庭財務長結業證書_${esc(cert.no)}.jpg">下載證書圖片</a><button class="btn" id="certReg" type="button">複製登記訊息，傳給芸琪</button></div>
+  <p class="sub" style="margin-top:6px">手機若無法下載，長按證書圖片就能儲存。傳登記訊息給芸琪，芸琪會對照五日營名單幫你登記。</p>`;
+  root.querySelector('#certReg').onclick=()=>copyText(`芸琪您好，我完成金錢整理五日實踐營了！\n結業證書編號：${cert.no}\n證書名字：${cert.nick}${cme&&cme.qid?'\n夥伴編號：'+cme.qid:''}${cme&&cme.nick&&cme.nick!==cert.nick?'\n群組暱稱：'+cme.nick:''}\n頒發日期：${cert.date}`,'登記訊息已複製，貼到 LINE 傳給芸琪就完成了')};
+ g.onclick=()=>{const n=root.querySelector('#certNick').value.trim();if(!n){root.querySelector('#certFb').textContent='請輸入證書上的名字。';return}root.querySelector('#certFb').textContent='';
+  const d=new Date();if(!cert)cert={no:certNo(),date:d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()};cert.nick=n;try{localStorage.setItem('hanji_cert',JSON.stringify(cert))}catch(e){}show()};
+ if(cert&&cert.nick)show()}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  document.querySelectorAll('#mapbox .isle:not(#gdPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
- $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：點任一座島領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
+ $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
  $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
@@ -533,7 +569,7 @@ function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.togg
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
- if(!hasPass()){gate(s,noScroll);return}
+ if(!hasPass()&&id!=='S1'){gate(s,noScroll);return}
  if(!unlocked(i)){lockedIsle(s,i,noScroll);return}
  $('#detail').innerHTML=`<div class="panel" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖" loading="lazy"></div>`:''}
@@ -541,6 +577,8 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <span class="chip">船員等級：${esc(s.rank)}</span>${s.url?`<a class="chip golink" href="${esc(s.url)}" target="_blank" rel="noopener">想更進一步：${esc(s.service)} →</a>`:`<span class="chip">想更進一步：${esc(s.service)}</span>`}<span class="chip">${s.eps.length} 案</span></div>
  <div><button class="btn" id="shareSt">分享這一島</button></div></div>
  ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3'):''}
+ ${s.id==='S6'?certBlock():''}
+ ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看看案件、玩下面的小遊戲，全部答對就能破案。破案後再領登船通行碼，繼續到下一座島！'):''}
  <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
  <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
  <details><summary>看劇情</summary>${e.shots.map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
@@ -548,7 +586,7 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="game" id="game"></div>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- $('#shareSt').onclick=()=>copyLink(id.toLowerCase());bindCampBtn($('#detail'));bindSup($('#detail'));
+ $('#shareSt').onclick=()=>copyLink(id.toLowerCase());bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -557,6 +595,7 @@ function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style=
 function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
 function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
  const i=ST.indexOf(s),nx=ST[i+1];
+ if(!hasPass()&&nx){$('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，你已經是<b>${rank()}</b>了！<div class="ticket"><div class="tk-l">下一步</div><div style="font-size:14px">多多：「想繼續到 ${esc(nx.island)} 嗎？填一份 1 分鐘的登島問卷，就能拿到登船通行碼，這台裝置會記住 30 天。」</div><button class="btn pri" id="goGate">領登船通行碼，繼續航行 →</button></div>`;$('#goGate').onclick=()=>gate(nx);return}
  $('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，目前等級：<b>${rank()}</b>。`+(nx?`<div class="ticket"><div class="tk-l">登島通行碼</div><div class="tk-c">${esc(islandCode(i+1))}</div><div style="font-size:13px">多多：「通行碼已自動收進你的航海日誌，下一站 ${esc(nx.island)} 解鎖了！」</div><button class="btn pri" id="goNext">登上 ${esc(nx.island)} →</button></div>`:`<div class="ticket"><div class="tk-l">全島破案</div><div class="tk-c">家庭財務長・傳承者</div><div style="font-size:13px">Angie：「恭喜你走完整趟航程！留言「破案」，我陪你規劃下一段人生航線。」</div></div>`);
  if(nx)$('#goNext').onclick=()=>openSt(nx.id)}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
@@ -564,6 +603,7 @@ function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style=
  ${IMGS[s.id]?`<div class="simg" style="filter:saturate(.6)"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖"></div>`:''}
  <h2 style="margin:0 0 8px">⚓ 登島前，先領「登船通行碼」</h2>
  ${duoSay(`多多來了！船員請注意～ <b>${esc(s.island)}</b> 就在前面，但偵探社的島嶼只讓「有通行碼」的船員登島喔！只要填好下面這份「登島問卷」，送出後就能拿到！`)}
+ ${!st.done.S1&&s.id!=='S1'?`<div style="margin:0 0 10px"><button class="btn" id="g_try" type="button">還沒準備好？先到迷霧港免費試玩 →</button></div>`:''}
  <div id="g_sv" class="svbox">
  <p style="margin:4px 0 8px">回答 3 個小問題，送出後畫面會直接顯示你的登船通行碼。</p>
  <label class="fl">暱稱 <i>*</i></label><input id="s_nick" maxlength="20" placeholder="大家怎麼稱呼你">
@@ -576,6 +616,7 @@ function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style=
  <div class="fb" id="sfb"></div></div>
  <div style="font-size:13px;color:#5f7680;margin-top:6px">登島一次，這台裝置會記住 30 天。還沒登島前，也可以先逛：</div>
  <div class="gmenu"><button class="btn" data-v="tour">多多導覽</button><button class="btn" data-v="index">案件索引</button><button class="btn" data-v="voyage">我的航程</button><button class="btn" data-v="camp">營隊任務</button></div></div>`;
+ if($('#g_try'))$('#g_try').onclick=()=>openSt('S1');
  const sv=$('#g_sv');['copy','cut','paste','contextmenu','dragstart','drop'].forEach(ev=>sv.addEventListener(ev,e=>e.preventDefault()));
  sv.querySelectorAll('input').forEach(x=>x.addEventListener('input',()=>$('#sfb').textContent=''));
  $('#s_reset').onclick=()=>{sv.querySelectorAll('input[type=text],input:not([type])').forEach(x=>x.value='');sv.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(x=>x.checked=false);$('#sfb').textContent=''};
@@ -657,6 +698,7 @@ function renderCamp(){
  <div class="campnote">${C.note}</div>
  ${campMeBar()}
  <div class="campmotto"><span>✨ 不比較</span><span>✨ 不求完美</span><span>✨ 願意行動</span></div>
+ ${all&&C.key==='c5'?certBlock():''}
  ${duoSay(all?C.grad:`每完成一項就打勾，三項都勾完，這一天就完成，下一天的任務才會出現喔！還沒做完的不用急，慢慢補就好。`)}
  <div class="days">${D.map((c,k)=>{const ok=dDone(C,k),ok2=C.key+k;
   if(k>0&&!dDone(C,k-1)){if(k>1&&!dDone(C,k-2))return '';const left=N-k;return `<div class="day lock"><div class="dayh"><b>🔒 下一關｜${esc(c.d)}</b></div><div class="days-s">完成 ${esc(D[k-1].d)} 的三項任務後才會解鎖${left>1?`，後面還有 ${left} 天的任務`:''}。</div><button class="btn" data-goday="${k-1}">回到 ${esc(D[k-1].d)} →</button></div>`}
@@ -677,7 +719,7 @@ function renderCamp(){
   <div class="dayb">${linkBtn(B.url,B.ul)}${B.r&&C.copy?'<button class="btn" data-copy="b">複製回報句</button>':''}${cp[bk]?`<button class="btn" data-fold="${ob}">收合 ▲</button>`:''}</div></div>`}</div>
  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn pri" id="cpIsle">前往${C.isleName.replace(/^\d+\.\s*/,'')}看案件</button><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">營隊複習闖關</a><button class="btn" id="cpClr">清除${C.name}進度</button></div>
  <p style="font-size:13px;color:#5f7680">任務進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p>`;
- const V=$('#vCamp');
+ const V=$('#vCamp');bindCert(V);
  V.querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{campSel=b.dataset.sw;renderCamp()});
  if($('#cpMeX'))$('#cpMeX').onclick=()=>{cme=null;try{localStorage.removeItem('hanji_camp5_me')}catch(e){}renderCamp()};
  if($('#cpMeGo'))$('#cpMeGo').onclick=()=>{const nk=$('#cpNick').value.trim(),tl=$('#cpTail').value.trim(),f=$('#cpMeFb');f.style.color='#c0603f';
