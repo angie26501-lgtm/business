@@ -19,6 +19,7 @@ details{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0}summar
 .ck label{display:block;font-size:16px;margin:4px 0}.ck input{width:18px;height:18px;vertical-align:-3px;margin-right:6px}
 .res{background:#eef7e8;border:2px solid #4f7a4a;border-radius:16px;padding:14px;margin-top:10px;text-align:center}
 .res .cd{font-size:36px;font-weight:900;letter-spacing:6px;color:#c25a6b;font-family:monospace}
+.cintro{margin:0 0 8px 26px;font-size:14px;color:#4a5a40}.cintro summary{cursor:pointer;color:#2f7f6b;font-weight:700}.cintro div{background:#f6faf2;border-radius:10px;padding:8px 10px;margin-top:4px;line-height:1.7}.cintro ul{margin:4px 0 6px 18px;padding:0}
 </style></head><body><div class="wrap">
 <div class="hero"><div style="font-size:15px">🌱 金錢好生活｜芸琪共學圈</div><h1>複習闖關賺積分<br>使用說明</h1>
 <div>邊複習、邊答題、邊累積積分，<b>積分可以兌換抽獎活動贈品</b> 🎁<br>跟著下面 6 步，3 分鐘就上手！</div></div>
@@ -33,7 +34,7 @@ details{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0}summar
 <label class="fl">群組暱稱 <i>*</i></label><input id="f_nick" maxlength="20" placeholder="跟社群裡的名字一樣">
 <label class="fl">LINE 名稱 <i>*</i></label><input id="f_line" maxlength="30" placeholder="芸琪才找得到你">
 <label class="fl">參加的營隊 <i>*</i></label>
-<div class="ck"><label><input type="checkbox" id="f_c3"> 🎯 三日營（金錢好生活共學圈）｜免費</label><label><input type="checkbox" id="f_c5" onchange="document.getElementById('obox').style.display=this.checked?'block':'none'"> 🌱 五日營（金錢整理五日實踐營）｜付費</label></div>
+<div class="ck"><label><input type="checkbox" id="f_c3"> 🎯 三日營（金錢好生活共學圈）｜免費</label><details class="cintro"><summary>👀 看三日營介紹</summary><div><b>三日營｜人生下半場財務覺醒</b>（免費・在「金錢好生活・芸琪共學圈」進行）<br>每天看一則圖文分享，在群組回覆、完成小任務，不用公開任何財務數字。<ul><li>DAY1｜人生下半場的一個詞：寫下最擔心的三項未來支出</li><li>DAY2｜家人接得住嗎？看見全貌、建立結構、讓家人接得住</li><li>DAY3｜有資產就健康嗎？收入、支出、資產、負債一次看清楚</li><li>三天都完成，打開 DAY4 學習包</li></ul><a href="https://angie26501-lgtm.github.io/business/money-detective/#s2" target="_blank" rel="noopener">到財富航海群島「初航島」看三日營案件 →</a></div></details><label><input type="checkbox" id="f_c5" onchange="document.getElementById('obox').style.display=this.checked?'block':'none'"> 🌱 五日營（金錢整理五日實踐營）｜付費</label><details class="cintro"><summary>👀 看五日營介紹</summary><div><b>五日營｜金錢整理五日實踐營</b>（購買綠芽財務管理系統贈送的課程）<br>五天跟著做，用綠芽把自己的財務整理清楚：<ul><li>Day1｜錢從哪裡來、往哪裡去（收入與支出）</li><li>Day2｜我的財務家底（資產與負債）</li><li>Day3｜財務體質大解密（流量與存量）</li><li>Day4｜幫每一塊錢排順序（ABC 帳戶）</li><li>Day5｜我的 90 天掌舵計畫</li></ul>完成五天任務，可以領有編號的「家庭財務長結業證書」。<br><a href="https://angie26501-lgtm.github.io/business/greensprout/" target="_blank" rel="noopener">認識綠芽財務管理系統 →</a>　<a href="https://angie26501-lgtm.github.io/business/greensprout/how-to-buy.html" target="_blank" rel="noopener">綠芽訂購教學 →</a></div></details></div>
 <div id="obox" style="display:none"><label class="fl">綠芽訂單編號 <i>*</i></label><input id="f_order" maxlength="40" autocomplete="off" placeholder="購買綠芽後收到的訂單編號"><div style="font-size:13px;color:#8a9a80">五日營是購買綠芽財務管理系統的贈送課程，請填你的綠芽訂單編號才能開通。</div></div>
 <label class="fl">手機末 3 碼 <i>*</i></label><input id="f_tail" inputmode="numeric" maxlength="3" placeholder="忘記通行碼時，用來幫你找回">
 <label class="fl">想透過複習闖關學到什麼？（選填）</label><input id="f_wish" maxlength="100" placeholder="例如：把記帳習慣養起來">
