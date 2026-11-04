@@ -163,6 +163,26 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .gd-say{font-size:13px;background:#f4efe4;border-radius:10px;padding:6px 8px}
 .gd-cta{display:inline-block;background:#06c755;color:#fff;border-radius:22px;padding:10px 18px;font-weight:800;text-decoration:none;margin-top:6px}
 .gd-cta.sm{padding:6px 12px;font-size:14px;font-weight:700;align-self:flex-start;margin-top:auto}
+
+/* 航程補給站 */
+.sup{margin-top:14px;background:#fffaf0;border:2px dashed #e8c88f;border-radius:16px;padding:12px 14px}
+.sup h3{margin:0 0 4px;font-size:17px;color:#7a5230}.sup .sub{font-size:13px;color:#5f7680;margin:0 0 10px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.sv{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.sv b{font-size:15px}.sv .pr{color:#c0603f;font-weight:800}.sv .pr small{color:#5f7680;font-weight:400}
+.sv .fit{font-size:13px;color:#5f7680}.sv ul{margin:2px 0 4px 18px;padding:0;font-size:13px;line-height:1.6}
+.sv .act{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.sv .add{border:0;background:#2f7f6b;color:#fff;border-radius:16px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.sv .add.in{background:#d9a441}
+.sv .lk{font-size:13px;align-self:center}
+.tag-free{display:inline-block;background:#e6f4ea;color:#2f7f6b;font-size:12px;border-radius:10px;padding:0 6px;margin-left:4px}
+.cartbtn{position:fixed;left:14px;bottom:16px;z-index:55;border:0;background:#c0603f;color:#fff;border-radius:22px;padding:9px 14px;font:inherit;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.2);cursor:pointer;display:none}
+.cartbtn.on{display:block}
+.cart{position:fixed;inset:0;background:rgba(20,40,50,.5);z-index:65;display:none;align-items:center;justify-content:center;padding:12px}
+.cart.on{display:flex}.cbox{background:#fffdf7;border-radius:18px;max-width:520px;width:100%;max-height:90vh;overflow:auto;padding:14px 16px}
+.crow{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--line);padding:8px 0;font-size:14px}
+.crow button{border:0;background:none;color:#c0603f;cursor:pointer;font:inherit}
+.supall .isl{margin:10px 0 4px;font-weight:800}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -183,6 +203,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <button class="tile" data-go="next"><b>繼續我的航程</b><span id="nextTip">前往下一座未破案的島</span></button>
  <button class="tile" data-go="index"><b>全部案件索引</b><span>31 案一次找，搜尋關鍵字</span></button>
  <a class="tile" href="https://reurl.cc/zOaa40" target="_blank" rel="noopener" style="text-decoration:none"><b>加入綠芽財務管理</b><span>看懂全家財務，一步一步跟著做</span></a>
+ <button class="tile" data-go="supply"><b>🧳 航程補給站</b><span>每一站適合的服務，看清楚價格再決定</span></button>
  <button class="tile" data-go="guard" style="border-color:#e8c88f;background:#fff8ec"><b>🏡 已經是財顧芸的保戶或客戶？</b><span>到「守護灣｜保戶專屬港」，不用通行碼</span></button>
  <button class="tile" data-go="camp"><b>營隊任務進度</b><span id="campTip">三日營、五日營每日任務與回報</span></button>
  <a class="tile" href="https://angie26501-lgtm.github.io/business/quiz/" style="text-decoration:none"><b>營隊複習闖關</b><span>三日營、五日營夥伴：答題賺積分、換抽獎</span></a>
@@ -195,6 +216,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <button class="gtab" data-v="voyage">我的航程</button>
  <button class="gtab" data-v="camp">營隊任務</button>
  <button class="gtab" data-v="guard">保戶專屬港</button>
+ <button class="gtab" data-v="supply">航程補給站</button>
 </div>
 <div class="toggles">
  <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
@@ -211,6 +233,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <section id="vVoyage" class="panel" style="display:none"></section>
 <section id="vCamp" class="panel" style="display:none"></section>
 <section id="vGuard" class="panel" style="display:none"></section>
+<section id="vSupply" class="panel" style="display:none"></section>
 <section id="detail"></section>
 </div>
 <footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a></footer>
@@ -440,6 +463,64 @@ function guardPin(){return `<g class="isle" id="gdPin" tabindex="0" role="button
  <rect x="948" y="150" width="10" height="34" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="944,150 962,138 980,150" fill="#c0603f"/><circle cx="953" cy="158" r="4" fill="#ffd27a"/>
  <rect x="968" y="166" width="24" height="18" rx="3" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="964,168 980,156 996,168" fill="#d9a441"/>
  <rect class="tagbg" x="906" y="212" width="112" height="24" rx="12" fill="#fff8ec" stroke="#e8c88f"/><text class="nametag" x="962" y="229" text-anchor="middle" fill="#7a5230">🏡 守護灣</text></g>`}
+
+// ===== 航程補給站（服務項目對應航海圖；價格依 2026/10/09 服務方案頁） =====
+const SVC_PAGE='https://angie26501-lgtm.github.io/private/course/service.html';
+const ORDER_LINE='https://lin.ee/N0W2zsz';
+const SVC={
+ lazy:{n:'保單自己盤點懶人包',p:990,pt:'990 元',u:'個人／家庭同價',fit:'想先自己動手，看清楚家裡有哪些保單',inc:['Excel 保單整理表、自我檢核小工具','到期與繳費日曆、看懂保單 5 重點','30 天內升級其他方案，可折抵 990 元']},
+ consult:{n:'預約諮詢 30 分鐘',p:2000,pt:'2,000 元',u:'',fit:'不知道從哪裡開始，想先聊聊',inc:['說說你的狀況，芸琪幫你看適合從哪一步開始','30 天內購買「保單現況盤點」以上方案，可全額折抵']},
+ camp3:{n:'三日營｜人生下半場財務覺醒',p:0,pt:'免費',u:'',fit:'想先輕鬆體驗，跟大家一起起步',inc:['三天圖文任務，在共學圈一起完成','不用公開任何財務數字'],free:1,url:'https://angie26501-lgtm.github.io/business/quiz/guide.html',ul:'免費報名'},
+ gs:{n:'綠芽財務管理系統',p:1800,pt:'1,800 元／年',u:'上市優惠，原價 3,600',fit:'想看懂自己的財務體質，知道從哪裡調整',inc:['先免費用 LINE 看體質類型和兩個健康分數','解鎖完整版：體質說明、改善建議＋ABC 帳戶 1 年'],url:'https://reurl.cc/zOaa40',ul:'先免費體驗',url2:'https://angie26501-lgtm.github.io/business/greensprout/how-to-buy.html',ul2:'訂購教學'},
+ workshop:{n:'金錢整理工作坊（實體課）',p:3600,pt:'3,600 元／人',u:'',fit:'想帶著自己的數字，一次把收支和家底整理清楚',inc:['送一份財務健康報告（價值 8,800）','時間、地點另行公告']},
+ checkup:{n:'保單現況盤點',p:3600,pt:'3,600 元',u:'家庭 5,400 元',fit:'保單分散在好幾家公司，想放在同一張表上看',inc:['協助跨公司調閱、核對保單','看得懂的保障報告＋保障圖＋30 分鐘解說','30 天內升級「規劃建議」，已付金額全額折抵']},
+ camp5:{n:'金錢整理五日實踐營',p:0,pt:'綠芽會員參加',u:'',fit:'想五天跟著做，把收支、家底、預算一次整理好',inc:['購買綠芽後參加，報名時附上綠芽訂單編號','每天一項任務，芸琪和夥伴陪你完成'],free:1,url:'https://angie26501-lgtm.github.io/business/quiz/guide.html',ul:'看報名方式'},
+ coach:{n:'家庭記帳陪跑',p:3600,pt:'1,500 元／月起',u:'首次體驗 3 個月 3,600 元（個人）',fit:'想有人每個月陪你看一次收支',inc:['每月檢視收支，找出保障與退休可用的預算','至少一起走 3 個月']},
+ plan:{n:'風險需求問診・規劃建議',p:12800,pt:'12,800 元',u:'家庭 18,800 元',fit:'已知道有缺口，想知道先處理哪一項、預算怎麼排',inc:['包含保單現況盤點','60～90 分鐘深談＋書面建議','調整後保障與保費一次比給你看']},
+ annual:{n:'幸福財務年度顧問',p:39600,pt:'39,600 元／年',u:'家庭 59,400 元／年',fit:'希望全家的保單、收支、理賠，一整年都有人照看',inc:['工作坊＋規劃建議＋人生財富藍圖','一整年記帳陪跑、年中再看一次、隔年周年檢視','理賠協助、預約優先']},
+ report:{n:'客製化報告加購',p:800,pt:'800 元起／單項',u:'',fit:'規劃後想要一份給家人看的報告',inc:['周年檢視報告書（熟齡大字版）、人生財務設計藍圖簡報等','以你家的真實數字製作']},
+ care:{n:'安心樂活規劃（退休與安養）',p:0,pt:'依需求另外報價',u:'',fit:'開始想退休後的生活與照護安排',inc:['安養財務評估、照護費用估算','意定監護、安養信託：協助媒合專業窗口']},
+ legacy:{n:'財富傳承規劃',p:0,pt:'依需求另外報價',u:'',fit:'想把資產和心意好好交到家人手上',inc:['傳承深度會談、家族繼承系統表','遺贈稅試算、信託、遺囑：協助媒合專業窗口']}
+};
+const SUP={S1:['lazy','consult'],S2:['camp3','gs'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['camp5','coach','plan'],S7:['annual','coach','report'],S8:['legacy','care','annual']};
+const SUP_SAY={S1:'多多：霧裡看不清？先拿一份地圖，或找芸琪聊 30 分鐘！',S2:'小綠芽：第一步免費，跟大家一起出發最安心！',S3:'小綠芽：讓燈塔每天亮一次，綠芽幫你記得看帳。',S4:'多多：想知道自己是哪一型體質？先免費測一次！',S5:'胖胖幣：門後面是全家的財務地圖，一起打開吧！',S6:'多多：五天掌舵，之後有人陪跑，比較不會迷航！',S7:'小綠芽：遠洋航行最需要的，是一整年都有人在。',S8:'胖胖幣：傳承不是有錢人的事，是愛家人的事。'};
+let cart={};try{cart=JSON.parse(localStorage.getItem('hanji_cart')||'{}')||{}}catch(e){cart={}}
+const cartSave=()=>{try{localStorage.setItem('hanji_cart',JSON.stringify(cart))}catch(e){}cartBtn()};
+function svCard(k){const v=SVC[k];const inC=!!cart[k];
+ return `<div class="sv"><b>${esc(v.n)}${v.free?'<span class="tag-free">'+(v.p===0&&v.pt==='免費'?'免費':'入口')+'</span>':''}</b>
+ <div class="pr">${esc(v.pt)}${v.u?` <small>${esc(v.u)}</small>`:''}</div><div class="fit">適合：${esc(v.fit)}</div>
+ <ul>${v.inc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+ <div class="act">${v.url?`<a class="btn pri" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.ul)} →</a>`:''}${v.url2?`<a class="lk" href="${esc(v.url2)}" target="_blank" rel="noopener">${esc(v.ul2)}</a>`:''}
+ ${v.free?'':`<button type="button" class="add ${inC?'in':''}" data-sv="${k}">${inC?'✓ 已加入補給清單':'＋ 加入補給清單'}</button>`}</div></div>`}
+function supplyBlock(s){const ks=SUP[s.id]||[];if(!ks.length)return '';
+ return `<div class="sup"><h3>🧳 ${esc(s.island)}｜航程補給站</h3><p class="sub">${esc(SUP_SAY[s.id]||'')}　想再往前走一步，可以從這裡挑；先加入清單，不會直接付款。</p>
+ <div class="sgrid">${ks.map(svCard).join('')}</div>
+ <p class="sub" style="margin:8px 0 0">價格為顧問服務費，不含保費。<a href="${SVC_PAGE}" target="_blank" rel="noopener">看全部方案與價格說明 →</a></p></div>`}
+function bindSup(root){root.querySelectorAll('[data-sv]').forEach(b=>b.onclick=()=>{const k=b.dataset.sv;if(cart[k])delete cart[k];else cart[k]=1;cartSave();
+ root.querySelectorAll(`[data-sv="${k}"]`).forEach(x=>{x.classList.toggle('in',!!cart[k]);x.textContent=cart[k]?'✓ 已加入補給清單':'＋ 加入補給清單'});toast(cart[k]?'已加入補給清單 🧳':'已從清單移除')})}
+function renderSupply(){$('#vSupply').innerHTML=`<h3 style="margin-top:0">🧳 航程補給站｜每一站可以搭配的服務</h3>
+ ${duoSay('多多來了！航程走到哪裡，就可以在那一站挑補給。不用一次全買，先挑一樣最需要的就好～')}
+ <div class="supall">${ST.map((s,i)=>(SUP[s.id]||[]).length?`<div class="isl" style="color:${s.color}">${i+1}. ${esc(s.island)}｜${esc(s.theme)}</div><div class="sgrid">${SUP[s.id].map(svCard).join('')}</div>`:'').join('')}
+ <div class="isl" style="color:#7a5230">🏡 守護灣｜已經是保戶或客戶</div><p class="sub">加入保戶專用 LINE@，保單整理、周年檢視、理賠協助都從這裡找芸琪。<a href="#guard" id="supG">前往守護灣 →</a></p></div>
+ <p class="sub" style="font-size:13px;color:#5f7680">價格依 2026/10/09 服務方案頁，為顧問服務費，不含保費；實際內容與費用以芸琪確認為準。<a href="${SVC_PAGE}" target="_blank" rel="noopener">看全部方案 →</a></p>`;
+ bindSup($('#vSupply'));$('#supG').onclick=e=>{e.preventDefault();view('guard')}}
+function cartBtn(){let b=$('#cartBtn');if(!b){b=document.createElement('button');b.id='cartBtn';b.className='cartbtn';b.type='button';b.onclick=cartOpen;document.body.appendChild(b)}const n=Object.keys(cart).length;b.textContent='🧳 我的補給清單（'+n+'）';b.classList.toggle('on',n>0)}
+function cartText(nick,when,msg){const ks=Object.keys(cart);return `芸琪您好，我從「財富航海群島」看到這些服務，想了解：\n${ks.map((k,i)=>`${i+1}. ${SVC[k].n}（${SVC[k].pt}${SVC[k].u?'｜'+SVC[k].u:''}）`).join('\n')}\n稱呼：${nick}\n方便聯絡：${when}${msg?'\n想補充：'+msg:''}`}
+function cartOpen(){let m=$('#cartM');if(!m){m=document.createElement('div');m.id='cartM';m.className='cart';m.onclick=e=>{if(e.target===m)m.classList.remove('on')};document.body.appendChild(m)}
+ const ks=Object.keys(cart),sum=ks.reduce((a,k)=>a+(SVC[k].p||0),0),hasQ=ks.some(k=>!SVC[k].p);
+ m.innerHTML=`<div class="cbox"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:17px">🧳 我的補給清單</b><button class="btn" id="cX" type="button">✕</button></div>
+ ${ks.length?ks.map(k=>`<div class="crow"><span>${esc(SVC[k].n)}<br><small style="color:#5f7680">${esc(SVC[k].pt)}${SVC[k].u?'｜'+esc(SVC[k].u):''}</small></span><button type="button" data-rm="${k}">移除</button></div>`).join(''):'<p>清單是空的，到各島的補給站挑挑看吧！</p>'}
+ ${ks.length?`<p style="font-size:14px">參考合計（個人價）：<b>${sum.toLocaleString()} 元</b>${hasQ?'＋另外報價項目':''}</p>
+ <label class="fl">你的稱呼 <i>*</i></label><input id="cNick" maxlength="20" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid var(--line);border-radius:10px;font:inherit">
+ <label class="fl">方便聯絡的時段</label><select id="cWhen" style="width:100%;padding:8px;border-radius:10px;border:1px solid var(--line);font:inherit"><option>都可以</option><option>平日白天</option><option>平日晚上</option><option>週末</option></select>
+ <label class="fl">想補充的事（選填）</label><input id="cMsg" maxlength="100" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid var(--line);border-radius:10px;font:inherit">
+ <div class="fb" id="cFb" style="color:#c0603f"></div>
+ <button class="btn pri" id="cGo" type="button" style="margin-top:8px;width:100%">📩 複製清單，傳給芸琪（LINE）</button>
+ <p style="font-size:13px;color:#5f7680">送出<b>不會直接扣款</b>；芸琪收到後會和你確認內容，再告知付款方式。</p>`:''}</div>`;
+ m.classList.add('on');$('#cX').onclick=()=>m.classList.remove('on');
+ m.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{delete cart[b.dataset.rm];cartSave();cartOpen();document.querySelectorAll(`[data-sv="${b.dataset.rm}"]`).forEach(x=>{x.classList.remove('in');x.textContent='＋ 加入補給清單'})});
+ if($('#cGo'))$('#cGo').onclick=()=>{const n=$('#cNick').value.trim();if(!n){$('#cFb').textContent='請填你的稱呼。';return}$('#cFb').textContent='';
+  copyText(cartText(n,$('#cWhen').value,$('#cMsg').value.trim()),'清單已複製，到 LINE 貼上送出就完成了');setTimeout(()=>window.open(ORDER_LINE,'_blank','noopener'),600)}}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  document.querySelectorAll('#mapbox .isle:not(#gdPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
@@ -465,8 +546,9 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <details><summary>看劇情</summary>${e.shots.map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
  <p style="color:#5f7680">${e.link?`<a href="${esc(e.link)}" target="_blank" rel="noopener">看 FB 原文影片</a>`:'影片連結：準備中'}</p></div>`).join('')}</div>
  <div class="game" id="game"></div>
+ ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- $('#shareSt').onclick=()=>copyLink(id.toLowerCase());bindCampBtn($('#detail'));
+ $('#shareSt').onclick=()=>copyLink(id.toLowerCase());bindCampBtn($('#detail'));bindSup($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -611,18 +693,18 @@ function renderCamp(){
  $('#cpIsle').onclick=()=>{view('map');openSt(C.isle)};
  $('#cpClr').onclick=()=>{Object.keys(cp).forEach(k=>{if(k.startsWith(C.pre)&&/_\d+$/.test(k)||k===bk)delete cp[k]});cpSave();campSync(true);renderCamp();renderMap();toast(C.name+'進度已清除')}}
 function view(v){document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
- $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();
+ $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
-document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
+document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'||g==='supply'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
 $('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
 let idle=0,ai=0;['pointerdown','keydown','wheel','touchstart'].forEach(e=>addEventListener(e,()=>idle=0,{passive:true}));
 setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id))}},2000);
 $('#shareTop').onclick=()=>copyLink('');
 renderMap();
-function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
-addEventListener('hashchange',fromHash);fromHash();
+function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='SUPPLY'){view('supply');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
+addEventListener('hashchange',fromHash);fromHash();cartBtn();
 (function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:innerWidth<700};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
