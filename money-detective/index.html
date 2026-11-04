@@ -46,6 +46,7 @@ a.btn{text-decoration:none;display:inline-block}
 .simg{border-radius:12px;overflow:hidden;margin:-4px 0 12px;max-width:900px}.simg img{width:100%;height:auto;aspect-ratio:3/2;display:block}
 .lthumb{width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:6px;display:block}
 .duoimg{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #f7c234;flex:none;display:block}.duoimg.big{width:84px;height:84px;margin:0 auto 4px}
+.vbox{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin:0 0 14px}.vbox video{width:100%;max-width:300px;aspect-ratio:9/16;border-radius:14px;background:#000}.vbox .vt{flex:1;min-width:220px}.vbox h3{margin:0 0 6px}@media(max-width:700px){.vbox{justify-content:center}.vbox video{max-width:230px}}
 .duo{display:flex;gap:10px;align-items:flex-start;margin:6px 0 10px}.bubble{background:#fff6dd;border:1px solid #ecd9a6;border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.7}
 .gsteps{font-size:15px;line-height:1.9;padding-left:22px}.kw{background:#2f7f6b;color:#fff;border-radius:6px;padding:1px 8px}
 .gtabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}.gt{border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;cursor:pointer;font:inherit;font-size:14px}.gt.on{background:var(--green);color:#fff;border-color:var(--green)}
@@ -196,6 +197,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
+<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：一島一島走，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div></section>
 <section class="hero">
  <div>
   <span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span>
@@ -608,6 +610,9 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div><button class="btn" id="shareSt">分享這一島</button></div></div>
  ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3'):''}
  ${s.id==='S6'?certBlock():''}
+ ${s.id==='S1'&&st.done.S1?vidBlock('a','迷霧港破案了！','多多和小綠芽帶你看下一站：初航島三日營，三天就好。'):''}
+ ${s.id==='S4'?vidBlock('b','測完體質之後','體質沒有好壞，看見了才知道從哪裡調。'):''}
+ ${s.id==='S6'?vidBlock('c','五日營結業之後','五天是開始，接下來的路芸琪可以一直陪你走。'):''}
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看看案件、玩下面的小遊戲，全部答對就能破案。破案後再領登船通行碼，繼續到下一座島！'):''}
  <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
  <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
@@ -623,11 +628,12 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style="font-size:13px;color:#5f7680">全部答對即可在 ${esc(s.island)} 蓋上「破案」章　${st.done[s.id]?'<span class="stamp">已破案</span>':''}</div>`}
 function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
-function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
+function win(s){st.done[s.id]=true;save();renderMap();setTimeout(()=>{if(s.id==='S1'&&$('#fb')&&!$('#fb .vbox'))$('#fb').insertAdjacentHTML('beforeend',vidBlock('a','迷霧港破案了！','看完影片，領通行碼繼續出航。'))},0);document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
  const i=ST.indexOf(s),nx=ST[i+1];
  if(!hasPass()&&nx){$('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，你已經是<b>${rank()}</b>了！<div class="ticket"><div class="tk-l">下一步</div><div style="font-size:14px">多多：「想繼續到 ${esc(nx.island)} 嗎？填一份 1 分鐘的登島問卷，就能拿到登船通行碼，這台裝置會記住 30 天。」</div><button class="btn pri" id="goGate">領登船通行碼，繼續航行 →</button></div>`;$('#goGate').onclick=()=>gate(nx);return}
  $('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，目前等級：<b>${rank()}</b>。`+(nx?`<div class="ticket"><div class="tk-l">登島通行碼</div><div class="tk-c">${esc(islandCode(i+1))}</div><div style="font-size:13px">多多：「通行碼已自動收進你的航海日誌，下一站 ${esc(nx.island)} 解鎖了！」</div><button class="btn pri" id="goNext">登上 ${esc(nx.island)} →</button></div>`:`<div class="ticket"><div class="tk-l">全島破案</div><div class="tk-c">家庭財務長・傳承者</div><div style="font-size:13px">Angie：「恭喜你走完整趟航程！留言「破案」，我陪你規劃下一段人生航線。」</div></div>`);
  if(nx)$('#goNext').onclick=()=>openSt(nx.id)}
+function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><p style="line-height:1.8">${txt}</p></div></div>`}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg" style="filter:saturate(.6)"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖"></div>`:''}
@@ -776,6 +782,7 @@ function view(v){window.__v=v;setTimeout(nxUpdate,0);document.querySelectorAll('
  $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
+document.querySelector('#captain [data-go]').onclick=()=>{view('map');openSt('S1')};
 document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'||g==='supply'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
 $('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
