@@ -192,6 +192,27 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .nx.min{width:auto;padding:6px 12px;cursor:pointer}.nx.min .bd{display:none}.nx.min .h{margin:0}.nx.min .h button{display:none}
 .nx.pulse{animation:nxp .8s}@keyframes nxp{50%{transform:scale(1.05)}}
 @media(max-width:720px){.nx{bottom:118px}}
+.feat{border:2px solid #d9a441;border-radius:16px;padding:12px;background:#fffaf0;margin:12px 0}
+.feat-t{font-weight:800;color:#b07a1a;margin-bottom:8px}
+.feat .case{background:#fff}
+.btn.solve{display:block;width:100%;font-size:17px;padding:12px;margin-top:10px}
+#solveFb{margin-top:10px;line-height:1.8}
+details.more{margin:12px 0;border:1px dashed #c9d6da;border-radius:14px;padding:8px 12px;background:#fff}
+details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
+.ticket.book{border-color:#d9a441}
+.bk-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.bk-c{border:1px dashed #c9b88a;border-radius:10px;padding:6px 4px;text-align:center;font-size:12px;background:#fff;color:#8a7a5a;min-height:54px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.bk-c i{font-style:normal;font-size:11px;color:#b9ad90}
+.bk-c.on{border:2px solid #c0603f;background:#fff4ec;color:#5b4a2a}
+.bk-c.on b{color:#c0603f;font-size:14px;transform:rotate(-8deg);display:inline-block}
+@media(max-width:520px){.bk-g{grid-template-columns:repeat(2,1fr)}}
+.ticket.book .btn{display:inline-block;margin-top:8px;text-decoration:none}
+.cintro{border:1px solid #cfe3d8;background:#f3faf6;border-radius:14px;padding:12px 14px;margin:10px 0;line-height:1.8}
+.cintro h3{margin:0 0 6px;color:#2f7a55}.cintro p{margin:4px 0}
+.ci-days{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.ci-d{background:#fff;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;border-left:4px solid #3f8f6b}
+.ci-d b{color:#3f8f6b}.ci-d small{color:#5f7680;font-size:13px}
+@media(max-width:640px){.ci-days{grid-template-columns:1fr}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -254,13 +275,10 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
  <div class="gp-b" id="gpB">
  <ol>
- <li><b>先免費試玩</b>：迷霧港不用填資料，看案件、玩小遊戲；破案後填「登島問卷」，就能拿到登船通行碼，繼續到下一座島。</li>
- <li><b>從迷霧港出發</b>：島嶼要依序解鎖，第 1 站是迷霧港。</li>
- <li><b>看案件</b>：每座島有 3～5 個財商案件，點「看劇情」可以看完整故事。</li>
- <li><b>玩驗收小遊戲</b>：全部答對就能蓋「破案」章，並拿到下一島的通行碼。</li>
- <li><b>升級船員</b>：破案越多，等級從旅人一路升到傳承者。</li>
+ <li><b>點一座島</b>：八座島任選，不用照順序。</li>
+ <li><b>看精選案件</b>：看完按「✅ 我破案了」就蓋章。</li>
+ <li><b>集滿領書券</b>：每破一島蓋一格，8 格蓋滿就能加 LINE 登記領書。</li>
  </ol>
- <div class="gp-tip">其他功能：上方「多多導覽」一島一島介紹；「索引」可搜尋案件；「我的航程」看進度。</div>
  <div class="gp-tip">這個說明框可以拖曳標題列移動、按 ▾ 收合／展開、按 ＋／－ 放大縮小、按 ✕ 關閉；右下角「說明」按鈕可再打開。</div>
  </div></div>
 <button id="gpOpen" class="gp-open" aria-label="打開引導說明">❓ 說明</button>
@@ -346,7 +364,7 @@ function campMeBar(){if(!PROGRESS_URL)return '';
  return `<div class="campme"><b>☁️ 登記一下，讓 Angie 看得到你的進度、適時陪你：</b><div class="campmef"><input id="cpNick" maxlength="20" placeholder="群組暱稱"><input id="cpTail" maxlength="3" inputmode="numeric" placeholder="手機末 3 碼"><button class="btn pri" id="cpMeGo" type="button">登記</button></div><small>只用來辨認你是誰，不會公開；換手機時填一樣的暱稱和末 3 碼就好。</small><div class="fb" id="cpMeFb"></div></div>`}
 function copyText(x,msg){const done=()=>toast(msg||'已複製，可貼到 LINE 群組');try{navigator.clipboard.writeText(x).then(done,()=>fallback(x,done))}catch(e){fallback(x,done)}}
 const hasPass=()=>st.pass&&Date.now()-st.pass<30*864e5;
-const unlocked=i=>i===0||!!st.done[ST[i-1].id];
+const unlocked=i=>true; // 八座島都可以直接闖關，不限順序
 const islandCode=i=>ST[i].island+'-'+String(i+1).padStart(2,'0');
 const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const total=ST.reduce((a,s)=>a+s.eps.length,0);
@@ -584,14 +602,14 @@ function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
 
 // ===== 浮動「下一步」引導框 =====
 let nxMin=false;try{nxMin=localStorage.getItem('hanji_nx')==='1'}catch(e){}
-function nxStep(){const cur=window.__cur,v=window.__v||'map',gameGo=()=>{const g=$('#game');if(g)g.scrollIntoView({behavior:'smooth',block:'start'})};
- if(!st.done.S1)return cur==='S1'&&v==='map'?{t:'往下滑，玩「症狀偵查」小遊戲，全部答對就破案！不用填任何資料。',b:'到小遊戲 ↓',f:gameGo}:{t:'先到第 1 站「迷霧港」免費試玩，看看自己有沒有財務亞健康。',b:'前往迷霧港',f:()=>{view('map');openSt('S1')}};
- if(!hasPass())return {t:'迷霧港破案了！填 1 分鐘的登島問卷，領登船通行碼，繼續到初航島。',b:'領登船通行碼',f:()=>{view('map');gate(ST[1])}};
+function nxStep(){const cur=window.__cur,v=window.__v||'map',gameGo=()=>{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})};
+ if(!st.done.S1)return cur==='S1'&&v==='map'?{t:'看完精選案件，按「我破案了」就完成！不用填任何資料。',b:'到精選案件 ↓',f:gameGo}:{t:'先到第 1 站「迷霧港」免費試玩，看看自己有沒有財務亞健康。',b:'前往迷霧港',f:()=>{view('map');openSt('S1')}};
+ if(!hasPass())return {t:'迷霧港破案了！填 1 分鐘問卷，領登船通行碼，其他島任你挑。',b:'領登船通行碼',f:()=>{view('map');gate(ST.find(x=>!st.done[x.id])||ST[1])}};
  const i=ST.findIndex(x=>!st.done[x.id]);
- if(i<0)return {t:'八座島都破案了，你是傳承者！看看航程補給站，或到守護灣找芸琪。',b:'看航程補給站',f:()=>view('supply')};
+ if(i<0)return {t:'八座島都破案了！記得加 LINE 登記領書 🎁',b:'看領書券',f:()=>{view('map');openSt('S8')}};
  const nx=ST[i];
- if(cur===nx.id&&v==='map')return {t:`你在 ${i+1}. ${nx.island}：先看上面的案件，再往下玩驗收小遊戲，破案就能前往下一站。`,b:'到小遊戲 ↓',f:gameGo};
- return {t:`下一站：${i+1}. ${nx.island}｜${nx.theme}`,b:`前往${nx.island}`,f:()=>{view('map');openSt(nx.id)}}}
+ if(cur===nx.id&&v==='map')return {t:`你在 ${nx.island}：看完精選案件，按「我破案了」。`,b:'到精選案件 ↓',f:gameGo};
+ return {t:`還沒破案：${nx.island}｜已破 ${doneCount()} / 8，八島全破送書 🎁`,b:`前往${nx.island}`,f:()=>{view('map');openSt(nx.id)}}}
 function nxUpdate(){let b=$('#nxBox');if(!b){b=document.createElement('div');b.id='nxBox';b.className='nx';document.body.appendChild(b)}
  const x=nxStep(),c3=CAMPS.c3,c5=CAMPS.c5;let sub='';
  if(st.done.S1&&hasCode('c3')&&cCount(c3)<c3.days.length)sub=`三日營任務 ${cCount(c3)} / ${c3.days.length} 天　<a data-nx="c3">繼續 →</a>`;
@@ -612,12 +630,34 @@ function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.togg
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  if($('#drPin')){const dp=$('#drPin');dp.onclick=dreamOpen;dp.onkeydown=e=>{if(e.key==='Enter')dreamOpen()}}
  document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
- $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　完成每座島的小遊戲即可領下一島通行碼</div><div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
+ $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　🎁 八島全破送理財規劃書籍</div>${bookMini()}<div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
  $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
  if($('#campTip'))$('#campTip').textContent=`三日營 ${cCount(CAMPS.c3)}/3 天・五日營 ${cCount(CAMPS.c5)}/5 天`;const nx=ST.find(s=>!st.done[s.id]);$('#nextTip').textContent=nx?`下一站：${nx.island}`:'全部破案，恭喜成為傳承者！';if(window.nxUpdate)setTimeout(nxUpdate,0);}
 
+// 角色配音還沒補好的影片：先隱藏「看影片」，補好後從這裡刪掉檔名即可放回
+const VID_HOLD=['ep_S2e2','ep_S3e1','ep_S3e2','ep_S4e1','ep_S4e2','ep_S4e3','ep_S5e1','ep_S5e2','ep_S6e1','ep_S6e2','ep_S6e3','ep_S6e4','ep_S7e1','ep_S7e2','ep_S7e3','ep_S7e4','ep_S8e1','ep_S8e2','ep_S8e3'];
+const vidOK=v=>v&&!VID_HOLD.some(k=>v.indexOf('/'+k+'.mp4')>=0);
+function caseCard(e){return `<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
+ <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
+ <details><summary>看劇情</summary>${e.shots.filter(x=>!/留言/.test(x[1])).map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
+ ${vidOK(e.vid)?`<details class="evid"><summary>▶ 看影片</summary><video src="${e.vid}" poster="${e.vid.replace('.mp4','.jpg')}" controls playsinline preload="none" style="width:100%;max-width:260px;aspect-ratio:9/16;border-radius:12px;background:#000;margin-top:8px"></video><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></details>`:''}${e.link?`<p style="color:#5f7680"><a href="${esc(e.link)}" target="_blank" rel="noopener">▶ 看影片</a></p>`:''}</div>`}
+// ===== 🎁 八島全破領書券 =====
+const BOOK_KEY='領書';
+function bookCode(){let c='';try{c=localStorage.getItem('hanji_book')||''}catch(e){}
+ if(!c){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';c='BOOK-';for(let k=0;k<5;k++)c+=a[Math.floor(Math.random()*a.length)];try{localStorage.setItem('hanji_book',c)}catch(e){}}return c}
+function bookTicket(){const n=doneCount(),full=n>=8;
+ const cells=ST.map((x,k)=>`<div class="bk-c${st.done[x.id]?' on':''}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案</i>'}</div>`).join('');
+ return `<div class="ticket book"><div class="tk-l">🎁 領書券｜集滿 8 格送理財規劃書籍一本</div><div class="bk-g">${cells}</div>`+
+ (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你已經有領書資格</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
+ :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`</div>`}
+function bookMini(){return doneCount()>=8?`<div style="font-size:13px;margin-top:6px">🎁 領書券：<b>${esc(bookCode())}</b>　<a href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書</a></div>`:''}
+function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=ST.find(x=>!st.done[x.id]);
+ let go='';if(nx){if(!hasPass())go=`<div style="margin-top:8px">填 1 分鐘問卷領登船通行碼，就能去其他島。</div><button class="btn pri" id="goGate" type="button">領登船通行碼 →</button>`;
+  else go=`<button class="btn pri" id="goNext" type="button" style="margin-top:8px">前往 ${esc(nx.island)} →</button>`}
+ f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+bookTicket()+go;
+ if($('#goGate'))$('#goGate').onclick=()=>gate(nx);if($('#goNext'))$('#goNext').onclick=()=>openSt(nx.id)}
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
@@ -628,31 +668,30 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="phead"><div><h2>${i+1}. ${esc(s.island)}｜${esc(s.theme)}</h2>
  <span class="chip">船員等級：${esc(s.rank)}</span>${s.url?`<a class="chip golink" href="${esc(s.url)}" target="_blank" rel="noopener">想更進一步：${esc(s.service)} →</a>`:`<span class="chip">想更進一步：${esc(s.service)}</span>`}<span class="chip">${s.eps.length} 案</span></div>
  <div><button class="btn" id="shareSt">分享這一島</button></div></div>
- ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3'):''}
+ ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3')+campIntro3():''}
  ${s.id==='S6'?certBlock():''}
  ${s.id==='S1'&&st.done.S1?vidBlock('a','迷霧港破案了！',campEnded('c3')?'下一站：初航島。加入共學圈，預約下一梯三日營！':'多多和小綠芽帶你看下一站：初航島三日營，三天就好。'):''}
  ${s.id==='S4'?vidBlock('b','測完體質之後','體質沒有好壞，看見了才知道從哪裡調。'):''}
  ${s.id==='S6'?vidBlock('c','五日營結業之後','五天是開始，接下來的路芸琪可以一直陪你走。'):''}
- ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看看案件、玩下面的小遊戲，全部答對就能破案。破案後再領登船通行碼，繼續到下一座島！'):''}
- <div class="cases">${s.eps.map(e=>`<div class="case"><h4>${esc(e.name)}</h4><span class="chip">${esc(e.topic)}</span>
- <div class="hk">${esc(e.hook)}</div><p><b>財商重點：</b>${esc(e.point)}</p>
- <details><summary>看劇情</summary>${e.shots.filter(x=>!/留言/.test(x[1])).map(x=>`<p><b>${esc(x[0])}：</b>${esc(x[1])}</p>`).join('')}</details>
- ${e.vid?`<details class="evid"><summary>▶ 看影片</summary><video src="${e.vid}" poster="${e.vid.replace('.mp4','.jpg')}" controls playsinline preload="none" style="width:100%;max-width:260px;aspect-ratio:9/16;border-radius:12px;background:#000;margin-top:8px"></video><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></details>`:''}${e.link?`<p style="color:#5f7680"><a href="${esc(e.link)}" target="_blank" rel="noopener">▶ 看影片</a></p>`:''}</div>`).join('')}</div>
- <div class="game" id="game"></div>
+ ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看完下面的精選案件，按「我破案了」就完成這座島！'):''}
+ <div class="feat"><div class="feat-t">⭐ 精選案件</div>${caseCard(s.eps[0])}
+ <button class="btn pri solve" id="solveBtn" type="button">${st.done[s.id]?'✅ 這座島已破案':'✅ 我破案了'}</button><div id="solveFb"></div></div>
+ <details class="more"><summary>＋ 更多案件（補充，可以不看）</summary>
+ <div class="cases">${s.eps.slice(1).map(caseCard).join('')}</div>
+ <div class="game" id="game"></div></details>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- $('#shareSt').onclick=()=>copyLink(id.toLowerCase());bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
+ $('#shareSt').onclick=()=>copyLink(id.toLowerCase());$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style="font-size:13px;color:#5f7680">全部答對即可在 ${esc(s.island)} 蓋上「破案」章　${st.done[s.id]?'<span class="stamp">已破案</span>':''}</div>`}
+function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style="font-size:13px;color:#5f7680">加碼挑戰，玩不玩都可以　${st.done[s.id]?'<span class="stamp">已破案</span>':''}</div>`}
 function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
-function win(s){st.done[s.id]=true;save();renderMap();setTimeout(()=>{if(s.id==='S1'&&$('#fb')&&!$('#fb .vbox'))$('#fb').insertAdjacentHTML('beforeend',vidBlock('a','迷霧港破案了！','看完影片，領通行碼繼續出航。'))},0);document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
- const i=ST.indexOf(s),nx=ST[i+1];
- if(!hasPass()&&nx){$('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，你已經是<b>${rank()}</b>了！<div class="ticket"><div class="tk-l">下一步</div><div style="font-size:14px">多多：「想繼續到 ${esc(nx.island)} 嗎？填一份 1 分鐘的登島問卷，就能拿到登船通行碼，這台裝置會記住 30 天。」</div><button class="btn pri" id="goGate">領登船通行碼，繼續航行 →</button></div>`;$('#goGate').onclick=()=>gate(nx);return}
- $('#fb').innerHTML=`<span class="stamp">破案！</span>　恭喜完成 ${esc(s.island)}，目前等級：<b>${rank()}</b>。`+(nx?`<div class="ticket"><div class="tk-l">登島通行碼</div><div class="tk-c">${esc(islandCode(i+1))}</div><div style="font-size:13px">多多：「通行碼已自動收進你的航海日誌，下一站 ${esc(nx.island)} 解鎖了！」</div><button class="btn pri" id="goNext">登上 ${esc(nx.island)} →</button></div>`:`<div class="ticket"><div class="tk-l">全島破案</div><div class="tk-c">家庭財務長・傳承者</div><div style="font-size:13px">Angie：「恭喜你走完整趟航程！留言「破案」，我陪你規劃下一段人生航線。」</div></div>`);
- if(nx)$('#goNext').onclick=()=>openSt(nx.id)}
+function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
+ const sb=$('#solveBtn');if(sb)sb.textContent='✅ 這座島已破案';solvedFb(s);
+ if($('#fb'))$('#fb').innerHTML=`<span class="stamp">破案！</span>　${esc(s.island)} 完成，已破 ${doneCount()} / 8 座島。`;
+ const f=$('#solveFb');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})}
 function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><p style="line-height:1.8">${txt}</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></div></div>`}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
@@ -741,7 +780,7 @@ function say(txt,done){if(!voiceOn()){done&&done();return}
  speechSynthesis.speak(u);
  setTimeout(()=>{if(!speechSynthesis.speaking&&!speechSynthesis.pending)fin()},clean.length*400+4000)}
 let tourStop=()=>{};
-function renderTour(){tourStop();let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
+function renderTour(){tourStop();let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。看完精選案件，按「我破案了」就蓋章！`}))).concat([{t:'逛完了！任選一座島開始，八島全破就送理財規劃書籍一本。看完影片留言「破案」，Angie 陪你啟航。'}]);
  const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><img class="duoimg big" src="img/duo.jpg" alt="多多">多多｜社區管家</div>
  <div><div style="font-size:16px">${esc(s.t)}</div><div class="ctrl"><button class="btn" id="tp">←</button><span>${k+1} / ${steps.length}</span><button class="btn" id="tn">→</button><button class="btn" id="ta">${timer?'暫停':'自動播放'}</button>${s.id?`<button class="btn pri" id="tgo">去這座島</button>`:''}</div></div></div>`;
   $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw();if(!timer)say(steps[k].t)};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw();if(!timer)say(steps[k].t)};
@@ -759,6 +798,11 @@ function renderVoyage(){$('#vVoyage').innerHTML=`<h3 style="margin-top:0">我的
  ${campCard('c3')}${campCard('c5')}<p style="font-size:13px;color:#5f7680">進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p><button class="btn" id="clr">清除我的進度</button>`;bindCampBtn($('#vVoyage'));
  document.querySelectorAll('#vVoyage button[data-id]').forEach(b=>b.onclick=()=>{view('map');openSt(b.dataset.id)});
  $('#clr').onclick=()=>{st.done={};save();renderMap();renderVoyage();toast('進度已清除')}}
+function campIntro3(){const R=[['DAY 1','人生下半場，現在準備還來得及嗎？','寫下最擔心的三項未來支出（不用寫金額）'],['DAY 2','當家庭需要你，你有多少資源？','確認家裡保單和重要文件放在哪裡'],['DAY 3','有資產，就代表財務健康嗎？','用「五題自我檢視」問問自己']];
+ return `<div class="cintro"><h3>🌱 三日營在做什麼？</h3><p>在「金錢好生活・芸琪共學圈」LINE 社群裡，連續 3 天的圖文任務。只要在群組分享心得，<b>不用公開收入、存款或任何財務數字</b>。</p>
+ <p><b>每天 3 步：</b>看圖文分享 → 在群組回覆選項 → 完成一個小任務</p>
+ <div class="ci-days">${R.map(r=>`<div class="ci-d"><b>${r[0]}</b><span>${r[1]}</span><small>小任務：${r[2]}</small></div>`).join('')}</div>
+ <p style="margin-bottom:0"><b>三天都完成：</b>解鎖 DAY4 學習包（直播重點、心智圖、圖卡），還可以參加加碼抽獎 🎁</p></div>`}
 function campCard(ck){const C=CAMPS[ck||'c5'],n=cCount(C),N=C.days.length;if(C.key==='c3'&&campEnded('c3')&&!hasCode('c3'))return `<div class="campcall"><div><b>📅 本梯三日營（${C.range}）已圓滿結束</b><div style="font-size:14px;margin-top:4px">想參加下一梯？先加入「金錢好生活・芸琪共學圈」社群，開課第一時間通知你 🌱</div></div><div style="display:flex;flex-wrap:wrap;gap:6px"><a class="btn pri" href="${CIRCLE_URL}" target="_blank" rel="noopener">加入共學圈・預約下一梯 →</a><button class="btn" data-camp="c3">已參加夥伴：輸入通行碼複習</button></div></div>`;return `<div class="campcall"><div><b>📋 ${C.name}任務進度：${n} / ${N} 天</b><div class="prog" style="margin-top:6px"><i style="width:${n/N*100}%"></i></div></div><button class="btn pri" data-camp="${C.key}">打開任務清單 →</button></div>`}
 function bindCampBtn(root){(root||document).querySelectorAll('[data-camp]').forEach(b=>b.onclick=()=>{if(CAMPS[b.dataset.camp])campSel=b.dataset.camp;view('camp');$('#tabs').scrollIntoView({behavior:'smooth'})})}
 function linkBtn(u,l){return u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a>`:''}
