@@ -137,7 +137,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .gitems{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .gi{position:relative;border:2px solid #eee3cf;background:#fff;border-radius:14px;padding:8px 4px;cursor:pointer;font:inherit;text-align:center;transition:transform .15s}
 .gi:hover{transform:translateY(-2px)}
-.gi .e{font-size:30px;display:block;line-height:1.2}.gi .e img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+.gi .e{font-size:30px;display:block;line-height:1.2;min-height:58px}.gi .e img{width:58px;height:58px;object-fit:contain}
 .gi small{display:block;font-size:12px;margin-top:2px}
 .gi.on{border-color:#f07a8a;background:#fff0f2}
 .gi.on::after{content:'穿著中';position:absolute;top:-8px;right:-4px;background:#f07a8a;color:#fff;font-size:10px;border-radius:8px;padding:1px 5px}
@@ -247,7 +247,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 <section id="vSupply" class="panel" style="display:none"></section>
 <section id="detail"></section>
 </div>
-<footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a><div class="ipnote" style="max-width:900px;margin:14px auto 0;padding:12px 14px;border:1px dashed #c9b88a;border-radius:12px;background:#fffaf0;color:#5b4a2a;font-size:13px;line-height:1.8;text-align:left"><b>©️ 智慧財產權聲明</b><br>本網站所有文章、圖片、影片、角色（多多、胖胖幣、小綠芽）與互動內容，著作權皆屬 <b>人生金錢偵探社／馥芸財富學苑 陳芸琪</b> 所有。歡迎分享；引用時請註明來源出處並加註連結：<a href="https://angie26501-lgtm.github.io/business/money-detective/" target="_blank" rel="noopener">https://angie26501-lgtm.github.io/business/money-detective/</a>。未經書面授權，請勿修改、重製或作商業使用。</div></footer>
+<footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a><div class="ipnote" style="max-width:900px;margin:14px auto 0;padding:12px 14px;border:1px dashed #c9b88a;border-radius:12px;background:#fffaf0;color:#5b4a2a;font-size:13px;line-height:1.8;text-align:left"><b>©️ 智慧財產權聲明</b><br>本網站所有文章、圖片、影片、角色（多多、胖胖幣、小綠芽）與互動內容，著作權皆屬 <b>人生金錢偵探社／馥芸財富學苑 陳芸琪</b> 所有。歡迎分享；引用時請註明來源出處並加註連結：<a href="https://reurl.cc/RRZRaG" target="_blank" rel="noopener">https://reurl.cc/RRZRaG</a>。未經書面授權，請勿修改、重製或作商業使用。</div></footer>
 <div class="toast" id="toast"></div>
 <div id="guideP" class="gp" role="dialog" aria-label="引導說明">
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
@@ -352,7 +352,7 @@ const total=ST.reduce((a,s)=>a+s.eps.length,0);
 const doneCount=()=>ST.filter(s=>st.done[s.id]).length;
 const rank=()=>RANKS[Math.min(RANKS.length-1,Math.ceil(doneCount()*5/8))];
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1600)}
-function copyLink(h){const u=location.href.split('#')[0]+(h?'#'+h:'');const done=()=>toast('連結已複製，可貼到 LINE 分享');
+function copyLink(h){const u=h?location.href.split('#')[0]+'#'+h:SHORT_URL;const done=()=>toast('連結已複製，可貼到 LINE 分享');
  try{navigator.clipboard.writeText(u).then(done,()=>fallback(u,done))}catch(e){fallback(u,done)}}
 function fallback(u,done){const a=document.createElement('textarea');a.value=u;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast(u)}a.remove()}
 
@@ -374,17 +374,18 @@ function mapSvg(){let route='';for(let i=0;i<POS.length-1;i++){const[a,b]=POS[i]
  ${ST.map((s,i)=>island(s,i)).join('')}${guardPin()}${dreamPin()}
  <g transform="translate(965,60)"><circle r="26" fill="#fff" opacity=".85"/><text y="-8" text-anchor="middle" font-size="12" fill="#2f5d6a">N</text><polygon points="0,-18 5,0 0,18 -5,0" fill="#c0603f"/></g></svg>`}
 
+const SHORT_URL='https://reurl.cc/RRZRaG';
 // ===== 船員裝備間 =====
-const GSLOT=[['hat','帽子'],['outfit','服裝'],['hand','手上'],['acc','小配件'],['pet','夥伴'],['bg','背景']];
+const GSLOT=[['outfit','造型'],['hand','手上'],['acc','小配件'],['pet','夥伴'],['bg','背景']];
+const GI='img/dress/';
 const GEAR={
- hat:[{k:'h0',e:'👒',n:'旅人草帽',u:{r:0},say:'戴上草帽，遮陽也遮住迷惘！'},{k:'h1',e:'🧢',n:'水手帽',u:{r:1},say:'新手船員報到！帽子戴正，航線就不歪。'},{k:'h2',e:'🎀',n:'幸運蝴蝶結',u:{s:'S3'},say:'燈塔送的蝴蝶結，每天亮一次好心情！'},{k:'h3',e:'🎩',n:'船長禮帽',u:{r:3},say:'船長駕到！今天由你決定航向。'},{k:'h4',e:'👑',n:'傳承皇冠',u:{r:5},say:'皇冠不是用來炫耀，是把愛傳下去的承諾。'},{k:'hx',e:'',n:'不戴帽',u:{r:0},say:'清爽出航也很可愛！'}],
- outfit:[{k:'o0',c:'#e9d7a8',c2:'#d8c08a',n:'旅人亞麻衫',u:{r:0},say:'簡單舒服，最適合踏上第一座島。'},{k:'o1',c:'#ffffff',c2:'#2c5aa0',st:1,n:'條紋水手服',u:{r:1},say:'藍白條紋！一看就是可靠的船員。'},{k:'o2',c:'#5aa7c9',c2:'#2f7f9a',n:'體質島防水外套',u:{s:'S4'},say:'風浪再大，體質好就不怕！'},{k:'o3',c:'#2c5aa0',c2:'#d9a441',n:'副船長外套',u:{r:2},say:'金色鈕扣閃閃發亮，副船長就是你！'},{k:'o4',c:'#ffffff',c2:'#d9a441',n:'船長白制服',u:{r:3},say:'白制服配金邊，全船都在看你！'},{k:'o5',c:'#2f7f6b',c2:'#8fd3a8',n:'家庭財務長綠披風',u:{r:4},say:'綠披風一披，全家的錢都安心了！'},{k:'o6',c:'#f3c66b',c2:'#c0903a',n:'傳承金袍',u:{r:5},say:'金袍上繡著全家人的名字呢。'}],
- hand:[{k:'d0',e:'🗺️',n:'航海地圖',u:{r:0},say:'地圖在手，八座島都找得到！'},{k:'d1',e:'🔍',n:'偵探放大鏡',u:{s:'S1'},say:'多多同款放大鏡！錢的去向無所遁形。'},{k:'d2',e:'📝',n:'任務小本子',u:{s:'S2'},say:'把擔心寫下來，就是破案的開始。'},{k:'d3',e:'🔭',n:'望遠鏡',u:{r:2},say:'看得遠，才不怕暗礁。'},{k:'d4',e:'☸️',n:'船舵',u:{s:'S6'},say:'掌舵的感覺真好！方向由你決定。'},{k:'d5',e:'📒',n:'家庭帳本',u:{r:4},say:'家庭財務長的祕密武器！'},{k:'dx',e:'',n:'空手',u:{r:0},say:'雙手空空，準備好迎接新任務！'}],
- acc:[{k:'a0',e:'🎒',n:'旅行背包',u:{r:0},say:'背包裡裝滿好奇心。'},{k:'a1',e:'🌱',n:'綠芽胸花',u:{s:'S2'},say:'小綠芽說：我會陪你一起長大！'},{k:'a2',e:'🔦',n:'燈塔小手電',u:{s:'S3'},say:'霧再濃，也照得見前方。'},{k:'a3',e:'🧭',n:'金色羅盤',u:{s:'S4'},say:'羅盤指向你真正想要的生活。'},{k:'a4',e:'🗝️',n:'解鎖鑰匙',u:{s:'S5'},say:'這把鑰匙，打開全家財務的大門！'},{k:'a5',e:'🏅',n:'掌舵徽章',u:{s:'S6'},say:'五日營的榮譽徽章，閃亮亮！'},{k:'a6',e:'⚓',n:'遠洋船錨',u:{s:'S7'},say:'穩穩下錨，日子也穩穩的。'},{k:'a7',e:'🐚',n:'藍海貝殼',u:{s:'S8'},say:'貼近耳朵，聽得到幸福的海浪聲。'},{k:'ax',e:'',n:'不戴配件',u:{r:0},say:'輕裝上陣！'}],
- pet:[{k:'p0',img:'img/duo.jpg',e:'🦜',n:'多多',u:{r:0},say:'多多來了！我就停在你肩膀上幫你找線索！'},{k:'p1',e:'🪙',n:'胖胖幣',u:{s:'S1'},say:'胖胖幣：跟著你，我終於不會瘦成一層皮了！'},{k:'p2',e:'🌱',n:'小綠芽',u:{s:'S3'},say:'小綠芽：每天看一眼，我就長高一點！'},{k:'px',e:'',n:'獨自航行',u:{r:0},say:'一個人也能出航，但夥伴會讓你走更遠喔。'}],
+ outfit:[{k:'c0',img:GI+'c_detective.png',e:'🕵️',n:'金錢偵探款',u:{r:0},say:'金錢偵探出動！錢的去向一個都不放過。'},{k:'c1',img:GI+'c_adventurer.png',e:'🧭',n:'冒險旅人款',u:{r:1},say:'背包一背，八座島都想去看看！'},{k:'c2',img:GI+'c_lifestyle.png',e:'📷',n:'生活風格款',u:{s:'S3'},say:'把日子過成喜歡的樣子，也是理財的一部分。'},{k:'c3',img:GI+'c_captain.png',e:'⚓',n:'航海船長款',u:{r:3},say:'船長駕到！今天由你決定航向。'},{k:'c4',img:GI+'c_scholar.png',e:'🎓',n:'知識學者款',u:{r:4},say:'學會了就是自己的，知識是最穩的資產！'}],
+ hand:[{k:'d0',img:GI+'p_map.png',e:'🗺️',n:'藏寶圖',u:{r:0},say:'地圖在手，八座島都找得到！'},{k:'d1',img:GI+'p_magnifier.png',e:'🔍',n:'偵探放大鏡',u:{s:'S1'},say:'多多同款放大鏡！錢的去向無所遁形。'},{k:'d2',img:GI+'p_checklist.png',e:'📝',n:'任務檢核表',u:{s:'S2'},say:'把擔心寫下來，就是破案的開始。'},{k:'d3',img:GI+'p_scope.png',e:'🔭',n:'望遠鏡',u:{r:2},say:'看得遠，才不怕暗礁。'},{k:'d4',img:GI+'p_compass.png',e:'🧭',n:'金色羅盤',u:{s:'S6'},say:'羅盤指向你真正想要的生活。'},{k:'d5',img:GI+'p_books.png',e:'📚',n:'財商書',u:{r:4},say:'家庭財務長的祕密武器！'},{k:'dx',e:'',n:'空手',u:{r:0},say:'雙手空空，準備好迎接新任務！'}],
+ acc:[{k:'a0',img:GI+'a_bag.png',e:'👜',n:'側背包',u:{r:0},say:'包包裡裝滿好奇心。'},{k:'a1',img:GI+'a_scarf.png',e:'🧣',n:'綠圍巾',u:{s:'S2'},say:'小綠芽說：我會陪你一起長大！'},{k:'a2',img:GI+'a_glasses.png',e:'👓',n:'看清眼鏡',u:{s:'S3'},say:'霧再濃，也看得清前方。'},{k:'a3',img:GI+'a_camera.png',e:'📷',n:'旅行相機',u:{s:'S4'},say:'把每一次進步都拍下來！'},{k:'a4',img:GI+'a_bow.png',e:'🎀',n:'幸運蝴蝶結',u:{s:'S5'},say:'解鎖之門送的蝴蝶結，好運跟著你！'},{k:'a5',img:GI+'a_headphone.png',e:'🎧',n:'專注耳機',u:{s:'S6'},say:'戴上耳機，專心掌舵！'},{k:'a6',img:GI+'a_bracelet.png',e:'📿',n:'平安手鍊',u:{s:'S7'},say:'穩穩出航，日子也穩穩的。'},{k:'a7',img:GI+'a_pearl.png',e:'💎',n:'藍海珍珠',u:{s:'S8'},say:'幸福藍海的珍珠，閃閃發亮！'},{k:'ax',e:'',n:'不戴配件',u:{r:0},say:'輕裝上陣！'}],
+ pet:[{k:'p0',img:GI+'f_parrot.png',e:'🦜',n:'多多',u:{r:0},say:'多多來了！我就停在你身邊幫你找線索！'},{k:'p1',img:GI+'f_coin.png',e:'🪙',n:'胖胖幣',u:{s:'S1'},say:'胖胖幣：跟著你，我終於不會瘦成一層皮了！'},{k:'p2',img:GI+'f_corgi.png',e:'🐶',n:'朵朵',u:{s:'S2'},say:'朵朵：汪！我幫你守住荷包！'},{k:'p3',img:GI+'f_sprout.png',e:'🌱',n:'小綠芽',u:{s:'S3'},say:'小綠芽：每天看一眼，我就長高一點！'},{k:'p4',img:GI+'d_captain.png',e:'⚓',n:'多多・船長款',u:{r:3},say:'多多船長報到！全速前進！'},{k:'p5',img:GI+'d_scholar.png',e:'🎓',n:'多多・智囊款',u:{r:4},say:'多多博士：這題我會！'},{k:'p6',img:GI+'d_chef.png',e:'🍳',n:'多多・樂活款',u:{s:'S6'},say:'多多大廚：好好吃飯，也是照顧自己。'},{k:'p7',img:GI+'d_explorer.png',e:'📷',n:'多多・探險款',u:{s:'S7'},say:'多多探險隊：遠洋航線出發！'},{k:'px',e:'',n:'獨自航行',u:{r:0},say:'一個人也能出航，但夥伴會讓你走更遠喔。'}],
  bg:[{k:'b0',g:['#cfe9ef','#9fcad5'],n:'迷霧港清晨',u:{r:0},say:'清晨的港口，一切剛剛開始。'},{k:'b1',g:['#fff1c9','#ffd27a'],n:'燈塔金光',u:{s:'S3'},say:'燈塔的光，把你照得好有精神！'},{k:'b2',g:['#ffd1b5','#f08a7a'],n:'遠洋夕陽',u:{s:'S7'},say:'夕陽下的甲板，最適合想想未來。'},{k:'b3',g:['#bff0e6','#4fb8c9'],n:'幸福藍海',u:{s:'S8'},say:'終於抵達幸福藍海，辛苦了！'}]
 };
-const GDEF={hat:'h0',outfit:'o0',hand:'d0',acc:'a0',pet:'p0',bg:'b0'};
+const GDEF={outfit:'c0',hand:'d0',acc:'a0',pet:'p0',bg:'b0'};
 let gw={eq:Object.assign({},GDEF),seen:{},nick:''};
 try{const v=JSON.parse(localStorage.getItem('hanji_gear')||'{}');if(v.eq)Object.assign(gw.eq,v.eq);if(v.seen)gw.seen=v.seen;if(v.nick)gw.nick=v.nick}catch(e){}
 const gSave=()=>{try{localStorage.setItem('hanji_gear',JSON.stringify(gw))}catch(e){}};
@@ -394,31 +395,18 @@ const gHint=it=>it.u.s?`完成「${(ST.find(x=>x.id===it.u.s)||{}).island}」解
 const gGet=(sl,k)=>GEAR[sl].find(x=>x.k===k)||GEAR[sl][0];
 const gCur=sl=>{const it=gGet(sl,gw.eq[sl]);return gOpen(it)?it:gGet(sl,GDEF[sl])};
 const gNew=()=>{let n=0;GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(it.e!==''||it.c||it.g)if(gOpen(it)&&!gw.seen[it.k]&&it.u.r!==0)n++}));return n};
-function avatarSvg(id){const H=gCur('hat'),O=gCur('outfit'),D=gCur('hand'),A=gCur('acc'),P=gCur('pet'),B=gCur('bg');
- const stripe=O.st?`<pattern id="stp${id}" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff"/><rect y="6" width="10" height="4" fill="${O.c2}"/></pattern>`:'';
- const fill=O.st?`url(#stp${id})`:O.c;
- const pet=P.img?`<g transform="translate(150,98)"><circle r="21" fill="#fff"/><clipPath id="pc${id}"><circle r="19"/></clipPath><image href="${P.img}" x="-19" y="-19" width="38" height="38" preserveAspectRatio="xMidYMid slice" clip-path="url(#pc${id})"/></g>`:(P.e?`<text x="152" y="112" font-size="34" text-anchor="middle">${P.e}</text>`:'');
- return `<svg class="av" id="${id}" viewBox="0 0 200 220" role="img" aria-label="我的船員造型"><defs><linearGradient id="bgg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${B.g[0]}"/><stop offset="1" stop-color="${B.g[1]}"/></linearGradient>${stripe}</defs>
+function avatarSvg(id){const O=gCur('outfit'),D=gCur('hand'),A=gCur('acc'),P=gCur('pet'),B=gCur('bg');
+ return `<svg class="av" id="${id}" viewBox="0 0 200 220" role="img" aria-label="我的船員造型"><defs><linearGradient id="bgg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${B.g[0]}"/><stop offset="1" stop-color="${B.g[1]}"/></linearGradient></defs>
  <circle cx="100" cy="112" r="96" fill="url(#bgg${id})"/>
  <path d="M18 170 q20 -10 40 0 t40 0 t40 0 t40 0 v40 h-160z" fill="#ffffff" opacity=".35"/>
  <g class="bob">
- <ellipse cx="100" cy="206" rx="46" ry="7" fill="#000" opacity=".12"/>
- <rect x="62" y="126" width="76" height="72" rx="30" fill="${fill}" stroke="${O.c2}" stroke-width="3"/>
- <path d="M88 128 l12 16 l12 -16" fill="none" stroke="${O.c2}" stroke-width="3" stroke-linecap="round"/>
- <circle cx="100" cy="160" r="3" fill="${O.c2}"/><circle cx="100" cy="174" r="3" fill="${O.c2}"/>
- <circle cx="58" cy="160" r="11" fill="#ffe0c7"/><circle cx="142" cy="160" r="11" fill="#ffe0c7"/>
- <circle cx="100" cy="92" r="42" fill="#ffe0c7"/>
- <path d="M60 84 q8 -38 40 -38 q32 0 40 38 q-14 -14 -40 -16 q-26 2 -40 16z" fill="#6b4a3a"/>
- <ellipse cx="86" cy="96" rx="4.5" ry="6" fill="#2b2b2b"/><ellipse cx="114" cy="96" rx="4.5" ry="6" fill="#2b2b2b"/>
- <circle cx="87.5" cy="93.5" r="1.6" fill="#fff"/><circle cx="115.5" cy="93.5" r="1.6" fill="#fff"/>
- <ellipse cx="76" cy="108" rx="7" ry="4" fill="#ff9aa8" opacity=".7"/><ellipse cx="124" cy="108" rx="7" ry="4" fill="#ff9aa8" opacity=".7"/>
- <path d="M92 112 q8 8 16 0" fill="none" stroke="#8a4a3a" stroke-width="2.6" stroke-linecap="round"/>
- ${H.e?`<text x="100" y="66" font-size="54" text-anchor="middle">${H.e}</text>`:''}
- ${A.e?`<text x="80" y="184" font-size="24" text-anchor="middle">${A.e}</text>`:''}
- ${D.e?`<text x="150" y="176" font-size="32" text-anchor="middle">${D.e}</text>`:''}
- ${pet}
+ <ellipse cx="92" cy="204" rx="40" ry="6" fill="#000" opacity=".12"/>
+ <image href="${O.img}" x="42" y="26" width="100" height="180" preserveAspectRatio="xMidYMax meet"/>
+ ${P.img?`<image href="${P.img}" x="128" y="64" width="64" height="64" preserveAspectRatio="xMidYMid meet"/>`:''}
+ ${D.img?`<image href="${D.img}" x="126" y="142" width="50" height="50" preserveAspectRatio="xMidYMid meet"/>`:''}
+ ${A.img?`<g transform="translate(36,160)"><circle r="21" fill="#fff" stroke="#f3c98b" stroke-width="2.5"/><image href="${A.img}" x="-15" y="-15" width="30" height="30" preserveAspectRatio="xMidYMid meet"/></g>`:''}
  </g></svg>`}
-let gTab='hat',gLine='';
+let gTab='outfit',gLine='';
 function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.id='gearM';m.className='gm';m.setAttribute('role','dialog');m.setAttribute('aria-label','船員裝備間');document.body.appendChild(m);
   m.addEventListener('click',e=>{if(e.target===m)gearClose()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('on'))gearClose()})}
  const list=GEAR[gTab],got=GSLOT.reduce((a,[sl])=>a+GEAR[sl].filter(x=>(x.e||x.c||x.g)&&gOpen(x)).length,0),all=GSLOT.reduce((a,[sl])=>a+GEAR[sl].filter(x=>x.e||x.c||x.g).length,0);
@@ -432,7 +420,7 @@ function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.
    const ic=it.img?`<img src="${it.img}" alt="">`:(it.e||(it.c?`<span style="display:inline-block;width:30px;height:30px;border-radius:9px;background:${it.st?`repeating-linear-gradient(0deg,#fff 0 5px,${it.c2} 5px 8px)`:it.c};border:2px solid ${it.c2}"></span>`:(it.g?`<span style="display:inline-block;width:30px;height:30px;border-radius:50%;background:linear-gradient(${it.g[0]},${it.g[1]})"></span>`:'🚫')));
    return `<button type="button" class="gi ${on?'on':''} ${op?'':'lock'}" data-k="${it.k}" ${op?'':'aria-disabled="true"'}>${nw?'<span class="nw">NEW</span>':''}<span class="e">${op?ic:'🔒'}</span><small>${esc(it.n)}</small>${op?'':`<small>${esc(gHint(it))}</small>`}</button>`}).join('')}</div>
   <div class="gsay"><img src="img/duo.jpg" alt="多多"><span>${esc(gLine||'點裝備就能換上！破案越多，解鎖越多可愛裝備喔～')}</span></div>
-  <div class="gact"><button type="button" id="gRnd">🎲 隨機穿搭</button><button type="button" id="gReset">↺ 換回旅人裝</button><button type="button" id="gShare">📣 分享我的船員證</button></div>
+  <div class="gact"><button type="button" id="gRnd">🎲 隨機穿搭</button><button type="button" id="gReset">↺ 換回預設造型</button><button type="button" id="gShare">📣 分享我的船員證</button></div>
  </div></div></div>`;
  m.classList.add('on');
  $('#gmX').onclick=gearClose;
@@ -442,9 +430,9 @@ function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.
  $('#gNickOk').onclick=()=>{gw.nick=$('#gNick').value.trim().slice(0,10);gSave();gLine=gw.nick?`「${gw.nick}」好好聽！歡迎上船～`:'';gearPanel()};
  $('#gNick').onkeydown=e=>{if(e.key==='Enter')$('#gNickOk').click()};
  $('#gRnd').onclick=()=>{GSLOT.forEach(([sl])=>{const ok=GEAR[sl].filter(gOpen);const it=ok[Math.floor(Math.random()*ok.length)];gw.eq[sl]=it.k;gw.seen[it.k]=1});gLine='🎲 今天的穿搭交給命運！滿意嗎？';gSave();gearPanel();gPop()};
- $('#gReset').onclick=()=>{gw.eq=Object.assign({},GDEF);gLine='換回旅人裝，初心不忘！';gSave();gearPanel();gPop()};
+ $('#gReset').onclick=()=>{gw.eq=Object.assign({},GDEF);gLine='換回金錢偵探款，初心不忘！';gSave();gearPanel();gPop()};
  $('#gShare').onclick=()=>{const eq=GSLOT.map(([sl])=>gCur(sl)).filter(x=>x.e).map(x=>x.e).join('');
-  copyText(`⚓ 我是財富航海群島的船員「${gw.nick||'無名船員'}」\n等級：${rank()}｜已破案 ${doneCount()} / 8 座島\n今天的裝備：${eq||'輕裝上陣'}\n一起來破案、升級船員吧！\n${location.href.split('#')[0]}`,'船員證已複製，可貼到 LINE 群組')};
+  copyText(`⚓ 我是財富航海群島的船員「${gw.nick||'無名船員'}」\n等級：${rank()}｜已破案 ${doneCount()} / 8 座島\n今天的裝備：${eq||'輕裝上陣'}\n一起來破案、升級船員吧！\n${SHORT_URL}`,'船員證已複製，可貼到 LINE 群組')};
 }
 function gPop(){const a=$('#avBig');if(a){a.classList.remove('pop');void a.getBoundingClientRect();a.classList.add('pop')}}
 function gearClose(){const m=$('#gearM');if(m)m.classList.remove('on');GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(gOpen(it))gw.seen[it.k]=1}));gSave();gLine='';renderMap()}
