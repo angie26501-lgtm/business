@@ -201,10 +201,10 @@ details.more{margin:12px 0;border:1px dashed #c9d6da;border-radius:14px;padding:
 details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .ticket.book{border-color:#d9a441}
 .bk-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
-.bk-c{border:1px dashed #c9b88a;border-radius:10px;padding:6px 4px;text-align:center;font-size:12px;background:#fff;color:#8a7a5a;min-height:54px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.bk-c{font:inherit;cursor:pointer;border:1px dashed #c9b88a;border-radius:10px;padding:6px 4px;text-align:center;font-size:12px;background:#fff;color:#8a7a5a;min-height:54px;display:flex;flex-direction:column;justify-content:center;gap:2px}
 .bk-c i{font-style:normal;font-size:11px;color:#b9ad90}
 .bk-c.on{border:2px solid #c0603f;background:#fff4ec;color:#5b4a2a}
-.bk-c.on b{color:#c0603f;font-size:14px;transform:rotate(-8deg);display:inline-block}
+.bk-c:hover{border-color:#3f8f6b;background:#f3faf6}.bk-c.on b{color:#c0603f;font-size:14px;transform:rotate(-8deg);display:inline-block}
 @media(max-width:520px){.bk-g{grid-template-columns:repeat(2,1fr)}}
 .ticket.book .btn{display:inline-block;margin-top:8px;text-decoration:none}
 .cintro{border:1px solid #cfe3d8;background:#f3faf6;border-radius:14px;padding:12px 14px;margin:10px 0;line-height:1.8}
@@ -681,7 +681,7 @@ const BOOK_KEY='領書';
 function bookCode(){let c='';try{c=localStorage.getItem('hanji_book')||''}catch(e){}
  if(!c){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';c='BOOK-';for(let k=0;k<5;k++)c+=a[Math.floor(Math.random()*a.length)];try{localStorage.setItem('hanji_book',c)}catch(e){}}return c}
 function bookTicket(){const n=doneCount(),full=n>=8;
- const cells=ST.map((x,k)=>`<div class="bk-c${st.done[x.id]?' on':''}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案</i>'}</div>`).join('');
+ const cells=ST.map((x,k)=>`<button type="button" class="bk-c${st.done[x.id]?' on':''}" data-isle="${x.id}" aria-label="前往 ${esc(x.island)}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案・點我闖關</i>'}</button>`).join('');
  return `<div class="ticket book"><div class="tk-l">🎁 領書券｜集滿 8 格送理財規劃書籍一本</div><div class="bk-g">${cells}</div>`+
  (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你已經有領書資格</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
  :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`</div>`}
@@ -690,7 +690,8 @@ function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=S
  let go='';if(nx){if(!hasPass())go=`<div style="margin-top:8px">填 1 分鐘問卷領登船通行碼，就能去其他島。</div><button class="btn pri" id="goGate" type="button">領登船通行碼 →</button>`;
   else go=`<button class="btn pri" id="goNext" type="button" style="margin-top:8px">前往 ${esc(nx.island)} →</button>`}
  f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+bookTicket()+go;
- if($('#goGate'))$('#goGate').onclick=()=>gate(nx);if($('#goNext'))$('#goNext').onclick=()=>openSt(nx.id)}
+ if($('#goGate'))$('#goGate').onclick=()=>gate(nx);if($('#goNext'))$('#goNext').onclick=()=>openSt(nx.id);
+ f.querySelectorAll('[data-isle]').forEach(b=>b.onclick=()=>openSt(b.dataset.isle))}
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
