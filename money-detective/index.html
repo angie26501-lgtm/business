@@ -213,6 +213,8 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .ci-d{background:#fff;border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;border-left:4px solid #3f8f6b}
 .ci-d b{color:#3f8f6b}.ci-d small{color:#5f7680;font-size:13px}
 @media(max-width:640px){.ci-days{grid-template-columns:1fr}}
+.crewbox{max-width:520px}.crbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.crbtns .btn{text-decoration:none}
+#crewM{z-index:9999}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -451,8 +453,39 @@ function gearPanel(){let m=$('#gearM');if(!m){m=document.createElement('div');m.
  $('#gRnd').onclick=()=>{GSLOT.forEach(([sl])=>{const ok=GEAR[sl].filter(gOpen);const it=ok[Math.floor(Math.random()*ok.length)];gw.eq[sl]=it.k;gw.seen[it.k]=1});gLine='🎲 今天的穿搭交給命運！滿意嗎？';gSave();gearPanel();gPop()};
  $('#gReset').onclick=()=>{gw.eq=Object.assign({},GDEF);gLine='換回金錢偵探款，初心不忘！';gSave();gearPanel();gPop()};
  $('#gShare').onclick=()=>{const eq=GSLOT.map(([sl])=>gCur(sl)).filter(x=>x.e).map(x=>x.e).join('');
-  copyText(`⚓ 我是財富航海群島的船員「${gw.nick||'無名船員'}」\n等級：${rank()}｜已破案 ${doneCount()} / 8 座島\n今天的裝備：${eq||'輕裝上陣'}\n一起來破案、升級船員吧！\n${SHORT_URL}`,'船員證已複製，可貼到 LINE 群組')};
+  crewText=`⚓ 我是財富航海群島的船員「${gw.nick||'無名船員'}」\n等級：${rank()}｜已破案 ${doneCount()} / 8 座島\n今天的裝備：${eq||'輕裝上陣'}\n一起來破案、升級船員吧！\n${SHORT_URL}`;crewShow()};
 }
+let crewText='';
+function crewShow(){let m=$('#crewM');if(!m){m=document.createElement('div');m.id='crewM';m.className='gm';document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')})}
+ m.innerHTML=`<div class="gbox crewbox"><div class="ghead"><b>📣 我的船員證</b><button type="button" id="crX" aria-label="關閉">✕</button></div><div style="padding:14px"><div id="crImg" style="text-align:center;color:#5f7680">船員證製作中…</div>
+ <div class="crbtns"><button class="btn pri" id="crShare" type="button">📲 分享圖片到 LINE</button><a class="btn" id="crDl" download="我的船員證.jpg">⬇️ 下載圖片</a><button class="btn" id="crTxt" type="button">📋 複製文字</button></div>
+ <p class="sub" style="margin:6px 0 0">手機若無法下載，長按圖片就能儲存，再到 LINE 傳圖片。</p></div></div>`;
+ m.classList.add('on');$('#crX').onclick=()=>m.classList.remove('on');$('#crTxt').onclick=()=>copyText(crewText,'船員證文字已複製，可貼到 LINE 群組');
+ drawCrew().then(c=>{const u=c.toDataURL('image/jpeg',.92);$('#crImg').innerHTML=`<img src="${u}" alt="我的船員證" style="width:100%;max-width:420px;border-radius:14px;border:1px solid var(--line)">`;$('#crDl').href=u;
+  $('#crShare').onclick=()=>{c.toBlob(b=>{const f=new File([b],'我的船員證.jpg',{type:'image/jpeg'});
+   if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],text:crewText}).catch(()=>{});
+   else{copyText(crewText,'這台裝置不支援直接分享圖片：文字已複製，請下載圖片後到 LINE 傳送');}},'image/jpeg',.92)}})}
+function drawCrew(){const W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+ const O=gCur('outfit'),D=gCur('hand'),A=gCur('acc'),P=gCur('pet'),B=gCur('bg'),FT='"Noto Sans TC","Microsoft JhengHei",sans-serif';
+ const L=s=>new Promise(r=>{if(!s)return r(null);const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=s});
+ const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()};
+ x.fillStyle='#fffaf0';x.fillRect(0,0,W,H);x.strokeStyle='#d9a441';x.lineWidth=10;rr(25,25,W-50,H-50,40);x.stroke();
+ x.fillStyle='#1c3a2a';x.textAlign='center';x.font='bold 64px '+FT;x.fillText('⚓ 財富航海群島・船員證',W/2,140);
+ x.font='30px '+FT;x.fillStyle='#8a7a5a';x.fillText('人生金錢偵探社',W/2,190);
+ return Promise.all([L(O.img),L(P.img),L(D.img),L(A.img),L('img/qr_site.png')]).then(([o,p,d,a,q])=>{
+  const cx=W/2,cy=560,R=330,g=x.createLinearGradient(0,cy-R,0,cy+R);g.addColorStop(0,B.g[0]);g.addColorStop(1,B.g[1]);x.fillStyle=g;x.beginPath();x.arcTo;x.arc(cx,cy,R,0,Math.PI*2);x.fill();
+  const k=3.4,ox=cx-100*k,oy=cy-112*k; // 對應 avatarSvg 的 200x220 座標
+  const dr=(im,X,Y,w,h)=>{if(!im)return;const s=Math.min(w/im.width,h/im.height),iw=im.width*s,ih=im.height*s;x.drawImage(im,ox+(X+(w-iw)/2)*k,oy+(Y+(h-ih))*k,iw*k,ih*k)};
+  dr(o,42,26,100,180);dr(p,128,64,64,64);dr(d,126,142,50,50);
+  if(a){x.fillStyle='#fff';x.strokeStyle='#f3c98b';x.lineWidth=8;x.beginPath();x.arc(ox+36*k,oy+160*k,21*k,0,Math.PI*2);x.fill();x.stroke();const s=30*k/Math.max(a.width,a.height);x.drawImage(a,ox+36*k-a.width*s/2,oy+160*k-a.height*s/2,a.width*s,a.height*s)}
+  x.fillStyle='#1c3a2a';x.font='bold 64px '+FT;x.fillText(gw.nick||'無名船員',W/2,965);
+  x.font='bold 40px '+FT;x.fillStyle='#c0603f';x.fillText(`等級：${rank()}　已破案 ${doneCount()} / 8 座島`,W/2,1030);
+  const sw=106,gap=12,sx=(W-(sw*8+gap*7))/2;ST.forEach((s,i)=>{const X=sx+i*(sw+gap),Y=1070,on=st.done[s.id];x.fillStyle=on?'#fff4ec':'#ffffff';x.strokeStyle=on?'#c0603f':'#d8cba8';x.lineWidth=on?5:3;rr(X,Y,sw,70,14);x.fill();x.stroke();
+   x.fillStyle=on?'#c0603f':'#b9ad90';x.font=(on?'bold 26px ':'22px ')+FT;x.fillText(on?'破案':(i+1)+'',X+sw/2,Y+45)});
+  x.fillStyle='#1c3a2a';rr(90,1180,600,64,32);x.fill();x.strokeStyle='#e9c878';x.lineWidth=3;x.stroke();x.fillStyle='#e9c878';x.font='bold 30px '+FT;x.fillText('財顧芸 Angie｜家族傳承生活顧問',390,1223);
+  x.fillStyle='#5f7680';x.font='24px '+FT;x.fillText('一起來破案 → reurl.cc/RRZRaG',390,1290);
+  if(q){x.drawImage(q,770,1125,150,150)}x.font='20px '+FT;x.fillText('掃碼一起玩',845,1298);
+  return c})}
 function gPop(){const a=$('#avBig');if(a){a.classList.remove('pop');void a.getBoundingClientRect();a.classList.add('pop')}}
 function gearClose(){const m=$('#gearM');if(m)m.classList.remove('on');GSLOT.forEach(([sl])=>GEAR[sl].forEach(it=>{if(gOpen(it))gw.seen[it.k]=1}));gSave();gLine='';renderMap()}
 
