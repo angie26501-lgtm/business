@@ -562,9 +562,16 @@ function drawCert(nick,no,date){const W=1600,H=1100,c=document.createElement('ca
  x.fillStyle='#1f3a44';x.font='36px "Noto Sans TC","Microsoft JhengHei",sans-serif';
  ['完成金錢整理五日實踐營全部任務與掌舵島驗收，','能整理收支與家底、為每一筆錢排出順序，','並訂下 90 天的三項行動，特頒此證。'].forEach((t,i)=>x.fillText(t,W/2,660+i*58));
  x.font='30px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#5f7680';x.textAlign='left';x.fillText('證書編號：'+no,140,930);x.fillText('頒發日期：'+date,140,980);
- x.textAlign='right';x.fillStyle='#1f3a44';x.font='bold 34px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('財顧芸 陳芸琪',W-140,930);x.font='28px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#5f7680';x.fillText('家族傳承生活顧問',W-140,975);
- x.textAlign='center';x.fillStyle='#2f7f6b';x.font='26px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。',W/2,1035);
- return new Promise(r=>{const im=new Image();im.onload=()=>{x.save();x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.clip();x.drawImage(im,W-315,115,170,170);x.restore();x.strokeStyle='#d9a441';x.lineWidth=6;x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.stroke();r(c)};im.onerror=()=>r(c);im.src='img/duo.jpg'})}
+ x.textAlign='right';x.fillStyle='#1f3a44';x.font='bold 34px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('財顧芸 陳芸琪',W-215,930);x.font='28px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillStyle='#5f7680';x.fillText('家族傳承生活顧問',W-215,975);
+ x.textAlign='left';x.fillStyle='#7a5230';x.font='bold 30px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('頒發單位：馥芸財富學苑',140,880);
+ x.textAlign='center';x.fillStyle='#2f7f6b';x.font='26px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。',W/2,1012);
+ const L=s=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=s});
+ return Promise.all([L('img/duo.jpg'),L('img/angie_seal.png'),L('img/angie_chop.png'),L('img/compass_gold.png')]).then(([im,se,ch,cp])=>{
+  if(cp){x.save();x.globalAlpha=.17;x.globalCompositeOperation='multiply';x.drawImage(cp,W/2-330,H/2-300,660,660);x.restore();x.save();x.globalAlpha=.16;x.fillStyle='#c99a34';x.textAlign='center';x.font='bold 46px "Noto Sans TC","Microsoft JhengHei",sans-serif';x.fillText('馥芸財富學苑',W/2,H/2+400);x.restore()}
+  if(im){x.save();x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.clip();x.drawImage(im,W-315,115,170,170);x.restore();x.strokeStyle='#d9a441';x.lineWidth=6;x.beginPath();x.arc(W-230,200,85,0,Math.PI*2);x.stroke()}
+  if(se)x.drawImage(se,W-400,642,236,236);
+  if(ch){x.save();x.globalAlpha=.85;x.globalCompositeOperation='multiply';x.drawImage(ch,W-205,882,100,100);x.restore()}
+  return c})}
 function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
  const show=async()=>{const c=await drawCert(cert.nick,cert.no,cert.date);const u=c.toDataURL('image/jpeg',.9);
   root.querySelector('#certOut').innerHTML=`<img src="${u}" alt="家庭財務長結業證書" style="width:100%;border-radius:10px;margin-top:10px;border:1px solid var(--line)">
