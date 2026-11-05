@@ -233,6 +233,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
  <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
  <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
  <label><input type="checkbox" id="tgList">改用清單版</label>
+ <label id="tgVoiceL"><input type="checkbox" id="tgVoice">🔊 語音導覽</label>
 </div>
 
 <section id="vMap">
@@ -726,12 +727,29 @@ function game(s){const g=GAMES[s.id],box=$('#game');const m=GM[s.id]=GM[s.id]||{
  $('#reset').onclick=()=>{GM[s.id]={q:{},s:{},o:0};gmSave();game(s);toast('已重新整理，可以重玩一次')};
  ['copy','cut','paste','contextmenu','selectstart','dragstart'].forEach(ev=>box.addEventListener(ev,e=>e.preventDefault()))}
 
-function renderTour(){let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
+// ===== 語音導覽（瀏覽器內建朗讀，不用下載） =====
+const VOICE_OK='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;
+let zhVoice=null;
+function pickVoice(){if(!VOICE_OK)return;const vs=speechSynthesis.getVoices();zhVoice=vs.find(v=>/zh[-_]TW/i.test(v.lang))||vs.find(v=>/zh[-_](HK|Hant)/i.test(v.lang))||vs.find(v=>/^zh/i.test(v.lang))||null}
+if(VOICE_OK){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+const voiceOn=()=>VOICE_OK&&$('#tgVoice')&&$('#tgVoice').checked;
+function sayStop(){if(VOICE_OK)speechSynthesis.cancel()}
+function say(txt,done){if(!voiceOn()){done&&done();return}
+ sayStop();const clean=String(txt).replace(/[「」『』《》]/g,'').replace(/Angie/g,'安琪').replace(/\s*→\s*/g,' 到 ').replace(/[｜|]/g,'，');
+ const u=new SpeechSynthesisUtterance(clean);u.lang=zhVoice?zhVoice.lang:'zh-TW';if(zhVoice)u.voice=zhVoice;u.rate=1;u.pitch=1.15;
+ let fired=false;const fin=()=>{if(fired)return;fired=true;done&&done()};u.onend=fin;u.onerror=fin;
+ speechSynthesis.speak(u);
+ setTimeout(()=>{if(!speechSynthesis.speaking&&!speechSynthesis.pending)fin()},clean.length*400+4000)}
+let tourStop=()=>{};
+function renderTour(){tourStop();let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。破完案記得玩驗收小遊戲蓋章！`}))).concat([{t:'逛完了！從迷霧港開始，一島一島破案，你就是家庭財務長。看完影片留言「破案」，Angie 陪你啟航。'}]);
  const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><img class="duoimg big" src="img/duo.jpg" alt="多多">多多｜社區管家</div>
  <div><div style="font-size:16px">${esc(s.t)}</div><div class="ctrl"><button class="btn" id="tp">←</button><span>${k+1} / ${steps.length}</span><button class="btn" id="tn">→</button><button class="btn" id="ta">${timer?'暫停':'自動播放'}</button>${s.id?`<button class="btn pri" id="tgo">去這座島</button>`:''}</div></div></div>`;
-  $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw()};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw()};
-  $('#ta').onclick=()=>{if(timer){clearInterval(timer);timer=null}else{timer=setInterval(()=>{k=(k+1)%steps.length;draw()},4500)}draw()};
-  if(s.id)$('#tgo').onclick=()=>{if(timer){clearInterval(timer);timer=null}view('map');openSt(s.id)}};draw()}
+  $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw();if(!timer)say(steps[k].t)};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw();if(!timer)say(steps[k].t)};
+  $('#ta').onclick=()=>{if(timer){stopAuto()}else{timer=1;speakStep()}draw()};
+  if(s.id)$('#tgo').onclick=()=>{stopAuto();view('map');openSt(s.id)}};
+ const stopAuto=()=>{if(timer&&timer!==1)clearTimeout(timer);timer=null;sayStop()};
+ const speakStep=()=>{if(!timer)return;say(steps[k].t,()=>{if(!timer)return;timer=setTimeout(()=>{if(!timer)return;k=(k+1)%steps.length;draw();timer=timer||1;speakStep()},voiceOn()?900:4500)})};
+ tourStop=stopAuto;draw()}
 function renderIndex(){const rows=ST.flatMap((s,i)=>s.eps.map(e=>({s,i,e})));
  $('#vIndex').innerHTML=`<input id="q" placeholder="搜尋案件，例如：預備金、分期、傳承"><table id="it"></table>`;
  const f=()=>{const q=$('#q').value.trim();$('#it').innerHTML=rows.filter(r=>!q||(r.e.name+r.e.topic+r.e.hook+r.e.point+r.s.island).includes(q)).map(r=>`<tr data-id="${r.s.id}" style="cursor:pointer"><td style="color:${r.s.color};white-space:nowrap">${r.i+1}. ${esc(r.s.island)}</td><td><b>${esc(r.e.name)}</b><br><small style="color:#5f7680">${esc(r.e.hook)}</small></td></tr>`).join('')||'<tr><td>找不到相關案件，換個關鍵字試試。</td></tr>';
@@ -797,7 +815,7 @@ function renderCamp(){
  V.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{const v=b.dataset.copy;copyText(v==='b'?B.r:D[+v].r,'回報句已複製，貼到 LINE 群組再填空就好')});
  $('#cpIsle').onclick=()=>{view('map');openSt(C.isle)};
  $('#cpClr').onclick=()=>{Object.keys(cp).forEach(k=>{if(k.startsWith(C.pre)&&/_\d+$/.test(k)||k===bk)delete cp[k]});cpSave();campSync(true);renderCamp();renderMap();toast(C.name+'進度已清除')}}
-function view(v){window.__v=v;setTimeout(nxUpdate,0);document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+function view(v){if(v!=='tour')tourStop();sayStop();window.__v=v;setTimeout(nxUpdate,0);document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
  $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
 document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
@@ -806,7 +824,10 @@ document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.g
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
 $('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
 let idle=0,ai=0;['pointerdown','keydown','wheel','touchstart'].forEach(e=>addEventListener(e,()=>idle=0,{passive:true}));
-setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id))}},2000);
+setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){if(voiceOn()&&(speechSynthesis.speaking||speechSynthesis.pending))return;ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id));if(voiceOn())say(`第 ${ai+1} 站，${ST[ai].island}。${ST[ai].theme}`)}},2000);
+(()=>{const vb=$('#tgVoice'),vl=$('#tgVoiceL');if(!VOICE_OK){vl.style.display='none';return}
+ try{vb.checked=localStorage.getItem('md_voice')==='1'}catch(e){}
+ vb.onchange=()=>{try{localStorage.setItem('md_voice',vb.checked?'1':'0')}catch(e){}if(vb.checked)say('語音導覽開啟！多多會唸給你聽喔。');else sayStop()}})();
 $('#shareTop').onclick=()=>copyLink('');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='SUPPLY'){view('supply');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
