@@ -215,6 +215,8 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 @media(max-width:640px){.ci-days{grid-template-columns:1fr}}
 .crewbox{max-width:520px}.crbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.crbtns .btn{text-decoration:none}
 #crewM{z-index:9999}
+.bk-top{display:flex;gap:12px;align-items:center;margin-bottom:4px}.bk-top img{width:96px;height:96px;object-fit:contain;border-radius:8px;background:#fff;flex:none}.bk-tt{font-size:16px;line-height:1.5;margin:2px 0}.bk-tt b{color:#c0603f;font-size:18px}.bk-top small{color:#8a7a5a}
+.bk-lim{display:inline-block;margin-top:4px;background:#c0603f;color:#fff;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700}.bk-note{font-size:12px;color:#8a7a5a;margin-top:8px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -663,7 +665,7 @@ function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.togg
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  if($('#drPin')){const dp=$('#drPin');dp.onclick=dreamOpen;dp.onkeydown=e=>{if(e.key==='Enter')dreamOpen()}}
  document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
- $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　🎁 八島全破送理財規劃書籍</div>${bookMini()}<div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
+ $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　🎁 八島全破送書《理財就是理生活》</div>${bookMini()}<div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
  $('#stats').innerHTML=`<div class="stat"><b>8</b><span>座島</span></div><div class="stat"><b>${total}</b><span>個財商案件</span></div><div class="stat"><b>${doneCount()}</b><span>已破案島嶼</span></div>`;
@@ -682,9 +684,9 @@ function bookCode(){let c='';try{c=localStorage.getItem('hanji_book')||''}catch(
  if(!c){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';c='BOOK-';for(let k=0;k<5;k++)c+=a[Math.floor(Math.random()*a.length)];try{localStorage.setItem('hanji_book',c)}catch(e){}}return c}
 function bookTicket(){const n=doneCount(),full=n>=8;
  const cells=ST.map((x,k)=>`<button type="button" class="bk-c${st.done[x.id]?' on':''}" data-isle="${x.id}" aria-label="前往 ${esc(x.island)}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案・點我闖關</i>'}</button>`).join('');
- return `<div class="ticket book"><div class="tk-l">🎁 領書券｜集滿 8 格送理財規劃書籍一本</div><div class="bk-g">${cells}</div>`+
- (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你已經有領書資格</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
- :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`</div>`}
+ return `<div class="ticket book"><div class="bk-top"><img src="img/book_cover.jpg" alt="《理財就是理生活》書封" loading="lazy"><div><div class="tk-l">🎁 領書券</div><div class="bk-tt">集滿 8 格，送一本<br><b>《理財就是理生活》</b></div><small>水湄物語 著｜大是文化</small><div class="bk-lim">限量 10 本，送完為止</div></div></div><div class="bk-g">${cells}</div>`+
+ (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你可以領一本《理財就是理生活》</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
+ :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`<div class="bk-note">※ 限量 10 本，送完為止。本活動保留變更活動內容及贈品內容的權利。</div></div>`}
 function bookMini(){return doneCount()>=8?`<div style="font-size:13px;margin-top:6px">🎁 領書券：<b>${esc(bookCode())}</b>　<a href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書</a></div>`:''}
 function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=ST.find(x=>!st.done[x.id]);
  let go='';if(nx){if(!hasPass())go=`<div style="margin-top:8px">填 1 分鐘問卷領登船通行碼，就能去其他島。</div><button class="btn pri" id="goGate" type="button">領登船通行碼 →</button>`;
@@ -814,7 +816,7 @@ function say(txt,done){if(!voiceOn()){done&&done();return}
  speechSynthesis.speak(u);
  setTimeout(()=>{if(!speechSynthesis.speaking&&!speechSynthesis.pending)fin()},clean.length*400+4000)}
 let tourStop=()=>{};
-function renderTour(){tourStop();let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。看完精選案件，按「我破案了」就蓋章！`}))).concat([{t:'逛完了！任選一座島開始，八島全破就送理財規劃書籍一本。看完影片留言「破案」，Angie 陪你啟航。'}]);
+function renderTour(){tourStop();let k=0,timer=null;const steps=[{t:'嗨！我是多多，人生金錢偵探社的社區管家。多多來了，真相不遠了！跟我一起逛 8 座島吧。'}].concat(ST.map((s,i)=>({id:s.id,t:`第 ${i+1} 站「${s.island}」：${s.theme}。這裡有 ${s.eps.length} 個案件，等級是 ${s.rank}。看完精選案件，按「我破案了」就蓋章！`}))).concat([{t:'逛完了！任選一座島開始，八島全破就送一本《理財就是理生活》。看完影片留言「破案」，Angie 陪你啟航。'}]);
  const draw=()=>{const s=steps[k];$('#vTour').innerHTML=`<div class="guide"><div class="who"><img class="duoimg big" src="img/duo.jpg" alt="多多">多多｜社區管家</div>
  <div><div style="font-size:16px">${esc(s.t)}</div><div class="ctrl"><button class="btn" id="tp">←</button><span>${k+1} / ${steps.length}</span><button class="btn" id="tn">→</button><button class="btn" id="ta">${timer?'暫停':'自動播放'}</button>${s.id?`<button class="btn pri" id="tgo">去這座島</button>`:''}</div></div></div>`;
   $('#tp').onclick=()=>{k=(k-1+steps.length)%steps.length;draw();if(!timer)say(steps[k].t)};$('#tn').onclick=()=>{k=(k+1)%steps.length;draw();if(!timer)say(steps[k].t)};
