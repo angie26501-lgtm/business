@@ -142,7 +142,7 @@ document.querySelectorAll('.role').forEach(b=>b.onclick=()=>pick(b.dataset.r));
 document.querySelectorAll('[data-yt]').forEach(a=>a.onclick=e=>{e.preventDefault();yt(+a.dataset.yt);$('#ytTabs').scrollIntoView({behavior:'smooth'})});
 function done(){try{return !!localStorage.getItem('hanji_adv_done')}catch(e){return false}}
 function showFb(){$('#solve').textContent='✅ 冒險島已破案';
- $('#fb').innerHTML=`<span class="stamp">冒險島破案！</span><p style="margin:10px 0 0">再挑戰兩個加碼關卡：</p><div class="links">
+ $('#fb').innerHTML=`<span class="stamp">冒險島破案！</span><div style="margin:10px 0;padding:10px 12px;border:2px dashed #c0603f;border-radius:12px;background:#fff6ef">☕ <b>新朋友 3 關</b>：迷霧港、體質島、冒險島都完成，就送你 <b>30 分鐘免費諮詢</b>（每人限用一次）。<br><a class="btn pri" href="index.html" style="margin-top:6px">回群島看我的見面禮 →</a></div><p style="margin:10px 0 0">再挑戰兩個加碼關卡：</p><div class="links">
  <a class="btn pri" href="../carcrash/index.html">🚗 車禍現場應變闖關 →</a>
  <a class="btn ghost" href="https://www.allfreedom.info/mature-assessment-center.html" target="_blank" rel="noopener">🧭 熟齡檢測中心 →</a>
  <a class="btn ghost" href="index.html">⚓ 回財富航海群島</a><button class="btn ghost" type="button" id="advInv">📣 邀朋友一起闖冒險島</button></div>`;

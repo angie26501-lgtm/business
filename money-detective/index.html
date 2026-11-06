@@ -246,11 +246,37 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .qz-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.qz-b .btn{text-decoration:none}.qz-e{color:#c0603f;font-size:14px;margin:6px 0}
 .qz-res{margin-top:10px;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid #cfe3d8}.qz-rt{font-size:18px;font-weight:800}.qz-res p{margin:4px 0}.qz-res small,.qz-up small{color:#8a7a5a;font-size:12px}
 .qz-up{margin-top:10px;background:#fff8ea;border:1px solid #e8d3a3;border-radius:12px;padding:10px 12px}.qz-ut{font-weight:800;color:#8a5a12;margin-bottom:4px}.qz-up ul{margin:4px 0;padding-left:20px;font-size:14px}
+body.lite #captain,body.lite .hero,body.lite .tiles,body.lite #tabs,body.lite .toggles,body.lite #vMap,body.lite #gpOpen{display:none!important}
+body:not(.lite) #liteBox{display:none}
+body.lite .banner{aspect-ratio:auto;max-height:none;height:clamp(150px,24vw,260px)}body.lite .banner img{max-height:none!important;height:100%!important}
+body.lite .banner img{max-height:240px;width:100%;object-fit:cover;object-position:50% 30%}
+.bk-lim{margin:4px 4px 0 0}
+#liteBox{background:#fff;border:2px solid #d9c38f;border-radius:18px;padding:16px;margin:14px 0}
+#liteBox h2{margin:0 0 4px;font-size:22px}#liteBox .lt-sub{color:#5f7680;font-size:14px;margin:0 0 12px;line-height:1.7}
+.lt-g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lt-c{border:2px solid #e3d6b4;border-radius:14px;padding:12px;background:#fffdf6;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.lt-c b{display:block;font-size:17px;margin:2px 0}.lt-c span{font-size:13px;color:#5f7680;line-height:1.6}
+.lt-c .n{display:inline-block;background:#2f5d6a;color:#fff;border-radius:99px;padding:1px 9px;font-size:12px}
+.lt-c.on{border-color:#5a9a5a;background:#f0f8ee}.lt-c.on .n{background:#5a9a5a}
+.lt-c.lt-next{box-shadow:0 0 0 3px #f2c96b}
+.lt-adv{display:flex;gap:10px;align-items:center;margin-top:10px;border:2px dashed #9fb57a;border-radius:14px;padding:10px 12px;background:#f6faef;text-decoration:none;color:inherit}
+.lt-adv b{font-size:16px}.lt-adv span{font-size:13px;color:#5f7680}
+.lt-prog{height:10px;background:#eee4cc;border-radius:99px;overflow:hidden;margin:12px 0 4px}.lt-prog i{display:block;height:100%;background:#5a9a5a}
+.lt-foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:#5f7680}
+.ct{border:2px dashed #c0603f;border-radius:14px;padding:12px;background:#fff6ef;margin-top:10px}
+.ct .tk-l{font-weight:800;color:#c0603f}.ct-g{display:flex;gap:6px;margin:8px 0}
+.ct-g span{flex:1;text-align:center;border:1px solid #e3c2b0;border-radius:10px;padding:6px 2px;font-size:13px;background:#fff}
+.ct-g span.on{background:#c0603f;color:#fff;border-color:#c0603f;font-weight:700}
+#toFull{position:fixed;left:10px;bottom:10px;z-index:40}
+body.lite #toFull{display:none}
+@media (max-width:640px){.lt-g{grid-template-columns:1fr}}
+@media (prefers-color-scheme:dark){#liteBox{background:#1f2a2e;border-color:#8a7a4a;color:#eef}.lt-c{background:#25343a;border-color:#4a5a5e}.lt-c.on{background:#23402a}.lt-c span,#liteBox .lt-sub,.lt-adv span,.lt-foot{color:#b9cbd0}.lt-adv{background:#22301f}.ct{background:#3a271f;color:#f3e6dc}.ct-g span{background:#2b1f1a;color:#f3e6dc}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
+<section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
 <section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster_v2.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
 <section class="hero">
  <div>
@@ -302,6 +328,7 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 <section id="vGuard" class="panel" style="display:none"></section>
 <section id="vSupply" class="panel" style="display:none"></section>
 <section id="detail"></section>
+<button class="btn" id="toFull" type="button" style="display:none"></button>
 </div>
 <footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a><div class="ipnote" style="max-width:900px;margin:14px auto 0;padding:12px 14px;border:1px dashed #c9b88a;border-radius:12px;background:#fffaf0;color:#5b4a2a;font-size:13px;line-height:1.8;text-align:left"><b>©️ 智慧財產權聲明</b><br>本網站所有文章、圖片、影片、角色（多多、胖胖幣、小綠芽）與互動內容，著作權皆屬 <b>人生金錢偵探社／馥芸財富學苑 陳芸琪</b> 所有。歡迎分享；引用時請註明來源出處並加註連結：<a href="https://reurl.cc/RRZRaG" target="_blank" rel="noopener">https://reurl.cc/RRZRaG</a>。未經書面授權，請勿修改、重製或作商業使用。</div></footer>
 <div class="toast" id="toast"></div>
@@ -702,6 +729,9 @@ function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
 // ===== 浮動「下一步」引導框 =====
 let nxMin=false;try{nxMin=localStorage.getItem('hanji_nx')==='1'}catch(e){}
 function nxStep(){const cur=window.__cur,v=window.__v||'map',gameGo=()=>{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})};
+ if(isLite()){const nx=LITE.find(id=>!liteIsDone(id));if(!nx)return {t:'3 關都完成了！加 LINE 預約 30 分鐘免費諮詢 ☕',b:'看諮詢券',f:()=>$('#liteBox').scrollIntoView({behavior:'smooth'})};
+  if(cur===nx)return {t:`第 ${LITE.indexOf(nx)+1} 關〈${LITE_NM[nx]}〉：看完精選案件，按「我破案了」。`,b:'到精選案件 ↓',f:gameGo};
+  return {t:`新朋友 3 關：下一關是〈${LITE_NM[nx]}〉。`,b:'前往 '+LITE_NM[nx],f:()=>liteGo(nx)}}
  if(!st.done.S1)return cur==='S1'&&v==='map'?{t:'看完精選案件，按「我破案了」就完成！不用填任何資料。',b:'到精選案件 ↓',f:gameGo}:{t:'先到第 1 站「迷霧港」免費試玩，看看自己有沒有財務亞健康。',b:'前往迷霧港',f:()=>{view('map');openSt('S1')}};
  if(!hasPass())return {t:'迷霧港破案了！填 1 分鐘問卷，領登船通行碼，其他島任你挑。',b:'領登船通行碼',f:()=>{view('map');gate(ST.find(x=>!st.done[x.id])||ST[1])}};
  const i=ST.findIndex(x=>!st.done[x.id]);
@@ -745,15 +775,45 @@ function caseCard(e){return `<div class="case"><h4>${esc(e.name)}</h4><span clas
  ${vidOK(e.vid)?`<details class="evid"><summary>▶ 看影片</summary><video src="${e.vid}" poster="${e.vid.replace('.mp4','.jpg')}" controls playsinline preload="none" style="width:100%;max-width:260px;aspect-ratio:9/16;border-radius:12px;background:#000;margin-top:8px"></video><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></details>`:''}${e.link?`<p style="color:#5f7680"><a href="${esc(e.link)}" target="_blank" rel="noopener">▶ 看影片</a></p>`:''}</div>`}
 // ===== 🎁 八島全破領書券 =====
 const BOOK_KEY='領書';
+// ===== 🌱 新朋友 3 關版（lite）=====
+const LITE=['S1','S4','ADV'],LITE_TIP={S1:'先看看自己有沒有「財務亞健康」',S4:'測測家裡的財務體質，看懂錢都去哪了',ADV:'選一個角色，看人生路上會遇到哪些風險'},LITE_NM={S1:'迷霧港',S4:'體質島',ADV:'冒險島'},LITE_NEXT={S1:'🧭 帶你認識整張航海圖',S4:'🌱 延伸：用綠芽看懂全家財務',ADV:'🛡️ 延伸：保障快檢・退休準備'};
+const liteIsDone=id=>id==='ADV'?advDone():!!st.done[id];
+const liteGo=id=>{if(id==='ADV')location.href='adventure.html';else openSt(id)};
+const BOOK_END=new Date('2027-01-01T00:00:00+08:00').getTime(),bookEnded=()=>Date.now()>=BOOK_END;
+const CONSULT_KEY='諮詢';
+function isLite(){return document.body.classList.contains('lite')}
+const liteDone=()=>LITE.filter(liteIsDone).length;
+function consultCode(){let c='';try{c=localStorage.getItem('hanji_consult')||''}catch(e){}
+ if(!c){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';c='TALK-';for(let k=0;k<5;k++)c+=a[Math.floor(Math.random()*a.length)];try{localStorage.setItem('hanji_consult',c)}catch(e){}}return c}
+function consultTicket(){const n=liteDone(),full=n>=3;
+ return `<div class="ct"><div class="tk-l">☕ 新朋友見面禮｜30 分鐘免費諮詢</div><div style="font-size:14px">完成 3 關，就送你 30 分鐘一對一免費諮詢（每人限用一次）。</div>
+ <div class="ct-g">${LITE.map((id,k)=>`<span class="${liteIsDone(id)?'on':''}">${k+1}. ${LITE_NM[id]}${liteIsDone(id)?' ✓':''}</span>`).join('')}</div>`+
+ (full?`<div style="font-weight:700">恭喜完成 3 關！你的諮詢代碼：</div><div class="tk-c">${esc(consultCode())}</div><div style="font-size:13px">加 LINE 後傳「${CONSULT_KEY}」和這組代碼給芸琪，約一個你方便的時間，一起看看你家的保障和退休準備。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 預約免費諮詢 →</a>`
+ :`<div style="font-size:14px">已完成 ${n} / 3 關，再 ${3-n} 關就能領。</div>`)+`<div class="bk-note">※ 每人限用一次。本活動保留變更活動內容及贈品內容的權利。</div></div>`}
+function renderLite(){const b=$('#liteBox');if(!b)return;const n=liteDone(),nx=LITE.find(id=>!liteIsDone(id));
+ b.innerHTML=`<span class="badge">第一次來？先玩新朋友 3 關</span><h2>🌱 3 關認識自己的財務體質</h2><p class="lt-sub">不用註冊、不用公開任何數字，一關約 3 分鐘。照順序玩最順，完成 3 關送你 <b>30 分鐘免費諮詢</b>。</p>
+ <div class="lt-g">${LITE.map((id,k)=>`<button type="button" class="lt-c${liteIsDone(id)?' on':''}${id===nx?' lt-next':''}" data-lite="${id}"><i class="n">第 ${k+1} 關${liteIsDone(id)?'・已破案 ✓':''}</i><b>${LITE_NM[id]}</b><span>${LITE_TIP[id]}</span><span style="display:block;margin-top:4px;color:#8a5a12">${LITE_NEXT[id]}</span></button>`).join('')}</div>
+ <div class="lt-prog"><i style="width:${n/3*100}%"></i></div><div style="font-size:13px;color:#5f7680">已完成 ${n} / 3 關</div>
+ ${n>=3?consultTicket():''}
+ <div class="lt-foot"><span>已經是芸琪的學員？</span><button class="btn" type="button" id="goFull">🎓 學員・完整版（8 座島）→</button></div>`;
+ b.querySelectorAll('[data-lite]').forEach(x=>x.onclick=()=>liteGo(x.dataset.lite));
+ $('#goFull').onclick=()=>{setMode('full');window.scrollTo({top:0,behavior:'smooth'})}}
+function setMode(m,keep){document.body.classList.toggle('lite',m==='lite');if(keep!==false)try{localStorage.setItem('hanji_mode',m)}catch(e){}
+ const t=$('#toFull');if(t){t.style.display='';t.textContent='🌱 回新朋友 3 關版';t.onclick=()=>{setMode('lite');window.scrollTo({top:0,behavior:'smooth'})}}
+ renderLite();if(typeof nxUpdate==='function')setTimeout(nxUpdate,0)}
 function bookCode(){let c='';try{c=localStorage.getItem('hanji_book')||''}catch(e){}
  if(!c){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';c='BOOK-';for(let k=0;k<5;k++)c+=a[Math.floor(Math.random()*a.length)];try{localStorage.setItem('hanji_book',c)}catch(e){}}return c}
-function bookTicket(){const n=doneCount(),full=n>=8;
+function bookTicket(){const n=doneCount(),full=n>=8&&!bookEnded();
  const cells=ST.map((x,k)=>`<button type="button" class="bk-c${st.done[x.id]?' on':''}" data-isle="${x.id}" aria-label="前往 ${esc(x.island)}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案・點我闖關</i>'}</button>`).join('');
- return `<div class="ticket book"><div class="bk-top"><img src="img/book_cover.jpg" alt="《理財就是理生活》書封" loading="lazy"><div><div class="tk-l">🎁 領書券</div><div class="bk-tt">集滿 8 格，送一本<br><b>《理財就是理生活》</b></div><small>水湄物語 著｜大是文化</small><div class="bk-lim">限量 10 本，送完為止</div></div></div><div class="bk-g">${cells}</div>`+
- (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你可以領一本《理財就是理生活》</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
- :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`<div class="bk-note">※ 限量 10 本，送完為止。本活動保留變更活動內容及贈品內容的權利。</div></div>`}
+ return `<div class="ticket book"><div class="bk-top"><img src="img/book_cover.jpg" alt="《理財就是理生活》書封" loading="lazy"><div><div class="tk-l">🎁 領書券</div><div class="bk-tt">集滿 8 格，送一本<br><b>《理財就是理生活》</b></div><small>水湄物語 著｜大是文化</small><div class="bk-lim">12/31 前集滿・限量 10 本</div><div class="bk-lim" style="background:#c0603f">加贈 30 分鐘免費諮詢</div></div></div><div class="bk-g">${cells}</div>`+
+ (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你可以領一本《理財就是理生活》＋30 分鐘免費諮詢</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記，也可以順便約諮詢時間。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
+ :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`<div class="bk-note">※ 2026/12/31 前完成 8 格，可領《理財就是理生活》一本（限量 10 本，送完為止），並加贈 30 分鐘免費諮詢（每人限用一次；已用過新朋友 3 關見面禮的，不重複贈送）。本活動保留變更活動內容及贈品內容的權利。${bookEnded()?'<br><b>本期領書活動已結束，謝謝參與！</b>':''}</div></div>`}
 function bookMini(){return doneCount()>=8?`<div style="font-size:13px;margin-top:6px">🎁 領書券：<b>${esc(bookCode())}</b>　<a href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書</a></div>`:''}
-function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=ST.find(x=>!st.done[x.id]);
+function solvedFb(s){const f=$('#solveFb');if(!f)return;
+ if(isLite()&&LITE.includes(s.id)){const nx=LITE.find(id=>!liteIsDone(id));renderLite();
+  f.innerHTML=`<span class="stamp">破案！</span>`+consultTicket()+(nx?`<button class="btn pri" id="goLite" type="button" style="margin-top:8px">下一關：${LITE_NM[nx]} →</button>`:'')+`<button class="btn" id="invite" type="button" style="margin:8px 0 0 6px">📣 邀朋友一起破案</button>`;
+  if($('#goLite'))$('#goLite').onclick=()=>liteGo(nx);
+  $('#invite').onclick=()=>shareSheet(SHORT_URL,'⚓ 我在「財富航海群島」玩新朋友 3 關（迷霧港・體質島・冒險島），完成還送 30 分鐘免費諮詢，你也來試試 👉');return}const n=doneCount(),nx=ST.find(x=>!st.done[x.id]);
  let go='';if(nx){if(!hasPass())go=`<div style="margin-top:8px">填 1 分鐘問卷領登船通行碼，就能去其他島。</div><button class="btn pri" id="goGate" type="button">領登船通行碼 →</button>`;
   else go=`<button class="btn pri" id="goNext" type="button" style="margin-top:8px">前往 ${esc(nx.island)} →</button>`}
  f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+bookTicket()+go+`<button class="btn" id="invite" type="button" style="margin:8px 0 0 6px">📣 邀朋友一起破案</button>`;
@@ -763,7 +823,7 @@ function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=S
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
- if(!hasPass()&&id!=='S1'){gate(s,noScroll);return}
+ if(!hasPass()&&id!=='S1'&&!(isLite()&&LITE.includes(id))){gate(s,noScroll);return}
  if(!unlocked(i)){lockedIsle(s,i,noScroll);return}
  $('#detail').innerHTML=`<div class="panel" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖" loading="lazy"></div>`:''}
@@ -793,7 +853,7 @@ function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style=
 function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
 function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
  const sb=$('#solveBtn');if(sb)sb.textContent='✅ 這座島已破案';solvedFb(s);
- if($('#fb'))$('#fb').innerHTML=`<span class="stamp">破案！</span>　${esc(s.island)} 完成，已破 ${doneCount()} / 8 座島。`;
+ if($('#fb'))$('#fb').innerHTML=(isLite()&&LITE.includes(s.id)?`<span class="stamp">破案！</span>　${esc(s.island)} 完成，新朋友 3 關已完成 ${liteDone()} / 3。`:`<span class="stamp">破案！</span>　${esc(s.island)} 完成，已破 ${doneCount()} / 8 座島。`);
  const f=$('#solveFb');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})}
 function campPath(){const e3=campEnded('c3'),e5=campEnded('c5');
  return `<div class="cpath"><div class="cp-i"><div class="cp-h">🌱 三日營｜先暖身・免費</div><p>3 天圖文任務，在「金錢好生活・芸琪共學圈」一起完成，<b>不用公開任何財務數字</b>。適合想先找回對錢的感覺的人。</p>
@@ -1051,8 +1111,12 @@ setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.disp
 $('#shareTop').onclick=()=>shareSheet(SHORT_URL,'⚓ 推薦你玩「人生金錢偵探社｜財富航海群島」：8 座島、8 個財務案，破案還有機會領書 🎁');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='SUPPLY'){view('supply');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
+(function(){let m='';try{m=localStorage.getItem('hanji_mode')||''}catch(e){}
+ const h=(location.hash||'').slice(1).toUpperCase();
+ if(!m)m=(doneCount()===0&&!hasPass())?'lite':'full';
+ if(m==='lite'&&h&&!LITE.includes(h))setMode('full',false);else setMode(m,m==='lite')})();
 addEventListener('hashchange',fromHash);fromHash();cartBtn();nxUpdate();
-(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:true,f:14,x:null,y:null,col:innerWidth<700};
+(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:!isLite(),f:14,x:null,y:null,col:innerWidth<700};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
  const clamp=()=>{if(g.x==null)return;const r=P.getBoundingClientRect();g.x=Math.max(4,Math.min(innerWidth-r.width-4,g.x));g.y=Math.max(4,Math.min(innerHeight-40,g.y));P.style.left=g.x+'px';P.style.top=g.y+'px';P.style.right='auto';P.style.bottom='auto'};
