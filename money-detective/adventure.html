@@ -47,10 +47,19 @@ a{color:var(--green)}
 .foot{text-align:center;color:var(--mut);font-size:13px;padding:10px 0 30px}
 .note{font-size:12px;color:var(--mut);margin-top:10px}
 @media(max-width:720px){.roles{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.lock{grid-template-columns:1fr}.hero h1{font-size:22px}}
+#shrM{position:fixed;inset:0;background:rgba(20,40,50,.45);display:none;align-items:flex-end;justify-content:center;z-index:10000}
+#shrM.on{display:flex}
+.shr-b{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:14px 16px 22px;animation:shrUp .2s}
+@keyframes shrUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.shr-h{display:flex;justify-content:space-between;align-items:center;font-size:16px}.shr-h button{border:0;background:#f1ede4;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px}
+.shr-t{font-size:13px;color:#5f7680;background:#f7f4ec;border-radius:10px;padding:8px 10px;margin:10px 0;white-space:pre-wrap;word-break:break-all;max-height:90px;overflow:auto}
+.shr-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.shr-i{font:inherit;font-size:13px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:#1f3a44;text-decoration:none}
+.shr-i span{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
 </style>
 </head>
 <body>
-<div class="top"><b>人生金錢偵探社｜冒險島</b><a href="index.html">← 回財富航海群島</a></div>
+<div class="top"><b>人生金錢偵探社｜冒險島</b><span style="display:flex;gap:6px"><a href="#" id="advShare">📣 分享</a><a href="index.html">← 回財富航海群島</a></span></div>
 <div class="wrap">
 
 <div class="hero"><span class="badge">⚔️ 加碼島｜風險規劃練功場</span>
@@ -129,7 +138,24 @@ function showFb(){$('#solve').textContent='✅ 冒險島已破案';
  $('#fb').innerHTML=`<span class="stamp">冒險島破案！</span><p style="margin:10px 0 0">再挑戰兩個加碼關卡：</p><div class="links">
  <a class="btn pri" href="../carcrash/index.html">🚗 車禍現場應變闖關 →</a>
  <a class="btn ghost" href="https://www.allfreedom.info/mature-assessment-center.html" target="_blank" rel="noopener">🧭 熟齡檢測中心 →</a>
- <a class="btn ghost" href="index.html">⚓ 回財富航海群島</a></div>`}
+ <a class="btn ghost" href="index.html">⚓ 回財富航海群島</a><button class="btn ghost" type="button" id="advInv">📣 邀朋友一起闖冒險島</button></div>`;
+ $('#advInv').onclick=()=>shareSheet(ADV_URL,'⚔️ 我闖過「冒險島」了！選你的人生角色，看看自己最該注意哪 3 種保障 👉')}
+// ===== 轉分享選單 =====
+function shareSheet(u,txt){let m=document.getElementById('shrM');if(!m){m=document.createElement('div');m.id='shrM';document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')})}
+ const full=txt+'\n'+u,E=encodeURIComponent;
+ m.innerHTML=`<div class="shr-b" role="dialog" aria-label="分享"><div class="shr-h"><b>📣 分享給朋友</b><button type="button" id="shrX" aria-label="關閉">✕</button></div><div class="shr-t"></div>
+ <div class="shr-g"><a class="shr-i" href="https://line.me/R/share?text=${E(full)}" target="_blank" rel="noopener"><span style="background:#06c755">💚</span>LINE</a>
+ <a class="shr-i" href="https://www.facebook.com/sharer/sharer.php?u=${E(u)}" target="_blank" rel="noopener"><span style="background:#1877f2">📘</span>Facebook</a>
+ ${navigator.share?'<button type="button" class="shr-i" id="shrN"><span style="background:#5f7680">📲</span>更多</button>':''}
+ <button type="button" class="shr-i" id="shrC"><span style="background:#d9a441">🔗</span>複製連結</button></div></div>`;
+ m.querySelector('.shr-t').textContent=full;m.classList.add('on');
+ m.querySelector('#shrX').onclick=()=>m.classList.remove('on');
+ const n=m.querySelector('#shrN');if(n)n.onclick=()=>navigator.share({text:txt,url:u}).catch(()=>{});
+ m.querySelector('#shrC').onclick=()=>{const ok=()=>{const b=m.querySelector('#shrC');b.lastChild.textContent='已複製 ✓'};
+  try{navigator.clipboard.writeText(full).then(ok,()=>shrFb(full,ok))}catch(e){shrFb(full,ok)}}}
+function shrFb(t,ok){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
+const ADV_URL='https://angie26501-lgtm.github.io/business/money-detective/adventure.html';
+$('#advShare').onclick=e=>{e.preventDefault();shareSheet(ADV_URL,'⚔️ 冒險島｜選你的人生角色，3 分鐘看懂壽險和產險各保什麼 👉')};
 $('#solve').onclick=()=>{try{localStorage.setItem('hanji_adv_done',Date.now())}catch(e){}showFb();$('#fb').scrollIntoView({behavior:'smooth',block:'center'})};
 if(done())showFb();
 try{const r=localStorage.getItem('hanji_adv_role');if(r)pick(r)}catch(e){}

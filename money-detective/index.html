@@ -217,6 +217,19 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 #crewM{z-index:9999}
 .bk-top{display:flex;gap:12px;align-items:center;margin-bottom:4px}.bk-top img{width:96px;height:96px;object-fit:contain;border-radius:8px;background:#fff;flex:none}.bk-tt{font-size:16px;line-height:1.5;margin:2px 0}.bk-tt b{color:#c0603f;font-size:18px}.bk-top small{color:#8a7a5a}
 .bk-lim{display:inline-block;margin-top:4px;background:#c0603f;color:#fff;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700}.bk-note{font-size:12px;color:#8a7a5a;margin-top:8px}
+#avFollow{position:fixed;left:0;top:0;width:76px;height:84px;pointer-events:none;z-index:9000;opacity:0;transition:opacity .25s;will-change:transform;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
+#avFollow.on{opacity:1}#avFollow svg{width:100%;height:100%}
+@media (prefers-reduced-motion:reduce){#avFollow{display:none}}
+.dread{margin:8px 0;padding:8px 12px;border-radius:12px;background:#f3faf6;border:1px solid #cfe3d8}.dread-h{font-weight:700;font-size:13px;color:#2f7a55;margin-bottom:2px}.dread a{display:block;font-size:14px;padding:3px 0;color:#2f5d6a}
+#shrM{position:fixed;inset:0;background:rgba(20,40,50,.45);display:none;align-items:flex-end;justify-content:center;z-index:10000}
+#shrM.on{display:flex}
+.shr-b{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:14px 16px 22px;animation:shrUp .2s}
+@keyframes shrUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.shr-h{display:flex;justify-content:space-between;align-items:center;font-size:16px}.shr-h button{border:0;background:#f1ede4;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:15px}
+.shr-t{font-size:13px;color:#5f7680;background:#f7f4ec;border-radius:10px;padding:8px 10px;margin:10px 0;white-space:pre-wrap;word-break:break-all;max-height:90px;overflow:auto}
+.shr-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.shr-i{font:inherit;font-size:13px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:#1f3a44;text-decoration:none}
+.shr-i span{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -258,6 +271,7 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
  <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
  <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
  <label><input type="checkbox" id="tgList">改用清單版</label>
+ <label><input type="checkbox" id="tgFollow" checked>船員跟著滑鼠走</label>
  <label id="tgVoiceL"><input type="checkbox" id="tgVoice">🔊 語音導覽</label>
 </div>
 
@@ -375,6 +389,20 @@ const total=ST.reduce((a,s)=>a+s.eps.length,0);
 const doneCount=()=>ST.filter(s=>st.done[s.id]).length;
 const rank=()=>RANKS[Math.min(RANKS.length-1,Math.ceil(doneCount()*5/8))];
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1600)}
+// ===== 轉分享選單 =====
+function shareSheet(u,txt){let m=document.getElementById('shrM');if(!m){m=document.createElement('div');m.id='shrM';document.body.appendChild(m);m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on')})}
+ const full=txt+'\n'+u,E=encodeURIComponent;
+ m.innerHTML=`<div class="shr-b" role="dialog" aria-label="分享"><div class="shr-h"><b>📣 分享給朋友</b><button type="button" id="shrX" aria-label="關閉">✕</button></div><div class="shr-t"></div>
+ <div class="shr-g"><a class="shr-i" href="https://line.me/R/share?text=${E(full)}" target="_blank" rel="noopener"><span style="background:#06c755">💚</span>LINE</a>
+ <a class="shr-i" href="https://www.facebook.com/sharer/sharer.php?u=${E(u)}" target="_blank" rel="noopener"><span style="background:#1877f2">📘</span>Facebook</a>
+ ${navigator.share?'<button type="button" class="shr-i" id="shrN"><span style="background:#5f7680">📲</span>更多</button>':''}
+ <button type="button" class="shr-i" id="shrC"><span style="background:#d9a441">🔗</span>複製連結</button></div></div>`;
+ m.querySelector('.shr-t').textContent=full;m.classList.add('on');
+ m.querySelector('#shrX').onclick=()=>m.classList.remove('on');
+ const n=m.querySelector('#shrN');if(n)n.onclick=()=>navigator.share({text:txt,url:u}).catch(()=>{});
+ m.querySelector('#shrC').onclick=()=>{const ok=()=>{const b=m.querySelector('#shrC');b.lastChild.textContent='已複製 ✓'};
+  try{navigator.clipboard.writeText(full).then(ok,()=>shrFb(full,ok))}catch(e){shrFb(full,ok)}}}
+function shrFb(t,ok){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
 function copyLink(h){const u=h?location.href.split('#')[0]+'#'+h:SHORT_URL;const done=()=>toast('連結已複製，可貼到 LINE 分享');
  try{navigator.clipboard.writeText(u).then(done,()=>fallback(u,done))}catch(e){fallback(u,done)}}
 function fallback(u,done){const a=document.createElement('textarea');a.value=u;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast(u)}a.remove()}
@@ -518,10 +546,24 @@ function dreamPin(){return `<g class="isle" id="drPin" tabindex="0" role="button
  <ellipse cx="120" cy="92" rx="78" ry="44" fill="#ffffff" opacity=".35"/>
  <circle cx="166" cy="60" r="15" fill="#fff" stroke="#9b7bd6" stroke-width="2"/><text x="166" y="66" text-anchor="middle" font-size="16">🔒</text>
  <rect class="tagbg" x="52" y="128" width="136" height="24" rx="12" fill="#f5efff" stroke="#c9b5f0"/><text class="nametag" x="120" y="145" text-anchor="middle" fill="#6b4fa8">🔒 夢幻島・尚未開放</text></g>`}
+window.addEventListener('pageshow',e=>{if(e.persisted)try{renderMap()}catch(_){}});
+// ===== 船員跟著滑鼠走 =====
+(function(){const F=document.createElement('div');F.id='avFollow';F.setAttribute('aria-hidden','true');document.body.appendChild(F);
+ let on=true;try{on=localStorage.getItem('hanji_follow')!=='0'}catch(e){}
+ const cb=document.getElementById('tgFollow');if(cb){cb.checked=on;cb.onchange=()=>{on=cb.checked;try{localStorage.setItem('hanji_follow',on?'1':'0')}catch(e){}if(!on)F.classList.remove('on')}}
+ let last='',tx=-200,ty=-200,x=-200,y=-200;
+ const paint=()=>{let k='';try{k=JSON.stringify(gw)}catch(e){}if(k!==last){last=k;try{F.innerHTML=avatarSvg('avFol')}catch(e){}}};
+ paint();setInterval(paint,1500);
+ const mv=e=>{if(!on)return;tx=e.clientX+16;ty=e.clientY+14;if(tx+80>innerWidth)tx=e.clientX-92;if(ty+90>innerHeight)ty=e.clientY-98;F.classList.add('on')};
+ addEventListener('pointermove',mv,{passive:true});addEventListener('pointerdown',mv,{passive:true});
+ document.addEventListener('mouseleave',()=>F.classList.remove('on'));
+ (function tick(){x+=(tx-x)*.18;y+=(ty-y)*.18;const r=Math.max(-12,Math.min(12,(tx-x)*.4));F.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;requestAnimationFrame(tick)})();
+})();
 function advPin(){return `<g class="isle" id="advPin" tabindex="0" role="button" aria-label="冒險島 風險規劃練功場" style="cursor:pointer">
  <ellipse cx="560" cy="442" rx="58" ry="16" fill="#9fcad5"/><path d="M508 438 q52 -50 104 0" fill="#c9b98a"/><ellipse cx="560" cy="434" rx="44" ry="13" fill="#8a9a5b"/>
  <polygon points="536,428 556,392 576,428" fill="#6b7d4a"/><polygon points="556,428 574,402 592,428" fill="#55673b"/><path d="M556 392 l0 -16" stroke="#7a5230" stroke-width="3"/><path d="M556 376 l16 6 l-16 6z" fill="#c0603f"/>
- <rect class="tagbg" x="494" y="458" width="132" height="24" rx="12" fill="#fff4ec" stroke="#e3a98c"/><text class="nametag" x="560" y="475" text-anchor="middle" fill="#a14b2c">⚔️ 冒險島・加碼</text></g>`}
+ <rect class="tagbg" x="494" y="458" width="132" height="24" rx="12" fill="#fff4ec" stroke="#e3a98c"/><text class="nametag" x="560" y="475" text-anchor="middle" fill="#a14b2c">⚔️ 冒險島・加碼</text>${advDone()?`<circle cx="520" cy="400" r="13" fill="#fff" stroke="#c0603f" stroke-width="2"/><text x="520" y="404" text-anchor="middle" font-size="11" fill="#c0603f" font-weight="800">破案</text>`:''}</g>`}
+function advDone(){try{return !!localStorage.getItem('hanji_adv_done')}catch(e){return false}}
 function guardPin(){return `<g class="isle" id="gdPin" tabindex="0" role="button" aria-label="守護灣 保戶專屬港" style="cursor:pointer">
  <ellipse cx="962" cy="196" rx="54" ry="16" fill="#9fcad5"/><path d="M914 192 q48 -46 96 0" fill="#e9d7a8"/><ellipse cx="962" cy="190" rx="40" ry="14" fill="#7a5230"/>
  <rect x="948" y="150" width="10" height="34" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="944,150 962,138 980,150" fill="#c0603f"/><circle cx="953" cy="158" r="4" fill="#ffd27a"/>
@@ -696,7 +738,8 @@ function bookMini(){return doneCount()>=8?`<div style="font-size:13px;margin-top
 function solvedFb(s){const f=$('#solveFb');if(!f)return;const n=doneCount(),nx=ST.find(x=>!st.done[x.id]);
  let go='';if(nx){if(!hasPass())go=`<div style="margin-top:8px">填 1 分鐘問卷領登船通行碼，就能去其他島。</div><button class="btn pri" id="goGate" type="button">領登船通行碼 →</button>`;
   else go=`<button class="btn pri" id="goNext" type="button" style="margin-top:8px">前往 ${esc(nx.island)} →</button>`}
- f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+bookTicket()+go;
+ f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+bookTicket()+go+`<button class="btn" id="invite" type="button" style="margin:8px 0 0 6px">📣 邀朋友一起破案</button>`;
+ $('#invite').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+s.id.toLowerCase(),`⚓ 我在「財富航海群島」破了〈${s.island}〉的案（已破 ${n} / 8 座島）！一起來看看自己的財務體質 👉`);
  if($('#goGate'))$('#goGate').onclick=()=>gate(nx);if($('#goNext'))$('#goNext').onclick=()=>openSt(nx.id);
  f.querySelectorAll('[data-isle]').forEach(b=>b.onclick=()=>openSt(b.dataset.isle))}
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
@@ -722,7 +765,7 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="game" id="game"></div></details>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- $('#shareSt').onclick=()=>copyLink(id.toLowerCase());$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
+ $('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -849,6 +892,19 @@ function bindCampBtn(root){(root||document).querySelectorAll('[data-camp]').forE
 function linkBtn(u,l){return u?`<a class="btn" href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a>`:''}
 const hasCode=k=>{try{const v=+localStorage.getItem('hanji_'+k+'pass');return v&&Date.now()-v<30*864e5}catch(e){return false}};
 function campSw(){return `<div class="campsw">${Object.values(CAMPS).map(x=>`<button class="gtab${x.key===campSel?' on':''}" data-sw="${x.key}">${hasCode(x.key)?'':'🔒 '}${x.name}（${x.range}）${hasCode(x.key)&&cCount(x)===x.days.length?' 🎓':''}</button>`).join('')}</div>`}
+// ===== 營隊任務：延伸閱讀（財顧芸個人網站文章） =====
+const AF='https://www.allfreedom.info/';
+const READ={c3:{0:[['50+ 人生下半場應該預先安排的項目','legacy-planning'],['50 歲才開始存退休金，還來得及嗎？','retirement-saving-at-50'],['女人除了退休金，還需要一筆「人生轉身金」','life-turning-fund']],
+ 1:[['傳承怎麼開始？先把愛與重要資料說清楚','legacy-family-conversation'],['數位遺產怎麼整理？','legacy-digital-assets'],['談錢傷感情？其實不談更傷','obs-money-and-family']],
+ 2:[['帳戶裡明明有錢，卻比沒有錢的人更不安心','retirement-asset-structure'],['最有錢的窮人','obs-rich-but-poor'],['急用錢的時候，才知道什麼是真資產','obs-real-asset-liquidity']]},
+ c5:{0:[['想要與需要｜胖胖幣財商小學堂第一集','comic-want-vs-need'],['為什麼越買越多？｜胖胖幣財商小學堂第六集','comic-emotional-spending']],
+ 1:[['該先還房貸，還是先投資？','exam-loan-vs-invest'],['為什麼理財第一步，是首重資產配置？','financial-literacy-asset-allocation']],
+ 2:[['需要用錢時，為什麼先從預備金開始？','financial-literacy-emergency-fund-first'],['投資前先準備緊急預備金｜胖胖幣財商小學堂第三集','comic-emergency-fund-before-investing']],
+ 3:[['薪水入帳，怎麼分才安心？｜胖胖幣財商小學堂第八集','comic-income-allocation'],['60／30／10，照著分就對了嗎？','financial-golden-triangle-60-30-10']],
+ 4:[['財務目標太模糊？｜胖胖幣財商小學堂第七集','comic-financial-goals'],['「等有錢再開始」是最貴的等待','obs-waiting-is-costly']],
+ b:[['不必天天記到幾分幾毛｜一週支出紀錄','comic-painless-expense-tracking']]}};
+function readBlock(ck,k){const L=(READ[ck]||{})[k];if(!L||!L.length)return '';
+ return `<div class="dread"><div class="dread-h">📖 延伸閱讀｜財顧芸文章</div>${L.map(x=>`<a href="${AF}${x[1]}.html" target="_blank" rel="noopener">${esc(x[0])} ↗</a>`).join('')}</div>`}
 function renderCamp(){
  if(!hasCode(campSel)){const C=CAMPS[campSel];const ended=campEnded(campSel);if(ended){$('#vCamp').innerHTML=`${campSw()}<h3 style="margin-top:0">📅 本梯${C.name}（${C.range}）已經結束囉</h3>${duoSay(`多多來了！這一梯${C.full}已經圓滿結束～想參加下一梯，可以先預約；已經參加過的夥伴，輸入芸琪私訊給你的「${C.name}專用通行碼」就能回來複習！`)}<div class="campme"><div style="padding:12px;border-radius:12px;background:#fff7e6;font-size:15px;line-height:1.8"><b>🌱 想參加下一梯？</b><br>${campSel==='c3'?'三日營是<b>免費</b>的，':'五日營是購買綠芽財務管理系統的贈送課程，'}${campSel==='c3'?'加入「金錢好生活・芸琪共學圈」社群預約':'傳訊息給芸琪預約'}，開課時第一時間通知你。<br><a class="btn pri" style="margin-top:6px;display:inline-block" href="${campSel==='c3'?CIRCLE_URL:ORDER_LINE}" target="_blank" rel="noopener">預約下一梯${C.name} →</a></div><div style="margin-top:12px;font-weight:700">📖 已參加的夥伴：輸入通行碼複習</div><div class="campmef"><input id="ccode" maxlength="20" placeholder="${C.name}專用通行碼" autocomplete="off"><button class="btn pri" id="cgo" type="button">打開${C.name}複習</button></div><small>忘記通行碼？請私訊芸琪索取；輸入一次，這台裝置會記住 30 天。</small><div class="fb" id="cfb"></div></div>`;}else{$('#vCamp').innerHTML=`${campSw()}<h3 style="margin-top:0">🎫 ${C.name}任務需要「${C.name}專用通行碼」</h3>${duoSay(`多多來了！${C.full}的任務，只給${C.name}夥伴看喔～輸入芸琪私訊給你的「${C.name}專用通行碼」就能打開！`)}<div class="campme"><div class="campmef"><input id="ccode" maxlength="20" placeholder="${C.name}專用通行碼" autocomplete="off"><button class="btn pri" id="cgo" type="button">打開${C.name}任務</button></div><small>通行碼請私訊芸琪索取；輸入一次，這台裝置會記住 30 天。</small>${campSel==='c3'?'<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff7e6;font-size:14px">還不是三日營夥伴？三日營是<b>免費</b>的，先報名，芸琪會把通行碼私訊給你 🌱<br><a class="btn pri" style="margin-top:6px;display:inline-block" href="https://angie26501-lgtm.github.io/business/quiz/guide.html" target="_blank" rel="noopener">免費報名三日營 →</a></div>':'<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff7e6;font-size:14px">還沒報名五日營？到報名頁填寫，記得附上綠芽訂單編號。<br><a class="btn" style="margin-top:6px;display:inline-block" href="https://angie26501-lgtm.github.io/business/quiz/guide.html" target="_blank" rel="noopener">前往報名頁 →</a></div>'}<div class="fb" id="cfb"></div></div>`;}
   $('#vCamp').querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{campSel=b.dataset.sw;renderCamp()});
@@ -874,6 +930,7 @@ function renderCamp(){
   ${c.tasks.map((x,j)=>`<label class="ck task"><input type="checkbox" data-k="${k}" data-j="${j}" ${cp[C.pre+k+'_'+j]?'checked':''} ${ok?'disabled':''}> ${esc(x)}</label>`).join('')}
   <div class="rep"><div class="rep-l">${C.rl}</div><div class="rep-t">${esc(c.r)}</div></div>
   <div class="dayw">❤️ ${esc(c.w)}</div>
+  ${readBlock(C.key,k)}
   ${(c.tip||c.qa)?`<details class="dnote"${ok?' open':''}><summary>📖 ${esc(c.d)} 重點複習</summary>${c.tip?`<div class="dn-h">${C.tipT}</div>${c.tip.map(x=>`<p>${esc(x)}</p>`).join('')}`:''}${c.qa?`<div class="dn-h">❓ 常見問題</div>${c.qa.map(x=>`<p><b>Q｜${esc(x[0])}</b><br>A｜${esc(x[1])}</p>`).join('')}`:''}</details>`:''}
   <div class="dayb">${linkBtn(c.url,ul(c))}${linkBtn(c.x,c.xl)}${C.copy?`<button class="btn" data-copy="${k}">複製回報句</button>`:''}${ok?`<button class="btn" data-fold="${ok2}">收合 ▲</button>`:''}</div>${ok?'<div class="days-s" style="margin-top:6px">複習模式：這一天已完成，任務勾選已鎖定，不會影響後面的進度。</div>':''}</div>`}).join('')}
  ${!bOpen?`<div class="day lock"><div class="dayh"><b>🔒 加碼｜${esc(B.t)}</b></div><div class="days-s">${esc(B.s)}。</div></div>`:
@@ -882,6 +939,7 @@ function renderCamp(){
   <label class="ck task"><input type="checkbox" id="cpBonus" ${cp[bk]?'checked disabled':''}> ${esc(B.task)}</label>
   ${B.r?`<div class="rep"><div class="rep-l">完成後到群組留言：</div><div class="rep-t">${esc(B.r)}</div>${B.help?`<div class="rep-l" style="margin-top:6px">還沒開始的話，可以留言：</div><div class="rep-t">${esc(B.help)}</div>`:''}</div>`:''}
   ${B.foot?`<div class="dayw">${esc(B.foot)}</div>`:''}
+  ${readBlock(C.key,'b')}
   <div class="dayb">${linkBtn(B.url,B.ul)}${B.r&&C.copy?'<button class="btn" data-copy="b">複製回報句</button>':''}${cp[bk]?`<button class="btn" data-fold="${ob}">收合 ▲</button>`:''}</div></div>`}</div>
  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn pri" id="cpIsle">前往${C.isleName.replace(/^\d+\.\s*/,'')}看案件</button><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">營隊複習闖關</a><button class="btn" id="cpClr">清除${C.name}進度</button></div>
  <p style="font-size:13px;color:#5f7680">任務進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p>`;
@@ -913,7 +971,7 @@ setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.disp
 (()=>{const vb=$('#tgVoice'),vl=$('#tgVoiceL');if(!VOICE_OK){vl.style.display='none';return}
  try{vb.checked=localStorage.getItem('md_voice')==='1'}catch(e){}
  vb.onchange=()=>{try{localStorage.setItem('md_voice',vb.checked?'1':'0')}catch(e){}if(vb.checked)say('語音導覽開啟！多多會唸給你聽喔。');else sayStop()}})();
-$('#shareTop').onclick=()=>copyLink('');
+$('#shareTop').onclick=()=>shareSheet(SHORT_URL,'⚓ 推薦你玩「人生金錢偵探社｜財富航海群島」：8 座島、8 個財務案，破案還有機會領書 🎁');
 renderMap();
 function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='GUARD'){view('guard');return}if(h==='SUPPLY'){view('supply');return}if(h==='CAMP'||h==='CAMP5'||h==='CAMP3'){if(h==='CAMP3')campSel='c3';if(h==='CAMP5')campSel='c5';view('camp');return}if(ST.some(s=>s.id===h))openSt(h,true)}
 addEventListener('hashchange',fromHash);fromHash();cartBtn();nxUpdate();
