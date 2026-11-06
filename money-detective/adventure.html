@@ -42,6 +42,8 @@ a{color:var(--green)}
 .stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font-weight:900;border-radius:10px;padding:2px 12px;transform:rotate(-6deg);font-size:18px}
 .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .pill{display:inline-block;background:var(--dg);color:#e9c878;border:2px solid #e9c878;border-radius:999px;padding:6px 18px;font-weight:700}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yttabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.yttab{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font-size:14px}.yttab.on{background:var(--green);color:#fff;border-color:var(--green)}
 .foot{text-align:center;color:var(--mut);font-size:13px;padding:10px 0 30px}
 .note{font-size:12px;color:var(--mut);margin-top:10px}
 @media(max-width:720px){.roles{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.lock{grid-template-columns:1fr}.hero h1{font-size:22px}}
@@ -54,6 +56,11 @@ a{color:var(--green)}
 <div class="hero"><span class="badge">⚔️ 加碼島｜風險規劃練功場</span>
 <h1>冒險島：保障，先看懂再決定</h1>
 <p>選一個最像你的人生角色，先看懂 3 種最該注意的保障。看完按「我破案了」，就完成冒險島。</p></div>
+
+<div class="sec"><h2>▶ 先看芸琪的影片說明</h2><p class="sub">選一個播放清單看芸琪的說明，看完再往下選角色。</p>
+<div class="yttabs" id="ytTabs"></div>
+<div class="yt"><iframe id="ytF" title="芸琪的影片說明" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+<p style="margin:8px 0 0;font-size:14px"><a id="ytL" target="_blank" rel="noopener">到 YouTube 看完整播放清單 →</a></p></div>
 
 <div class="sec"><h2>👤 1. 選你的人生角色</h2><p class="sub">點一個角色，下面的保障圖鑑會亮起建議先看的 3 張卡。</p>
 <div class="roles" id="roles"></div><div id="pick"></div></div>
@@ -89,7 +96,7 @@ const INS=[
  {id:'ci',g:'life',e:'💗',n:'重大傷病險',s:'重病時，先拿到一筆錢',what:'符合保單約定的重大傷病範圍，一次給付保險金。',who:'擔心生重病、收入中斷的人。',note:'先看除外項目；一次金的額度，想想能撐多久的生活和治療。'},
  {id:'dis',g:'life',e:'🦽',n:'失能險',s:'不能工作時的薪水替代',what:'依失能等級給付一次金或按月給付扶助金。',who:'靠工作收入養家的人、新手爸媽。',note:'看失能等級表，從第幾級開始給付、按月給付可以領多久。'},
  {id:'ltc',g:'life',e:'🤝',n:'長照險',s:'需要人照顧時的費用來源',what:'符合長期照顧狀態（生活自理或認知功能退化）後給付保險金。',who:'熟齡族、正在照顧爸媽的三明治世代。',note:'看等待期和認定標準；越晚投保，保費越高。'},
- {id:'car',g:'prop',e:'🚗',n:'汽機車險',s:'強制險不夠，任意險補上',what:'強制險保對方的體傷；第三人責任險、車體險等任意險補財損和更高額的賠償。',who:'有開車、騎車的每一個人。',note:'強制險不賠對方的車和財物；第三人責任險的保額要夠高。'},
+ {id:'car',g:'prop',e:'🚗',n:'汽機車險',s:'強制險不夠，任意險補上',what:'強制險保對方的體傷；第三人責任險、車體險等任意險補財損和更高額的賠償。',who:'有開車、騎車的每一個人。',note:'強制險不賠對方的車和財物；第三人責任險的保額要夠高。',yt:2},
  {id:'fire',g:'prop',e:'🏠',n:'住宅火險・地震險',s:'房子的防護罩',what:'火災、地震等造成房屋建築損失時理賠。',who:'有房子、有房貸的家庭。',note:'房貸附的保險常常只保建築本體；室內裝潢和財物要另外看。'},
  {id:'liab',g:'prop',e:'⚖️',n:'個人責任險',s:'不小心傷到別人時的賠償',what:'因為意外造成他人體傷或財損，依法要賠償時理賠。',who:'有養寵物、家裡會漏水影響鄰居、常騎腳踏車的人。',note:'保費通常不高，但很多人沒想到要買。'}
 ];
@@ -99,8 +106,13 @@ const ROLES=[
  {id:'parent',e:'👶',n:'新手爸媽',p:['term','med','dis'],t:'孩子還小，最怕收入中斷：用定期壽險和失能險扛住家計，全家都要有醫療險。'},
  {id:'senior',e:'☕',n:'熟齡退休傳承',p:['ltc','whole','med'],t:'退休後收入變少，先準備長照的費用，再想怎麼把資產好好傳給家人。'}
 ];
+const YT=[{n:'🛡️ 保險新手入門六大篇',l:'PL6Jc6ikivmeCR8v-ioWUXAE2JecgfAFz2'},{n:'🏫 保險小學堂',l:'PL6Jc6ikivmeCWXyr3BbkM7kL-MTdVeAsh'},{n:'🚗 保險小學堂・車險',l:'PL6Jc6ikivmeByjE7ZnfTeiQEDxDkzWSUF'},{n:'💡 財商小學堂',l:'PL6Jc6ikivmeDNyhx8HvCMtlnK59My61kO'},{n:'📅 知識日曆',l:'PL6Jc6ikivmeA0MG10G80yICC_ibtNITiN'},{n:'💰 財商',l:'PL6Jc6ikivmeBrtfshRA4LDQ2hUPpDbonC'},{n:'📋 財務規劃個案',l:'PL6Jc6ikivmeAmwhH362P_7v8zOjr2nbF_'},{n:'🌿 馥芸財富學苑',l:'PL6Jc6ikivmeCVXmYEyu-_66wgZnINJzqx'}];
+function yt(i){const y=YT[i];$('#ytF').src='https://www.youtube-nocookie.com/embed/videoseries?list='+y.l;$('#ytL').href='https://www.youtube.com/playlist?list='+y.l;
+ document.querySelectorAll('.yttab').forEach((b,k)=>b.classList.toggle('on',k===i))}
+$('#ytTabs').innerHTML=YT.map((y,i)=>`<button type="button" class="yttab" data-y="${i}">${y.n}</button>`).join('');
+document.querySelectorAll('.yttab').forEach(b=>b.onclick=()=>yt(+b.dataset.y));yt(0);
 const card=x=>`<details class="ic" id="c-${x.id}"><summary><span class="e">${x.e}</span><span><b>${esc(x.n)}</b><small>${esc(x.s)}</small></span></summary>
- <div class="bd"><p><b>它保什麼：</b>${esc(x.what)}</p><p><b>適合誰：</b>${esc(x.who)}</p><p><b>要注意：</b>${esc(x.note)}</p></div></details>`;
+ <div class="bd"><p><b>它保什麼：</b>${esc(x.what)}</p><p><b>適合誰：</b>${esc(x.who)}</p><p><b>要注意：</b>${esc(x.note)}</p>${x.yt!=null?`<p><a href="#ytTabs" data-yt="${x.yt}">▶ 看芸琪的車險影片</a></p>`:''}</div></details>`;
 $('#life').innerHTML=INS.filter(x=>x.g==='life').map(card).join('');
 $('#prop').innerHTML=INS.filter(x=>x.g==='prop').map(card).join('');
 $('#roles').innerHTML=ROLES.map(r=>`<button type="button" class="role" data-r="${r.id}"><span class="e">${r.e}</span><b>${esc(r.n)}</b></button>`).join('');
@@ -111,6 +123,7 @@ function pick(id){const r=ROLES.find(x=>x.id===id);if(!r)return;
  document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>$('#c-'+b.dataset.go).scrollIntoView({behavior:'smooth',block:'center'}));
  try{localStorage.setItem('hanji_adv_role',id)}catch(e){}}
 document.querySelectorAll('.role').forEach(b=>b.onclick=()=>pick(b.dataset.r));
+document.querySelectorAll('[data-yt]').forEach(a=>a.onclick=e=>{e.preventDefault();yt(+a.dataset.yt);$('#ytTabs').scrollIntoView({behavior:'smooth'})});
 function done(){try{return !!localStorage.getItem('hanji_adv_done')}catch(e){return false}}
 function showFb(){$('#solve').textContent='✅ 冒險島已破案';
  $('#fb').innerHTML=`<span class="stamp">冒險島破案！</span><p style="margin:10px 0 0">再挑戰兩個加碼關卡：</p><div class="links">
