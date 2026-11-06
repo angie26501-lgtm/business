@@ -239,12 +239,19 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .cpath{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.cp-i{border:1px solid #cfe3d8;background:#f3faf6;border-radius:14px;padding:10px 12px}.cp-i:nth-child(2){background:#fff8ea;border-color:#e8d3a3}.cp-h{font-weight:800}.cp-i p{margin:4px 0;font-size:14px;line-height:1.7}.cp-d{font-size:14px;margin:4px 0}.cp-d summary{cursor:pointer;color:#2f5d6a;font-weight:700}.cp-d ol{margin:4px 0;padding-left:20px}.cp-n{grid-column:1/-1;font-size:14px;color:#5f7680}.lnk{border:0;background:none;color:#2f7f6b;text-decoration:underline;cursor:pointer;font:inherit;padding:0}
 @media(max-width:700px){.cpath{grid-template-columns:1fr}}
 .c3m{margin-top:8px;padding:10px 12px;border-radius:12px;background:#f3faf6;border:1px solid #cfe3d8;font-size:14px;line-height:1.8}.c3btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.c3btns .btn{text-decoration:none}
+.qz{border:2px dashed #3f8f6b;border-radius:16px;padding:12px 14px;background:#f6fbf8;margin:12px 0;user-select:none;-webkit-user-select:none}
+.qz-h{font-weight:800;color:#2f7a55;margin-bottom:6px}.qz-h small{font-weight:400;color:#5f7680;margin-left:8px}
+.qz-q{margin:8px 0}.qz-o{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.qz-o label{border:1px solid #cfe3d8;background:#fff;border-radius:999px;padding:4px 12px;font-size:14px;cursor:pointer}
+.qz-o label:has(input:checked){background:#3f8f6b;color:#fff;border-color:#3f8f6b}.qz-o input{display:none}
+.qz-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.qz-b .btn{text-decoration:none}.qz-e{color:#c0603f;font-size:14px;margin:6px 0}
+.qz-res{margin-top:10px;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid #cfe3d8}.qz-rt{font-size:18px;font-weight:800}.qz-res p{margin:4px 0}.qz-res small,.qz-up small{color:#8a7a5a;font-size:12px}
+.qz-up{margin-top:10px;background:#fff8ea;border:1px solid #e8d3a3;border-radius:12px;padding:10px 12px}.qz-ut{font-weight:800;color:#8a5a12;margin-bottom:4px}.qz-up ul{margin:4px 0;padding-left:20px;font-size:14px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
-<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
+<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster_v2.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
 <section class="hero">
  <div>
   <span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span>
@@ -771,12 +778,13 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看完下面的精選案件，按「我破案了」就完成這座島！'):''}
  <div class="feat"><div class="feat-t">⭐ 精選案件</div>${caseCard(s.eps[0])}
  <button class="btn pri solve" id="solveBtn" type="button">${st.done[s.id]?'✅ 這座島已破案':'✅ 我破案了'}</button><div id="solveFb"></div></div>
+ ${quizBlock(s.id)}
  <details class="more"><summary>＋ 更多案件（補充，可以不看）</summary>
  <div class="cases">${s.eps.slice(1).map(caseCard).join('')}</div>
  <div class="game" id="game"></div></details>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- bindC3();$('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
+ bindC3();bindQuiz(s.id);$('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -794,6 +802,50 @@ function campPath(){const e3=campEnded('c3'),e5=campEnded('c5');
   <details class="cp-d"><summary>五天在做什麼？</summary><ol>${CAMP.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
   <div class="c3btns"><a class="btn" href="../greensprout/how-to-buy.html" target="_blank" rel="noopener">🌱 認識綠芽・訂購教學</a><a class="btn pri" href="${ORDER_LINE}" target="_blank" rel="noopener">${e5?'預約下一梯五日營 →':'報名五日營 →'}</a></div></div>
  <div class="cp-n">🎫 已經參加過？<button class="lnk" type="button" data-c3="camp">打開營隊任務複習</button></div></div>`}
+// ===== 每站 3 題免費簡單版＋付費升級 =====
+const QZ={
+ S1:{t:'漏財速測',q:[['月底時，你的帳戶通常？',['還有剩，而且固定存起來','剛好打平','常常不夠用']],['上個月花了多少，你說得出來嗎？',['大概說得出來','只知道一點','完全不知道']],['有幾筆分期或訂閱在扣款？',['沒有','1～2 筆','3 筆以上或不確定']]],
+  r:[['🌱 錢管得不錯','收支看得見，繼續保持「先存再花」。'],['💧 輕度漏財','有小洞在漏，先把每月固定扣款列出來。'],['🚨 漏財警報','錢在不知不覺中流走，先從記一週支出開始。']],
+  up:{n:'漏財體質快篩完整版＋保單自己盤點懶人包',inc:['找出 7 種常見漏財點','Excel 保單整理表＋繳費日曆'],p:'990 元'}},
+ S2:{t:'人生下半場準備度',q:[['退休後每個月要花多少，你想過嗎？',['想過也算過','想過但沒算','沒想過']],['爸媽或自己的照顧費用，家裡談過嗎？',['談過，有共識','偶爾提到','沒談過']],['保單、存摺放在哪裡，家人知道嗎？',['知道','知道一部分','不知道']]],
+  r:[['🌱 準備得很好','方向清楚，接下來是定期檢視。'],['🧭 有方向，還沒落地','先把最擔心的一件事寫下來。'],['⏰ 現在開始剛剛好','從整理家裡的資料開始，一步一步來。']],
+  up:{n:'50+ 退休選擇權健診＋30 分鐘諮詢',inc:['看清楚退休後的選擇權','芸琪陪你排出先做哪一步'],p:'2,000 元'}},
+ S3:{t:'ABC 帳戶習慣快測',q:[['薪水入帳後，你會先存一筆嗎？',['會，自動轉帳','有時候','沒有']],['保險年繳、稅金這類一年一次的大錢，有先準備嗎？',['每月先存','到時候再想辦法','常常被嚇到']],['生活費和存款放在同一個帳戶嗎？',['分開放','部分分開','全部混在一起']]],
+  r:[['🌱 已經有分帳習慣','可以再用預算達成率追蹤每個月。'],['🧩 分帳做一半','把一年一次的大錢先拆成每月存。'],['🌀 錢都混在一起','先開一個帳戶，只放「先付給自己」的錢。']],
+  up:{n:'ABC 收支預算管理（完整版）',inc:['每筆收支明細、本月預算達成率','依人生階段做財務體檢'],p:'含在綠芽 1,800 元／年（ABC 帳戶 1 年）'}},
+ S4:{t:'財務體質速測',type:1,q:[['每月收入扣掉支出，通常？',['有剩','剛好打平','不夠用']],['如果暫時不能工作，存款可以撐幾個月？',['6 個月以上','3～6 個月','不到 3 個月']],['房貸以外的負債，讓你有壓力嗎？',['沒有負債','有一點','很有壓力']]],
+  up:{n:'綠芽完整版報告',inc:['流量、存量健康分數與體質說明','專屬調整建議＋ABC 帳戶 1 年'],p:'1,800 元／年'}},
+ S5:{t:'全家財務目標快測',q:[['家裡的財務目標，有寫下來嗎？',['有，也有金額','有想法，沒寫下來','沒有']],['每個目標，知道每月要存多少嗎？',['知道','知道一部分','不知道']],['家裡的保單，你說得出保了什麼嗎？',['清楚','知道一部分','不清楚']]],
+  r:[['🌱 全家地圖很清楚','可以進一步檢視目標的達成率。'],['🗺️ 地圖缺幾塊','先把五大目標寫下來，排出先後順序。'],['🌫️ 還在霧裡','先把全家的保單放在同一張表上看。']],
+  up:{n:'五大財務目標需求分析＋保單現況盤點',inc:['算出每個目標每月要存多少','跨公司保單整理成一張保障圖'],p:'3,600 元'}},
+ S6:{t:'90 天習慣準備度',q:[['你能連續記帳一週嗎？',['可以','斷斷續續','沒試過']],['每個月會固定看一次預算嗎？',['會','想到才看','不會']],['遇到超支，你通常會？',['馬上調整','下個月再說','乾脆不管']]],
+  r:[['🌱 習慣已經上路','有人陪你每月看一次，會走得更穩。'],['🚣 有心但容易中斷','找一個固定的檢視日，讓習慣不斷線。'],['🧭 需要有人陪跑','前 3 個月最關鍵，有人陪比較不會放棄。']],
+  up:{n:'家庭記帳陪跑（首 3 個月）',inc:['每月一起檢視收支','找出保障與退休可用的預算'],p:'3,600 元（個人）'}},
+ S7:{t:'退休準備快問',q:[['你知道自己勞保、勞退大概能領多少嗎？',['查過','聽說過','不知道']],['退休金缺口，有算過嗎？',['算過，也在準備','算過，還沒準備','沒算過']],['現在的保障，退休後還夠用嗎？',['檢視過','不確定','沒想過']]],
+  r:[['🌱 退休藍圖成形','每年做一次周年檢視就好。'],['🧮 數字還差一步','先把勞保、勞退試算出來，看缺口多大。'],['🌊 遠洋還沒備糧','從試算開始，知道缺多少才知道怎麼補。']],
+  up:{n:'勞保勞退試算＋風險需求問診・規劃建議',inc:['退休缺口與保障缺口一次看','60～90 分鐘深談＋書面建議'],p:'12,800 元'}},
+ S8:{t:'傳承準備度',q:[['資產怎麼分配，家人談過嗎？',['談過','提過','沒談過']],['預立醫療決定或意定監護，有想法嗎？',['已經做了','想過','沒想過']],['遺產稅、贈與稅大概要多少，知道嗎？',['試算過','聽過','不知道']]],
+  r:[['🌱 傳承已經起步','接下來是把文件和稅務再對一次。'],['💬 想過還沒談開','先從一次家庭對話開始。'],['🎁 從愛開始準備','傳承不是有錢人的事，先把重要資料說清楚。']],
+  up:{n:'長照家庭準備檢測＋財富傳承規劃',inc:['家族繼承系統表、遺贈稅試算','信託、遺囑：協助媒合專業窗口'],p:'依需求另外報價'}}
+};
+function quizBlock(sid){const Q=QZ[sid];if(!Q)return '';
+ return `<div class="qz" id="qz"><div class="qz-h">🧰 免費簡單版｜${esc(Q.t)}<small>3 題・30 秒</small></div>
+ ${Q.q.map((x,i)=>`<div class="qz-q"><b>${i+1}. ${esc(x[0])}</b><div class="qz-o">${x[1].map((o,j)=>`<label><input type="radio" name="qz${i}" value="${j}"> ${esc(o)}</label>`).join('')}</div></div>`).join('')}
+ <div class="qz-b"><button class="btn pri" type="button" id="qzGo">看結果</button><button class="btn" type="button" id="qzReset">重新整理選單</button></div><div id="qzR"></div></div>`}
+function bindQuiz(sid){const Q=QZ[sid],box=$('#qz');if(!Q||!box)return;
+ ['copy','cut','paste','contextmenu'].forEach(ev=>box.addEventListener(ev,e=>e.preventDefault()));
+ $('#qzReset').onclick=()=>{box.querySelectorAll('input').forEach(x=>x.checked=false);$('#qzR').innerHTML=''};
+ $('#qzGo').onclick=()=>{const a=Q.q.map((_,i)=>{const c=box.querySelector(`input[name=qz${i}]:checked`);return c?+c.value:null});
+  if(a.includes(null)){$('#qzR').innerHTML='<p class="qz-e">三題都選好，才能看結果喔。</p>';return}
+  let h;if(Q.type){const flow=a[0]===0,stock=a[1]===0;const T=flow&&stock?['🐯 生龍活虎','每月收支有餘，家底也穩。']:flow?['🌱 後勢看好','每月收支有餘，家底還在累積中。']:stock?['🥣 坐吃山空','有家底，但每月收支吃緊。']:['🌧️ 弱不禁風','每月收支吃緊，家底也還不夠。'];h=T}
+  else{const sc=a.reduce((x,y)=>x+y,0);h=Q.r[sc<=1?0:sc<=3?1:2]}
+  const isle=(ST.find(x=>x.id===sid)||{}).island||'';
+  $('#qzR').innerHTML=`<div class="qz-res"><div class="qz-rt">${h[0]}</div><p>${esc(h[1])}</p><small>這是簡易判斷，只供參考。${Q.type?'實際體質以綠芽報告為準。':''}</small></div>
+  <div class="qz-up"><div class="qz-ut">🔓 想看完整分析？升級完整版</div><div><b>${esc(Q.up.n)}</b>｜${esc(Q.up.p)}</div><ul>${Q.up.inc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+  <div class="qz-b"><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 升級完整版 →</a><button class="btn" type="button" id="qzKw">複製關鍵字「升級 ${esc(isle)}」</button></div>
+  <small>加 LINE 後傳關鍵字，芸琪會跟你確認方案；價格為顧問服務費，不含保費。</small></div>`;
+  $('#qzKw').onclick=()=>shareFbCopy('升級 '+isle);$('#qzR').scrollIntoView({behavior:'smooth',block:'nearest'})}}
+function shareFbCopy(t){const ok=()=>toast('已複製：'+t);try{navigator.clipboard.writeText(t).then(ok,()=>shrFb(t,ok))}catch(e){shrFb(t,ok)}}
 function c3Mini(){const end=campEnded('c3');
  return `<div class="c3m"><b>🌱 什麼是三日營？</b><br>在「金錢好生活・芸琪共學圈」LINE 社群裡，連續 3 天的<b>免費</b>圖文任務：每天看圖文、在群組回覆選項、完成一個小任務，<b>不用公開任何財務數字</b>。</div>
  <div class="c3btns"><button class="btn pri" type="button" data-c3="intro">📋 看三日營三天在做什麼</button>

@@ -56,6 +56,10 @@ a{color:var(--green)}
 .shr-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .shr-i{font:inherit;font-size:13px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:#1f3a44;text-decoration:none}
 .shr-i span{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+.ck-r{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px dashed var(--line)}.ck-o{display:flex;gap:6px}
+.ck-o label{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 12px;font-size:14px;cursor:pointer}.ck-o label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}.ck-o input{display:none}
+.ckb{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}#ck{user-select:none;-webkit-user-select:none}
+.ck-res{margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.ck-up{margin-top:10px;background:#fff8ea;border:1px solid #e8d3a3;border-radius:12px;padding:10px 12px}
 </style>
 </head>
 <body>
@@ -78,6 +82,9 @@ a{color:var(--green)}
 <div class="grp">壽險類（保「人」）</div><div class="cards" id="life"></div>
 <div class="grp">產險類（保「財物」與「責任」）</div><div class="cards" id="prop"></div>
 <p class="note">※ 以上為一般保險知識整理，實際保障範圍、理賠條件與除外事項，依各保單條款為準。</p></div>
+
+<div class="sec" id="ck"><h2>🧰 免費簡單版｜我的保障快檢</h2><p class="sub">這 5 種保障，你現在有嗎？每題選一個，30 秒看結果。</p>
+<div id="ckList"></div><div class="ckb"><button class="btn pri" type="button" id="ckGo">看結果</button><button class="btn ghost" type="button" id="ckReset">重新整理選單</button></div><div id="ckR"></div></div>
 
 <div class="sec"><h2>🔒 3. 進階解鎖</h2><p class="sub">想把保障排出優先順序、算出合理的保費，這兩把鑰匙要找芸琪開通。</p>
 <div class="lock">
@@ -154,6 +161,18 @@ function shareSheet(u,txt){let m=document.getElementById('shrM');if(!m){m=docume
  m.querySelector('#shrC').onclick=()=>{const ok=()=>{const b=m.querySelector('#shrC');b.lastChild.textContent='已複製 ✓'};
   try{navigator.clipboard.writeText(full).then(ok,()=>shrFb(full,ok))}catch(e){shrFb(full,ok)}}}
 function shrFb(t,ok){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
+const CK=[['🏥','醫療險（住院、手術）'],['💗','重大傷病一次金'],['🦽','失能扶助'],['🛡️','壽險（家人的生活費）'],['🤝','長照保障']];
+$('#ckList').innerHTML=CK.map((c,i)=>`<div class="ck-r"><span>${c[0]} ${c[1]}</span><span class="ck-o">${['有','沒有','不確定'].map((o,j)=>`<label><input type="radio" name="ck${i}" value="${j}"> ${o}</label>`).join('')}</span></div>`).join('');
+const ckBox=$('#ck');['copy','cut','paste','contextmenu'].forEach(ev=>ckBox.addEventListener(ev,e=>e.preventDefault()));
+$('#ckReset').onclick=()=>{ckBox.querySelectorAll('input').forEach(x=>x.checked=false);$('#ckR').innerHTML=''};
+$('#ckGo').onclick=()=>{const a=CK.map((_,i)=>{const c=ckBox.querySelector(`input[name=ck${i}]:checked`);return c?+c.value:null});
+ if(a.includes(null)){$('#ckR').innerHTML='<p style="color:var(--red);font-size:14px">5 項都選好，才能看結果喔。</p>';return}
+ const gap=a.filter(x=>x>0).length,unk=a.filter(x=>x===2).length;
+ const R=gap===0?['🌱 5 項都有','很好！接下來要看的是「保額夠不夠」。']:gap<=2?['🧩 有 '+gap+' 個缺口或不確定','先把不確定的那幾項，翻出保單確認。']:['🚨 有 '+gap+' 個缺口或不確定','保障可能有破洞，建議找人一起把保單攤開來看。'];
+ $('#ckR').innerHTML=`<div class="ck-res"><b style="font-size:18px">${R[0]}</b><p style="margin:4px 0">${R[1]}${unk?`（其中 ${unk} 項不確定）`:''}</p><small style="color:var(--mut)">這是簡易判斷，只看「有沒有」，不看保額夠不夠。</small></div>
+ <div class="ck-up"><b style="color:#8a5a12">🔓 想知道保額夠不夠？升級完整版</b><div style="margin-top:4px"><b>風險賓士圖分析表＋風險需求問診・規劃建議</b>｜12,800 元</div><ul style="margin:4px 0;padding-left:20px;font-size:14px"><li>依你家的狀況，算出每一類保障該有多少</li><li>60～90 分鐘深談＋書面建議</li></ul>
+ <div class="ckb"><a class="btn pri" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">加 LINE 升級完整版 →</a><button class="btn ghost" type="button" id="ckKw">複製關鍵字「升級 冒險島」</button></div><small style="color:var(--mut)">價格為顧問服務費，不含保費。</small></div>`;
+ $('#ckKw').onclick=()=>{const t='升級 冒險島';try{navigator.clipboard.writeText(t).then(()=>{$('#ckKw').textContent='已複製 ✓'})}catch(e){}}}
 const ADV_URL='https://angie26501-lgtm.github.io/business/money-detective/adventure.html';
 $('#advShare').onclick=e=>{e.preventDefault();shareSheet(ADV_URL,'⚔️ 冒險島｜選你的人生角色，3 分鐘看懂壽險和產險各保什麼 👉')};
 $('#solve').onclick=()=>{try{localStorage.setItem('hanji_adv_done',Date.now())}catch(e){}showFb();$('#fb').scrollIntoView({behavior:'smooth',block:'center'})};
