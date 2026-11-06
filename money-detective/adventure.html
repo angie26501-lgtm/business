@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>冒險島｜風險規劃練功場｜人生金錢偵探社</title>
+<meta name="description" content="選你的人生角色，看懂壽險與產險各保什麼、適合誰、要注意什麼。財顧芸 Angie｜家族傳承生活顧問。">
+<style>
+:root{--ink:#1f3a44;--mut:#5f7680;--card:#fffdf7;--line:#e6dccb;--gold:#d9a441;--green:#2f7f6b;--red:#c0603f;--dg:#1c3a2a}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;background:#f4efe4;color:var(--ink);line-height:1.7}
+a{color:var(--green)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top b{font-size:15px}.top a{font-size:14px;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);white-space:nowrap}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.hero{background:linear-gradient(135deg,#2f5d6a,#3f8f6b);color:#fff;border-radius:20px;padding:22px 20px;margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:26px}.hero p{margin:0;opacity:.95}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border-radius:999px;padding:2px 12px;font-size:13px;margin-bottom:8px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0}
+.sec h2{margin:0 0 4px;font-size:20px}.sub{color:var(--mut);font-size:14px;margin:0 0 10px}
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.role{font:inherit;cursor:pointer;border:2px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;text-align:center}
+.role .e{font-size:26px;display:block}.role b{font-size:15px}
+.role.on{border-color:var(--green);background:#eef7f2}
+#pick{margin-top:10px;font-size:15px;min-height:28px}
+.pk{display:inline-block;background:var(--green);color:#fff;border-radius:999px;padding:1px 10px;margin:2px 4px 2px 0;font-size:14px;cursor:pointer;border:0;font:inherit}
+.grp{font-weight:800;color:var(--mut);margin:12px 0 6px;font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ic{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;transition:.2s}
+.ic.hl{border:2px solid var(--green);box-shadow:0 0 0 4px #d8efe3}
+.ic summary{list-style:none;cursor:pointer;padding:12px;display:flex;gap:10px;align-items:center}
+.ic summary::-webkit-details-marker{display:none}
+.ic .e{font-size:28px}.ic summary b{display:block;font-size:16px}.ic summary small{color:var(--mut)}
+.ic .bd{padding:0 12px 12px;font-size:14px}.ic .bd p{margin:4px 0}.ic .bd b{color:var(--dg)}
+.lock{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lk{border:2px dashed #c9b88a;border-radius:16px;padding:14px;background:#fffaf0;position:relative}
+.lk h3{margin:0 0 4px;font-size:17px}.lk p{margin:0 0 10px;color:var(--mut);font-size:14px}
+.btn{display:inline-block;font:inherit;cursor:pointer;border:0;border-radius:999px;padding:9px 16px;text-decoration:none;font-weight:700}
+.pri{background:var(--green);color:#fff}.gold{background:var(--gold);color:#fff}.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.solve{display:block;width:100%;font-size:18px;padding:13px;background:var(--red);color:#fff}
+#fb{margin-top:10px}
+.stamp{display:inline-block;border:3px solid var(--red);color:var(--red);font-weight:900;border-radius:10px;padding:2px 12px;transform:rotate(-6deg);font-size:18px}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pill{display:inline-block;background:var(--dg);color:#e9c878;border:2px solid #e9c878;border-radius:999px;padding:6px 18px;font-weight:700}
+.foot{text-align:center;color:var(--mut);font-size:13px;padding:10px 0 30px}
+.note{font-size:12px;color:var(--mut);margin-top:10px}
+@media(max-width:720px){.roles{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.lock{grid-template-columns:1fr}.hero h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="top"><b>人生金錢偵探社｜冒險島</b><a href="index.html">← 回財富航海群島</a></div>
+<div class="wrap">
+
+<div class="hero"><span class="badge">⚔️ 加碼島｜風險規劃練功場</span>
+<h1>冒險島：保障，先看懂再決定</h1>
+<p>選一個最像你的人生角色，先看懂 3 種最該注意的保障。看完按「我破案了」，就完成冒險島。</p></div>
+
+<div class="sec"><h2>👤 1. 選你的人生角色</h2><p class="sub">點一個角色，下面的保障圖鑑會亮起建議先看的 3 張卡。</p>
+<div class="roles" id="roles"></div><div id="pick"></div></div>
+
+<div class="sec"><h2>🗺️ 2. 保障圖鑑</h2><p class="sub">點卡片看：它保什麼、適合誰、要注意什麼。</p>
+<div class="grp">壽險類（保「人」）</div><div class="cards" id="life"></div>
+<div class="grp">產險類（保「財物」與「責任」）</div><div class="cards" id="prop"></div>
+<p class="note">※ 以上為一般保險知識整理，實際保障範圍、理賠條件與除外事項，依各保單條款為準。</p></div>
+
+<div class="sec"><h2>🔒 3. 進階解鎖</h2><p class="sub">想把保障排出優先順序、算出合理的保費，這兩把鑰匙要找芸琪開通。</p>
+<div class="lock">
+ <div class="lk"><h3>🔒 風險賓士圖｜你的保障缺口在哪一塊？</h3><p>一張圖看懂家裡的保障缺口。</p><a class="btn gold" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">付費解鎖・加 LINE 洽詢 →</a></div>
+ <div class="lk"><h3>🔒 ABC 帳戶｜保費該放哪、放多少？</h3><p>讓保障和存錢不打架的分帳方法。</p><a class="btn gold" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">付費解鎖・加 LINE 洽詢 →</a></div>
+</div></div>
+
+<div class="sec"><h2>✅ 4. 完成冒險島</h2><p class="sub">看完你角色的 3 張保障卡，就可以按下去。</p>
+<button class="btn solve" id="solve" type="button">✅ 我破案了</button><div id="fb"></div></div>
+
+<div class="sec" style="text-align:center"><h2>想知道自己的保障夠不夠？</h2>
+<p class="sub" style="margin-bottom:12px">加 LINE 找芸琪一對一健檢，把家裡的保單攤開來一起看。</p>
+<a class="btn pri" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">加 LINE 找芸琪健檢 →</a>
+<div style="margin-top:16px"><span class="pill">財顧芸 Angie｜家族傳承生活顧問</span></div></div>
+
+<div class="foot">© 人生金錢偵探社｜財顧芸 陳芸琪　·　引用請註明出處並附連結 <a href="https://reurl.cc/RRZRaG" target="_blank" rel="noopener">reurl.cc/RRZRaG</a></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const INS=[
+ {id:'term',g:'life',e:'🛡️',n:'定期壽險',s:'用小保費，扛起家人的生活',what:'在保障期間內身故或完全失能，一次給付保險金。',who:'家庭經濟支柱、有房貸或孩子還小的人。',note:'期滿通常沒有返還；保額可以用「負債＋家人幾年生活費」來估。'},
+ {id:'whole',g:'life',e:'🏛️',n:'終身壽險',s:'一輩子的保障，也能預留傳承',what:'終身身故保障，保單有保單價值準備金。',who:'想預留傳承、稅源，或照顧家人到最後的人。',note:'保費比定期壽險高；保障缺口大的時候，先用定期壽險顧好。'},
+ {id:'med',g:'life',e:'🏥',n:'醫療險',s:'住院、手術、自費醫材的荷包防線',what:'住院、手術與醫療費用，分「實支實付」和「住院日額」兩種方式。',who:'每個人都需要，從小孩到長輩。',note:'看收據正本或副本能不能理賠、門診手術有沒有給付、續保條件。'},
+ {id:'ci',g:'life',e:'💗',n:'重大傷病險',s:'重病時，先拿到一筆錢',what:'符合保單約定的重大傷病範圍，一次給付保險金。',who:'擔心生重病、收入中斷的人。',note:'先看除外項目；一次金的額度，想想能撐多久的生活和治療。'},
+ {id:'dis',g:'life',e:'🦽',n:'失能險',s:'不能工作時的薪水替代',what:'依失能等級給付一次金或按月給付扶助金。',who:'靠工作收入養家的人、新手爸媽。',note:'看失能等級表，從第幾級開始給付、按月給付可以領多久。'},
+ {id:'ltc',g:'life',e:'🤝',n:'長照險',s:'需要人照顧時的費用來源',what:'符合長期照顧狀態（生活自理或認知功能退化）後給付保險金。',who:'熟齡族、正在照顧爸媽的三明治世代。',note:'看等待期和認定標準；越晚投保，保費越高。'},
+ {id:'car',g:'prop',e:'🚗',n:'汽機車險',s:'強制險不夠，任意險補上',what:'強制險保對方的體傷；第三人責任險、車體險等任意險補財損和更高額的賠償。',who:'有開車、騎車的每一個人。',note:'強制險不賠對方的車和財物；第三人責任險的保額要夠高。'},
+ {id:'fire',g:'prop',e:'🏠',n:'住宅火險・地震險',s:'房子的防護罩',what:'火災、地震等造成房屋建築損失時理賠。',who:'有房子、有房貸的家庭。',note:'房貸附的保險常常只保建築本體；室內裝潢和財物要另外看。'},
+ {id:'liab',g:'prop',e:'⚖️',n:'個人責任險',s:'不小心傷到別人時的賠償',what:'因為意外造成他人體傷或財損，依法要賠償時理賠。',who:'有養寵物、家裡會漏水影響鄰居、常騎腳踏車的人。',note:'保費通常不高，但很多人沒想到要買。'}
+];
+const ROLES=[
+ {id:'new',e:'🎒',n:'社會新鮮人',p:['med','ci','car'],t:'剛開始賺錢，先把「醫療」和「意外的賠償」顧好，避免一次大病或事故把存款歸零。'},
+ {id:'sand',e:'👨‍👩‍👧‍👦',n:'三明治家庭支柱',p:['term','ltc','med'],t:'上有爸媽、下有孩子，你是家裡的支柱：先確認「萬一自己倒下」和「爸媽需要照顧」的錢從哪來。'},
+ {id:'parent',e:'👶',n:'新手爸媽',p:['term','med','dis'],t:'孩子還小，最怕收入中斷：用定期壽險和失能險扛住家計，全家都要有醫療險。'},
+ {id:'senior',e:'☕',n:'熟齡退休傳承',p:['ltc','whole','med'],t:'退休後收入變少，先準備長照的費用，再想怎麼把資產好好傳給家人。'}
+];
+const card=x=>`<details class="ic" id="c-${x.id}"><summary><span class="e">${x.e}</span><span><b>${esc(x.n)}</b><small>${esc(x.s)}</small></span></summary>
+ <div class="bd"><p><b>它保什麼：</b>${esc(x.what)}</p><p><b>適合誰：</b>${esc(x.who)}</p><p><b>要注意：</b>${esc(x.note)}</p></div></details>`;
+$('#life').innerHTML=INS.filter(x=>x.g==='life').map(card).join('');
+$('#prop').innerHTML=INS.filter(x=>x.g==='prop').map(card).join('');
+$('#roles').innerHTML=ROLES.map(r=>`<button type="button" class="role" data-r="${r.id}"><span class="e">${r.e}</span><b>${esc(r.n)}</b></button>`).join('');
+function pick(id){const r=ROLES.find(x=>x.id===id);if(!r)return;
+ document.querySelectorAll('.role').forEach(b=>b.classList.toggle('on',b.dataset.r===id));
+ document.querySelectorAll('.ic').forEach(d=>{const on=r.p.includes(d.id.slice(2));d.classList.toggle('hl',on);d.open=on});
+ $('#pick').innerHTML=`<p style="margin:0 0 6px">${esc(r.t)}</p>建議先看：${r.p.map(k=>{const x=INS.find(i=>i.id===k);return `<button type="button" class="pk" data-go="${k}">${x.e} ${esc(x.n)}</button>`}).join('')}`;
+ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>$('#c-'+b.dataset.go).scrollIntoView({behavior:'smooth',block:'center'}));
+ try{localStorage.setItem('hanji_adv_role',id)}catch(e){}}
+document.querySelectorAll('.role').forEach(b=>b.onclick=()=>pick(b.dataset.r));
+function done(){try{return !!localStorage.getItem('hanji_adv_done')}catch(e){return false}}
+function showFb(){$('#solve').textContent='✅ 冒險島已破案';
+ $('#fb').innerHTML=`<span class="stamp">冒險島破案！</span><p style="margin:10px 0 0">再挑戰兩個加碼關卡：</p><div class="links">
+ <a class="btn pri" href="../carcrash/index.html">🚗 車禍現場應變闖關 →</a>
+ <a class="btn ghost" href="https://www.allfreedom.info/mature-assessment-center.html" target="_blank" rel="noopener">🧭 熟齡檢測中心 →</a>
+ <a class="btn ghost" href="index.html">⚓ 回財富航海群島</a></div>`}
+$('#solve').onclick=()=>{try{localStorage.setItem('hanji_adv_done',Date.now())}catch(e){}showFb();$('#fb').scrollIntoView({behavior:'smooth',block:'center'})};
+if(done())showFb();
+try{const r=localStorage.getItem('hanji_adv_role');if(r)pick(r)}catch(e){}
+</script>
+</body>
+</html>

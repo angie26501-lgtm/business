@@ -394,7 +394,7 @@ function mapSvg(){let route='';for(let i=0;i<POS.length-1;i++){const[a,b]=POS[i]
  let waves='';for(let k=0;k<14;k++){const x=40+((k*137)%960),y=60+((k*89)%400);waves+=`<path d="M${x} ${y} q8 -6 16 0 q8 6 16 0" stroke="#ffffff" stroke-width="2" fill="none" opacity=".6"/>`}
  return `<svg id="map" viewBox="0 0 1040 500" role="img" aria-label="財富航海群島地圖">${waves}
  <path d="${route}" stroke="#2f5d6a" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".5"/>
- ${ST.map((s,i)=>island(s,i)).join('')}${guardPin()}${dreamPin()}
+ ${ST.map((s,i)=>island(s,i)).join('')}${guardPin()}${dreamPin()}${advPin()}
  <g transform="translate(965,60)"><circle r="26" fill="#fff" opacity=".85"/><text y="-8" text-anchor="middle" font-size="12" fill="#2f5d6a">N</text><polygon points="0,-18 5,0 0,18 -5,0" fill="#c0603f"/></g></svg>`}
 
 const SHORT_URL='https://reurl.cc/RRZRaG';
@@ -518,6 +518,10 @@ function dreamPin(){return `<g class="isle" id="drPin" tabindex="0" role="button
  <ellipse cx="120" cy="92" rx="78" ry="44" fill="#ffffff" opacity=".35"/>
  <circle cx="166" cy="60" r="15" fill="#fff" stroke="#9b7bd6" stroke-width="2"/><text x="166" y="66" text-anchor="middle" font-size="16">🔒</text>
  <rect class="tagbg" x="52" y="128" width="136" height="24" rx="12" fill="#f5efff" stroke="#c9b5f0"/><text class="nametag" x="120" y="145" text-anchor="middle" fill="#6b4fa8">🔒 夢幻島・尚未開放</text></g>`}
+function advPin(){return `<g class="isle" id="advPin" tabindex="0" role="button" aria-label="冒險島 風險規劃練功場" style="cursor:pointer">
+ <ellipse cx="560" cy="442" rx="58" ry="16" fill="#9fcad5"/><path d="M508 438 q52 -50 104 0" fill="#c9b98a"/><ellipse cx="560" cy="434" rx="44" ry="13" fill="#8a9a5b"/>
+ <polygon points="536,428 556,392 576,428" fill="#6b7d4a"/><polygon points="556,428 574,402 592,428" fill="#55673b"/><path d="M556 392 l0 -16" stroke="#7a5230" stroke-width="3"/><path d="M556 376 l16 6 l-16 6z" fill="#c0603f"/>
+ <rect class="tagbg" x="494" y="458" width="132" height="24" rx="12" fill="#fff4ec" stroke="#e3a98c"/><text class="nametag" x="560" y="475" text-anchor="middle" fill="#a14b2c">⚔️ 冒險島・加碼</text></g>`}
 function guardPin(){return `<g class="isle" id="gdPin" tabindex="0" role="button" aria-label="守護灣 保戶專屬港" style="cursor:pointer">
  <ellipse cx="962" cy="196" rx="54" ry="16" fill="#9fcad5"/><path d="M914 192 q48 -46 96 0" fill="#e9d7a8"/><ellipse cx="962" cy="190" rx="40" ry="14" fill="#7a5230"/>
  <rect x="948" y="150" width="10" height="34" fill="#fff" stroke="#7a5230" stroke-width="2"/><polygon points="944,150 962,138 980,150" fill="#c0603f"/><circle cx="953" cy="158" r="4" fill="#ffd27a"/>
@@ -664,7 +668,8 @@ function dreamOpen(){let m=$('#drModal');if(m){m.remove();return}
 function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  if($('#drPin')){const dp=$('#drPin');dp.onclick=dreamOpen;dp.onkeydown=e=>{if(e.key==='Enter')dreamOpen()}}
- document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
+ if($('#advPin')){const ap=$('#advPin');ap.onclick=()=>{location.href='adventure.html'};ap.onkeydown=e=>{if(e.key==='Enter')ap.onclick()}}
+ document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin):not(#advPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
  $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　🎁 八島全破送書《理財就是理生活》</div>${bookMini()}<div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
