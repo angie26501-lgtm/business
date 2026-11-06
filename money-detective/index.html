@@ -230,12 +230,21 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .shr-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .shr-i{font:inherit;font-size:13px;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:#1f3a44;text-decoration:none}
 .shr-i span{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+#captain.vbox{display:grid;grid-template-columns:230px 1fr minmax(260px,380px);align-items:center;gap:18px}
+#captain .vt{min-width:0}
+.vteam{margin:0;text-align:center}.vteam img{width:100%;border-radius:14px;display:block;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.vteam figcaption{font-size:13px;color:#5f7680;margin-top:6px;font-weight:700}
+@media(max-width:900px){#captain.vbox{grid-template-columns:200px 1fr}.vteam{grid-column:1/-1;max-width:460px;justify-self:center}}
+@media(max-width:560px){#captain.vbox{grid-template-columns:1fr}#captain video{justify-self:center}}
+.cpath{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.cp-i{border:1px solid #cfe3d8;background:#f3faf6;border-radius:14px;padding:10px 12px}.cp-i:nth-child(2){background:#fff8ea;border-color:#e8d3a3}.cp-h{font-weight:800}.cp-i p{margin:4px 0;font-size:14px;line-height:1.7}.cp-d{font-size:14px;margin:4px 0}.cp-d summary{cursor:pointer;color:#2f5d6a;font-weight:700}.cp-d ol{margin:4px 0;padding-left:20px}.cp-n{grid-column:1/-1;font-size:14px;color:#5f7680}.lnk{border:0;background:none;color:#2f7f6b;text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+@media(max-width:700px){.cpath{grid-template-columns:1fr}}
+.c3m{margin-top:8px;padding:10px 12px;border-radius:12px;background:#f3faf6;border:1px solid #cfe3d8;font-size:14px;line-height:1.8}.c3btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.c3btns .btn{text-decoration:none}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
-<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：一島一島走，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div></section>
+<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
 <section class="hero">
  <div>
   <span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span>
@@ -548,14 +557,16 @@ function dreamPin(){return `<g class="isle" id="drPin" tabindex="0" role="button
  <rect class="tagbg" x="52" y="128" width="136" height="24" rx="12" fill="#f5efff" stroke="#c9b5f0"/><text class="nametag" x="120" y="145" text-anchor="middle" fill="#6b4fa8">🔒 夢幻島・尚未開放</text></g>`}
 window.addEventListener('pageshow',e=>{if(e.persisted)try{renderMap()}catch(_){}});
 // ===== 船員跟著滑鼠走 =====
-(function(){const F=document.createElement('div');F.id='avFollow';F.setAttribute('aria-hidden','true');document.body.appendChild(F);
+(function(){const PC=matchMedia('(hover:hover) and (pointer:fine)').matches; // 只在電腦（有滑鼠）上出現
+ const tgL=document.getElementById('tgFollow');if(!PC){if(tgL&&tgL.parentElement)tgL.parentElement.style.display='none';return}
+ const F=document.createElement('div');F.id='avFollow';F.setAttribute('aria-hidden','true');document.body.appendChild(F);
  let on=true;try{on=localStorage.getItem('hanji_follow')!=='0'}catch(e){}
  const cb=document.getElementById('tgFollow');if(cb){cb.checked=on;cb.onchange=()=>{on=cb.checked;try{localStorage.setItem('hanji_follow',on?'1':'0')}catch(e){}if(!on)F.classList.remove('on')}}
  let last='',tx=-200,ty=-200,x=-200,y=-200;
  const paint=()=>{let k='';try{k=JSON.stringify(gw)}catch(e){}if(k!==last){last=k;try{F.innerHTML=avatarSvg('avFol')}catch(e){}}};
  paint();setInterval(paint,1500);
- const mv=e=>{if(!on)return;tx=e.clientX+16;ty=e.clientY+14;if(tx+80>innerWidth)tx=e.clientX-92;if(ty+90>innerHeight)ty=e.clientY-98;F.classList.add('on')};
- addEventListener('pointermove',mv,{passive:true});addEventListener('pointerdown',mv,{passive:true});
+ const mv=e=>{if(!on||e.pointerType!=='mouse')return;tx=e.clientX+16;ty=e.clientY+14;if(tx+80>innerWidth)tx=e.clientX-92;if(ty+90>innerHeight)ty=e.clientY-98;F.classList.add('on')};
+ addEventListener('pointermove',mv,{passive:true});
  document.addEventListener('mouseleave',()=>F.classList.remove('on'));
  (function tick(){x+=(tx-x)*.18;y+=(ty-y)*.18;const r=Math.max(-12,Math.min(12,(tx-x)*.4));F.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;requestAnimationFrame(tick)})();
 })();
@@ -754,8 +765,8 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div><button class="btn" id="shareSt">分享這一島</button></div></div>
  ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3')+campIntro3():''}
  ${s.id==='S6'?certBlock():''}
- ${s.id==='S1'&&st.done.S1?vidBlock('a','迷霧港破案了！',campEnded('c3')?'下一站：初航島。加入共學圈，預約下一梯三日營！':'多多和小綠芽帶你看下一站：初航島三日營，三天就好。'):''}
- ${s.id==='S4'?vidBlock('b','測完體質之後','體質沒有好壞，看見了才知道從哪裡調。'):''}
+ ${s.id==='S1'&&st.done.S1?vidBlock('a','迷霧港破案了！',(campEnded('c3')?'下一站：初航島。加入共學圈，預約下一梯三日營！':'多多和小綠芽帶你看下一站：初航島三日營，三天就好。')+c3Mini()):''}
+ ${s.id==='S4'?vidBlock('b','測完體質之後，下一步怎麼走？','體質沒有好壞，看見了，才知道從哪裡開始調。想有人陪你一起動手，可以從營隊開始：'+campPath()):''}
  ${s.id==='S6'?vidBlock('c','五日營結業之後','五天是開始，接下來的路芸琪可以一直陪你走。'):''}
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看完下面的精選案件，按「我破案了」就完成這座島！'):''}
  <div class="feat"><div class="feat-t">⭐ 精選案件</div>${caseCard(s.eps[0])}
@@ -765,7 +776,7 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="game" id="game"></div></details>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- $('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
+ bindC3();$('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -776,6 +787,20 @@ function win(s){st.done[s.id]=true;save();renderMap();document.querySelectorAll(
  const sb=$('#solveBtn');if(sb)sb.textContent='✅ 這座島已破案';solvedFb(s);
  if($('#fb'))$('#fb').innerHTML=`<span class="stamp">破案！</span>　${esc(s.island)} 完成，已破 ${doneCount()} / 8 座島。`;
  const f=$('#solveFb');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})}
+function campPath(){const e3=campEnded('c3'),e5=campEnded('c5');
+ return `<div class="cpath"><div class="cp-i"><div class="cp-h">🌱 三日營｜先暖身・免費</div><p>3 天圖文任務，在「金錢好生活・芸琪共學圈」一起完成，<b>不用公開任何財務數字</b>。適合想先找回對錢的感覺的人。</p>
+  <div class="c3btns"><button class="btn" type="button" data-c3="intro">📋 三天在做什麼</button><a class="btn pri" href="${e3?CIRCLE_URL:'https://angie26501-lgtm.github.io/business/quiz/guide.html'}" target="_blank" rel="noopener">${e3?'加入共學圈・預約下一梯 →':'免費報名三日營 →'}</a></div></div>
+ <div class="cp-i"><div class="cp-h">🧭 五日營｜動手整理・購買綠芽贈送</div><p>5 天跟著影片，用綠芽系統把自己的財務一次理清楚，每天 20 分鐘以內。適合測完體質、想馬上開始調整的人。</p>
+  <details class="cp-d"><summary>五天在做什麼？</summary><ol>${CAMP.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
+  <div class="c3btns"><a class="btn" href="../greensprout/how-to-buy.html" target="_blank" rel="noopener">🌱 認識綠芽・訂購教學</a><a class="btn pri" href="${ORDER_LINE}" target="_blank" rel="noopener">${e5?'預約下一梯五日營 →':'報名五日營 →'}</a></div></div>
+ <div class="cp-n">🎫 已經參加過？<button class="lnk" type="button" data-c3="camp">打開營隊任務複習</button></div></div>`}
+function c3Mini(){const end=campEnded('c3');
+ return `<div class="c3m"><b>🌱 什麼是三日營？</b><br>在「金錢好生活・芸琪共學圈」LINE 社群裡，連續 3 天的<b>免費</b>圖文任務：每天看圖文、在群組回覆選項、完成一個小任務，<b>不用公開任何財務數字</b>。</div>
+ <div class="c3btns"><button class="btn pri" type="button" data-c3="intro">📋 看三日營三天在做什麼</button>
+ <a class="btn" href="${end?CIRCLE_URL:'https://angie26501-lgtm.github.io/business/quiz/guide.html'}" target="_blank" rel="noopener">${end?'加入共學圈・預約下一梯 →':'免費報名三日營 →'}</a>
+ <button class="btn" type="button" data-c3="camp">🎫 已參加：營隊任務複習</button></div>`}
+function bindC3(){document.querySelectorAll('[data-c3]').forEach(b=>b.onclick=()=>{if(b.dataset.c3==='camp'){campSel='c3';view('camp');return}
+ openSt('S2');setTimeout(()=>{const c=document.querySelector('.cintro');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},350)})}
 function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><p style="line-height:1.8">${txt}</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></div></div>`}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
