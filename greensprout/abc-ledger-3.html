@@ -52,6 +52,19 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
 .gift3{background:#fff8ea;border:2px solid #e3c27a;border-radius:12px;padding:10px 14px;margin:10px 0;font-size:15px;line-height:1.8;color:#5a3a08}.gift3 small{color:#8a5a12;font-size:13px}
 .foot{color:var(--sub);font-size:12px;line-height:1.7;border-top:1px solid var(--line);margin-top:22px;padding-top:14px;text-align:center}
 @media (max-width:560px){.sg,.abcb{grid-template-columns:1fr 1fr}}
+
+#gd{position:fixed;right:12px;bottom:70px;z-index:45;width:min(330px,calc(100vw - 24px));background:#fff;border:2px solid var(--green2);border-radius:16px;box-shadow:0 8px 28px rgba(40,60,20,.22);font-size:var(--gf,15px);line-height:1.75;color:var(--ink)}
+#gd .gh{display:flex;align-items:center;gap:4px;background:var(--green2);color:#fff;border-radius:13px 13px 0 0;padding:6px 8px;cursor:move;touch-action:none;user-select:none}
+#gd .gh b{flex:1;font-size:15px}
+#gd .gh button{background:rgba(255,255,255,.2);color:#fff;border:0;border-radius:8px;min-width:32px;height:30px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+#gd .gb{padding:10px 12px;max-height:42vh;overflow:auto}
+#gd .gs{display:inline-block;background:var(--greenw);color:var(--green2);font-weight:800;font-size:.85em;border-radius:99px;padding:0 9px;margin-bottom:4px}
+#gd .gt{font-weight:800;color:var(--navy);font-size:1.05em}
+#gd ul{margin:4px 0 0;padding-left:1.1em}#gd li{margin:2px 0}
+#gd .gn{display:flex;gap:6px;margin-top:8px}#gd .gn button{flex:1;border:1px solid var(--line);background:#f6f8f2;border-radius:10px;padding:5px;font:inherit;font-size:.9em;cursor:pointer}
+#gd.min{width:auto}#gd.min .gb{display:none}#gd.min .gh{border-radius:13px}
+@media print{#gd{display:none!important}}
+
 @media print{.hud,.act{display:none!important}.page{break-inside:avoid;box-shadow:none}}
 </style>
 </head>
@@ -69,7 +82,7 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
  <div class="sum" id="sum"></div>
  <div class="next"><h2>✅ 填完了，接下來二選一</h2>
  <div class="nx2"><div class="nxc"><b>① 傳給芸琪，免費領取圖卡</b><p>按下方「📋 複製整理好的文字」，打開 LINE 貼上傳給芸琪，就可以免費領取<b>財務體質體驗版圖卡</b>。</p>
- <div class="nxb"><a class="b2" href="https://lin.ee/56YIX1v" target="_blank" rel="noopener" data-cp>我是保戶 → 傳 LINE</a><a class="b2" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" data-cp>我是玩家 → 傳 LINE</a></div></div>
+ <div class="nxb"><a class="b2" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" data-cp>傳 LINE 給芸琪 →</a></div></div>
  <div class="nxc"><b>② 對照著填綠芽體驗版</b><p>綠芽手機版也是這四張表、同樣的欄位順序。按「👀 對照清單」，一邊看一邊抄進綠芽，就能<b>免費看財務體質報告</b>。</p>
  <div class="nxb"><button class="b3" type="button" id="cmp">👀 打開對照清單</button><a class="b1" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">🌱 去綠芽填體驗版 →</a></div>
  <small>※ 體驗版免費，填完四張表就能看財務體質類型和流量、存量健康分數。綠芽送出查看報告後四張表會鎖定，抄完先檢查一次再送出。第一次用？看 <a href="https://angie26501-lgtm.github.io/business/greensprout/how-to-buy.html" target="_blank" rel="noopener">訂購教學（5 步驟）</a></small></div></div></div>
@@ -85,6 +98,8 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
  <button class="b3" type="button" id="reset">🔄 清空</button>
 </div>
 <div id="toast"></div>
+<div id="gd" role="complementary" aria-label="填寫指引"><div class="gh" id="gdh"><b>📘 填寫指引</b><button type="button" id="gdS" aria-label="字縮小">A−</button><button type="button" id="gdL" aria-label="字放大">A＋</button><button type="button" id="gdM" aria-label="收合">－</button></div><div class="gb" id="gdb"></div></div>
+
 <script>
 const MODE=3;const DAYL={'收入表':'Day 1','支出表':'Day 1','資產表':'Day 2','負債表':'Day 2'};
 const T=[{"t": "收入表", "g": [{"n": "1", "t": "工作收入", "f": [{"n": "薪資／執行業務所得", "d": "固定薪水、業務佣金、無底薪的業績（執行業務所得）。每月固定填月收入，年度一次性填年收入。", "x": "示範：月薪 45,000 → 月收入 45,000"}, {"n": "獎金（年終、三節）", "d": "年終、三節、績效獎金，多為一年幾次，填年收入。", "x": "示範：年終 2 個月約 9 萬 → 年收入 90,000"}, {"n": "兼職收入、加班費", "d": "正職以外的兼差、副業、加班費。", "x": "示範：假日兼差 → 月收入 3,000"}, {"n": "其他", "d": "其他工作性質收入，沒有留 0。", "x": ""}]}, {"n": "2", "t": "理財收入", "f": [{"n": "營業收入、盈餘分紅", "d": "自營事業營收或股東盈餘分紅，受薪者留 0。", "x": ""}, {"n": "利息收入", "d": "存款、定存、債券利息。", "x": "示範：定存年息 → 年收入 1,200"}, {"n": "投資收入（股利、債券、基金）", "d": "股票股利、基金配息、投資型保單配息。", "x": "示範：基金月配息 → 月收入 2,000"}, {"n": "租金收入", "d": "不動產出租租金。", "x": ""}, {"n": "其他", "d": "其他理財收入，沒有留 0。", "x": ""}]}, {"n": "3", "t": "其他收入", "f": [{"n": "育兒津貼", "d": "政府育兒／生育津貼、育兒補助。", "x": "示範：育兒津貼 → 月收入 5,000"}, {"n": "退休年金", "d": "勞保年金、勞退、國民年金、商業年金等退休給付。", "x": ""}, {"n": "子女孝養金", "d": "子女固定給的孝養／奉養金。", "x": ""}, {"n": "其他", "d": "其他非工作、非理財收入。", "x": ""}]}]}, {"t": "支出表", "g": [{"n": "食", "t": "生活費", "f": [{"n": "食：飲食、伙食費", "d": "三餐、外食、買菜伙食。", "x": "示範：月 8,000"}, {"n": "衣：治裝費、美容、美髮、醫美", "d": "買衣服、美容保養、美髮、醫美；多不固定，填年支出。", "x": "示範：年 30,000"}, {"n": "住：水電瓦斯、電話手機、管理費", "d": "水電瓦斯、電話手機網路、社區管理費。", "x": "示範：月 6,000"}, {"n": "行：交通費、油費、車輛維修", "d": "大眾運輸、油錢、停車、車輛保養。", "x": "示範：月 4,000"}, {"n": "醫：醫療、保健、養生", "d": "就醫、保健食品、健身養生。", "x": "示範：月 2,000"}, {"n": "雜：家庭日常雜支", "d": "日用品、網購等日常零星支出。", "x": "示範：月 2,000"}], "abc": "A"}, {"n": "貸", "t": "貸款（每月／年繳額）", "f": [{"n": "房屋貸款", "d": "自住或投資房貸的每月繳款額。", "x": "示範：月 18,000"}, {"n": "其它貸款（信用貸款、信用卡、車貸…）", "d": "信貸、車貸、卡費分期、保單借款利息等的月繳。", "x": "示範：卡費分期 → 月 3,000"}], "abc": "A"}, {"n": "租", "t": "租金", "f": [{"n": "房屋租金", "d": "租屋每月租金；沒有租屋留 0。", "x": ""}, {"n": "其他租金", "d": "車位、倉庫等租金。", "x": ""}], "abc": "A"}, {"n": "撫", "t": "撫育費用", "f": [{"n": "子女學雜費、安親、才藝", "d": "學費、安親、才藝、補習。", "x": "示範：月 8,000"}, {"n": "父母孝養費（生日、年節）", "d": "給父母的孝養金、生日年節紅包。", "x": "示範：月 5,000"}, {"n": "其他", "d": "其他撫育相關支出。", "x": ""}], "abc": "A"}, {"n": "儲", "t": "儲蓄理財支出", "f": [{"n": "零存整付存款（定存）", "d": "每月固定存入的定存／零存整付。", "x": ""}, {"n": "儲蓄（分紅）保險", "d": "儲蓄險、分紅保單、還本險保費。", "x": "示範：年 60,000"}, {"n": "定期定額基金／存股", "d": "每月扣款的基金、ETF、存股。", "x": "示範：月 5,000"}, {"n": "其他：勞退自提、退撫提撥", "d": "勞退自願提繳、退撫提撥等。", "x": ""}], "abc": "C"}, {"n": "險", "t": "保險費", "f": [{"n": "勞健保", "d": "勞保、健保、職業工會保費。", "x": "示範：月 1,500"}, {"n": "人壽保險（保障）", "d": "壽險、醫療、意外、長照等保障型保費。", "x": "示範：年 36,000"}, {"n": "產物保險（住宅、汽車、機車）", "d": "住宅火險、汽機車保險。", "x": "示範：年 6,000"}], "abc": "B"}, {"n": "稅", "t": "稅賦", "f": [{"n": "所得稅", "d": "綜合所得稅，通常年繳。", "x": "示範：年 20,000"}, {"n": "財產稅（房屋稅、地價稅）", "d": "持有不動產的房屋稅、地價稅。", "x": ""}, {"n": "其它稅賦（燃料稅、牌照稅…）", "d": "汽機車燃料費、牌照稅等。", "x": ""}], "abc": "B"}, {"n": "雜", "t": "雜費", "f": [{"n": "旅遊、交際、書報雜誌、紅白包", "d": "旅遊、應酬交際、訂閱、紅白包禮金。", "x": "示範：月 2,000"}, {"n": "進修", "d": "課程、進修、學習訂閱。", "x": ""}, {"n": "捐款", "d": "定期或不定期捐款。", "x": "示範：月 500"}, {"n": "顧問費", "d": "財務顧問費、記帳費、專業服務費。", "x": ""}, {"n": "其他", "d": "其他雜項支出。", "x": ""}], "abc": "B"}]}, {"t": "資產表", "g": [{"n": "1", "t": "流動資產", "f": [{"n": "現金（含活存）", "d": "手邊現金與銀行活期存款餘額。", "x": "示範：300,000"}, {"n": "定期存款", "d": "定存、零存整付餘額。", "x": "示範：200,000"}, {"n": "外幣存款", "d": "外幣帳戶（換算台幣）。", "x": ""}, {"n": "貨幣型基金", "d": "貨幣市場基金。", "x": ""}, {"n": "股票", "d": "股票市值。", "x": "示範：150,000"}, {"n": "債券", "d": "持有債券市值。", "x": ""}, {"n": "基金、ETF", "d": "基金、ETF 市值。", "x": "示範：100,000"}, {"n": "投資型保單／基金帳戶", "d": "投資型保單帳戶價值、基金帳戶。", "x": "示範：500,000"}, {"n": "儲蓄險保價金", "d": "儲蓄險、還本險的保單價值準備金（解約金）。", "x": "示範：80,000"}, {"n": "其他金融資產", "d": "其他金融性資產。", "x": ""}]}, {"n": "2", "t": "固定資產", "f": [{"n": "投資不動產", "d": "出租或投資用不動產市值。", "x": ""}, {"n": "自用汽機車", "d": "自用車輛現值。", "x": "示範：400,000"}, {"n": "自用房屋、土地", "d": "自住房屋、土地市值。", "x": "示範：8,000,000"}]}, {"n": "3", "t": "其他資產", "f": [{"n": "事業股權", "d": "持有的公司股權、出資額。", "x": ""}, {"n": "金銀珠寶、古董、字畫", "d": "貴金屬、珠寶、收藏品。", "x": ""}, {"n": "債權（應收帳款）", "d": "別人欠你的、應收回的款項。", "x": ""}, {"n": "其他", "d": "其他資產。", "x": ""}]}]}, {"t": "負債表", "g": [{"n": "1", "t": "流動負債", "f": [{"n": "信用卡分期", "d": "信用卡分期未到期餘額（每月繳清的不算）。", "x": "示範：30,000"}, {"n": "信用卡貸款", "d": "信用卡循環信用餘額。", "x": ""}, {"n": "消費性貸款", "d": "短期消費性貸款。", "x": ""}, {"n": "保單貸款", "d": "向保單借款的未還本金。", "x": "示範：100,000"}]}, {"n": "2", "t": "長期負債", "f": [{"n": "個人信用貸款", "d": "銀行信用貸款尚欠本金。", "x": ""}, {"n": "助學貸款", "d": "就學貸款尚欠餘額。", "x": ""}, {"n": "汽機車貸款", "d": "車貸尚欠本金。", "x": "示範：200,000"}, {"n": "民間借貸", "d": "向親友或民間借款的尚欠餘額。", "x": ""}, {"n": "自用房屋貸款", "d": "自住房貸尚欠本金。", "x": "示範：5,000,000"}, {"n": "投資不動產貸款", "d": "投資用不動產貸款尚欠本金。", "x": ""}, {"n": "其他", "d": "其他負債。", "x": ""}]}]}];
@@ -140,6 +155,39 @@ $('#reset').onclick=()=>{if(!confirm('確定要清空全部數字嗎？清空後
 $('#printBtn').onclick=()=>{document.querySelectorAll('details.page').forEach(d=>d.open=true);window.print()};
 $('#openAll').onclick=function(){const any=[...document.querySelectorAll('details.page')].some(d=>!d.open);document.querySelectorAll('details.page').forEach(d=>d.open=any);this.textContent=any?'⊖ 全部收合':'⊕ 全部展開'};
 calc();
+
+// ===== 📘 浮動填寫指引（可放大縮小、收合、拖曳）=====
+(function(){
+ const GK='gs_ledger_guide';let G={f:15,min:innerWidth<600,x:null,y:null};try{Object.assign(G,JSON.parse(localStorage.getItem(GK)||'{}'))}catch(e){}
+ const box=$('#gd'),body=$('#gdb'),sv=()=>{try{localStorage.setItem(GK,JSON.stringify(G))}catch(e){}};
+ const STEPS=[
+  {k:'top',s:'開始之前',t:'先看這 3 步就會填',li:['從上往下填：收入表 → 支出表 → 資產表 → 負債表。','不用很精準，先估一個數字也可以，之後隨時能改。','填到一半關掉沒關係，下次打開會自動帶回。']},
+  {k:'收入表',s:'第 1 張｜收入表',t:'錢從哪裡來？',li:['薪水、固定兼差 → 填「每月」。','年終、三節獎金、一年才領一次的 → 填「每年」。','基金配息、租金、育兒津貼、退休年金也算收入。','夫妻一起填的話，兩個人的收入加在一起。']},
+  {k:'支出表',s:'第 2 張｜支出表',t:'錢花到哪裡去？',li:['每個月固定的：伙食、水電、交通、房貸或房租、孩子學費 → 填「每月」。','一年才繳一次的：保險費、稅金、旅遊、紅包 → 填「每年」。','刷卡買的東西，照實際買了什麼去分類；繳卡費時不要再算一次。','定期定額、儲蓄險也填在這裡（儲蓄理財支出）。']},
+  {k:'資產表',s:'第 3 張｜資產表',t:'你現在有什麼？',li:['存款：看存摺或網銀「現在」的餘額。','股票、基金、ETF：填現在的市值。','儲蓄險：填保單價值（解約金），不是已經繳了多少。','房子、車子：估現在大概值多少。']},
+  {k:'負債表',s:'第 4 張｜負債表',t:'你現在還欠多少？',li:['填「現在還欠」的金額，不是當初借多少。','房貸、車貸、信貸看銀行對帳單的剩餘本金。','信用卡分期還沒繳完的、保單借款也要算。','每月刷卡、每月繳清的不算負債。']},
+  {k:'sum',s:'看結果',t:'幫你算好了',li:['「每月剩下多少」是負數，代表花的比賺的多。','淨資產＝你有的－你欠的。','數字只是看見現況，不是好壞判斷。']},
+  {k:'next',s:'最後一步',t:'選一個完成',li:['① 按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪。','② 按「👀 對照清單」，一邊看一邊抄進綠芽。']}];
+ if(MODE===5){STEPS[0].li.unshift('Day 1 填收入、支出；Day 2 填資產、負債；Day 4 再看 ABC 帳戶。');STEPS[5].li.push('Day 4：看下面 A／B／C 各占收入幾 %，照著在綠芽編列 ABC 預算。')}
+ if(MODE===3){STEPS[6].li[0]='① 按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪，免費領取財務體質體驗版圖卡。'}
+ let cur=0;
+ function show(i){cur=i;const s=STEPS[i];body.innerHTML=`<span class="gs">${s.s}</span><div class="gt">${s.t}</div><ul>${s.li.map(x=>`<li>${x}</li>`).join('')}</ul><div class="gn"><button type="button" id="gdP" ${i?'':'disabled'}>◀ 上一步</button><button type="button" id="gdN" ${i<STEPS.length-1?'':'disabled'}>下一步 ▶</button></div>`;
+  $('#gdP').onclick=()=>go(i-1);$('#gdN').onclick=()=>go(i+1)}
+ function anchor(k){if(k==='top')return $('.wrap');if(k==='sum')return $('#sum');if(k==='next')return $('.next');return [...document.querySelectorAll('.tbar')].find(b=>b.textContent.includes(k))}
+ let lock=0;function go(i){show(i);const a=anchor(STEPS[i].k);if(a){lock=Date.now();a.scrollIntoView({behavior:'smooth',block:'start'})}}
+ function onScroll(){if(Date.now()-lock<900)return;let best=0;STEPS.forEach((s,i)=>{const a=anchor(s.k);if(a&&a.getBoundingClientRect().top<innerHeight*0.45)best=i});if(best!==cur)show(best)}
+ addEventListener('scroll',onScroll,{passive:true});
+ function apply(){box.style.setProperty('--gf',G.f+'px');box.classList.toggle('min',G.min);$('#gdM').textContent=G.min?'＋':'－';$('#gdM').setAttribute('aria-label',G.min?'展開':'收合');
+  if(G.x!=null){box.style.left=Math.min(Math.max(0,G.x),innerWidth-80)+'px';box.style.top=Math.min(Math.max(0,G.y),innerHeight-50)+'px';box.style.right='auto';box.style.bottom='auto'}}
+ $('#gdS').onclick=e=>{e.stopPropagation();G.f=Math.max(12,G.f-1);if(G.min)G.min=false;apply();sv()};
+ $('#gdL').onclick=e=>{e.stopPropagation();G.f=Math.min(24,G.f+1);if(G.min)G.min=false;apply();sv()};
+ $('#gdM').onclick=e=>{e.stopPropagation();G.min=!G.min;apply();sv()};
+ let d=null;$('#gdh').addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON')return;const r=box.getBoundingClientRect();d={dx:e.clientX-r.left,dy:e.clientY-r.top};$('#gdh').setPointerCapture(e.pointerId)});
+ $('#gdh').addEventListener('pointermove',e=>{if(!d)return;G.x=e.clientX-d.dx;G.y=e.clientY-d.dy;apply()});
+ $('#gdh').addEventListener('pointerup',()=>{if(d){d=null;sv()}});
+ $('#gdh').addEventListener('dblclick',()=>{G.x=G.y=null;box.style.cssText='';apply();sv()});
+ show(0);apply();
+})();
 </script>
 </body>
 </html>
