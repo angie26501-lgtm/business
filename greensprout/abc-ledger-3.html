@@ -75,13 +75,13 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
  <div class="head"><div class="brand">金錢好生活・芸琪共學圈三日營</div><h1>綠芽體驗版｜四張表對照</h1>
  <p class="sub">跟綠芽手機版一模一樣的四張表。先在這裡填好，再照著抄進綠芽，就不會卡關。</p></div>
  <div class="intro"><b>怎麼填？記住 3 件事</b><br>・每個月固定的錢填「<b>每月</b>」；一年一次或不固定的填「<b>每年</b>」，會自動幫你平均到每個月。<br>・資產、負債填「<b>現在</b>」的金額，例如存款現在有多少、房貸現在還欠多少。<br>・不確定就先估，沒有的留空，之後都可以改。<br>🔒 你填的數字只存在自己的手機裡，不會傳到網路上。按「複製」貼到 LINE，芸琪才看得到。</div>
- <div class="gift3">🎁 <b>輸入財務數值，就可以免費領取「財務體質體驗版圖卡」</b><br><small>花 10 分鐘填好四張表，按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪就能領。</small></div>
+ <div class="gift3">🎁 <b>輸入財務數值，就可以免費領取「財務體質體驗版圖卡」</b><br><small>花 10 分鐘填好四張表，按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪，再傳「<b>圖卡</b>」兩個字就完成登記。</small></div>
  <div class="warn">⚠️ 只要填金額就好，<b>不要</b>填身分證、銀行帳號或保單號碼。</div>
  <div class="who"><input id="nick" placeholder="你的稱呼（例：王小姐）" maxlength="20"><input id="when" placeholder="填寫月份（例：2026 年 11 月）" maxlength="20"></div>
  <div id="forms"></div>
  <div class="sum" id="sum"></div>
  <div class="next"><h2>✅ 填完了，接下來二選一</h2>
- <div class="nx2"><div class="nxc"><b>① 傳給芸琪，免費領取圖卡</b><p>按下方「📋 複製整理好的文字」，打開 LINE 貼上傳給芸琪，就可以免費領取<b>財務體質體驗版圖卡</b>。</p>
+ <div class="nx2"><div class="nxc"><b>① 傳給芸琪，免費領取圖卡</b><p>按下方「📋 複製整理好的文字」，打開 LINE 貼上傳給芸琪，就可以免費領取<b>財務體質體驗版圖卡</b>。貼完再傳「<b>圖卡</b>」兩個字，會馬上收到確認訊息。</p>
  <div class="nxb"><a class="b2" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" data-cp>傳 LINE 給芸琪 →</a></div></div>
  <div class="nxc"><b>② 對照著填綠芽體驗版</b><p>綠芽手機版也是這四張表、同樣的欄位順序。按「👀 對照清單」，一邊看一邊抄進綠芽，就能<b>免費看財務體質報告</b>。</p>
  <div class="nxb"><button class="b3" type="button" id="cmp">👀 打開對照清單</button><a class="b1" href="https://liff.line.me/2008875286-mv3Yq7SB?code=FKJ5589" target="_blank" rel="noopener">🌱 去綠芽填體驗版 →</a></div>
@@ -169,7 +169,7 @@ calc();
   {k:'sum',s:'看結果',t:'幫你算好了',li:['「每月剩下多少」是負數，代表花的比賺的多。','淨資產＝你有的－你欠的。','數字只是看見現況，不是好壞判斷。']},
   {k:'next',s:'最後一步',t:'選一個完成',li:['① 按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪。','② 按「👀 對照清單」，一邊看一邊抄進綠芽。']}];
  if(MODE===5){STEPS[0].li.unshift('Day 1 填收入、支出；Day 2 填資產、負債；Day 4 再看 ABC 帳戶。');STEPS[5].li.push('Day 4：看下面 A／B／C 各占收入幾 %，照著在綠芽編列 ABC 預算。')}
- if(MODE===3){STEPS[6].li[0]='① 按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪，免費領取財務體質體驗版圖卡。'}
+ if(MODE===3){STEPS[6].li[0]='① 按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪，再傳「圖卡」兩個字，就能免費領取財務體質體驗版圖卡。'}
  let cur=0;
  function show(i){cur=i;const s=STEPS[i];body.innerHTML=`<span class="gs">${s.s}</span><div class="gt">${s.t}</div><ul>${s.li.map(x=>`<li>${x}</li>`).join('')}</ul><div class="gn"><button type="button" id="gdP" ${i?'':'disabled'}>◀ 上一步</button><button type="button" id="gdN" ${i<STEPS.length-1?'':'disabled'}>下一步 ▶</button></div>`;
   $('#gdP').onclick=()=>go(i-1);$('#gdN').onclick=()=>go(i+1)}
