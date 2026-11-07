@@ -24,6 +24,14 @@ a{color:var(--green)}
 .role.on{border-color:var(--green);background:#eef7f2}
 #pick{margin-top:10px;font-size:15px;min-height:28px}
 .pk{display:inline-block;background:var(--green);color:#fff;border-radius:999px;padding:1px 10px;margin:2px 4px 2px 0;font-size:14px;cursor:pointer;border:0;font:inherit}
+.stories{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.st{display:block;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:14px;background:#fff;padding:12px 14px;text-decoration:none;color:inherit;transition:.2s}
+.st:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
+.st .tg{display:inline-block;font-size:12px;font-weight:800;color:var(--dg);background:#e9f5ee;border-radius:99px;padding:1px 9px;margin-bottom:4px}
+.st .hk{display:block;font-size:15px;line-height:1.7;margin:2px 0 6px}.st .go{font-size:13px;font-weight:800;color:var(--green)}
+.ic .bd .sl{display:block;margin-top:8px;padding:8px 10px;border-radius:10px;background:#f3f9f5;font-size:13px;text-decoration:none;color:inherit}
+.ic .bd .sl b{color:var(--green)}
+@media (max-width:640px){.stories{grid-template-columns:1fr}}
 .grp{font-weight:800;color:var(--mut);margin:12px 0 6px;font-size:14px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .ic{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;transition:.2s}
@@ -78,6 +86,9 @@ a{color:var(--green)}
 <div class="sec"><h2>👤 1. 選你的人生角色</h2><p class="sub">點一個角色，下面的保障圖鑑會亮起建議先看的 3 張卡。</p>
 <div class="roles" id="roles"></div><div id="pick"></div></div>
 
+<div class="sec" id="stories"><h2>📰 先看別人家發生了什麼</h2><p class="sub">每一則都是真實新聞或芸琪身邊的案例。挑一個最有感的，點進去看完整故事。</p>
+<div class="stories" id="stList"></div><p class="note">※ 故事整理自財顧芸網站文章，為一般觀念分享，實際保障依各保單條款為準。</p></div>
+
 <div class="sec"><h2>🗺️ 2. 保障圖鑑</h2><p class="sub">點卡片看：它保什麼、適合誰、要注意什麼。</p>
 <div class="grp">壽險類（保「人」）</div><div class="cards" id="life"></div>
 <div class="grp">產險類（保「財物」與「責任」）</div><div class="cards" id="prop"></div>
@@ -116,6 +127,17 @@ const INS=[
  {id:'fire',g:'prop',e:'🏠',n:'住宅火險・地震險',s:'房子的防護罩',what:'火災、地震等造成房屋建築損失時理賠。',who:'有房子、有房貸的家庭。',note:'房貸附的保險常常只保建築本體；室內裝潢和財物要另外看。'},
  {id:'liab',g:'prop',e:'⚖️',n:'個人責任險',s:'不小心傷到別人時的賠償',what:'因為意外造成他人體傷或財損，依法要賠償時理賠。',who:'有養寵物、家裡會漏水影響鄰居、常騎腳踏車的人。',note:'保費通常不高，但很多人沒想到要買。'}
 ];
+const AF='https://www.allfreedom.info/';
+const STORY={
+ term:{h:'保險金下來了，受益人卻還是個孩子。這筆錢誰能動？要怎麼一路陪孩子長大？',u:AF+'detective-insurance-trust-minor-beneficiary.html'},
+ whole:{h:'「趁早把房子過戶給孩子比較省稅」，你也聽過嗎？芸琪的答案是：不一定，搞不好還更貴。',u:AF+'inheritance-house.html'},
+ med:{h:'藝人高欣欣的弟弟赴日旅遊突發腦中風，住院 10 天，醫療費接近新台幣 200 萬元。幾百塊的旅平險接得住嗎？',u:AF+'travel-insurance-overseas-medical-bill.html'},
+ ci:{h:'醫藥費有保險，可是如果明天不能工作了，房貸、生活費照樣要付，家裡還能撐多久？',u:AF+'exam-illness-income-interruption.html'},
+ dis:{h:'家人中風，人救回來了。真正的考驗是出院回家以後：誰陪復健？照顧三年，現金流撐得住嗎？',u:AF+'family-stroke-discharge-care-next-steps.html'},
+ ltc:{h:'71 歲的女兒照顧 102 歲失智母親 12 年。這個家不缺錢，最後卻還是走到了悲劇，卡住的是什麼？',u:AF+'care-needs-someone-to-walk-with-you.html'},
+ car:{h:'車禍發生那一刻，第一步該做什麼？先拍照、先報警，還是先移車？用闖關遊戲走一遍就知道。',u:'../carcrash/index.html',t:'車禍現場應變闖關'},
+ ret:{h:'網路流傳：50 歲起每月存 5 萬，65 歲能存到近兩千萬。芸琪算了一下，背後假設的是每年 9% 報酬。',u:AF+'retirement-saving-at-50.html',n:'退休準備',e:'🌅'}
+};
 const ROLES=[
  {id:'new',e:'🎒',n:'社會新鮮人',p:['med','ci','car'],t:'剛開始賺錢，先把「醫療」和「意外的賠償」顧好，避免一次大病或事故把存款歸零。'},
  {id:'sand',e:'👨‍👩‍👧‍👦',n:'三明治家庭支柱',p:['term','ltc','med'],t:'上有爸媽、下有孩子，你是家裡的支柱：先確認「萬一自己倒下」和「爸媽需要照顧」的錢從哪來。'},
@@ -128,7 +150,8 @@ function yt(i){const y=YT[i];$('#ytF').src='https://www.youtube-nocookie.com/emb
 $('#ytTabs').innerHTML=YT.map((y,i)=>`<button type="button" class="yttab" data-y="${i}">${y.n}</button>`).join('');
 document.querySelectorAll('.yttab').forEach(b=>b.onclick=()=>yt(+b.dataset.y));yt(0);
 const card=x=>`<details class="ic" id="c-${x.id}"><summary><span class="e">${x.e}</span><span><b>${esc(x.n)}</b><small>${esc(x.s)}</small></span></summary>
- <div class="bd"><p><b>它保什麼：</b>${esc(x.what)}</p><p><b>適合誰：</b>${esc(x.who)}</p><p><b>要注意：</b>${esc(x.note)}</p>${x.yt!=null?`<p><a href="#ytTabs" data-yt="${x.yt}">▶ 看芸琪的車險影片</a></p>`:''}</div></details>`;
+ <div class="bd"><p><b>它保什麼：</b>${esc(x.what)}</p><p><b>適合誰：</b>${esc(x.who)}</p><p><b>要注意：</b>${esc(x.note)}</p>${x.yt!=null?`<p><a href="#ytTabs" data-yt="${x.yt}">▶ 看芸琪的車險影片</a></p>`:''}${STORY[x.id]?`<a class="sl" href="${STORY[x.id].u}" ${STORY[x.id].u.startsWith('http')?'target="_blank" rel="noopener"':''}>📰 ${esc(STORY[x.id].h)}　<b>${STORY[x.id].t?'去闖關 →':'看完整故事 →'}</b></a>`:''}</div></details>`;
+$('#stList').innerHTML=Object.entries(STORY).map(([k,s])=>{const x=INS.find(i=>i.id===k)||{e:s.e,n:s.n};return `<a class="st" href="${s.u}" ${s.u.startsWith('http')?'target="_blank" rel="noopener"':''}><span class="tg">${x.e} ${esc(x.n)}</span><span class="hk">${esc(s.h)}</span><span class="go">${s.t?'去闖關 →':'看完整故事 →'}</span></a>`}).join('');
 $('#life').innerHTML=INS.filter(x=>x.g==='life').map(card).join('');
 $('#prop').innerHTML=INS.filter(x=>x.g==='prop').map(card).join('');
 $('#roles').innerHTML=ROLES.map(r=>`<button type="button" class="role" data-r="${r.id}"><span class="e">${r.e}</span><b>${esc(r.n)}</b></button>`).join('');
