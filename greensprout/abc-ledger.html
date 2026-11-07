@@ -35,6 +35,9 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
 .ins label{font-size:12px;color:var(--sub)}
 .sum{background:#fff;border:2px solid var(--green);border-radius:14px;padding:14px;margin:22px 0 10px}
 .sum h2{margin:0 0 8px;font-size:18px;color:var(--navy)}
+.sumh{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}.sumh h2{margin:0!important}
+.sumcp{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:999px;padding:8px 14px;cursor:pointer;background:var(--green2);color:#fff}
+.sumf{margin-top:12px;text-align:center}.sumf .sumcp{width:100%;font-size:16px;padding:12px}.sumf small{display:block;color:var(--sub);font-size:12.5px;margin-top:5px}
 .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .sg div{background:var(--greenw);border-radius:10px;padding:8px 10px}.sg small{display:block;color:var(--sub);font-size:12px}.sg b{font-size:17px}
 .abcb{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
@@ -61,7 +64,8 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
 #gd .gt{font-weight:800;color:var(--navy);font-size:1.05em}
 #gd ul{margin:4px 0 0;padding-left:1.1em}#gd li{margin:2px 0}
 #gd .gn{display:flex;gap:6px;margin-top:8px}#gd .gn button{flex:1;border:1px solid var(--line);background:#f6f8f2;border-radius:10px;padding:5px;font:inherit;font-size:.9em;cursor:pointer}
-#gd.min{width:auto}#gd.min .gb{display:none}#gd.min .gh{border-radius:13px}
+#gd.min{width:auto}
+@media (max-width:600px){#gd{left:8px;right:8px;width:auto;bottom:64px}#gd.min{left:auto;right:8px}#gd .gb{max-height:34vh}}#gd.min .gb{display:none}#gd.min .gh{border-radius:13px}
 @media print{#gd{display:none!important}}
 
 @media print{.hud,.act{display:none!important}.page{break-inside:avoid;box-shadow:none}}
@@ -122,9 +126,9 @@ function calc(){const R={};let abc={A:0,B:0,C:0};
  T.forEach((t,ti)=>{let tot=0;t.g.forEach((gr,gi)=>{let s=0;gr.f.forEach((f,fi)=>{const id=`${ti}_${gi}_${fi}`;s+=isFlow(t.t)?g(id+'_m')+g(id+'_y')/12:g(id+'_v')});
   tot+=s;if(gr.abc)abc[gr.abc]+=s;$(`#st${ti}_${gi}`).textContent=s?(isFlow(t.t)?'每月約 ':'')+fmt(s)+' 元':''});R[t.t]=tot});
  const inc=R['收入表'],exp=R['支出表'],as=R['資產表'],li=R['負債表'],pct=v=>inc?Math.round(v/inc*100)+'%':'—';
- $('#sum').innerHTML=`<h2>📊 我的四張表小計</h2><div class="sg"><div><small>每月收入（含年收入÷12）</small><b>${fmt(inc)}</b></div><div><small>每月支出（含年支出÷12）</small><b>${fmt(exp)}</b></div><div><small>每月結餘</small><b style="color:${inc-exp<0?'#c0553f':'inherit'}">${fmt(inc-exp)}</b></div><div><small>總資產</small><b>${fmt(as)}</b></div><div><small>總負債</small><b>${fmt(li)}</b></div><div><small>淨資產（資產−負債）</small><b>${fmt(as-li)}</b></div></div>
+ $('#sum').innerHTML=`<div class="sumh"><h2>📊 我的四張表小計</h2><button type="button" class="b1 sumcp" data-sumcp>📋 複製小計＋四張表</button></div><div class="sg"><div><small>每月收入（含年收入÷12）</small><b>${fmt(inc)}</b></div><div><small>每月支出（含年支出÷12）</small><b>${fmt(exp)}</b></div><div><small>每月結餘</small><b style="color:${inc-exp<0?'#c0553f':'inherit'}">${fmt(inc-exp)}</b></div><div><small>總資產</small><b>${fmt(as)}</b></div><div><small>總負債</small><b>${fmt(li)}</b></div><div><small>淨資產（資產−負債）</small><b>${fmt(as-li)}</b></div></div>
  <div class="abcb">${['A','B','C'].map(k=>`<div style="background:${ABCC[k]}"><small>${ABCN[k]}｜每月約</small><b>${fmt(abc[k])}</b><small>占收入 ${pct(abc[k])}</small></div>`).join('')}</div>
- <p class="note">A 生活帳戶＝生活費、貸款、租金、撫育費用；B 年度帳戶＝保險費、稅賦、雜費；C 夢想帳戶＝儲蓄理財支出。只是整理分類，不是好壞判斷；實際體質以綠芽報告為準。</p>`;
+ <p class="note">A 生活帳戶＝生活費、貸款、租金、撫育費用；B 年度帳戶＝保險費、稅賦、雜費；C 夢想帳戶＝儲蓄理財支出。只是整理分類，不是好壞判斷；實際體質以綠芽報告為準。</p><div class="sumf"><button type="button" class="b1 sumcp" data-sumcp>📋 一鍵複製，貼到 LINE 傳給芸琪</button><small>會複製上面的小計和你填的四張表，貼到 LINE 就可以。</small></div>`;
  return {R,abc}}
 function text(){const {R,abc}=calc();const L=[];L.push('【綠芽四張表｜ABC 帳戶記帳整理】');
  if(S._nick)L.push('稱呼：'+S._nick);if(S._when)L.push('填寫月份：'+S._when);
@@ -142,6 +146,7 @@ function text(){const {R,abc}=calc();const L=[];L.push('【綠芽四張表｜ABC
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2200)}
 function copyText(s){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(s);
  return new Promise((ok,no)=>{const a=document.createElement('textarea');a.value=s;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')?ok():no()}catch(e){no(e)}a.remove()})}
+document.addEventListener('click',e=>{if(e.target.closest('[data-sumcp]'))$('#copy').click()});
 $('#copy').onclick=()=>copyText(text()).then(()=>toast('✅ 已複製！打開 LINE 貼上傳給芸琪')).catch(()=>{$('#prev').style.display='block';$('#prev').textContent=text();toast('請長按下方文字自行複製')});
 document.querySelectorAll('#lineC,#lineP,[data-cp]').forEach(el=>el.addEventListener('click',()=>{copyText(text()).then(()=>toast('✅ 已複製，到 LINE 長按輸入框貼上')).catch(()=>{})}));
 $('#cmp').onclick=()=>{const p=$('#prev');p.style.display='block';p.textContent=text();p.scrollIntoView({behavior:'smooth',block:'start'})};
@@ -173,11 +178,11 @@ calc();
  function onScroll(){if(Date.now()-lock<900)return;let best=0;STEPS.forEach((s,i)=>{const a=anchor(s.k);if(a&&a.getBoundingClientRect().top<innerHeight*0.45)best=i});if(best!==cur)show(best)}
  addEventListener('scroll',onScroll,{passive:true});
  function apply(){box.style.setProperty('--gf',G.f+'px');box.classList.toggle('min',G.min);$('#gdM').textContent=G.min?'＋':'－';$('#gdM').setAttribute('aria-label',G.min?'展開':'收合');
-  if(G.x!=null){box.style.left=Math.min(Math.max(0,G.x),innerWidth-80)+'px';box.style.top=Math.min(Math.max(0,G.y),innerHeight-50)+'px';box.style.right='auto';box.style.bottom='auto'}}
+  if(G.x!=null&&innerWidth>600){box.style.left=Math.min(Math.max(0,G.x),innerWidth-box.offsetWidth)+'px';box.style.top=Math.min(Math.max(0,G.y),innerHeight-50)+'px';box.style.right='auto';box.style.bottom='auto'}}
  $('#gdS').onclick=e=>{e.stopPropagation();G.f=Math.max(12,G.f-1);if(G.min)G.min=false;apply();sv()};
  $('#gdL').onclick=e=>{e.stopPropagation();G.f=Math.min(24,G.f+1);if(G.min)G.min=false;apply();sv()};
  $('#gdM').onclick=e=>{e.stopPropagation();G.min=!G.min;apply();sv()};
- let d=null;$('#gdh').addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON')return;const r=box.getBoundingClientRect();d={dx:e.clientX-r.left,dy:e.clientY-r.top};$('#gdh').setPointerCapture(e.pointerId)});
+ let d=null;$('#gdh').addEventListener('pointerdown',e=>{if(e.target.tagName==='BUTTON'||innerWidth<=600)return;const r=box.getBoundingClientRect();d={dx:e.clientX-r.left,dy:e.clientY-r.top};$('#gdh').setPointerCapture(e.pointerId)});
  $('#gdh').addEventListener('pointermove',e=>{if(!d)return;G.x=e.clientX-d.dx;G.y=e.clientY-d.dy;apply()});
  $('#gdh').addEventListener('pointerup',()=>{if(d){d=null;sv()}});
  $('#gdh').addEventListener('dblclick',()=>{G.x=G.y=null;box.style.cssText='';apply();sv()});
