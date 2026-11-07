@@ -248,7 +248,7 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .qz-up{margin-top:10px;background:#fff8ea;border:1px solid #e8d3a3;border-radius:12px;padding:10px 12px}.qz-ut{font-weight:800;color:#8a5a12;margin-bottom:4px}.qz-up ul{margin:4px 0;padding-left:20px;font-size:14px}
 body.lite #captain,body.lite .hero,body.lite .tiles,body.lite #tabs,body.lite .toggles,body.lite #vMap,body.lite #gpOpen{display:none!important}
 body:not(.lite) #liteBox{display:none}
-body.lite .banner{aspect-ratio:auto;max-height:none;height:clamp(150px,24vw,260px)}body.lite .banner img{max-height:none!important;height:100%!important}
+body.lite .banner{aspect-ratio:16/7;max-height:560px;height:auto}body.lite .banner img{max-height:none!important;height:100%!important;object-position:50% 8%!important}
 body.lite .banner img{max-height:240px;width:100%;object-fit:cover;object-position:50% 30%}
 .bk-lim{margin:4px 4px 0 0}
 #liteBox{background:#fff;border:2px solid #d9c38f;border-radius:18px;padding:16px;margin:14px 0}
@@ -285,6 +285,8 @@ body.lite #toFull{display:none}
 @media (prefers-color-scheme:dark){.abct{background:#1f3326;color:#e6f2e8}.abct>b{color:#bfe6c9}}
 .cpromo.gs{border-color:#5f9420;background:#eef6e2}.cpromo.gs span{background:#5f9420}.cpromo.gs b{color:#2e4417}.cpromo.gs small{color:#55604a}
 @media (prefers-color-scheme:dark){.cpromo.gs{background:#1f3326;color:#e6f2e8}.cpromo.gs b{color:#bfe6c9}.cpromo.gs small{color:#b9d4bf}}
+
+html,body{overflow-x:clip;max-width:100%}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -1049,7 +1051,7 @@ function renderVoyage(){$('#vVoyage').innerHTML=`<h3 style="margin-top:0">我的
 function campIntro3(){const R=[['DAY 1','人生下半場，現在準備還來得及嗎？','寫下最擔心的三項未來支出（不用寫金額）'],['DAY 2','當家庭需要你，你有多少資源？','確認家裡保單和重要文件放在哪裡'],['DAY 3','有資產，就代表財務健康嗎？','用「五題自我檢視」問問自己']];
  return `<div class="cintro"><h3>🌱 三日營在做什麼？</h3><p>在「金錢好生活・芸琪共學圈」LINE 社群裡，連續 3 天的圖文任務。只要在群組分享心得，<b>不用公開收入、存款或任何財務數字</b>。</p>
  <p><b>每天 3 步：</b>看圖文分享 → 在群組回覆選項 → 完成一個小任務</p>
- <div class="ci-days">${R.map(r=>`<div class="ci-d"><b>${r[0]}</b><span>${r[1]}</span><small>小任務：${r[2]}</small></div>`).join('')}</div>
+ <div class="ci-days">${R.map(r=>`<div class="ci-d"><b>${r[0]}</b><span>${r[1]}</span><small>📝 當天有一個小任務</small></div>`).join('')}</div>
  <p style="margin-bottom:0"><b>三天都完成：</b>解鎖 DAY4 學習包（直播重點、心智圖、圖卡），還可以參加加碼抽獎 🎁</p></div>`}
 function campCard(ck){const C=CAMPS[ck||'c5'],n=cCount(C),N=C.days.length;if(C.key==='c3'&&campEnded('c3')&&!hasCode('c3'))return `<div class="campcall"><div><b>📅 本梯三日營（${C.range}）已圓滿結束</b><div style="font-size:14px;margin-top:4px">想參加下一梯？先加入「金錢好生活・芸琪共學圈」社群，開課第一時間通知你 🌱</div></div><div style="display:flex;flex-wrap:wrap;gap:6px"><a class="btn pri" href="${CIRCLE_URL}" target="_blank" rel="noopener">加入共學圈・預約下一梯 →</a><button class="btn" data-camp="c3">已參加夥伴：輸入通行碼複習</button></div></div>`;return `<div class="campcall"><div><b>📋 ${C.name}任務進度：${n} / ${N} 天</b><div class="prog" style="margin-top:6px"><i style="width:${n/N*100}%"></i></div></div><button class="btn pri" data-camp="${C.key}">打開任務清單 →</button></div>`}
 function bindCampBtn(root){(root||document).querySelectorAll('[data-camp]').forEach(b=>b.onclick=()=>{if(CAMPS[b.dataset.camp])campSel=b.dataset.camp;view('camp');$('#tabs').scrollIntoView({behavior:'smooth'})})}
