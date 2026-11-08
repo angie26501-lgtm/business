@@ -176,6 +176,8 @@ footer{text-align:center;color:var(--mut);font-size:12px;padding:24px}
 .sv .add{border:0;background:#2f7f6b;color:#fff;border-radius:16px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
 .sv .add.in{background:#d9a441}
 .sv .lk{font-size:13px;align-self:center}
+.sv.lock{position:relative;background:#f3f1ec;border-style:dashed;filter:grayscale(1);opacity:.85;transition:filter .3s,opacity .3s}.sv.lock:hover,.sv.lock:focus-within{filter:grayscale(.2);opacity:1}
+.sv .lockb{position:absolute;top:8px;right:10px;font-size:12px;background:#6b6b6b;color:#fff;border-radius:10px;padding:1px 8px}.sv.lock .pr{color:#6b6b6b}.sv.lock .lt{padding-right:84px}.sv .lk-note{font-size:13px;color:#5f5f5f;margin:2px 0 4px}.sv.lock .cp-d{font-size:13px}.sv.lock .cp-d ol{margin:4px 0 0 18px;padding:0;line-height:1.6}
 .tag-free{display:inline-block;background:#e6f4ea;color:#2f7f6b;font-size:12px;border-radius:10px;padding:0 6px;margin-left:4px}
 .cartbtn{position:fixed;left:14px;bottom:16px;z-index:55;border:0;background:#c0603f;color:#fff;border-radius:22px;padding:9px 14px;font:inherit;font-weight:800;box-shadow:0 3px 10px rgba(0,0,0,.2);cursor:pointer;display:none}
 .cartbtn.on{display:block}
@@ -653,9 +655,10 @@ const SVC={
  annual:{n:'幸福財務年度顧問',p:39600,pt:'39,600 元／年',u:'家庭 59,400 元／年',fit:'希望全家的保單、收支、理賠，一整年都有人照看',inc:['工作坊＋規劃建議＋人生財富藍圖','一整年記帳陪跑、年中再看一次、隔年周年檢視','每月 40 分鐘諮詢（預約申請制，不累計，當月沒用到自動歸零）','理賠協助、預約優先']},
  report:{n:'客製化報告加購',p:800,pt:'800 元起／單項',u:'',fit:'規劃後想要一份給家人看的報告',inc:['周年檢視報告書（熟齡大字版）、人生財務設計藍圖簡報等','以你家的真實數字製作']},
  care:{n:'安心樂活規劃（退休與安養）',p:0,pt:'依需求另外報價',u:'',fit:'開始想退休後的生活與照護安排',inc:['安養財務評估、照護費用估算','意定監護、安養信託：協助媒合專業窗口']},
+ lock5:{n:'金錢整理五日實踐營',lock:1,pt:'下一站預告',p:0,u:'',fit:'測完體質、想五天跟著做，把收支、家底、預算一次整理好',inc:[],url:'../greensprout/how-to-buy.html',ul:'購買綠芽就能參加'},
  legacy:{n:'財富傳承規劃',p:0,pt:'依需求另外報價',u:'',fit:'想把資產和心意好好交到家人手上',inc:['傳承深度會談、家族繼承系統表','遺贈稅試算、信託、遺囑：協助媒合專業窗口']}
 };
-const SUP={S1:['lazy','consult'],S2:['camp3','gs'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['abc','camp5','coach','plan'],S7:['abc','annual','coach','report'],S8:['legacy','care','annual']};
+const SUP={S1:['lazy','consult'],S2:['camp3','gs','lock5'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['abc','camp5','coach','plan'],S7:['abc','annual','coach','report'],S8:['legacy','care','annual']};
 const SUP_SAY={S1:'多多：霧裡看不清？先拿一份地圖，或找芸琪聊 30 分鐘！',S2:'小綠芽：第一步免費，跟大家一起出發最安心！',S3:'小綠芽：讓燈塔每天亮一次，綠芽幫你記得看帳。',S4:'多多：想知道自己是哪一型體質？先免費測一次！',S5:'胖胖幣：門後面是全家的財務地圖，一起打開吧！',S6:'多多：五天掌舵，之後有人陪跑，比較不會迷航！',S7:'小綠芽：遠洋航行最需要的，是一整年都有人在。',S8:'胖胖幣：傳承不是有錢人的事，是愛家人的事。'};
 // 三日營本梯結束後，初航島改引導加入「金錢好生活・芸琪共學圈」預約下一梯（下一梯開課只要改 CAMP_END.c3 日期）
 const CIRCLE_URL='https://reurl.cc/0k0dR6';
@@ -669,6 +672,10 @@ if(campEnded('c3')){
 let cart={};try{cart=JSON.parse(localStorage.getItem('hanji_cart')||'{}')||{}}catch(e){cart={}}
 const cartSave=()=>{try{localStorage.setItem('hanji_cart',JSON.stringify(cart))}catch(e){}cartBtn()};
 function svCard(k){const v=SVC[k];const inC=!!cart[k];
+ if(v.lock)return `<div class="sv lock"><span class="lockb">🔒 尚未解鎖</span><b class="lt">${esc(v.n)}</b><div class="pr">${esc(v.pt)}</div><div class="fit">適合：${esc(v.fit)}</div>
+ <details class="cp-d"><summary>先偷看：五天在做什麼？</summary><ol>${CAMP.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
+ <p class="lk-note">🔓 解鎖方式：購買綠芽財務管理系統，就能參加五日營；完成五日營，再送 ABC 帳戶線上互動版 3 個月。</p>
+ <div class="act"><a class="btn" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.ul)} →</a></div></div>`;
  return `<div class="sv"><b>${esc(v.n)}${v.free?'<span class="tag-free">'+(v.p===0&&v.pt==='免費'?'免費':'入口')+'</span>':''}</b>
  <div class="pr">${esc(v.pt)}${v.u?` <small>${esc(v.u)}</small>`:''}</div><div class="fit">適合：${esc(v.fit)}</div>
  <ul>${v.inc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
