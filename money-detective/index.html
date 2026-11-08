@@ -322,9 +322,19 @@ body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
 .s4imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:8px 0}.s4imgs img{width:100%;border-radius:10px;border:1px solid #eadfc6}
 .s4imgs figure{margin:0;text-align:center;font-size:13px}.s4imgs.cards{grid-template-columns:repeat(auto-fill,minmax(115px,1fr))}
 .s4next{margin-top:10px;font-weight:700}
+/* 手機：上方列不擠壓、不固定 */
+@media(max-width:640px){
+ .top{position:static;flex-direction:column;align-items:stretch;gap:6px;padding:8px 12px}
+ .brand{white-space:nowrap;font-size:16px}.brand small{display:none}
+ .topbtns{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ .topbtns::-webkit-scrollbar{display:none}
+ .topbtns .btn{flex:none;padding:5px 10px;font-size:13px;white-space:nowrap}
+ .nx.min{bottom:10px!important;left:10px}
+ .nx.min,.nx.min *{font-size:13px}
+}
 </style></head>
 <body>
-<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
+<div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div class="topbtns" style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="wmark" aria-hidden="true"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
