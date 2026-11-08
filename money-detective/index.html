@@ -1231,6 +1231,7 @@ function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='G
 (function(){let m='';try{m=localStorage.getItem('hanji_mode')||''}catch(e){}
  const h=(location.hash||'').slice(1).toUpperCase();
  if(!m)m=(doneCount()===0&&!hasPass())?'lite':'full';
+ if(/[?&]m=lite\b/.test(location.search)&&LITE.includes(h))m='lite';
  if(m==='lite'&&h&&!LITE.includes(h))setMode('full',false);else setMode(m,m==='lite')})();
 addEventListener('hashchange',fromHash);fromHash();cartBtn();nxUpdate();
 (function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:!isLite(),f:14,x:null,y:null,col:true};

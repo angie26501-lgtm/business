@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3 分鐘，看看你家的財務體質｜人生金錢偵探社</title>
+<meta name="description" content="3 關小遊戲，免費、不用填個資：看看有沒有財務亞健康、測財務體質領圖卡、認識人生路上的風險。">
+<meta property="og:title" content="3 分鐘，看看你家的財務體質｜人生金錢偵探社">
+<meta property="og:description" content="3 關小遊戲，免費、不用填個資。完成 3 關送 30 分鐘免費諮詢（限一次）。">
+<meta property="og:image" content="https://angie26501-lgtm.github.io/business/money-detective/img/s4.jpg">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:#2b2a26;background:#fbf6ea;line-height:1.6}
+body::before{content:"";position:fixed;inset:0;background:url(hero.jpg) center 20%/cover no-repeat;opacity:.1;z-index:-1;pointer-events:none}
+.w{max-width:560px;margin:0 auto;padding:20px 16px 28px}
+.top{display:flex;align-items:center;gap:12px;margin:4px 0 14px}
+.top img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.12);flex:none}
+h1{font-size:26px;margin:0;line-height:1.3}
+.sub{font-size:14px;color:#6b6250;margin:2px 0 0}
+.prog{font-size:13px;color:#3e8e6e;font-weight:700;margin:0 0 10px}
+.card{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #eadfc6;border-radius:18px;padding:10px;margin:0 0 12px;text-decoration:none;color:inherit;box-shadow:0 2px 6px rgba(80,60,20,.06);transition:transform .15s}
+.card:active{transform:scale(.98)}
+.card .pic{width:86px;height:86px;border-radius:14px;flex:none;object-fit:cover;display:grid;place-items:center;font-size:42px}
+.card b{display:block;font-size:18px}
+.card span{display:block;font-size:14px;color:#6b6250}
+.card i{font-style:normal;margin-left:auto;font-size:22px;color:#3e8e6e;padding:0 6px}
+.card .ok{display:inline-block;font-size:12px;background:#3e8e6e;color:#fff;border-radius:10px;padding:0 8px;margin-left:6px;vertical-align:2px}
+.adv{background:linear-gradient(135deg,#7e9a5a,#4d6b3a)}
+.cta{display:block;text-align:center;background:#06c755;color:#fff;text-decoration:none;font-weight:800;font-size:17px;border-radius:999px;padding:14px;margin:18px 0 6px}
+.cta small{display:block;font-weight:400;font-size:12px;opacity:.9}
+.note{font-size:12px;color:#8a7a5a;text-align:center;margin:0}
+.ft{text-align:center;font-size:13px;color:#6b6250;margin-top:22px}
+.ft a{color:#3e8e6e}
+</style></head><body><div class="w">
+<div class="top"><img src="img/duo.jpg" alt="多多"><div><h1>3 分鐘，看看你家的財務體質</h1><p class="sub">免費・不用填個資・一關 1 分鐘</p></div></div>
+<p class="prog" id="prog"></p>
+<a class="card" href="index.html?m=lite#s1" data-k="S1"><img class="pic" src="img/s1.jpg" alt="迷霧港"><div><b>🌫️ 迷霧港<em class="okm"></em></b><span>你有「財務亞健康」嗎？免費試玩，不用填資料</span></div><i>›</i></a>
+<a class="card" href="index.html?m=lite#s4" data-k="S4"><img class="pic" src="img/s4.jpg" alt="體質島"><div><b>🌱 體質島<em class="okm"></em></b><span>測財務體質，免費領體驗版圖卡</span></div><i>›</i></a>
+<a class="card" href="adventure.html" data-k="ADV"><div class="pic adv">⛰️</div><div><b>⚔️ 冒險島<em class="okm"></em></b><span>人生路上會遇到哪些風險？選個角色走一趟</span></div><i>›</i></a>
+<a class="cta" id="cta" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener">加官方 LINE，領 30 分鐘免費諮詢<small>完成 3 關就送（限一次）</small></a>
+<p class="note">© 人生金錢偵探社｜引用請註明出處並附連結</p>
+<div class="ft">人生金錢偵探社｜財顧芸 家族傳承生活顧問<br><a href="index.html">看完整 8 座島 →</a></div>
+</div>
+<script>
+(function(){let d={};try{d=(JSON.parse(localStorage.getItem('hanji_v1')||'{}').done)||{}}catch(e){}
+ let adv=false;try{adv=!!localStorage.getItem('hanji_adv_done')}catch(e){}
+ const ok={S1:!!d.S1,S4:!!d.S4,ADV:adv};let n=0;
+ document.querySelectorAll('.card').forEach(c=>{if(ok[c.dataset.k]){n++;c.querySelector('.okm').outerHTML='<span class="ok">✅ 完成</span>'}else c.querySelector('.okm').remove()});
+ document.getElementById('prog').textContent=n?`已完成 ${n} / 3 關${n===3?'，恭喜！領你的免費諮詢券吧 🎉':'，繼續加油！'}`:'從任何一關開始都可以 👇';
+ if(n===3){const c=document.getElementById('cta');c.href='index.html';c.removeAttribute('target');c.innerHTML='🎟️ 領我的 30 分鐘免費諮詢券<small>出示券號，加官方 LINE 預約</small>'}
+})();
+</script>
+</body></html>
