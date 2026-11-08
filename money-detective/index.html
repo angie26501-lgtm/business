@@ -926,9 +926,8 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  ${s.id==='S4'?vidBlock('b','測完體質之後，下一步怎麼走？','體質沒有好壞，看見了，才知道從哪裡開始調。'+s4Guide()+'<div class="s4next">領完圖卡，想有人陪你一起動手調整，可以從營隊開始：</div>'+campPath()):''}
  ${s.id==='S6'?vidBlock('c','五日營結業之後','五天是開始，接下來的路芸琪可以一直陪你走。'):''}
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看完下面的精選案件，按「我破案了」就完成這座島！'):''}
- ${s.id==='S1'?s1Teaser():''}
  <div class="feat"><div class="feat-t">⭐ 精選案件</div>${caseCard(s.eps[0])}
- <button class="btn pri solve" id="solveBtn" type="button">${st.done[s.id]?'✅ 這座島已破案':'✅ 我破案了'}</button><div id="solveFb"></div></div>
+ <button class="btn pri solve" id="solveBtn" type="button">${st.done[s.id]?'✅ 這座島已破案':'✅ 我破案了'}</button><div id="solveFb"></div></div>${s.id==='S1'?s1Teaser():''}
  ${quizBlock(s.id)}
  <details class="more"><summary>＋ 更多案件（補充，可以不看）</summary>
  <div class="cases">${s.eps.slice(1).map(caseCard).join('')}</div>
@@ -943,7 +942,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function head(s,g){return `<h3>驗收小遊戲｜${esc(g.title)}</h3><div style="font-size:13px;color:#5f7680">加碼挑戰，玩不玩都可以　${st.done[s.id]?'<span class="stamp">已破案</span>':''}</div>`}
 function foot(){return `<div class="fb" id="fb"></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="reset">重新整理選單</button></div>`}
 function win(s){st.done[s.id]=true;save();grantAbc();renderMap();document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===s.id));
- const sb=$('#solveBtn');if(sb)sb.textContent='✅ 這座島已破案';solvedFb(s);
+ const sb=$('#solveBtn');if(sb)sb.textContent='✅ 這座島已破案';solvedFb(s);if(s.id==='S1'){const t=document.querySelector('.tz');if(t){t.outerHTML=s1Teaser();bindTeaser()}}
  if($('#fb'))$('#fb').innerHTML=(isLite()&&LITE.includes(s.id)?`<span class="stamp">破案！</span>　${esc(s.island)} 完成，新朋友 3 關已完成 ${liteDone()} / 3。`:`<span class="stamp">破案！</span>　${esc(s.island)} 完成，已破 ${doneCount()} / 8 座島。`);
  const f=$('#solveFb');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})}
 function campPath(){const e3=campEnded('c3'),e5=campEnded('c5');
@@ -1005,13 +1004,13 @@ function bindC3(){document.querySelectorAll('[data-c3]').forEach(b=>b.onclick=()
  openSt('S2');setTimeout(()=>{const c=document.querySelector('.cintro');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},350)})}
 // ===== 迷霧港：下一站初航島灰階預告＋領通行碼 =====
 function s1Teaser(){const pass=hasPass(),done=!!st.done.S1;
- const steps=`<div class="tz-pass"><b>🎫 怎麼領「登船通行碼」？</b><ol><li>看完下面的精選案件，按「✅ 我破案了」</li><li>填 1 分鐘登島問卷（3 個小問題）</li><li>送出後畫面直接顯示通行碼，有效 30 天，其他島都能登</li></ol></div>`;
+ const steps=`<div class="tz-pass"><b>🎫 怎麼領「登船通行碼」？</b><ol><li>看完上面的精選案件，按「✅ 我破案了」</li><li>填 1 分鐘登島問卷（3 個小問題）</li><li>送出後畫面直接顯示通行碼，有效 30 天，其他島都能登</li></ol></div>`;
  return `<div class="tz ${pass?'open':''}"><div class="tz-img"><img src="${IMGS.S2}" alt="初航島" loading="lazy">${pass?'':'<span class="tz-lock">🔒</span>'}</div>
  <div class="tz-b"><span class="tz-tag">${pass?'✅ 已登船':'🔒 尚未解鎖'}</span><h4>下一站預告｜2. 初航島</h4>
  <div class="tz-s">三日營｜人生下半場財務覺醒・免費、不用公開任何財務數字</div>
  <details class="cp-d"><summary>先偷看：初航島在做什麼？</summary><ol>${CAMP3.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
  ${pass?'':steps}
- <button class="btn pri" type="button" id="tzGo">${pass?'前往初航島 →':done?'領登船通行碼 →':'先去破案，領通行碼 ↓'}</button></div></div>`}
+ <button class="btn pri" type="button" id="tzGo">${pass?'前往初航島 →':done?'領登船通行碼 →':'先去破案，領通行碼 ↑'}</button></div></div>`}
 function bindTeaser(){const b=$('#tzGo');if(!b)return;b.onclick=()=>{if(hasPass())openSt('S2');else if(st.done.S1)gate(ST[1]);else{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})}}}
 // ===== 體質島：領財務體質體驗版圖卡引導 =====
 function deckNext(d){const im=[...d.querySelectorAll('img')];const top=im.find(x=>x.style.getPropertyValue('--i')==='0');top.classList.add('out');
