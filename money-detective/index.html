@@ -778,7 +778,7 @@ function bindCert(root){const g=root.querySelector('#certGo');if(!g)return;
  if(cert&&cert.nick)show()}
 
 // ===== 浮動「下一步」引導框 =====
-let nxMin=false;try{nxMin=localStorage.getItem('hanji_nx')==='1'}catch(e){}
+let nxMin=true;try{nxMin=localStorage.getItem('hanji_nx')!=='0'}catch(e){}
 function nxStep(){const cur=window.__cur,v=window.__v||'map',gameGo=()=>{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})};
  if(isLite()){const nx=LITE.find(id=>!liteIsDone(id));if(!nx)return {t:'3 關都完成了！加 LINE 預約 30 分鐘免費諮詢 ☕',b:'看諮詢券',f:()=>$('#liteBox').scrollIntoView({behavior:'smooth'})};
   if(cur===nx)return {t:`第 ${LITE.indexOf(nx)+1} 關〈${LITE_NM[nx]}〉：看完精選案件，按「我破案了」。`,b:'到精選案件 ↓',f:gameGo};
@@ -1201,7 +1201,7 @@ function fromHash(){const h=(location.hash||'').slice(1).toUpperCase();if(h==='G
  if(!m)m=(doneCount()===0&&!hasPass())?'lite':'full';
  if(m==='lite'&&h&&!LITE.includes(h))setMode('full',false);else setMode(m,m==='lite')})();
 addEventListener('hashchange',fromHash);fromHash();cartBtn();nxUpdate();
-(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:!isLite(),f:14,x:null,y:null,col:innerWidth<700};
+(function(){const P=$('#guideP'),H=$('#gpH'),O=$('#gpOpen');let g={open:!isLite(),f:14,x:null,y:null,col:true};
  try{Object.assign(g,JSON.parse(localStorage.getItem('hanji_guide')||'{}'))}catch(e){}
  const sv=()=>{try{localStorage.setItem('hanji_guide',JSON.stringify(g))}catch(e){}};
  const clamp=()=>{if(g.x==null)return;const r=P.getBoundingClientRect();g.x=Math.max(4,Math.min(innerWidth-r.width-4,g.x));g.y=Math.max(4,Math.min(innerHeight-40,g.y));P.style.left=g.x+'px';P.style.top=g.y+'px';P.style.right='auto';P.style.bottom='auto'};
