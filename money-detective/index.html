@@ -655,10 +655,17 @@ const SVC={
  annual:{n:'幸福財務年度顧問',p:39600,pt:'39,600 元／年',u:'家庭 59,400 元／年',fit:'希望全家的保單、收支、理賠，一整年都有人照看',inc:['工作坊＋規劃建議＋人生財富藍圖','一整年記帳陪跑、年中再看一次、隔年周年檢視','每月 40 分鐘諮詢（預約申請制，不累計，當月沒用到自動歸零）','理賠協助、預約優先']},
  report:{n:'客製化報告加購',p:800,pt:'800 元起／單項',u:'',fit:'規劃後想要一份給家人看的報告',inc:['周年檢視報告書（熟齡大字版）、人生財務設計藍圖簡報等','以你家的真實數字製作']},
  care:{n:'安心樂活規劃（退休與安養）',p:0,pt:'依需求另外報價',u:'',fit:'開始想退休後的生活與照護安排',inc:['安養財務評估、照護費用估算','意定監護、安養信託：協助媒合專業窗口']},
- lock5:{n:'金錢整理五日實踐營',lock:1,pt:'下一站預告',p:0,u:'',fit:'測完體質、想五天跟著做，把收支、家底、預算一次整理好',inc:[],url:'../greensprout/how-to-buy.html',ul:'購買綠芽就能參加'},
+ lk1:{lock:1,n:'三日營 人生下半場財務覺醒',nx:'初航島',fit:'想先輕鬆體驗，跟大家一起找回對錢的感覺',peekT:'先偷看：三天在做什麼？',peek:()=>CAMP3.map(c=>c.d+'｜'+c.t),unlock:'迷霧港破案後就能登上初航島；三日營免費，不用公開任何財務數字。',url:'https://angie26501-lgtm.github.io/business/quiz/guide.html',ul:'看三日營怎麼參加'},
+ lk2:{lock:1,n:'金錢整理五日實踐營',nx:'掌舵島',fit:'測完體質、想五天跟著做，把收支、家底、預算一次整理好',peekT:'先偷看：五天在做什麼？',peek:()=>CAMP.map(c=>c.d+'｜'+c.t),unlock:'購買綠芽財務管理系統，就能參加五日營；完成五日營，再送 ABC 帳戶線上互動版 3 個月。',url:'../greensprout/how-to-buy.html',ul:'購買綠芽就能參加'},
+ lk3:{lock:1,n:'你是哪一種財務體質？',nx:'體質島',fit:'想知道自己的錢是「生龍活虎」還是「坐吃山空」',peekT:'先偷看：四種財務體質',peek:()=>['🐯 生龍活虎：收支有餘，家底也穩','🌱 後勢看好：收支有餘，家底累積中','🥣 坐吃山空：有家底，但每月吃緊','🌧️ 弱不禁風：收支吃緊，家底也還不夠'],unlock:'點亮燈塔後就能登島，用綠芽免費測一次體質。',url:'https://reurl.cc/zOaa40',ul:'先免費體驗綠芽'},
+ lk4:{lock:1,n:'綠芽完整版＋保單現況盤點',nx:'解鎖之門',fit:'測完體質，想看懂全家的財務和保障',peekT:'先偷看：門後面有什麼？',peek:()=>['完整體質說明與改善建議','ABC 帳戶 1 年','保單跨公司放在同一張表上看','看得懂的保障報告＋保障圖'],unlock:'體質島破案後打開這道門；保單盤點 30 天內升級規劃建議，已付金額全額折抵。',url:SVC_PAGE,ul:'看方案與價格'},
+ lk5:{lock:1,n:'五日營＋家庭記帳陪跑',nx:'掌舵島',fit:'想五天把錢理清楚，之後每個月有人陪你看',peekT:'先偷看：五天在做什麼？',peek:()=>CAMP.map(c=>c.d+'｜'+c.t),unlock:'通過解鎖之門後掌舵；完成五日營，再送 ABC 帳戶線上互動版 3 個月。',url:'../greensprout/how-to-buy.html',ul:'購買綠芽就能參加'},
+ lk6:{lock:1,n:'幸福財務年度顧問',nx:'遠洋航線',fit:'希望全家的保單、收支、理賠，一整年都有人照看',peekT:'先偷看：一整年陪你做什麼？',peek:()=>['工作坊＋規劃建議＋人生財富藍圖','一整年記帳陪跑、年中再看一次、隔年周年檢視','每月 40 分鐘諮詢（預約申請制，不累計）','理賠協助、預約優先'],unlock:'掌舵島結業、成為家庭財務長後啟航。',url:SVC_PAGE,ul:'看方案與價格'},
+ lk7:{lock:1,n:'三力平衡與家族傳承',nx:'幸福藍海',fit:'想把資產和心意好好交到家人手上',peekT:'先偷看：傳承要準備什麼？',peek:()=>['財力、心力、體力三力平衡','傳承深度會談、家族繼承系統表','遺贈稅試算','信託、遺囑：協助媒合專業窗口'],unlock:'遠洋航線走穩後抵達；依需求另外報價。',url:SVC_PAGE,ul:'看方案與價格'},
+ lk8:{lock:1,n:'家族傳承延伸航線',nx:'傳家港',fit:'想邀家人一起上船，把這份準備傳下去',peekT:'先偷看：傳家港有什麼？',peek:()=>['家族船員邀請卡','和家人一起做財務健檢','安心樂活：退休與照護安排','財富傳承規劃'],unlock:'八島全破後開放，敬請期待。',url:SVC_PAGE,ul:'看方案與價格'},
  legacy:{n:'財富傳承規劃',p:0,pt:'依需求另外報價',u:'',fit:'想把資產和心意好好交到家人手上',inc:['傳承深度會談、家族繼承系統表','遺贈稅試算、信託、遺囑：協助媒合專業窗口']}
 };
-const SUP={S1:['lazy','consult'],S2:['camp3','gs','lock5'],S3:['gs'],S4:['gs','workshop'],S5:['gs','checkup'],S6:['abc','camp5','coach','plan'],S7:['abc','annual','coach','report'],S8:['legacy','care','annual']};
+const SUP={S1:['lazy','consult','lk1'],S2:['camp3','gs','lk2'],S3:['gs','lk3'],S4:['gs','workshop','lk4'],S5:['gs','checkup','lk5'],S6:['abc','camp5','coach','plan','lk6'],S7:['abc','annual','coach','report','lk7'],S8:['legacy','care','annual','lk8']};
 const SUP_SAY={S1:'多多：霧裡看不清？先拿一份地圖，或找芸琪聊 30 分鐘！',S2:'小綠芽：第一步免費，跟大家一起出發最安心！',S3:'小綠芽：讓燈塔每天亮一次，綠芽幫你記得看帳。',S4:'多多：想知道自己是哪一型體質？先免費測一次！',S5:'胖胖幣：門後面是全家的財務地圖，一起打開吧！',S6:'多多：五天掌舵，之後有人陪跑，比較不會迷航！',S7:'小綠芽：遠洋航行最需要的，是一整年都有人在。',S8:'胖胖幣：傳承不是有錢人的事，是愛家人的事。'};
 // 三日營本梯結束後，初航島改引導加入「金錢好生活・芸琪共學圈」預約下一梯（下一梯開課只要改 CAMP_END.c3 日期）
 const CIRCLE_URL='https://reurl.cc/0k0dR6';
@@ -672,9 +679,9 @@ if(campEnded('c3')){
 let cart={};try{cart=JSON.parse(localStorage.getItem('hanji_cart')||'{}')||{}}catch(e){cart={}}
 const cartSave=()=>{try{localStorage.setItem('hanji_cart',JSON.stringify(cart))}catch(e){}cartBtn()};
 function svCard(k){const v=SVC[k];const inC=!!cart[k];
- if(v.lock)return `<div class="sv lock"><span class="lockb">🔒 尚未解鎖</span><b class="lt">${esc(v.n)}</b><div class="pr">${esc(v.pt)}</div><div class="fit">適合：${esc(v.fit)}</div>
- <details class="cp-d"><summary>先偷看：五天在做什麼？</summary><ol>${CAMP.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
- <p class="lk-note">🔓 解鎖方式：購買綠芽財務管理系統，就能參加五日營；完成五日營，再送 ABC 帳戶線上互動版 3 個月。</p>
+ if(v.lock)return `<div class="sv lock"><span class="lockb">🔒 尚未解鎖</span><b class="lt">${esc(v.n)}</b><div class="pr">下一站預告｜${esc(v.nx)}</div><div class="fit">適合：${esc(v.fit)}</div>
+ <details class="cp-d"><summary>${esc(v.peekT)}</summary><ol>${v.peek().map(x=>`<li>${esc(x)}</li>`).join('')}</ol></details>
+ <p class="lk-note">🔓 解鎖方式：${esc(v.unlock)}</p>
  <div class="act"><a class="btn" href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.ul)} →</a></div></div>`;
  return `<div class="sv"><b>${esc(v.n)}${v.free?'<span class="tag-free">'+(v.p===0&&v.pt==='免費'?'免費':'入口')+'</span>':''}</b>
  <div class="pr">${esc(v.pt)}${v.u?` <small>${esc(v.u)}</small>`:''}</div><div class="fit">適合：${esc(v.fit)}</div>
@@ -689,7 +696,7 @@ function bindSup(root){root.querySelectorAll('[data-sv]').forEach(b=>b.onclick=(
  root.querySelectorAll(`[data-sv="${k}"]`).forEach(x=>{x.classList.toggle('in',!!cart[k]);x.textContent=cart[k]?'✓ 已加入補給清單':'＋ 加入補給清單'});toast(cart[k]?'已加入補給清單 🧳':'已從清單移除')})}
 function renderSupply(){$('#vSupply').innerHTML=`<h3 style="margin-top:0">🧳 航程補給站｜每一站可以搭配的服務</h3>
  ${duoSay('多多來了！航程走到哪裡，就可以在那一站挑補給。不用一次全買，先挑一樣最需要的就好～')}
- <div class="supall">${ST.map((s,i)=>(SUP[s.id]||[]).length?`<div class="isl" style="color:${s.color}">${i+1}. ${esc(s.island)}｜${esc(s.theme)}</div><div class="sgrid">${SUP[s.id].map(svCard).join('')}</div>`:'').join('')}
+ <div class="supall">${ST.map((s,i)=>(SUP[s.id]||[]).length?`<div class="isl" style="color:${s.color}">${i+1}. ${esc(s.island)}｜${esc(s.theme)}</div><div class="sgrid">${SUP[s.id].filter(k=>!SVC[k].lock).map(svCard).join('')}</div>`:'').join('')}
  <div class="isl" style="color:#7a5230">🏡 守護灣｜已經是保戶或客戶</div><p class="sub">加入保戶專用 LINE@，保單整理、周年檢視、理賠協助都從這裡找芸琪。<a href="#guard" id="supG">前往守護灣 →</a></p></div>
  <p class="sub" style="font-size:13px;color:#5f7680">價格依 2026/10/09 服務方案頁，為顧問服務費，不含保費；實際內容與費用以芸琪確認為準。<a href="${SVC_PAGE}" target="_blank" rel="noopener">看全部方案 →</a></p>`;
  bindSup($('#vSupply'));$('#supG').onclick=e=>{e.preventDefault();view('guard')}}
