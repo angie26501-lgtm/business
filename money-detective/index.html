@@ -301,23 +301,54 @@ body{position:relative;z-index:0}
 .recbox{background:#fff8ec;border:2px dashed #d9a45a;border-radius:14px;padding:12px 14px;margin:12px 0}
 .recform label{display:block;font-size:14px;margin:8px 0 0}.recform input,.recform textarea{display:block;width:100%;box-sizing:border-box;margin-top:3px;padding:8px;border:1px solid #d8cba8;border-radius:8px;font:inherit}
 .rec-sum{font-size:13px;background:#eef7f3;border-radius:8px;padding:6px 10px}
+/* 版面排序：航海圖當表頭 */
+#mapHead{margin:4px 2px 8px}#mapHead h1{font-size:30px;margin:4px 0 2px}#mapHead .vision{margin:0}
+body.lite #mapHead,body.lite #aboutH{display:none!important}
+.about-h{font-weight:800;font-size:18px;margin:22px 2px 8px}
+body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
+@media(max-width:720px){#mapHead h1{font-size:24px}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
 <div class="wmark" aria-hidden="true"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
-<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster_v2.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
+<section id="vMap">
+ <div id="mapHead"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p></div>
+ <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
+ <div class="mapbox" id="mapbox"></div>
+ <div class="list" id="listView" style="display:none"></div>
+</section>
+<div class="toggles">
+ <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
+ <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
+ <label><input type="checkbox" id="tgList">改用清單版</label>
+ <label><input type="checkbox" id="tgFollow" checked>船員跟著滑鼠走</label>
+ <label id="tgVoiceL"><input type="checkbox" id="tgVoice">🔊 語音導覽</label>
+</div>
 <section class="hero">
  <div>
-  <span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span>
-  <h1>財富航海群島</h1>
-  <p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p>
   <p class="lead">點一座島，破一個財務案，完成小遊戲就能升級船員。</p>
   <div class="stats" id="stats"></div>
  </div>
  <div class="mapbox" id="heroMini"></div>
 </section>
+<section id="detail"></section>
+<div class="guidebar" id="tabs">
+ <button class="gtab on" data-v="map">跟多多逛群島</button>
+ <button class="gtab" data-v="tour">多多導覽</button>
+ <button class="gtab" data-v="index">索引</button>
+ <button class="gtab" data-v="voyage">我的航程</button>
+ <button class="gtab" data-v="camp">營隊任務</button>
+ <button class="gtab" data-v="guard">保戶專屬港</button>
+ <button class="gtab" data-v="supply">航程補給站</button>
+</div>
+<section id="vTour" style="display:none"></section>
+<section id="vIndex" class="panel idx" style="display:none"></section>
+<section id="vVoyage" class="panel" style="display:none"></section>
+<section id="vCamp" class="panel" style="display:none"></section>
+<section id="vGuard" class="panel" style="display:none"></section>
+<section id="vSupply" class="panel" style="display:none"></section>
 <div class="tiles">
  <button class="tile" data-go="S1"><b>新手起航</b><span>從迷霧港開始，檢查財務亞健康</span></button>
  <button class="tile" data-go="next"><b>繼續我的航程</b><span id="nextTip">前往下一座未破案的島</span></button>
@@ -329,36 +360,8 @@ body{position:relative;z-index:0}
  <a class="tile" href="https://angie26501-lgtm.github.io/business/quiz/" style="text-decoration:none"><b>營隊複習闖關</b><span>三日營、五日營夥伴：答題賺積分、換抽獎</span></a>
  <a class="tile" href="dressup.html" style="text-decoration:none"><b>🧢 幫 Angie 換裝・打造你的船員</b><span>挑造型、道具、夥伴，下載你的造型卡</span></a>
 </div>
-
-<div class="guidebar" id="tabs">
- <button class="gtab on" data-v="map">跟多多逛群島</button>
- <button class="gtab" data-v="tour">多多導覽</button>
- <button class="gtab" data-v="index">索引</button>
- <button class="gtab" data-v="voyage">我的航程</button>
- <button class="gtab" data-v="camp">營隊任務</button>
- <button class="gtab" data-v="guard">保戶專屬港</button>
- <button class="gtab" data-v="supply">航程補給站</button>
-</div>
-<div class="toggles">
- <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
- <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
- <label><input type="checkbox" id="tgList">改用清單版</label>
- <label><input type="checkbox" id="tgFollow" checked>船員跟著滑鼠走</label>
- <label id="tgVoiceL"><input type="checkbox" id="tgVoice">🔊 語音導覽</label>
-</div>
-
-<section id="vMap">
- <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
- <div class="mapbox" id="mapbox"></div>
- <div class="list" id="listView" style="display:none"></div>
-</section>
-<section id="vTour" style="display:none"></section>
-<section id="vIndex" class="panel idx" style="display:none"></section>
-<section id="vVoyage" class="panel" style="display:none"></section>
-<section id="vCamp" class="panel" style="display:none"></section>
-<section id="vGuard" class="panel" style="display:none"></section>
-<section id="vSupply" class="panel" style="display:none"></section>
-<section id="detail"></section>
+<div class="about-h" id="aboutH">🔍 認識偵探社</div>
+<section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster_v2.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
 <button class="btn" id="toFull" type="button" style="display:none"></button>
 </div>
 <footer><b>《馥芸財富成長計畫》</b>　🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。<br>人生金錢偵探社｜財富航海群島　·　Angie 家族傳承生活顧問　·　看完影片記得留言「破案」<br><a href="https://www.allfreedom.info/" target="_blank" rel="noopener">財顧芸 陳芸琪 個人網站 www.allfreedom.info</a><div class="ipnote" style="max-width:900px;margin:14px auto 0;padding:12px 14px;border:1px dashed #c9b88a;border-radius:12px;background:#fffaf0;color:#5b4a2a;font-size:13px;line-height:1.8;text-align:left"><b>©️ 智慧財產權聲明</b><br>本網站所有文章、圖片、影片、角色（多多、胖胖幣、小綠芽）與互動內容，著作權皆屬 <b>人生金錢偵探社／馥芸財富學苑 陳芸琪</b> 所有。歡迎分享；引用時請註明來源出處並加註連結：<a href="https://reurl.cc/RRZRaG" target="_blank" rel="noopener">https://reurl.cc/RRZRaG</a>。未經書面授權，請勿修改、重製或作商業使用。</div><div style="margin:14px 0 230px"><button type="button" id="resetAll" style="border:1px solid #c9b88a;background:#fff;color:#7a5230;border-radius:16px;padding:7px 16px;font:inherit;font-size:13px;cursor:pointer">🔄 清空玩過的紀錄，重新開始</button></div></footer>
@@ -1178,9 +1181,9 @@ function renderCamp(){
  $('#cpIsle').onclick=()=>{view('map');openSt(C.isle)};
  $('#cpClr').onclick=()=>{Object.keys(cp).forEach(k=>{if(k.startsWith(C.pre)&&/_\d+$/.test(k)||k===bk)delete cp[k]});cpSave();campSync(true);renderCamp();renderMap();toast(C.name+'進度已清除')}}
 function view(v){if(v!=='tour')tourStop();sayStop();window.__v=v;setTimeout(nxUpdate,0);document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
- $('#vMap').style.display=v==='map'?'':'none';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
+ $('#vMap').style.display='';$('#vTour').style.display=v==='tour'?'':'none';$('#vIndex').style.display=v==='index'?'':'none';$('#vVoyage').style.display=v==='voyage'?'':'none';$('#vCamp').style.display=v==='camp'?'':'none';$('#vGuard').style.display=v==='guard'?'':'none';if(v==='guard')renderGuard();$('#vSupply').style.display=v==='supply'?'':'none';if(v==='supply')renderSupply();
  if(v==='tour')renderTour();if(v==='index')renderIndex();if(v==='voyage')renderVoyage();if(v==='camp'){renderCamp();if(cme&&!cme.sync)campSync(true)}}
-document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>view(b.dataset.v));
+document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>{view(b.dataset.v);if(b.dataset.v==='map')$('#vMap').scrollIntoView({behavior:'smooth'})});
 document.querySelector('#captain [data-go]').onclick=()=>{view('map');openSt('S1')};
 document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'||g==='supply'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
