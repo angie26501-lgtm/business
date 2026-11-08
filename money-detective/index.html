@@ -248,7 +248,7 @@ details.more>summary{cursor:pointer;font-weight:700;color:#5f7680}
 .qz-b{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.qz-b .btn{text-decoration:none}.qz-e{color:#c0603f;font-size:14px;margin:6px 0}
 .qz-res{margin-top:10px;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid #cfe3d8}.qz-rt{font-size:18px;font-weight:800}.qz-res p{margin:4px 0}.qz-res small,.qz-up small{color:#8a7a5a;font-size:12px}
 .qz-up{margin-top:10px;background:#fff8ea;border:1px solid #e8d3a3;border-radius:12px;padding:10px 12px}.qz-ut{font-weight:800;color:#8a5a12;margin-bottom:4px}.qz-up ul{margin:4px 0;padding-left:20px;font-size:14px}
-body.lite #captain,body.lite .hero,body.lite .tiles,body.lite #tabs,body.lite .toggles,body.lite #vMap,body.lite #gpOpen{display:none!important}
+body.lite #captain,body.lite .hero,body.lite .tiles,body.lite #tabs,body.lite .toggles,body.lite #gpOpen{display:none!important}
 body:not(.lite) #liteBox{display:none}
 body.lite .banner{aspect-ratio:16/7;max-height:560px;height:auto}body.lite .banner img{max-height:none!important;height:100%!important;object-position:50% 8%!important}
 body.lite .banner img{max-height:240px;width:100%;object-fit:cover;object-position:50% 30%}
@@ -294,6 +294,9 @@ html,body{overflow-x:clip;max-width:100%}
 .wmark{position:fixed;inset:0;background:url(hero.jpg) center 20%/cover no-repeat;opacity:.13;z-index:-1;pointer-events:none}
 @media(max-width:640px){.wmark{background-position:45% 15%;opacity:.12}}
 body{position:relative;z-index:0}
+/* 首頁顯示完整版航海圖 */
+#liteMapH{display:none}body.lite #liteMapH{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin:6px 2px 8px}
+#liteMapH b{font-size:19px}#liteMapH span{font-size:13px;color:#5f7680}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -341,6 +344,7 @@ body{position:relative;z-index:0}
 </div>
 
 <section id="vMap">
+ <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
  <div class="mapbox" id="mapbox"></div>
  <div class="list" id="listView" style="display:none"></div>
 </section>
@@ -799,7 +803,7 @@ function renderMap(){$('#mapbox').innerHTML=mapSvg();$('#mapbox').classList.togg
  if($('#gdPin')){const gp=$('#gdPin');gp.onclick=()=>{view('guard');$('#tabs').scrollIntoView({behavior:'smooth'})};gp.onkeydown=e=>{if(e.key==='Enter')gp.onclick()}}
  if($('#drPin')){const dp=$('#drPin');dp.onclick=dreamOpen;dp.onkeydown=e=>{if(e.key==='Enter')dreamOpen()}}
  if($('#advPin')){const ap=$('#advPin');ap.onclick=()=>{location.href='adventure.html'};ap.onkeydown=e=>{if(e.key==='Enter')ap.onclick()}}
- document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin):not(#advPin)').forEach(g=>{g.onclick=()=>openSt(g.dataset.id);g.onkeydown=e=>{if(e.key==='Enter')openSt(g.dataset.id)}});
+ document.querySelectorAll('#mapbox .isle:not(#gdPin):not(#drPin):not(#advPin)').forEach(g=>{const go=()=>{if(isLite())setMode('full');openSt(g.dataset.id)};g.onclick=go;g.onkeydown=e=>{if(e.key==='Enter')go()}});
  $('#heroMini').innerHTML=`<div class="crew">${avatarSvg('avMini')}<div class="info"><div style="font-weight:800;margin-bottom:6px">${gw.nick?esc(gw.nick)+'｜':''}我的船員等級：${rank()}</div><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div><div style="font-size:13px;color:#5f7680;margin-top:6px">已破案 ${doneCount()} / 8 座島　·　🎁 八島全破送書《理財就是理生活》</div>${bookMini()}<div style="font-size:13px;margin-top:6px">${hasPass()?'✅ 已登船（通行碼有效 30 天）':'⚓ 尚未登船：先到迷霧港免費試玩，破案後領通行碼'}</div><button type="button" class="gearbtn" id="gearGo">🎒 打扮我的船員${gNew()?`<span class="newdot">${gNew()} 件新裝備</span>`:''}</button></div></div>`;$('#gearGo').onclick=()=>gearPanel();$('#avMini').onclick=()=>gearPanel();
  $('#listView').innerHTML=ST.map((s,i)=>`<div class="lcard" style="--c:${s.color}" data-id="${s.id}">${IMGS[s.id]?`<img class="lthumb" src="${IMGS[s.id]}" alt="" loading="lazy">`:''}<b>${i+1}. ${esc(s.island)} ${st.done[s.id]?'<span class="stamp" style="font-size:11px">破案</span>':''}</b><small>${esc(s.theme)}・${s.eps.length} 案</small></div>`).join('');
  document.querySelectorAll('.lcard').forEach(c=>c.onclick=()=>openSt(c.dataset.id));
