@@ -297,6 +297,10 @@ body{position:relative;z-index:0}
 /* 首頁顯示完整版航海圖 */
 #liteMapH{display:none}body.lite #liteMapH{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;margin:6px 2px 8px}
 #liteMapH b{font-size:19px}#liteMapH span{font-size:13px;color:#5f7680}
+/* 完成紀錄 */
+.recbox{background:#fff8ec;border:2px dashed #d9a45a;border-radius:14px;padding:12px 14px;margin:12px 0}
+.recform label{display:block;font-size:14px;margin:8px 0 0}.recform input,.recform textarea{display:block;width:100%;box-sizing:border-box;margin-top:3px;padding:8px;border:1px solid #d8cba8;border-radius:8px;font:inherit}
+.rec-sum{font-size:13px;background:#eef7f3;border-radius:8px;padding:6px 10px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -382,7 +386,7 @@ function ledgerTip(ck,k){const box=(tag,h,p,u)=>`<div class="cpromo gs" style="m
 const CAMP_CODES={c3:'綠芽三日營',c5:'綠芽五日營'}; // 營隊任務專用通行碼（三日營、五日營各一組，記住 30 天；和登船通行碼分開）
 const LINE_URL='https://lin.ee/oOvyuwU';
 const LINE_KEY='登島';
-const SURVEY_URL='';
+const SURVEY_URL='https://script.google.com/macros/s/AKfycbxeCPFR3rsTa9Y10mRDxVseRfoLuab52mCsb7nEMPxVw818qQGnpUJo_MJQnGPU4GT3LQ/exec';
 const SURVEY_Q1=['每個月錢都不知道花去哪','存不了錢、月底常不夠用','分期或卡債壓力','保單很多但不清楚保到什麼','想開始規劃退休或傳承'];
 const SURVEY_Q2=['薪水撐不到月底','沒有 3 個月以上預備金','說不出上個月花了多少','有 2 筆以上分期在扣款','都沒有，只是想學更多'];
 // 五日營任務（菁羚老師 10/28～11/1 公告）
@@ -858,7 +862,7 @@ function bookCode(){let c='';try{c=localStorage.getItem('hanji_book')||''}catch(
 function bookTicket(){const n=doneCount(),full=n>=8&&!bookEnded();
  const cells=ST.map((x,k)=>`<button type="button" class="bk-c${st.done[x.id]?' on':''}" data-isle="${x.id}" aria-label="前往 ${esc(x.island)}"><span>${k+1}. ${esc(x.island)}</span>${st.done[x.id]?'<b>破案</b>':'<i>未破案・點我闖關</i>'}</button>`).join('');
  return `<div class="ticket book"><div class="bk-top"><img src="img/book_cover.jpg" alt="《理財就是理生活》書封" loading="lazy"><div><div class="tk-l">🎁 領書券</div><div class="bk-tt">集滿 8 格，送一本<br><b>《理財就是理生活》</b></div><small>水湄物語 著｜大是文化</small><div class="bk-lim">12/31 前集滿・限量 10 本</div><div class="bk-lim" style="background:#c0603f">加贈 30 分鐘免費諮詢</div></div></div><div class="bk-g">${cells}</div>`+
- (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你可以領一本《理財就是理生活》＋30 分鐘免費諮詢</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記，也可以順便約諮詢時間。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`
+ (full?`<div style="font-size:15px;font-weight:700;margin:6px 0">恭喜集滿！你可以領一本《理財就是理生活》＋30 分鐘免費諮詢</div><div class="tk-c">${esc(bookCode())}</div><div style="font-size:13px">加 LINE 後傳「${BOOK_KEY}」和這組代碼給芸琪，就完成登記，也可以順便約諮詢時間。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書 →</a>`+recCard()
  :`<div style="font-size:14px;margin-top:6px">已集 ${n} / 8 格，再破 ${8-n} 座島就能領書。</div>`)+`<div class="bk-note">※ 2026/12/31 前完成 8 格，可領《理財就是理生活》一本（限量 10 本，送完為止），並加贈 30 分鐘免費諮詢（每人限用一次；已用過新朋友 3 關見面禮的，不重複贈送）。本活動保留變更活動內容及贈品內容的權利。${bookEnded()?'<br><b>本期領書活動已結束，謝謝參與！</b>':''}</div></div>`}
 function bookMini(){return doneCount()>=8?`<div style="font-size:13px;margin-top:6px">🎁 領書券：<b>${esc(bookCode())}</b>　<a href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 登記領書</a></div>`:''}
 function solvedFb(s){const f=$('#solveFb');if(!f)return;
@@ -871,7 +875,7 @@ function solvedFb(s){const f=$('#solveFb');if(!f)return;
  f.innerHTML=`<span class="stamp">${n>=8?'全島破案！':'破案！'}</span>`+abcTicket()+bookTicket()+go+`<button class="btn" id="invite" type="button" style="margin:8px 0 0 6px">📣 邀朋友一起破案</button>`;
  $('#invite').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+s.id.toLowerCase(),`⚓ 我在「財富航海群島」破了〈${s.island}〉的案（已破 ${n} / 8 座島）！一起來看看自己的財務體質 👉`);
  if($('#goGate'))$('#goGate').onclick=()=>gate(nx);if($('#goNext'))$('#goNext').onclick=()=>openSt(nx.id);
- f.querySelectorAll('[data-isle]').forEach(b=>b.onclick=()=>openSt(b.dataset.isle))}
+ f.querySelectorAll('[data-isle]').forEach(b=>b.onclick=()=>openSt(b.dataset.isle));bindRec(f)}
 function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;const s=ST[i];window.__cur=id;setTimeout(nxUpdate,0);
  document.querySelectorAll('.isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===id));
  try{history.replaceState(null,'','#'+id.toLowerCase())}catch(e){}
@@ -1066,11 +1070,36 @@ function renderIndex(){const rows=ST.flatMap((s,i)=>s.eps.map(e=>({s,i,e})));
  $('#vIndex').innerHTML=`<input id="q" placeholder="搜尋案件，例如：預備金、分期、傳承"><table id="it"></table>`;
  const f=()=>{const q=$('#q').value.trim();$('#it').innerHTML=rows.filter(r=>!q||(r.e.name+r.e.topic+r.e.hook+r.e.point+r.s.island).includes(q)).map(r=>`<tr data-id="${r.s.id}" style="cursor:pointer"><td style="color:${r.s.color};white-space:nowrap">${r.i+1}. ${esc(r.s.island)}</td><td><b>${esc(r.e.name)}</b><br><small style="color:#5f7680">${esc(r.e.hook)}</small></td></tr>`).join('')||'<tr><td>找不到相關案件，換個關鍵字試試。</td></tr>';
   document.querySelectorAll('#it tr[data-id]').forEach(t=>t.onclick=()=>{view('map');openSt(t.dataset.id)})};$('#q').oninput=f;f()}
+// ===== 📮 送出完成紀錄（寫入積分資料庫「航海群島完成紀錄」分頁）=====
+function recCard(){const n=doneCount();let sent='';try{const r=JSON.parse(localStorage.getItem('hanji_rec')||'null');if(r)sent=`<div style="font-size:13px;color:#2f7a5a;margin-top:4px">✅ 上次已送出（${new Date(r.t).toLocaleString('zh-TW',{hour12:false})}，${r.n} / 8 座島），有新進度可以再送一次。</div>`}catch(e){}
+ return `<div class="recbox"><b>📮 送出我的完成紀錄</b><div style="font-size:14px;margin:4px 0 8px">目前已破 ${n} / 8 座島。送出後芸琪會收到你的航程紀錄，作為完成任務的登記。</div>${sent}<button type="button" class="btn pri" data-rec="open">填寫並送出 →</button><div class="recf"></div></div>`}
+function bindRec(root){(root||document).querySelectorAll('[data-rec="open"]').forEach(b=>b.onclick=()=>{const box=b.parentNode.querySelector('.recf');b.style.display='none';
+ let sv={};try{sv=JSON.parse(localStorage.getItem('hanji_survey')||'{}')}catch(e){}
+ const names=ST.filter(x=>st.done[x.id]).map(x=>x.island);
+ box.innerHTML=`<div class="recform"><div class="rec-sum">已破案：${names.length?names.map(esc).join('、'):'（還沒有）'}</div>
+ <label>暱稱（必填）<input id="r_nick" maxlength="20" value="${esc(sv.nick||'')}"></label>
+ <label>LINE 名稱（必填）<input id="r_line" maxlength="30" value="${esc(sv.line||'')}"></label>
+ <label>夥伴編號（有的話填，例如 ML001）<input id="r_id" maxlength="8"></label>
+ <label>想對芸琪說的話（選填）<textarea id="r_msg" maxlength="300" rows="3"></textarea></label>
+ <div style="font-size:12px;color:#5f7680">不用填手機、身分證或任何財務數字。</div>
+ <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn pri" id="r_go">送出完成紀錄</button><button type="button" class="btn" id="r_reset">🔄 重新填寫</button></div><div id="r_fb" style="margin-top:6px;font-size:14px"></div></div>`;
+ const f=box.querySelector('.recform');['copy','cut','paste','contextmenu','dragstart','drop'].forEach(ev=>f.addEventListener(ev,e=>e.preventDefault()));
+ $('#r_reset').onclick=()=>{['#r_nick','#r_line','#r_id','#r_msg'].forEach(k=>$(k).value='');$('#r_fb').textContent=''};
+ $('#r_go').onclick=()=>{const fb=$('#r_fb'),nick=$('#r_nick').value.trim(),line=$('#r_line').value.trim();fb.style.color='#c0603f';
+  if(!nick){fb.textContent='請填暱稱。';return}if(!line){fb.textContent='請填 LINE 名稱。';return}
+  const d={action:'island_done',nick,line,id:$('#r_id').value.trim().toUpperCase(),islands:names.length,list:names.join('、'),cases:Object.keys(st.done).filter(k=>st.done[k]).length,msg:$('#r_msg').value.trim(),src:location.href.split('#')[0]};
+  fb.style.color='#5f7680';fb.textContent='送出中…';$('#r_go').disabled=true;
+  const cb='rc'+Date.now();let ok=false;window[cb]=r=>{ok=true;delete window[cb];$('#r_go').disabled=false;
+   if(r&&r.ok){try{localStorage.setItem('hanji_rec',JSON.stringify({t:Date.now(),n:names.length}))}catch(e){}fb.style.color='#2f7a5a';fb.innerHTML=`✅ 送出成功！謝謝 ${esc(nick)}，芸琪收到後會在 LINE 跟你確認。`}
+   else{fb.style.color='#c0603f';fb.textContent='送出失敗，請再試一次，或私訊芸琪協助。'}};
+  const sc=document.createElement('script');sc.src=SURVEY_URL+'?'+Object.entries(d).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&')+'&callback='+cb;
+  sc.onerror=()=>{$('#r_go').disabled=false;fb.style.color='#c0603f';fb.textContent='連線不穩，請稍後再試，或私訊芸琪協助。'};document.body.appendChild(sc);
+  setTimeout(()=>{if(!ok&&fb.textContent==='送出中…'){$('#r_go').disabled=false;fb.style.color='#c0603f';fb.textContent='連線不穩，請稍後再試，或私訊芸琪協助。'}},15000)}})}
 function renderVoyage(){$('#vVoyage').innerHTML=`<h3 style="margin-top:0">我的航程｜目前等級：${rank()}</h3><div class="prog"><i style="width:${doneCount()/8*100}%"></i></div>
  <div class="cases">${ST.map((s,i)=>`<div class="case" style="border-left:6px solid ${s.color}"><h4>${i+1}. ${esc(s.island)}</h4><p>${esc(s.theme)}</p><p>${st.done[s.id]?'<span class="stamp">已破案</span>':'<button class="btn" data-id="'+s.id+'">前往破案</button>'}</p></div>`).join('')}</div>
- ${campCard('c3')}${campCard('c5')}<p style="font-size:13px;color:#5f7680">進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p><button class="btn" id="clr">🔄 清空玩過的紀錄，重新開始</button>`;bindCampBtn($('#vVoyage'));
+ ${campCard('c3')}${campCard('c5')}${recCard()}<p style="font-size:13px;color:#5f7680">進度只存在這台裝置的瀏覽器；換手機或清除瀏覽紀錄會重新開始。</p><button class="btn" id="clr">🔄 清空玩過的紀錄，重新開始</button>`;bindCampBtn($('#vVoyage'));
  document.querySelectorAll('#vVoyage button[data-id]').forEach(b=>b.onclick=()=>{view('map');openSt(b.dataset.id)});
- $('#clr').onclick=resetAll}
+ $('#clr').onclick=resetAll;bindRec($('#vVoyage'))}
 function campIntro3(){const R=[['DAY 1','人生下半場，現在準備還來得及嗎？','寫下最擔心的三項未來支出（不用寫金額）'],['DAY 2','當家庭需要你，你有多少資源？','確認家裡保單和重要文件放在哪裡'],['DAY 3','有資產，就代表財務健康嗎？','用「五題自我檢視」問問自己']];
  return `<div class="cintro"><h3>🌱 三日營在做什麼？</h3><p>在「金錢好生活・芸琪共學圈」LINE 社群裡，連續 3 天的圖文任務。只要在群組分享心得，<b>不用公開收入、存款或任何財務數字</b>。</p>
  <p><b>每天 3 步：</b>看圖文分享 → 在群組回覆選項 → 完成一個小任務</p>
