@@ -289,11 +289,16 @@ body.lite #toFull{display:none}
 @media (prefers-color-scheme:dark){.cpromo.gs{background:#1f3326;color:#e6f2e8}.cpromo.gs b{color:#bfe6c9}.cpromo.gs small{color:#b9d4bf}}
 
 html,body{overflow-x:clip;max-width:100%}
+
+/* 表頭圖改成背景浮水印，不佔版面 */
+.wmark{position:fixed;inset:0;background:url(hero.jpg) center 20%/cover no-repeat;opacity:.13;z-index:-1;pointer-events:none}
+@media(max-width:640px){.wmark{background-position:45% 15%;opacity:.12}}
+body{position:relative;z-index:0}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
 <div class="wrap">
-<div class="banner"><img src="hero.jpg" alt="Angie 與小綠芽、多多、胖胖幣在帆船上準備啟航，遠方是燈塔"></div>
+<div class="wmark" aria-hidden="true"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
 <section class="vbox" id="captain"><video src="vid/intro.mp4" poster="vid/intro.jpg" controls playsinline preload="none"></video><div class="vt"><span class="badge">登船前｜認識領航員</span><h3>嗨，我是芸琪，家族傳承生活顧問</h3><p style="line-height:1.8">60 秒認識這張航海圖：八座島任你挑，從旅人慢慢成為自己家的家庭財務長。不用一次做完，也不用公開任何數字。</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-bottom:6px">© 人生金錢偵探社｜引用請註明出處並附連結</small><button class="btn pri" type="button" data-go="S1">我要登船 → 先到迷霧港免費試玩</button></div><figure class="vteam"><img src="img/team_poster_v2.jpg" alt="人生金錢偵探社全體出動：Angie 與胖胖幣、多多、小綠芽" loading="lazy"><figcaption>🔍 偵探社全體出動：洞察・分析・規劃・傳承</figcaption></figure></section>
 <section class="hero">
