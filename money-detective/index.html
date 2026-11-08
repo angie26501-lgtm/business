@@ -332,6 +332,12 @@ body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
  .nx.min{bottom:10px!important;left:10px}
  .nx.min,.nx.min *{font-size:13px}
 }
+/* 圖卡範例疊牌 */
+.deck{position:relative;width:min(260px,78%);aspect-ratio:3/4;margin:14px auto 30px;cursor:pointer;outline:none}
+.deck img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px;border:1px solid #eadfc6;box-shadow:0 4px 12px rgba(80,60,20,.18);
+ transform:translate(calc(var(--i)*10px),calc(var(--i)*8px)) rotate(calc(var(--i)*2.5deg));z-index:calc(10 - var(--i));transition:transform .26s,opacity .26s}
+.deck img.out{transform:translate(-40px,-6px) rotate(-8deg);opacity:0}
+.deck-cap{text-align:center;font-size:13px;color:#6b6250;margin-bottom:6px}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div class="topbtns" style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -1008,12 +1014,15 @@ function s1Teaser(){const pass=hasPass(),done=!!st.done.S1;
  <button class="btn pri" type="button" id="tzGo">${pass?'前往初航島 →':done?'領登船通行碼 →':'先去破案，領通行碼 ↓'}</button></div></div>`}
 function bindTeaser(){const b=$('#tzGo');if(!b)return;b.onclick=()=>{if(hasPass())openSt('S2');else if(st.done.S1)gate(ST[1]);else{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})}}}
 // ===== 體質島：領財務體質體驗版圖卡引導 =====
+function deckNext(d){const im=[...d.querySelectorAll('img')];const top=im.find(x=>x.style.getPropertyValue('--i')==='0');top.classList.add('out');
+ setTimeout(()=>{top.classList.remove('out');im.forEach(x=>{const i=+x.style.getPropertyValue('--i');x.style.setProperty('--i',(i+im.length-1)%im.length)});
+ const nt=im.find(x=>x.style.getPropertyValue('--i')==='0');const k=im.indexOf(nt);const cap=d.nextElementSibling;if(cap)cap.querySelector('b').textContent=`${k+1} / ${im.length} ${nt.dataset.n}`},260)}
 function s4Guide(){const C=[['tiger','生龍活虎'],['grow','後勢看好'],['eat','坐吃山空'],['weak','弱不禁風']];
  return `<div class="s4g"><div class="s4g-h">🎁 先領你的「財務體質體驗版圖卡」</div>
  <ol class="s4g-ol"><li>點「打開四張表填寫版」，輸入收入、支出、資產、負債的數字（只填金額，不用填身分證、帳號）</li><li>填完按最下面的「📋 複製整理好的文字」</li><li>加芸琪的官方 LINE，把文字貼上送出，再傳「圖卡」兩個字，就會收到你的體驗版圖卡</li></ol>
  <div class="cp-btns"><a class="btn pri" href="../greensprout/abc-ledger-3.html" target="_blank" rel="noopener">打開四張表填寫版 →</a><a class="btn" href="${LINE_URL}" target="_blank" rel="noopener">加官方 LINE 領圖卡 →</a></div>
  <details class="s4d"><summary>📸 看填寫步驟示範（3 步驟）</summary><div class="s4imgs">${[1,2,3].map(i=>`<img src="img/s4guide/step${i}.jpg" alt="步驟${i}示範" loading="lazy">`).join('')}</div></details>
- <details class="s4d"><summary>🎴 看圖卡範例（4 種體質）</summary><div class="s4imgs cards">${C.map(c=>`<figure><img src="img/s4guide/card_${c[0]}.jpg" alt="${c[1]}圖卡範例" loading="lazy"><figcaption>${c[1]}</figcaption></figure>`).join('')}</div><small>※ 以上為範例，實際圖卡依你填的數字而定；體驗版僅供參考。</small></details></div>`}
+ <details class="s4d"><summary>🎴 看圖卡範例（4 種體質）</summary><div class="deck" onclick="deckNext(this)" role="button" tabindex="0" aria-label="點一下看下一張圖卡">${C.map((c,i)=>`<img src="img/s4guide/card_${c[0]}.jpg" alt="${c[1]}圖卡範例" data-n="${c[1]}" style="--i:${i}">`).join('')}</div><div class="deck-cap">👆 點一下看下一張（<b>1 / 4 ${C[0][1]}</b>）</div><small>※ 以上為範例，實際圖卡依你填的數字而定；體驗版僅供參考。</small></details></div>`}
 function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><div style="line-height:1.8">${txt}</div><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></div></div>`}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
