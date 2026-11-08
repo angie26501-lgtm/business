@@ -307,6 +307,21 @@ body.lite #mapHead,body.lite #aboutH{display:none!important}
 .about-h{font-weight:800;font-size:18px;margin:22px 2px 8px}
 body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
 @media(max-width:720px){#mapHead h1{font-size:24px}}
+/* 迷霧港預告卡 */
+.tz{display:flex;gap:14px;align-items:flex-start;background:#f3f1ec;border:2px dashed #b9b4a8;border-radius:16px;padding:12px;margin:10px 0 14px}
+.tz:not(.open) .tz-img img{filter:grayscale(1);opacity:.8}.tz.open{background:#eef7f3;border-color:#3e8e6e;border-style:solid}
+.tz-img{position:relative;flex:0 0 150px}.tz-img img{width:150px;height:150px;object-fit:cover;border-radius:12px;display:block}
+.tz-lock{position:absolute;inset:0;display:grid;place-items:center;font-size:40px}
+.tz-b{flex:1;min-width:0}.tz-b h4{margin:4px 0 2px;font-size:18px}.tz-tag{font-size:12px;background:#6b6b6b;color:#fff;border-radius:10px;padding:1px 8px}.tz.open .tz-tag{background:#3e8e6e}
+.tz-s{font-size:13px;color:#5f5f5f;margin-bottom:4px}.tz-pass{background:#fff;border-radius:10px;padding:8px 10px;margin:6px 0;font-size:14px}.tz-pass ol{margin:4px 0 0;padding-left:20px}
+@media(max-width:560px){.tz{flex-direction:column}.tz-img,.tz-img img{width:100%;flex:none;height:140px}}
+/* 體質島領圖卡引導 */
+.s4g{background:#fff8ec;border:2px solid #e8c88f;border-radius:14px;padding:12px 14px;margin:10px 0}
+.s4g-h{font-weight:800;font-size:17px;margin-bottom:4px}.s4g-ol{margin:4px 0 8px;padding-left:22px;font-size:14px;line-height:1.7}
+.s4d{margin-top:8px;background:#fff;border-radius:10px;padding:6px 10px}.s4d summary{cursor:pointer;font-weight:700;font-size:14px}
+.s4imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:8px 0}.s4imgs img{width:100%;border-radius:10px;border:1px solid #eadfc6}
+.s4imgs figure{margin:0;text-align:center;font-size:13px}.s4imgs.cards{grid-template-columns:repeat(auto-fill,minmax(115px,1fr))}
+.s4next{margin-top:10px;font-weight:700}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -892,9 +907,10 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  ${s.id==='S6'?campCard('c5'):s.id==='S2'?campCard('c3')+campIntro3():''}
  ${s.id==='S6'?certBlock():''}
  ${s.id==='S1'&&st.done.S1?vidBlock('a','迷霧港破案了！',(campEnded('c3')?'下一站：初航島。加入共學圈，預約下一梯三日營！':'多多和小綠芽帶你看下一站：初航島三日營，三天就好。')+c3Mini()):''}
- ${s.id==='S4'?vidBlock('b','測完體質之後，下一步怎麼走？','體質沒有好壞，看見了，才知道從哪裡開始調。想有人陪你一起動手，可以從營隊開始：'+campPath()):''}
+ ${s.id==='S4'?vidBlock('b','測完體質之後，下一步怎麼走？','體質沒有好壞，看見了，才知道從哪裡開始調。'+s4Guide()+'<div class="s4next">領完圖卡，想有人陪你一起動手調整，可以從營隊開始：</div>'+campPath()):''}
  ${s.id==='S6'?vidBlock('c','五日營結業之後','五天是開始，接下來的路芸琪可以一直陪你走。'):''}
  ${!hasPass()&&s.id==='S1'?duoSay('多多來了！迷霧港<b>免費試玩</b>，不用填任何資料～看完下面的精選案件，按「我破案了」就完成這座島！'):''}
+ ${s.id==='S1'?s1Teaser():''}
  <div class="feat"><div class="feat-t">⭐ 精選案件</div>${caseCard(s.eps[0])}
  <button class="btn pri solve" id="solveBtn" type="button">${st.done[s.id]?'✅ 這座島已破案':'✅ 我破案了'}</button><div id="solveFb"></div></div>
  ${quizBlock(s.id)}
@@ -903,7 +919,7 @@ function openSt(id,noScroll){const i=ST.findIndex(s=>s.id===id);if(i<0)return;co
  <div class="game" id="game"></div></details>
  ${supplyBlock(s)}
  <div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="prevSt" ${i===0?'disabled':''}>← 上一島</button><button class="btn pri" id="nextSt" ${i===ST.length-1?'disabled':''}>下一島 →</button></div></div>`;
- bindC3();bindQuiz(s.id);$('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
+ bindC3();bindQuiz(s.id);bindTeaser();$('#shareSt').onclick=()=>shareSheet(location.href.split('#')[0]+'#'+id.toLowerCase(),`⚓ 來「財富航海群島」的〈${s.island}〉一起破財務案！看看自己的財務體質 👉`);$('#solveBtn').onclick=()=>{if(!st.done[s.id])win(s);else solvedFb(s)};if(st.done[s.id])solvedFb(s);bindCampBtn($('#detail'));bindSup($('#detail'));bindCert($('#detail'));
  $('#prevSt').onclick=()=>openSt(ST[i-1].id);$('#nextSt').onclick=()=>openSt(ST[i+1].id);
  game(s);if(!noScroll)$('#detail').scrollIntoView({behavior:'smooth'})}
 
@@ -971,7 +987,24 @@ function c3Mini(){const end=campEnded('c3');
  <a class="btn" href="${CIRCLE_URL}" target="_blank" rel="noopener">${end?'加入共學圈・預約下一梯 →':'免費報名三日營 →'}</a></div>`}
 function bindC3(){document.querySelectorAll('[data-c3]').forEach(b=>b.onclick=()=>{if(b.dataset.c3==='camp'){campSel='c3';view('camp');return}
  openSt('S2');setTimeout(()=>{const c=document.querySelector('.cintro');if(c)c.scrollIntoView({behavior:'smooth',block:'start'})},350)})}
-function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><p style="line-height:1.8">${txt}</p><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></div></div>`}
+// ===== 迷霧港：下一站初航島灰階預告＋領通行碼 =====
+function s1Teaser(){const pass=hasPass(),done=!!st.done.S1;
+ const steps=`<div class="tz-pass"><b>🎫 怎麼領「登船通行碼」？</b><ol><li>看完下面的精選案件，按「✅ 我破案了」</li><li>填 1 分鐘登島問卷（3 個小問題）</li><li>送出後畫面直接顯示通行碼，有效 30 天，其他島都能登</li></ol></div>`;
+ return `<div class="tz ${pass?'open':''}"><div class="tz-img"><img src="${IMGS.S2}" alt="初航島" loading="lazy">${pass?'':'<span class="tz-lock">🔒</span>'}</div>
+ <div class="tz-b"><span class="tz-tag">${pass?'✅ 已登船':'🔒 尚未解鎖'}</span><h4>下一站預告｜2. 初航島</h4>
+ <div class="tz-s">三日營｜人生下半場財務覺醒・免費、不用公開任何財務數字</div>
+ <details class="cp-d"><summary>先偷看：初航島在做什麼？</summary><ol>${CAMP3.map(c=>`<li><b>${esc(c.d)}</b>｜${esc(c.t)}</li>`).join('')}</ol></details>
+ ${pass?'':steps}
+ <button class="btn pri" type="button" id="tzGo">${pass?'前往初航島 →':done?'領登船通行碼 →':'先去破案，領通行碼 ↓'}</button></div></div>`}
+function bindTeaser(){const b=$('#tzGo');if(!b)return;b.onclick=()=>{if(hasPass())openSt('S2');else if(st.done.S1)gate(ST[1]);else{const g=$('#solveBtn');if(g)g.scrollIntoView({behavior:'smooth',block:'center'})}}}
+// ===== 體質島：領財務體質體驗版圖卡引導 =====
+function s4Guide(){const C=[['tiger','生龍活虎'],['grow','後勢看好'],['eat','坐吃山空'],['weak','弱不禁風']];
+ return `<div class="s4g"><div class="s4g-h">🎁 先領你的「財務體質體驗版圖卡」</div>
+ <ol class="s4g-ol"><li>點「打開四張表填寫版」，輸入收入、支出、資產、負債的數字（只填金額，不用填身分證、帳號）</li><li>填完按最下面的「📋 複製整理好的文字」</li><li>加芸琪的官方 LINE，把文字貼上送出，再傳「圖卡」兩個字，就會收到你的體驗版圖卡</li></ol>
+ <div class="cp-btns"><a class="btn pri" href="../greensprout/abc-ledger-3.html" target="_blank" rel="noopener">打開四張表填寫版 →</a><a class="btn" href="${LINE_URL}" target="_blank" rel="noopener">加官方 LINE 領圖卡 →</a></div>
+ <details class="s4d"><summary>📸 看填寫步驟示範（3 步驟）</summary><div class="s4imgs">${[1,2,3].map(i=>`<img src="img/s4guide/step${i}.jpg" alt="步驟${i}示範" loading="lazy">`).join('')}</div></details>
+ <details class="s4d"><summary>🎴 看圖卡範例（4 種體質）</summary><div class="s4imgs cards">${C.map(c=>`<figure><img src="img/s4guide/card_${c[0]}.jpg" alt="${c[1]}圖卡範例" loading="lazy"><figcaption>${c[1]}</figcaption></figure>`).join('')}</div><small>※ 以上為範例，實際圖卡依你填的數字而定；體驗版僅供參考。</small></details></div>`}
+function vidBlock(n,title,txt){return `<div class="vbox"><video src="vid/${n}.mp4" poster="vid/${n}.jpg" controls playsinline preload="none"></video><div class="vt"><h3>🎬 ${title}</h3><div style="line-height:1.8">${txt}</div><small style="display:block;color:#8a7a5a;font-size:12px;margin-top:4px">© 人生金錢偵探社｜引用請註明出處並附連結</small></div></div>`}
 function duoSay(t){return `<div class="duo"><img class="duoimg" src="img/duo.jpg" alt="多多"><div class="bubble">${t}</div></div>`}
 function gate(s,noScroll){$('#detail').innerHTML=`<div class="panel gate" style="border-top:6px solid ${s.color}">
  ${IMGS[s.id]?`<div class="simg" style="filter:saturate(.6)"><img src="${IMGS[s.id]}" alt="${esc(s.island)}情境圖"></div>`:''}
