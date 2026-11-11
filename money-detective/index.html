@@ -353,6 +353,7 @@ body.lite .topbtns a[href*="/quiz/"]{display:none}
 @media(max-width:640px){#toFull{left:auto;right:10px;bottom:10px;font-size:13px;padding:6px 10px}}
 .topbanner{margin:12px 0 10px;border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(80,60,20,.15)}.topbanner img{display:block;width:100%;height:auto}
 @media(max-width:640px){.topbanner{margin:8px 0;border-radius:12px}}
+.gd-card.gd-top{grid-column:1/-1}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div class="topbtns" style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://reurl.cc/EYxQxk" target="_blank" rel="noopener">認識財顧芸</a><a class="btn" href="https://angie26501-lgtm.github.io/private/lwd/lwd-plans.html" target="_blank" rel="noopener">服務項目</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -651,13 +652,13 @@ function gearClose(){const m=$('#gearM');if(m)m.classList.remove('on');GSLOT.for
 // ===== 守護灣｜保戶專屬港（不用通行碼） =====
 const GUARD_LINE='https://lin.ee/56YIX1v';
 const GUARD=[
- {t:'專屬碼頭｜歡迎回港',c:'#b0863a',p:'加入「保戶專用 LINE@」，之後的服務通知、周年檢視提醒和活動邀請，都會從這裡送到你手上。',say:'多多：歡迎回港！先把船繫好，加入 LINE@ 就不會漏掉芸琪的消息喔！',b:'加入保戶專用 LINE@'},
- {t:'保障地圖室｜保單整理',c:'#2f7f9a',p:'想知道全家保了什麼、哪裡還不夠？芸琪幫你把保單整理成一張看得懂的保障地圖。',say:'小綠芽：保單一大疊不用怕，整理成一張圖就清楚了！',b:'在 LINE@ 說「保單整理」'},
- {t:'周年回航站｜每年保障檢視',c:'#2c5aa0',p:'每年回來看一次。結婚、生子、換工作、買房，都是調整保障的好時機。',say:'多多：人生會長大，保障也要跟著長大！',b:'在 LINE@ 說「周年檢視」'},
- {t:'風雨守護站｜理賠協助',c:'#3f6f7a',p:'生病或發生意外需要理賠時，先別慌。芸琪陪你一起準備資料、一步一步處理。',say:'胖胖幣：風雨來了，躲進港灣就安心了。',b:'在 LINE@ 說「理賠協助」'},
- {t:'家人寶箱島｜家庭資料整理',c:'#1f8a8a',p:'把保單和重要資料整理好，讓家人找得到、看得懂、接得上。這是送給家人最安心的禮物。',say:'小綠芽：寶箱的鑰匙，要交給最信任的人。',b:'在 LINE@ 說「家人寶箱」'},
- {t:'甲板茶會｜保戶專屬聚會',c:'#c0603f',p:'保戶專屬的下午茶、分享會與好禮活動，時間地點會在保戶專用 LINE@ 公告。',say:'多多：茶會的點心，胖胖幣已經偷吃一塊了！',b:'看保戶 LINE@ 活動公告'},
- {t:'傳承秘境站｜101夜傳承秘境',c:'#8a5a12',p:'遺產、贈與、房子、婚姻……家裡的傳承問題，先從真實案例開始看。石室打怪闖關，看別人家發生過的事，提早替自己家做準備。',say:'多多：每打倒一隻怪，就多懂一個傳承的坑！',b:'進入 101夜傳承秘境',u:'https://angie26501-lgtm.github.io/private/story101/'}];
+ {i:7,t:'傳承秘境站｜101夜傳承秘境',c:'#8a5a12',p:'遺產、贈與、房子、婚姻……家裡的傳承問題，先從真實案例開始看。石室打怪闖關，看別人家發生過的事，提早替自己家做準備。',say:'多多：每打倒一隻怪，就多懂一個傳承的坑！',b:'進入 101夜傳承秘境',u:'https://angie26501-lgtm.github.io/private/story101/'},
+ {i:1,t:'專屬碼頭｜歡迎回港',c:'#b0863a',p:'加入「保戶專用 LINE@」，之後的服務通知、周年檢視提醒和活動邀請，都會從這裡送到你手上。',say:'多多：歡迎回港！先把船繫好，加入 LINE@ 就不會漏掉芸琪的消息喔！',b:'加入保戶專用 LINE@'},
+ {i:2,t:'保障地圖室｜保單整理',c:'#2f7f9a',p:'想知道全家保了什麼、哪裡還不夠？芸琪幫你把保單整理成一張看得懂的保障地圖。',say:'小綠芽：保單一大疊不用怕，整理成一張圖就清楚了！',b:'在 LINE@ 說「保單整理」'},
+ {i:3,t:'周年回航站｜每年保障檢視',c:'#2c5aa0',p:'每年回來看一次。結婚、生子、換工作、買房，都是調整保障的好時機。',say:'多多：人生會長大，保障也要跟著長大！',b:'在 LINE@ 說「周年檢視」'},
+ {i:4,t:'風雨守護站｜理賠協助',c:'#3f6f7a',p:'生病或發生意外需要理賠時，先別慌。芸琪陪你一起準備資料、一步一步處理。',say:'胖胖幣：風雨來了，躲進港灣就安心了。',b:'在 LINE@ 說「理賠協助」'},
+ {i:5,t:'家人寶箱島｜家庭資料整理',c:'#1f8a8a',p:'把保單和重要資料整理好，讓家人找得到、看得懂、接得上。這是送給家人最安心的禮物。',say:'小綠芽：寶箱的鑰匙，要交給最信任的人。',b:'在 LINE@ 說「家人寶箱」'},
+ {i:6,t:'甲板茶會｜保戶專屬聚會',c:'#c0603f',p:'保戶專屬的下午茶、分享會與好禮活動，時間地點會在保戶專用 LINE@ 公告。',say:'多多：茶會的點心，胖胖幣已經偷吃一塊了！',b:'看保戶 LINE@ 活動公告'}];
 const gdImg=(n,alt)=>`<div class="gd-img"><img src="img/g${n}.jpg" alt="${esc(alt)}" loading="lazy" onerror="this.parentNode.remove()"></div>`;
 function renderGuard(){$('#vGuard').innerHTML=`<div class="gd-hero">${gdImg(0,'守護灣情境圖')}<div>
  <span class="badge" style="background:#f6ead3;color:#7a5230">守護灣｜保戶專屬港</span>
@@ -666,7 +667,7 @@ function renderGuard(){$('#vGuard').innerHTML=`<div class="gd-hero">${gdImg(0,'�
  <a class="gd-cta" href="${GUARD_LINE}" target="_blank" rel="noopener">加入保戶專用 LINE@</a>
  <p style="font-size:13px;color:#5f7680;margin:8px 0 0">還不是保戶也沒關係，可以先從 <a href="#s1" id="gdS1">1. 迷霧港</a> 開始，一島一島認識自己的財務。</p></div></div>
  ${duoSay('多多來了！守護灣有 7 個站，每一站都是芸琪陪你照顧家人的方式。想要哪一項，加入 LINE@ 後傳訊息告訴芸琪就好！')}
- <div class="gd-grid">${GUARD.map((g,k)=>`<div class="gd-card" style="--c:${g.c}">${gdImg(k+1,g.t)}<div class="bd"><b>${k+1}. ${esc(g.t)}</b><p>${esc(g.p)}</p><div class="gd-say">${esc(g.say)}</div><a class="gd-cta sm" href="${g.u||GUARD_LINE}" target="_blank" rel="noopener">${esc(g.b)} →</a></div></div>`).join('')}</div>
+ <div class="gd-grid">${GUARD.map((g,k)=>`<div class="gd-card${g.i===7?' gd-top':''}" style="--c:${g.c}">${gdImg(g.i,g.t)}<div class="bd"><b>${k+1}. ${esc(g.t)}</b><p>${esc(g.p)}</p><div class="gd-say">${esc(g.say)}</div><a class="gd-cta sm" href="${g.u||GUARD_LINE}" target="_blank" rel="noopener">${esc(g.b)} →</a></div></div>`).join('')}</div>
  <p style="font-size:13px;color:#5f7680;margin-top:12px">財顧芸 陳芸琪｜家族傳承生活顧問　·　<a href="https://www.allfreedom.info/" target="_blank" rel="noopener">認識財顧芸</a></p>`;
  $('#gdS1').onclick=e=>{e.preventDefault();view('map');openSt('S1')}}
 function dreamPin(){return `<g class="isle" id="drPin" tabindex="0" role="button" aria-label="購買天堂夢幻島 隱藏版 尚未開放" style="cursor:pointer;opacity:.8;filter:grayscale(1)">
