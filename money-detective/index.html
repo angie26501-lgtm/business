@@ -341,6 +341,16 @@ body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
 /* 新朋友首頁：年底圖卡＋認識財顧芸 */
 .lt-yr{margin:14px 0 8px;text-align:center}.lt-yr img{width:100%;max-width:520px;border-radius:14px;border:1px solid #eadfc6;box-shadow:0 3px 10px rgba(80,60,20,.12)}
 .lt-me{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 10px}
+/* 好上手優化 */
+.lt-start{display:block;width:100%;margin:4px 0 12px;padding:14px 16px;border:0;border-radius:16px;background:#2f7a5a;color:#fff;font-size:19px;font-weight:800;text-align:left;cursor:pointer;box-shadow:0 4px 12px rgba(47,122,90,.3)}
+.lt-start small{display:block;font-size:13px;font-weight:400;opacity:.9;margin-top:2px}
+.lt-how{background:#f3f8f4;border-radius:12px;padding:10px 12px;margin:0 0 12px;font-size:14px}.lt-how ol{margin:4px 0 4px;padding-left:20px;line-height:1.7}.lt-how small,.howto small{color:#6b6250;font-size:12px}
+details.lt-yr{margin:12px 0;background:#fff8ec;border-radius:12px;padding:8px 12px}details.lt-yr summary{cursor:pointer;font-weight:700;font-size:14px}details.lt-yr img{margin-top:8px}
+details.toggles{margin:6px 0 10px}details.toggles summary{cursor:pointer;font-size:14px;color:#5f7680}details.toggles label{display:inline-block;margin:6px 12px 0 0}
+details.howto{margin:8px 0 4px;background:#fff8ec;border:1px solid #eadfc6;border-radius:12px;padding:8px 12px;font-size:14px}details.howto summary{cursor:pointer;font-weight:700}details.howto ol{margin:6px 0;padding-left:20px;line-height:1.7}
+body.lite .topbtns a[href*="/quiz/"]{display:none}
+@media(max-width:640px){#gpOpen,#guideP{display:none!important}}
+@media(max-width:640px){#toFull{left:auto;right:10px;bottom:10px;font-size:13px;padding:6px 10px}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div class="topbtns" style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://reurl.cc/MWp4aL" target="_blank" rel="noopener">認識財顧芸</a><a class="btn" href="https://angie26501-lgtm.github.io/private/lwd/lwd-plans.html" target="_blank" rel="noopener">服務項目</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -348,18 +358,18 @@ body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
 <div class="wmark" aria-hidden="true"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
 <section id="vMap">
- <div id="mapHead"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p></div>
+ <div id="mapHead"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p><details class="howto"><summary>📘 玩法 3 步（第一次玩先看）</summary><ol><li><b>點一座島</b>：第 1 座迷霧港免費試玩，不用填資料。</li><li><b>看精選案件，按「✅ 我破案了」</b>蓋章。破完迷霧港填 1 分鐘問卷，領登船通行碼（30 天有效），其他島就能登。</li><li><b>集滿 8 格</b>：加 LINE 登記領書；也可以按「📮 送出我的完成紀錄」。</li></ol><small>進度存在這支手機的這個瀏覽器，換手機或用 LINE 開會看不到之前的紀錄。</small></details></div>
  <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
  <div class="mapbox" id="mapbox"></div>
  <div class="list" id="listView" style="display:none"></div>
 </section>
-<div class="toggles">
+<details class="toggles"><summary>⚙️ 顯示設定（名牌、清單版、語音導覽）</summary>
  <label><input type="checkbox" id="tgTag" checked>顯示名牌</label>
  <label><input type="checkbox" id="tgAuto">沒人操作時自動巡航</label>
  <label><input type="checkbox" id="tgList">改用清單版</label>
  <label><input type="checkbox" id="tgFollow" checked>船員跟著滑鼠走</label>
  <label id="tgVoiceL"><input type="checkbox" id="tgVoice">🔊 語音導覽</label>
-</div>
+</details>
 <section class="hero">
  <div>
   <p class="lead">點一座島，破一個財務案，完成小遊戲就能升級船員。</p>
@@ -404,7 +414,7 @@ body:not(.lite) #vMap+.toggles{margin:6px 0 10px}
  <div class="gp-h" id="gpH"><span class="gp-t"><img src="img/duo.jpg" alt="" class="gp-ic">航海引導說明</span><span class="gp-btns"><button id="gpC" aria-label="收合">▾</button><button id="gpS" aria-label="縮小">－</button><button id="gpL" aria-label="放大">＋</button><button id="gpX" aria-label="關閉">✕</button></span></div>
  <div class="gp-b" id="gpB">
  <ol>
- <li><b>點一座島</b>：八座島任選，不用照順序。</li>
+ <li><b>點一座島</b>：八座島任選，不用照順序。第 1 座迷霧港免費試玩，破案後填 1 分鐘問卷領通行碼，就能登其他島。</li>
  <li><b>看精選案件</b>：看完按「✅ 我破案了」就蓋章。</li>
  <li><b>集滿領書券</b>：每破一島蓋一格，8 格蓋滿就能加 LINE 登記領書。</li>
  </ol>
@@ -885,14 +895,16 @@ function consultTicket(){const n=liteDone(),full=n>=3;
  (full?`<div style="font-weight:700">恭喜完成 3 關！你的諮詢代碼：</div><div class="tk-c">${esc(consultCode())}</div><div style="font-size:13px">加 LINE 後傳「${CONSULT_KEY}」和這組代碼給芸琪，約一個你方便的時間，一起看看你家的保障和退休準備。</div><a class="btn pri" href="${LINE_URL}" target="_blank" rel="noopener">加 LINE 預約免費諮詢 →</a>`
  :`<div style="font-size:14px">已完成 ${n} / 3 關，再 ${3-n} 關就能領。</div>`)+`<div class="bk-note">※ 每人限用一次。本活動保留變更活動內容及贈品內容的權利。</div></div>`}
 function renderLite(){const b=$('#liteBox');if(!b)return;const n=liteDone(),nx=LITE.find(id=>!liteIsDone(id));
- b.innerHTML=`<span class="badge">第一次來？先玩新朋友 3 關</span><h2>🌱 3 關認識自己的財務體質</h2><p class="lt-sub">不用註冊、不用公開任何數字，一關約 3 分鐘。照順序玩最順，完成 3 關送你 <b>30 分鐘免費諮詢</b>。</p>
+ b.innerHTML=`<span class="badge">第一次來？先玩新朋友 3 關</span><h2>🌱 3 關認識自己的財務體質</h2><p class="lt-sub">不用註冊、不用公開任何數字，一關約 3 分鐘。完成 3 關送你 <b>30 分鐘免費諮詢</b>。</p>
+ ${nx?`<button type="button" class="lt-start" id="ltStart">▶ ${n?'繼續':'開始'}第 ${LITE.indexOf(nx)+1} 關：${LITE_NM[nx]}<small>約 3 分鐘・已完成 ${n} / 3</small></button>`:''}
+ <div class="lt-how"><b>📘 玩法 3 步</b><ol><li>點一關，看完精選案件或小遊戲</li><li>按「✅ 我破案了」蓋章</li><li>3 關都蓋章，加 LINE 預約 30 分鐘免費諮詢</li></ol><small>進度存在這支手機的這個瀏覽器；換手機或用 LINE 開啟會看不到之前的紀錄。</small></div>
  <div class="lt-g">${LITE.map((id,k)=>`<button type="button" class="lt-c${liteIsDone(id)?' on':''}${id===nx?' lt-next':''}" data-lite="${id}"><i class="n">第 ${k+1} 關${liteIsDone(id)?'・已破案 ✓':''}</i><b>${LITE_NM[id]}</b><span>${LITE_TIP[id]}</span><span style="display:block;margin-top:4px;color:#8a5a12">${LITE_NEXT[id]}</span></button>`).join('')}</div>
  <div class="lt-prog"><i style="width:${n/3*100}%"></i></div><div style="font-size:13px;color:#5f7680">已完成 ${n} / 3 關</div>
  ${n>=3?consultTicket():''}
- <div class="lt-yr"><img src="img/yearend2027.jpg" alt="年底財務回看：別把今年的金錢狀態，直接帶進 2027" loading="lazy"></div>
+ <details class="lt-yr"><summary>🗓️ 年底財務回看：別把今年的金錢狀態帶進 2027（點開看）</summary><img src="img/yearend2027.jpg" alt="年底財務回看：別把今年的金錢狀態，直接帶進 2027" loading="lazy"></details>
  <div class="lt-me"><a class="btn" href="https://reurl.cc/MWp4aL" target="_blank" rel="noopener">👩‍💼 認識財顧芸</a><a class="btn" href="https://angie26501-lgtm.github.io/private/lwd/lwd-plans.html" target="_blank" rel="noopener">🧩 服務項目</a></div>
  <div class="lt-foot"><span>已經是芸琪的學員？</span><button class="btn" type="button" id="goFull">🎓 學員・完整版（8 座島）→</button></div>`;
- b.querySelectorAll('[data-lite]').forEach(x=>x.onclick=()=>liteGo(x.dataset.lite));
+ b.querySelectorAll('[data-lite]').forEach(x=>x.onclick=()=>liteGo(x.dataset.lite));if($('#ltStart'))$('#ltStart').onclick=()=>liteGo(nx);
  $('#goFull').onclick=()=>{setMode('full');window.scrollTo({top:0,behavior:'smooth'})}}
 function setMode(m,keep){document.body.classList.toggle('lite',m==='lite');if(keep!==false)try{localStorage.setItem('hanji_mode',m)}catch(e){}
  const t=$('#toFull');if(t){t.style.display='';t.textContent='🌱 回新朋友 3 關版';t.onclick=()=>{setMode('lite');window.scrollTo({top:0,behavior:'smooth'})}}
@@ -1243,7 +1255,8 @@ document.querySelectorAll('.gtab').forEach(b=>b.onclick=()=>{view(b.dataset.v);i
 document.querySelector('#captain [data-go]').onclick=()=>{view('map');openSt('S1')};
 document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{const g=t.dataset.go;if(g==='index'||g==='camp'||g==='guard'||g==='supply'){view(g);$('#tabs').scrollIntoView({behavior:'smooth'})}else{view('map');const nx=g==='next'?(ST.find(s=>!st.done[s.id])||ST[0]).id:g;openSt(nx)}});
 $('#tgTag').onchange=()=>$('#mapbox').classList.toggle('hideTags',!$('#tgTag').checked);
-$('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none'};
+$('#tgList').onchange=()=>{const l=$('#tgList').checked;$('#mapbox').style.display=l?'none':'';$('#listView').style.display=l?'':'none';try{localStorage.setItem('hanji_list',l?'1':'0')}catch(e){}};
+(function(){let v=null;try{v=localStorage.getItem('hanji_list')}catch(e){}if(v==='1'){$('#tgList').checked=true;$('#tgList').onchange()}else if(v===null&&innerWidth<640){$('#listView').style.display=''}})();
 let idle=0,ai=0;['pointerdown','keydown','wheel','touchstart'].forEach(e=>addEventListener(e,()=>idle=0,{passive:true}));
 setInterval(()=>{idle+=1;if($('#tgAuto').checked&&idle>=3&&$('#vMap').style.display!=='none'){if(voiceOn()&&(speechSynthesis.speaking||speechSynthesis.pending))return;ai=(ai+1)%ST.length;document.querySelectorAll('#mapbox .isle').forEach(g=>g.classList.toggle('focus',g.dataset.id===ST[ai].id));if(voiceOn())say(`第 ${ai+1} 站，${ST[ai].island}。${ST[ai].theme}`)}},2000);
 (()=>{const vb=$('#tgVoice'),vl=$('#tgVoiceL');if(!VOICE_OK){vl.style.display='none';return}
