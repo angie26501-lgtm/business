@@ -70,6 +70,12 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
 @media print{#gd{display:none!important}}
 
 @media print{.hud,.act{display:none!important}.page{break-inside:avoid;box-shadow:none}}
+.cards4{background:#fffaf0;border:1.5px dashed #e3c27a;border-radius:16px;padding:14px 14px 10px;margin:12px 0;text-align:center}
+.cards4 p{margin:4px 0 0;font-size:14px;color:#6b6250}.cards4 small{display:block;color:#8a7f6a;font-size:12px}
+.deck{position:relative;width:min(260px,78%);aspect-ratio:3/4;margin:14px auto 30px;cursor:pointer;outline:none}
+.deck img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px;border:1px solid #eadfc6;box-shadow:0 4px 12px rgba(80,60,20,.18);transform:translate(calc(var(--i)*10px),calc(var(--i)*8px)) rotate(calc(var(--i)*2.5deg));z-index:calc(10 - var(--i));transition:transform .26s,opacity .26s}
+.deck img.out{transform:translate(-40px,-6px) rotate(-8deg);opacity:0}
+.deck-cap{font-size:13px;color:#6b6250;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -80,6 +86,8 @@ input.n{text-align:right}input.n:focus,.who input:focus{outline:2px solid var(--
  <p class="sub">跟綠芽手機版一模一樣的四張表。先在這裡填好，再照著抄進綠芽，就不會卡關。</p></div>
  <div class="intro"><b>怎麼填？記住 3 件事</b><br>・每個月固定的錢填「<b>每月</b>」；一年一次或不固定的填「<b>每年</b>」，會自動幫你平均到每個月。<br>・資產、負債填「<b>現在</b>」的金額，例如存款現在有多少、房貸現在還欠多少。<br>・不確定就先估，沒有的留空，之後都可以改。<br>🔒 你填的數字只存在自己的手機裡，不會傳到網路上。按「複製」貼到 LINE，芸琪才看得到。</div>
  <div class="gift3">🎁 <b>輸入財務數值，就可以免費領取「財務體質體驗版圖卡」</b><br><small>花 10 分鐘填好四張表，按最下面「📋 複製整理好的文字」，貼到 LINE 傳給芸琪，再傳「<b>圖卡</b>」兩個字就完成登記。</small></div>
+ <div class="cards4"><b>👀 圖卡長這樣：4 種財務體質</b><p>生龍活虎・後勢看好・坐吃山空・弱不禁風，你會是哪一種？</p>
+ <div class="deck" onclick="deckNext(this)" onkeydown="if(event.key==='Enter')deckNext(this)" role="button" tabindex="0" aria-label="點一下看下一張圖卡"><img src="img/card_tiger.jpg" alt="生龍活虎圖卡範例" data-n="生龍活虎" style="--i:0"><img src="img/card_grow.jpg" alt="後勢看好圖卡範例" data-n="後勢看好" style="--i:1"><img src="img/card_eat.jpg" alt="坐吃山空圖卡範例" data-n="坐吃山空" style="--i:2"><img src="img/card_weak.jpg" alt="弱不禁風圖卡範例" data-n="弱不禁風" style="--i:3"></div><div class="deck-cap">👆 點一下看下一張（<b>1 / 4 生龍活虎</b>）</div><small>※ 以上為範例，實際圖卡依你填的數字而定；體驗版僅供參考。</small></div>
  <div class="warn">⚠️ 只要填金額就好，<b>不要</b>填身分證、銀行帳號或保單號碼。</div>
  <div class="who"><input id="nick" placeholder="你的稱呼（例：王小姐）" maxlength="20"><input id="when" placeholder="填寫月份（例：2026 年 11 月）" maxlength="20"></div>
  <div id="forms"></div>
@@ -193,6 +201,11 @@ calc();
  $('#gdh').addEventListener('dblclick',()=>{G.x=G.y=null;box.style.cssText='';apply();sv()});
  show(0);apply();
 })();
+</script>
+<script>
+function deckNext(d){const im=[...d.querySelectorAll('img')];const top=im.find(x=>x.style.getPropertyValue('--i')==='0');top.classList.add('out');
+ setTimeout(()=>{top.classList.remove('out');im.forEach(x=>{const i=+x.style.getPropertyValue('--i');x.style.setProperty('--i',(i+im.length-1)%im.length)});
+ const nt=im.find(x=>x.style.getPropertyValue('--i')==='0');const k=im.indexOf(nt);const cap=d.nextElementSibling;if(cap)cap.querySelector('b').textContent=(k+1)+' / '+im.length+' '+nt.dataset.n},260)}
 </script>
 </body>
 </html>
