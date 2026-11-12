@@ -354,6 +354,11 @@ body.lite .topbtns a[href*="/quiz/"]{display:none}
 .topbanner{margin:12px 0 10px;border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(80,60,20,.15)}.topbanner img{display:block;width:100%;height:auto}
 @media(max-width:640px){.topbanner{margin:8px 0;border-radius:12px}}
 .gd-card.gd-top{grid-column:1/-1}
+#mapHead{display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:end}#mapHead .howto{grid-column:1/-1}
+.campL{display:flex;gap:10px}.campL a{display:block;text-decoration:none;border-radius:14px;padding:9px 14px;line-height:1.35;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:transform .15s}
+.campL a:hover{transform:translateY(-2px)}.campL b{display:block;font-size:15px}.campL span{font-size:12.5px}
+.cl3{background:#fff3e2;border:1.5px solid #f0a64a;color:#9a4d0c}.cl5{background:#eaf6ee;border:1.5px solid #4fae6d;color:#1f6b3a}
+@media(max-width:720px){#mapHead{grid-template-columns:1fr}.campL{flex-direction:column;gap:8px}}
 </style></head>
 <body>
 <div class="top"><div class="brand">人生金錢偵探社<small>Angie｜家族傳承生活顧問</small></div><div class="topbtns" style="display:flex;gap:6px"><a class="btn" href="https://angie26501-lgtm.github.io/business/quiz/">複習闖關</a><a class="btn" href="https://reurl.cc/EYxQxk" target="_blank" rel="noopener">認識財顧芸</a><a class="btn" href="https://angie26501-lgtm.github.io/private/lwd/lwd-plans.html" target="_blank" rel="noopener">服務項目</a><button class="btn" id="shareTop">分享此區</button></div></div>
@@ -362,7 +367,7 @@ body.lite .topbtns a[href*="/quiz/"]{display:none}
 <div class="topbanner"><img src="img/cfo-banner.jpg" alt="家庭財務長養成計畫：收支管理、資產布局、風險保障、照護準備、傳承規劃" width="1600" height="533"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
 <section id="vMap">
- <div id="mapHead"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p><details class="howto"><summary>📘 玩法 3 步（第一次玩先看）</summary><ol><li><b>點一座島</b>：第 1 座迷霧港免費試玩，不用填資料。</li><li><b>看精選案件，按「✅ 我破案了」</b>蓋章。破完迷霧港填 1 分鐘問卷，領登船通行碼（30 天有效），其他島就能登。</li><li><b>集滿 8 格</b>：加 LINE 登記領書；也可以按「📮 送出我的完成紀錄」。</li></ol><small>進度存在這支手機的這個瀏覽器，換手機或用 LINE 開會看不到之前的紀錄。</small></details></div>
+ <div id="mapHead"><div class="mhL"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p></div><div class="campL"><a class="cl3" href="../events/1214-camp.html"><b>🌱 12/14–12/16 共學三日營</b><span>免費參加・LINE 群內圖文分享 →</span></a><a class="cl5" href="../greensprout/" target="_blank" rel="noopener"><b>📒 12/27–12/31 五日實踐營</b><span>購買綠芽加送・芸琪帶你動手整理 →</span></a></div><details class="howto"><summary>📘 玩法 3 步（第一次玩先看）</summary><ol><li><b>點一座島</b>：第 1 座迷霧港免費試玩，不用填資料。</li><li><b>看精選案件，按「✅ 我破案了」</b>蓋章。破完迷霧港填 1 分鐘問卷，領登船通行碼（30 天有效），其他島就能登。</li><li><b>集滿 8 格</b>：加 LINE 登記領書；也可以按「📮 送出我的完成紀錄」。</li></ol><small>進度存在這支手機的這個瀏覽器，換手機或用 LINE 開會看不到之前的紀錄。</small></details></div>
  <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
  <div class="mapbox" id="mapbox"></div>
  <div class="list" id="listView" style="display:none"></div>
