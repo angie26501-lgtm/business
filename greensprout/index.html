@@ -287,7 +287,7 @@ img,video{-webkit-user-drag:none;user-drag:none}
       <section class="camp-offer">
         <h3>金錢好生活芸琪共學圈三日營</h3>
         <p><b>2026/12/14（一）～12/16（三）</b> · 免費參加</p>
-        <p>每天固定時段在 LINE 群組分享圖文，發布後可回看複習。</p>
+        <p>每天晚上 8 點在 LINE 群組分享圖文，發布後可回看複習。</p>
       </section>
       <section class="camp-offer">
         <h3>金錢整理五日實踐營</h3>
@@ -434,7 +434,7 @@ img,video{-webkit-user-drag:none;user-drag:none}
     var pg=document.getElementById('prog');
     function upd(){var h=document.documentElement;var m=h.scrollHeight-innerHeight;pg.style.width=(m>0?Math.min(100,h.scrollTop/m*100):0)+'%'}
     addEventListener('scroll',upd,{passive:true});upd();
-    var cd=document.getElementById('cd'),st=new Date('2026-12-14T00:00:00+08:00'),en=new Date('2027-01-01T00:00:00+08:00');
+    var cd=document.getElementById('cd'),st=new Date('2026-12-14T20:00:00+08:00'),en=new Date('2027-01-01T00:00:00+08:00');
     function tick(){var now=new Date();if(now<st){var ms=st-now,d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4);cd.textContent='⏰ 12 月梯次 12/14 開營，倒數 '+(d>0?d+' 天 ':'')+h+' 小時 '+mi+' 分';}else if(now<en){cd.textContent='🔥 12 月共學營進行中（三日營 12/14–16・五日營 12/27–31）';}else{cd.textContent='';}}
     tick();setInterval(tick,30000);
   })();
@@ -474,14 +474,14 @@ img,video{-webkit-user-drag:none;user-drag:none}
 <script>
 (function(){var el=document.getElementById('cdTop');if(!el)return;
 var D=function(x){return new Date(x+'T00:00:00+08:00')};
-var P=[[D('2026-12-14'),'🌱 <b>金錢好生活芸琪共學圈三日營</b><span class="s2">12/14（一）開營倒數</span>',''],
+var P=[[new Date('2026-12-14T20:00:00+08:00'),'🌱 <b>金錢好生活芸琪共學圈三日營</b><span class="s2">12/14（一）晚上 8 點開營倒數</span>',''],
 [D('2026-12-17'),'<span>🔥 三日營進行中（12/14–12/16）</span><span class="s2"><b>五日實踐營</b> 12/27 開營倒數</span>','2026-12-27'],
 [D('2026-12-27'),'🌱 <b>金錢整理五日實踐營</b><span class="s2">12/27（日）開營倒數</span>',''],
 [D('2027-01-01'),'🔥 <b>金錢整理五日實踐營</b>進行中（12/27–12/31）<span class="s2">結束倒數</span>','']];
 var p2=function(n){return (n<10?'0':'')+n};
 function tick(){var now=new Date(),cur=null;for(var i=0;i<P.length;i++){if(now<P[i][0]){cur=P[i];break}}
 if(!cur){el.style.display='none';return}
-var tg=cur[2]?D(cur[2]):cur[0];if(i===1&&now<D('2026-12-14'))tg=cur[0];
+var tg=cur[2]?D(cur[2]):cur[0];if(i===1&&now<new Date('2026-12-14T20:00:00+08:00'))tg=cur[0];
 var ms=Math.max(0,tg-now);
 document.getElementById('cdTopT').innerHTML=cur[1];
 document.getElementById('cdD').textContent=Math.floor(ms/864e5);
