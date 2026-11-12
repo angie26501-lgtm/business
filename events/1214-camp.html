@@ -52,6 +52,7 @@ input:focus,select:focus{border-color:var(--or);outline:none}
 .steps li:before{content:counter(s);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--line);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
 .code{background:var(--gl);border-radius:12px;padding:12px;text-align:center;cursor:pointer;margin-top:10px}
 .code b{font-size:20px;color:var(--or);letter-spacing:1px}
+.group-message{display:block;width:100%;resize:vertical;font-family:inherit;border:1px solid #ddd}
 .msg{white-space:pre-wrap;background:#f6f6f6;border-radius:10px;padding:12px;font-size:14px;margin-top:8px}
 .qr{width:180px;margin:12px auto 4px;background:#fff;padding:8px;border-radius:10px;border:1px solid #eee}
 .qr svg{width:100%;height:auto;display:block}
@@ -106,7 +107,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   .opt{padding:14px 16px}
   .opt:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(240,120,24,.15)}
   .opt{transition:.15s}
-  #pForm section,#pDone section,#pEnd section{max-width:620px;margin-left:auto;margin-right:auto}
+  #pForm section,#pGroup section,#pDone section,#pEnd section{max-width:620px;margin-left:auto;margin-right:auto}
   .sticky{display:none!important}
   section{padding:26px}
   .who{gap:18px}
@@ -184,6 +185,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <h2>這次想怎麼了解？</h2>
   <div class="choose">
     <a class="opt" href="https://lin.ee/npxE20G"><b>💬 加官方 LINE 報名</b><small>開啟官方 LINE 聊天室，輸入並送出關鍵字「三日營」。</small></a>
+    <button type="button" class="opt" onclick="go('group')"><b>🌱 加入 LINE 共學圈</b><small>填寫簡短問卷，複製招呼文字，加入社群後貼上。</small></button>
     <button class="opt" onclick="go('mail')"><b>✉️ Email 報名</b><small>填寫聯絡資料與簡短問卷，送出後可查看收件確認</small></button>
     <button class="opt" onclick="go('one')"><b>☕ 預約 1 對 1 財務對話</b><small>30 分鐘，和財顧芸聊聊你最在意的財務問題</small></button>
   </div>
@@ -196,6 +198,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 <section>
   <button class="back" onclick="home()">← 返回選擇</button>
   <h2 id="fTitle">報名三日分享會</h2>
+  <div id="contactFields">
   <label for="nm">您的稱呼 *</label>
   <input id="nm" autocomplete="name" placeholder="例：王小美">
   <div class="err" id="eNm">請填寫稱呼</div>
@@ -205,6 +208,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <label for="em" id="emL">電子信箱 *</label>
   <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="請輸入你的電子信箱">
   <div class="err" id="eEm">Email 格式錯誤</div>
+  </div>
   <div id="mailSurvey" class="hide">
     <h3>報名前小問卷</h3>
     <fieldset id="mailTopic" class="survey-options" aria-describedby="eMailTopic">
@@ -239,7 +243,20 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   </div>
   <button class="btn" id="fBtn" onclick="submitF()">下一步：到 LINE 完成報名</button>
   <a class="btn ghost hide" id="directBooking" href="https://line.me/R/oaMessage/%40qpk4617k/?%E4%B8%80%E5%B0%8D%E4%B8%80">直接用 LINE 預約</a>
+  <p class="note" id="groupNote" hidden>請只填想和社群分享的內容，例如想了解的主題。聯絡資料請留在私訊。</p>
   <p class="note"><span id="pdNote">您填寫的資料僅用於本次活動通知與聯繫，不會提供給第三方。</span></p>
+</section>
+</div>
+
+<div id="pGroup" class="hide">
+<section>
+  <button type="button" class="back" onclick="go('group')">← 返回修改答案</button>
+  <h2 id="groupTitle" tabindex="-1">準備好跟共學圈打招呼</h2>
+  <p>先複製下方文字，再開啟 LINE 邀請頁。加入後，在社群聊天室貼上並送出。用電腦瀏覽時，也可用手機掃描邀請頁上的 QR Code。</p>
+  <label for="groupMessage">你的招呼文字</label>
+  <textarea class="msg group-message" id="groupMessage" rows="5" readonly></textarea>
+  <button type="button" class="btn ghost" onclick="cp(document.getElementById('groupMessage').value,'已複製招呼文字，加入社群後就能貼上')">複製招呼文字</button>
+  <a class="btn line" href="https://line.me/ti/g2/owx--E62Kv3ShpyuXFXSPmUn0TM8i1Ej_hHmXw">開啟 LINE 共學圈邀請</a>
 </section>
 </div>
 
@@ -297,16 +314,20 @@ var EVENT=new Date('2026-12-14T20:00:00+08:00'), END=new Date('2026-12-17T00:00:
 var mode='live', code='';
 var src=(new URLSearchParams(location.search).get('source')||'').replace(/[^\w\-]/g,'').slice(0,20);
 function $(i){return document.getElementById(i)}
-function show(p){['pMain','pForm','pDone','pEnd'].forEach(function(x){$(x).classList.toggle('hide',x!==p)});$('stk').style.display=p==='pMain'?'':'none';scrollTo(0,0)}
+function show(p){['pMain','pForm','pGroup','pDone','pEnd'].forEach(function(x){$(x).classList.toggle('hide',x!==p)});$('stk').style.display=p==='pMain'?'':'none';scrollTo(0,0)}
 function home(){show(isEnd()?'pEnd':'pMain')}
 function isEnd(){return new URLSearchParams(location.search).get('end')==='thanks'||new Date()>=END}
 function toChoose(){$('sChoose').scrollIntoView({behavior:'smooth'})}
 var KW='三日營';
 function setKW(k){KW=k;document.querySelectorAll('.kwv').forEach(function(e){e.textContent=k})}
 function go(m){mode=m;
-  $('fTitle').textContent=m==='mail'?'Email 報名三日分享會':'預約 1 對 1 財務對話（30 分鐘）';
-  $('fBtn').textContent=m==='mail'?'送出 Email 報名':'下一步：到 LINE 完成預約';
-  $('mailSurvey').classList.toggle('hide',m!=='mail');
+  var group=m==='group';
+  $('contactFields').classList.toggle('hide',group);
+  $('pdNote').parentElement.hidden=group;
+  $('groupNote').hidden=!group;
+  $('fTitle').textContent=group?'加入 LINE 共學圈前的小問卷':m==='mail'?'Email 報名三日分享會':'預約 1 對 1 財務對話（30 分鐘）';
+  $('fBtn').textContent=group?'產生招呼文字':m==='mail'?'送出 Email 報名':'下一步：到 LINE 完成預約';
+  $('mailSurvey').classList.toggle('hide',m==='one');
   $('directBooking').classList.toggle('hide',m!=='one');
   $('oneBox').classList.toggle('hide',m!=='one');show('pForm')}
 $('mailTopic').addEventListener('change',function(event){
@@ -318,29 +339,38 @@ $('mailTopic').addEventListener('change',function(event){
 
 });
 function submitF(){
+  var group=mode==='group';
   var nm=$('nm').value.trim(), ph=$('ph').value.replace(/\D/g,''), ok=true;
   $('eNm').style.display=nm?'none':'block'; if(!nm)ok=false;
   var pOk=/^09\d{8}$/.test(ph); $('ePh').style.display=pOk?'none':'block'; if(!pOk)ok=false;
   var em=$('em').value.trim(), eOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em); $('eEm').style.display=eOk?'none':'block'; if(!eOk)ok=false;
   var selectedTopic=document.querySelector('input[name="mailTopic"]:checked');
   var mailTopic=selectedTopic?selectedTopic.value:'';
-  var topicOk=mode!=='mail'||Boolean(mailTopic);
+  var topicOk=mode==='one'||Boolean(mailTopic);
   $('eMailTopic').style.display=topicOk?'none':'block';
-  var isOther=mode==='mail'&&mailTopic==='other';
+  var isOther=mode!=='one'&&mailTopic==='other';
   var otherText=isOther?$('mailOther').value.trim():'';
   var otherOk=!isOther||Boolean(otherText);
   $('eMailOther').style.display=otherOk?'none':'block';
-  if(!ok||!topicOk||!otherOk){
-    if(!nm)$('nm').focus();
-    else if(!pOk)$('ph').focus();
-    else if(!eOk)$('em').focus();
+  if((!group&&!ok)||!topicOk||!otherOk){
+    if(!group&&!nm)$('nm').focus();
+    else if(!group&&!pOk)$('ph').focus();
+    else if(!group&&!eOk)$('em').focus();
     else if(!topicOk)document.querySelector('input[name="mailTopic"]').focus();
     else $('mailOther').focus();
     return;
   }
   if(isOther)mailTopic='其他：'+otherText;
+  var lifeWord=$('lifeWord').value.trim();
+  if(group){
+    var greeting=['大家好，我來參加 12/14 三日營！','這次我最想了解：'+mailTopic];
+    if(lifeWord)greeting.push('我最想擁有的生活，用一個詞形容：'+lifeWord);
+    $('groupMessage').value=greeting.join('\n');
+    show('pGroup');
+    $('groupTitle').focus();
+    return;
+  }
   if(mode==='mail'){
-    var lifeWord=$('lifeWord').value.trim();
     if(lifeWord)mailTopic+='｜最想擁有的生活：'+lifeWord;
   }
   code=(mode==='mail'?'M':'C')+'1214-'+ph.slice(-4)+(src?'-'+src:'');
@@ -355,7 +385,7 @@ function submitF(){
 function cp(t,m){
   var done=function(){toast(m)};
   if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,fb)}else fb();
-  function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){toast('請長按文字手動複製')}a.remove()}
+  function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{if(document.execCommand('copy'))done();else toast('請長按文字手動複製')}catch(e){toast('請長按文字手動複製')}a.remove()}
 }
 function autoCopy(){if(mode==='one')cp($('msg').textContent,'預約訊息已複製，到 LINE 貼上送出');else cp(KW,'已複製「'+KW+'」，到 LINE 貼上送出')}
 function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1800)}
@@ -364,7 +394,7 @@ function tick(){
   if(d>0){var h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
     $('cdt').textContent=(h>23?Math.floor(h/24)+' 天 ':'')+String(h%24).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
   else if(n<END){el.innerHTML='🔥 三日營進行中！到官方 LINE 送出「三日營」就能參加'}
-  else{el.innerHTML='本梯次三日營已結束，謝謝你的參與<a href="https://angie26501-lgtm.github.io/business/greensprout/" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">接著 12/27 五日實踐營 →</a>';if(!window._ended){window._ended=1;var c=['pForm','pDone'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
+  else{el.innerHTML='本梯次三日營已結束，謝謝你的參與<a href="https://angie26501-lgtm.github.io/business/greensprout/" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">接著 12/27 五日實踐營 →</a>';if(!window._ended){window._ended=1;var c=['pForm','pGroup','pDone'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
 }
 
 var CT='人生下半場・財務覺醒 3 日分享會｜金錢好生活芸琪共學圈三日營',
