@@ -149,7 +149,7 @@ function render(keep){
   h+='<div class="done"><div class="big">🎉</div><h1>完成囉！謝謝你'+(nkE?'，'+nkE:'')+'</h1><p class="sec">你的任務已經送出，芸琪收到了 🌱<br><span class="stamp">金錢好生活・芸琪共學圈｜'+stamp+' 完成</span></p><div class="days">'+["DAY1","DAY2","DAY3"].map(function(x){return '<span class="'+(dd2[x]?"ok":"")+'">'+x+(dd2[x]?" ✓":"")+'</span>';}).join("")+'</div>';
   var miss=["DAY1","DAY2","DAY3"].filter(function(x){return !dd2[x];});
   h+=miss.length?'<div class="note" style="text-align:left">還沒完成：'+miss.join("、")+'，按下面「再完成另一天」就能補上，三天都完成就能參加加碼抽獎 🎁</div>':'<div class="note" style="text-align:left">三天任務都完成了 👏 10/26（一）晚上 8 點加碼抽獎，祝你好運！</div>';
-  h+='<div class="shot"><p class="sq">📸 截圖這個畫面，讓芸琪知道你完成了！</p><p class="st">貼到共學圈群組，或私訊給芸琪都可以 😊<br>你的完成，也會鼓勵其他群友一起行動 💪</p><div class="gbtns"><a class="gy" href="https://reurl.cc/YmN3zl" target="_blank">👥 回到共學圈群組</a><a class="gn" style="color:var(--g)" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank">💬 私訊芸琪</a></div><p class="h" style="margin:6px 0 0">截圖方法：iPhone 同時按「側邊鍵＋音量上」；Android 同時按「電源鍵＋音量下」</p></div>';
+  h+='<div class="shot"><p class="sq">📸 截圖這個畫面，讓芸琪知道你完成了！</p><p class="st">貼到共學圈群組，或私訊給芸琪都可以 😊<br>你的完成，也會鼓勵其他群友一起行動 💪</p><div class="gbtns"><a class="gy" href="https://reurl.cc/YmN3zl" target="_blank">👥 回到共學圈群組</a><a class="gn" style="color:var(--g)" href="https://lin.ee/oOvyuwU" target="_blank">💬 到官方 LINE 私訊芸琪</a></div><p class="h" style="margin:6px 0 0">截圖方法：iPhone 同時按「側邊鍵＋音量上」；Android 同時按「電源鍵＋音量下」</p></div>';
   h+=packH(!miss.length);
   h+=greenH();
   h+='<p class="sec" style="display:none">回到群組，傳一個「✅ 完成」讓芸琪知道吧 💬</p>'+(miss.length?'<div class="nav"><button class="btn ghost" data-act="again" style="flex:1">再完成另一天</button></div>':'')+'</div>';
