@@ -235,6 +235,10 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
       <option value="富足"></option>
     </datalist>
   </div>
+  <div id="groupReferrerBox" class="hide">
+    <label for="groupReferrer">介紹人（選填）</label>
+    <input id="groupReferrer" type="text" maxlength="50" placeholder="請填介紹人的姓名或暱稱">
+  </div>
   <div id="oneBox" class="hide">
     <label for="tm">方便的時段</label>
     <select id="tm"><option>平日白天</option><option>平日晚上</option><option>週末白天</option><option>週末晚上</option></select>
@@ -323,6 +327,7 @@ function setKW(k){KW=k;document.querySelectorAll('.kwv').forEach(function(e){e.t
 function go(m){mode=m;
   var group=m==='group';
   $('contactFields').classList.toggle('hide',group);
+  $('groupReferrerBox').classList.toggle('hide',!group);
   $('pdNote').parentElement.hidden=group;
   $('groupNote').hidden=!group;
   $('fTitle').textContent=group?'加入 LINE 共學圈前的小問卷':m==='mail'?'Email 報名三日分享會':'預約 1 對 1 財務對話（30 分鐘）';
@@ -365,6 +370,8 @@ function submitF(){
   if(group){
     var greeting=['大家好，我來參加 12/14 三日營！','這次我最想了解：'+mailTopic];
     if(lifeWord)greeting.push('我最想擁有的生活，用一個詞形容：'+lifeWord);
+    var referrer=$('groupReferrer').value.trim();
+    if(referrer)greeting.push('介紹人：'+referrer);
     $('groupMessage').value=greeting.join('\n');
     show('pGroup');
     $('groupTitle').focus();
