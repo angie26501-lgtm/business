@@ -259,13 +259,15 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <button class="btn ghost" style="margin-top:14px" onclick="go('one')">☕ 直接填寫預約資料</button>
 </section>
 <section class="nextb" id="nextB">
+  <a href="1214-camp.html"><img src="1214-banner.jpg" alt="人生下半場 財務覺醒3日分享會｜12/14–12/16 陳芸琪 財顧芸｜活動免費參加" width="1733" height="908" loading="lazy" style="width:100%;height:auto;border-radius:14px;margin-bottom:12px;display:block"></a>
   <span class="k">下一梯次・芸琪帶領　預約中</span>
   <h2>把聽到的，動手整理成自己的財務 🌱</h2>
-  <div class="it">📅 <b>2026/12/14（一）～12/16（三）｜金錢好生活芸琪共學三日營</b><br>每天一則圖文，輕鬆學財商。</div>
-  <div class="it">📅 <b>2026/12/27（日）～12/31（四）｜金錢整理五日實踐營</b><br>每天 20 分鐘以內的影片＋小任務，搭車、做家事時也能邊聽邊學。</div>
+  <div class="it">📅 <b>2026/12/14（一）～12/16（三）｜金錢好生活芸琪共學三日營（免費參加）</b><br>每天一則圖文，輕鬆學財商。</div>
+  <div class="it">📅 <b>2026/12/27（日）～12/31（四）｜金錢整理五日實踐營（購買綠芽加送）</b><br>每天 20 分鐘以內的影片＋小任務，搭車、做家事時也能邊聽邊學。</div>
   <p class="ct" id="nbT"></p>
   <div class="n"><span><b id="nbD">0</b><small>天</small></span><span><b id="nbH">00</b><small>時</small></span><span><b id="nbM">00</b><small>分</small></span><span><b id="nbS">00</b><small>秒</small></span></div>
-  <a class="btn line" style="margin-top:16px" href="https://angie26501-lgtm.github.io/business/greensprout/" target="_blank" rel="noopener">看報名方式（綠芽推廣頁）</a>
+  <a class="btn line" style="margin-top:16px" href="1214-camp.html">免費報名 12/14 三日分享會</a>
+  <a class="btn ghost" style="margin-top:10px" href="https://angie26501-lgtm.github.io/business/greensprout/" target="_blank" rel="noopener">看五日實踐營（綠芽推廣頁）</a>
 </section>
 <script>
 (function(){var el=document.getElementById('nextB');var D=function(x){return new Date(x+'T00:00:00+08:00')};
@@ -344,7 +346,7 @@ function tick(){
   if(d>0){var h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
     $('cdt').textContent=(h>23?Math.floor(h/24)+' 天 ':'')+String(h%24).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
   else if(n<END){el.innerHTML='🔴 直播進行中，報名後在 LINE 索取連結'}
-  else{el.innerHTML='本場直播已結束，感謝您的蒞臨<a href="#nextB" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">下一梯次 12/14 開營 ↓</a>';if(!window._ended){window._ended=1;var c=['pForm','pDone','pMail'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
+  else{el.innerHTML='本場直播已結束，感謝您的蒞臨<a href="1214-camp.html" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">下一梯次 12/14 開營 ↓</a>';if(!window._ended){window._ended=1;var c=['pForm','pDone','pMail'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
 }
 
 var CT='人生下半場，你的財務準備好了嗎？｜菁羚老師 Zoom 公開課',
@@ -364,7 +366,7 @@ function sendGF(r){if(!GF.url)return;try{var b=new URLSearchParams();for(var k i
   fetch(GF.url,{method:'POST',mode:'no-cors',body:b})}catch(e){}}
 function mailIt(r){var sub='【Email 報名】10/25 人生下半場公開課｜'+r.name;
  location.href='mailto:'+MAILTO+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent('我要報名今晚 8 點顏菁羚老師 Zoom 公開課\n稱呼：'+r.name+'\n手機：'+r.phone+'\nEmail：'+r.email+'\n報名編號：'+r.code+'\n\n請將 Zoom 連結寄到我的信箱，謝謝！');}
-if(isEnd()){window._ended=1;$('cd').innerHTML='本場直播已結束，感謝您的蒞臨<a href="#nextB" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">下一梯次 12/14 開營 ↓</a>';show('pEnd')}
+if(isEnd()){window._ended=1;$('cd').innerHTML='本場直播已結束，感謝您的蒞臨<a href="1214-camp.html" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">下一梯次 12/14 開營 ↓</a>';show('pEnd')}
 tick();setInterval(tick,1000);
 </script>
 </body>
