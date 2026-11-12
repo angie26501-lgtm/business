@@ -367,7 +367,7 @@ body.lite .topbtns a[href*="/quiz/"]{display:none}
 <div class="topbanner"><img src="img/cfo-banner.jpg" alt="家庭財務長養成計畫：收支管理、資產布局、風險保障、照護準備、傳承規劃" width="1600" height="533"></div>
 <section id="liteBox" aria-label="新朋友 3 關快速體驗"></section>
 <section id="vMap">
- <div id="mapHead"><div class="mhL"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p></div><div class="campL"><a class="cl3" href="../events/1214-camp.html"><b>🌱 12/14–12/16 共學圈三日營</b><span>免費參加・LINE 群內圖文分享 →</span></a><a class="cl5" href="../greensprout/" target="_blank" rel="noopener"><b>📒 12/27–12/31 五日實踐營</b><span>購買綠芽加送・芸琪帶你動手整理 →</span></a></div><details class="howto"><summary>📘 玩法 3 步（第一次玩先看）</summary><ol><li><b>點一座島</b>：第 1 座迷霧港免費試玩，不用填資料。</li><li><b>看精選案件，按「✅ 我破案了」</b>蓋章。破完迷霧港填 1 分鐘問卷，領登船通行碼（30 天有效），其他島就能登。</li><li><b>集滿 8 格</b>：加 LINE 登記領書；也可以按「📮 送出我的完成紀錄」。</li></ol><small>進度存在這支手機的這個瀏覽器，換手機或用 LINE 開會看不到之前的紀錄。</small></details></div>
+ <div id="mapHead"><div class="mhL"><span class="badge">馥芸財富成長計畫｜家庭財務長養成航記</span><h1>財富航海群島</h1><p class="vision">🌱 從財務覺醒開始，成為有生活選擇權的家庭財務長。</p></div><div class="campL"><a class="cl3" href="../events/1214-camp.html"><b>🌱 12/14–12/16 共學圈三日營</b><span>免費參加・LINE 群內圖文分享 →</span></a><a class="cl5" href="../greensprout/" target="_blank" rel="noopener"><b>📒 12/27–12/31 金錢整理五日實踐營</b></a></div><details class="howto"><summary>📘 玩法 3 步（第一次玩先看）</summary><ol><li><b>點一座島</b>：第 1 座迷霧港免費試玩，不用填資料。</li><li><b>看精選案件，按「✅ 我破案了」</b>蓋章。破完迷霧港填 1 分鐘問卷，領登船通行碼（30 天有效），其他島就能登。</li><li><b>集滿 8 格</b>：加 LINE 登記領書；也可以按「📮 送出我的完成紀錄」。</li></ol><small>進度存在這支手機的這個瀏覽器，換手機或用 LINE 開會看不到之前的紀錄。</small></details></div>
  <div id="liteMapH"><b>🗺️ 完整版航海圖｜學員 8 座島</b><span>點任何一座島，就切換到完整版開始航行</span></div>
  <div class="mapbox" id="mapbox"></div>
  <div class="list" id="listView" style="display:none"></div>
@@ -910,7 +910,7 @@ function renderLite(){const b=$('#liteBox');if(!b)return;const n=liteDone(),nx=L
  <div class="lt-g">${LITE.map((id,k)=>`<button type="button" class="lt-c${liteIsDone(id)?' on':''}${id===nx?' lt-next':''}" data-lite="${id}"><i class="n">第 ${k+1} 關${liteIsDone(id)?'・已破案 ✓':''}</i><b>${LITE_NM[id]}</b><span>${LITE_TIP[id]}</span><span style="display:block;margin-top:4px;color:#8a5a12">${LITE_NEXT[id]}</span></button>`).join('')}</div>
  <div class="lt-prog"><i style="width:${n/3*100}%"></i></div><div style="font-size:13px;color:#5f7680">已完成 ${n} / 3 關</div>
  ${n>=3?consultTicket():''}
- <div class="campL" style="margin:12px 0"><a class="cl3" href="../events/1214-camp.html"><b>🌱 12/14–12/16 共學圈三日營</b><span>免費參加・LINE 群內圖文分享 →</span></a><a class="cl5" href="../greensprout/" target="_blank" rel="noopener"><b>📒 12/27–12/31 五日實踐營</b><span>購買綠芽加送・芸琪帶你動手整理 →</span></a></div>
+ <div class="campL" style="margin:12px 0"><a class="cl3" href="../events/1214-camp.html"><b>🌱 12/14–12/16 共學圈三日營</b><span>免費參加・LINE 群內圖文分享 →</span></a><a class="cl5" href="../greensprout/" target="_blank" rel="noopener"><b>📒 12/27–12/31 金錢整理五日實踐營</b></a></div>
  <details class="lt-yr"><summary>🗓️ 年底財務回看：別把今年的金錢狀態帶進 2027（點開看）</summary><img src="img/yearend2027.jpg" alt="年底財務回看：別把今年的金錢狀態，直接帶進 2027" loading="lazy"></details>
  <div class="lt-me"><a class="btn" href="https://reurl.cc/EYxQxk" target="_blank" rel="noopener">👩‍💼 認識財顧芸</a><a class="btn" href="https://angie26501-lgtm.github.io/private/lwd/lwd-plans.html" target="_blank" rel="noopener">🧩 服務項目</a></div>
  <div class="lt-foot"><span>已經是芸琪的學員？</span><button class="btn" type="button" id="goFull">🎓 學員・完整版（8 座島）→</button></div>`;
