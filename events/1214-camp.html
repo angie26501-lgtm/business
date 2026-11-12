@@ -195,10 +195,10 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <input id="nm" autocomplete="name" placeholder="例：王小美">
   <div class="err" id="eNm">請填寫稱呼</div>
   <label for="ph">手機號碼 *</label>
-  <input id="ph" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="09xxxxxxxx">
+  <input id="ph" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="請輸入 09 開頭的 10 碼手機號碼">
   <div class="err" id="ePh">請填寫正確的臺灣手機號碼（09 開頭 10 碼）</div>
   <label for="em" id="emL">電子信箱 *</label>
-  <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="example@gmail.com">
+  <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="請輸入你的電子信箱">
   <div class="err" id="eEm">Email 格式錯誤</div>
   <div id="mailSurvey" class="hide">
     <h3>報名前小問卷</h3>
@@ -234,6 +234,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
     <select id="tp"><option>退休準備夠不夠</option><option>長輩照顧與醫療費用</option><option>保單整理與檢視</option><option>資產傳承安排</option><option>還不確定，想先聊聊</option></select>
   </div>
   <button class="btn" id="fBtn" onclick="submitF()">下一步：到 LINE 完成報名</button>
+  <a class="btn ghost hide" id="directBooking" href="https://line.me/R/oaMessage/%40qpk4617k/?%E4%B8%80%E5%B0%8D%E4%B8%80">直接用 LINE 預約</a>
   <p class="note"><span id="pdNote">您填寫的資料僅用於本次活動通知與聯繫，不會提供給第三方。</span></p>
 </section>
 </div>
@@ -255,7 +256,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <div class="msg" id="msg"></div>
   <button class="btn ghost" onclick="cp(document.getElementById('msg').textContent,'報名訊息已複製')">📋 複製預約訊息（含資料）</button>
   </div>
-  <a class="btn line" href="https://lin.ee/oOvyuwU" target="_blank" rel="noopener" onclick="autoCopy()">加入官方 LINE</a>
+  <a class="btn line" href="https://line.me/R/oaMessage/%40qpk4617k/?%E4%B8%80%E5%B0%8D%E4%B8%80" target="_blank" rel="noopener" onclick="autoCopy()">開啟官方 LINE 聊天室</a>
   <div id="noLine"><p style="text-align:center;margin:16px 0 0;font-size:14px;color:var(--mute)">沒有 LINE 嗎？</p>
   <button class="btn ghost" style="margin-top:6px" onclick="go('mail')">✉️ 改用 Email 報名</button></div>
   <div class="desk">
@@ -302,6 +303,7 @@ function go(m){mode=m;
   $('fTitle').textContent=m==='mail'?'Email 報名三日分享會':'預約 1 對 1 財務對話（30 分鐘）';
   $('fBtn').textContent=m==='mail'?'送出 Email 報名':'下一步：到 LINE 完成預約';
   $('mailSurvey').classList.toggle('hide',m!=='mail');
+  $('directBooking').classList.toggle('hide',m!=='one');
   $('oneBox').classList.toggle('hide',m!=='one');show('pForm')}
 $('mailTopic').addEventListener('change',function(){
   var isOther=this.value==='other';
@@ -323,7 +325,14 @@ function submitF(){
   var otherText=isOther?$('mailOther').value.trim():'';
   var otherOk=!isOther||Boolean(otherText);
   $('eMailOther').style.display=otherOk?'none':'block';
-  if(!ok||!topicOk||!otherOk)return;
+  if(!ok||!topicOk||!otherOk){
+    if(!nm)$('nm').focus();
+    else if(!pOk)$('ph').focus();
+    else if(!eOk)$('em').focus();
+    else if(!topicOk)$('mailTopic').focus();
+    else $('mailOther').focus();
+    return;
+  }
   if(isOther)mailTopic='其他：'+otherText;
   if(mode==='mail'){
     var lifeWord=$('lifeWord').value.trim();
