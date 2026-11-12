@@ -78,6 +78,11 @@ input:focus,select:focus{border-color:var(--or);outline:none}
 .end .lead b{color:var(--or)}
 .end .qrbox{background:var(--cream);border-radius:16px;padding:16px;margin-top:16px}
 .end .qrbox .qr{width:200px}
+.survey-options{min-width:0;margin:14px 0 0;padding:0;border:0}
+.survey-options legend{font-weight:600;margin-bottom:6px}
+.survey-options label{display:flex;align-items:center;gap:10px;min-height:44px;margin:6px 0;padding:8px 12px;border:1px solid #ddd;border-radius:10px;cursor:pointer}
+.survey-options input{width:auto;flex:none;margin:0;accent-color:var(--or)}
+.survey-options label:focus-within,.survey-options label:has(input:checked){border-color:var(--or);background:#fff7eb}
 .hide{display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:99px;font-size:14px;opacity:0;transition:.3s;pointer-events:none}
 .toast.on{opacity:1}
@@ -202,15 +207,14 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <div class="err" id="eEm">Email 格式錯誤</div>
   <div id="mailSurvey" class="hide">
     <h3>報名前小問卷</h3>
-    <label for="mailTopic">這次參加三日營，你最想了解什麼？ *</label>
-    <select id="mailTopic">
-      <option value="">請選擇一項</option>
-      <option>退休準備與未來生活費</option>
-      <option>家人照顧與可運用的資源</option>
-      <option>整理收支、資產與負債</option>
-      <option>還不確定，想先從基本觀念開始</option>
-      <option value="other">其他（請自行填寫）</option>
-    </select>
+    <fieldset id="mailTopic" class="survey-options" aria-describedby="eMailTopic">
+      <legend>這次參加三日營，你最想了解什麼？ *</legend>
+      <label><input type="radio" name="mailTopic" value="退休準備與未來生活費">退休準備與未來生活費</label>
+      <label><input type="radio" name="mailTopic" value="家人照顧與可運用的資源">家人照顧與可運用的資源</label>
+      <label><input type="radio" name="mailTopic" value="整理收支、資產與負債">整理收支、資產與負債</label>
+      <label><input type="radio" name="mailTopic" value="還不確定，想先從基本觀念開始">還不確定，想先從基本觀念開始</label>
+      <label><input type="radio" name="mailTopic" value="other">其他（請自行填寫）</label>
+    </fieldset>
     <div id="mailOtherBox" class="hide">
       <label for="mailOther">請填寫你想了解的主題 *</label>
       <input id="mailOther" type="text" maxlength="200" placeholder="例如：如何規劃一筆緊急預備金">
@@ -305,20 +309,21 @@ function go(m){mode=m;
   $('mailSurvey').classList.toggle('hide',m!=='mail');
   $('directBooking').classList.toggle('hide',m!=='one');
   $('oneBox').classList.toggle('hide',m!=='one');show('pForm')}
-$('mailTopic').addEventListener('change',function(){
-  var isOther=this.value==='other';
+$('mailTopic').addEventListener('change',function(event){
+  var isOther=event.target.value==='other';
   $('mailOtherBox').classList.toggle('hide',!isOther);
   $('mailOther').required=isOther;
   $('eMailTopic').style.display='none';
   $('eMailOther').style.display='none';
-  if(isOther)$('mailOther').focus();
+
 });
 function submitF(){
   var nm=$('nm').value.trim(), ph=$('ph').value.replace(/\D/g,''), ok=true;
   $('eNm').style.display=nm?'none':'block'; if(!nm)ok=false;
   var pOk=/^09\d{8}$/.test(ph); $('ePh').style.display=pOk?'none':'block'; if(!pOk)ok=false;
   var em=$('em').value.trim(), eOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em); $('eEm').style.display=eOk?'none':'block'; if(!eOk)ok=false;
-  var mailTopic=$('mailTopic').value;
+  var selectedTopic=document.querySelector('input[name="mailTopic"]:checked');
+  var mailTopic=selectedTopic?selectedTopic.value:'';
   var topicOk=mode!=='mail'||Boolean(mailTopic);
   $('eMailTopic').style.display=topicOk?'none':'block';
   var isOther=mode==='mail'&&mailTopic==='other';
@@ -329,7 +334,7 @@ function submitF(){
     if(!nm)$('nm').focus();
     else if(!pOk)$('ph').focus();
     else if(!eOk)$('em').focus();
-    else if(!topicOk)$('mailTopic').focus();
+    else if(!topicOk)document.querySelector('input[name="mailTopic"]').focus();
     else $('mailOther').focus();
     return;
   }
