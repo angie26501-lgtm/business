@@ -264,10 +264,10 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 <section>
   <button type="button" class="back" onclick="go('group')">← 返回修改答案</button>
   <h2 id="groupTitle" tabindex="-1">準備好跟共學圈打招呼</h2>
-  <p>複製下方的招呼文字，回到你已加入的 LINE 共學圈聊天室，貼上並送出。</p>
+  <p>複製下方的招呼文字，貼到 LINE 共學圈聊天室。送出前，可以依自己的現況修改，讓大家更認識你。</p>
   <label for="groupMessage">你的招呼文字</label>
   <textarea class="msg group-message" id="groupMessage" rows="5" readonly></textarea>
-  <button type="button" class="btn ghost" onclick="cp(document.getElementById('groupMessage').value,'已複製招呼文字，請回共學圈聊天室貼上送出')">複製招呼文字</button>
+  <button type="button" class="btn ghost" onclick="cp(document.getElementById('groupMessage').value,'已複製，回共學圈貼上後可以先修改再送出')">複製招呼文字</button>
 </section>
 </div>
 
