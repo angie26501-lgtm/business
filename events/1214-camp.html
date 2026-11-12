@@ -185,7 +185,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   <h2>這次想怎麼了解？</h2>
   <div class="choose">
     <a class="opt" href="https://lin.ee/npxE20G"><b>💬 加官方 LINE 報名</b><small>開啟官方 LINE 聊天室，輸入並送出關鍵字「三日營」。</small></a>
-    <button type="button" class="opt" onclick="go('group')"><b>🌱 加入 LINE 共學圈</b><small>填寫簡短問卷，複製招呼文字，加入社群後貼上。</small></button>
+    <button type="button" class="opt" onclick="go('group')"><b>🌱 加入 LINE 共學圈</b><small>填寫簡短問卷，把招呼文字傳給芸琪，再等候共學圈邀請。</small></button>
     <button class="opt" onclick="go('mail')"><b>✉️ Email 報名</b><small>填寫聯絡資料與簡短問卷，送出後可查看收件確認</small></button>
     <button class="opt" onclick="go('one')"><b>☕ 預約 1 對 1 財務對話</b><small>30 分鐘，和財顧芸聊聊你最在意的財務問題</small></button>
   </div>
@@ -255,12 +255,12 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 <div id="pGroup" class="hide">
 <section>
   <button type="button" class="back" onclick="go('group')">← 返回修改答案</button>
-  <h2 id="groupTitle" tabindex="-1">準備好跟共學圈打招呼</h2>
-  <p>先複製下方文字，再開啟 LINE 邀請頁。加入後，在社群聊天室貼上並送出。用電腦瀏覽時，也可用手機掃描邀請頁上的 QR Code。</p>
+  <h2 id="groupTitle" tabindex="-1">把招呼文字傳給芸琪</h2>
+  <p>先複製下方文字，再開啟 LINE 一對一聊天室，貼上並送出。芸琪會在聊天室傳送共學圈邀請。</p>
   <label for="groupMessage">你的招呼文字</label>
   <textarea class="msg group-message" id="groupMessage" rows="5" readonly></textarea>
-  <button type="button" class="btn ghost" onclick="cp(document.getElementById('groupMessage').value,'已複製招呼文字，加入社群後就能貼上')">複製招呼文字</button>
-  <a class="btn line" href="https://line.me/ti/g2/owx--E62Kv3ShpyuXFXSPmUn0TM8i1Ej_hHmXw">開啟 LINE 共學圈邀請</a>
+  <button type="button" class="btn ghost" onclick="cp(document.getElementById('groupMessage').value,'已複製招呼文字，請到 LINE 聊天室貼上送出')">複製招呼文字</button>
+  <a class="btn line" href="https://lin.ee/rm7eLVa">開啟 LINE 一對一聊天室</a>
 </section>
 </div>
 
@@ -368,7 +368,7 @@ function submitF(){
   if(isOther)mailTopic='其他：'+otherText;
   var lifeWord=$('lifeWord').value.trim();
   if(group){
-    var greeting=['大家好，我來參加 12/14 三日營！','這次我最想了解：'+mailTopic];
+    var greeting=['芸琪你好，我想參加 12/14 三日營，請邀請我加入共學圈。','這次我最想了解：'+mailTopic];
     if(lifeWord)greeting.push('我最想擁有的生活，用一個詞形容：'+lifeWord);
     var referrer=$('groupReferrer').value.trim();
     if(referrer)greeting.push('介紹人：'+referrer);
