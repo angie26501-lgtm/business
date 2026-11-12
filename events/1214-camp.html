@@ -34,7 +34,7 @@ h2{font-size:19px;margin:0 0 12px;color:var(--g)}
 .who p{margin:0;font-size:14px;color:var(--mute)}
 .who b{color:var(--ink);font-size:16px}
 .choose{display:grid;gap:12px}
-.opt{border:2px solid #f6dcb0;border-radius:14px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit;width:100%}
+.opt{display:block;text-decoration:none;border:2px solid #f6dcb0;border-radius:14px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit;width:100%}
 .opt:hover,.opt:focus{border-color:var(--or);outline:none}
 .opt b{display:block;font-size:17px;color:var(--g)}
 .opt small{color:var(--mute)}
@@ -101,7 +101,7 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
   .opt{padding:14px 16px}
   .opt:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(240,120,24,.15)}
   .opt{transition:.15s}
-  #pForm section,#pDone section,#pMail section,#pEnd section{max-width:620px;margin-left:auto;margin-right:auto}
+  #pForm section,#pDone section,#pEnd section{max-width:620px;margin-left:auto;margin-right:auto}
   .sticky{display:none!important}
   section{padding:26px}
   .who{gap:18px}
@@ -178,8 +178,8 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 <section id="sChoose">
   <h2>這次想怎麼了解？</h2>
   <div class="choose">
-    <button class="opt" onclick="go('line')"><b>💬 加 LINE 報名（最快）</b><small>加入官方 LINE，留言關鍵字「三日營」，收到群組邀請</small></button>
-    <button class="opt" onclick="go('mail')"><b>✉️ Email 報名</b><small>先留資料，我們會把加入方式寄到你的信箱</small></button>
+    <a class="opt" href="https://line.me/R/oaMessage/%40qpk4617k/?%E4%B8%89%E6%97%A5%E7%87%9F"><b>💬 加 LINE 報名（最快）</b><small>開啟官方 LINE 一對一聊天室，送出「三日營」領取群組邀請</small></a>
+    <button class="opt" onclick="go('mail')"><b>✉️ Email 報名</b><small>填寫 Email 與聯絡資料，送出後可查看收件確認</small></button>
     <button class="opt" onclick="go('one')"><b>☕ 預約 1 對 1 財務對話</b><small>30 分鐘，和財顧芸聊聊你最在意的財務問題</small></button>
   </div>
 </section>
@@ -254,20 +254,6 @@ footer{text-align:center;font-size:12px;color:var(--mute);margin-top:24px}
 </section>
 </div>
 
-<div id="pMail" class="hide">
-<section>
-  <h2>🎉 Email 報名完成！</h2>
-  <p style="margin:0">謝謝 <b id="mName"></b>，你的報名已送出。<br>開營前，我們會把 <b>LINE 群組加入方式</b> 寄到：</p>
-  <div class="code"><b id="mMail" style="font-size:16px;letter-spacing:0"></b></div>
-  <p class="note" id="mWarn">沒收到信的話，請查看「垃圾郵件」或「促銷內容」資料夾。</p>
-  <div style="margin-top:14px"><p style="margin:0 0 6px;font-weight:600">📅 順手加入行事曆，開營不會忘記</p>
-  <div class="calm on"><a href="#" onclick="gcal();return false">Google 行事曆（Android）</a><a href="#" onclick="ics();return false">iPhone／Outlook 行事曆</a></div></div>
-  <p style="text-align:center;margin:18px 0 0;font-size:14px;color:var(--mute)">加 LINE 最快收到群組邀請</p>
-  <button class="btn line" style="margin-top:6px" onclick="go('line')">加 LINE 報名三日營</button>
-  <button class="btn ghost" style="margin-top:12px" onclick="home()">返回首頁</button>
-</section>
-</div>
-
 <footer>馥芸財富學苑・財顧芸｜家族傳承生活顧問<br>本活動為財務觀念分享，不涉及特定商品推介</footer>
 </div>
 
@@ -279,14 +265,13 @@ var EVENT=new Date('2026-12-14T00:00:00+08:00'), END=new Date('2026-12-17T00:00:
 var mode='live', code='';
 var src=(new URLSearchParams(location.search).get('source')||'').replace(/[^\w\-]/g,'').slice(0,20);
 function $(i){return document.getElementById(i)}
-function show(p){['pMain','pForm','pDone','pMail','pEnd'].forEach(function(x){$(x).classList.toggle('hide',x!==p)});$('stk').style.display=p==='pMain'?'':'none';scrollTo(0,0)}
+function show(p){['pMain','pForm','pDone','pEnd'].forEach(function(x){$(x).classList.toggle('hide',x!==p)});$('stk').style.display=p==='pMain'?'':'none';scrollTo(0,0)}
 function home(){show(isEnd()?'pEnd':'pMain')}
 function isEnd(){return new URLSearchParams(location.search).get('end')==='thanks'||new Date()>=END}
 function toChoose(){$('sChoose').scrollIntoView({behavior:'smooth'})}
 var KW='三日營';
 function setKW(k){KW=k;document.querySelectorAll('.kwv').forEach(function(e){e.textContent=k})}
 function go(m){mode=m;
-  if(m==='line'){setKW('三日營');$('dTitle').textContent='加 LINE 報名三日營';$('dLead').innerHTML='加入官方 LINE 後<b>留言「三日營」</b>，就完成報名，我們會用 LINE 傳群組邀請與開營提醒給你。';$('dStep3').textContent='收到群組邀請與開營提醒';$('dataBox').classList.add('hide');$('noLine').classList.remove('hide');show('pDone');return}
   $('fTitle').textContent=m==='mail'?'Email 報名三日分享會':'預約 1 對 1 財務對話（30 分鐘）';
   $('fBtn').textContent=m==='mail'?'送出 Email 報名':'下一步：到 LINE 完成預約';
   $('oneBox').classList.toggle('hide',m!=='one');show('pForm')}
@@ -298,10 +283,8 @@ function submitF(){
   if(!ok)return;
   code=(mode==='mail'?'M':'C')+'1214-'+ph.slice(-4)+(src?'-'+src:'');
   var rec={event:EVENT_NAME,type:mode==='mail'?'Email 報名三日營':'預約 1 對 1 財務對話',name:nm,phone:ph,email:em,time:mode==='one'?$('tm').value:'',topic:mode==='one'?$('tp').value:'',code:code,src:src};
+  if(mode==='mail'){submitEmailRegistration(rec);return}
   sendGF(rec);
-  if(mode==='mail'){$('mName').textContent=nm;$('mMail').textContent=em;
-    if(!GF.url){mailIt(rec)}
-    show('pMail');return}
   var t='一對一\n我想預約 1 對 1 財務對話（30 分鐘）\n稱呼：'+nm+'\n手機：'+ph+'\nEmail：'+em+'\n方便時段：'+$('tm').value+'\n想聊的主題：'+$('tp').value+'\n報名編號：'+code;
   $('msg').textContent=t; $('cdShow').textContent=code;
   setKW('一對一');$('dTitle').textContent='最後一步：到 LINE 完成預約';$('dLead').innerHTML='加入官方 LINE 後<b>留言「一對一」</b>，並貼上下面的預約訊息，我們會和你約時間。';$('dStep3').textContent='貼上預約訊息，等我們回覆約時間';$('dataBox').classList.remove('hide');$('noLine').classList.add('hide');
@@ -319,7 +302,7 @@ function tick(){
   if(d>0){var h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
     $('cdt').textContent=(h>23?Math.floor(h/24)+' 天 ':'')+String(h%24).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
   else if(n<END){el.innerHTML='🔥 三日營進行中！加 LINE 留言「三日營」還能加入'}
-  else{el.innerHTML='本梯次三日營已結束，謝謝你的參與<a href="https://angie26501-lgtm.github.io/business/greensprout/" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">接著 12/27 五日實踐營 →</a>';if(!window._ended){window._ended=1;var c=['pForm','pDone','pMail'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
+  else{el.innerHTML='本梯次三日營已結束，謝謝你的參與<a href="https://angie26501-lgtm.github.io/business/greensprout/" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">接著 12/27 五日實踐營 →</a>';if(!window._ended){window._ended=1;var c=['pForm','pDone'].some(function(x){return !$(x).classList.contains('hide')});if(!c)show('pEnd')}}
 }
 
 var CT='人生下半場・財務覺醒 3 日分享會｜金錢好生活芸琪共學圈三日營',
@@ -330,15 +313,26 @@ function ics(){
  var t=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//fuyun//live//TW','BEGIN:VEVENT','UID:fuyun-1214-camp@allfreedom.info','DTSTAMP:20261112T000000Z','DTSTART;VALUE=DATE:20261214','DTEND;VALUE=DATE:20261217','SUMMARY:'+CT,'DESCRIPTION:'+CD.replace(/\n/g,'\\n'),'LOCATION:LINE 群組','BEGIN:VALARM','TRIGGER:-PT12H','ACTION:DISPLAY','DESCRIPTION:三日營明天開營','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/calendar;charset=utf-8'}));a.download='1214三日營.ics';document.body.appendChild(a);a.click();a.remove();toast('已下載行事曆檔，點開即可加入')}
 
-var MAILTO='angie26501@gmail.com';
 /* Google 表單設定：建好表單後填入 url（…/formResponse）與各題 entry 編號 */
 var GF={url:'https://docs.google.com/forms/d/e/1FAIpQLSc-ZuyxVjlUeEvodzOlDiTVx5E0Fy0kwKJhXDt8PmGxFLa_lw/formResponse',
  ids:{event:'entry.1745961178',type:'entry.369497671',name:'entry.2032343358',phone:'entry.919827499',email:'entry.794037502',time:'entry.69406418',topic:'entry.1405620963',code:'entry.896961882',src:'entry.529371748'}};
 var EVENT_NAME='12/14 人生下半場三日分享會（芸琪三日營）';
 function sendGF(r){if(!GF.url)return;try{var b=new URLSearchParams();for(var k in GF.ids){if(GF.ids[k])b.append(GF.ids[k],r[k]||'')}
   fetch(GF.url,{method:'POST',mode:'no-cors',body:b})}catch(e){}}
-function mailIt(r){var sub='【Email 報名】12/14 人生下半場三日分享會｜'+r.name;
- location.href='mailto:'+MAILTO+'?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent('我要報名 12/14–12/16 人生下半場三日分享會（芸琪三日營）\n稱呼：'+r.name+'\n手機：'+r.phone+'\nEmail：'+r.email+'\n報名編號：'+r.code+'\n\n請將 LINE 群組加入方式寄到我的信箱，謝謝！');}
+function submitEmailRegistration(record){
+  var form=document.createElement('form');
+  form.method='post';
+  form.action=GF.url;
+  Object.keys(GF.ids).forEach(function(key){
+    var field=document.createElement('input');
+    field.type='hidden';
+    field.name=GF.ids[key];
+    field.value=record[key]||'';
+    form.appendChild(field);
+  });
+  document.body.appendChild(form);
+  form.submit();
+}
 if(isEnd()){window._ended=1;$('cd').innerHTML='本梯次三日營已結束，謝謝你的參與<a href="https://angie26501-lgtm.github.io/business/greensprout/" style="display:block;font-size:14px;font-weight:600;color:#fff;opacity:.95;margin-top:2px;text-decoration:underline">接著 12/27 五日實踐營 →</a>';show('pEnd')}
 tick();setInterval(tick,1000);
 </script>
