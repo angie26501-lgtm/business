@@ -168,11 +168,19 @@ img,video{-webkit-user-drag:none;user-drag:none}
 .aud-cta{margin-top:14px;text-align:center}.aud-cta p{margin:0 0 4px;font-weight:800;color:var(--navy)}.aud-cta .btn{margin-top:8px}
 .aud-tip{display:block;margin-top:10px;padding:10px 12px;border-radius:12px;background:#fff7e8;border:1px solid #f0dcae;color:#7a5410;font-weight:700;font-size:14.5px;text-decoration:none}
 .aud-tip[hidden]{display:none}
+.cdtop{background:linear-gradient(90deg,#17375e,#24507f);color:#fff;padding:12px 110px 12px 16px;text-align:center}
+.cdtop .t{font-size:15px;font-weight:700;letter-spacing:.5px}.cdtop .t b{color:#ffe08a}
+.cdtop .s2{margin-left:10px}
+.cdtop .n{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.cdtop .n span{min-width:58px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:4px 6px;font-size:24px;font-weight:800;line-height:1.15;font-variant-numeric:tabular-nums}
+.cdtop .n small{display:block;font-size:11px;font-weight:500;opacity:.85}
+@media(max-width:600px){.cdtop{padding:58px 12px 12px}.cdtop .n span{min-width:52px;font-size:22px}.cdtop .s2{display:block;margin:2px 0 0}}
 </style>
 </head>
 <body>
 <span id="top"></span>
 <div class="prog" id="prog"></div>
+<div class="cdtop" id="cdTop"><div class="t" id="cdTopT"></div><div class="n"><span><b id="cdD">0</b><small>天</small></span><span><b id="cdH">00</b><small>時</small></span><span><b id="cdM">00</b><small>分</small></span><span><b id="cdS">00</b><small>秒</small></span></div></div>
 <button class="menu-btn" id="menuBtn" aria-label="開啟選單"><span>☰</span>選單</button>
 <div class="menu-mask" id="menuMask"></div>
 <nav class="menu" id="menu" aria-label="頁面選單">
@@ -445,5 +453,24 @@ img,video{-webkit-user-drag:none;user-drag:none}
 })();
 </script>
 <script>(function(){var a=document.querySelector('.aud audio');document.querySelectorAll('.aud .speed button').forEach(function(b){b.onclick=function(){a.playbackRate=+b.dataset.r;document.querySelectorAll('.aud .speed button').forEach(function(x){x.classList.toggle('on',x===b)})}});a.addEventListener('play',function(){document.querySelectorAll('video').forEach(function(v){v.pause()})});document.querySelector('.aud').addEventListener('toggle',function(e){if(!e.target.open)a.pause()});if(location.hash=='#audio')document.querySelector('.aud').open=true;})();</script>
+<script>
+(function(){var el=document.getElementById('cdTop');if(!el)return;
+var D=function(x){return new Date(x+'T00:00:00+08:00')};
+var P=[[D('2026-12-14'),'🌱 <b>金錢好生活芸琪共學三日營</b><span class="s2">12/14（一）開營倒數</span>',''],
+[D('2026-12-17'),'<span>🔥 三日營進行中（12/14–12/16）</span><span class="s2"><b>五日實踐營</b> 12/27 開營倒數</span>','2026-12-27'],
+[D('2026-12-27'),'🌱 <b>金錢整理五日實踐營</b><span class="s2">12/27（日）開營倒數</span>',''],
+[D('2027-01-01'),'🔥 <b>金錢整理五日實踐營</b>進行中（12/27–12/31）<span class="s2">結束倒數</span>','']];
+var p2=function(n){return (n<10?'0':'')+n};
+function tick(){var now=new Date(),cur=null;for(var i=0;i<P.length;i++){if(now<P[i][0]){cur=P[i];break}}
+if(!cur){el.style.display='none';return}
+var tg=cur[2]?D(cur[2]):cur[0];if(i===1&&now<D('2026-12-14'))tg=cur[0];
+var ms=Math.max(0,tg-now);
+document.getElementById('cdTopT').innerHTML=cur[1];
+document.getElementById('cdD').textContent=Math.floor(ms/864e5);
+document.getElementById('cdH').textContent=p2(Math.floor(ms%864e5/36e5));
+document.getElementById('cdM').textContent=p2(Math.floor(ms%36e5/6e4));
+document.getElementById('cdS').textContent=p2(Math.floor(ms%6e4/1e3));}
+tick();setInterval(tick,1000);})();
+</script>
 </body>
 </html>
