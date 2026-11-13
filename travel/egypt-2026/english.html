@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>埃及旅遊英語</title>
+<style>
+:root{--night:#0e1630;--gold:#d4a24c;--gold2:#f1cf7f;--paper:#fbf4e4;--ink:#2b2216;--muted:#7a6a52;--line:#e8dcc2;--nile:#2f6f8f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;background:var(--paper);color:var(--ink);line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(160deg,#0e1630,#3a1b4f 60%,#a85a32);color:#f4e6c8;text-align:center;padding:34px 0 22px}
+header h1{font-size:30px;color:var(--gold2)}
+header p{font-size:14px;opacity:.9}
+.bar{position:sticky;top:0;z-index:5;background:var(--night);padding:8px 0}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 12px;white-space:nowrap}
+.tabs button{font:inherit;font-size:14px;color:#f4e6c8;background:transparent;border:1px solid #ffffff30;border-radius:99px;padding:5px 12px;cursor:pointer;flex:none}
+.tabs button.on{background:var(--gold);color:var(--night);border-color:var(--gold)}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 10px;font-size:14px}
+.ctrl input[type=search]{font:inherit;flex:1;min-width:180px;padding:7px 12px;border:1px solid var(--gold);border-radius:99px}
+.ctrl label{display:flex;gap:6px;align-items:center;color:var(--muted)}
+.btn{font:inherit;font-size:14px;padding:6px 14px;border-radius:99px;border:1px solid var(--gold);background:#fff;cursor:pointer;color:var(--ink)}
+.btn.main{background:var(--gold);color:var(--night);font-weight:700}
+.tip{background:#fff;border-left:4px solid var(--nile);border-radius:8px;padding:10px 14px;font-size:14px;margin-bottom:12px;color:#33505e}
+.scene h2{font-size:20px;margin:20px 0 10px;border-left:5px solid var(--gold);padding-left:10px}
+.scene h2 small{font-size:13px;color:var(--muted);font-weight:400;margin-left:6px}
+.p{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px;box-shadow:0 2px 8px #0000000b;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center}
+.en{font-size:18px;font-family:Georgia,"Times New Roman",serif;color:#1d2a4a}
+.zh{font-size:14px;color:var(--muted)}
+.ans{grid-column:1/-1;font-size:13px;color:var(--nile);background:#eef6f9;border-radius:8px;padding:6px 10px}
+.acts{display:flex;gap:6px;grid-row:1/3;grid-column:2}
+.ic{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:17px;cursor:pointer}
+.ic.star.on{background:#fff3d6;border-color:var(--gold)}
+.hide-en .en{filter:blur(6px);cursor:pointer}
+.hide-en .p.show .en{filter:none}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+/* quiz */
+#quiz{display:none;background:#fff;border-radius:14px;padding:22px 18px;margin:16px 0;text-align:center;box-shadow:0 2px 12px #0000001a}
+#quiz .q{font-size:20px;margin:6px 0 16px}
+#quiz .opts{display:grid;gap:8px}
+#quiz .opts button{font:inherit;font-family:Georgia,serif;font-size:16px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#fffaf0;cursor:pointer;text-align:left}
+#quiz .opts button.ok{background:#e3f1e8;border-color:#3f8a5a}
+#quiz .opts button.no{background:#fbe1d8;border-color:#b5562f}
+#quiz .score{font-size:14px;color:var(--muted);margin-top:12px}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
+@media print{.bar,.ctrl,.acts{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>埃及旅遊英語</h1>
+    <p>依行程情境分類・點 🔊 聽發音・點 ⭐ 收進「我的必背」</p>
+  </div>
+</header>
+
+<div class="bar"><div class="tabs" id="tabs"></div></div>
+
+<main class="wrap">
+  <div class="ctrl">
+    <input type="search" id="q" placeholder="搜尋中文或英文，例如：廁所、price">
+    <label>語速 <input type="range" id="rate" min="0.5" max="1.1" step="0.1" value="0.8"></label>
+    <label><input type="checkbox" id="hide"> 遮住英文自我練習</label>
+    <button class="btn main" id="startQuiz">小測驗</button>
+  </div>
+
+  <div id="quiz">
+    <div class="zh" id="qn"></div>
+    <div class="q" id="qq"></div>
+    <div class="opts" id="qo"></div>
+    <div class="score" id="qs"></div>
+    <div style="margin-top:14px;display:flex;gap:8px;justify-content:center">
+      <button class="btn" id="qnext">下一題</button><button class="btn" id="qclose">結束</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+</main>
+
+<footer>發音使用裝置內建語音（建議用 Chrome／Safari；若沒有聲音，請確認手機不是靜音）。<br>⭐ 收藏只存在這台裝置的瀏覽器裡。</footer>
+
+<script>
+var S=[
+ {id:"basic",t:"萬用句",d:"每天都會用",tip:"記住萬用句型：Can I have ___? / Where is ___? / How much is ___? 後面換名詞就好。",p:[
+  ["Excuse me.","不好意思（叫人、借過都可用）"],
+  ["Could you say that again, slowly please?","可以請你再說一次、說慢一點嗎？"],
+  ["Sorry, I don't understand.","抱歉，我聽不懂。"],
+  ["Where is the restroom?","請問廁所在哪裡？","埃及廁所常有管理員，準備一點零錢小費。"],
+  ["Can you write it down for me?","可以幫我寫下來嗎？"],
+  ["Thank you so much!","非常謝謝你！"],
+  ["No, thank you.","不用了，謝謝。","遇到推銷時，微笑、說完就繼續走。"],
+  ["Can you help me, please?","可以請你幫我嗎？"]]},
+ {id:"air",t:"機場入境",d:"Day 1 抵達開羅",tip:"入境官常問：目的、停留幾天、住哪裡。準備好飯店名稱和回程機票。",p:[
+  ["Where can I buy the visa?","請問在哪裡買簽證？","落地簽：入關前先到銀行櫃台買 US$30 簽證貼紙。"],
+  ["I have an e-visa.","我有電子簽證。"],
+  ["I'm here for sightseeing.","我是來觀光的。","回答 What's the purpose of your visit? 時用。"],
+  ["I'll stay for eleven days.","我會停留 11 天。"],
+  ["I'm with a tour group.","我是跟團來的。"],
+  ["Here is my return ticket.","這是我的回程機票。"],
+  ["Where is the baggage claim?","行李提領處在哪裡？"],
+  ["My luggage is missing.","我的行李不見了。"]]},
+ {id:"hotel",t:"飯店",d:"入住・退房・需求",tip:"",p:[
+  ["I'd like to check in, please.","我要辦理入住。"],
+  ["I have a reservation under Chen.","我有訂房，名字是 Chen。"],
+  ["What time is breakfast?","早餐幾點？"],
+  ["What's the Wi-Fi password?","Wi-Fi 密碼是什麼？"],
+  ["The air conditioner doesn't work.","冷氣壞了。"],
+  ["Could I have more towels, please?","可以多給我幾條毛巾嗎？"],
+  ["Can you give me a wake-up call at five?","可以五點叫我起床嗎？","Day 9 熱氣球、Day 11 清晨出發會用到。"],
+  ["I'd like to check out.","我要退房。"]]},
+ {id:"food",t:"餐廳",d:"點餐・飲食安全",tip:"保護腸胃：記住 bottled water（瓶裝水）、no ice（不加冰）。",p:[
+  ["A table for two, please.","兩位，謝謝。"],
+  ["Can I see the menu?","可以看菜單嗎？"],
+  ["What do you recommend?","你推薦什麼？"],
+  ["Is it spicy?","會辣嗎？"],
+  ["Bottled water, please. No ice.","請給我瓶裝水，不要加冰塊。"],
+  ["I can't eat raw food.","我不能吃生食。"],
+  ["Can I have the check, please?","請幫我結帳。"],
+  ["Can I pay by card?","可以刷卡嗎？"]]},
+ {id:"shop",t:"市集殺價",d:"Day 1 哈利利市集",tip:"殺價是禮貌的遊戲：笑著說、不喜歡就走，常常會被叫回來。",p:[
+  ["How much is this?","這個多少錢？"],
+  ["Is that in Egyptian pounds or dollars?","這是埃及鎊還是美金？","很重要！確認幣別再談價。"],
+  ["That's too expensive.","太貴了。"],
+  ["Can you give me a discount?","可以算便宜一點嗎？"],
+  ["How about 200 pounds?","200 埃及鎊可以嗎？"],
+  ["If I buy two, can you make it cheaper?","買兩個可以更便宜嗎？"],
+  ["I'm just looking, thank you.","我只是看看，謝謝。"],
+  ["OK, deal!","好，成交！"]]},
+ {id:"guide",t:"景點・拍照",d:"金字塔・神廟・博物館",tip:"",p:[
+  ["Can I take photos here?","這裡可以拍照嗎？"],
+  ["Do I need a photo ticket?","需要買拍照票嗎？"],
+  ["Could you take a picture of us?","可以幫我們拍張照嗎？"],
+  ["One more, please. With the pyramid behind us.","再一張，請把金字塔拍進背景。"],
+  ["How old is this temple?","這座神廟有多久歷史了？"],
+  ["Who built it?","是誰建造的？"],
+  ["What time do we meet here?","我們幾點在這裡集合？","跟團最重要的一句！"],
+  ["Where is the exit?","出口在哪裡？"]]},
+ {id:"show",t:"演唱會",d:"Day 2 夏奇拉",tip:"散場人多，先和團友約好集合點：Let's meet at ___。",p:[
+  ["Where is my seat? Here is my ticket.","我的座位在哪裡？這是我的票。"],
+  ["Which gate is for this zone?","這一區要從哪個入口進？"],
+  ["Where can I buy water?","哪裡可以買水？"],
+  ["This is amazing!","太精彩了！"],
+  ["Let's meet at the main gate after the show.","散場後在大門口集合。"],
+  ["Where is the shuttle bus to the hotel?","回飯店的接駁車在哪裡？"]]},
+ {id:"boat",t:"遊輪・熱氣球",d:"Day 6–9",tip:"",p:[
+  ["What time does the boat leave?","船幾點開？"],
+  ["Is dinner included?","有含晚餐嗎？"],
+  ["Where is the sun deck?","頂層甲板在哪裡？"],
+  ["What time is the pickup tomorrow?","明天幾點來接？"],
+  ["Is it safe to fly today?","今天適合飛（熱氣球）嗎？"],
+  ["I'm a little scared of heights.","我有點怕高。"],
+  ["What a beautiful view!","景色好美！"]]},
+ {id:"desert",t:"沙漠露營",d:"Day 10 黑白沙漠",tip:"",p:[
+  ["Is there a toilet at the camp?","營地有廁所嗎？"],
+  ["It's very cold. Do you have an extra blanket?","好冷，有多的毯子嗎？"],
+  ["Can I charge my phone?","可以幫手機充電嗎？"],
+  ["Please drive slowly.","請開慢一點。","吉普車在沙丘上很刺激，暈車可以說 I feel carsick."],
+  ["The stars are incredible!","星星美得不可思議！"]]},
+ {id:"move",t:"交通",d:"計程車・叫車",tip:"上計程車前先講好價錢，或用叫車 App（如 Uber）比較安心。",p:[
+  ["How much to this hotel?","到這間飯店多少錢？"],
+  ["Please use the meter.","請跳表。"],
+  ["Please take me to this address.","請載我到這個地址。","把飯店名片或地圖給司機看。"],
+  ["Please stop here.","請在這裡停。"],
+  ["How long does it take?","要多久？"]]},
+ {id:"sos",t:"緊急・身體不適",d:"希望用不到",tip:"手機裡存好：旅行社領隊電話、飯店地址、保險公司海外急難電話。",p:[
+  ["I need a doctor.","我需要看醫生。"],
+  ["Where is the nearest pharmacy?","最近的藥局在哪裡？"],
+  ["I have a stomachache.","我肚子痛。"],
+  ["I have diarrhea.","我拉肚子。"],
+  ["I feel dizzy.","我頭暈。"],
+  ["I lost my passport.","我的護照弄丟了。"],
+  ["Someone stole my bag.","我的包包被偷了。"],
+  ["Please call the police.","請幫我報警。"],
+  ["Please call my tour guide.","請幫我打給我的導遊。"]]}
+];
+
+var FAV_KEY="eg_eng_fav";
+function load(){try{return JSON.parse(localStorage.getItem(FAV_KEY)||"[]")}catch(e){return[]}}
+function save(a){try{localStorage.setItem(FAV_KEY,JSON.stringify(a))}catch(e){}}
+var fav=load(), cur="all";
+
+var all=[];S.forEach(function(s){s.p.forEach(function(p){all.push({s:s,en:p[0],zh:p[1],n:p[2]||""})})});
+
+function speak(t){
+  if(!("speechSynthesis" in window)){alert("這個瀏覽器不支援發音");return;}
+  speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=parseFloat(document.getElementById("rate").value);
+  speechSynthesis.speak(u);
+}
+
+function tabs(){
+  var h=[["all","全部"],["fav","⭐ 我的必背"]].concat(S.map(function(s){return[s.id,s.t]}));
+  var box=document.getElementById("tabs");box.innerHTML="";
+  h.forEach(function(x){var b=document.createElement("button");b.textContent=x[1];if(x[0]===cur)b.className="on";
+    b.onclick=function(){cur=x[0];tabs();render();window.scrollTo({top:0,behavior:"smooth"})};box.appendChild(b);});
+}
+
+function render(){
+  var q=document.getElementById("q").value.trim().toLowerCase();
+  var out="",count=0;
+  S.forEach(function(s){
+    if(cur!=="all"&&cur!=="fav"&&cur!==s.id)return;
+    var items=s.p.filter(function(p){
+      if(cur==="fav"&&fav.indexOf(p[0])<0)return false;
+      if(q&&(p[0]+p[1]+(p[2]||"")).toLowerCase().indexOf(q)<0)return false;return true;});
+    if(!items.length)return;
+    out+='<div class="scene"><h2>'+s.t+'<small>'+s.d+'</small></h2>';
+    if(s.tip&&cur!=="fav")out+='<div class="tip">💡 '+s.tip+'</div>';
+    items.forEach(function(p){count++;
+      var on=fav.indexOf(p[0])>=0;
+      out+='<div class="p" data-en="'+p[0].replace(/"/g,"&quot;")+'"><div class="en">'+p[0]+'</div>'+
+      '<div class="acts"><button class="ic say" title="聽發音">🔊</button><button class="ic star'+(on?' on':'')+'" title="收藏">'+(on?'⭐':'☆')+'</button></div>'+
+      '<div class="zh">'+p[1]+'</div>'+(p[2]?'<div class="ans">'+p[2]+'</div>':'')+'</div>';});
+    out+='</div>';
+  });
+  if(!count)out='<div class="empty">'+(cur==="fav"?"還沒有收藏，點句子旁的 ☆ 加入。":"找不到符合的句子")+'</div>';
+  document.getElementById("list").innerHTML=out;
+}
+
+document.getElementById("list").addEventListener("click",function(e){
+  var card=e.target.closest(".p");if(!card)return;var en=card.getAttribute("data-en");
+  if(e.target.closest(".say")){speak(en);return;}
+  if(e.target.closest(".star")){var i=fav.indexOf(en);if(i<0)fav.push(en);else fav.splice(i,1);save(fav);render();return;}
+  if(e.target.closest(".en")){card.classList.toggle("show");speak(en);}
+});
+document.getElementById("q").addEventListener("input",render);
+document.getElementById("hide").addEventListener("change",function(){document.getElementById("list").classList.toggle("hide-en",this.checked)});
+
+// quiz
+var qz={n:0,ok:0,item:null,done:false};
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function pool(){
+  var p=all;
+  if(cur==="fav")p=all.filter(function(x){return fav.indexOf(x.en)>=0});
+  else if(cur!=="all")p=all.filter(function(x){return x.s.id===cur});
+  return p.length>=4?p:all;
+}
+function nextQ(){
+  var p=pool();qz.item=p[Math.floor(Math.random()*p.length)];qz.done=false;
+  var others=shuffle(all.filter(function(x){return x.en!==qz.item.en})).slice(0,3);
+  var opts=shuffle([qz.item].concat(others));
+  document.getElementById("qn").textContent="第 "+(qz.n+1)+" 題・"+qz.item.s.t+"・這句英文怎麼說？";
+  document.getElementById("qq").textContent=qz.item.zh;
+  var box=document.getElementById("qo");box.innerHTML="";
+  opts.forEach(function(o){var b=document.createElement("button");b.textContent=o.en;
+    b.onclick=function(){if(qz.done)return;qz.done=true;qz.n++;
+      if(o.en===qz.item.en){qz.ok++;b.className="ok";}else{b.className="no";
+        Array.prototype.forEach.call(box.children,function(c){if(c.textContent===qz.item.en)c.className="ok"});}
+      speak(qz.item.en);document.getElementById("qs").textContent="答對 "+qz.ok+" / "+qz.n;};
+    box.appendChild(b);});
+}
+document.getElementById("startQuiz").onclick=function(){qz={n:0,ok:0};document.getElementById("qs").textContent="";
+  document.getElementById("quiz").style.display="block";nextQ();document.getElementById("quiz").scrollIntoView({behavior:"smooth"});};
+document.getElementById("qnext").onclick=nextQ;
+document.getElementById("qclose").onclick=function(){document.getElementById("quiz").style.display="none"};
+
+tabs();render();
+</script>
+<a href="index.html" style="position:fixed;right:14px;bottom:14px;z-index:99;background:#0e1630;color:#f1cf7f;border:1px solid #d4a24c;border-radius:99px;padding:8px 14px;font-size:14px;text-decoration:none;box-shadow:0 4px 14px #0005">🏠 總目錄</a>
+</body>
+</html>

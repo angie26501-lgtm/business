@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>埃及旅遊日記</title>
+<style>
+:root{--night:#0e1630;--gold:#d4a24c;--gold2:#f1cf7f;--paper:#fbf4e4;--ink:#2b2216;--muted:#7a6a52;--line:#e8dcc2;--nile:#2f6f8f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;background:var(--paper);color:var(--ink);line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(160deg,#0e1630,#3a1b4f 60%,#a85a32);color:#f4e6c8;text-align:center;padding:32px 0 22px}
+header h1{font-size:30px;color:var(--gold2)}
+header p{font-size:14px;opacity:.9}
+.days{position:sticky;top:0;z-index:5;background:var(--night);display:flex;gap:6px;overflow-x:auto;padding:8px 12px}
+.days button{flex:none;font:inherit;font-size:13px;line-height:1.25;color:#f4e6c8;background:transparent;border:1px solid #ffffff30;border-radius:10px;padding:4px 10px;cursor:pointer;text-align:center}
+.days button small{display:block;font-size:11px;opacity:.75}
+.days button.on{background:var(--gold);color:var(--night);border-color:var(--gold)}
+.days button.has::after{content:"●";color:#7fd39a;font-size:9px;margin-left:3px}
+.card{background:#fff;border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 2px 10px #0000000d}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.dh h2{font-size:22px}
+.dh .plan{font-size:13px;color:var(--muted)}
+label.f{display:block;font-size:14px;color:var(--muted);margin:14px 0 4px}
+textarea,input[type=text],input[type=number],select{font:inherit;font-size:15px;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fffdf8}
+textarea{min-height:140px;resize:vertical}
+textarea:focus,input:focus,select:focus{outline:2px solid var(--gold2);border-color:var(--gold)}
+.moods{display:flex;gap:6px;flex-wrap:wrap}
+.moods button,.wx button{font-size:22px;width:46px;height:46px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.moods button.on,.wx button.on{background:#fff3d6;border-color:var(--gold);transform:scale(1.05)}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.row>div{flex:1;min-width:220px}
+.wx{display:flex;gap:6px;flex-wrap:wrap}
+.prompt{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.prompt button{font:inherit;font-size:12px;padding:3px 10px;border-radius:99px;border:1px dashed var(--gold);background:#fffaf0;cursor:pointer;color:var(--muted)}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:8px}
+.photos figure{position:relative;border-radius:10px;overflow:hidden;background:#eee;aspect-ratio:1}
+.photos img{width:100%;height:100%;object-fit:cover;display:block}
+.photos .del{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:0;background:#000a;color:#fff;cursor:pointer}
+.btn{font:inherit;font-size:14px;padding:7px 14px;border-radius:99px;border:1px solid var(--gold);background:#fff;cursor:pointer;color:var(--ink)}
+.btn.main{background:var(--gold);color:var(--night);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+th,td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+td.n,th.n{text-align:right}
+.exp{display:grid;grid-template-columns:1fr 110px 90px auto;gap:6px;margin-top:6px}
+.sum{font-size:14px;color:var(--nile);margin-top:6px}
+.saved{font-size:12px;color:#3f8a5a;min-height:18px;text-align:right}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.note{font-size:13px;color:var(--muted);background:#fff;border:1px dashed #d4a24c88;border-radius:10px;padding:12px 14px}
+/* book view */
+#book{display:none}
+#book .pg{background:#fff;border-radius:14px;padding:20px;margin:16px 0;page-break-after:always}
+#book h3{font-size:20px;color:#5a3a12}
+#book .meta{font-size:13px;color:var(--muted)}
+#book .txt{white-space:pre-wrap;margin:10px 0}
+#book .ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+#book .ph img{width:100%;border-radius:8px}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:24px 0 40px}
+@media print{.days,.tools,#editor,header .sub,.note{display:none!important}#book{display:block!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>埃及旅遊日記</h1><p>2026.11.27 — 12.07｜每天寫幾句，回來就是一本書</p></div></header>
+
+<nav class="days" id="days"></nav>
+
+<main class="wrap">
+ <div id="editor">
+  <div class="card">
+    <div class="dh"><div><h2 id="dTitle"></h2><div class="plan" id="dPlan"></div></div><div class="saved" id="saved"></div></div>
+
+    <div class="row">
+      <div><label class="f">今天的心情</label><div class="moods" id="moods"></div></div>
+      <div><label class="f">天氣</label><div class="wx" id="wx"></div></div>
+    </div>
+
+    <label class="f">今天最難忘的一刻（一句話）</label>
+    <input type="text" id="best" placeholder="例如：站在金字塔下聽到第一句歌聲">
+
+    <label class="f">日記</label>
+    <textarea id="text" placeholder="想到什麼就寫什麼……"></textarea>
+    <div class="prompt" id="prompts"></div>
+
+    <label class="f">今天學到／用到的一句英文</label>
+    <input type="text" id="eng" placeholder="例如：How much is this?">
+
+    <label class="f">照片（自動縮小儲存，每天最多 8 張）</label>
+    <input type="file" id="pic" accept="image/*" multiple>
+    <div class="photos" id="photos"></div>
+
+    <label class="f">今日花費</label>
+    <div class="exp">
+      <input type="text" id="eItem" placeholder="項目（例：市集香料）">
+      <input type="number" id="eAmt" placeholder="金額" inputmode="decimal">
+      <select id="eCur"><option value="EGP">埃及鎊</option><option value="USD">美金</option><option value="TWD">台幣</option></select>
+      <button class="btn" id="eAdd">＋</button>
+    </div>
+    <table id="eTable"></table>
+    <div class="sum" id="eSum"></div>
+  </div>
+ </div>
+
+ <div class="tools">
+   <button class="btn main" id="bookBtn">📖 預覽成書</button>
+   <button class="btn" id="printBtn">🖨 列印／存成 PDF</button>
+   <button class="btn" id="expBtn">💾 備份下載</button>
+   <button class="btn" id="impBtn">📂 匯入備份</button>
+   <input type="file" id="impFile" accept=".json" hidden>
+ </div>
+
+ <div id="book"></div>
+
+ <p class="note">
+  ・日記和照片只存在<b>這台手機／電腦的這個瀏覽器</b>裡，換裝置或清除瀏覽資料就會不見。<br>
+  ・建議每 1–2 天按一次「💾 備份下載」，把檔案存到雲端；換裝置時用「📂 匯入備份」還原。<br>
+  ・花費換算匯率：1 埃及鎊 ≈ 0.6058 台幣（鉅亨網 10/16）；1 美金 ≈ 30 台幣為<b>推估值</b>，可在下方修改。
+ </p>
+ <div class="card" style="font-size:14px">
+   匯率設定：1 埃及鎊 = <input type="number" id="rEGP" step="0.001" style="width:90px"> 台幣
+   1 美金 = <input type="number" id="rUSD" step="0.1" style="width:80px"> 台幣
+ </div>
+</main>
+<footer>埃及旅遊日記</footer>
+
+<script>
+var DAYS=[
+ ["11/27","五","Day 1 開羅","抵達・清真寺・文明博物館・哈利利市集"],
+ ["11/28","六","Day 2 吉薩","金字塔區・夏奇拉演唱會"],
+ ["11/29","日","Day 3 亞歷山大","地中海・海鮮・亞歷山大圖書館"],
+ ["11/30","一","Day 4 阿斯旺","飛往阿斯旺・秘境飯店"],
+ ["12/01","二","Day 5 阿布辛貝","神廟・入住一晚"],
+ ["12/02","三","Day 6 尼羅河","登上遊輪"],
+ ["12/03","四","Day 7 艾德夫・康翁波","遊輪・兩大神廟"],
+ ["12/04","五","Day 8 盧克索","帝王谷・卡納克神廟"],
+ ["12/05","六","Day 9 熱氣球","清晨熱氣球・飛回開羅・前往沙漠"],
+ ["12/06","日","Day 10 黑白沙漠","吉普車・露營觀星"],
+ ["12/07","一","Day 11 返程","回開羅・旅程結束"]];
+var MOODS=["🤩","😊","😌","🥱","😵","🥹"], WX=["☀️","⛅","🌬️","🌧️","🌙"];
+var PROMPTS=["今天聞到的味道","最好吃的一道菜","遇見的人","讓我驚訝的事","如果再來一次","想跟家人說的話"];
+var KEY="eg_diary_v1";
+
+function lsGet(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return{}}}
+function lsSet(){try{localStorage.setItem(KEY,JSON.stringify(D));flash("已自動儲存 ✓")}catch(e){flash("⚠ 無法儲存，請改用備份下載")}}
+var D=lsGet(); D.days=D.days||{}; D.rate=D.rate||{EGP:0.6058,USD:30};
+var cur=pickToday();
+function pickToday(){var t=new Date(),s=new Date(2026,10,27);var i=Math.floor((t.setHours(0,0,0,0)-s)/86400000);return(i>=0&&i<11)?i:0;}
+function day(i){return D.days[i]=D.days[i]||{mood:"",wx:"",best:"",text:"",eng:"",exp:[]};}
+var tmr;function flash(m){var s=document.getElementById("saved");s.textContent=m;clearTimeout(tmr);tmr=setTimeout(function(){s.textContent=""},1500);}
+
+/* IndexedDB for photos */
+var db=null;
+function openDB(cb){try{var r=indexedDB.open("eg_diary_photos",1);
+  r.onupgradeneeded=function(){r.result.createObjectStore("p",{keyPath:"id"})};
+  r.onsuccess=function(){db=r.result;cb()};r.onerror=function(){cb()};}catch(e){cb()}}
+function pAll(i,cb){if(!db)return cb([]);var out=[];try{var tx=db.transaction("p","readonly").objectStore("p").openCursor();
+  tx.onsuccess=function(e){var c=e.target.result;if(c){if(c.value.day===i)out.push(c.value);c.continue()}else cb(out.sort(function(a,b){return a.t-b.t}))};}catch(e){cb([])}}
+function pEvery(cb){if(!db)return cb([]);var out=[];try{db.transaction("p","readonly").objectStore("p").openCursor().onsuccess=function(e){var c=e.target.result;if(c){out.push(c.value);c.continue()}else cb(out)}}catch(e){cb([])}}
+function pPut(o,cb){if(!db){alert("這個瀏覽器無法存照片");return}var tx=db.transaction("p","readwrite");tx.objectStore("p").put(o);tx.oncomplete=cb;}
+function pDel(id,cb){var tx=db.transaction("p","readwrite");tx.objectStore("p").delete(id);tx.oncomplete=cb;}
+function shrink(file,cb){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){
+  var m=1280,w=im.width,h=im.height,k=Math.min(1,m/Math.max(w,h));var c=document.createElement("canvas");c.width=w*k;c.height=h*k;
+  c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",0.8));};im.src=fr.result;};fr.readAsDataURL(file);}
+
+function hasContent(i){var d=D.days[i];return d&&(d.text||d.best||d.mood||(d.exp&&d.exp.length));}
+function tabs(){var n=document.getElementById("days");n.innerHTML="";
+  DAYS.forEach(function(x,i){var b=document.createElement("button");b.innerHTML="D"+(i+1)+"<small>"+x[0]+"</small>";
+    b.className=(i===cur?"on ":"")+(hasContent(i)?"has":"");b.onclick=function(){cur=i;render()};n.appendChild(b);});}
+
+function pick(boxId,arr,field){var box=document.getElementById(boxId);box.innerHTML="";var d=day(cur);
+  arr.forEach(function(e){var b=document.createElement("button");b.textContent=e;if(d[field]===e)b.className="on";
+    b.onclick=function(){d[field]=d[field]===e?"":e;lsSet();pick(boxId,arr,field);tabs()};box.appendChild(b);});}
+
+function money(){var d=day(cur),t=document.getElementById("eTable"),tot=0;
+  if(!d.exp.length){t.innerHTML="";document.getElementById("eSum").textContent="";return;}
+  var h='<tr><th>項目</th><th class="n">金額</th><th class="n">≈台幣</th><th></th></tr>';
+  d.exp.forEach(function(e,k){var tw=e.c==="TWD"?e.a:e.a*D.rate[e.c];tot+=tw;
+    h+='<tr><td>'+esc(e.i)+'</td><td class="n">'+e.a.toLocaleString()+' '+e.c+'</td><td class="n">'+Math.round(tw).toLocaleString()+'</td><td><button class="btn" data-k="'+k+'" style="padding:2px 8px">✕</button></td></tr>';});
+  t.innerHTML=h;
+  var all=0;Object.keys(D.days).forEach(function(i){(D.days[i].exp||[]).forEach(function(e){all+=e.c==="TWD"?e.a:e.a*D.rate[e.c]})});
+  document.getElementById("eSum").textContent="今日約 "+Math.round(tot).toLocaleString()+" 台幣｜旅程累計約 "+Math.round(all).toLocaleString()+" 台幣（換算為推估）";}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+function photos(){pAll(cur,function(list){var box=document.getElementById("photos");box.innerHTML="";
+  list.forEach(function(p){var f=document.createElement("figure");f.innerHTML='<img src="'+p.src+'" alt=""><button class="del" title="刪除">✕</button>';
+    f.querySelector(".del").onclick=function(){if(confirm("刪除這張照片？"))pDel(p.id,photos)};box.appendChild(f);});});}
+
+function render(){var x=DAYS[cur],d=day(cur);
+  document.getElementById("dTitle").textContent=x[2]+"・"+x[0]+"（"+x[1]+"）";
+  document.getElementById("dPlan").textContent="行程："+x[3];
+  ["best","text","eng"].forEach(function(f){document.getElementById(f).value=d[f]||""});
+  pick("moods",MOODS,"mood");pick("wx",WX,"wx");money();photos();tabs();}
+
+["best","text","eng"].forEach(function(f){document.getElementById(f).addEventListener("input",function(){day(cur)[f]=this.value;lsSet();tabs()})});
+var pr=document.getElementById("prompts");PROMPTS.forEach(function(p){var b=document.createElement("button");b.textContent="＋"+p;
+  b.onclick=function(){var t=document.getElementById("text");t.value+=(t.value?"\n\n":"")+"【"+p+"】";t.focus();day(cur).text=t.value;lsSet();};pr.appendChild(b);});
+
+document.getElementById("eAdd").onclick=function(){var i=document.getElementById("eItem").value.trim(),a=parseFloat(document.getElementById("eAmt").value);
+  if(!i||!(a>0)){alert("請填項目和金額");return}day(cur).exp.push({i:i,a:a,c:document.getElementById("eCur").value});
+  document.getElementById("eItem").value="";document.getElementById("eAmt").value="";lsSet();money();tabs();};
+document.getElementById("eTable").addEventListener("click",function(e){var k=e.target.getAttribute("data-k");if(k!==null){day(cur).exp.splice(+k,1);lsSet();money();}});
+
+document.getElementById("pic").addEventListener("change",function(){var files=[].slice.call(this.files);var inp=this;
+  pAll(cur,function(list){var room=8-list.length;if(room<=0){alert("這天已經有 8 張了");inp.value="";return}
+    files.slice(0,room).forEach(function(f,n){shrink(f,function(src){pPut({id:Date.now()+"_"+n+"_"+Math.random(),day:cur,t:Date.now()+n,src:src},photos)})});inp.value="";});});
+
+var rE=document.getElementById("rEGP"),rU=document.getElementById("rUSD");rE.value=D.rate.EGP;rU.value=D.rate.USD;
+rE.oninput=function(){D.rate.EGP=parseFloat(this.value)||0;lsSet();money()};rU.oninput=function(){D.rate.USD=parseFloat(this.value)||0;lsSet();money()};
+
+function buildBook(cb){pEvery(function(ph){var h='<div class="pg" style="text-align:center"><h3 style="font-size:28px">我的埃及之旅</h3><div class="meta">2026.11.27 — 12.07</div></div>';
+  DAYS.forEach(function(x,i){var d=D.days[i];var p=ph.filter(function(o){return o.day===i});if(!hasContent(i)&&!p.length)return;d=d||{};
+    h+='<div class="pg"><h3>'+x[2]+'・'+x[0]+' '+(d.mood||"")+' '+(d.wx||"")+'</h3><div class="meta">'+x[3]+'</div>';
+    if(d.best)h+='<p style="margin-top:8px;color:#8a4fc9">✦ '+esc(d.best)+'</p>';
+    if(d.text)h+='<div class="txt">'+esc(d.text)+'</div>';
+    if(d.eng)h+='<div class="meta">今日英文：'+esc(d.eng)+'</div>';
+    if(p.length)h+='<div class="ph">'+p.map(function(o){return'<img src="'+o.src+'">'}).join("")+'</div>';h+='</div>';});
+  document.getElementById("book").innerHTML=h;cb&&cb();});}
+document.getElementById("bookBtn").onclick=function(){var b=document.getElementById("book"),e=document.getElementById("editor");
+  if(b.style.display==="block"){b.style.display="none";e.style.display="";this.textContent="📖 預覽成書";return}
+  var self=this;buildBook(function(){b.style.display="block";e.style.display="none";self.textContent="✏️ 回到編輯";b.scrollIntoView({behavior:"smooth"})});};
+document.getElementById("printBtn").onclick=function(){buildBook(function(){setTimeout(function(){window.print()},300)})};
+
+document.getElementById("expBtn").onclick=function(){pEvery(function(ph){var blob=new Blob([JSON.stringify({v:1,diary:D,photos:ph})],{type:"application/json"});
+  var a=document.createElement("a");a.href=URL.createObjectURL(blob);var t=new Date();
+  a.download="埃及日記備份_"+(t.getMonth()+1)+"月"+t.getDate()+"日.json";document.body.appendChild(a);a.click();a.remove();});};
+document.getElementById("impBtn").onclick=function(){document.getElementById("impFile").click()};
+document.getElementById("impFile").onchange=function(){var f=this.files[0];if(!f)return;var fr=new FileReader();
+  fr.onload=function(){try{var o=JSON.parse(fr.result);if(!o.diary)throw 0;if(!confirm("匯入會覆蓋目前的日記內容，確定嗎？"))return;
+    D=o.diary;D.days=D.days||{};D.rate=D.rate||{EGP:0.6058,USD:30};lsSet();
+    var n=(o.photos||[]).length,done=0;if(!n||!db){render();alert("匯入完成");return}
+    (o.photos||[]).forEach(function(p){pPut(p,function(){if(++done===n){render();alert("匯入完成，含 "+n+" 張照片")}})});
+  }catch(e){alert("檔案格式不對")}};fr.readAsText(f);this.value="";};
+
+openDB(render);
+</script>
+<a href="index.html" style="position:fixed;right:14px;bottom:14px;z-index:99;background:#0e1630;color:#f1cf7f;border:1px solid #d4a24c;border-radius:99px;padding:8px 14px;font-size:14px;text-decoration:none;box-shadow:0 4px 14px #0005">🏠 總目錄</a>
+</body>
+</html>
