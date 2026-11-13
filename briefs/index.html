@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>芸琪晨報總目錄</title>
+<style>
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f7faf8;color:#222;line-height:1.7}
+.top{background:#2f6b4f;color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.top b{font-size:18px}.top select,.top button{font-size:14px;padding:5px 10px;border-radius:8px;border:0}
+#login{max-width:420px;margin:60px auto;background:#fff;border:1px solid #dbe5df;border-radius:14px;padding:26px}
+#login h1{font-size:20px;margin:0 0 6px;color:#2f6b4f}
+#login label{font-size:14px;color:#555;display:block;margin-top:12px}
+#login select,#login input{width:100%;box-sizing:border-box;padding:9px;font-size:15px;border:1px solid #cfdcd4;border-radius:8px;margin-top:4px}
+#login button{margin-top:16px;width:100%;padding:10px;font-size:16px;background:#2f6b4f;color:#fff;border:0;border-radius:8px;cursor:pointer}
+#msg{color:#c0392b;font-size:13px;margin-top:8px;min-height:18px}
+.list{max-width:960px;margin:16px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #dbe5df;border-radius:12px;padding:12px 16px;margin-bottom:10px;cursor:pointer}
+.card:hover{border-color:#2f6b4f}.card small{color:#2f6b4f;font-weight:bold;margin-right:8px}
+#app{display:none}
+
+body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f7faf8;color:#222;line-height:1.7}
+header{background:#2f6b4f;color:#fff;padding:18px 22px}header h1{margin:0;font-size:21px}header p{margin:4px 0 0;font-size:13px;opacity:.9}
+main{max-width:960px;margin:0 auto;padding:16px}
+section{background:#fff;border:1px solid #dbe5df;border-radius:12px;padding:14px 18px;margin-bottom:14px}
+h2{font-size:17px;margin:0 0 8px;color:#2f6b4f}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border-top:1px solid #e3ebe6;padding:7px;text-align:left;vertical-align:top}th{background:#eef5f1}
+.hot{border-left:5px solid #d9534f}.mid{border-left:5px solid #e0a800}
+.draft{background:#fff7d6;border:1px dashed #d9b84a;border-radius:8px;padding:8px 12px;white-space:pre-wrap;font-size:14px;margin:6px 0}
+.note{font-size:12.5px;color:#666}
+
+</style></head><body>
+<div id="login"><h1>🔒 芸琪晨報總目錄</h1><div style="font-size:13px;color:#666">輸入密碼後可閱讀，登入記住 30 天</div>
+<label>要看的頁面</label><select id="pick"></select>
+<label>密碼</label><input id="pw" type="password" autocomplete="current-password">
+<button id="go">登入</button><div id="msg"></div></div>
+<div id="app"><div class="top"><b>芸琪晨報總目錄</b><span><select id="nav"></select> <button id="out">登出</button></span></div><div id="view"></div></div>
+<script>
+const D={"salt": "3uGnlfP2sKpBfuFbykh40g==", "iter": 200000, "items": [{"id": "2026-11-14-group", "date": "2026-11-14", "cat": "群組晨報", "title": "群組未讀晨報｜11/14（六）", "iv": "adyJkbrsuP9b0s1d", "ct": "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"}]},K='yun_briefs_v1',DAY=864e5;
+const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+let key=null;
+const opts=[{id:'home',title:'📋 總目錄'}].concat(D.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>({id:i.id,title:i.date+'｜'+i.title})));
+for(const s of [pick,nav]) s.innerHTML=opts.map(o=>`<option value="${o.id}">${o.title}</option>`).join('');
+async function derive(pw){const m=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(D.salt),iterations:D.iter,hash:'SHA-256'},m,{name:'AES-GCM',length:256},false,['decrypt']);}
+async function dec(it){const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(it.iv)},key,b64(it.ct));return new TextDecoder().decode(p);}
+async function show(id){nav.value=id;location.hash=id;
+ if(id==='home'){view.innerHTML='<div class="list">'+D.items.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(i=>`<div class="card" data-id="${i.id}"><small>${i.cat}</small>${i.date}｜${i.title}</div>`).join('')+'</div>';
+  view.querySelectorAll('.card').forEach(c=>c.onclick=()=>show(c.dataset.id));return;}
+ const it=D.items.find(x=>x.id===id); view.innerHTML='<main>'+await dec(it)+'</main>'; scrollTo(0,0);}
+async function login(pw,remember){try{key=await derive(pw);await dec(D.items[0]);}catch(e){key=null;return false;}
+ if(remember){try{localStorage.setItem(K,JSON.stringify({pw,exp:Date.now()+30*DAY}))}catch(e){}}
+ login_.style.display='none';app.style.display='block';return true;}
+const login_=document.getElementById('login');
+go.onclick=async()=>{msg.textContent='驗證中…';if(await login(pw.value,true)){show(pick.value)}else msg.textContent='密碼不正確'};
+pw.onkeydown=e=>{if(e.key==='Enter')go.click()};
+nav.onchange=()=>show(nav.value);
+out.onclick=()=>{try{localStorage.removeItem(K)}catch(e){};location.hash='';location.reload()};
+(async()=>{const h=location.hash.slice(1);if(h&&opts.some(o=>o.id===h))pick.value=h;
+ try{const s=JSON.parse(localStorage.getItem(K)||'null');if(s&&s.exp>Date.now()&&await login(s.pw,false))show(pick.value);}catch(e){}})();
+</script></body></html>
