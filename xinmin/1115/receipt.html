@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,nosnippet,noarchive">
+<title>115.11.15 會員大會收據工具</title>
+<style id="pageStyle">@media print{@page{size:A4 portrait;margin:8mm 10mm}}</style>
+<style>
+:root{--bg:#f7f3ec;--card:#fff;--ink:#1f2a3a;--muted:#7b7368;--line:#e6ddd0;--gold:#b08a3e;--gold-soft:#f5ecd9;--navy:#1f2a3a;--red:#a83a2c;--green:#2f7a4f;--green-soft:#e3f1e8;--red-soft:#f7e4e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.55;font-size:16px}
+.serif{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif}
+button,input,select,textarea{font:inherit}
+.btn{border:0;border-radius:10px;padding:10px 16px;background:var(--navy);color:#fff;cursor:pointer;font-weight:700}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.gold{background:var(--gold)}
+.btn.red{background:#fff;color:var(--red);border:1px solid #e5c3bc;font-weight:500}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+input[type=text],input[type=password],input[type=number],select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+label.f{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+/* 登入 */
+#gate{max-width:440px;margin:28px auto;padding:0 14px}
+.gcard{background:#fff;border-top:4px solid var(--gold);border-radius:14px;padding:22px 20px;box-shadow:0 6px 24px rgba(0,0,0,.06)}
+.kicker{font-size:.8rem;color:var(--gold);letter-spacing:.08em}
+.gcard h1{margin:6px 0 2px;font-size:1.5rem}
+.pw{display:flex;gap:6px}
+.pw input{flex:1}
+.notice{background:var(--gold-soft);border-radius:10px;padding:12px;font-size:.82rem;margin:14px 0;max-height:170px;overflow:auto}
+.notice ol{margin:6px 0 0;padding-left:18px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:.88rem;margin:8px 0}
+.chk input{margin-top:4px}
+.err{color:var(--red);font-size:.88rem;min-height:1.2em;margin-top:6px}
+.tip{font-size:.78rem;color:var(--muted);margin-top:12px;background:#faf7f2;border-radius:8px;padding:8px}
+.gmenu{margin-top:14px}
+.gmenu b{font-size:.82rem;color:var(--muted)}
+.gmenu .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+/* 主畫面 */
+#app{display:none}
+header.top{background:var(--navy);color:#fff;padding:14px 16px}
+header.top .kicker{color:#e3c88a}
+header.top h1{margin:2px 0 0;font-size:1.15rem}
+nav.menu{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:6px 8px}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer;font-size:.92rem}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:700}
+main{max-width:980px;margin:0 auto;padding:14px 12px 70px}
+.page{display:none}.page.on{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+h2{font-size:1.1rem;margin:4px 0 12px;padding-left:10px;border-left:4px solid var(--gold)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.stat{background:#faf7f2;border-radius:10px;padding:10px}
+.stat b{display:block;font-size:1.25rem}
+.stat span{font-size:.78rem;color:var(--muted)}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;max-height:420px;overflow:auto;padding:2px}
+.person{border:1px solid var(--line);border-radius:10px;padding:8px 10px;cursor:pointer;background:#fff;text-align:left}
+.person:hover{border-color:var(--gold)}
+.person.done{background:var(--green-soft);border-color:#c9e3d2}
+.person.sel{outline:2px solid var(--gold)}
+.person .n{font-weight:700}
+.person .m{font-size:.78rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.72rem;border-radius:999px;padding:0 7px;margin-left:4px;background:var(--gold-soft);color:#7a5b1d}
+.tag.ok{background:var(--green-soft);color:var(--green)}
+.tag.warn{background:var(--red-soft);color:var(--red)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.amount{font-size:1.6rem;font-weight:800;color:var(--red)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+table.t{width:100%;border-collapse:collapse;font-size:.88rem}
+table.t th,table.t td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top}
+table.t th{background:#faf7f2;font-size:.8rem}
+table.t tr.void td{color:#aaa;text-decoration:line-through}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;display:none;z-index:99}
+.preview-wrap{overflow:auto;background:#eee9e0;border-radius:10px;padding:10px}
+/* 收據 */
+.rc{width:190mm;height:88mm;overflow:hidden;line-height:1.3;background:#fff;display:flex;border:1px solid #cfc6b8;color:#222;font-family:"Noto Serif TC","PMingLiU",serif;margin:0 auto 6mm;page-break-inside:avoid;break-inside:avoid}
+.rc .stub{width:52mm;padding:4mm 3.5mm;border-right:1.5px dashed #999;font-size:9pt;position:relative}
+.rc .stub h4{margin:0 0 2mm;font-size:10.5pt;text-align:center;letter-spacing:.2em}
+.rc .stub div{margin:.8mm 0;border-bottom:1px dotted #bbb;padding-bottom:.6mm}
+.rc .stub .cut{position:absolute;right:-3.2mm;top:40%;writing-mode:vertical-rl;font-size:7pt;color:#888;background:#fff;padding:1mm 0}
+.rc .main{flex:1;padding:3mm 5mm;display:flex;flex-direction:column;font-size:10pt}
+.rc .hd{text-align:center;border-bottom:2px solid #222;padding-bottom:1mm}
+.rc .hd .org{font-size:12.5pt;font-weight:700;letter-spacing:.06em}
+.rc .hd .ttl{font-size:14pt;font-weight:800;letter-spacing:.8em;margin-left:.8em}
+.rc .meta{display:flex;justify-content:space-between;font-size:9pt;margin:1mm 0}
+.rc .payer{font-size:10.5pt;margin:.5mm 0 1mm}
+.rc .payer u{text-decoration:none;border-bottom:1px solid #222;padding:0 4mm;font-weight:700;font-size:12pt}
+.rc table{width:100%;border-collapse:collapse;font-size:9.5pt}
+.rc td,.rc th{border:1px solid #444;padding:.6mm 2mm}
+.rc th{background:#f3efe8;font-weight:700}
+.rc .tot td{font-weight:700}
+.rc .foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;font-size:9pt}
+.rc .seal{width:17mm;height:17mm;border:1px dashed #b33;color:#b33;display:flex;align-items:center;justify-content:center;font-size:8pt;text-align:center;border-radius:2mm}
+.rc .copy{font-size:8pt;color:#666}
+#printArea{display:none}
+.ovpage{position:relative;overflow:hidden;background:#fff;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#000}
+.ovpage .bgimg{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill;opacity:.55}
+.ovpage .fd{position:absolute;white-space:nowrap;line-height:1}
+.ovpage .mk{outline:1px dashed #d33;background:rgba(255,230,120,.35)}
+.ovpage .grid{position:absolute;inset:0;background-image:linear-gradient(#ccc 1px,transparent 1px),linear-gradient(90deg,#ccc 1px,transparent 1px);background-size:10mm 10mm}
+.ovpage .gl{position:absolute;font-size:6pt;color:#888}
+.ovwrap{overflow:auto;background:#eee9e0;border-radius:10px;padding:10px}
+.ovwrap .ovpage{box-shadow:0 2px 8px rgba(0,0,0,.15);margin:0 auto}
+table.fpos input{width:70px;padding:5px 6px}
+table.fpos td{padding:4px 6px}
+@media print{
+  .ovpage{page-break-after:always;break-after:page;box-shadow:none!important}
+  .ovpage .bgimg,.ovpage .noprint{display:none!important}
+  .ovpage .mk{outline:none;background:none}
+  body{background:#fff}
+  #gate,#app,.toast{display:none!important}
+  #printArea{display:block!important}
+  .rc{border-color:#999;margin:0 auto 5mm}
+}
+</style>
+</head>
+<body>
+
+<!-- 登入畫面 -->
+<div id="gate">
+  <div class="gcard">
+    <div class="kicker">宜蘭縣新住民發展協會｜會員大會</div>
+    <h1 class="serif">115.11.15 會員大會收據工具</h1>
+    <div style="color:var(--muted);font-size:.9rem;margin-bottom:12px">請輸入收據作業通行碼</div>
+    <div class="pw">
+      <input type="password" id="code" autocomplete="off" placeholder="通行碼">
+      <button class="btn ghost" id="showBtn" type="button">顯示</button>
+    </div>
+    <label class="chk"><input type="checkbox" id="remember"> 30 天內記住我（自己的手機或電腦才勾）</label>
+    <div class="notice">
+      <b>🔒 使用說明與個人資料保護告知</b>
+      <ol>
+        <li>使用範圍：本網頁為宜蘭縣新住民發展協會 115 年 11 月 15 日會員大會之收費與收據作業資料，僅供收費組、協會收款人與核對人員作業使用。</li>
+        <li>個資告知（個人資料保護法第 8 條）：本頁含會員姓名、桌次與繳費金額，蒐集目的為開立收據與費用核對；僅限上述作業人員於作業期間使用。當事人可透過協會請求查詢、更正或刪除。</li>
+        <li>保密：請勿轉傳通行碼，或將名冊內容截圖、轉傳給無關人員。收據列印後請妥善保管。</li>
+        <li>保護設定：本網頁名冊已加密、不被搜尋引擎收錄，通行碼錯誤無法開啟內容。</li>
+      </ol>
+    </div>
+    <label class="chk"><input type="checkbox" id="agree"> 我已閱讀並同意上述使用說明與個人資料告知</label>
+    <div class="gmenu">
+      <b>登入後要先開哪一頁？</b>
+      <div class="chips" id="gateMenu"></div>
+    </div>
+    <div class="err" id="err"></div>
+    <button class="btn" id="enter" style="width:100%;margin-top:6px">進入</button>
+    <div class="tip">提醒：LINE 內建瀏覽器可能無法記住登入，建議點右上角「⋯」改用 Safari 或 Chrome 開啟。</div>
+  </div>
+</div>
+
+<!-- 主畫面 -->
+<div id="app">
+  <header class="top">
+    <div class="kicker">宜蘭縣新住民發展協會｜第三屆第三次會員大會</div>
+    <h1 class="serif">115.11.15 收據工具 <span id="whoTag" style="font-size:.8rem;font-weight:400;opacity:.85"></span></h1>
+  </header>
+  <nav class="menu" id="menu"></nav>
+  <main>
+    <!-- ① 開收據 -->
+    <section class="page" id="p-issue">
+      <div class="card">
+        <div class="row">
+          <div><label class="f">我是收款人（會印在收據上，也會用在收據編號）</label><select id="cashier"></select></div>
+          <div><label class="f">找名字（可打部分字，或輸入桌號）</label><input type="text" id="q" placeholder="例如：阮、林、12"></div>
+        </div>
+        <div class="filters" id="tblFilter"></div>
+        <div class="list" id="plist"></div>
+        <div class="btns"><button class="btn ghost" id="addGuest">＋ 名單外臨時來的人</button></div>
+      </div>
+      <div class="card" id="formCard" style="display:none">
+        <h2 id="formTitle">開立收據</h2>
+        <div class="row">
+          <div><label class="f">繳款人姓名</label><input type="text" id="fName"></div>
+          <div><label class="f">身分</label><select id="fIdent"></select></div>
+          <div><label class="f">付款方式</label><select id="fPay"><option>現金</option><option>轉帳</option><option>其他</option></select></div>
+          <div><label class="f">桌號</label><input type="text" id="fTable"></div>
+        </div>
+        <label class="f">備註（會印在收據上）</label><input type="text" id="fNote">
+        <label class="f">列印方式</label><select id="fMode"><option value="full">完整收據（白紙列印）</option><option value="overlay">套印（印在現成收據本上）</option></select>
+        <div style="margin-top:12px">應收金額：<span class="amount" id="fAmt">0</span> 元 <span id="fCap" style="color:var(--muted)"></span></div>
+        <div class="row"><div><label class="f">收據本號碼（紙本收據右下角預印的號碼，可空白）</label><input type="text" id="fBook" placeholder="例如 900183"></div></div>
+        <div id="hand" style="margin-top:10px;background:#faf7f2;border:1px dashed var(--gold);border-radius:10px;padding:10px;font-size:.92rem"></div>
+        <div id="dupWarn" class="err"></div>
+        <div class="btns">
+          <button class="btn gold" id="issuePrint">開立並列印</button>
+          <button class="btn" id="issueOnly">只開立（先不印）</button>
+          <button class="btn ghost" id="cancelForm">取消</button>
+        </div>
+        <label class="f" style="margin-top:14px">收據預覽</label>
+        <div class="preview-wrap"><div id="preview"></div></div>
+      </div>
+    </section>
+
+    <!-- ② 收費總表 -->
+    <section class="page" id="p-records">
+      <div class="card">
+        <h2>收費總表</h2>
+        <div class="stats" id="stats"></div>
+      </div>
+      <div class="card">
+        <div class="filters">
+          <select id="rFilter" style="max-width:220px"></select>
+          <button class="btn ghost" id="exportCsv">匯出 CSV（結帳用）</button>
+          <button class="btn ghost" id="exportJson">備份紀錄</button>
+          <label class="btn ghost" style="cursor:pointer">匯入別人的紀錄<input type="file" id="importJson" accept=".json" hidden></label>
+        </div>
+        <div style="overflow:auto"><table class="t" id="rtable"></table></div>
+        <p style="font-size:.8rem;color:var(--muted)">＊紀錄只存在這台手機或電腦的瀏覽器裡。四位收款人各自開收據，結束後各自按「備份紀錄」傳給一個人，再用「匯入別人的紀錄」合併，就能看到全部總額。</p>
+      </div>
+      <div class="card">
+        <h2>還沒開收據的人</h2>
+        <div id="unpaid" style="font-size:.9rem"></div>
+      </div>
+    </section>
+
+    <!-- ③ 批次列印 -->
+    <section class="page" id="p-batch">
+      <div class="card">
+        <h2>批次列印</h2>
+        <label class="f">要印哪些已開立的收據？</label>
+        <select id="bWhich"></select>
+        <label class="f">列印方式</label><select id="bMode"><option value="full">完整收據（白紙，一張 A4 印 3 張）</option><option value="overlay">套印（一張收據一頁，印在現成收據本上）</option></select>
+        <div class="btns"><button class="btn gold" id="bPrint">列印</button></div>
+        <p style="font-size:.85rem;color:var(--muted)">一張 A4 印 3 張收據，每張左邊是存根聯（協會留存），右邊是收執聯（給繳款人），沿虛線剪開。</p>
+      </div>
+      <div class="card">
+        <h2>空白收據（手寫備用）</h2>
+        <p style="font-size:.88rem">萬一手機沒電或網路有狀況，可以先印空白收據，現場手寫。</p>
+        <div class="row"><div><label class="f">張數</label><input type="number" id="blankN" value="6" min="1" max="60"></div></div>
+        <div class="btns"><button class="btn ghost" id="bBlank">列印空白收據</button></div>
+      </div>
+    </section>
+
+    <!-- ④ 設定與說明 -->
+    <section class="page" id="p-help">
+      <div class="card">
+        <h2>收費標準</h2>
+        <table class="t" id="feeTable"></table>
+      </div>
+      <div class="card">
+        <h2>收據抬頭設定</h2>
+        <label class="f">協會名稱</label><input type="text" id="sOrg">
+        <label class="f">理事長</label><input type="text" id="sChair">
+        <label class="f">收據日期</label><input type="text" id="sDate">
+        <label class="f">協會地址或電話（可空白）</label><input type="text" id="sAddr">
+        <div class="btns"><button class="btn" id="sSave">儲存</button><button class="btn ghost" id="sReset">恢復預設</button></div>
+      </div>
+      <div class="card">
+        <h2>套印設定（印在現成收據本上）</h2>
+        <p style="font-size:.86rem;margin-top:0">步驟：①量好收據本一張的實際寬高（毫米）②上傳空白收據照片當底圖（只用來對位置，不會印出）③調整各欄位的 X／Y ④先用一般白紙「印測試套印」，疊在收據上對光檢查 ⑤位置對了再放收據本正式印。</p>
+        <div class="row">
+          <div><label class="f">紙張寬（mm）</label><input type="number" id="oW" step="1"></div>
+          <div><label class="f">紙張高（mm）</label><input type="number" id="oH" step="1"></div>
+          <div><label class="f">整體往右移（mm，可負數）</label><input type="number" id="oDX" step="0.5"></div>
+          <div><label class="f">整體往下移（mm，可負數）</label><input type="number" id="oDY" step="0.5"></div>
+          <div><label class="f">字體大小（pt）</label><input type="number" id="oFS" step="0.5"></div>
+          <div><label class="f">常用紙張</label><select id="oPreset"><option value="">— 選擇帶入 —</option><option value="190x92">本工具收據 190×92</option><option value="210x148">A5 橫式 210×148</option><option value="148x210">A5 直式 148×210</option><option value="210x297">A4 直式 210×297</option><option value="241x93">三聯式連續紙 241×93</option><option value="182x128">B6 橫式 182×128</option></select></div>
+          <div><label class="f">收據本版型</label><button class="btn gold" type="button" id="oBook" style="width:100%">套用「免用統一發票收據」位置</button></div>
+        </div>
+        <label class="f">空白收據底圖（拍照或掃描，正面對齊、裁掉多餘邊）</label>
+        <div class="filters"><label class="btn ghost" style="cursor:pointer">上傳底圖<input type="file" id="oBg" accept="image/*" hidden></label><button class="btn ghost" id="oBgClr">移除底圖</button></div>
+        <div style="overflow:auto;margin-top:8px"><table class="t fpos" id="oFields"></table></div>
+        <label class="f">預覽（黃框＝套印位置；底圖不會印出）</label>
+        <div class="ovwrap"><div id="oPrev"></div></div>
+        <div class="btns">
+          <button class="btn" id="oSave">儲存套印設定</button>
+          <button class="btn ghost" id="oTest">印測試套印（白紙）</button>
+          <button class="btn ghost" id="oGrid">印校正格線</button>
+          <button class="btn red" id="oReset">恢復預設位置</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>使用步驟</h2>
+        <ol style="margin:0;padding-left:20px;font-size:.92rem">
+          <li>先在「開收據」選你是哪一位收款人。</li>
+          <li>找到繳款人的名字，點一下。身分已確認的會自動帶出金額，還沒確認的請現場問了再選。</li>
+          <li>核對金額、收到錢後，按「開立並列印」或「只開立」。用紙本收據本手寫的話，照「手寫收據本對照」抄，並填上收據本號碼，按「只開立」登記。</li>
+          <li>開好的人名字會變綠色。同一個人重複開會跳出提醒。</li>
+          <li>開錯了到「收費總表」按「作廢」，再重新開一張。</li>
+          <li>結束後到「收費總表」看總額，按「匯出 CSV」交給理事長。</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h2>名冊來源與待確認</h2>
+        <div id="srcInfo" style="font-size:.88rem"></div>
+        <div class="btns"><button class="btn red" id="logout">登出（清除這台裝置的記住登入）</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="printArea"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ENC = {"iter": 200000, "iv": "Iuk4UwRJlG1nHP30", "ct": "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", "slots": [{"who": "\u7406\u4e8b\u9577 \u5982\u5e84", "salt": "Yrp+ixyC6pshYD0xjX0dUg==", "iv": "hCEGbnkTv7k9wJxK", "ct": "qcrVO1bFHWPwWgd3FReOL9f7ErcYYSDbh/UOzkf+mvA6zKLgjEL5qzShyh3envdq"}, {"who": "\u5efa\u660c", "salt": "+dyLmRXmVGoaZqdFRXf/3Q==", "iv": "IDjybP1UshDLZL5J", "ct": "f4aDWmqgOqsfaF+UsBkqVjzDadc0zWeN766SXw7oRGU6MItCDT9SF5XyOCWs7GMo"}, {"who": "\u82b8\u742a", "salt": "w7PNY1bVDnCIwSC2P+0uog==", "iv": "PBkyK9t9CAmKSdP5", "ct": "FLm3PDZBNY5u9GUyHGK+9jsuuX0HSuMmk7tKmxkfR+Z8G8h4cbSPierJr8qdKQk7"}, {"who": "\u516c\u7528", "salt": "UhljUYuF1j2K003D6eQx0g==", "iv": "ea6Cw7fdtuxutP35", "ct": "zpx/nbARUjky5wY+L23ZnWz2DrcTVdaNbaVEVQc7MCGHQpHoIwKfCXa9gSR6K0CL"}]};
+const PAGES=[['p-issue','① 開收據'],['p-records','② 收費總表'],['p-batch','③ 批次列印'],['p-help','④ 套印與設定']];
+const FEES={
+ '舊會員':{items:[['常年會費',200],['餐費',500]]},
+ '新會員':{items:[['入會費（新會員）',300],['餐費',500]]},
+ '家人':{items:[['餐費（眷屬）',800]]},
+ '國小':{items:[['餐費（國小 11 歲以下）',600]]},
+ '嬰幼兒免費':{items:[['餐費（嬰幼兒）',0]]},
+ '工作人員':{items:[['餐費（工作人員）',0]]},
+ '其他（自填金額）':{items:[['其他',0]],custom:true}
+};
+const CASHIERS=[['A','永蘭'],['B','秀霞'],['C','芸琪'],['D','蜜芳'],['E','其他']];
+const DEF_SET={org:'宜蘭縣新住民發展協會',chair:'阮如庄',date:'中華民國 115 年 11 月 15 日',addr:''};
+const OV_FIELDS=[['no','收據編號'],['date','日期'],['name','繳款人姓名'],['item1','項目 1'],['amt1','金額 1'],['item2','項目 2'],['amt2','金額 2'],['item3','項目 3'],['amt3','金額 3'],['cap','合計（大寫）'],['total','合計（數字）'],['pay','付款方式'],['note','備註'],['cashier','經手人'],['table','桌號'],['sNo','存根：編號'],['sName','存根：姓名'],['sAmt','存根：金額'],['sDate','存根：日期'],
+ ['dY','日期：年'],['dM','日期：月'],['dD','日期：日'],['qty1','數量 1'],['unit1','單價 1'],['qty2','數量 2'],['unit2','單價 2'],['qty3','數量 3'],['unit3','單價 3'],
+ ['cWan','大寫：萬'],['cQian','大寫：千'],['cBai','大寫：百'],['cShi','大寫：拾'],['cYuan','大寫：元']];
+const OV_DEF={w:190,h:92,dx:0,dy:0,fs:11,bg:'',f:{no:[78,21,1],date:[140,21,1],name:[82,28,1],item1:[62,39,1],amt1:[150,39,1],item2:[62,45,1],amt2:[150,45,1],item3:[62,51,1],amt3:[150,51,1],cap:[72,57,1],total:[150,57,1],pay:[78,63,1],note:[130,63,1],cashier:[78,78,1],table:[170,28,0],sNo:[13,13,1],sName:[13,20,1],sAmt:[13,34,1],sDate:[13,62,1],dY:[0,0,0],dM:[0,0,0],dD:[0,0,0],qty1:[0,0,0],unit1:[0,0,0],qty2:[0,0,0],unit2:[0,0,0],qty3:[0,0,0],unit3:[0,0,0],cWan:[0,0,0],cQian:[0,0,0],cBai:[0,0,0],cShi:[0,0,0],cYuan:[0,0,0]}};
+// 免用統一發票收據（依照片估算，位置用比例，套到實際尺寸）
+const PRESET_BOOK={w:190,h:128,P:{name:[140,128],dY:[800,147],dM:[915,147],dD:[1000,147],
+ item1:[40,244],qty1:[361,244],unit1:[450,244],amt1:[600,244],item2:[40,309],qty2:[361,309],unit2:[450,309],amt2:[600,309],item3:[40,375],qty3:[361,375],unit3:[450,375],amt3:[600,375],
+ note:[755,244],no:[755,309],cashier:[755,375],pay:[755,442],cWan:[229,697],cQian:[329,697],cBai:[434,697],cShi:[539,697],cYuan:[634,697]},W:1130,H:760};
+function capDigits(n){const D='零壹貳參肆伍陸柒捌玖';const s=String(Math.max(0,Math.min(99999,Math.round(n||0)))).padStart(5,'0');return s.split('').map(c=>D[+c])}
+let OV=null;
+const K={rec:'xm1115_records',set:'xm1115_settings',me:'xm1115_cashier',auth:'xm1115_auth',seq:'xm1115_seq'};
+let ROSTER=[],META={},REC=[],SET={},target='p-issue',current=null,selTable='全部';
+
+function ls(k,v){try{if(v===undefined){const s=localStorage.getItem(k);return s?JSON.parse(s):null}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2200)}
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const b64e=u=>btoa(String.fromCharCode(...new Uint8Array(u)));
+
+// ---- 解密 ----
+let WHO='';
+async function unlock(code){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveBits']);
+  for(const sl of ENC.slots){
+    try{const kek=await crypto.subtle.deriveBits({name:'PBKDF2',salt:b64d(sl.salt),iterations:ENC.iter,hash:'SHA-256'},km,256);
+      const k=await crypto.subtle.importKey('raw',kek,'AES-GCM',false,['decrypt']);
+      const raw=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(sl.iv)},k,b64d(sl.ct));
+      return{raw,who:sl.who}}catch(e){}
+  }
+  throw new Error('bad');
+}
+async function decryptWith(raw){
+  const key=await crypto.subtle.importKey('raw',raw,'AES-GCM',false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(ENC.iv)},key,b64d(ENC.ct));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+// ---- 登入 ----
+function buildGateMenu(){
+  $('gateMenu').innerHTML=PAGES.map(([id,n])=>`<button type="button" class="chip${id===target?' on':''}" data-p="${id}">${n}</button>`).join('');
+  $('gateMenu').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{target=b.dataset.p;buildGateMenu()});
+}
+$('showBtn').onclick=()=>{const c=$('code');c.type=c.type==='password'?'text':'password';$('showBtn').textContent=c.type==='password'?'顯示':'隱藏'};
+$('code').addEventListener('keydown',e=>{if(e.key==='Enter')$('enter').click()});
+$('enter').onclick=async()=>{
+  $('err').textContent='';
+  if(!window.crypto||!crypto.subtle){$('err').textContent='這個瀏覽器不支援解密，請改用 Chrome 或 Safari 開啟。';return}
+  if(!$('agree').checked){$('err').textContent='請先勾選「我已閱讀並同意」。';return}
+  const code=$('code').value.trim();if(!code){$('err').textContent='請輸入通行碼。';return}
+  $('enter').disabled=true;$('enter').textContent='驗證中…';
+  try{
+    const u=await unlock(code);const data=await decryptWith(u.raw);WHO=u.who;
+    if($('remember').checked) ls(K.auth,{k:b64e(u.raw),who:u.who,exp:Date.now()+30*864e5}); else lsDel(K.auth);
+    start(data);
+  }catch(e){$('err').textContent='通行碼錯誤，請再試一次。'}
+  $('enter').disabled=false;$('enter').textContent='進入';
+};
+async function tryRemembered(){
+  const a=ls(K.auth);if(!a||!a.k||Date.now()>a.exp){lsDel(K.auth);return}
+  try{const data=await decryptWith(b64d(a.k));WHO=a.who||'';start(data)}catch(e){lsDel(K.auth)}
+}
+
+// ---- 主程式 ----
+function start(data){
+  ROSTER=data.roster;META=data.meta;
+  REC=ls(K.rec)||[];SET=Object.assign({},DEF_SET,ls(K.set)||{});
+  OV=ls('xm1115_overlay')||JSON.parse(JSON.stringify(OV_DEF));OV.f=Object.assign({},JSON.parse(JSON.stringify(OV_DEF.f)),OV.f||{});
+  $('gate').style.display='none';$('app').style.display='block';
+  $('whoTag').textContent=WHO?'｜目前登入：'+WHO:'';
+  $('menu').innerHTML=PAGES.map(([id,n])=>`<button class="chip" data-p="${id}">${n}</button>`).join('');
+  $('menu').querySelectorAll('.chip').forEach(b=>b.onclick=()=>go(b.dataset.p));
+  $('cashier').innerHTML=CASHIERS.map(([c,n])=>`<option value="${c}">${n}</option>`).join('');
+  const me=ls(K.me);if(me)$('cashier').value=me;else if(WHO==='芸琪')$('cashier').value='C';
+  $('cashier').onchange=()=>{ls(K.me,$('cashier').value);if(current)renderPreview()};
+  $('fIdent').innerHTML='<option value="">— 請選擇身分 —</option>'+Object.keys(FEES).map(k=>`<option>${k}</option>`).join('');
+  const tables=[...new Set(ROSTER.map(r=>r.table))].sort((a,b)=>a-b);
+  $('tblFilter').innerHTML=['全部',...tables].map(t=>`<button class="chip" data-t="${t}">${t==='全部'?'全部':'第'+t+'桌'}</button>`).join('');
+  $('tblFilter').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{selTable=b.dataset.t;renderList()});
+  $('q').oninput=renderList;
+  ['fName','fIdent','fPay','fTable','fNote'].forEach(id=>$(id).addEventListener('input',renderPreview));
+  $('fIdent').addEventListener('change',renderPreview);
+  $('addGuest').onclick=()=>openForm(null);
+  $('cancelForm').onclick=()=>{current=null;$('formCard').style.display='none';renderList()};
+  $('issuePrint').onclick=()=>issue(true);$('issueOnly').onclick=()=>issue(false);
+  $('exportCsv').onclick=exportCsv;$('exportJson').onclick=exportJson;$('importJson').onchange=importJson;
+  $('rFilter').onchange=renderRecords;
+  $('bPrint').onclick=batchPrint;$('bBlank').onclick=blankPrint;
+  $('sSave').onclick=()=>{SET={org:$('sOrg').value,chair:$('sChair').value,date:$('sDate').value,addr:$('sAddr').value};ls(K.set,SET);toast('已儲存')};
+  $('sReset').onclick=()=>{SET=Object.assign({},DEF_SET);ls(K.set,SET);fillSet();toast('已恢復預設')};
+  $('logout').onclick=()=>{lsDel(K.auth);location.reload()};
+  fillSet();renderFees();initOverlay();
+  const pm=ls('xm1115_mode');if(pm){$('fMode').value=pm;$('bMode').value=pm}
+  $('fMode').onchange=()=>{ls('xm1115_mode',$('fMode').value);$('bMode').value=$('fMode').value};
+  $('bMode').onchange=()=>{ls('xm1115_mode',$('bMode').value);$('fMode').value=$('bMode').value};
+  $('srcInfo').innerHTML=META.source.map(s=>'・'+esc(s)).join('<br>');
+  go(target);
+}
+function fillSet(){$('sOrg').value=SET.org;$('sChair').value=SET.chair;$('sDate').value=SET.date;$('sAddr').value=SET.addr}
+function go(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id===p));
+  document.querySelectorAll('#menu .chip').forEach(x=>x.classList.toggle('on',x.dataset.p===p));
+  if(p==='p-issue')renderList();if(p==='p-records')renderRecords();if(p==='p-batch')renderBatch();
+  window.scrollTo(0,0);
+}
+const valid=()=>REC.filter(r=>!r.void);
+const issuedFor=id=>valid().filter(r=>r.pid===id);
+function feeOf(ident,custom){const f=FEES[ident];if(!f)return{items:[],total:0};
+  let items=f.items.map(x=>[...x]);if(f.custom)items[0][1]=Number(custom)||0;
+  return{items,total:items.reduce((s,x)=>s+x[1],0)}}
+
+function renderList(){
+  const q=$('q').value.trim();
+  document.querySelectorAll('#tblFilter .chip').forEach(b=>b.classList.toggle('on',b.dataset.t===String(selTable)));
+  let L=ROSTER.filter(r=>selTable==='全部'||String(r.table)===String(selTable));
+  if(q)L=L.filter(r=>r.name.includes(q)||String(r.table)===q||(r.group||'').includes(q));
+  $('plist').innerHTML=L.map(r=>{
+    const done=issuedFor(r.id).length>0;
+    return `<button class="person${done?' done':''}${current&&current.id===r.id?' sel':''}" data-id="${r.id}">
+      <div class="n">${esc(r.name)}${done?'<span class="tag ok">已開</span>':''}${r.pay?'<span class="tag">'+esc(r.pay)+'</span>':''}</div>
+      <div class="m">第${r.table}桌・${esc(r.ident||'身分未確認')}${r.note?'・'+esc(r.note):''}</div></button>`}).join('')||'<div style="color:var(--muted)">找不到，請用「名單外臨時來的人」</div>';
+  $('plist').querySelectorAll('.person').forEach(b=>b.onclick=()=>openForm(ROSTER.find(r=>r.id==b.dataset.id)));
+}
+function openForm(r){
+  current=r||{id:'g'+Date.now(),guest:true,name:'',table:'',ident:'',note:'名單外',pay:''};
+  $('formTitle').textContent=r?'開立收據':'開立收據（名單外）';
+  $('fName').value=current.name;$('fIdent').value=current.ident||'';
+  $('fPay').value=current.pay==='轉帳'?'轉帳':'現金';$('fTable').value=current.table;
+  $('fNote').value=(current.note||'').replace(/已轉帳/,'').trim()+(current.pay==='轉帳'?' 已轉帳':'');
+  $('fNote').value=$('fNote').value.trim();
+  $('fBook').value=ls('xm1115_book')||'';
+  $('formCard').style.display='block';renderList();renderPreview();
+  $('formCard').scrollIntoView({behavior:'smooth'});
+}
+function customAmt(){return FEES[$('fIdent').value]&&FEES[$('fIdent').value].custom?(prompt('請輸入金額',current.custom||'')||0):0}
+function draft(){
+  const ident=$('fIdent').value;const f=feeOf(ident,current.custom);
+  const cc=$('cashier').value;const cn=CASHIERS.find(x=>x[0]===cc)[1];
+  return{book:$('fBook').value.trim(),no:'（開立後產生）',pid:current.id,name:$('fName').value.trim(),table:$('fTable').value,ident,items:f.items,total:f.total,pay:$('fPay').value,note:$('fNote').value.trim(),cashier:cn,cc,time:''};
+}
+function renderPreview(){
+  if(!current)return;
+  if(FEES[$('fIdent').value]&&FEES[$('fIdent').value].custom&&current.custom===undefined){current.custom=customAmt()}
+  const d=draft();$('fAmt').textContent=d.total.toLocaleString();$('fCap').textContent=d.total?'（新台幣'+cap(d.total)+'）':'';
+  const dup=current.guest?[]:issuedFor(current.id);
+  $('dupWarn').textContent=dup.length?`⚠️ ${d.name} 已經開過 ${dup.length} 張收據（${dup.map(x=>x.no).join('、')}），確定要再開嗎？`:'';
+  $('preview').innerHTML=receiptHTML(d);
+  const c=capDigits(d.total);
+  $('hand').innerHTML=`<b>✍️ 手寫收據本對照</b><br>台照：<b>${esc(d.name)||'（姓名）'}</b>　日期：115 年 11 月 15 日<br>`+
+    d.items.map(x=>`品名：${esc(x[0])}　數量 1　單價 ${x[1].toLocaleString()}　總價 ${x[1].toLocaleString()}`).join('<br>')+
+    `<br>合計新台幣：<b style="font-size:1.05rem;letter-spacing:.05em">${c[0]} 萬 ${c[1]} 千 ${c[2]} 百 ${c[3]} 拾 ${c[4]} 元整</b>（${d.total.toLocaleString()} 元）<br>備註：${esc([d.pay,d.note].filter(Boolean).join('，'))||'—'}`;
+}
+function nextNo(cc){const s=ls(K.seq)||{};const all=REC.filter(r=>r.cc===cc).map(r=>parseInt(r.no.split('-').pop())||0);
+  const n=Math.max(s[cc]||0,...all,0)+1;s[cc]=n;ls(K.seq,s);return `1151115-${cc}-${String(n).padStart(3,'0')}`}
+function issue(print){
+  const d=draft();
+  if(!d.name){toast('請填繳款人姓名');return}
+  if(!d.ident){toast('請先選身分');return}
+  const dup=current.guest?[]:issuedFor(current.id);
+  if(dup.length&&!confirm(`${d.name} 已經開過收據，確定再開一張？`))return;
+  if(!confirm(`確認開立收據？\n\n${d.name}｜${d.ident}\n金額：${d.total.toLocaleString()} 元（${d.pay}）\n收款人：${d.cashier}`))return;
+  d.no=nextNo(d.cc);d.time=new Date().toLocaleString('zh-TW',{hour12:false});
+  if(current.guest){d.pid=current.id;}
+  REC.push(d);ls(K.rec,REC);if(d.book&&/^\d+$/.test(d.book))ls('xm1115_book',String(+d.book+1).padStart(d.book.length,'0'));
+  toast('已開立 '+d.no);
+  if(print)doPrint([d],false,$('fMode').value);
+  current=null;$('formCard').style.display='none';renderList();
+}
+// 數字轉大寫
+function cap(n){
+  if(n===0)return'零元整';const D='零壹貳參肆伍陸柒捌玖',U=['','拾','佰','仟'];
+  const sec=x=>{let s='',z=false;const a=String(x).padStart(4,'0').split('').map(Number);
+    a.forEach((d,i)=>{if(d===0){z=true}else{if(z&&s)s+='零';s+=D[d]+U[3-i];z=false}});return s};
+  let w=Math.floor(n/10000),r=n%10000,s='';
+  if(w)s+=sec(w)+'萬';if(r){if(w&&r<1000)s+='零';s+=sec(r)}
+  return s+'元整';
+}
+function receiptHTML(d,blank){
+  const rows=blank?[['',''],['',''],['','']]:d.items.map(x=>[x[0],x[1].toLocaleString()]);
+  while(rows.length<3)rows.push(['','']);
+  const B=v=>blank?'':esc(v);
+  const stub=`<div class="stub"><h4>存根聯</h4>
+    <div>編號：${B(d.no)}</div><div>姓名：${B(d.name)}</div><div>身分：${B(d.ident)}</div>
+    <div>金額：${blank?'':'NT$ '+d.total.toLocaleString()}</div><div>方式：${B(d.pay)}</div>
+    <div>桌號：${B(d.table)}</div><div>收款人：${B(d.cashier)}</div><div>時間：${B(d.time)}</div>
+    <span class="cut">騎縫線</span></div>`;
+  return `<div class="rc">${stub}<div class="main">
+    <div class="hd"><div class="org">${esc(SET.org)}</div><div class="ttl">收據</div></div>
+    <div class="meta"><span>收據編號：${B(d.no)}</span><span>${esc(SET.date)}</span></div>
+    <div class="payer">茲收到 <u>${blank?'&nbsp;'.repeat(18):esc(d.name)}</u> 君　繳交 115 年度會員大會費用</div>
+    <table><tr><th style="width:62%">項目</th><th>金額（新台幣）</th></tr>
+      ${rows.map(r=>`<tr><td>${esc(r[0])||'&nbsp;'}</td><td class="num">${r[1]||''}</td></tr>`).join('')}
+      <tr class="tot"><td>合計　${blank?'':'新台幣'+cap(d.total)}</td><td class="num">${blank?'':d.total.toLocaleString()}</td></tr>
+    </table>
+    <div class="meta" style="margin-top:1mm"><span>付款方式：${blank?'□現金　□轉帳':esc(d.pay)}</span><span>備註：${B(d.note)}</span></div>
+    <div class="foot">
+      <div>理事長：${esc(SET.chair)}　　經手人：${blank?'＿＿＿＿＿':esc(d.cashier)}<br><span class="copy">收執聯（交繳款人收執）${SET.addr?'｜'+esc(SET.addr):''}</span></div>
+      <div class="seal">協會<br>印鑑</div>
+    </div></div></div>`;
+}
+function setPage(css){$('pageStyle').textContent='@media print{@page{'+css+'}}'}
+function doPrint(list,blank,mode){
+  mode=mode||($('fMode')?$('fMode').value:'full');
+  if(mode==='overlay'&&!blank){setPage(`size:${OV.w}mm ${OV.h}mm;margin:0`);$('printArea').innerHTML=list.map(d=>overlayHTML(d,false)).join('')}
+  else{setPage('size:A4 portrait;margin:8mm 10mm');$('printArea').innerHTML=list.map(d=>receiptHTML(d,blank)).join('')}
+  setTimeout(()=>window.print(),80);
+}
+// ---- 套印 ----
+function ovValues(d){
+  const it=d.items||[];const v={no:d.no,date:SET.date,name:d.name,cap:d.total!==undefined?'新台幣'+cap(d.total):'',total:d.total!==undefined?d.total.toLocaleString():'',pay:d.pay,note:d.note,cashier:d.cashier,table:d.table?('第'+d.table+'桌'):'',sNo:d.no,sName:d.name,sAmt:d.total!==undefined?'NT$ '+d.total.toLocaleString():'',sDate:'115.11.15'};
+  for(let i=0;i<3;i++){v['item'+(i+1)]=it[i]?it[i][0]:'';v['amt'+(i+1)]=it[i]?it[i][1].toLocaleString():'';v['qty'+(i+1)]=it[i]?'1':'';v['unit'+(i+1)]=it[i]?it[i][1].toLocaleString():''}
+  v.dY='115';v.dM='11';v.dD='15';
+  if(d.total!==undefined){const c=capDigits(d.total);[v.cWan,v.cQian,v.cBai,v.cShi,v.cYuan]=c}
+  if(d.cashier)v.cashier='經手人：'+d.cashier;if(d.no&&OV.f.no&&OV.w!==190)v.no='系統號 '+d.no;
+  return v;
+}
+function overlayHTML(d,screen,grid){
+  const v=ovValues(d||{});
+  const fields=OV_FIELDS.map(([k,lab])=>{const p=OV.f[k];if(!p||!p[2])return'';
+    const txt=grid?lab:(v[k]||'');if(!txt)return'';
+    return `<span class="fd${screen||grid?' mk':''}" style="left:${p[0]+Number(OV.dx||0)}mm;top:${p[1]+Number(OV.dy||0)}mm;font-size:${OV.fs}pt">${esc(txt)}</span>`}).join('');
+  let g='';if(grid){g='<div class="grid"></div>';for(let x=0;x<=OV.w;x+=10)g+=`<span class="gl" style="left:${x+.5}mm;top:.5mm">${x}</span>`;for(let y=10;y<=OV.h;y+=10)g+=`<span class="gl" style="left:.5mm;top:${y+.3}mm">${y}</span>`}
+  const bg=screen&&OV.bg?`<img class="bgimg" src="${OV.bg}">`:'';
+  return `<div class="ovpage" style="width:${OV.w}mm;height:${OV.h}mm">${bg}${g}${fields}</div>`;
+}
+const SAMPLE={no:'1151115-C-001',name:'王小明',table:5,ident:'舊會員',items:[['常年會費',200],['餐費',500]],total:700,pay:'現金',note:'',cashier:'芸琪'};
+function initOverlay(){
+  const fillO=()=>{$('oW').value=OV.w;$('oH').value=OV.h;$('oDX').value=OV.dx;$('oDY').value=OV.dy;$('oFS').value=OV.fs;
+    $('oFields').innerHTML='<tr><th>印</th><th>欄位</th><th>X（mm，從左邊算）</th><th>Y（mm，從上面算）</th></tr>'+OV_FIELDS.map(([k,l])=>{const p=OV.f[k];
+      return `<tr><td><input type="checkbox" data-k="${k}" data-i="2" ${p[2]?'checked':''}></td><td>${l}</td><td><input type="number" step="0.5" data-k="${k}" data-i="0" value="${p[0]}"></td><td><input type="number" step="0.5" data-k="${k}" data-i="1" value="${p[1]}"></td></tr>`}).join('');
+    $('oFields').querySelectorAll('input').forEach(i=>i.oninput=()=>{const p=OV.f[i.dataset.k];const ix=+i.dataset.i;p[ix]=ix===2?(i.checked?1:0):(parseFloat(i.value)||0);prevO()});
+    prevO()};
+  const prevO=()=>{$('oPrev').innerHTML=overlayHTML(SAMPLE,true)};
+  ['oW','oH','oDX','oDY','oFS'].forEach(id=>$(id).oninput=()=>{OV.w=+$('oW').value||OV.w;OV.h=+$('oH').value||OV.h;OV.dx=+$('oDX').value||0;OV.dy=+$('oDY').value||0;OV.fs=+$('oFS').value||11;prevO()});
+  $('oPreset').onchange=()=>{const v=$('oPreset').value;if(!v)return;const[w,h]=v.split('x').map(Number);OV.w=w;OV.h=h;fillO();$('oPreset').value=''};
+  $('oBg').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');const sc=Math.min(1,1100/im.width);c.width=im.width*sc;c.height=im.height*sc;c.getContext('2d').drawImage(im,0,0,c.width,c.height);OV.bg=c.toDataURL('image/jpeg',.7);prevO();toast('底圖已載入，記得按儲存')};im.src=rd.result};rd.readAsDataURL(f);e.target.value=''};
+  $('oBgClr').onclick=()=>{OV.bg='';prevO()};
+  $('oBook').onclick=()=>{const w=OV.w===190&&OV.h===92?PRESET_BOOK.w:OV.w,h=OV.w===190&&OV.h===92?PRESET_BOOK.h:OV.h;
+    if(!confirm(`套用「免用統一發票收據」的欄位位置？\n紙張尺寸用 ${w}×${h} mm（請先量好實際尺寸填在上面再按，位置會依比例換算）。`))return;
+    OV.w=w;OV.h=h;Object.keys(OV.f).forEach(k=>OV.f[k][2]=0);
+    Object.entries(PRESET_BOOK.P).forEach(([k,[x,y]])=>{OV.f[k]=[Math.round(x/PRESET_BOOK.W*w*2)/2,Math.round(y/PRESET_BOOK.H*h*2)/2,1]});
+    fillO();toast('已套用，請用白紙印測試頁對照')};
+  $('oSave').onclick=()=>{try{localStorage.setItem('xm1115_overlay',JSON.stringify(OV));toast('套印設定已儲存')}catch(e){const b=OV.bg;OV.bg='';ls('xm1115_overlay',OV);OV.bg=b;toast('已儲存位置；底圖太大存不下，下次要重新上傳')}};
+  $('oTest').onclick=()=>{setPage(`size:${OV.w}mm ${OV.h}mm;margin:0`);$('printArea').innerHTML=overlayHTML(SAMPLE,false);setTimeout(()=>window.print(),80)};
+  $('oGrid').onclick=()=>{setPage(`size:${OV.w}mm ${OV.h}mm;margin:0`);$('printArea').innerHTML=overlayHTML(SAMPLE,false,true);setTimeout(()=>window.print(),80)};
+  $('oReset').onclick=()=>{if(!confirm('恢復預設位置？（紙張大小與底圖保留）'))return;OV.f=JSON.parse(JSON.stringify(OV_DEF.f));OV.dx=0;OV.dy=0;OV.fs=OV_DEF.fs;fillO()};
+  fillO();
+}
+function renderRecords(){
+  const V=valid();const sum=a=>a.reduce((s,r)=>s+r.total,0);
+  const byC={};V.forEach(r=>{byC[r.cashier]=(byC[r.cashier]||0)+r.total});
+  const cash=sum(V.filter(r=>r.pay==='現金')),tr=sum(V.filter(r=>r.pay==='轉帳'));
+  const paidIds=new Set(V.map(r=>r.pid));
+  $('stats').innerHTML=[['已開收據',V.length+' 張'],['收款總額',sum(V).toLocaleString()+' 元'],['其中現金',cash.toLocaleString()+' 元'],['其中轉帳',tr.toLocaleString()+' 元'],['名冊人數',ROSTER.length+' 位'],['還沒開收據',ROSTER.filter(r=>!paidIds.has(r.id)).length+' 位']]
+    .concat(Object.entries(byC).map(([k,v])=>[k+' 收',v.toLocaleString()+' 元']))
+    .map(([a,b])=>`<div class="stat"><span>${a}</span><b>${b}</b></div>`).join('');
+  const f=$('rFilter').value||'全部';
+  $('rFilter').innerHTML=['全部',...CASHIERS.map(c=>c[1])].map(x=>`<option${x===f?' selected':''}>${x}</option>`).join('');
+  const L=REC.filter(r=>f==='全部'||r.cashier===f);
+  $('rtable').innerHTML='<tr><th>編號</th><th>收據本號</th><th>姓名</th><th>桌</th><th>身分</th><th class="num">金額</th><th>方式</th><th>收款人</th><th>時間</th><th></th></tr>'+
+    L.map((r,i)=>`<tr class="${r.void?'void':''}"><td>${esc(r.no)}</td><td>${esc(r.book||'')}</td><td>${esc(r.name)}</td><td>${esc(r.table)}</td><td>${esc(r.ident)}</td><td class="num">${r.total.toLocaleString()}</td><td>${esc(r.pay)}</td><td>${esc(r.cashier)}</td><td>${esc(r.time)}</td>
+    <td>${r.void?'已作廢':`<button class="btn ghost" style="padding:3px 8px" data-re="${esc(r.no)}">補印</button> <button class="btn red" style="padding:3px 8px" data-vo="${esc(r.no)}">作廢</button>`}</td></tr>`).join('');
+  $('rtable').querySelectorAll('[data-re]').forEach(b=>b.onclick=()=>doPrint([REC.find(r=>r.no===b.dataset.re)],false,$('fMode').value));
+  $('rtable').querySelectorAll('[data-vo]').forEach(b=>b.onclick=()=>{const r=REC.find(x=>x.no===b.dataset.vo);
+    if(confirm(`確定作廢 ${r.no}（${r.name} ${r.total} 元）？\n作廢後這張不算進總額。`)){r.void=true;r.voidTime=new Date().toLocaleString('zh-TW',{hour12:false});ls(K.rec,REC);renderRecords()}});
+  const un=ROSTER.filter(r=>!paidIds.has(r.id));const byT={};un.forEach(r=>(byT[r.table]=byT[r.table]||[]).push(r.name));
+  $('unpaid').innerHTML=Object.keys(byT).sort((a,b)=>a-b).map(t=>`<div style="margin:4px 0"><b>第${t}桌</b>（${byT[t].length}）：${byT[t].map(esc).join('、')}</div>`).join('')||'全部都開好了 🎉';
+}
+function renderBatch(){
+  const V=valid();const tables=[...new Set(V.map(r=>r.table))].filter(Boolean).sort((a,b)=>a-b);
+  $('bWhich').innerHTML=[`<option value="all">全部已開立（${V.length} 張）</option>`].concat(CASHIERS.map(c=>`<option value="c:${c[1]}">收款人：${c[1]}（${V.filter(r=>r.cashier===c[1]).length} 張）</option>`)).concat(tables.map(t=>`<option value="t:${t}">第${t}桌（${V.filter(r=>String(r.table)===String(t)).length} 張）</option>`)).join('');
+}
+function batchPrint(){const v=$('bWhich').value;let L=valid();
+  if(v.startsWith('c:'))L=L.filter(r=>r.cashier===v.slice(2));if(v.startsWith('t:'))L=L.filter(r=>String(r.table)===v.slice(2));
+  if(!L.length){toast('沒有可列印的收據');return}doPrint(L,false,$('bMode').value)}
+function blankPrint(){const n=Math.min(60,Math.max(1,parseInt($('blankN').value)||1));doPrint(Array.from({length:n},()=>({})),true,'full')}
+function download(name,text,type){const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+function exportCsv(){const H=['收據編號','收據本號碼','姓名','桌號','身分','項目','金額','付款方式','收款人','開立時間','備註','狀態'];
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const rows=REC.map(r=>[r.no,r.book||'',r.name,r.table,r.ident,r.items.map(x=>x[0]+' '+x[1]).join('／'),r.total,r.pay,r.cashier,r.time,r.note,r.void?'作廢':'有效']);
+  download('1115會員大會_收費紀錄.csv','﻿'+[H,...rows].map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
+function exportJson(){const me=CASHIERS.find(c=>c[0]===$('cashier').value)[1];download(`1115收費紀錄備份_${me}.json`,JSON.stringify(REC),'application/json')}
+function importJson(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const arr=JSON.parse(rd.result);let n=0;
+  arr.forEach(r=>{if(r&&r.no&&!REC.some(x=>x.no===r.no)){REC.push(r);n++}});ls(K.rec,REC);renderRecords();toast(`已合併 ${n} 張收據`)}catch(err){toast('檔案格式不對')}};rd.readAsText(f);e.target.value=''}
+function renderFees(){$('feeTable').innerHTML='<tr><th>身分</th><th>項目</th><th class="num">合計</th></tr>'+Object.entries(FEES).filter(([k])=>!k.startsWith('其他')).map(([k,f])=>`<tr><td>${k}</td><td>${f.items.map(x=>x[0]+' '+x[1]).join('＋')}</td><td class="num">${f.items.reduce((s,x)=>s+x[1],0)}</td></tr>`).join('')}
+
+buildGateMenu();tryRemembered();
+</script>
+</body>
+</html>

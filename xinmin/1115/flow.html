@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,nosnippet,noarchive">
+<title>11/15 會員大會｜流程與工作進度</title>
+<style>
+:root{
+  --bg:#fbf7f2; --card:#ffffff; --ink:#2b2522; --muted:#7a6f68; --line:#ece3da;
+  --main:#b5473a; --main-soft:#f6e3df; --gold:#c9932f; --gold-soft:#f8eedb;
+  --green:#3d8b5a; --green-soft:#e2f1e7; --gray-soft:#f1ede9;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.6;font-size:16px}
+header{background:linear-gradient(135deg,#b5473a,#8f3329);color:#fff;padding:28px 20px 22px;text-align:center}
+header h1{margin:0;font-size:1.55rem;letter-spacing:.04em}
+header .sub{opacity:.9;margin-top:6px;font-size:.95rem}
+.count{display:inline-block;margin-top:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 18px;font-weight:700}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;gap:4px;padding:6px 10px}
+nav button{flex:0 0 auto;border:0;background:transparent;font:inherit;font-size:.95rem;padding:8px 14px;border-radius:999px;color:var(--muted);cursor:pointer}
+nav button.on{background:var(--main);color:#fff;font-weight:700}
+main{max-width:920px;margin:0 auto;padding:18px 14px 60px}
+section{display:none}
+section.on{display:block}
+h2{font-size:1.2rem;margin:8px 0 14px;padding-left:10px;border-left:5px solid var(--main)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.info div{background:var(--gray-soft);border-radius:10px;padding:10px 12px}
+.info b{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
+.note{font-size:.85rem;color:var(--muted)}
+.tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:999px;background:var(--gold-soft);color:#8a6318;margin-left:4px;vertical-align:middle}
+/* 流程 */
+.flow{position:relative;margin-left:8px}
+.step{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.step:last-child{border-bottom:0}
+.step .t{font-weight:700;color:var(--main);font-variant-numeric:tabular-nums}
+.step .what{font-weight:700}
+.step .who{font-size:.88rem;color:var(--muted)}
+.step.staff .t{color:var(--gold)}
+.step.key{background:var(--main-soft);border-radius:10px;padding:10px;margin:4px -10px;border-bottom:0}
+/* 分工 */
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--gray-soft);font-weight:700;font-size:.88rem}
+tr.me td{background:var(--main-soft)}
+.fee td:last-child{font-weight:700;color:var(--main);white-space:nowrap}
+/* 進度 */
+.bar{height:12px;background:var(--gray-soft);border-radius:999px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filters button{border:1px solid var(--line);background:#fff;font:inherit;font-size:.85rem;padding:5px 12px;border-radius:999px;cursor:pointer}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.day{margin-bottom:18px}
+.day h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:8px}
+.day h3 .d{background:var(--ink);color:#fff;border-radius:8px;padding:2px 10px;font-size:.88rem}
+.day.past h3 .d{background:#a79c94}
+.day.today h3 .d{background:var(--main)}
+.day.event h3 .d{background:var(--gold)}
+.task{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:#fff}
+.task input{width:20px;height:20px;margin-top:3px;accent-color:var(--green);flex:0 0 auto}
+.task .tx{flex:1}
+.task .owner{font-size:.82rem;color:var(--muted)}
+.task.done{background:var(--green-soft);border-color:#cfe6d6}
+.task.done .tx b{text-decoration:line-through;color:#5c7a66}
+.task.hidden{display:none}
+.status{font-size:.75rem;border-radius:999px;padding:1px 8px;margin-left:6px}
+.s-done{background:var(--green-soft);color:var(--green)}
+.s-todo{background:var(--main-soft);color:var(--main)}
+/* 待確認 */
+.q{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.q:last-child{border-bottom:0}
+.q .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--main);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.btn{border:1px solid var(--line);background:#fff;font:inherit;font-size:.85rem;padding:6px 14px;border-radius:8px;cursor:pointer}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+@media (max-width:560px){
+  .step{grid-template-columns:78px 1fr}
+  th,td{padding:8px 5px;font-size:.88rem}
+}
+@media print{
+  nav,.filters,.btns{display:none}
+  section{display:block !important;page-break-after:always}
+  header{background:#fff;color:#000;border-bottom:2px solid #000}
+  .count{border-color:#000}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>宜蘭縣新住民發展協會 會員大會</h1>
+  <div class="sub">2026/11/15（日）09:30–14:00｜羅東 金門餐廳</div>
+  <div class="count" id="countdown">倒數計算中…</div>
+</header>
+
+<nav id="nav">
+  <button data-s="s1" class="on">① 活動總覽</button>
+  <button data-s="s2">② 當天流程</button>
+  <button data-s="s3">③ 工作分工</button>
+  <button data-s="s4">④ 進度時間軸</button>
+  <button data-s="s5">⑤ 待確認事項</button>
+</nav>
+
+<main>
+
+<!-- ① 總覽 -->
+<section id="s1" class="on">
+  <h2>活動總覽</h2>
+  <div class="card">
+    <div class="info">
+      <div><b>日期</b>11/15（日）</div>
+      <div><b>報到</b>09:30 簽到、領摸彩券</div>
+      <div><b>大會時間</b>10:00–14:00</div>
+      <div><b>地點</b>金門餐廳（羅東鎮純精路二段 187 號）</div>
+      <div><b>內容</b>開會、頒獎、摸彩、卡拉 OK、用餐</div>
+      <div><b>服裝</b>請穿傳統國服</div>
+      <div><b>目前報名</b>97 位（11/11 名單）</div>
+      <div><b>報名截止</b>11/10（名單仍在增加中）</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px">💰 收費標準</h3>
+    <table class="fee">
+      <tr><th>身分</th><th>內容</th><th>金額</th></tr>
+      <tr><td>舊會員</td><td>餐費 500＋會費 200</td><td>700 元</td></tr>
+      <tr><td>新會員</td><td>會費 300＋餐費 500</td><td>800 元</td></tr>
+      <tr><td>家人</td><td>餐費</td><td>800 元</td></tr>
+      <tr><td>國小（11 歲以下）</td><td>餐費</td><td>600 元</td></tr>
+    </table>
+    <p class="note">＊每人都有摸彩券。越南文版邀請函沒有列「國小 600 元」這一項；嬰幼兒怎麼收費也還沒說明（見⑤待確認事項）。</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 8px">📋 報名人數（依登記幹部）</h3>
+    <table>
+      <tr><th>登記幹部</th><th>人數</th></tr>
+      <tr><td>Trang 阮如庄（羅東）</td><td>33</td></tr>
+      <tr><td>Nhanh 阮菁盈（蘇澳）</td><td>29</td></tr>
+      <tr><td>Cúc 阮秋菊（冬山）</td><td>23</td></tr>
+      <tr><td>Nga 陳玉娥</td><td>12</td></tr>
+      <tr><td><b>合計</b></td><td><b>97</b></td></tr>
+    </table>
+    <p class="note">＊依 11/11 17:33 理事長貼出的名單計算，含 4 位小孩。名單上「10」「+10」的意思還沒確認，實際人數可能更多。</p>
+  </div>
+</section>
+
+<!-- ② 流程 -->
+<section id="s2">
+  <h2>當天流程</h2>
+  <p class="note">標 <span class="tag">建議</span> 的時間是參考時間，請理事長確認後再定案。金色時間＝工作人員專用。</p>
+  <div class="card flow">
+    <div class="step staff"><div class="t">08:30</div><div><div class="what">工作人員到場集合 <span class="tag">建議</span></div><div class="who">全體工作人員，提早到、不要遲到</div></div></div>
+    <div class="step staff"><div class="t">08:30–09:15</div><div><div class="what">場地佈置、禮物搬上台擺好</div><div class="who">全體工作人員一起；桌位牌、簽到桌、摸彩箱就定位</div></div></div>
+    <div class="step staff"><div class="t">09:15</div><div><div class="what">櫃檯就位、核對名單與找零 <span class="tag">建議</span></div><div class="who">櫃檯組：玉娥（簽到）、永蘭、秀霞、芸琪、蜜芳（收費、摸彩券）</div></div></div>
+    <div class="step key"><div class="t">09:30</div><div><div class="what">來賓報到：簽名 → 繳費 → 領摸彩券 → 帶位</div><div class="who">招待：氏慧、金鳳、玉娥｜帶位：菁盈、秋菊、氏棉</div></div></div>
+    <div class="step key"><div class="t">10:00</div><div><div class="what">大會開始・主持人開場</div><div class="who">主持：惠珍｜協助主持：建昌</div></div></div>
+    <div class="step"><div class="t">10:05</div><div><div class="what">理事長致詞 <span class="tag">建議</span></div><div class="who">阮如庄理事長</div></div></div>
+    <div class="step"><div class="t">10:15</div><div><div class="what">貴賓致詞・介紹 <span class="tag">建議</span></div><div class="who">招待組協助引導貴賓上台</div></div></div>
+    <div class="step"><div class="t">10:35</div><div><div class="what">會員大會：會務報告、討論事項 <span class="tag">建議</span></div><div class="who">理事長、幹部</div></div></div>
+    <div class="step"><div class="t">11:05</div><div><div class="what">頒獎 <span class="tag">建議</span></div><div class="who">主持人唱名，拍照組上前拍照</div></div></div>
+    <div class="step"><div class="t">11:30</div><div><div class="what">開席用餐・傳統國服交流 <span class="tag">建議</span></div><div class="who">帶位組留意有沒有人沒位子</div></div></div>
+    <div class="step key"><div class="t">12:15</div><div><div class="what">摸彩＋卡拉 OK 穿插進行 <span class="tag">建議</span></div><div class="who">摸彩：大家輪流 2 位上台協助｜櫃檯組管摸彩箱、記錄得獎名單</div></div></div>
+    <div class="step"><div class="t">13:40</div><div><div class="what">大合照 <span class="tag">建議</span></div><div class="who">拍照：洪老師＋1 位（待安排）</div></div></div>
+    <div class="step key"><div class="t">14:00</div><div><div class="what">大會結束・送客</div><div class="who">招待組門口送客</div></div></div>
+    <div class="step staff"><div class="t">14:00 後</div><div><div class="what">收拾場地・櫃檯結帳點錢</div><div class="who">櫃檯組兩人以上一起點錢、簽名確認</div></div></div>
+    <div class="step staff"><div class="t">結束後</div><div><div class="what">工作人員一起坐下來吃飯、討論事情</div><div class="who">全體工作人員</div></div></div>
+  </div>
+</section>
+
+<!-- ③ 分工 -->
+<section id="s3">
+  <h2>工作分工</h2>
+  <p class="note">依理事長 11/5 公布的分工。粉紅底那一列是芸琪的工作。</p>
+  <div class="card">
+    <table>
+      <tr><th>工作</th><th>負責人</th><th>當天要做的事</th></tr>
+      <tr><td>招待：貴賓、客人</td><td>氏慧、金鳳、玉娥</td><td>門口迎賓、引導貴賓入座與上台</td></tr>
+      <tr><td>帶位、桌位安排</td><td>菁盈、秋菊、氏棉</td><td>依報名順序安排桌位（早報名的坐前面）</td></tr>
+      <tr><td>櫃檯：簽名</td><td>玉娥</td><td>簽到、核對名單</td></tr>
+      <tr class="me"><td>櫃檯：收費、摸彩</td><td>永蘭、秀霞、<b>芸琪</b>、蜜芳</td><td>依身分收費、發摸彩券、管摸彩箱、結帳</td></tr>
+      <tr><td>主持、協助主持</td><td>惠珍、建昌</td><td>串場、控制時間、唱名頒獎與摸彩</td></tr>
+      <tr><td>摸彩上台協助</td><td>大家輪流 2 位</td><td>抽獎、遞禮物</td></tr>
+      <tr><td>拍照</td><td>洪老師＋<b style="color:var(--main)">待安排 1 位</b></td><td>頒獎、摸彩、大合照</td></tr>
+      <tr><td>其他</td><td>臨時安排</td><td>—</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 8px">全體共同事項</h3>
+    <ul style="margin:0;padding-left:20px">
+      <li>提早到場幫忙佈置，不要遲到</li>
+      <li>把禮物帶上去佈置好</li>
+      <li>穿傳統國服</li>
+      <li>結束後一起吃飯、討論事情</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ④ 進度 -->
+<section id="s4">
+  <h2>工作進度時間軸</h2>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;font-size:.9rem"><span>整體完成度</span><b id="pct">0%</b></div>
+    <div class="bar"><i id="barfill"></i></div>
+    <div class="note" id="pctnote"></div>
+    <div class="btns">
+      <button class="btn" id="reset">清除勾選紀錄</button>
+      <button class="btn" onclick="window.print()">列印／存成 PDF</button>
+    </div>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div id="timeline"></div>
+  <p class="note">＊勾選紀錄只存在這台裝置的瀏覽器裡，不會同步給別人。</p>
+</section>
+
+<!-- ⑤ 待確認 -->
+<section id="s5">
+  <h2>待確認事項</h2>
+  <p class="note">以下是從群組對話整理出來、還沒有答案的事，建議 11/13 前問清楚。</p>
+  <div class="card">
+    <div class="q"><div class="n">1</div><div><b>名單要標「新會員、舊會員、家人、小孩」</b><br><span class="note">收費組要知道每個人該收 700、800 還是 600。建議請各區幹部在名單上標註。</span></div></div>
+    <div class="q"><div class="n">2</div><div><b>小孩和嬰兒怎麼收費？</b><br><span class="note">名單上有 4 位小孩，其中 1 位才 15 個月大。越南文版邀請函也漏掉了國小 600 元這一項。</span></div></div>
+    <div class="q"><div class="n">3</div><div><b>名單上的「10」「+10」是什麼意思？</b><br><span class="note">黎明珊、阮氏金鳳、阮義仁寫「10」，梅氏慧寫「+10」。如果是另外帶 10 個人，桌數、餐點、摸彩券都要增加。</span></div></div>
+    <div class="q"><div class="n">4</div><div><b>工作人員要不要繳費、算不算桌位？</b><br><span class="note">芸琪、秀霞、蜜芳、惠珍、建昌、氏慧都不在報名名單上。</span></div></div>
+    <div class="q"><div class="n">5</div><div><b>有些人已經先繳費了嗎？</b><br><span class="note">邀請函寫「提早報名繳費」，要確認哪些人已經在幹部那裡繳過，當天才不會重複收。</span></div></div>
+    <div class="q"><div class="n">6</div><div><b>拍照還缺 1 位</b></div></div>
+    <div class="q"><div class="n">7</div><div><b>最後確認的桌數，什麼時候要報給餐廳？</b></div></div>
+    <div class="q"><div class="n">8</div><div><b>當天流程的時間，請理事長定案</b><br><span class="note">②當天流程裡標「建議」的時間都是參考時間。</span></div></div>
+  </div>
+</section>
+
+</main>
+
+<footer>宜蘭縣新住民發展協會｜11/15 會員大會 工作用頁面</footer>
+
+<script>
+// 分頁切換
+document.querySelectorAll('#nav button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.getElementById(b.dataset.s).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+// 倒數
+(function(){
+  const ev=new Date(2026,10,15,9,30);
+  const now=new Date();
+  const d0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const d1=new Date(2026,10,15);
+  const days=Math.round((d1-d0)/86400000);
+  const el=document.getElementById('countdown');
+  if(days>0) el.textContent='距離大會還有 '+days+' 天';
+  else if(days===0) el.textContent= now<ev ? '就是今天！09:30 開始報到' : '大會今天進行中／已結束';
+  else el.textContent='大會已於 11/15 圓滿結束';
+})();
+
+// 進度資料（done:true＝群組裡已經發生的事）
+const groups=['全部','理事長','櫃檯組','招待帶位','主持','拍照','各區幹部','全體'];
+const days=[
+ {date:'2026-10-31',label:'10/31（六）',items:[
+   {id:'a1',t:'工作籌備小會議（理事長家）',o:'理事長',g:'理事長',done:true,n:'出席：秋菊、金鳳、永蘭、建昌'}
+ ]},
+ {date:'2026-11-03',label:'11/3（二）',items:[
+   {id:'b1',t:'公告會員大會邀請（中文＋越南文）',o:'理事長',g:'理事長',done:true},
+   {id:'b2',t:'開始接受報名、登記名單',o:'各區幹部',g:'各區幹部',done:true}
+ ]},
+ {date:'2026-11-05',label:'11/5（四）',items:[
+   {id:'c1',t:'領到紙本邀請函，開始發送',o:'全體姊妹',g:'全體',done:true},
+   {id:'c2',t:'公布當天工作分工',o:'理事長',g:'理事長',done:true}
+ ]},
+ {date:'2026-11-10',label:'11/10（二）',items:[
+   {id:'d1',t:'報名截止',o:'各區幹部',g:'各區幹部',done:true,n:'截止後名單仍有增加'}
+ ]},
+ {date:'2026-11-11',label:'11/11（三）',items:[
+   {id:'e1',t:'彙整最新名單（97 位）',o:'理事長',g:'理事長',done:true}
+ ]},
+ {date:'2026-11-12',label:'11/12（四）',items:[
+   {id:'f1',t:'各區名單標註身分：新會員／舊會員／家人／小孩',o:'菁盈、秋菊、玉娥、氏慧、金鳳、海燕',g:'各區幹部'},
+   {id:'f2',t:'確認誰已經先繳費、繳了多少',o:'各區幹部',g:'各區幹部'},
+   {id:'f3',t:'確認「10」「+10」的意思與最終人數',o:'理事長',g:'理事長'},
+   {id:'f4',t:'補上拍照第 2 位人選',o:'理事長',g:'拍照'}
+ ]},
+ {date:'2026-11-13',label:'11/13（五）',items:[
+   {id:'g1',t:'向金門餐廳確認桌數與開席時間',o:'理事長',g:'理事長'},
+   {id:'g2',t:'定案當天流程時間，交給主持人',o:'理事長',g:'理事長'},
+   {id:'g3',t:'做好收費名單（姓名、身分、應收、已收欄）',o:'永蘭、秀霞、芸琪、蜜芳',g:'櫃檯組'},
+   {id:'g4',t:'準備主持稿：開場、貴賓名單、頒獎名單',o:'惠珍、建昌',g:'主持'},
+   {id:'g5',t:'排好桌位表（早報名的坐前面）',o:'菁盈、秋菊、氏棉',g:'招待帶位'}
+ ]},
+ {date:'2026-11-14',label:'11/14（六）',items:[
+   {id:'h1',t:'清點摸彩禮物、編號',o:'永蘭、秀霞、芸琪、蜜芳',g:'櫃檯組'},
+   {id:'h2',t:'準備找零現金、收據或收款紀錄本、摸彩券、摸彩箱',o:'永蘭、秀霞、芸琪、蜜芳',g:'櫃檯組'},
+   {id:'h3',t:'準備簽到本、筆、名牌或桌牌',o:'玉娥、帶位組',g:'招待帶位'},
+   {id:'h4',t:'在群組提醒：明天提早到、穿傳統國服',o:'理事長',g:'理事長'},
+   {id:'h5',t:'相機、手機充電，確認拍照分工',o:'洪老師＋1 位',g:'拍照'}
+ ]},
+ {date:'2026-11-15',label:'11/15（日）大會當天',ev:true,items:[
+   {id:'i1',t:'提早到場佈置、禮物搬上台擺好',o:'全體工作人員',g:'全體'},
+   {id:'i2',t:'09:30 報到：簽名、收費、發摸彩券、帶位',o:'櫃檯組＋招待帶位',g:'櫃檯組'},
+   {id:'i3',t:'10:00 大會進行（開場、致詞、會務、頒獎）',o:'惠珍、建昌',g:'主持'},
+   {id:'i4',t:'摸彩：輪流 2 位上台、記錄得獎名單',o:'櫃檯組＋輪值姊妹',g:'櫃檯組'},
+   {id:'i5',t:'活動照片與大合照',o:'洪老師＋1 位',g:'拍照'},
+   {id:'i6',t:'結束後點錢結帳（兩人以上一起點、簽名）',o:'永蘭、秀霞、芸琪、蜜芳',g:'櫃檯組'},
+   {id:'i7',t:'收拾場地，工作人員一起吃飯、討論',o:'全體工作人員',g:'全體'}
+ ]},
+ {date:'2026-11-17',label:'11/16–11/17 會後',items:[
+   {id:'j1',t:'收支明細交給理事長',o:'櫃檯組',g:'櫃檯組'},
+   {id:'j2',t:'照片整理、分享到群組',o:'拍照組',g:'拍照'},
+   {id:'j3',t:'在群組感謝大家參與',o:'理事長',g:'理事長'}
+ ]}
+];
+
+const KEY='xinzhumin_1115_progress';
+let saved={};
+try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){saved={}}
+function isDone(it){return saved[it.id]!==undefined?saved[it.id]:!!it.done}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
+
+let current='全部';
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+
+function render(){
+  const tl=document.getElementById('timeline');
+  tl.innerHTML='';
+  const today=todayStr();
+  days.forEach(day=>{
+    const box=document.createElement('div');
+    let cls='day';
+    if(day.ev) cls+=' event';
+    else if(day.date<today) cls+=' past';
+    else if(day.date===today) cls+=' today';
+    box.className=cls;
+    const doneN=day.items.filter(isDone).length;
+    box.innerHTML='<h3><span class="d">'+day.label+'</span><span class="note">'+doneN+'/'+day.items.length+' 完成</span>'+(day.date===today?'<span class="tag">今天</span>':'')+'</h3>';
+    day.items.forEach(it=>{
+      const d=isDone(it);
+      const row=document.createElement('label');
+      row.className='task'+(d?' done':'')+((current!=='全部'&&it.g!==current)?' hidden':'');
+      row.innerHTML='<input type="checkbox" '+(d?'checked':'')+'><div class="tx"><b>'+it.t+'</b><span class="status '+(d?'s-done':'s-todo')+'">'+(d?'已完成':'待辦')+'</span><div class="owner">負責：'+it.o+(it.n?'｜'+it.n:'')+'</div></div>';
+      row.querySelector('input').onchange=e=>{saved[it.id]=e.target.checked;save();render()};
+      box.appendChild(row);
+    });
+    tl.appendChild(box);
+  });
+  const all=days.flatMap(d=>d.items);
+  const n=all.filter(isDone).length;
+  const p=Math.round(n/all.length*100);
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('barfill').style.width=p+'%';
+  document.getElementById('pctnote').textContent='共 '+all.length+' 項，已完成 '+n+' 項，還有 '+(all.length-n)+' 項。';
+}
+
+const f=document.getElementById('filters');
+groups.forEach(g=>{
+  const b=document.createElement('button');
+  b.textContent=g; if(g===current)b.className='on';
+  b.onclick=()=>{current=g;f.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render()};
+  f.appendChild(b);
+});
+document.getElementById('reset').onclick=()=>{saved={};save();render()};
+render();
+</script>
+</body>
+</html>
