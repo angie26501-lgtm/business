@@ -75,7 +75,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:24px 0 70px}
   <h2>上傳照片・試穿預覽</h2>
   <div class="try">
     <div class="stage" id="stage">
-      <div class="empty" id="empty">📷 上傳一張你的照片（建議全身或半身、正面站姿）<br><span class="hint">照片只在你的手機裡處理，不會上傳到任何地方。</span><br>
+      <div class="empty" id="empty">📷 上傳一張你的照片（建議正面站姿，肩膀要入鏡；全身照效果最好）<br><span class="hint">照片只在你的手機裡處理，不會上傳到任何地方。</span><br>
         <label>選擇照片<input type="file" id="photo" accept="image/*" hidden></label></div>
       <canvas id="cv" hidden></canvas>
     </div>
@@ -86,8 +86,9 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:24px 0 70px}
       <span>透明度</span><input type="range" id="op" min="0.3" max="1" step="0.01" value="1">
       <span>隱藏領口以上</span><input type="range" id="ct" min="0" max="0.35" step="0.01" value="0.08">
     </div>
-    <p class="hint" style="margin-top:4px">用手指拖曳衣服對準身體；兩指可以縮放。</p>
+    <p class="hint" style="margin-top:4px" id="auto">上傳後會自動偵測肩膀、把衣服對好位置；之後也可以用手指拖曳、兩指縮放微調。</p>
     <div class="row">
+      <button class="btn main" id="fit">🎯 自動對位</button>
       <button class="btn" id="flip">↔ 鏡像</button>
       <button class="btn" id="hide">👁 按住看原圖</button>
       <button class="btn" id="tag">🏷 場景標籤：開</button>
@@ -201,7 +202,7 @@ var pk=document.getElementById("picks");
 OUT.forEach(function(o,i){var b=document.createElement("button");b.innerHTML='<img src="wear/o'+(i+1)+'.png" alt="">'+"①②③④⑤⑥⑦⑧⑨⑩"[i]+" "+o[0];b.onclick=function(){pick(i)};pk.appendChild(b)});
 function pick(i){cur=i;Array.prototype.forEach.call(pk.children,function(b,k){b.className=k===i?"on":""});
   document.getElementById("prompt").textContent="請用我上傳的這張照片，保留我的臉、五官、髮型、身形與膚色完全不變，幫我換上這套穿搭："+OUT[i][1]+"。\n背景換成"+OUT[i][3]+"，自然光線，旅遊街拍風格，真實照片質感，全身入鏡，比例自然。";
-  document.getElementById("copied").textContent="";draw()}
+  document.getElementById("copied").textContent="";if(typeof LM!=="undefined"&&LM)autofit();draw()}
 function fit(){if(!photo)return;var w=Math.min(1400,photo.naturalWidth),k=w/photo.naturalWidth;cv.width=w;cv.height=Math.round(photo.naturalHeight*k);draw()}
 function draw(){if(!photo||!cv.width)return;var W=cv.width,H=cv.height;cx.clearRect(0,0,W,H);cx.drawImage(photo,0,0,W,H);
   var g=imgs[cur];if(!peek&&g&&g.complete&&g.naturalWidth){var dw=W*L.sc,dh=dw*g.naturalHeight/g.naturalWidth,sy=g.naturalHeight*L.ct;
@@ -210,7 +211,7 @@ function draw(){if(!photo||!cv.width)return;var W=cv.width,H=cv.height;cx.clearR
   if(showTag){var o=OUT[cur],fs=Math.max(16,W*.035),t=o[2]+"・"+o[0];cx.font="700 "+fs+"px 'Noto Serif TC',serif";var tw=cx.measureText(t).width;
     cx.fillStyle="rgba(14,22,48,.78)";cx.fillRect(0,H-fs*2.2,W,fs*2.2);cx.fillStyle="#f1cf7f";cx.textBaseline="middle";cx.fillText(t,(W-tw)/2,H-fs*1.1);
     cx.font=(fs*.6)+"px serif";cx.fillStyle="#f4e6c8";cx.fillText("EGYPT 2026",W*.03,H-fs*1.1)}}
-function load(f){if(!f)return;var u=URL.createObjectURL(f),im=new Image();im.onload=function(){photo=im;document.getElementById("empty").hidden=true;cv.hidden=false;fit()};im.src=u}
+function load(f){if(!f)return;var u=URL.createObjectURL(f),im=new Image();im.onload=function(){photo=im;document.getElementById("empty").hidden=true;cv.hidden=false;fit();detect()};im.src=u}
 document.getElementById("photo").onchange=function(){load(this.files[0])};
 document.getElementById("change").onclick=function(){document.getElementById("photo").click()};
 ["sc","rt","op","ct"].forEach(function(k){var e=document.getElementById(k);e.oninput=function(){L[k]=parseFloat(e.value);draw()}});
@@ -239,6 +240,27 @@ document.getElementById("copy").onclick=function(){var t=document.getElementById
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb)}else fb();
   function fb(){var x=document.createElement("textarea");x.value=t;document.body.appendChild(x);x.select();try{document.execCommand("copy");ok()}catch(e){m.textContent="請長按上方文字複製"}x.remove()}};
 pick(0);
+
+var CAL=[[.51,.133,.653],[.527,.082,.593],[.498,.059,.619],[.511,.037,.6],[.502,.15,.743],[.498,.122,.565],[.543,.146,.597],[.476,.03,.55],[.485,.144,.683],[.507,.174,.733]];
+var LM=null,poseP=null,autoOn=true,au=document.getElementById("auto");
+function ensurePose(){if(poseP)return poseP;poseP=new Promise(function(res,rej){var s=document.createElement("script");s.src="mp/pose.js";
+  s.onload=function(){try{var p=new Pose({locateFile:function(f){return "mp/"+f}});p.setOptions({modelComplexity:0,staticImageMode:true,smoothLandmarks:false,enableSegmentation:false,minDetectionConfidence:.5});
+    p.onResults(function(r){p._cb&&p._cb(r)});res(p)}catch(e){rej(e)}};s.onerror=rej;document.head.appendChild(s)});return poseP}
+function detect(){if(!photo)return;LM=null;au.textContent="🔍 正在偵測肩膀位置…（第一次會比較久）";
+  ensurePose().then(function(p){return new Promise(function(r){p._cb=r;p.send({image:photo})})}).then(function(r){
+    var l=r&&r.poseLandmarks;
+    if(!l||l[11].visibility<.4||l[12].visibility<.4){au.textContent="⚠ 找不到肩膀，請換一張肩膀清楚入鏡的照片，或用手指拖曳手動調整。";return}
+    LM=l;autofit();au.textContent="✓ 已自動對位。想微調可以拖曳衣服或用滑桿；換套也會自動對好。"})
+  .catch(function(){au.textContent="⚠ 自動對位載入失敗，請用手指拖曳手動調整。"})}
+function autofit(){if(!LM||!cv.width)return;var W=cv.width,H=cv.height,g=imgs[cur];if(!g.naturalWidth){g.onload=function(){autofit();draw()};return}
+  var a={x:LM[11].x*W,y:LM[11].y*H},b={x:LM[12].x*W,y:LM[12].y*H};if(a.x<b.x){var t=a;a=b;b=t}
+  var dx=a.x-b.x,dy=a.y-b.y,dist=Math.hypot(dx,dy),ang=Math.atan2(dy,dx),c=CAL[cur];
+  var dw=dist*1.32/c[2],dh=dw*g.naturalHeight/g.naturalWidth;
+  var tx=(a.x+b.x)/2+Math.sin(ang)*dist*.1,ty=(a.y+b.y)/2-Math.cos(ang)*dist*.1;
+  var ox=(.5-c[0])*dw,oy=(.5-c[1])*dh,co=Math.cos(ang),si=Math.sin(ang);
+  L.x=(tx+ox*co-oy*si)/W;L.y=(ty+ox*si+oy*co)/H;L.sc=Math.max(.15,Math.min(1.6,dw/W));L.rt=Math.max(-30,Math.min(30,ang*180/Math.PI));L.ct=Math.max(0,c[1]-.02);flip=false;
+  [["sc",L.sc],["rt",L.rt],["ct",L.ct]].forEach(function(p){document.getElementById(p[0]).value=p[1]});draw()}
+document.getElementById("fit").onclick=function(){if(!photo){alert("請先上傳照片");return}LM?autofit():detect()};
 </script>
 <a href="index.html" style="position:fixed;right:14px;bottom:14px;z-index:99;background:#0e1630;color:#f1cf7f;border:1px solid #d4a24c;border-radius:99px;padding:8px 14px;font-size:14px;text-decoration:none;box-shadow:0 4px 14px #0005">🏠 總目錄</a>
 </body>
