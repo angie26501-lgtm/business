@@ -35,7 +35,8 @@ header p{color:#e6d3ac;font-size:15px}
 .hui p{font-size:16.5px;margin-bottom:10px;text-align:justify}
 .hui .poem{text-align:center;color:var(--red);font-size:16px;margin:12px 0 4px;letter-spacing:.05em}
 .hui .look{background:var(--paper2);border-left:4px solid var(--gold);padding:8px 12px;font-size:14.5px;margin-top:10px;border-radius:2px}
-.hui .say{float:right;margin:-4px 0 0 8px;font-size:13px;padding:4px 12px}
+.hui .ctl2{float:right;display:flex;gap:6px;margin:-4px 0 0 8px}.hui .ctl2 .btn{font-size:13px;padding:4px 12px}.hui .stp{display:none}.hui.reading .stp{display:inline-block}
+.toc{scrollbar-width:thin;scrollbar-color:#b8862e #1a1208}.toc::-webkit-scrollbar{height:6px}.toc::-webkit-scrollbar-track{background:#1a1208}.toc::-webkit-scrollbar-thumb{background:#b8862e;border-radius:3px}
 .hui.reading{outline:3px solid var(--gold2)}
 .end{text-align:center;color:#e6d3ac;padding:10px 0 30px}
 .end b{color:var(--gold2);font-size:20px;letter-spacing:.2em}
@@ -145,7 +146,7 @@ var cn="一二三四五六七八九十";
 function num(i){i++;return i<=10?cn[i-1]:"十"+cn[i-11]}
 var book=document.getElementById("book"),toc=document.getElementById("toc");
 H.forEach(function(h,i){var s=document.createElement("section");s.className="hui";s.id="h"+(i+1);
-  s.innerHTML='<button class="btn say" data-i="'+i+'">🔊 聽這回</button><div class="no">第'+num(i)+'回</div><h2>'+h.t+'</h2><div class="meta">'+h.d+'</div>'+h.p.map(function(x){return"<p>"+x+"</p>"}).join("")+'<div class="poem">「'+h.poem+'」</div><div class="look">'+h.look+'</div>';
+  s.innerHTML='<div class="ctl2"><button class="btn say" data-i="'+i+'">🔊 聽這回</button><button class="btn stp">⏹ 停止</button></div><div class="no">第'+num(i)+'回</div><h2>'+h.t+'</h2><div class="meta">'+h.d+'</div>'+h.p.map(function(x){return"<p>"+x+"</p>"}).join("")+'<div class="poem">「'+h.poem+'」</div><div class="look">'+h.look+'</div>';
   book.appendChild(s);var a=document.createElement("a");a.href="#h"+(i+1);a.textContent="第"+num(i)+"回";toc.appendChild(a)});
 var rate=1,cur=-1,n=0,playing=false,parts=[],token=0,rates=[1,0.85,0.7,1.15];
 var au=new Audio(),hasA={},EXT=["mp3","m4a"];au.preload="auto";
@@ -156,7 +157,7 @@ function voice(){var vs=speechSynthesis.getVoices();return vs.filter(function(x)
 function split(i){var h=H[i],t="第"+num(i)+"回，"+h.t+"。"+h.p.join("")+h.poem+"。";return t.match(/[^。！？]+[。！？」]*/g)||[t]}
 function ui(){document.getElementById("pp").textContent=playing?"⏸":"▶";
   document.getElementById("now").textContent=cur<0?"按 ▶ 開始聽說書":(playing?"🔊 正在說：":"⏸ 暫停在：")+"第"+num(cur)+"回 "+H[cur].t+(hasA[cur]?"（🎙 芸琪親聲）":"");
-  Array.prototype.forEach.call(document.querySelectorAll(".say"),function(b,k){b.textContent=(k===cur&&playing)?"⏸ 暫停":"🔊 聽這回"})}
+  Array.prototype.forEach.call(document.querySelectorAll(".say"),function(b,k){b.textContent=(k===cur&&playing)?"⏸ 暫停":(k===cur?"▶ 繼續":"🔊 聽這回")})}
 function mark(i,scroll){Array.prototype.forEach.call(document.querySelectorAll(".hui"),function(s,k){s.classList.toggle("reading",k===i)});
   Array.prototype.forEach.call(toc.children,function(a,k){a.classList.toggle("on",k===i)});if(i>=0&&scroll)document.getElementById("h"+(i+1)).scrollIntoView({behavior:"smooth"})}
 function run(){var my=++token;if("speechSynthesis" in window)speechSynthesis.cancel();
@@ -171,7 +172,7 @@ function load(i,scroll){cur=i;n=0;parts=split(i);if(au.dataset.i!==String(i)){au
 function play(i){if(!hasA[i]&&!("speechSynthesis" in window)){alert("這個瀏覽器不支援朗讀");return}load(i,true);playing=true;run()}
 function pause(){playing=false;token++;au.pause();if("speechSynthesis" in window)speechSynthesis.cancel();ui()}
 function resume(){if(cur<0){play(0);return}playing=true;run()}
-book.addEventListener("click",function(e){var b=e.target.closest(".say");if(!b)return;var i=+b.dataset.i;if(i===cur&&playing)pause();else if(i===cur)resume();else play(i)});
+book.addEventListener("click",function(e){if(e.target.closest(".stp")){document.getElementById("stop").click();return}var b=e.target.closest(".say");if(!b)return;var i=+b.dataset.i;if(i===cur&&playing)pause();else if(i===cur)resume();else play(i)});
 document.getElementById("playAll").onclick=function(){play(0)};
 document.getElementById("pp").onclick=function(){playing?pause():resume()};
 document.getElementById("prev").onclick=function(){var i=Math.max(0,(cur<0?0:cur)-1);playing?play(i):(load(i,true),ui())};
