@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="說書人帶你遊埃及｜十三回">
+<meta property="og:description" content="各位旅人請坐好，今天說的是尼羅河畔五千年的故事。13 天行程，13 回故事。">
+<meta property="og:image" content="https://angie26501-lgtm.github.io/business/travel/egypt-2026/cover.jpg">
+<title>說書人帶你遊埃及</title>
+<style>
+:root{--night:#1a1208;--ink:#3a2a14;--paper:#f6ead0;--paper2:#efdcb4;--gold:#b8862e;--gold2:#e9c77a;--red:#8e2b1c;--muted:#7a6448}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif;background:var(--night);color:var(--ink);line-height:1.95}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header{text-align:center;color:var(--gold2);padding:46px 0 34px;background:radial-gradient(ellipse at 50% 0%,#4a2c12 0%,var(--night) 70%)}
+header .seal{display:inline-block;border:2px solid var(--red);color:#f0c0a8;background:#8e2b1c33;padding:2px 10px;font-size:13px;letter-spacing:.3em;transform:rotate(-3deg)}
+header h1{font-size:clamp(30px,7.5vw,48px);letter-spacing:.12em;margin:14px 0 6px}
+header p{color:#e6d3ac;font-size:15px}
+.intro{background:var(--paper);border-radius:4px;padding:26px 22px;margin:0 auto 22px;box-shadow:0 10px 40px #0008;position:relative}
+.intro::before,.intro::after{content:"";position:absolute;left:-6px;right:-6px;height:14px;background:linear-gradient(#c9a465,#8a6326);border-radius:8px}
+.intro::before{top:-8px}.intro::after{bottom:-8px}
+.intro p{font-size:17px;margin-bottom:10px}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0 20px}
+.btn{font:inherit;font-size:14px;padding:7px 16px;border-radius:99px;border:1px solid var(--gold);background:#2a1c0c;color:var(--gold2);cursor:pointer}
+.btn.on{background:var(--gold);color:var(--night)}
+.toc{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 14px;position:sticky;top:0;z-index:5;background:var(--night)}
+.toc a{flex:none;color:#e6d3ac;text-decoration:none;font-size:13px;border:1px solid #b8862e66;border-radius:6px;padding:3px 9px}
+.toc a.on{background:var(--gold);color:var(--night)}
+.hui{background:var(--paper);border-radius:4px;padding:24px 22px 20px;margin-bottom:22px;box-shadow:0 8px 30px #0007;scroll-margin-top:56px}
+.hui .no{font-size:13px;color:var(--red);letter-spacing:.3em}
+.hui h2{font-size:22px;line-height:1.5;margin:4px 0 2px}
+.hui .meta{font-size:13px;color:var(--muted);margin-bottom:12px;border-bottom:1px dashed #b8862e88;padding-bottom:8px}
+.hui p{font-size:16.5px;margin-bottom:10px;text-align:justify}
+.hui .poem{text-align:center;color:var(--red);font-size:16px;margin:12px 0 4px;letter-spacing:.05em}
+.hui .look{background:var(--paper2);border-left:4px solid var(--gold);padding:8px 12px;font-size:14.5px;margin-top:10px;border-radius:2px}
+.hui .say{float:right;margin:-4px 0 0 8px;font-size:13px;padding:4px 12px}
+.hui.reading{outline:3px solid var(--gold2)}
+.end{text-align:center;color:#e6d3ac;padding:10px 0 30px}
+.end b{color:var(--gold2);font-size:20px;letter-spacing:.2em}
+footer{text-align:center;color:#a8946e;font-size:12px;padding:10px 0 80px}
+</style>
+</head>
+<body>
+<header>
+  <span class="seal">說書人</span>
+  <h1>說書人帶你遊埃及</h1>
+  <p>十三天十三回・尼羅河畔五千年</p>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <p>各位旅人，請坐好，茶倒上。</p>
+    <p>今天要說的，是一條河的故事。兩千多年前，希臘有位愛到處跑的史學家希羅多德，走了一趟埃及，回去只留下一句話：「埃及，是尼羅河的贈禮。」</p>
+    <p>從這一晚起，咱們一天說一回，一共十三回。每一回，都是你即將親眼看見的地方。</p>
+  </div>
+
+  <div class="ctrl">
+    <button class="btn" id="playAll">🔊 從頭聽說書</button>
+    <button class="btn" id="stop">⏹ 停止</button>
+    <button class="btn" id="slow">語速：正常</button>
+  </div>
+
+  <nav class="toc" id="toc"></nav>
+  <div id="book"></div>
+
+  <div class="end"><b>全書完</b><br>故事說完了，接下來的，換你親自去寫。</div>
+</main>
+<footer>行程依亞薇夢創 11/16 報價單；熱氣球為自費選配。歷史內容為說書整理，細節以現場導遊解說為準。</footer>
+
+<script>
+var H=[
+ {d:"Day 1・11/26（四）",t:"夜航杜拜，故事從一條河開始",p:[
+  "話說這一晚，一行旅人在台北機場集合，提著行李，懷著心事，有人想著工作，有人想著金字塔。飛機在深夜起飛，經杜拜轉機，一路往西。",
+  "說書人要先告訴各位一件巧事：一九二二年的十一月二十六日，正好是埃及考古史上最傳奇的一天。英國人卡特拿著蠟燭，往一道封了三千多年的門縫裡看。身後有人問他：「看到什麼了嗎？」他只回了一句：「有，好多奇妙的東西。」",
+  "那道門後面，是少年法老圖坦卡門的墓。一百零四年後的同一天，你也啟程了。至於他看到了什麼，咱們第十回再說。"],
+  poem:"一夜飛越萬重山，五千年故事等人看",look:"今晚：機上過夜。帶一件薄外套，機艙很冷。"},
+ {d:"Day 2・11/27（五）",t:"勝利之城，千塔與市集",p:[
+  "一落地，便是開羅。這城的名字，阿拉伯語叫「卡希拉」，意思是「勝利者」。西元九六九年，法蒂瑪王朝在這裡建城，一千多年來，清真寺一座接一座蓋，蓋到後來，人們乾脆叫它「千塔之城」。",
+  "傍晚走進哈利利市集，那是十四世紀一位叫哈利利的官員開的商場。銅燈、香料、銀飾、紗巾，一攤接一攤。老闆開價，你笑著砍一半；你轉身要走，他一定叫住你。這不是吵架，這是開羅人的待客之道。"],
+  poem:"千塔晚禱聲聲遠，一盞銅燈照古街",look:"今天：清真寺記得帶大圍巾，遮頭、遮肩。住宿：百年法式公寓。"},
+ {d:"Day 3・11/28（六）",t:"金字塔下，誰在搬石頭",p:[
+  "今天是重頭戲。吉薩高原上，三座金字塔排成一列，最大的那座屬於古夫法老，約建於西元前兩千五百六十年，原本高一百四十六公尺。在往後將近四千年裡，世上再沒有人蓋出比它更高的建築。",
+  "從前大家都說，金字塔是奴隸被鞭子抽著蓋的。可是考古學家後來在附近挖到了工人的墓、工人的麵包坊，還有記錄口糧的紀錄。原來蓋金字塔的，多半是領薪水、有飯吃、生病還有人照顧的工匠。",
+  "守在前頭的人面獅身像，臉朝著日出的方向，已經等了四千多年。下午再進大埃及博物館，圖坦卡門的寶藏都在這裡等著你。"],
+  poem:"巨石無言立大漠，四千年來看日出",look:"今天：大埃及博物館、吉薩金字塔、尼羅河畔散步。帽子、墨鏡、絲巾一定要帶。"},
+ {d:"Day 4・11/29（日）",t:"亞歷山大，燈塔與一頭驢",p:[
+  "西元前三三一年，二十多歲的亞歷山大大帝來到地中海邊，指著海岸說：就在這裡建城。後來這座城出了兩樣天下第一：一座燈塔，一座圖書館。",
+  "那座法羅斯燈塔，是古代七大奇蹟之一，後來被地震震倒了。十五世紀，蘇丹奎貝在燈塔原址蓋了一座城堡，聽說還用了燈塔留下的石頭，也就是你今天看見的奎貝堡。",
+  "再說一件趣事。一九〇〇年，有頭驢子拉車拉著拉著，地面突然塌了個洞，驢子掉了下去。人們順著洞往下一看，竟是一座地下墓穴，埃及、希臘、羅馬的神明，全刻在同一面牆上。這就是科姆舒卡地下墓穴。這頭驢，咱們先記著，後面還有一頭。"],
+  poem:"燈塔已沉千年浪，一頭驢子掘古墳",look:"今天：海邊風大，加件外套。晚上專車回開羅。"},
+ {d:"Day 5・11/30（一）",t:"菲萊島上，女神在等她的丈夫",p:[
+  "搭飛機往南，來到亞斯文。這裡的尼羅河特別藍，岸邊的房子塗著鮮豔的顏色，這是努比亞人的家鄉。",
+  "島上那座菲萊神廟，供奉的是女神伊西斯。傳說她的丈夫歐西里斯被弟弟害死，身體被分成好幾塊，丟到埃及各地。伊西斯走遍天涯，一塊一塊找回來，把丈夫拼回原樣。從此她成了埃及人心中最深情的女神。",
+  "後來為了蓋水壩，菲萊神廟眼看要被河水淹沒，世界各國出錢出力，把整座神廟一塊一塊拆下來，搬到旁邊的小島上重新蓋好。你看，連神廟的命運，都跟女神的故事一模一樣。"],
+  poem:"一片深情拼舊夢，整座神殿渡新洲",look:"今天：搭國內班機。入住亞斯文網美特色酒店。"},
+ {d:"Day 6・12/1（二）",t:"阿布辛貝，一位法老的愛與自信",p:[
+  "一早出發，往南直到靠近蘇丹的邊境。沙漠裡突然出現四尊二十公尺高的巨像，坐在山壁前，臉都是同一個人：拉美西斯二世。他在位六十多年，是埃及最愛蓋紀念建築的法老。",
+  "旁邊那座小一點的神殿，是他蓋給王后娜芙塔莉的。神殿門口，王后的雕像跟法老一樣高。在古埃及，這是很少見的待遇。",
+  "神殿還藏著一個機關：每年大約二月和十月各有一天，清晨的陽光會一路照進六十公尺深的內殿，正好落在神像臉上。一九六〇年代，整座神殿為了避開水壩的大水，被切成上千塊，往上搬了六十多公尺。現代工程師費了好大功夫，才讓陽光照樣照得進去。今晚的燈光秀，就是說這段故事。"],
+  poem:"巨像四尊看沙海，一束晨光三千年",look:"今天：晚上有燈光秀，加件外套。住宿：阿布辛貝特色酒店。"},
+ {d:"Day 7・12/2（三）",t:"登船了，尼羅河上的水上市集",p:[
+  "回到亞斯文，先去努比亞村坐坐，喝杯熱茶，看看屋簷下的彩繪。午後登上尼羅河遊輪，接下來四天三夜，咱們就在河上過日子。",
+  "說書人最愛這一段：船慢慢開，岸邊會有小船靠過來，船上的人把紗巾、桌巾用力往上一拋，一下就拋上了甲板。你看中了，講好價錢，把錢包在袋子裡丟下去；看不中，再拋回去就是。這一來一往，就是尼羅河上的水上市集。"],
+  poem:"一襲紗巾飛上船，討價還價笑滿天",look:"今天：登船後先找頂層甲板，傍晚夕陽最美。"},
+ {d:"Day 8・12/3（四）",t:"鱷魚神與老鷹神",p:[
+  "船沿著河往北走，兩岸的神殿一座座出現。這一帶常停靠的，有兩座最有名。",
+  "一座是康翁波神廟，一座神殿供兩位神：左邊是鱷魚神索貝克，右邊是老鷹神荷魯斯。古時候尼羅河裡鱷魚多，百姓怕牠，乾脆拜牠。旁邊的小博物館裡，還有好幾具鱷魚木乃伊。",
+  "另一座是艾德夫神廟，供奉老鷹神荷魯斯。荷魯斯就是伊西斯女神的兒子，長大後替父親報了仇。這座神廟埋在沙裡很久，反而保存得特別完整，是埃及最完整的神廟之一。"],
+  poem:"鱷魚老鷹同一殿，千年香火未曾斷",look:"今天：遊輪沿岸神殿參觀（實際停靠點以導遊安排為準）。"},
+ {d:"Day 9・12/4（五）",t:"百門之都底比斯",p:[
+  "船到了盧克索。這裡古時候叫底比斯，是埃及最強盛時的首都。連遠在希臘的詩人荷馬，都在詩裡稱它是「百門之都」。",
+  "古埃及人看太陽：東邊日出，是生；西邊日落，是死。所以他們把住家和神殿蓋在河的東岸，把陵墓蓋在河的西岸。站在船上，你同時看得見活人之城和亡者之城，中間只隔著一條河。"],
+  poem:"東岸日出人間事，西岸日落帝王家",look:"今天：遊輪抵達盧克索，沿岸神殿參觀。"},
+ {d:"Day 10・12/5（六）",t:"帝王谷，少年法老的寶藏",p:[
+  "第一回留下的懸念，今天揭曉。帝王谷裡藏著六十多座法老的陵墓，幾乎每一座都被盜墓賊挖空了，唯獨一座：圖坦卡門。",
+  "他九歲登基，十八、九歲就過世，在歷史上並不顯赫。也正因為不顯眼，他的墓被別的墓的碎石蓋住，三千多年沒人發現。直到一九二二年，卡特找了好幾年，總算挖到第一級台階。門一打開，黃金面具、戰車、寶座，五千多件寶物原封不動。卡特說的那句「好多奇妙的東西」，就是這些。",
+  "下午走進卡納克神殿，這座神殿陸陸續續蓋了將近兩千年。大列柱廳裡有一百三十四根石柱，最粗的要好幾個人手拉手才圍得起來。站在柱子中間抬頭看，你就會明白，古埃及人是怎麼跟神說話的。"],
+  poem:"最小法老藏最深，一燭照見滿室金",look:"今天：帝王谷、卡納克神殿、盧克索神廟。"},
+ {d:"Day 11・12/6（日）",t:"日出熱氣球，再一路奔向沙漠",p:[
+  "天還沒亮，想飛的旅人就要起床了。這是自費選配的熱氣球。火焰一噴，氣球慢慢升起，你在空中看著太陽從東岸升起，照亮西岸的帝王谷。昨天說的生與死，今天從天上一眼就看完了。",
+  "落地後吃完早餐，搭機回開羅，再坐專車往西南方開，開進沙漠。窗外的沙先是金黃色，接著變成一片黑：那是火山岩碎石鋪成的黑沙漠。今晚就住在沙漠裡，看沙漠的日與夜。"],
+  poem:"一球升起東方白，萬里黃沙轉入黑",look:"今天：熱氣球自費選配，清晨很冷要穿暖。住宿：黑白沙漠特色酒店。"},
+ {d:"Day 12・12/7（一）",t:"白沙漠，第二頭驢的寶藏",p:[
+  "坐上 Jeep，衝進白沙漠。這裡的岩石是白色的石灰岩，千百年來被風一刀一刀削，削出蘑菇、雞、兔子的模樣，像一座露天的雕塑館。附近還有一座水晶山，整片山壁都是閃閃發亮的石英結晶。",
+  "還記得第四回那頭驢嗎？說書人說過後面還有一頭。一九九六年，在這附近的巴哈利亞綠洲，一位看守古蹟的人騎著驢，驢腳一陷，陷進一個洞裡。往下一挖，竟挖出一大片兩千多年前的木乃伊，好多都戴著金色面具，後來人們叫這裡「黃金木乃伊谷」。",
+  "埃及就是這樣，連驢子走路，都可能走出一段歷史。"],
+  poem:"風削白石成百獸，驢蹄一陷見黃金",look:"今天：沙漠早晚溫差大，羽絨外套放隨手可拿的地方。搭機回程，機上過夜。"},
+ {d:"Day 13・12/8（二）",t:"回到溫暖的家",p:[
+  "飛機落地，回到台灣。行李裡有椰棗、有銀飾，手機裡有幾千張照片。",
+  "可是說書人要說，最珍貴的不是這些。是你站在金字塔下的那一刻，是你在船上看著夕陽發呆的那一刻，是你在沙漠裡抬頭，發現星星多到數不完的那一刻。",
+  "希羅多德說，埃及是尼羅河的贈禮。說書人要再補一句：這一趟旅程，是你送給自己的贈禮。"],
+  poem:"十三回書今說盡，一河星月伴君歸",look:"回家後：把照片和心得整理進「旅遊日記」，印成一本書。"}];
+var cn="一二三四五六七八九十";
+function num(i){i++;return i<=10?cn[i-1]:"十"+cn[i-11]}
+var book=document.getElementById("book"),toc=document.getElementById("toc");
+H.forEach(function(h,i){var s=document.createElement("section");s.className="hui";s.id="h"+(i+1);
+  s.innerHTML='<button class="btn say" data-i="'+i+'">🔊 聽這回</button><div class="no">第'+num(i)+'回</div><h2>'+h.t+'</h2><div class="meta">'+h.d+'</div>'+h.p.map(function(x){return"<p>"+x+"</p>"}).join("")+'<div class="poem">「'+h.poem+'」</div><div class="look">'+h.look+'</div>';
+  book.appendChild(s);var a=document.createElement("a");a.href="#h"+(i+1);a.textContent="第"+num(i)+"回";toc.appendChild(a)});
+var rate=1,queue=[],cur=-1;
+function voice(){var v=speechSynthesis.getVoices().filter(function(x){return/zh[-_]TW/i.test(x.lang)});return v[0]||speechSynthesis.getVoices().filter(function(x){return/^zh/i.test(x.lang)})[0]}
+function mark(i){Array.prototype.forEach.call(document.querySelectorAll(".hui"),function(s,k){s.classList.toggle("reading",k===i)});
+  Array.prototype.forEach.call(toc.children,function(a,k){a.classList.toggle("on",k===i)});if(i>=0)document.getElementById("h"+(i+1)).scrollIntoView({behavior:"smooth"})}
+function speakHui(i,cont){if(!("speechSynthesis" in window)){alert("這個瀏覽器不支援朗讀");return}
+  speechSynthesis.cancel();cur=i;mark(i);var h=H[i];
+  var t="第"+num(i)+"回，"+h.t+"。"+h.p.join("")+h.poem+"。";
+  var parts=t.match(/[^。！？]+[。！？」]*/g)||[t],n=0;
+  (function next(){if(cur!==i)return;if(n>=parts.length){if(cont&&i+1<H.length)speakHui(i+1,true);else mark(-1);return}
+    var u=new SpeechSynthesisUtterance(parts[n++]);u.lang="zh-TW";var v=voice();if(v)u.voice=v;u.rate=rate;u.onend=next;u.onerror=next;speechSynthesis.speak(u)})()}
+book.addEventListener("click",function(e){var b=e.target.closest(".say");if(b)speakHui(+b.dataset.i,false)});
+document.getElementById("playAll").onclick=function(){speakHui(0,true)};
+document.getElementById("stop").onclick=function(){cur=-1;speechSynthesis.cancel();mark(-1)};
+document.getElementById("slow").onclick=function(){rate=rate===1?0.8:1;this.textContent="語速："+(rate===1?"正常":"慢")};
+if("speechSynthesis" in window)speechSynthesis.onvoiceschanged=function(){};
+</script>
+<a href="index.html" style="position:fixed;right:14px;bottom:14px;z-index:99;background:#2a1c0c;color:#e9c77a;border:1px solid #b8862e;border-radius:99px;padding:8px 14px;font-size:14px;text-decoration:none;box-shadow:0 4px 14px #0008">🏠 總目錄</a>
+</body>
+</html>
