@@ -53,7 +53,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
 <header>
   <div class="wrap">
     <h1>埃及行前功課</h1>
-    <p>2026.11.27 — 12.07｜開羅・亞歷山大・亞斯旺・阿布辛貝・尼羅河・盧克索・黑白沙漠</p>
+    <p>11/26（四）晚上出發 — 12/08 返台｜開羅・亞歷山大・亞斯旺・阿布辛貝・尼羅河・盧克索・黑白沙漠</p>
     <div class="count">距離出發還有 <b id="days">—</b> 天</div>
   </div>
 </header>
@@ -64,8 +64,18 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
 <main class="wrap">
 
 <section id="group">
-  <h2>群組公告重點 <span class="tag t-doc">Yawi亞薇夢創 群組 11/13–15</span></h2>
-  <div class="alert" style="background:#eef6f9;border-left-color:#2f6f8f">📅 <b>行前說明會：11/16（一）晚上 7:30</b>（欣燕提議，時間以群組最後確認為準）</div>
+  <h2>群組公告重點 <span class="tag t-doc">Yawi亞薇夢創 群組 11/13–17</span></h2>
+  <div class="alert" style="background:#eef6f9;border-left-color:#2f6f8f">✈️ <b>11/26（四）晚上 8:30 機場集合，搭 11:30 的班機</b>（凡寧 11/16 公布）。<br>報價單檔名寫「1126–1208」，也就是 11/26 出發、12/08 回到台灣。</div>
+  <div class="card">
+    <h3>📣 11/16 線上行前會議之後</h3>
+    <ul class="b">
+      <li>行前會議 11/16 晚上 7:30 已經在 Google Meet 開過。凡寧在群組分享了<b>報價單 PDF</b>（Yawi_Egypt_1126-1208報價單_1116），記得下載存到手機。</li>
+      <li>✅ <b>你的簽證已經辦好</b>（凡寧 11/17 通知）。</li>
+      <li>🌴 <b>椰棗團購接龍</b>：一盒 0.5 公斤，大約 20–23 顆。目前 Vivianna 10 盒、Yuna 3 盒、Brulee 5 盒；要的話在群組接龍。</li>
+      <li>👗 欣燕分享了她在埃及買的當地服裝，可以留著當造型參考。</li>
+      <li>你已經把「芸琪的AI神助理」加進群組（11/17）。</li>
+    </ul>
+  </div>
   <div class="card">
     <h3>👤 當地顧問 atta</h3>
     <ul class="b">
@@ -136,8 +146,9 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
   <h2>簽證與入境 <span class="tag t-doc">外交部資料</span></h2>
   <div class="card">
     <ul class="b">
+      <li>✅ <b>你的簽證已辦好</b>（凡寧 11/17 群組通知）。以下是一般規定，供參考。</li>
       <li>中華民國護照可辦<b>落地簽</b>或<b>電子簽</b>，單次入境皆為 <b>US$30</b>，停留 30 天。</li>
-      <li>護照效期需 <b>6 個月以上</b>（12/07 回程 → 護照最好 2027/6 以後才到期）。</li>
+      <li>護照效期需 <b>6 個月以上</b>（12/08 返台 → 護照最好 2027/6 以後才到期）。</li>
       <li><b>電子簽</b>官方網站：visa2egypt.gov.eg（只用這個官方網址，坊間代辦網站會加價）。</li>
       <li><b>落地簽</b>：入關前先到銀行櫃台買簽證貼紙（準備 30 美元現鈔），再排證照查驗。</li>
       <li>曾有航空公司拒載沒有回程機票的旅客 → 回程電子機票請印紙本或存手機。</li>
@@ -263,7 +274,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
 
 <script>
 (function(){
-  var dep=new Date(2026,10,27);
+  var dep=new Date(2026,10,26);
   var t=new Date(); t.setHours(0,0,0,0);
   var d=Math.ceil((dep-t)/86400000);
   document.getElementById('days').textContent=d>0?d:'出發囉';
@@ -273,7 +284,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:30px 0 40px}
   egp.addEventListener('input',calc);calc();
 
 var ask=["atta 推薦的購物網站：下單要寄到哪間飯店？幾天會到？用什麼付款？","演唱會延期後，11/28 晚上改成什麼行程？","簽證：旅行社代辦，還是自己辦電子簽／落地簽？","小費：團體小費含不含？每天大約多少？","機票：航班時間、轉機地點、行李公斤數","換匯：帶美金就好嗎？當地哪裡換埃及鎊比較好？","上網：建議買哪家 eSIM 或當地 SIM 卡？","保險：團體有沒有保旅平險？保額多少？","黑白沙漠露營：睡袋、毯子有提供嗎？晚上大概幾度？","熱氣球：幾點集合？有沒有年齡或身體狀況限制？","阿布辛貝、綠洲飯店：有吹風機、熱水嗎？需要自備什麼？"];
-  var todo=["參加 11/16（一）19:30 行前說明會","在群組回覆 atta 飲食與健康需求（沒有也回一聲）","確認護照效期（需 6 個月以上）","決定電子簽或落地簽（US$30）","確認團體小費是否已含在團費","投保旅平險＋海外突發疾病","換美金現鈔，含 1、5 元小鈔","旅遊醫學門診諮詢（視需要）","申辦國際漫遊或 eSIM","護照、機票、保單拍照存雲端","外交部「出國登錄」"];
+  var todo=["11/26（四）20:30 機場集合（23:30 班機），先訂好去機場的交通","下載報價單 PDF 存到手機","決定椰棗要不要接龍（0.5kg／盒，約 20–23 顆）","在群組回覆 atta 飲食與健康需求（沒有也回一聲）","確認護照效期（需 6 個月以上）","決定電子簽或落地簽（US$30）","確認團體小費是否已含在團費","投保旅平險＋海外突發疾病","換美金現鈔，含 1、5 元小鈔","旅遊醫學門診諮詢（視需要）","申辦國際漫遊或 eSIM","護照、機票、保單拍照存雲端","外交部「出國登錄」"];
   var pack=["護照＋影本、大頭照 2 張","美金現鈔、信用卡","雙圓孔轉接頭（220V，先看電器標示是否支援 100–240V）","維生素 C、D、硒","行動電源（放隨身行李）","羽絨外套、毛帽（沙漠夜晚）","外套一件（防風）","大圍巾（進清真寺、防曬兩用）","帽子、墨鏡、防曬乳","好走的鞋＋拖鞋","腸胃藥、止瀉藥、暈車藥、常備藥","護唇膏、保濕乳、眼藥水、口罩","濕紙巾、衛生紙、乾洗手","泳衣（飯店／遊輪泳池）","頭燈或小手電筒（沙漠營地）","短袖 T 恤","棉質長袖內搭衣","套頭毛衣或保暖上衣 2 件（前 3 天用）"];
   function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'{}');localStorage.setItem(k,JSON.stringify(v));}catch(e){return {};}}
   function build(id,list,key){
