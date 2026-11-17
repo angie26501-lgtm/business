@@ -61,7 +61,7 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:24px 0 40px}
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>埃及旅遊日記</h1><p>2026.11.27 — 12.07｜每天寫幾句，回來就是一本書</p></div></header>
+<header><div class="wrap"><h1>埃及旅遊日記</h1><p>2026.11.26 — 12.08｜每天寫幾句，回來就是一本書</p></div></header>
 
 <nav class="days" id="days"></nav>
 
@@ -125,17 +125,19 @@ footer{text-align:center;font-size:12px;color:var(--muted);padding:24px 0 40px}
 
 <script>
 var DAYS=[
- ["11/27","五","Day 1 開羅","抵達・清真寺・文明博物館・哈利利市集"],
- ["11/28","六","Day 2 吉薩","金字塔區・人面獅身像"],
- ["11/29","日","Day 3 亞歷山大","地中海・海鮮・亞歷山大圖書館"],
- ["11/30","一","Day 4 阿斯旺","飛往阿斯旺・秘境飯店"],
- ["12/01","二","Day 5 阿布辛貝","神廟・入住一晚"],
- ["12/02","三","Day 6 尼羅河","登上遊輪"],
- ["12/03","四","Day 7 艾德夫・康翁波","遊輪・兩大神廟"],
- ["12/04","五","Day 8 盧克索","帝王谷・卡納克神廟"],
- ["12/05","六","Day 9 熱氣球","清晨熱氣球・飛回開羅・前往沙漠"],
- ["12/06","日","Day 10 黑白沙漠","吉普車・露營觀星"],
- ["12/07","一","Day 11 返程","回開羅・旅程結束"]];
+ ["11/26","四","Day 1 台北 → 杜拜轉機","出發・機上過夜"],
+ ["11/27","五","Day 2 開羅","抵達接機・清真寺・哈利利市集"],
+ ["11/28","六","Day 3 開羅・吉薩","大埃及博物館・吉薩金字塔"],
+ ["11/29","日","Day 4 亞歷山大","地中海古城一日遊"],
+ ["11/30","一","Day 5 亞斯文","飛亞斯文・菲萊神廟"],
+ ["12/01","二","Day 6 阿布辛貝","神殿・夜間燈光秀"],
+ ["12/02","三","Day 7 亞斯文・尼羅河遊輪","努比亞村・登上遊輪"],
+ ["12/03","四","Day 8 尼羅河遊輪","沿岸神殿"],
+ ["12/04","五","Day 9 盧克索","沿岸神殿"],
+ ["12/05","六","Day 10 盧克索","帝王谷・卡納克神殿"],
+ ["12/06","日","Day 11 盧克索 → 開羅 → 黑白沙漠","清晨熱氣球（自費選配）"],
+ ["12/07","一","Day 12 黑白沙漠","Jeep 探險・搭機回程"],
+ ["12/08","二","Day 13 回到台灣","溫暖的家"]];
 var MOODS=["🤩","😊","😌","🥱","😵","🥹"], WX=["☀️","⛅","🌬️","🌧️","🌙"];
 var PROMPTS=["今天聞到的味道","最好吃的一道菜","遇見的人","讓我驚訝的事","如果再來一次","想跟家人說的話"];
 var KEY="eg_diary_v1";
@@ -144,7 +146,7 @@ function lsGet(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e)
 function lsSet(){try{localStorage.setItem(KEY,JSON.stringify(D));flash("已自動儲存 ✓")}catch(e){flash("⚠ 無法儲存，請改用備份下載")}}
 var D=lsGet(); D.days=D.days||{}; D.rate=D.rate||{EGP:0.6058,USD:30};
 var cur=pickToday();
-function pickToday(){var t=new Date(),s=new Date(2026,10,27);var i=Math.floor((t.setHours(0,0,0,0)-s)/86400000);return(i>=0&&i<11)?i:0;}
+function pickToday(){var t=new Date(),s=new Date(2026,10,26);var i=Math.floor((t.setHours(0,0,0,0)-s)/86400000);return(i>=0&&i<DAYS.length)?i:0;}
 function day(i){return D.days[i]=D.days[i]||{mood:"",wx:"",best:"",text:"",eng:"",exp:[]};}
 var tmr;function flash(m){var s=document.getElementById("saved");s.textContent=m;clearTimeout(tmr);tmr=setTimeout(function(){s.textContent=""},1500);}
 
@@ -207,7 +209,7 @@ document.getElementById("pic").addEventListener("change",function(){var files=[]
 var rE=document.getElementById("rEGP"),rU=document.getElementById("rUSD");rE.value=D.rate.EGP;rU.value=D.rate.USD;
 rE.oninput=function(){D.rate.EGP=parseFloat(this.value)||0;lsSet();money()};rU.oninput=function(){D.rate.USD=parseFloat(this.value)||0;lsSet();money()};
 
-function buildBook(cb){pEvery(function(ph){var h='<div class="pg" style="text-align:center"><h3 style="font-size:28px">我的埃及之旅</h3><div class="meta">2026.11.27 — 12.07</div></div>';
+function buildBook(cb){pEvery(function(ph){var h='<div class="pg" style="text-align:center"><h3 style="font-size:28px">我的埃及之旅</h3><div class="meta">2026.11.26 — 12.08</div></div>';
   DAYS.forEach(function(x,i){var d=D.days[i];var p=ph.filter(function(o){return o.day===i});if(!hasContent(i)&&!p.length)return;d=d||{};
     h+='<div class="pg"><h3>'+x[2]+'・'+x[0]+' '+(d.mood||"")+' '+(d.wx||"")+'</h3><div class="meta">'+x[3]+'</div>';
     if(d.best)h+='<p style="margin-top:8px;color:#8a4fc9">✦ '+esc(d.best)+'</p>';
