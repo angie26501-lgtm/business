@@ -450,7 +450,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px
 <script>
 (function(){
 const K='eg_plan_v1';let S=null;try{S=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}if(!S){S={};["mk_EP0","mk_EP1","vo_EP0","vo_EP1","vo_EP2","img_EP0","img_EP1"].forEach(k=>S[k]=true)}
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};if(!S['v:pre_1120']){S['v:pre_1120']='1';if(!S['v:lg_11/20_0_url'])S['v:lg_11/20_0_url']='https://www.facebook.com/share/p/1Cgua4TjYv/';S['fb_11/20']=true;save()}const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
 const LI=$$('.tasks li'),CB=$$('input[type=checkbox][data-k]');
 const TW=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',month:'numeric',day:'numeric'});function today(){const p=TW.formatToParts(new Date());const g=k=>p.find(x=>x.type===k).value;return g('month')+'/'+g('day')}
