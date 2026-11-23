@@ -43,6 +43,7 @@ input[type=search]{flex:1;min-width:0}
 textarea{width:100%;height:130px;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px;margin-top:10px}
 .stp{color:var(--gold);font-weight:700;font-size:15px;margin:14px 0 6px}#out{font-family:inherit;margin-top:0;font-size:16px;line-height:1.7}
 #done{margin-top:12px;background:#1d2a1d;border:1px solid #4f7a4f;border-radius:12px;padding:14px}.ok{color:#9fe29f;font-weight:900;margin-bottom:6px}#dtx{white-space:pre-wrap;background:#141210;border-radius:8px;padding:10px;margin:0 0 10px;font-family:inherit;font-size:15px;line-height:1.7}.nx{line-height:1.8}
+.gogrp{display:block;text-align:center;background:#06c755;color:#fff;font-weight:900;font-size:18px;padding:14px;border-radius:12px;text-decoration:none;margin:4px 0 12px}
 
 #prog{display:flex;gap:4px;max-width:760px;margin:12px auto 0;padding:0 14px}
 .pg{flex:1;text-align:center;font-size:12px;color:var(--mut);padding:6px 0;border-bottom:3px solid var(--line)}
@@ -88,7 +89,7 @@ main{padding-bottom:190px}
 <div class="stp">步驟 1｜確認品項與數量（可用 − ＋ 改）</div><div id="cl"></div>
 <div class="stp">步驟 2｜填上你的名字</div><input id="nm" placeholder="你的名字" style="width:100%">
 <div class="stp">步驟 3｜確認要貼到群組的文字</div><textarea id="out" readonly></textarea>
-<div id="done" hidden><div class="ok">✅ 已複製！你複製的文字是：</div><pre id="dtx"></pre><div class="nx"><b>下一步 👉</b><br>① 打開「馥芸芳療共學群組」<br>② 點黑五美單的接龍，按＋1<br>③ 長按輸入框 →「貼上」→ 送出<br>完成囉！🎉</div></div>
+<div id="done" hidden><div class="ok">✅ 已複製！你複製的文字是：</div><pre id="dtx"></pre><a class="gogrp" href="https://line.me/R/ti/g/_wPcpU75Jp" target="_blank" rel="noopener">💬 點我打開芳療群組 ➜</a><div class="nx"><b>進群組後 👉</b><br>① 點黑五美單的接龍，按＋1<br>② 長按輸入框 →「貼上」→ 送出<br>完成囉！🎉<br><span style="color:var(--mut);font-size:13px">還沒加入群組？按上面按鈕也可以申請加入</span></div></div>
 <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製，去群組＋1</button><button class="btn gh" id="clr">清空</button><button class="btn gh" id="cls">關閉</button></div></div></div>
 
 
@@ -99,7 +100,7 @@ main{padding-bottom:190px}
 <div class="ts"><i>2</i><div><b>按「選好了，下一步」</b><br>在畫面最下面，會打開你的清單，可以用 − ＋ 改數量</div></div>
 <div class="ts"><i>3</i><div><b>填上你的名字</b><br>寫群組裡大家認得的名字</div></div>
 <div class="ts"><i>4</i><div><b>按「📋 複製」</b><br>畫面會出現綠色框，顯示你複製的文字</div></div>
-<div class="ts"><i>5</i><div><b>回芳療群組貼上</b><br>打開黑五美單接龍 → 按＋1 → 長按輸入框「貼上」→ 送出</div></div>
+<div class="ts"><i>5</i><div><b>按綠色按鈕進芳療群組貼上</b><br>複製後會出現「💬 打開芳療群組」，點了直接進 LINE 群組 → 黑五美單接龍按＋1 → 長按「貼上」→ 送出</div></div>
 <div class="tip">💡 下方金色小框會一直提醒你「現在要做什麼」，跟著做就對了！<br>不會的話，隨時按右下「❓ 教學」</div>
 <button class="btn" id="tgo" style="width:100%;margin-top:12px;font-size:17px">我知道了，開始挑 👉</button></div></div>
 <script>
@@ -134,7 +135,7 @@ $('#open').onclick=()=>{$('#sheet').style.display='flex';drawSheet()};$('#cls').
 $('#sheet').onclick=e=>{if(e.target.id=='sheet')$('#sheet').style.display='none'};
 $('#nm').oninput=()=>{$('#done').hidden=true;try{localStorage.setItem('bf26nm',$('#nm').value)}catch(e){};drawSheet()};try{$('#nm').value=localStorage.getItem('bf26nm')||''}catch(e){}
 $('#clr').onclick=()=>{cart={};save();upd()};
-$('#cp').onclick=async()=>{if(!$('#nm').value.trim()){toast('請先填上你的名字喔');$('#nm').focus();return}const t=$('#out').value;if(!t){toast('還沒有選品項喔');return}let ok=true;try{await navigator.clipboard.writeText(t)}catch(e){$('#out').select();try{ok=document.execCommand('copy')}catch(e2){ok=false}}$('#dtx').textContent=t;$('#done').hidden=false;if(!ok)$('.ok').textContent='⚠️ 自動複製沒成功，請長按下面文字自己複製：';$('#done').scrollIntoView({behavior:'smooth'});};
+$('#cp').onclick=async()=>{if(!$('#nm').value.trim()){toast('請先填上你的名字喔');$('#nm').focus();return}const t=$('#out').value;if(!t){toast('還沒有選品項喔');return}let ok=true;try{await navigator.clipboard.writeText(t)}catch(e){$('#out').select();try{ok=document.execCommand('copy')}catch(e2){ok=false}}$('#dtx').textContent=t;$('#done').hidden=false;if(!ok)$('.ok').textContent='⚠️ 自動複製沒成功，請長按下面文字自己複製：';$('#done').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.querySelector('.gogrp').classList.add('pulse'),400);};
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',1600)}
 function tick(){const end=new Date('2026-11-28T12:00:00+08:00')-new Date();$('#cd').textContent=end>0?`還剩 ${Math.floor(end/864e5)} 天 ${Math.floor(end/36e5)%24} 小時`:'本次接龍已截止，感謝大家！'}
 let copied=false;
@@ -144,7 +145,7 @@ function step(){const n=Object.keys(cart).filter(k=>cart[k]>0&&all[k]).length,op
  if(open&&!n){s=1;t='清單是空的，按「關閉」回去按＋挑商品'}
  else if(open&&!nm){s=3;t='✍️ 第3步：在「步驟 2」框框填上你的名字'}
  else if(open&&!copied){s=4;t='📋 第4步：確認文字沒問題，按最下面「複製，去群組＋1」'}
- else if(open&&copied){s=5;t='✅ 第5步：回芳療群組接龍 → ＋1 → 長按「貼上」→ 送出'}
+ else if(open&&copied){s=5;t='✅ 第5步：按綠色「打開芳療群組」→ 接龍＋1 → 長按「貼上」→ 送出'}
  $('#ctx').textContent=t;document.body.classList.toggle('insheet',open);
  document.querySelectorAll('.pg').forEach(p=>{const v=+p.dataset.s;p.classList.toggle('done',v<s);p.classList.toggle('now',v==s)});
  [['#open',s==2],['#nm',s==3],['#cp',s==4]].forEach(([q,on])=>$(q).classList.toggle('pulse',on));
