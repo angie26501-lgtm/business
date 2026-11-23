@@ -71,7 +71,7 @@ main{padding-bottom:190px}
 #buzz{position:fixed;left:12px;bottom:150px;z-index:14;max-width:300px;background:rgba(31,27,23,.96);border:1px solid #5b4a2c;border-radius:14px;padding:9px 12px;box-shadow:0 6px 20px rgba(0,0,0,.5);font-size:14px;line-height:1.5;transition:opacity .4s,transform .4s}
 #buzz.out{opacity:0;transform:translateY(8px)}#bzc{display:inline-block;background:#8e1f2b;color:#fff;border-radius:20px;padding:1px 9px;font-size:12px;font-weight:700;margin-bottom:3px}
 body.insheet #buzz{display:none}
-#rec{margin-bottom:16px}.rh{color:var(--gold);font-size:18px;margin:4px 0 8px}
+#rec{margin-bottom:16px;display:grid;gap:12px}.rh{color:var(--gold);font-size:18px;margin:4px 0 8px}
 .rc{background:linear-gradient(180deg,#2a1a1c,#1f1b17);border:1px solid #8e1f2b;border-radius:16px;overflow:hidden}
 .rc img{width:100%;max-height:260px;object-fit:contain;background:#f4f1ec;display:block}
 .rb{padding:12px 14px 14px;line-height:1.6}.rt{display:inline-block;background:#7a5a12;color:#ffe9b0;font-size:12px;border-radius:6px;padding:1px 8px;margin-right:6px}
@@ -150,8 +150,15 @@ const EMO={'寧夏紅':'🍷','盜賊系列':'🛡️','兒童系列':'🧸','�
 const pic=(src,c)=>src?`<img class="pic" src="${src}" alt="" loading="lazy" onerror="this.outerHTML='<div class=pic>🌿</div>'">`:`<div class="pic">${EMO[c]||'🌿'}</div>`;
 let cart={};try{cart=JSON.parse(localStorage.getItem('bf26cart')||'{}')}catch(e){}
 function save(){try{localStorage.setItem('bf26cart',JSON.stringify(cart))}catch(e){}}
-const all={};D.bf.forEach((r,i)=>all['b'+i]={k:'b'+i,code:'',n:r.n+(r.en&&r.en!==r.n?' '+r.en:''),nt:r.nt,sv:r.d?orig(r)-r.nt:0});const REC=[{code:'52478',n:'聖誕香氛組',en:'Christmas Spirit™ Collection',tag:'季節限定',usd:94.50,pv:51.75,nt:4050,img:'yl-bf-img-52478.jpg',inc:'悅聖誕精油、悅聖誕洗手泡泡、悅聖誕紅色 Wanderful Edge 擴香儀（免加水、免加熱，可設定低／中／高三段）',why:'節日送禮、自用都好看，一盒把香氛、洗手泡泡、擴香儀一次配齊，在家就有滿滿過節氣氛。'}];
-REC.forEach((r,i)=>all['r'+i]={k:'r'+i,code:r.code,n:r.n,nt:r.nt});
+const all={};D.bf.forEach((r,i)=>all['b'+i]={k:'b'+i,code:'',n:r.n+(r.en&&r.en!==r.n?' '+r.en:''),nt:r.nt,sv:r.d?orig(r)-r.nt:0});const REC=[
+{code:'52478',n:'聖誕香氛組',en:'Christmas Spirit™ Collection',tag:'季節限定',usd:94.50,pv:51.75,nt:4050,img:'yl-bf-img-52478.jpg',inc:'悅聖誕精油、悅聖誕洗手泡泡、悅聖誕紅色 Wanderful Edge 擴香儀（免加水、免加熱，可設定低／中／高三段）',why:'節日送禮、自用都好看，一盒把香氛、洗手泡泡、擴香儀一次配齊，在家就有滿滿過節氣氛。'},
+{refs:['Frankincense'],n:'乳香 15ml',tag:'5 折・全場最划算',why:'整場唯一 5 折，平常會員價 US$86.75 只要 US$43.37，數量有限、售完為止。'},
+{refs:['Lavender','Lemon','Peppermint'],n:'入門三寶組',tag:'CP 值推薦',inc:'薰衣草＋檸檬＋薄荷 各 1 瓶（15ml）',why:'最常用的三支一次補齊，三瓶都 7 折，自用、分享給家人都好上手。'},
+{refs:['Thieves Dish Soap・2 瓶'],n:'盜賊洗碗精 買一送一',tag:'買一送一',inc:'洗碗精 2 瓶',why:'一份的價格拿兩瓶，廚房日常用得到，囤貨最划算。'},
+{refs:['Rose'],n:'玫瑰精油',tag:'省最多',why:'高單價精油遇到 7 折，這次單瓶省下的金額最多，想入手的這波最適合。'}
+];
+const bfK=en=>{const i=D.bf.findIndex(x=>x.en===en);return i<0?null:'b'+i};
+REC.forEach((r,i)=>{if(r.refs){r.keys=r.refs.map(bfK).filter(Boolean);const it=r.keys.map(k=>D.bf[+k.slice(1)]);r.nt=it.reduce((a,x)=>a+x.nt,0);r.org=it.reduce((a,x)=>a+orig(x),0);r.img=it[0]&&it[0].img;r.en=it.map(x=>x.en).join('＋');r.usd=it.reduce((a,x)=>a+x.mem,0);r.wsd=it.reduce((a,x)=>a+x.ws,0)}else{all['r'+i]={k:'r'+i,code:r.code,n:r.n,nt:r.nt};r.keys=['r'+i]}});
 D.us.forEach((r,i)=>all['u'+i]={k:'u'+i,code:r.code,n:r.n,nt:r.nt});
 function list(el,rows,pre,kind){
  const cats=['全部',...new Set(rows.map(r=>r.c))];let cur='全部',q='';
@@ -166,8 +173,8 @@ function list(el,rows,pre,kind){
  draw();
 }
 list($('#t-bf'),D.bf,'b','bf');
-{const box=document.createElement('div');box.id='rec';box.innerHTML=`<h3 class="rh">⭐ 芸琪推薦區</h3>`+REC.map((r,i)=>`<div class="rc"><img src="${r.img}" alt="${r.n}"><div class="rb"><span class="rt">${r.tag}</span><b class="rn">${r.n}</b><small>${r.en}・#${r.code}</small><div class="rp">美金 $${r.usd.toFixed(2)}<span>代購價 <b>NT$${fmt(r.nt)}</b>・${r.pv} PV</span></div><div class="ri"><b>內容物</b>${r.inc}</div><div class="ri"><b>推薦</b>${r.why}</div><button class="btn radd" data-k="r${i}">＋ 加入我的接龍</button></div></div>`).join('');
-$('#t-bf').prepend(box);box.onclick=e=>{const k=e.target.dataset.k;if(!k)return;cart[k]=(cart[k]||0)+1;save();upd();toast('已加入：'+all[k].n)}}list($('#t-us'),D.us,'u','us');
+{const box=document.createElement('div');box.id='rec';box.innerHTML=`<h3 class="rh">⭐ 芸琪推薦區</h3>`+REC.map((r,i)=>`<div class="rc">${r.img?`<img src="${r.img}" alt="${r.n}" onerror="this.remove()">`:''}<div class="rb"><span class="rt">${r.tag}</span><b class="rn">${r.n}</b><small>${r.en}${r.code?'・#'+r.code:''}</small><div class="rp">${r.org?`<s style="color:var(--mut);font-size:15px">原價 NT$${fmt(r.org)}</s> `:''}NT$${fmt(r.nt)}<span>${r.org?`<b class="save" style="display:inline-block;background:#8e1f2b;color:#fff;border-radius:6px;padding:0 6px">省 NT$${fmt(r.org-r.nt)}</b>　`:''}美金 $${r.usd.toFixed(2)}${r.pv?'・'+r.pv+' PV':''}</span></div>${r.inc?`<div class="ri"><b>內容物</b>${r.inc}</div>`:''}<div class="ri"><b>推薦</b>${r.why}</div><button class="btn radd" data-i="${i}">＋ 加入我的接龍</button></div></div>`).join('');
+$('#t-bf').prepend(box);box.onclick=e=>{const i=e.target.dataset.i;if(i==null)return;const r=REC[i];r.keys.forEach(k=>cart[k]=(cart[k]||0)+1);save();upd();toast('已加入：'+r.n)}}list($('#t-us'),D.us,'u','us');
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['bf','us','how'].forEach(t=>$('#t-'+t).hidden=t!=b.dataset.t);scrollTo(0,0)});
 var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
 function drawSheet(){const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);const nm=$('#nm').value.trim()||'姓名';
