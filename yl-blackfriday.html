@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="apple-touch-icon" href="yl-bf-icon-180.png"><link rel="manifest" href="yl-bf-manifest.json"><meta name="apple-mobile-web-app-title" content="黑五美單"><meta name="theme-color" content="#141210">
 <title>芳療好生活 芸琪共學圈｜黑五美單代購</title>
 <style>
 :root{--bg:#141210;--card:#1f1b17;--line:#3a332a;--gold:#e8c77d;--gold2:#c9a45c;--txt:#f5ecd9;--mut:#a89c86;--red:#8e1f2b;--hi:#ffd98a}
@@ -78,11 +79,21 @@ body.insheet #buzz{display:none}
 .rp{color:var(--hi);font-size:22px;font-weight:900;margin:6px 0}.rp span{display:block;font-size:14px;color:var(--txt);font-weight:400}.rp span b{color:var(--hi)}
 .ri{font-size:14px;margin-top:6px}.ri b{color:var(--gold);margin-right:8px}.radd{width:100%;margin-top:10px;font-size:16px}
 .me{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}.me a{text-decoration:none;font-size:14px;font-weight:700;border-radius:20px;padding:6px 14px}.ml{background:#06c755;color:#fff}.mw{border:1px solid var(--gold2);color:var(--gold)}
+#h2{display:none;position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.78);align-items:center;justify-content:center;padding:14px}
+#h2 .hin{background:#1a1613;border:1px solid #5b4a2c;border-radius:18px;padding:18px;max-width:620px;width:100%;max-height:92vh;overflow:auto}
+#h2 h2{color:var(--gold);font-size:20px;margin:0 0 4px}.hs{color:var(--mut);font-size:14px;margin-bottom:12px}
+.hw{background:rgba(142,31,43,.25);border:1px solid #8e1f2b;border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.7;margin-bottom:12px}.hw b{color:var(--gold)}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.hc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}.hc>b{color:var(--gold);font-size:18px}.hc>small{display:block;color:var(--mut);font-size:12.5px}
+.hc ol{margin:8px 0 0;padding-left:22px;font-size:15px;line-height:1.9}.hc ol small{color:var(--mut);font-size:12px}
+kbd{background:#3a332a;color:var(--hi);border-radius:6px;padding:1px 7px;font-family:inherit;font-weight:700;font-size:13.5px}
+.hf{margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.7}.hok{text-align:center;color:#9fe29f;font-weight:900;margin-top:12px}
+button.mw{background:none;cursor:pointer;font-family:inherit}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
 <div class="sub">🌹 芳療好生活 芸琪共學圈｜芸琪 Angie</div>
-<div class="me"><a href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener" class="ml">💬 有問題私訊芸琪（LINE）</a><a href="https://www.allfreedom.info/" target="_blank" rel="noopener" class="mw">🌐 認識芸琪</a></div>
+<div class="me"><a href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener" class="ml">💬 有問題私訊芸琪（LINE）</a><a href="https://www.allfreedom.info/" target="_blank" rel="noopener" class="mw">🌐 認識芸琪</a><button class="mw" id="a2h" type="button">📲 加到手機桌面</button></div>
 <div class="cd">群組接龍截止 <b>11/28（六）中午 12:00</b><div id="cd" style="color:var(--mut);font-size:13px;margin-top:4px"></div></div>
 <div class="disc">※ 折扣與價格仍依悠樂芳 YL 美國官網公告為主；本頁如有誤植，以官網及實際下單金額為準，敬請見諒。</div></header>
 <div id="prog"><div class="pg" data-s="1"><i>1</i>挑商品</div><div class="pg" data-s="2"><i>2</i>下一步</div><div class="pg" data-s="3"><i>3</i>填名字</div><div class="pg" data-s="4"><i>4</i>按複製</div><div class="pg" data-s="5"><i>5</i>貼群組</div></div>
@@ -109,6 +120,17 @@ body.insheet #buzz{display:none}
 
 
 <div id="buzz" hidden><span id="bzc"></span><div id="bzt"></div></div>
+<div id="h2"><div class="hin"><h2>📲 把黑五美單專頁加到手機桌面</h2><div class="hs">加到桌面後，像 App 一樣一點就開，隨時回來加購、看預購名單</div>
+<div class="hw">⚠️ <b>從 LINE 點進來的請先做這步</b><br>點右上角 <kbd>⋮</kbd> 或 <kbd>⋯</kbd>，選「用預設瀏覽器開啟」或「在 Safari 中開啟」，再照下面做</div>
+<div class="hg">
+<div class="hc"><b>iPhone</b><small>用 Safari（藍色指南針）</small><ol><li>用 Safari 打開專頁</li><li>點下方 <kbd>分享 ⬆</kbd><br><small>看不到就先點 ⋯</small></li><li>往下滑，點 <kbd>加入主畫面</kbd></li><li>點右上 <kbd>新增</kbd></li></ol></div>
+<div class="hc"><b>iPhone</b><small>用 Chrome</small><ol><li>用 Chrome 打開專頁</li><li>點網址列旁 <kbd>分享 ⬆</kbd></li><li>往下滑，點 <kbd>加入主畫面</kbd></li><li>點右上 <kbd>新增</kbd></li></ol></div>
+<div class="hc"><b>安卓手機</b><small>小米・OPPO・華碩・三星用 Chrome</small><ol><li>用 Chrome 打開專頁</li><li>點右上 <kbd>⋮</kbd></li><li>點 <kbd>加到主畫面</kbd><br><small>或「安裝應用程式」</small></li><li>點 <kbd>新增</kbd></li></ol></div>
+<div class="hc"><b>三星</b><small>用「網際網路」（紫色星球）</small><ol><li>用網際網路打開專頁</li><li>點右下 <kbd>≡</kbd></li><li>點 <kbd>新增頁面至</kbd></li><li>選 <kbd>主螢幕</kbd> → <kbd>新增</kbd></li></ol></div>
+</div>
+<div class="hf"><b>桌面沒出現？</b>小米、OPPO、vivo 請到「設定 → 應用程式 → Chrome → 權限」打開「桌面捷徑」，再做一次。</div>
+<div class="hok">✓ 桌面出現金色「黑五」圖示就完成囉！</div>
+<button class="btn" id="h2x" style="width:100%;margin-top:12px">我知道了</button></div></div>
 <div class="toast" id="toast"></div>
 <div id="coach"><span id="ctx"></span><button id="help" aria-label="教學">❓ 教學</button></div>
 <div id="tut"><div class="tin"><h2>🛒 跟團超簡單｜5 步完成</h2>
@@ -179,6 +201,7 @@ $('#sheet').addEventListener('click',e=>{if(e.target.id=='sheet')setTimeout(step
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>setTimeout(step,30)));
 document.querySelectorAll('.chips,input[type=search]').forEach(el=>el.addEventListener('click',()=>setTimeout(step,30)));
 document.querySelectorAll('input[type=search]').forEach(el=>el.addEventListener('input',()=>setTimeout(step,30)));
+$('#a2h').onclick=()=>$('#h2').style.display='flex';$('#h2x').onclick=()=>$('#h2').style.display='none';$('#h2').onclick=e=>{if(e.target.id=='h2')$('#h2').style.display='none'};
 const tut=on=>$('#tut').style.display=on?'flex':'none';
 $('#help').onclick=()=>tut(true);$('#tgo').onclick=()=>{tut(false);try{localStorage.setItem('bf26tut','1')}catch(e){}};
 $('#tut').onclick=e=>{if(e.target.id=='tut')$('#tgo').click()};
