@@ -70,6 +70,13 @@ main{padding-bottom:190px}
 #buzz{position:fixed;left:12px;bottom:150px;z-index:14;max-width:300px;background:rgba(31,27,23,.96);border:1px solid #5b4a2c;border-radius:14px;padding:9px 12px;box-shadow:0 6px 20px rgba(0,0,0,.5);font-size:14px;line-height:1.5;transition:opacity .4s,transform .4s}
 #buzz.out{opacity:0;transform:translateY(8px)}#bzc{display:inline-block;background:#8e1f2b;color:#fff;border-radius:20px;padding:1px 9px;font-size:12px;font-weight:700;margin-bottom:3px}
 body.insheet #buzz{display:none}
+#rec{margin-bottom:16px}.rh{color:var(--gold);font-size:18px;margin:4px 0 8px}
+.rc{background:linear-gradient(180deg,#2a1a1c,#1f1b17);border:1px solid #8e1f2b;border-radius:16px;overflow:hidden}
+.rc img{width:100%;max-height:260px;object-fit:contain;background:#f4f1ec;display:block}
+.rb{padding:12px 14px 14px;line-height:1.6}.rt{display:inline-block;background:#7a5a12;color:#ffe9b0;font-size:12px;border-radius:6px;padding:1px 8px;margin-right:6px}
+.rn{font-size:20px}.rb small{display:block;color:var(--mut);font-size:12.5px}
+.rp{color:var(--hi);font-size:22px;font-weight:900;margin:6px 0}.rp span{display:block;font-size:14px;color:var(--txt);font-weight:400}.rp span b{color:var(--hi)}
+.ri{font-size:14px;margin-top:6px}.ri b{color:var(--gold);margin-right:8px}.radd{width:100%;margin-top:10px;font-size:16px}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
@@ -119,7 +126,9 @@ const EMO={'寧夏紅':'🍷','盜賊系列':'🛡️','兒童系列':'🧸','�
 const pic=(src,c)=>src?`<img class="pic" src="${src}" alt="" loading="lazy" onerror="this.outerHTML='<div class=pic>🌿</div>'">`:`<div class="pic">${EMO[c]||'🌿'}</div>`;
 let cart={};try{cart=JSON.parse(localStorage.getItem('bf26cart')||'{}')}catch(e){}
 function save(){try{localStorage.setItem('bf26cart',JSON.stringify(cart))}catch(e){}}
-const all={};D.bf.forEach((r,i)=>all['b'+i]={k:'b'+i,code:'',n:r.n+(r.en&&r.en!==r.n?' '+r.en:''),nt:r.nt,sv:r.d?orig(r)-r.nt:0});D.us.forEach((r,i)=>all['u'+i]={k:'u'+i,code:r.code,n:r.n,nt:r.nt});
+const all={};D.bf.forEach((r,i)=>all['b'+i]={k:'b'+i,code:'',n:r.n+(r.en&&r.en!==r.n?' '+r.en:''),nt:r.nt,sv:r.d?orig(r)-r.nt:0});const REC=[{code:'52478',n:'聖誕香氛組',en:'Christmas Spirit™ Collection',tag:'季節限定',usd:94.50,pv:51.75,nt:4050,img:'yl-bf-img-52478.jpg',inc:'悅聖誕精油、悅聖誕洗手泡泡、悅聖誕紅色 Wanderful Edge 擴香儀（免加水、免加熱，可設定低／中／高三段）',why:'節日送禮、自用都好看，一盒把香氛、洗手泡泡、擴香儀一次配齊，在家就有滿滿過節氣氛。'}];
+REC.forEach((r,i)=>all['r'+i]={k:'r'+i,code:r.code,n:r.n,nt:r.nt});
+D.us.forEach((r,i)=>all['u'+i]={k:'u'+i,code:r.code,n:r.n,nt:r.nt});
 function list(el,rows,pre,kind){
  const cats=['全部',...new Set(rows.map(r=>r.c))];let cur='全部',q='';
  el.innerHTML=`<div class="tools"><input type="search" placeholder="搜尋品名、英文或編號"></div><div class="chips">${cats.map(c=>`<span class="chip${c=='全部'?' on':''}" data-c="${c}">${c}</span>`).join('')}</div><div class="ls"></div>`;
@@ -132,7 +141,9 @@ function list(el,rows,pre,kind){
  ls.onclick=e=>{const k=e.target.dataset.k;if(!k)return;cart[k]=(cart[k]||0)+1;save();upd();toast('已加入：'+all[k].n)};
  draw();
 }
-list($('#t-bf'),D.bf,'b','bf');list($('#t-us'),D.us,'u','us');
+list($('#t-bf'),D.bf,'b','bf');
+{const box=document.createElement('div');box.id='rec';box.innerHTML=`<h3 class="rh">⭐ 芸琪推薦區</h3>`+REC.map((r,i)=>`<div class="rc"><img src="${r.img}" alt="${r.n}"><div class="rb"><span class="rt">${r.tag}</span><b class="rn">${r.n}</b><small>${r.en}・#${r.code}</small><div class="rp">美金 $${r.usd.toFixed(2)}<span>代購價 <b>NT$${fmt(r.nt)}</b>・${r.pv} PV</span></div><div class="ri"><b>內容物</b>${r.inc}</div><div class="ri"><b>推薦</b>${r.why}</div><button class="btn radd" data-k="r${i}">＋ 加入我的接龍</button></div></div>`).join('');
+$('#t-bf').prepend(box);box.onclick=e=>{const k=e.target.dataset.k;if(!k)return;cart[k]=(cart[k]||0)+1;save();upd();toast('已加入：'+all[k].n)}}list($('#t-us'),D.us,'u','us');
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['bf','us','how'].forEach(t=>$('#t-'+t).hidden=t!=b.dataset.t);scrollTo(0,0)});
 var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
 function drawSheet(){const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);const nm=$('#nm').value.trim()||'姓名';
