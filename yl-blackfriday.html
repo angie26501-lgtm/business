@@ -30,6 +30,9 @@ mark.hl{background:#ffd34d;color:#1a1208;border-radius:3px;padding:0 2px}
 @media(prefers-reduced-motion:reduce){.yb{animation:none}}
 
 #clr2{background:transparent;border:1px solid #6a5a40;color:#e8c77d;border-radius:999px;padding:2px 10px;font-size:12px;cursor:pointer;min-height:28px;margin-left:4px;white-space:nowrap}#clr2.arm{padding:2px 10px}.btn.arm{background:#8e1f2b!important;color:#fff!important;border-color:#8e1f2b!important}
+
+#vc{background:#c9a24b;color:#1a1208;border:0;border-radius:999px;padding:4px 10px;font-weight:900;font-size:13px;cursor:pointer;margin-right:4px;min-height:30px}
+#topc{position:relative;background:#2a2018;border:2px solid #c9a24b;color:#fff;border-radius:12px;font-size:20px;min-width:52px;cursor:pointer}#topc b{position:absolute;top:-8px;right:-8px;background:#8e1f2b;color:#fff;border-radius:999px;font-size:12px;min-width:22px;padding:1px 5px;line-height:18px}#topc.bump{animation:bp .5s}@keyframes bp{50%{transform:scale(1.25)}}
 #topbar{position:sticky;top:0;z-index:5;background:#0e0c0a}#gsr{display:flex;gap:6px;padding:8px 10px 0}#gsr input{flex:1;min-width:0}#gsx{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:0 12px;font-size:16px}.gh{color:var(--gold);font-weight:900;margin:14px 0 8px}
 nav{display:flex;background:#0e0c0a;border-bottom:1px solid var(--line)}
 nav button{flex:1;background:none;border:0;color:var(--mut);padding:14px 4px;font-size:15px;font-weight:700;border-bottom:3px solid transparent;cursor:pointer}
@@ -132,7 +135,7 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="cd">群組接龍截止 <b>11/28（六）中午 12:00</b><div id="cd" style="color:var(--mut);font-size:13px;margin-top:4px"></div></div>
 <div class="disc">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</div></header>
 <div id="prog"><div class="pg" data-s="1"><i>1</i>挑商品</div><div class="pg" data-s="2"><i>2</i>下一步</div><div class="pg" data-s="3"><i>3</i>填名字</div><div class="pg" data-s="4"><i>4</i>按複製</div><div class="pg" data-s="5"><i>5</i>貼上送出</div></div>
-<div id="topbar"><div id="gsr"><label for="gq" id="gql">🔎 找商品：打品名或編號，結果馬上跳出來</label><input id="gq" type="search" placeholder="例如：乳香、喉糖、薄荷糖、5760" enterkeyhint="search"><button id="gsx" type="button" hidden>✕</button></div><nav><button data-t="bf" class="on">🔥 黑五</button><button data-t="rec">⭐ 推薦</button><button data-t="nw">✨ 新品</button><button data-t="us">US 美單</button><button data-t="how">📝 跟團</button></nav></div>
+<div id="topbar"><div id="gsr"><label for="gq" id="gql">🔎 找商品：打品名或編號，結果馬上跳出來</label><input id="gq" type="search" placeholder="例如：乳香、喉糖、薄荷糖、5760" enterkeyhint="search"><button id="gsx" type="button" hidden>✕</button><button id="topc" type="button" aria-label="查看購物車">🛒<b id="topn">0</b></button></div><nav><button data-t="bf" class="on">🔥 黑五</button><button data-t="rec">⭐ 推薦</button><button data-t="nw">✨ 新品</button><button data-t="us">US 美單</button><button data-t="how">📝 跟團</button></nav></div>
 <main>
 <section id="t-bf"></section><section id="t-rec" hidden><div class="pnote">這裡是芸琪推薦的季節限定、熱銷好物，<b>不在黑五折扣內</b>，價格為一般代購價。</div></section><section id="t-nw" hidden></section><section id="t-us" hidden></section><section id="t-gs" hidden></section>
 <section id="t-how" hidden>
@@ -145,8 +148,8 @@ img.pic,.rc img{cursor:zoom-in}
 </section>
 <div class="note"><b style="color:var(--gold)">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</b><br>商品照片來源：悠樂芳美國官網。</div>
 </main>
-<div id="cart"><div class="row"><div class="sum">已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b>・<b id="tpv">0</b> PV<span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，以私訊核對金額為主</small> <button id="clr2" hidden>🗑 清空</button></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
-<div id="sheet"><div class="in"><h3 style="color:var(--gold);margin:0 0 8px">我的接龍清單</h3>
+<div id="cart"><div class="row"><div class="sum"><button id="vc" type="button">🛒 查看購物車</button> 已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b>・<b id="tpv">0</b> PV<span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，以私訊核對金額為主</small> <button id="clr2" hidden>🗑 清空</button></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
+<div id="sheet"><div class="in"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px"><h3 style="color:var(--gold);margin:0">🛒 我的購物車</h3><button class="btn gh" id="back" type="button" style="min-height:40px;padding:6px 12px">← 回原頁面繼續挑</button></div>
 <div class="stp">步驟 1｜確認品項與數量（可用 − ＋ 改）</div><div id="cl"></div>
 <div class="stp">步驟 2｜填上你的名字</div><input id="nm" placeholder="你的名字" style="width:100%">
 <div class="stp">步驟 3｜確認要貼到群組的文字</div><div style="color:#e8c77d;font-size:13px;margin-bottom:6px">＊金額與 PV 為參考（黑五折扣品 PV 依官網隨折扣計算）；最後以實際統計後私訊核對金額為主</div><textarea id="out" readonly></textarea>
@@ -157,8 +160,8 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="wc wb"><b>方式二｜私訊貼給芸琪</b><a class="gome" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener">✉️ 打開芸琪私訊 ➜</a><ol><li>進到和芸琪的聊天室</li><li>長按輸入框 →「貼上」→ 送出</li></ol><small>不想在群組公開也可以用這個方式</small></div>
 </div>
 <button class="btn fin" id="fin">✅ 我貼好了，完成！</button>
-<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！謝謝妳的支持 💕</b><p>芸琪統計後會私訊和妳核對最終金額 🙏<br>還想加購？按「關閉」回去繼續挑，再複製一次就好。</p><button class="btn gh" id="clr3" style="margin-top:8px">🗑 清空清單，幫別人選</button></div></div>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製文字（下一步選群組或私訊）</button><button class="btn gh" id="clr">🗑 清空重選</button><button class="btn gh" id="cls">關閉</button></div></div></div>
+<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！謝謝妳的支持 💕</b><p>芸琪統計後會私訊和妳核對最終金額 🙏<br>還想加購？按「← 回原頁面」繼續挑，再複製一次就好。</p><button class="btn gh" id="clr3" style="margin-top:8px">🗑 清空清單，幫別人選</button></div></div>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製文字（下一步選群組或私訊）</button><button class="btn gh" id="clr">🗑 清空重選</button><button class="btn gh" id="cls">← 回原頁面</button></div></div></div>
 
 
 <div id="buzz" hidden><span id="bzc"></span><div id="bzt"></div></div>
@@ -234,12 +237,13 @@ mq.onclick=e=>{const b=e.target.closest('.mqc');if(!b)return;const i=+b.dataset.
 const sz=()=>{const c=document.getElementById('cart');document.documentElement.style.setProperty('--cartH',(c?c.offsetHeight:64)+'px');document.documentElement.style.setProperty('--mqH',mq.offsetHeight+'px')};sz();addEventListener('resize',sz);setTimeout(sz,800);window.__sz=sz;new ResizeObserver(sz).observe(document.getElementById('cart'));}$('#t-rec').append(mk('rec2','⭐ 芸琪推薦・季節限定與熱銷（非黑五折扣）',r=>!r.refs));}list($('#t-us'),D.us,'u','us');
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{$('#gq').value='';$('#gsx').hidden=true;$('#t-gs').hidden=true;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['bf','rec','nw','us','how'].forEach(t=>$('#t-'+t).hidden=t!=b.dataset.t);scrollTo(0,0)});
 const pvf=x=>(Math.round(x*100)/100).toString();const pvs=ks=>ks.reduce((s,k)=>s+(all[k].pv||0)*cart[k],0);
-var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;$('#clr2').hidden=!ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));$('#tpv').textContent=pvf(pvs(ks));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
+var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;{const tn=$('#topn'),q=ks.reduce((s,k)=>s+cart[k],0);if(tn&&tn.textContent!=q){tn.textContent=q;$('#topc').classList.remove('bump');void $('#topc').offsetWidth;$('#topc').classList.add('bump')}}$('#clr2').hidden=!ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));$('#tpv').textContent=pvf(pvs(ks));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
 function drawSheet(){const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);const nm=$('#nm').value.trim()||'姓名';
  $('#cl').innerHTML=ks.map(k=>`<div class="ci"><div class="nm">${all[k].n}<br><small style="color:var(--mut)">NT$${fmt(all[k].nt)}・${pvf(all[k].pv||0)} PV${all[k].pe?'（參考）':''}</small></div><div class="q"><button data-m="${k}">−</button>${cart[k]}<button data-p="${k}">＋</button></div></div>`).join('')||'<div class="note">還沒有選品項，按「＋」加入</div>';
  const tot=ks.reduce((s,k)=>s+all[k].nt*cart[k],0);const svt=ks.reduce((x,k)=>x+(all[k].sv||0)*cart[k],0);$('#out').value=ks.length?[`【${nm}】`,...ks.map((k,i)=>`${i+1}. ${all[k].code?'#'+all[k].code+' ':''}${all[k].n} X${cart[k]}　$${fmt(all[k].nt*cart[k])}　${pvf((all[k].pv||0)*cart[k])}PV`),'',`合計 ${ks.length} 項：$${fmt(tot)}・${pvf(pvs(ks))}PV`+(svt?`\n（黑五省 $${fmt(svt)}）`:'')].join('\n'):''}
 $('#cl').onclick=e=>{const m=e.target.dataset.m,p=e.target.dataset.p;if(m)cart[m]--;if(p)cart[p]++;save();upd()};
-$('#open').onclick=()=>{$('#sheet').style.display='flex';drawSheet()};$('#cls').onclick=()=>$('#sheet').style.display='none';
+$('#open').onclick=()=>{$('#sheet').style.display='flex';drawSheet()};let _sy=0;$('#open').addEventListener('click',()=>{_sy=scrollY},true);const shut=()=>{$('#sheet').style.display='none';scrollTo(0,_sy);setTimeout(step,30)};$('#cls').onclick=shut;$('#back').onclick=shut;
+$('#vc').onclick=()=>$('#open').click();$('#topc').onclick=()=>$('#open').click();
 $('#sheet').onclick=e=>{if(e.target.id=='sheet')$('#sheet').style.display='none'};
 $('#nm').oninput=()=>{$('#done').hidden=true;try{localStorage.setItem('bf26nm',$('#nm').value)}catch(e){};drawSheet()};try{$('#nm').value=localStorage.getItem('bf26nm')||''}catch(e){}
 const clrFn=b=>{if(b.dataset.arm){cart={};save();upd();toast('已清空，可以重新挑選');b.textContent=b.dataset.lbl;delete b.dataset.arm;return}b.dataset.lbl=b.textContent;b.dataset.arm=1;b.textContent='再按一次確認清空';b.classList.add('arm');setTimeout(()=>{if(b.dataset.arm){b.textContent=b.dataset.lbl;delete b.dataset.arm;b.classList.remove('arm')}},3000)};
@@ -251,7 +255,7 @@ let copied=false,finished=false;
 function step(){const n=Object.keys(cart).filter(k=>cart[k]>0&&all[k]).length,open=$('#sheet').style.display=='flex',nm=$('#nm').value.trim();
  let s=1,t='👇 第1步：在想買的商品右邊，按金色「＋」';
  if(n&&!open){s=2;t=`👍 已選 ${n} 項！還要再挑可以繼續按＋，選好了按最下面「選好了，下一步」`}
- if(open&&!n){s=1;t='清單是空的，按「關閉」回去按＋挑商品'}
+ if(open&&!n){s=1;t='購物車是空的，按「← 回原頁面」去按＋挑商品'}
  else if(open&&!nm){s=3;t='✍️ 第3步：在「步驟 2」框框填上你的名字'}
  else if(open&&!copied){s=4;t='📋 第4步：確認文字沒問題，按最下面「複製，去群組＋1」'}
  else if(open&&copied&&!finished){s=5;t='✅ 第5步：選「貼到芳療群組」或「私訊貼給芸琪」→ 長按貼上送出 → 按「我貼好了」'}
