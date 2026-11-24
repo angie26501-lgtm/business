@@ -1,0 +1,24 @@
+name: 同步團隊主購版黑五頁
+on:
+  push:
+    branches: [main]
+    paths: ['yl-blackfriday.html', 'tools/mk_team.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python tools/mk_team.py
+      - run: |
+          if ! git diff --quiet yl-bf-team.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add yl-bf-team.html
+            git commit -m "自動同步：團隊主購版黑五頁"
+            git push
+          fi
