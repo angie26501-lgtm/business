@@ -214,6 +214,10 @@ function renderGy(mon,y,m){curMon=mon;var tbl={},order=[];
  seq.forEach(function(k){var p=k.split('|');if(p[0]!==lastT){lastT=p[0];lastG='';h+='<div style="font-weight:700;margin-top:8px">'+p[0]+'</div>';L.push('【'+p[0]+'】')}
   if(p[1]!==lastG){lastG=p[1];h+='<div style="font-size:.8rem;color:var(--g);margin-top:4px">'+p[1]+'</div>';L.push('・'+p[1])}
   h+='<div class="rec" style="grid-template-columns:1fr auto"><span>'+esc(p[2])+'</span><b>'+fmt(tbl[k])+'</b></div>';L.push('　'+p[2]+'：'+fmt(tbl[k]))});
+ var yA=0,yB=0,yC=0,ys=y+'-';R.forEach(function(r){if(r.d.indexOf(ys)!==0||r.t==='in')return;var a=acc(r);if(a==='B')yB+=r.amt;if(a==='C')yC+=r.amt});
+ mon.forEach(function(r){if(r.t!=='in'&&acc(r)==='A')yA+=r.amt});
+ h+='<div style="margin-top:10px;background:var(--gl);border-radius:12px;padding:8px 10px;font-size:.85rem"><b>綠芽「設定 ABC 帳戶」參考</b><div class="rec" style="grid-template-columns:1fr auto"><span>A 帳戶（本月）</span><b>'+fmt(yA)+' /月</b></div><div class="rec" style="grid-template-columns:1fr auto"><span>B 帳戶（'+y+' 年累計）</span><b>'+fmt(yB)+' /年</b></div><div class="rec" style="grid-template-columns:1fr auto"><span>C 帳戶（'+y+' 年累計）</span><b>'+fmt(yC)+' /年</b></div><div style="color:var(--m);font-size:.78rem">綠芽的 A 帳戶以「月」設定、B 和 C 以「年」設定，可以對照這裡的實際數字調整。</div></div>';
+ L.push('【綠芽 ABC 帳戶參考】','　A 帳戶（本月）：'+fmt(yA)+' /月','　B 帳戶（'+y+' 年累計）：'+fmt(yB)+' /年','　C 帳戶（'+y+' 年累計）：'+fmt(yC)+' /年');
  if(seq.length)h+='<div class="row"><button id="cpGy">複製對照清單</button><button id="toLg" style="background:var(--gl);border-color:var(--g);color:var(--g);font-weight:700">一鍵帶入四張表</button></div><div id="lgMsg" style="font-size:.8rem;color:var(--m);margin-top:6px">帶入四張表網頁（同一支手機）；綠芽 App 請照上面清單手動填。</div>';
  gyTxt=L.join('\n');document.getElementById('gy').innerHTML=h}
 
@@ -290,7 +294,7 @@ var STEPS=[
  {t:'② 看整個月',h:'<p>每一格是一天：<span style="color:#b4472f">紅字</span>是支出、<span style="color:var(--in)">綠字</span>是收入、<span style="color:var(--c)">紫字</span>是存給自己。</p><p>點日期，下面就列出這天每一筆，可以「改」或「刪」（刪要連按兩次）。</p>',sel:'#cal'},
  {t:'③ 月結與 ABC 帳戶',h:'<p>最上面看本月收入、支出、結餘。</p><p>A 生活＝生活費、貸款、租金、撫育；B 年度＝保險、稅、雜費；C 存給自己＝儲蓄理財。對照五日營的 ABC 帳戶試算，看有沒有守在 631 內。</p>',sel:'.abc'},
  {t:'④ 用關鍵字找紀錄',h:'<p>在搜尋框輸入備註或分類，例如「便當」「人壽保險」，會列出所有相關紀錄並算好合計。</p>',sel:'#q'},
- {t:'⑤ 月底填進綠芽',h:'<p>打開「🌱 對應綠芽」，已經照綠芽的表、大項、欄位加總好。</p><p>按「複製對照清單」，打開綠芽收支表，把金額填進<b>每月</b>欄就完成。</p><p>按「一鍵帶入四張表」，四張表網頁的每月數字會自動填好（獎金、保險、稅這類一年幾次的項目，請到四張表填每年）。</p>',sel:'#gy'},
+ {t:'⑤ 月底填進綠芽',h:'<p>打開「🌱 對應綠芽」，已經照綠芽的表、大項、欄位加總好。</p><p>按「複製對照清單」，打開綠芽收支表，把金額填進<b>每月</b>欄就完成。</p><p>下面的「綠芽 ABC 帳戶參考」：A 是本月 /月，B、C 是今年累計 /年，對應綠芽「設定 ABC 帳戶」的單位。</p><p>按「一鍵帶入四張表」，四張表網頁的每月數字會自動填好（獎金、保險、稅這類一年幾次的項目，請到四張表填每年）。</p>',sel:'#gy'},
  {t:'⑥ 記得備份',h:'<p>紀錄只存在這支手機的瀏覽器裡。每個月按一次「匯出備份檔」，存到雲端或傳給自己；換手機時再「匯入」。</p><p>有問題截圖問芸琪 💛</p>',sel:'#exp'}
 ];
 var G=document.getElementById('guide'),KG='yun_cal_guide_v1',st={i:0,x:null,y:null,w:300,h:null,f:15,min:false,closed:false};
