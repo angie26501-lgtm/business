@@ -28,6 +28,8 @@ mark.hl{background:#ffd34d;color:#1a1208;border-radius:3px;padding:0 2px}
 .yb{font-size:40px;animation:yb 1s ease-in-out 3}@keyframes yb{50%{transform:scale(1.3) rotate(-8deg)}}
 .pg.done i{background:#3f9b5a!important;color:#fff!important}
 @media(prefers-reduced-motion:reduce){.yb{animation:none}}
+
+#clr2{background:transparent;border:1px solid #6a5a40;color:#e8c77d;border-radius:999px;padding:2px 10px;font-size:12px;cursor:pointer;min-height:28px;margin-left:4px;white-space:nowrap}#clr2.arm{padding:2px 10px}.btn.arm{background:#8e1f2b!important;color:#fff!important;border-color:#8e1f2b!important}
 #topbar{position:sticky;top:0;z-index:5;background:#0e0c0a}#gsr{display:flex;gap:6px;padding:8px 10px 0}#gsr input{flex:1;min-width:0}#gsx{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:0 12px;font-size:16px}.gh{color:var(--gold);font-weight:900;margin:14px 0 8px}
 nav{display:flex;background:#0e0c0a;border-bottom:1px solid var(--line)}
 nav button{flex:1;background:none;border:0;color:var(--mut);padding:14px 4px;font-size:15px;font-weight:700;border-bottom:3px solid transparent;cursor:pointer}
@@ -143,7 +145,7 @@ img.pic,.rc img{cursor:zoom-in}
 </section>
 <div class="note"><b style="color:var(--gold)">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</b><br>商品照片來源：悠樂芳美國官網。</div>
 </main>
-<div id="cart"><div class="row"><div class="sum">已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b>・<b id="tpv">0</b> PV<span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，最後以實際統計後私訊核對金額為主</small></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
+<div id="cart"><div class="row"><div class="sum">已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b>・<b id="tpv">0</b> PV<span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，以私訊核對金額為主</small> <button id="clr2" hidden>🗑 清空</button></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
 <div id="sheet"><div class="in"><h3 style="color:var(--gold);margin:0 0 8px">我的接龍清單</h3>
 <div class="stp">步驟 1｜確認品項與數量（可用 − ＋ 改）</div><div id="cl"></div>
 <div class="stp">步驟 2｜填上你的名字</div><input id="nm" placeholder="你的名字" style="width:100%">
@@ -155,8 +157,8 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="wc wb"><b>方式二｜私訊貼給芸琪</b><a class="gome" href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener">✉️ 打開芸琪私訊 ➜</a><ol><li>進到和芸琪的聊天室</li><li>長按輸入框 →「貼上」→ 送出</li></ol><small>不想在群組公開也可以用這個方式</small></div>
 </div>
 <button class="btn fin" id="fin">✅ 我貼好了，完成！</button>
-<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！謝謝妳的支持 💕</b><p>芸琪統計後會私訊和妳核對最終金額 🙏<br>還想加購？按「關閉」回去繼續挑，再複製一次就好。</p></div></div>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製文字（下一步選群組或私訊）</button><button class="btn gh" id="clr">清空</button><button class="btn gh" id="cls">關閉</button></div></div></div>
+<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！謝謝妳的支持 💕</b><p>芸琪統計後會私訊和妳核對最終金額 🙏<br>還想加購？按「關閉」回去繼續挑，再複製一次就好。</p><button class="btn gh" id="clr3" style="margin-top:8px">🗑 清空清單，幫別人選</button></div></div>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製文字（下一步選群組或私訊）</button><button class="btn gh" id="clr">🗑 清空重選</button><button class="btn gh" id="cls">關閉</button></div></div></div>
 
 
 <div id="buzz" hidden><span id="bzc"></span><div id="bzt"></div></div>
@@ -229,10 +231,10 @@ list($('#t-bf'),D.bf,'b','bf');
 const chip=x=>`<button class="mqc" data-t="${x.t}" data-i="${x.i}">${x.img?`<img src="${x.img}" alt="" loading="lazy" onerror="this.remove()">`:''}<span><b>${x.n}</b><small><em>${x.tag}</em> NT$${fmt(x.nt)}</small></span><i>＋1</i></button>`;
 const mq=document.createElement('div');mq.id='fmq';mq.innerHTML=`<div class="mqt">${L.map(chip).join('')}${L.map(chip).join('')}</div>`;document.body.appendChild(mq);
 mq.onclick=e=>{const b=e.target.closest('.mqc');if(!b)return;const i=+b.dataset.i;if(b.dataset.t=='r'){REC[i].keys.forEach(k=>cart[k]=(cart[k]||0)+1);toast('已 +1：'+REC[i].n)}else{const k='b'+i;cart[k]=(cart[k]||0)+1;toast('已 +1：'+all[k].n)}save();upd();b.classList.add('hit');setTimeout(()=>b.classList.remove('hit'),700)};
-const sz=()=>{const c=document.getElementById('cart');document.documentElement.style.setProperty('--cartH',(c?c.offsetHeight:64)+'px');document.documentElement.style.setProperty('--mqH',mq.offsetHeight+'px')};sz();addEventListener('resize',sz);setTimeout(sz,800);}$('#t-rec').append(mk('rec2','⭐ 芸琪推薦・季節限定與熱銷（非黑五折扣）',r=>!r.refs));}list($('#t-us'),D.us,'u','us');
+const sz=()=>{const c=document.getElementById('cart');document.documentElement.style.setProperty('--cartH',(c?c.offsetHeight:64)+'px');document.documentElement.style.setProperty('--mqH',mq.offsetHeight+'px')};sz();addEventListener('resize',sz);setTimeout(sz,800);window.__sz=sz;new ResizeObserver(sz).observe(document.getElementById('cart'));}$('#t-rec').append(mk('rec2','⭐ 芸琪推薦・季節限定與熱銷（非黑五折扣）',r=>!r.refs));}list($('#t-us'),D.us,'u','us');
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{$('#gq').value='';$('#gsx').hidden=true;$('#t-gs').hidden=true;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));['bf','rec','nw','us','how'].forEach(t=>$('#t-'+t).hidden=t!=b.dataset.t);scrollTo(0,0)});
 const pvf=x=>(Math.round(x*100)/100).toString();const pvs=ks=>ks.reduce((s,k)=>s+(all[k].pv||0)*cart[k],0);
-var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));$('#tpv').textContent=pvf(pvs(ks));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
+var upd;upd=function(){$('#done')&&($('#done').hidden=true);const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);$('#cnt').textContent=ks.length;$('#clr2').hidden=!ks.length;$('#tot').textContent=fmt(ks.reduce((s,k)=>s+all[k].nt*cart[k],0));$('#tpv').textContent=pvf(pvs(ks));const sv=ks.reduce((s,k)=>s+(all[k].sv||0)*cart[k],0);$('#sv').textContent=sv?`（已省 NT$${fmt(sv)}）`:'';if($('#sheet').style.display=='flex')drawSheet()}
 function drawSheet(){const ks=Object.keys(cart).filter(k=>cart[k]>0&&all[k]);const nm=$('#nm').value.trim()||'姓名';
  $('#cl').innerHTML=ks.map(k=>`<div class="ci"><div class="nm">${all[k].n}<br><small style="color:var(--mut)">NT$${fmt(all[k].nt)}・${pvf(all[k].pv||0)} PV${all[k].pe?'（參考）':''}</small></div><div class="q"><button data-m="${k}">−</button>${cart[k]}<button data-p="${k}">＋</button></div></div>`).join('')||'<div class="note">還沒有選品項，按「＋」加入</div>';
  const tot=ks.reduce((s,k)=>s+all[k].nt*cart[k],0);const svt=ks.reduce((x,k)=>x+(all[k].sv||0)*cart[k],0);$('#out').value=ks.length?[`【${nm}】`,...ks.map((k,i)=>`${i+1}. ${all[k].code?'#'+all[k].code+' ':''}${all[k].n} X${cart[k]}　$${fmt(all[k].nt*cart[k])}　${pvf((all[k].pv||0)*cart[k])}PV`),'',`合計 ${ks.length} 項：$${fmt(tot)}・${pvf(pvs(ks))}PV`+(svt?`\n（黑五省 $${fmt(svt)}）`:'')].join('\n'):''}
@@ -240,7 +242,8 @@ $('#cl').onclick=e=>{const m=e.target.dataset.m,p=e.target.dataset.p;if(m)cart[m
 $('#open').onclick=()=>{$('#sheet').style.display='flex';drawSheet()};$('#cls').onclick=()=>$('#sheet').style.display='none';
 $('#sheet').onclick=e=>{if(e.target.id=='sheet')$('#sheet').style.display='none'};
 $('#nm').oninput=()=>{$('#done').hidden=true;try{localStorage.setItem('bf26nm',$('#nm').value)}catch(e){};drawSheet()};try{$('#nm').value=localStorage.getItem('bf26nm')||''}catch(e){}
-$('#clr').onclick=()=>{cart={};save();upd()};
+const clrFn=b=>{if(b.dataset.arm){cart={};save();upd();toast('已清空，可以重新挑選');b.textContent=b.dataset.lbl;delete b.dataset.arm;return}b.dataset.lbl=b.textContent;b.dataset.arm=1;b.textContent='再按一次確認清空';b.classList.add('arm');setTimeout(()=>{if(b.dataset.arm){b.textContent=b.dataset.lbl;delete b.dataset.arm;b.classList.remove('arm')}},3000)};
+$('#clr').onclick=e=>clrFn(e.currentTarget);$('#clr2').onclick=e=>clrFn(e.currentTarget);$('#clr3').onclick=e=>clrFn(e.currentTarget);
 $('#cp').onclick=async()=>{if(!$('#nm').value.trim()){toast('請先填上你的名字喔');$('#nm').focus();return}const t=$('#out').value;if(!t){toast('還沒有選品項喔');return}let ok=true;try{await navigator.clipboard.writeText(t)}catch(e){$('#out').select();try{ok=document.execCommand('copy')}catch(e2){ok=false}}$('#dtx').textContent=t;$('#done').hidden=false;if(!ok)$('.ok').textContent='⚠️ 自動複製沒成功，請長按下面文字自己複製：';$('#done').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.querySelector('.gogrp').classList.add('pulse'),400);};
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',1600)}
 function tick(){const end=new Date('2026-11-28T12:00:00+08:00')-new Date();$('#cd').textContent=end>0?`還剩 ${Math.floor(end/864e5)} 天 ${Math.floor(end/36e5)%24} 小時`:'本次接龍已截止，感謝大家！'}
