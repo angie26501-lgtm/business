@@ -24,7 +24,7 @@ input[type=search]{flex:1;min-width:0}
 .item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:8px}
 .item .nm{flex:1;min-width:0}.item .nm b{font-size:16px}.item .nm small{display:block;color:var(--mut);font-size:12px;margin-top:2px}
 .was{color:var(--mut)!important}.save{display:inline-block!important;background:#8e1f2b;color:#fff!important;border-radius:6px;padding:1px 6px;font-weight:700;margin:2px 0}
-.off{background:var(--red);color:#fff;border-radius:6px;font-size:12px;padding:1px 6px;margin-left:6px}
+.off{white-space:nowrap;background:var(--red);color:#fff;border-radius:6px;font-size:12px;padding:1px 6px;margin-left:6px}
 .pr{text-align:right;white-space:nowrap}.pr .nt{color:var(--hi);font-weight:900;font-size:18px}.pr small{display:block;color:var(--mut);font-size:12px}
 .pr s{color:#7d7262}
 .pic{width:62px;height:62px;flex:none;border-radius:10px;background:#f7f2ea;object-fit:contain;display:flex;align-items:center;justify-content:center;font-size:28px}div.pic{background:#2a241e}
@@ -89,6 +89,7 @@ body.insheet #buzz{display:none}
 kbd{background:#3a332a;color:var(--hi);border-radius:6px;padding:1px 7px;font-family:inherit;font-weight:700;font-size:13.5px}
 .hf{margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.7}.hok{text-align:center;color:#9fe29f;font-weight:900;margin-top:12px}
 button.mw{background:none;cursor:pointer;font-family:inherit}
+.stk{position:sticky;top:var(--navh,49px);z-index:4;background:var(--bg);margin:0 -14px;padding:10px 14px 4px;box-shadow:0 6px 10px -8px rgba(0,0,0,.8)}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
@@ -162,7 +163,7 @@ REC.forEach((r,i)=>{if(r.refs){r.keys=r.refs.map(bfK).filter(Boolean);const it=r
 D.us.forEach((r,i)=>all['u'+i]={k:'u'+i,code:r.code,n:r.n,nt:r.nt});
 function list(el,rows,pre,kind){
  const cats=['全部',...new Set(rows.map(r=>r.c))];let cur='全部',q='';
- el.innerHTML=`<div class="tools"><input type="search" placeholder="搜尋品名、英文或編號"></div><div class="chips">${cats.map(c=>`<span class="chip${c=='全部'?' on':''}" data-c="${c}">${c}</span>`).join('')}</div><div class="ls"></div>`;
+ el.innerHTML=`<div class="stk"><div class="tools"><input type="search" placeholder="搜尋品名、英文或編號"></div><div class="chips">${cats.map(c=>`<span class="chip${c=='全部'?' on':''}" data-c="${c}">${c}</span>`).join('')}</div></div><div class="ls"></div>`;
  const ls=el.querySelector('.ls');
  function draw(){ls.innerHTML=rows.map((r,i)=>[r,i]).filter(([r])=>(cur=='全部'||r.c==cur)&&(!q||(r.n+' '+(r.en||'')+' '+(r.code||'')).toLowerCase().includes(q))).map(([r,i])=>kind=='bf'?
  `<div class="item">${pic(r.img,r.c)}<div class="nm"><b>${r.n}</b>${r.d?`<span class="off">${r.d}</span>`:''}<small>${r.en}・${r.c}</small></div><div class="pr">${r.d?`<small class="was">原價 <s>NT$${fmt(orig(r))}</s></small>`:''}<div class="nt">NT$${fmt(r.nt)}</div>${r.d?`<small class="save">省 NT$${fmt(orig(r)-r.nt)}</small>`:''}<small><s>US$${r.ws.toFixed(2)}</s> → US$${r.mem.toFixed(2)}</small></div><button class="add" data-k="${pre+i}">＋</button></div>`:
@@ -223,6 +224,7 @@ fetch('yl-bf-orders.json?t='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{if
  $('#bzc').textContent=`🔥 目前已有 ${ppl} 位夥伴預購・${os.length} 筆`;
  const show=()=>{const o=os[i%os.length];i++;bz.classList.add('out');setTimeout(()=>{$('#bzt').textContent=`🛒 ${mask(o.name)} 已＋1：${o.items}`;bz.hidden=false;bz.classList.remove('out')},400)};
  show();setInterval(show,5000)}).catch(()=>{});
+{const n=document.querySelector('nav');const f=()=>document.documentElement.style.setProperty('--navh',n.offsetHeight+'px');f();addEventListener('resize',f)}
 tick();setInterval(tick,6e4);upd();
 
 </script></body></html>
