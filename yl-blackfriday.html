@@ -11,6 +11,12 @@ h1{color:var(--gold);font-size:30px;margin:12px 0 6px}
 .sub{color:var(--mut);font-size:14px}
 .cd{margin:14px auto 0;max-width:520px;background:rgba(255,255,255,.05);border:1px solid #5b4a2c;border-radius:14px;padding:12px;font-size:15px}
 .cd b{color:var(--hi);font-size:20px}
+
+#gsr{flex-wrap:wrap}#gql{flex-basis:100%;color:#e8c77d;font-weight:900;font-size:14px;margin-bottom:-2px}
+#gq{border:2px solid #c9a24b!important;background:#2a2018!important;font-size:17px!important;padding:12px 14px!important;box-shadow:0 0 0 4px rgba(201,162,75,.18);border-radius:12px!important}#gq::placeholder{color:#b9a27a}
+#gq:focus{outline:none;box-shadow:0 0 0 4px rgba(201,162,75,.45)}
+.stk .tools{display:none}
+mark.hl{background:#ffd34d;color:#1a1208;border-radius:3px;padding:0 2px}
 #topbar{position:sticky;top:0;z-index:5;background:#0e0c0a}#gsr{display:flex;gap:6px;padding:8px 10px 0}#gsr input{flex:1;min-width:0}#gsx{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:0 12px;font-size:16px}.gh{color:var(--gold);font-weight:900;margin:14px 0 8px}
 nav{display:flex;background:#0e0c0a;border-bottom:1px solid var(--line)}
 nav button{flex:1;background:none;border:0;color:var(--mut);padding:14px 4px;font-size:15px;font-weight:700;border-bottom:3px solid transparent;cursor:pointer}
@@ -113,7 +119,7 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="cd">群組接龍截止 <b>11/28（六）中午 12:00</b><div id="cd" style="color:var(--mut);font-size:13px;margin-top:4px"></div></div>
 <div class="disc">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</div></header>
 <div id="prog"><div class="pg" data-s="1"><i>1</i>挑商品</div><div class="pg" data-s="2"><i>2</i>下一步</div><div class="pg" data-s="3"><i>3</i>填名字</div><div class="pg" data-s="4"><i>4</i>按複製</div><div class="pg" data-s="5"><i>5</i>貼群組</div></div>
-<div id="topbar"><div id="gsr"><input id="gq" type="search" placeholder="🔎 全站搜尋：品名、英文或編號（黑五・新品・推薦・美單）"><button id="gsx" type="button" hidden>✕</button></div><nav><button data-t="bf" class="on">🔥 黑五</button><button data-t="rec">⭐ 推薦</button><button data-t="nw">✨ 新品</button><button data-t="us">US 美單</button><button data-t="how">📝 跟團</button></nav></div>
+<div id="topbar"><div id="gsr"><label for="gq" id="gql">🔎 找商品：打品名或編號，結果馬上跳出來</label><input id="gq" type="search" placeholder="例如：乳香、喉糖、薄荷糖、5760" enterkeyhint="search"><button id="gsx" type="button" hidden>✕</button></div><nav><button data-t="bf" class="on">🔥 黑五</button><button data-t="rec">⭐ 推薦</button><button data-t="nw">✨ 新品</button><button data-t="us">US 美單</button><button data-t="how">📝 跟團</button></nav></div>
 <main>
 <section id="t-bf"></section><section id="t-rec" hidden><div class="pnote">這裡是芸琪推薦的季節限定、熱銷好物，<b>不在黑五折扣內</b>，價格為一般代購價。</div></section><section id="t-nw" hidden></section><section id="t-us" hidden></section><section id="t-gs" hidden></section>
 <section id="t-how" hidden>
@@ -239,22 +245,22 @@ $('#cp').addEventListener('click',()=>{if($('#nm').value.trim()&&$('#out').value
 $('#sheet').addEventListener('click',e=>{if(e.target.id=='sheet')setTimeout(step,30)});
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>setTimeout(step,30)));
 {const gq=$('#gq'),gx=$('#gsx'),gs=$('#t-gs');let last='bf';
-const has=(q,...a)=>a.join(' ').toLowerCase().includes(q);
+const has=(q,...a)=>a.join(' ').toLowerCase().includes(q);let HQ='';const hl=s=>{s=String(s==null?'':s);if(!HQ)return s;const re=new RegExp(HQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');return s.replace(re,m=>`<mark class="hl">${m}</mark>`)};
 const row=(img,c,nm,sub,price,k,dis)=>`<div class="item">${pic(img||'',c)}<div class="nm"><b>${nm}</b><small>${sub}</small></div><div class="pr">${price}</div>${dis||!k?'<button class="add" disabled style="opacity:.35">＋</button>':`<button class="add" data-k="${k}">＋</button>`}</div>`;
-function run(){const q=gq.value.trim().toLowerCase();gx.hidden=!q;
+function run(){const q=gq.value.trim().toLowerCase();HQ=gq.value.trim();gx.hidden=!q;
  const tabs=['bf','rec','nw','us','how'];
  if(!q){gs.hidden=true;const on=document.querySelector('nav button.on');tabs.forEach(t=>$('#t-'+t).hidden=t!=(on?on.dataset.t:'bf'));return}
  tabs.forEach(t=>$('#t-'+t).hidden=true);gs.hidden=false;
  const bfHit=new Set();let out='';
  const b=D.bf.map((r,i)=>[r,i]).filter(([r])=>r.d&&has(q,r.n,r.en,r.c));b.forEach(([r,i])=>bfHit.add(i));
- if(b.length)out+=`<div class="gh">🔥 黑五特惠（${b.length}）</div>`+b.map(([r,i])=>row(r.img,r.c,r.n+(r.d?`<span class="off">${r.d}</span>`:''),`${r.en}${r.code?'・#'+r.code:''}・${r.c}`+(r.tip?`<br><span style="color:#e8c77d">⚠️ ${r.tip}</span>`:''),`${r.d?`<small class="was">原價 <s>NT$${fmt(orig(r))}</s></small>`:''}<div class="nt">NT$${fmt(r.nt)}</div>`,'b'+i)).join('');
+ if(b.length)out+=`<div class="gh">🔥 黑五特惠（${b.length}）</div>`+b.map(([r,i])=>row(r.img,r.c,hl(r.n)+(r.d?`<span class="off">${r.d}</span>`:''),`${hl(r.en)}${r.code?'・#'+hl(r.code):''}・${r.c}`+(r.tip?`<br><span style="color:#e8c77d">⚠️ ${r.tip}</span>`:''),`${r.d?`<small class="was">原價 <s>NT$${fmt(orig(r))}</s></small>`:''}<div class="nt">NT$${fmt(r.nt)}</div>`,'b'+i)).join('');
  const rc=REC.map((r,i)=>[r,i]).filter(([r])=>!r.refs&&has(q,r.n,r.en,r.code||''));
- if(rc.length)out+=`<div class="gh">⭐ 芸琪推薦（${rc.length}）</div>`+rc.map(([r,i])=>row(r.img,'',r.n,`${r.en}${r.code?'・#'+r.code:''}`,`<div class="nt">NT$${fmt(r.nt)}</div>`,'r'+i)).join('');
+ if(rc.length)out+=`<div class="gh">⭐ 芸琪推薦（${rc.length}）</div>`+rc.map(([r,i])=>row(r.img,'',hl(r.n),`${hl(r.en)}${r.code?'・#'+hl(r.code):''}`,`<div class="nt">NT$${fmt(r.nt)}</div>`,'r'+i)).join('');
  const nw=NEW.map((r,i)=>[r,i]).filter(([r])=>has(q,r.n,r.en,r.code||''));
- if(nw.length)out+=`<div class="gh">✨ 新品（${nw.length}）</div>`+nw.map(([r,i])=>row(r.img,'',r.n,`${r.en}${r.code?'・#'+r.code:''}`,`<div class="nt">NT$${fmt(r.nt)}</div>`,r.cs?'':'n'+i,!!r.cs)).join('');
+ if(nw.length)out+=`<div class="gh">✨ 新品（${nw.length}）</div>`+nw.map(([r,i])=>row(r.img,'',hl(r.n),`${hl(r.en)}${r.code?'・#'+hl(r.code):''}`,`<div class="nt">NT$${fmt(r.nt)}</div>`,r.cs?'':'n'+i,!!r.cs)).join('');
  const us=D.us.map((r,i)=>[r,i]).filter(([r])=>has(q,r.n,r.code,r.c)&&!(r.bf!=null&&bfHit.has(r.bf)));
- if(us.length)out+=`<div class="gh">US 美單價目（${us.length}）</div>`+us.map(([r,i])=>row(r.img,r.c,r.n+(HOT.includes(r.code)?'<span class="off" style="background:#2e5a8e">📸 熱門</span>':''),`#${r.code}・${r.c}・PV ${r.pv}`,r.bf!=null?`<span class="off big">🔥 黑五${D.bf[r.bf].d}</span><div class="nt">NT$${fmt(D.bf[r.bf].nt)}</div>`:`<div class="nt">${r.ask?'請問芸琪':'NT$'+fmt(r.nt)}</div>`,r.bf!=null?'b'+r.bf:'u'+i,!!r.ask)).join('');
- gs.innerHTML=`<div class="pnote">🔎 全站搜尋「${gq.value.trim().replace(/[<>&]/g,'')}」：共 ${b.length+rc.length+nw.length+us.length} 項（價格為代購參考價，最後以實際統計後私訊核對金額為主）</div>`+(out||'<div class="note">找不到符合的品項，換個關鍵字試試，或私訊芸琪詢問</div>');scrollTo(0,0)}
+ if(us.length)out+=`<div class="gh">US 美單價目（${us.length}）</div>`+us.map(([r,i])=>row(r.img,r.c,hl(r.n)+(HOT.includes(r.code)?'<span class="off" style="background:#2e5a8e">📸 熱門</span>':''),`#${hl(r.code)}・${r.c}・PV ${r.pv}`,r.bf!=null?`<span class="off big">🔥 黑五${D.bf[r.bf].d}</span><div class="nt">NT$${fmt(D.bf[r.bf].nt)}</div>`:`<div class="nt">${r.ask?'請問芸琪':'NT$'+fmt(r.nt)}</div>`,r.bf!=null?'b'+r.bf:'u'+i,!!r.ask)).join('');
+ gs.innerHTML=`<div class="pnote">🔎 全站搜尋「${gq.value.trim().replace(/[<>&]/g,'')}」：共 ${b.length+rc.length+nw.length+us.length} 項（價格為代購參考價，最後以實際統計後私訊核對金額為主）</div>`+(out||'<div class="note">找不到符合的品項，換個關鍵字試試，或私訊芸琪詢問</div>');const tb=$('#topbar');scrollTo(0,gs.getBoundingClientRect().top+scrollY-(tb?tb.offsetHeight:0)-6)}
 gq.oninput=run;gx.onclick=()=>{gq.value='';run();gq.focus()};
 gs.onclick=e=>{const k=e.target.dataset.k;if(!k)return;cart[k]=(cart[k]||0)+1;save();upd();toast('已加入：'+all[k].n)};}
 
