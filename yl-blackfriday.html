@@ -92,6 +92,12 @@ kbd{background:#3a332a;color:var(--hi);border-radius:6px;padding:1px 7px;font-fa
 button.mw{background:none;cursor:pointer;font-family:inherit}
 .stk{position:sticky;top:var(--navh,49px);z-index:4;background:var(--bg);margin:0 -14px;padding:10px 14px 4px;box-shadow:0 6px 10px -8px rgba(0,0,0,.8)}
 .pnote{font-size:12.5px;color:#e8c77d;background:rgba(142,31,43,.2);border:1px dashed #8e1f2b;border-radius:10px;padding:6px 10px;margin-bottom:10px}
+#lb{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.88);flex-direction:column;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#lb img{max-width:min(92vw,640px);max-height:72vh;object-fit:contain;background:#f7f2ea;border-radius:14px}
+#lbt{color:#f5ecd9;font-weight:700;font-size:16px;margin-top:12px;text-align:center}
+#lbx{margin-top:12px;background:var(--gold2);color:#141210;border:0;border-radius:20px;padding:10px 22px;font-weight:900;font-size:15px;cursor:pointer}
+img.pic,.rc img{cursor:zoom-in}
+.chips{scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
@@ -134,6 +140,7 @@ button.mw{background:none;cursor:pointer;font-family:inherit}
 <div class="hf"><b>桌面沒出現？</b>小米、OPPO、vivo 請到「設定 → 應用程式 → Chrome → 權限」打開「桌面捷徑」，再做一次。</div>
 <div class="hok">✓ 桌面出現金色「黑五」圖示就完成囉！</div>
 <button class="btn" id="h2x" style="width:100%;margin-top:12px">我知道了</button></div></div>
+<div id="lb"><img id="lbi" alt=""><div id="lbt"></div><button id="lbx" type="button">✕ 關閉</button></div>
 <div class="toast" id="toast"></div>
 <div id="coach"><span id="ctx"></span><button id="help" aria-label="教學">❓ 教學</button></div>
 <div id="tut"><div class="tin"><h2>🛒 跟團超簡單｜5 步完成</h2>
@@ -220,6 +227,9 @@ document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()
 document.querySelectorAll('.chips,input[type=search]').forEach(el=>el.addEventListener('click',()=>setTimeout(step,30)));
 document.querySelectorAll('input[type=search]').forEach(el=>el.addEventListener('input',()=>setTimeout(step,30)));
 $('#a2h').onclick=()=>$('#h2').style.display='flex';$('#h2x').onclick=()=>$('#h2').style.display='none';$('#h2').onclick=e=>{if(e.target.id=='h2')$('#h2').style.display='none'};
+document.addEventListener('click',e=>{const im=e.target.closest&&e.target.closest('img.pic,.rc img');if(!im)return;const card=im.closest('.item,.rc');const nm=card&&(card.querySelector('.nm b,.rn')||{}).textContent||'';$('#lbi').src=im.src.replace(/w=\d+/,'w=900');$('#lbt').textContent=nm;$('#lb').style.display='flex'});
+$('#lb').onclick=()=>$('#lb').style.display='none';
+addEventListener('keydown',e=>{if(e.key==='Escape')$('#lb').style.display='none'});
 const tut=on=>$('#tut').style.display=on?'flex':'none';
 $('#help').onclick=()=>tut(true);$('#tgo').onclick=()=>{tut(false);try{localStorage.setItem('bf26tut','1')}catch(e){}};
 $('#tut').onclick=e=>{if(e.target.id=='tut')$('#tgo').click()};
