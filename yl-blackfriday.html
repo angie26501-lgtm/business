@@ -90,6 +90,7 @@ kbd{background:#3a332a;color:var(--hi);border-radius:6px;padding:1px 7px;font-fa
 .hf{margin-top:12px;border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.7}.hok{text-align:center;color:#9fe29f;font-weight:900;margin-top:12px}
 button.mw{background:none;cursor:pointer;font-family:inherit}
 .stk{position:sticky;top:var(--navh,49px);z-index:4;background:var(--bg);margin:0 -14px;padding:10px 14px 4px;box-shadow:0 6px 10px -8px rgba(0,0,0,.8)}
+.pnote{font-size:12.5px;color:#e8c77d;background:rgba(142,31,43,.2);border:1px dashed #8e1f2b;border-radius:10px;padding:6px 10px;margin-bottom:10px}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
@@ -111,11 +112,11 @@ button.mw{background:none;cursor:pointer;font-family:inherit}
 </section>
 <div class="note"><b style="color:var(--gold)">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</b><br>商品照片來源：悠樂芳美國官網。</div>
 </main>
-<div id="cart"><div class="row"><div class="sum">已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b><span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
+<div id="cart"><div class="row"><div class="sum">已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b><span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，最後以實際統計後私訊核對金額為主</small></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
 <div id="sheet"><div class="in"><h3 style="color:var(--gold);margin:0 0 8px">我的接龍清單</h3>
 <div class="stp">步驟 1｜確認品項與數量（可用 − ＋ 改）</div><div id="cl"></div>
 <div class="stp">步驟 2｜填上你的名字</div><input id="nm" placeholder="你的名字" style="width:100%">
-<div class="stp">步驟 3｜確認要貼到群組的文字</div><textarea id="out" readonly></textarea>
+<div class="stp">步驟 3｜確認要貼到群組的文字</div><div style="color:#e8c77d;font-size:13px;margin-bottom:6px">＊金額為參考價，最後以實際統計後私訊核對金額為主</div><textarea id="out" readonly></textarea>
 <div id="done" hidden><div class="ok">✅ 已複製！你複製的文字是：</div><pre id="dtx"></pre><a class="gogrp" href="https://line.me/R/ti/g/_wPcpU75Jp" target="_blank" rel="noopener">💬 點我打開芳療群組 ➜</a><div class="nx"><b>進群組後 👉</b><br>① 點黑五美單的接龍，按＋1<br>② 長按輸入框 →「貼上」→ 送出<br>完成囉！🎉<br><span style="color:#e8c77d;font-size:13px">芸琪統計後會私訊與您核對最終金額 🙏</span><br><span style="color:var(--mut);font-size:13px">還沒加入群組？按上面按鈕也可以申請加入</span></div></div>
 <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製，去群組＋1</button><button class="btn gh" id="clr">清空</button><button class="btn gh" id="cls">關閉</button></div></div></div>
 
@@ -225,6 +226,7 @@ fetch('yl-bf-orders.json?t='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{if
  const show=()=>{const o=os[i%os.length];i++;bz.classList.add('out');setTimeout(()=>{$('#bzt').textContent=`🛒 ${mask(o.name)} 已＋1：${o.items}`;bz.hidden=false;bz.classList.remove('out')},400)};
  show();setInterval(show,5000)}).catch(()=>{});
 {const n=document.querySelector('nav');const f=()=>document.documentElement.style.setProperty('--navh',n.offsetHeight+'px');f();addEventListener('resize',f)}
+document.querySelectorAll('#t-bf,#t-nw,#t-us').forEach(el=>{const d=document.createElement('div');d.className='pnote';d.textContent='＊本區價格為代購參考價，最後以實際統計後私訊核對金額為主';el.prepend(d)});
 tick();setInterval(tick,6e4);upd();
 
 </script></body></html>
