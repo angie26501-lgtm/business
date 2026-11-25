@@ -4,22 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#eaf4fb">
-<title>艾多美・艾揪團｜接龍小幫手</title>
+<title>艾多美・艾揪團｜鹿藥師陪你聊健康找好康</title>
 <style>
-:root{--bg:#f3f8fc;--card:#fff;--ink:#1d3347;--mut:#6b7f90;--blue:#1f7ac2;--blue2:#e3f1fb;--pink:#e2557a;--line:#d8e6f1}
+:root{--bg:#f3f8fc;--card:#fff;--ink:#1d3347;--mut:#6b7f90;--blue:#1f7ac2;--blue2:#e3f1fb;--pink:#e2557a;--pink2:#fde8ee;--line:#d8e6f1;--barH:120px}
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6}
-header{background:linear-gradient(135deg,#d9eefb,#fbe6ee);padding:22px 16px 18px;text-align:center}
+header{background:linear-gradient(135deg,#d9eefb,#fbe6ee);padding:20px 16px 14px;text-align:center}
 header .tag{display:inline-block;background:#fff;color:var(--pink);font-weight:700;border-radius:20px;padding:3px 12px;font-size:14px}
-header h1{margin:8px 0 4px;font-size:26px}
+header h1{margin:8px 0 2px;font-size:25px}
 header .sub{color:var(--mut);font-size:15px}
-main{max-width:720px;margin:0 auto;padding:14px 14px 170px}
-.how{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;font-size:15px}
-.how ol{margin:6px 0 0;padding-left:22px}
+#top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 14px 0;border-bottom:1px solid var(--line)}
+#top .in{max-width:720px;margin:0 auto}
+.srch{display:flex;gap:8px}
+#q{flex:1;font-size:17px;padding:10px 12px;border:2px solid var(--blue);border-radius:12px;background:#fff}
+#cartBtn{position:relative;border:2px solid var(--blue);background:#fff;border-radius:12px;font-size:22px;padding:0 12px}
+#cartBtn b{position:absolute;top:-8px;right:-8px;background:var(--pink);color:#fff;border-radius:12px;font-size:13px;min-width:22px;padding:0 5px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
+.tabs button{flex:0 0 auto;border:0;border-radius:20px;padding:7px 14px;font-size:15px;background:var(--blue2);color:var(--blue);font-weight:700}
+.tabs button.on{background:var(--blue);color:#fff}
+#steps{display:flex;gap:4px;max-width:720px;margin:10px auto 0;padding:0 14px}
+#steps div{flex:1;text-align:center;font-size:13px;color:var(--mut);border-bottom:4px solid var(--line);padding-bottom:4px}
+#steps div.on{color:var(--pink);border-color:var(--pink);font-weight:700}
+main{max-width:720px;margin:0 auto;padding:12px 14px calc(var(--barH) + 30px)}
+.sec{font-weight:800;font-size:18px;margin:14px 0 8px}
+.sec small{font-weight:400;color:var(--mut);font-size:14px;display:block}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(31,122,194,.06)}
+.card.ask{background:#fbfdff;border-style:dashed}
 .card h3{margin:0 0 4px;font-size:19px}
-.card .deal{display:inline-block;background:#fde8ee;color:var(--pink);font-weight:700;border-radius:8px;padding:1px 8px;font-size:14px;margin:2px 0}
-.card .rule{color:var(--mut);font-size:14px}
+.deal{display:inline-block;background:var(--pink2);color:var(--pink);font-weight:700;border-radius:8px;padding:1px 8px;font-size:14px;margin:2px 0}
+.rule{color:var(--mut);font-size:14px}
+.when{display:inline-block;background:#eef2f5;color:var(--mut);border-radius:8px;padding:0 8px;font-size:13px;margin-left:4px;font-weight:400}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
 .price{font-size:22px;font-weight:800;color:var(--blue)}
 .price small{font-size:14px;color:var(--mut);font-weight:400}
@@ -27,17 +41,30 @@ main{max-width:720px;margin:0 auto;padding:14px 14px 170px}
 .qty button{width:44px;height:44px;border-radius:12px;border:0;font-size:24px;font-weight:700;background:var(--blue);color:#fff}
 .qty button.m{background:var(--blue2);color:var(--blue)}
 .qty b{min-width:28px;text-align:center;font-size:20px}
-#bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--blue);padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+mark{background:#ffe27a;color:inherit;border-radius:3px}
+.empty{text-align:center;color:var(--mut);padding:30px 0}
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:#fff;border-top:2px solid var(--blue);padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.08)}
 #bar .in{max-width:720px;margin:0 auto}
-#bar input{width:100%;font-size:17px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
-#sum{font-size:15px;color:var(--mut);margin-bottom:8px}
+#sum{font-size:15px;color:var(--mut)}
 #sum b{color:var(--ink);font-size:18px}
-.btns{display:flex;gap:8px}
-.btn{flex:1;border:0;border-radius:12px;padding:12px;font-size:17px;font-weight:700;background:var(--pink);color:#fff}
-.btn.gh{flex:0 0 auto;background:var(--blue2);color:var(--blue)}
-#out{display:none;background:#fff;border:2px dashed var(--blue);border-radius:14px;padding:12px;margin-top:6px}
-#out pre{white-space:pre-wrap;font-family:inherit;margin:6px 0 0;font-size:16px}
-.toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--blue);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:9}
+#hint{font-size:15px;font-weight:700;color:var(--pink);margin:2px 0 8px}
+.btn{border:0;border-radius:12px;padding:12px;font-size:17px;font-weight:700;background:var(--pink);color:#fff;width:100%}
+.btn.gh{background:var(--blue2);color:var(--blue)}
+#sheet{display:none;position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.45);align-items:flex-end;justify-content:center}
+#sheet.on{display:flex}
+#sheet .pn{background:#fff;width:100%;max-width:720px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+#sheet h2{margin:0 0 10px;font-size:20px;display:flex;justify-content:space-between;align-items:center}
+#sheet h2 button{border:0;background:var(--blue2);color:var(--blue);border-radius:10px;padding:6px 12px;font-size:15px;font-weight:700}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.li .n{flex:1}
+.li .n small{display:block;color:var(--mut);font-size:13px}
+.lbl{font-weight:700;margin:14px 0 6px}
+#nm{width:100%;font-size:17px;padding:10px 12px;border:2px solid var(--blue);border-radius:10px}
+#pre{white-space:pre-wrap;background:var(--blue2);border-radius:12px;padding:10px 12px;font-size:15px;margin:0;font-family:inherit}
+#done{display:none;background:#eafaf0;border:2px solid #3aa86b;border-radius:14px;padding:12px;margin-top:10px}
+#done ol{margin:6px 0 0;padding-left:22px}
+.r2{display:flex;gap:8px;margin-top:10px}
+.toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--blue);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:20}
 .note{font-size:13px;color:var(--mut);margin-top:16px;text-align:center}
 </style>
 </head>
@@ -47,59 +74,90 @@ main{max-width:720px;margin:0 auto;padding:14px 14px 170px}
 <h1>艾多美・揪團小幫手</h1>
 <div class="sub">鹿藥師陪你聊健康找好康｜主揪 小鹿藥師雅婷</div>
 </header>
-<main>
-<div class="how"><b>📝 怎麼＋1？</b>
-<ol>
-<li>在想要的商品按藍色「＋」</li>
-<li>最下面填上你在群組的名字</li>
-<li>按「📋 複製接龍文字」</li>
-<li>回到群組，長按輸入框「貼上」送出，主揪會幫你排進接龍 💕</li>
-</ol></div>
-<div id="list"></div>
-<div id="out"><b>✅ 已複製！回群組貼上送出就完成囉</b><pre id="txt"></pre></div>
-<div class="note">價格依主揪群組公告為準；成團、出貨時間由主揪通知。<br>本頁只產生接龍文字，不會記錄任何個人資料。</div>
-</main>
+<div id="top"><div class="in">
+<div class="srch"><input id="q" type="search" placeholder="🔎 找商品：乳霜、胜肽、安瓶、牙刷…"><button id="cartBtn" aria-label="查看清單">🛒<b id="cn">0</b></button></div>
+<div class="tabs" id="tabs"></div>
+</div></div>
+<div id="steps"><div data-s="1">1 挑商品</div><div data-s="2">2 填名字</div><div data-s="3">3 複製</div><div data-s="4">4 貼群組</div></div>
+<main><div id="list"></div>
+<div class="note">價格依主揪群組公告為準；成團、出貨時間由主揪通知。<br>本頁只產生接龍文字，不會記錄任何個人資料。</div></main>
 <div id="bar"><div class="in">
-<input id="nm" placeholder="你在群組的名字（例如：小美）" maxlength="20">
-<div id="sum">已選 <b id="cnt">0</b> 件・合計 <b id="tot">$0</b></div>
-<div class="btns"><button class="btn" id="cp">📋 複製接龍文字</button><button class="btn gh" id="clr">清空</button></div>
+<div id="hint">👇 第1步：在想要的商品按藍色「＋」</div>
+<div class="row" style="margin-top:0"><div id="sum">已選 <b id="cnt">0</b> 件・<b id="tot">$0</b></div><button class="btn" id="next" style="width:auto;padding:12px 18px">選好了，下一步 ➜</button></div>
+</div></div>
+<div id="sheet"><div class="pn">
+<h2>🛒 我的清單 <button id="back">← 回去繼續挑</button></h2>
+<div id="items"></div>
+<div class="lbl">第2步｜填上你在群組的名字</div>
+<input id="nm" placeholder="例如：小美" maxlength="20">
+<div class="lbl">第3步｜確認要貼到群組的文字</div>
+<pre id="pre"></pre>
+<div class="r2"><button class="btn" id="cp">📋 複製接龍文字</button><button class="btn gh" id="clr" style="width:auto">清空</button></div>
+<div id="done"><b>✅ 已複製！第4步：貼到群組</b><ol><li>回到「鹿藥師陪你聊健康找好康」群組</li><li>長按輸入框 →「貼上」→ 送出</li><li>主揪會幫你排進接龍 💕</li></ol></div>
 </div></div>
 <div class="toast" id="toast"></div>
 <script>
-// 資料來源：鹿藥師陪你聊健康找好康 群組 11/25 最新「艾揪團」接龍與商品介紹
+// 資料來源：鹿藥師陪你聊健康找好康 群組（主揪 小鹿藥師雅婷）貼文，整理於 2026/11/25
 const P=[
- {id:'cream',g:'柔護寶貝保濕乳霜366元/條',n:'柔護寶貝保濕乳霜',p:366,u:'條',deal:'雙11 特價 3 條 $1,099',rule:'原價 $480／條，平均每條 $366（省 $341）・大人小孩都能用'},
- {id:'lact',g:'牛奶胜肽兩罐2460元/120顆',n:'牛奶胜肽',p:2460,u:'份',deal:'兩罐 $2,460',rule:'1 份＝兩罐（共 120 顆）'},
- {id:'amp',g:'凝萃煥膚安瓶優惠 兩罐2530再送洗面乳',n:'凝萃煥膚安瓶',p:2530,u:'份',deal:'兩罐 $2,530 再送洗面乳',rule:'原價 $2,730，大省 $200・兩組成團'}
+ {id:'cream',t:'go',c:'保養',n:'柔護寶貝保濕乳霜',p:366,u:'條',g:'柔護寶貝保濕乳霜366元/條',deal:'雙11 特價 3 條 $1,099',rule:'原價 $480／條，平均每條 $366・大人小孩都能用',kw:'乳霜 寶寶 嬰兒 保濕 神經醯胺'},
+ {id:'lact',t:'go',c:'保健',n:'牛奶胜肽',p:2460,u:'份',g:'牛奶胜肽兩罐2460元/120顆',deal:'兩罐 $2,460',rule:'1 份＝兩罐（共 120 顆）',kw:'胜肽 睡眠 Lactium Good Sleep'},
+ {id:'amp',t:'go',c:'保養',n:'凝萃煥膚安瓶',p:2530,u:'份',g:'凝萃煥膚安瓶優惠 兩罐2530再送洗面乳',deal:'兩罐 $2,530 再送洗面乳',rule:'原價 $2,730，省 $200・兩組成團',kw:'安瓶 精華 煥膚 Absolute'},
+ {id:'brush',t:'ask',c:'生活',n:'電動牙刷 2 件組',p:3650,u:'組',deal:'2 件組 $3,650',rule:'原價 $4,380，省 $730',when:'11/9 雙11 第二波',kw:'牙刷 音波 電動'},
+ {id:'mist',t:'ask',c:'保養',n:'月桂保濕噴霧 3 件組',p:999,u:'組',deal:'3 件組 $999',rule:'原價 $1,164，省 $165・主揪說賣完就停產',when:'11/21 分享',kw:'噴霧 化妝水 月桂 保濕'},
+ {id:'amp4',t:'ask',c:'保養',n:'凝萃煥膚安瓶 4 件組＋洗面乳×2',p:5060,u:'組',deal:'4 件組 $5,060',rule:'送洗面乳 2 支',when:'雙11 檔期',kw:'安瓶 精華 煥膚 洗面乳'},
+ {id:'acs',t:'ask',c:'生活',n:'ACs 酒精擦拭巾',p:90,u:'盒',deal:'團購價 $90／盒',rule:'1 盒 30 片・24 盒成團',when:'10/9 艾揪團',kw:'酒精 擦拭巾 濕紙巾 ACs'}
 ];
-const K='atomyGrp1';let q={};try{q=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
-const nmEl=document.getElementById('nm');try{nmEl.value=localStorage.getItem(K+'nm')||''}catch(e){}
-const fmt=n=>'$'+n.toLocaleString('en-US');
+const TABS=['全部','🔥 艾揪團進行中','💬 群組分享過','保養','保健','生活'];
+const K='atomyGrp2';let q={},cur='全部',copied=false;
+try{q=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+const $=s=>document.querySelector(s),fmt=n=>'$'+n.toLocaleString('en-US');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nmEl=$('#nm');try{nmEl.value=localStorage.getItem(K+'nm')||''}catch(e){}
 function save(){try{localStorage.setItem(K,JSON.stringify(q));localStorage.setItem(K+'nm',nmEl.value)}catch(e){}}
+function hl(s,w){s=esc(s);if(!w)return s;const i=s.toLowerCase().indexOf(w.toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+w.length)+'</mark>'+s.slice(i+w.length)}
+$('#tabs').innerHTML=TABS.map(t=>`<button data-t="${t}" class="${t==cur?'on':''}">${t}</button>`).join('');
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.t;[...$('#tabs').children].forEach(x=>x.classList.toggle('on',x==b));draw()};
+function card(r,w){const n=q[r.id]||0;return `<div class="card ${r.t=='ask'?'ask':''}"><h3>❤️ ${hl(r.n,w)}${r.when?`<span class="when">${esc(r.when)}</span>`:''}</h3><span class="deal">${esc(r.deal)}</span><div class="rule">${hl(r.rule,w)}</div>
+ <div class="row"><div class="price">${r.t=='ask'?'<small>上次 </small>':''}${fmt(r.p)}<small>／${r.u}</small></div><div class="qty"><button class="m" data-m="${r.id}" aria-label="減少">−</button><b>${n}</b><button data-p="${r.id}" aria-label="增加">＋</button></div></div></div>`}
 function draw(){
- document.getElementById('list').innerHTML=P.map(r=>`<div class="card"><h3>❤️ ${r.n}</h3><span class="deal">${r.deal}</span><div class="rule">${r.rule}</div>
- <div class="row"><div class="price">${fmt(r.p)}<small>／${r.u}</small></div><div class="qty"><button class="m" data-m="${r.id}" aria-label="減少">−</button><b>${q[r.id]||0}</b><button data-p="${r.id}" aria-label="增加">＋</button></div></div></div>`).join('');
- let c=0,t=0;P.forEach(r=>{const n=q[r.id]||0;c+=n;t+=n*r.p});
- document.getElementById('cnt').textContent=c;document.getElementById('tot').textContent=fmt(t);
+ const w=$('#q').value.trim();
+ let rows=P.filter(r=>!w||(r.n+r.rule+r.deal+(r.kw||'')).toLowerCase().includes(w.toLowerCase()));
+ if(cur=='🔥 艾揪團進行中')rows=rows.filter(r=>r.t=='go');else if(cur=='💬 群組分享過')rows=rows.filter(r=>r.t=='ask');else if(cur!='全部')rows=rows.filter(r=>r.c==cur);
+ const go=rows.filter(r=>r.t=='go'),ask=rows.filter(r=>r.t=='ask');
+ $('#list').innerHTML=(rows.length?'':'<div class="empty">找不到，換個關鍵字試試 🙂</div>')+
+  (go.length?'<div class="sec">🔥 艾揪團進行中<small>群組最新接龍品項，直接＋1</small></div>'+go.map(r=>card(r,w)).join(''):'')+
+  (ask.length?'<div class="sec">💬 群組分享過的優惠<small>檔期可能已結束，＋1 會列成「想詢問」，由主揪確認還有沒有、價格多少</small></div>'+ask.map(r=>card(r,w)).join(''):'');
+ sumUp();
 }
-document.getElementById('list').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
- if(b.dataset.p)q[b.dataset.p]=(q[b.dataset.p]||0)+1;
- if(b.dataset.m)q[b.dataset.m]=Math.max(0,(q[b.dataset.m]||0)-1);
- save();draw();document.getElementById('out').style.display='none'});
-nmEl.addEventListener('input',save);
-function toast(s){const t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)}
-document.getElementById('cp').onclick=async()=>{
- const nm=nmEl.value.trim();const ks=P.filter(r=>q[r.id]>0);
- if(!ks.length)return toast('先按「＋」選商品喔');
- if(!nm){nmEl.focus();return toast('請填上你的名字')}
- let t=0;const lines=['艾揪團 ＋1'];
- ks.forEach(r=>{t+=q[r.id]*r.p;lines.push('',`❤️${r.g}`,`${nm}*${q[r.id]}`)});
- lines.push('',`合計 ${fmt(t)}`);
- const s=lines.join('\n');
- try{await navigator.clipboard.writeText(s)}catch(e){const a=document.createElement('textarea');a.value=s;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
- document.getElementById('txt').textContent=s;const o=document.getElementById('out');o.style.display='block';o.scrollIntoView({behavior:'smooth'});toast('已複製！');
-};
-document.getElementById('clr').onclick=()=>{q={};save();draw();document.getElementById('out').style.display='none';toast('已清空')};
+function picked(){return P.filter(r=>q[r.id]>0)}
+function sumUp(){let c=0,t=0;picked().forEach(r=>{c+=q[r.id];if(r.t=='go')t+=q[r.id]*r.p});$('#cnt').textContent=c;$('#cn').textContent=c;$('#tot').textContent=fmt(t)+(picked().some(r=>r.t=='ask')?'＋詢問':'');step()}
+function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').classList.contains('on');let s=1,h='👇 第1步：在想要的商品按藍色「＋」';
+ if(c&&!open)h='👉 選好了嗎？按「選好了，下一步」';
+ if(open&&!nm){s=2;h='✏️ 第2步：填上你在群組的名字'}
+ if(open&&nm&&!copied){s=3;h='📋 第3步：按「複製接龍文字」'}
+ if(open&&copied){s=4;h='✅ 第4步：回群組長按貼上送出'}
+ $('#hint').textContent=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
+function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(!b)return;b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1)});
+$('#q').addEventListener('input',draw);
+function txt(){const nm=nmEl.value.trim()||'（名字）';const go=picked().filter(r=>r.t=='go'),ask=picked().filter(r=>r.t=='ask');const L=['艾揪團 ＋1'];let t=0;
+ go.forEach(r=>{t+=q[r.id]*r.p;L.push('',`❤️${r.g}`,`${nm}*${q[r.id]}`)});
+ if(ask.length){L.push('',`🙋 ${nm} 想詢問（請主揪確認還有沒有、價格多少）`);ask.forEach(r=>L.push(`・${r.n} ×${q[r.id]}`))}
+ if(go.length)L.push('',`合計 ${fmt(t)}`+(ask.length?'（不含詢問品項）':''));
+ return L.join('\n')}
+function sheet(){const ks=picked();$('#items').innerHTML=ks.length?ks.map(r=>`<div class="li"><div class="n">${esc(r.n)}<small>${r.t=='ask'?'想詢問・上次 '+fmt(r.p)+'／'+r.u:fmt(r.p)+'／'+r.u+'・小計 '+fmt(r.p*q[r.id])}</small></div><div class="qty"><button class="m" data-m="${r.id}">−</button><b>${q[r.id]}</b><button data-p="${r.id}">＋</button></div></div>`).join(''):'<div class="empty">清單是空的，先回去挑商品喔</div>';$('#pre').textContent=txt();step()}
+let sy=0;
+function openS(){if(!picked().length)return toast('先按「＋」選商品喔');sy=scrollY;$('#sheet').classList.add('on');sheet()}
+function closeS(){$('#sheet').classList.remove('on');scrollTo(0,sy);step()}
+$('#next').onclick=openS;$('#cartBtn').onclick=openS;$('#back').onclick=closeS;
+$('#sheet').onclick=e=>{if(e.target.id=='sheet')closeS()};
+nmEl.addEventListener('input',()=>{copied=false;$('#done').style.display='none';save();$('#pre').textContent=txt();step()});
+function toast(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)}
+$('#cp').onclick=async()=>{if(!picked().length)return toast('清單是空的');if(!nmEl.value.trim()){nmEl.focus();return toast('請先填上你的名字')}
+ const s=txt();try{await navigator.clipboard.writeText(s)}catch(e){const a=document.createElement('textarea');a.value=s;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
+ copied=true;$('#done').style.display='block';$('#done').scrollIntoView({behavior:'smooth'});toast('已複製！');step()};
+let ct=0;$('#clr').onclick=()=>{if(Date.now()-ct>3000){ct=Date.now();return toast('再按一次「清空」確認')}q={};copied=false;save();draw();sheet();$('#done').style.display='none';toast('已清空')};
+if(window.ResizeObserver)new ResizeObserver(()=>document.documentElement.style.setProperty('--barH',$('#bar').offsetHeight+'px')).observe($('#bar'));
 draw();
 </script>
 </body>
