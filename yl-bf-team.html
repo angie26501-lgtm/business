@@ -141,7 +141,7 @@ img.pic,.rc img{cursor:zoom-in}
 <section id="t-how" hidden>
 <div class="box"><h3>💰 代購價包含什麼</h3>代購價已包含：匯率、美國運費、國際運費、刷卡手續費、集運倉驗貨拍照、報關費。<b>只有台灣境內運費另計</b>，不會再加收其他費用。
 <div style="margin-top:6px">🍷 寧夏紅：1箱30包 $4,500｜1箱51包 $6,500｜2箱(30包×2) $9,000</div></div>
-<div class="box"><h3>📝 怎麼用</h3>按「＋」選好品項，最下面按「選好了，下一步」，填上名字後按「複製購物清單」，就能貼到你的群組或客戶私訊。<br><span style="color:var(--mut)">清單會列出產品編號、數量、美金、代購參考價和 PV，方便你到美國官網下單。</span></div>
+<div class="box"><h3>📝 怎麼用</h3>按「＋」選好品項，最下面按「選好了，下一步」，填上名字後按「複製購物清單」，就能傳給你的主購人（或貼到你的群組、客戶私訊）。<br><span style="color:var(--mut)">清單會列出產品編號、數量、美金、代購參考價和 PV，方便你到美國官網下單。</span></div>
 <div class="box"><h3>🔥 這次黑五重點</h3><ul><li>乳香 15ml 5 折（數量有限，售完為止）</li><li>人氣單方、複方、滾珠 7 折</li><li>盜賊居家清潔系列 7 折</li><li>盜賊洗碗精、薄荷糖「買一送一」已開放（1 份＝2 個）</li><li>美國官方活動到 11/28 晚上（美國山區時間）結束</li></ul></div>
 <div class="box"><h3>⚠️ 小提醒</h3><ul><li>本頁價格僅供參考，最終以美國官網結帳金額為準</li><li>美國缺貨的品項就無法訂購，敬請見諒</li><li>國際運輸報關審核嚴格，保守估 4～6 週到貨，到貨再通知大家</li><li>下單時請以產品編號核對品項</li><li>價格以美國官網為準，若官網調整會再公告</li></ul></div>
 
@@ -154,8 +154,8 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="stp">步驟 2｜填上客戶或你的名字</div><input id="nm" placeholder="客戶名字或你的名字" style="width:100%">
 <div class="stp">步驟 3｜確認購物清單文字</div><div style="color:#e8c77d;font-size:13px;margin-bottom:6px">＊金額與 PV 為參考（黑五折扣品 PV 依官網隨折扣計算）；最後以美國官網結帳金額為準</div><textarea id="out" readonly></textarea>
 <div id="done" hidden><div class="ok">✅ 已複製！你複製的文字是：</div><pre id="dtx"></pre>
-<div class="w2t">👇 第5步：把購物清單貼到你要的地方</div><div class="wc wg"><ol><li>打開你的群組、客戶私訊或記事本</li><li>長按輸入框 →「貼上」→ 送出或存檔</li></ol><small>可以按「清空」再幫下一位客戶選，每位客戶各複製一份</small></div><button class="btn fin" id="fin">✅ 我貼好了，完成！</button>
-<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！💕</b><p>下單前記得到美國官網核對金額與庫存 🙏<br>還想加購？按「← 回原頁面」繼續挑，再複製一次就好。</p><button class="btn gh" id="clr3" style="margin-top:8px">🗑 清空清單，幫別人選</button></div></div>
+<div class="w2t">👇 第5步：把購物清單傳給你的主購人</div><div class="wc wg"><ol><li><b>傳給你的主購人</b>：打開和主購人的私訊或群組</li><li>長按輸入框 →「貼上」→ 送出</li></ol><small>你是主購人？也可以貼到自己的群組、客戶私訊或記事本</small><br><small>可以按「清空」再幫下一位客戶選，每位客戶各複製一份</small></div><button class="btn fin" id="fin">✅ 我貼好了，完成！</button>
+<div id="yay" hidden><div class="yb">🎉🎊</div><b>完成囉！💕</b><p>主購人會再跟你核對金額與庫存 🙏<br>還想加購？按「← 回原頁面」繼續挑，再複製一次就好。</p><button class="btn gh" id="clr3" style="margin-top:8px">🗑 清空清單，幫別人選</button></div></div>
 <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="cp" style="flex:1">📋 複製購物清單</button><button class="btn gh" id="clr">🗑 清空重選</button><button class="btn gh" id="cls">← 回原頁面</button></div></div></div>
 
 
@@ -179,7 +179,7 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="ts"><i>2</i><div><b>按「選好了，下一步」</b><br>在畫面最下面，會打開你的清單，可以用 − ＋ 改數量</div></div>
 <div class="ts"><i>3</i><div><b>填上你的名字</b><br>寫客戶名字或你的名字</div></div>
 <div class="ts"><i>4</i><div><b>按「📋 複製」</b><br>畫面會出現綠色框，顯示你複製的文字</div></div>
-<div class="ts"><i>5</i><div><b>貼到你要的地方</b><br>貼到你的群組、客戶私訊或記事本都可以，貼好後按金色「✅ 我貼好了」就完成囉 🎉</div></div>
+<div class="ts"><i>5</i><div><b>傳給你的主購人</b><br>打開和主購人的私訊或群組，長按「貼上」送出；貼好後按金色「✅ 我貼好了」就完成囉 🎉</div></div>
 <div class="tip">⚠️ 價格僅供參考，最終以美國官網結帳金額為準。<br>💡 下方金色小框會一直提醒你「現在要做什麼」，跟著做就對了！<br>不會的話，隨時按右下「❓ 教學」</div>
 <button class="btn" id="tgo" style="width:100%;margin-top:12px;font-size:17px">我知道了，開始挑 👉</button></div></div>
 <script>
@@ -253,7 +253,7 @@ function step(){const n=Object.keys(cart).filter(k=>cart[k]>0&&all[k]).length,op
  if(open&&!n){s=1;t='購物車是空的，按「← 回原頁面」去按＋挑商品'}
  else if(open&&!nm){s=3;t='✍️ 第3步：在「步驟 2」框框填上你的名字'}
  else if(open&&!copied){s=4;t='📋 第4步：確認文字沒問題，按最下面「📋 複製購物清單」'}
- else if(open&&copied&&!finished){s=5;t='✅ 第5步：把購物清單貼到你的群組或客戶私訊 → 按「我貼好了」'}
+ else if(open&&copied&&!finished){s=5;t='✅ 第5步：把購物清單傳給你的主購人（私訊或群組）→ 貼上送出 → 按「我貼好了」'}
  else if(open&&copied&&finished){s=6;t='🎉 完成！要幫下一位客戶選，按「清空」重新開始'}
  $('#ctx').textContent=t;document.body.classList.toggle('insheet',open);
  document.querySelectorAll('.pg').forEach(p=>{const v=+p.dataset.s;p.classList.toggle('done',v<s);p.classList.toggle('now',v==s)});
