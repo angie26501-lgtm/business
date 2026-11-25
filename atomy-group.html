@@ -31,6 +31,10 @@ main{max-width:720px;margin:0 auto;padding:12px 14px calc(var(--barH) + 30px)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(31,122,194,.06)}
 .card.ask{background:#fbfdff;border-style:dashed}
 .card h3{margin:0 0 4px;font-size:19px}
+.cw{display:flex;gap:12px}.cw .tx{flex:1;min-width:0}
+.pic{flex:0 0 92px;width:92px;height:92px;border-radius:12px;border:1px solid var(--line);background:#fff;object-fit:contain;cursor:zoom-in}
+.pic.emo{display:flex;align-items:center;justify-content:center;font-size:44px;cursor:default}
+#lb{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.85);align-items:center;justify-content:center;flex-direction:column;padding:16px}#lb.on{display:flex}#lb img{max-width:92vw;max-height:70vh;border-radius:14px;background:#fff}#lb b{color:#fff;margin-top:10px;font-size:18px}#lb small{color:#ccc;margin-top:6px}
 .deal{display:inline-block;background:var(--pink2);color:var(--pink);font-weight:700;border-radius:8px;padding:1px 8px;font-size:14px;margin:2px 0}
 .rule{color:var(--mut);font-size:14px}
 .when{display:inline-block;background:#eef2f5;color:var(--mut);border-radius:8px;padding:0 8px;font-size:13px;margin-left:4px;font-weight:400}
@@ -80,7 +84,7 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 </div></div>
 <div id="steps"><div data-s="1">1 挑商品</div><div data-s="2">2 填名字</div><div data-s="3">3 複製</div><div data-s="4">4 貼群組</div></div>
 <main><div id="list"></div>
-<div class="note">價格依主揪群組公告為準；成團、出貨時間由主揪通知。<br>本頁只產生接龍文字，不會記錄任何個人資料。</div></main>
+<div class="note">商品圖片取自群組分享的商品圖，僅供辨識；價格依主揪群組公告為準；成團、出貨時間由主揪通知。<br>本頁只產生接龍文字，不會記錄任何個人資料。</div></main>
 <div id="bar"><div class="in">
 <div id="hint">👇 第1步：在想要的商品按藍色「＋」</div>
 <div class="row" style="margin-top:0"><div id="sum">已選 <b id="cnt">0</b> 件・<b id="tot">$0</b></div><button class="btn" id="next" style="width:auto;padding:12px 18px">選好了，下一步 ➜</button></div>
@@ -96,16 +100,17 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div id="done"><b>✅ 已複製！第4步：貼到群組</b><ol><li>回到「鹿藥師陪你聊健康找好康」群組</li><li>長按輸入框 →「貼上」→ 送出</li><li>主揪會幫你排進接龍 💕</li></ol></div>
 </div></div>
 <div class="toast" id="toast"></div>
+<div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉</small></div>
 <script>
 // 資料來源：鹿藥師陪你聊健康找好康 群組（主揪 小鹿藥師雅婷）貼文，整理於 2026/11/25
 const P=[
- {id:'cream',t:'go',c:'保養',n:'柔護寶貝保濕乳霜',p:366,u:'條',g:'柔護寶貝保濕乳霜366元/條',deal:'雙11 特價 3 條 $1,099',rule:'原價 $480／條，平均每條 $366・大人小孩都能用',kw:'乳霜 寶寶 嬰兒 保濕 神經醯胺'},
- {id:'lact',t:'go',c:'保健',n:'牛奶胜肽',p:2460,u:'份',g:'牛奶胜肽兩罐2460元/120顆',deal:'兩罐 $2,460',rule:'1 份＝兩罐（共 120 顆）',kw:'胜肽 睡眠 Lactium Good Sleep'},
- {id:'amp',t:'go',c:'保養',n:'凝萃煥膚安瓶',p:2530,u:'份',g:'凝萃煥膚安瓶優惠 兩罐2530再送洗面乳',deal:'兩罐 $2,530 再送洗面乳',rule:'原價 $2,730，省 $200・兩組成團',kw:'安瓶 精華 煥膚 Absolute'},
- {id:'brush',t:'ask',c:'生活',n:'電動牙刷 2 件組',p:3650,u:'組',deal:'2 件組 $3,650',rule:'原價 $4,380，省 $730',when:'11/9 雙11 第二波',kw:'牙刷 音波 電動'},
- {id:'mist',t:'ask',c:'保養',n:'月桂保濕噴霧 3 件組',p:999,u:'組',deal:'3 件組 $999',rule:'原價 $1,164，省 $165・主揪說賣完就停產',when:'11/21 分享',kw:'噴霧 化妝水 月桂 保濕'},
- {id:'amp4',t:'ask',c:'保養',n:'凝萃煥膚安瓶 4 件組＋洗面乳×2',p:5060,u:'組',deal:'4 件組 $5,060',rule:'送洗面乳 2 支',when:'雙11 檔期',kw:'安瓶 精華 煥膚 洗面乳'},
- {id:'acs',t:'ask',c:'生活',n:'ACs 酒精擦拭巾',p:90,u:'盒',deal:'團購價 $90／盒',rule:'1 盒 30 片・24 盒成團',when:'10/9 艾揪團',kw:'酒精 擦拭巾 濕紙巾 ACs'}
+ {id:'cream',img:'atomy-img/cream.jpg',t:'go',c:'保養',n:'柔護寶貝保濕乳霜',p:366,u:'條',g:'柔護寶貝保濕乳霜366元/條',deal:'雙11 特價 3 條 $1,099',rule:'原價 $480／條，平均每條 $366・大人小孩都能用',kw:'乳霜 寶寶 嬰兒 保濕 神經醯胺'},
+ {id:'lact',img:'atomy-img/lact.jpg',t:'go',c:'保健',n:'牛奶胜肽',p:2460,u:'份',g:'牛奶胜肽兩罐2460元/120顆',deal:'兩罐 $2,460',rule:'1 份＝兩罐（共 120 顆）',kw:'胜肽 睡眠 Lactium Good Sleep'},
+ {id:'amp',img:'atomy-img/amp.jpg',t:'go',c:'保養',n:'凝萃煥膚安瓶',p:2530,u:'份',g:'凝萃煥膚安瓶優惠 兩罐2530再送洗面乳',deal:'兩罐 $2,530 再送洗面乳',rule:'原價 $2,730，省 $200・兩組成團',kw:'安瓶 精華 煥膚 Absolute'},
+ {id:'brush',img:'atomy-img/brush.jpg',t:'ask',c:'生活',n:'電動牙刷 2 件組',p:3650,u:'組',deal:'2 件組 $3,650',rule:'原價 $4,380，省 $730',when:'11/9 雙11 第二波',kw:'牙刷 音波 電動'},
+ {id:'mist',img:'atomy-img/mist.jpg',t:'ask',c:'保養',n:'月桂保濕噴霧 3 件組',p:999,u:'組',deal:'3 件組 $999',rule:'原價 $1,164，省 $165・主揪說賣完就停產',when:'11/21 分享',kw:'噴霧 化妝水 月桂 保濕'},
+ {id:'amp4',img:'atomy-img/amp4.jpg',t:'ask',c:'保養',n:'凝萃煥膚安瓶 4 件組＋洗面乳×2',p:5060,u:'組',deal:'4 件組 $5,060',rule:'送洗面乳 2 支',when:'雙11 檔期',kw:'安瓶 精華 煥膚 洗面乳'},
+ {id:'acs',emo:'🧻',t:'ask',c:'生活',n:'ACs 酒精擦拭巾',p:90,u:'盒',deal:'團購價 $90／盒',rule:'1 盒 30 片・24 盒成團',when:'10/9 艾揪團',kw:'酒精 擦拭巾 濕紙巾 ACs'}
 ];
 const TABS=['全部','🔥 艾揪團進行中','💬 群組分享過','保養','保健','生活'];
 const K='atomyGrp2';let q={},cur='全部',copied=false;
@@ -117,7 +122,7 @@ function save(){try{localStorage.setItem(K,JSON.stringify(q));localStorage.setIt
 function hl(s,w){s=esc(s);if(!w)return s;const i=s.toLowerCase().indexOf(w.toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+w.length)+'</mark>'+s.slice(i+w.length)}
 $('#tabs').innerHTML=TABS.map(t=>`<button data-t="${t}" class="${t==cur?'on':''}">${t}</button>`).join('');
 $('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.t;[...$('#tabs').children].forEach(x=>x.classList.toggle('on',x==b));draw()};
-function card(r,w){const n=q[r.id]||0;return `<div class="card ${r.t=='ask'?'ask':''}"><h3>❤️ ${hl(r.n,w)}${r.when?`<span class="when">${esc(r.when)}</span>`:''}</h3><span class="deal">${esc(r.deal)}</span><div class="rule">${hl(r.rule,w)}</div>
+function card(r,w){const n=q[r.id]||0;const pic=r.img?`<img class="pic" src="${r.img}" alt="${esc(r.n)}" data-lb="${r.id}" loading="lazy">`:`<div class="pic emo">${r.emo||'🛍️'}</div>`;return `<div class="card ${r.t=='ask'?'ask':''}"><div class="cw">${pic}<div class="tx"><h3>${hl(r.n,w)}${r.when?`<span class="when">${esc(r.when)}</span>`:''}</h3><span class="deal">${esc(r.deal)}</span><div class="rule">${hl(r.rule,w)}</div></div></div>
  <div class="row"><div class="price">${r.t=='ask'?'<small>上次 </small>':''}${fmt(r.p)}<small>／${r.u}</small></div><div class="qty"><button class="m" data-m="${r.id}" aria-label="減少">−</button><b>${n}</b><button data-p="${r.id}" aria-label="增加">＋</button></div></div></div>`}
 function draw(){
  const w=$('#q').value.trim();
@@ -140,6 +145,8 @@ function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').cl
 function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
 document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(!b)return;b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1)});
 $('#q').addEventListener('input',draw);
+document.addEventListener('click',e=>{const im=e.target.closest('[data-lb]');if(!im)return;const r=P.find(x=>x.id==im.dataset.lb);$('#lbi').src=r.img;$('#lbn').textContent=r.n;$('#lb').classList.add('on')});
+$('#lb').onclick=()=>$('#lb').classList.remove('on');
 function txt(){const nm=nmEl.value.trim()||'（名字）';const go=picked().filter(r=>r.t=='go'),ask=picked().filter(r=>r.t=='ask');const L=['艾揪團 ＋1'];let t=0;
  go.forEach(r=>{t+=q[r.id]*r.p;L.push('',`❤️${r.g}`,`${nm}*${q[r.id]}`)});
  if(ask.length){L.push('',`🙋 ${nm} 想詢問（請主揪確認還有沒有、價格多少）`);ask.forEach(r=>L.push(`・${r.n} ×${q[r.id]}`))}
