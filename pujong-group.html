@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f1ecf8">
+<title>葡眾好好玩｜康康節團購小幫手</title>
+<style>
+:root{--bg:#f6f3fa;--card:#fff;--ink:#2a2140;--mut:#75708a;--pur:#6b3fa0;--pur2:#efe7f8;--grn:#2f8f5b;--grn2:#e5f5ec;--gold:#d4a017;--line:#e3dbef;--barH:130px}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6}
+header{background:linear-gradient(135deg,#5b2f91,#8e5cc8);color:#fff;padding:20px 16px 16px;text-align:center}
+header .tag{display:inline-block;background:#ffd85c;color:#4a2a00;font-weight:800;border-radius:20px;padding:3px 12px;font-size:14px}
+header h1{margin:8px 0 2px;font-size:25px}
+header .sub{opacity:.9;font-size:15px}
+.promo{max-width:720px;margin:12px auto 0;padding:0 14px}
+.promo .in{background:#fff8dc;border:2px solid #f0c94a;border-radius:16px;padding:12px 14px;font-size:15px}
+.promo b{color:#8a5a00}
+#top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 14px 0;border-bottom:1px solid var(--line)}
+#top .in{max-width:720px;margin:0 auto}
+.srch{display:flex;gap:8px}
+#q{flex:1;font-size:17px;padding:10px 12px;border:2px solid var(--pur);border-radius:12px;background:#fff}
+#cartBtn{position:relative;border:2px solid var(--pur);background:#fff;border-radius:12px;font-size:22px;padding:0 12px}
+#cartBtn b{position:absolute;top:-8px;right:-8px;background:var(--grn);color:#fff;border-radius:12px;font-size:13px;min-width:22px;padding:0 5px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:none}
+.tabs button{flex:0 0 auto;border:0;border-radius:20px;padding:7px 14px;font-size:15px;background:var(--pur2);color:var(--pur);font-weight:700}
+.tabs button.on{background:var(--pur);color:#fff}
+#steps{display:flex;gap:4px;max-width:720px;margin:10px auto 0;padding:0 14px}
+#steps div{flex:1;text-align:center;font-size:13px;color:var(--mut);border-bottom:4px solid var(--line);padding-bottom:4px}
+#steps div.on{color:var(--grn);border-color:var(--grn);font-weight:700}
+main{max-width:720px;margin:0 auto;padding:12px 14px calc(var(--barH) + 30px)}
+.sec{font-weight:800;font-size:18px;margin:14px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(107,63,160,.06)}
+.cw{display:flex;gap:12px}.cw .tx{flex:1;min-width:0}
+.pic{flex:0 0 92px;width:92px;height:92px;border-radius:12px;border:1px solid var(--line);background:#fff;object-fit:contain;cursor:zoom-in}
+.card h3{margin:0 0 2px;font-size:18px}
+.badge{display:inline-block;border-radius:8px;padding:0 7px;font-size:12px;font-weight:700;margin-right:4px}
+.b-hot{background:#ffe7e0;color:#c0392b}.b-new{background:#fff3c4;color:#8a5a00}
+.spec{color:var(--mut);font-size:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.price{font-size:21px;font-weight:800;color:var(--pur)}
+.price small{font-size:13px;color:var(--mut);font-weight:400}
+.sv{display:inline-block;background:var(--grn2);color:var(--grn);font-weight:700;border-radius:8px;padding:0 7px;font-size:13px;margin-left:4px}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:44px;height:44px;border-radius:12px;border:0;font-size:24px;font-weight:700;background:var(--pur);color:#fff}
+.qty button.m{background:var(--pur2);color:var(--pur)}
+.qty b{min-width:28px;text-align:center;font-size:20px}
+mark{background:#ffe27a;color:inherit;border-radius:3px}
+.empty{text-align:center;color:var(--mut);padding:30px 0}
+#bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:#fff;border-top:2px solid var(--pur);padding:8px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+#bar .in{max-width:720px;margin:0 auto}
+.kk{font-size:14px;margin-bottom:4px}
+.kk .tr{height:10px;background:#eee;border-radius:6px;overflow:hidden;margin-top:3px}
+.kk .tr i{display:block;height:100%;background:linear-gradient(90deg,#f0c94a,#2f8f5b);width:0;transition:width .3s}
+#sum{font-size:15px;color:var(--mut)}
+#sum b{color:var(--ink);font-size:17px}
+#hint{font-size:15px;font-weight:700;color:var(--grn);margin:2px 0 6px}
+.btn{border:0;border-radius:12px;padding:12px;font-size:17px;font-weight:700;background:var(--grn);color:#fff;width:100%}
+.btn.gh{background:var(--pur2);color:var(--pur)}
+#sheet{display:none;position:fixed;inset:0;z-index:9;background:rgba(0,0,0,.45);align-items:flex-end;justify-content:center}
+#sheet.on{display:flex}
+#sheet .pn{background:#fff;width:100%;max-width:720px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+#sheet h2{margin:0 0 10px;font-size:20px;display:flex;justify-content:space-between;align-items:center}
+#sheet h2 button{border:0;background:var(--pur2);color:var(--pur);border-radius:10px;padding:6px 12px;font-size:15px;font-weight:700}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.li .n{flex:1}.li .n small{display:block;color:var(--mut);font-size:13px}
+.lbl{font-weight:700;margin:14px 0 6px}
+#nm{width:100%;font-size:17px;padding:10px 12px;border:2px solid var(--pur);border-radius:10px}
+#pre{white-space:pre-wrap;background:var(--pur2);border-radius:12px;padding:10px 12px;font-size:15px;margin:0;font-family:inherit}
+#done{display:none;background:var(--grn2);border:2px solid var(--grn);border-radius:14px;padding:12px;margin-top:10px}
+#done ol{margin:6px 0 0;padding-left:22px}
+.r2{display:flex;gap:8px;margin-top:10px}
+#lb{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.85);align-items:center;justify-content:center;flex-direction:column;padding:16px}#lb.on{display:flex}#lb img{max-width:92vw;max-height:70vh;border-radius:14px;background:#fff}#lb b{color:#fff;margin-top:10px;font-size:18px}#lb small{color:#ccc;margin-top:6px}
+.toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--pur);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:40}
+.note{font-size:13px;color:var(--mut);margin-top:16px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+<span class="tag">🎁 2026 葡眾康康節</span>
+<h1>葡眾好好玩・團購小幫手</h1>
+<div class="sub">主揪 耿德｜選好商品，複製貼回群組就完成</div>
+</header>
+<div class="promo"><div class="in">🎁 <b>康康節：單筆訂單滿 600SV 送「康爾喜」一盒</b>，可累贈（1,200SV 送兩盒，以此類推）<br><small>活動期間 2026/10/28～12/28 晚上 8:00・11、12 月業績訂單・不得多筆合併計算</small></div></div>
+<div id="top"><div class="in">
+<div class="srch"><input id="q" type="search" placeholder="🔎 找商品：康爾喜、樟芝、餐包、995…"><button id="cartBtn" aria-label="查看清單">🛒<b id="cn">0</b></button></div>
+<div class="tabs" id="tabs"></div>
+</div></div>
+<div id="steps"><div data-s="1">1 挑商品</div><div data-s="2">2 填名字</div><div data-s="3">3 複製</div><div data-s="4">4 貼群組</div></div>
+<main><div id="list"></div>
+<div class="note">價格與積分（SV）取自葡眾官網（2026/11/25），團購價與成團方式以主揪耿德公告為準。<br>商品圖片來自葡眾官網。本頁只產生接龍文字，不會記錄任何個人資料。</div></main>
+<div id="bar"><div class="in">
+<div class="kk"><span id="kkt">🎁 再選 600SV 就送康爾喜一盒</span><div class="tr"><i id="kkb"></i></div></div>
+<div id="hint">👇 第1步：在想要的商品按紫色「＋」</div>
+<div class="row" style="margin-top:0"><div id="sum">已選 <b id="cnt">0</b> 件・<b id="tot">$0</b>・<b id="svt">0</b>SV</div><button class="btn" id="next" style="width:auto;padding:12px 16px">選好了，下一步 ➜</button></div>
+</div></div>
+<div id="sheet"><div class="pn">
+<h2>🛒 我的清單 <button id="back">← 回去繼續挑</button></h2>
+<div id="items"></div>
+<div class="lbl">第2步｜填上你在群組的名字</div>
+<input id="nm" placeholder="例如：小美" maxlength="20">
+<div class="lbl">第3步｜確認要貼到群組的文字</div>
+<pre id="pre"></pre>
+<div class="r2"><button class="btn" id="cp">📋 複製接龍文字</button><button class="btn gh" id="clr" style="width:auto">清空</button></div>
+<div id="done"><b>✅ 已複製！第4步：貼到群組</b><ol><li>回到「葡眾好好玩」群組</li><li>長按輸入框 →「貼上」→ 送出</li><li>主揪耿德會幫你統計 💜</li></ol></div>
+</div></div>
+<div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉</small></div>
+<div class="toast" id="toast"></div>
+<script>
+// 資料來源：葡眾官網 https://www.uvaco.com.tw/ 首頁熱門商品與各商品頁「售價／積分」，整理於 2026/11/25
+const IMG='https://pp00ssazurestorage.blob.core.windows.net/pp01ss/Images/Product/';
+const P=[
+ {id:'TW0302007',c:'新品',n:'沁潔私密潔淨慕斯',s:'150g/瓶',p:980,sv:28,img:'TW0302007_20260717_1.png',nw:1,kw:'沁潔 慕斯 私密'},
+ {id:'TW0101001',c:'營養液',n:'995生技營養品',s:'180ml × 24瓶/箱',p:5980,sv:164,img:'TW0101001_20261014_1.png',hot:1,kw:'995 營養液'},
+ {id:'TW0101005',c:'營養液',n:'995生技營養品（甘味）',s:'180ml × 24瓶/箱',p:5980,sv:164,img:'TW0101005_20260205_1.png',kw:'995 甘味 營養液'},
+ {id:'TW0102001',c:'營養液',n:'樟芝益菌絲體生技營養品',s:'180ml × 24瓶/箱',p:5980,sv:164,img:'TW0102001_20261014_1.png',hot:1,kw:'樟芝益 樟芝 營養液'},
+ {id:'TW0102008',c:'營養液',n:'UVACO 樟芝菌絲體滴粒',s:'約45粒 × 2瓶/盒',p:5500,sv:160,img:'TW0102008_20260504_1.png',hot:1,kw:'樟芝 滴粒'},
+ {id:'TW0101004',c:'營養液',n:'葡眾360計劃',s:'30包/盒',p:11088,sv:320,img:'TW0101004_20260504_1.png',kw:'360 計劃'},
+ {id:'TW0101003',c:'益生菌',n:'康爾喜乳酸菌顆粒',s:'90條/盒',p:1890,sv:52,img:'TW0101003_20261014_1.png',hot:1,kw:'康爾喜 益生菌 乳酸菌'},
+ {id:'TW0103001',c:'益生菌',n:'康爾喜(N)乳酸菌顆粒',s:'1.5克 × 90條/盒',p:1960,sv:52,img:'TW0103001_20261014_1.png',kw:'康爾喜 N 益生菌 乳酸菌'},
+ {id:'TW0107002',c:'益生菌',n:'康悅兒乳酸菌顆粒',s:'1.5克 × 90包/盒',p:1764,sv:48,img:'TW0107002_20261014_1.png',kw:'康悅兒 益生菌 乳酸菌'},
+ {id:'TW0103002',c:'益生菌',n:'康爾暢乳酸菌球顆粒',s:'0.8克 × 30條/盒',p:2050,sv:60,img:'TW0103002_20261014_1.png',kw:'康爾暢 益生菌 乳酸菌'},
+ {id:'TW0104004',c:'益生菌',n:'康爾動乳酸菌球顆粒',s:'0.8克 × 30條/盒',p:1950,sv:56,img:'TW0104004_20261014_1.png',kw:'康爾動 益生菌 乳酸菌'},
+ {id:'TW0102006',c:'益生菌',n:'葡眾樂優乳酸菌顆粒',s:'90條/盒',p:2100,sv:60,img:'TW0102006_20261014_1.png',kw:'樂優 益生菌 乳酸菌'},
+ {id:'TW0104001',c:'菇菌',n:'葡眾活逸康猴頭菇菌絲體顆粒',s:'2克 × 90條/盒',p:5796,sv:172,img:'TW0104001_20261014_1.png',kw:'活逸康 猴頭菇'},
+ {id:'TW0109002',c:'沖泡飲',n:'葡眾原味餐包沖泡飲',s:'14克 × 30包/盒',p:1344,sv:36,img:'TW0109002_20261014_1.png',hot:1,kw:'餐包 原味'},
+ {id:'TW0109001',c:'沖泡飲',n:'葡眾餐包沖泡飲',s:'15克 × 30包/盒',p:1344,sv:36,img:'TW0109001_20261014_1.png',kw:'餐包'},
+ {id:'TW0109003',c:'沖泡飲',n:'葡眾銀燦餐包沖泡飲',s:'14克 × 30包/盒',p:1480,sv:40,img:'TW0109003_20261014_1.png',kw:'餐包 銀燦'},
+ {id:'TW0109005',c:'沖泡飲',n:'桑本力元沖泡飲',s:'14g/包（30包/盒）',p:1480,sv:40,img:'TW0109005_20251224_1.png',kw:'桑本力元 桑黃'},
+ {id:'TW0105005',c:'沖泡飲',n:'欣悅康沖泡飲',s:'10克 × 30包/盒',p:3100,sv:88,img:'TW0105005_20261014_1.png',kw:'欣悅康'},
+ {id:'TW0108003',c:'沖泡飲',n:'迪康沖泡飲',s:'12克 × 30包/盒',p:1764,sv:48,img:'TW0108003_20261014_1.png',kw:'迪康'}
+];
+const TABS=['全部','🔥 熱門','✨ 新品','營養液','益生菌','沖泡飲','菇菌'];
+const K='pujongGrp1';let q={},cur='全部',copied=false;
+try{q=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+const $=s=>document.querySelector(s),fmt=n=>'$'+n.toLocaleString('en-US');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nmEl=$('#nm');try{nmEl.value=localStorage.getItem(K+'nm')||''}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(q));localStorage.setItem(K+'nm',nmEl.value)}catch(e){}}
+function hl(s,w){s=esc(s);if(!w)return s;const i=s.toLowerCase().indexOf(w.toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+w.length)+'</mark>'+s.slice(i+w.length)}
+$('#tabs').innerHTML=TABS.map(t=>`<button data-t="${t}" class="${t==cur?'on':''}">${t}</button>`).join('');
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;cur=b.dataset.t;[...$('#tabs').children].forEach(x=>x.classList.toggle('on',x==b));draw()};
+function card(r,w){const n=q[r.id]||0;return `<div class="card"><div class="cw"><img class="pic" src="${IMG+r.img}" alt="${esc(r.n)}" data-lb="${r.id}" loading="lazy"><div class="tx"><h3>${r.hot?'<span class="badge b-hot">熱門</span>':''}${r.nw?'<span class="badge b-new">新品</span>':''}${hl(r.n,w)}</h3><div class="spec">${esc(r.s)}・編號 ${r.id}</div>
+ <div class="row"><div class="price">${fmt(r.p)}<span class="sv">${r.sv}SV</span></div><div class="qty"><button class="m" data-m="${r.id}" aria-label="減少">−</button><b>${n}</b><button data-p="${r.id}" aria-label="增加">＋</button></div></div></div></div></div>`}
+function draw(){
+ const w=$('#q').value.trim();
+ let rows=P.filter(r=>!w||(r.n+r.s+r.id+(r.kw||'')).toLowerCase().includes(w.toLowerCase()));
+ if(cur=='🔥 熱門')rows=rows.filter(r=>r.hot);else if(cur=='✨ 新品')rows=rows.filter(r=>r.nw);else if(cur!='全部')rows=rows.filter(r=>r.c==cur);
+ $('#list').innerHTML=rows.length?rows.map(r=>card(r,w)).join(''):'<div class="empty">找不到，換個關鍵字試試 🙂</div>';
+ sumUp();
+}
+function picked(){return P.filter(r=>q[r.id]>0)}
+function tots(){let c=0,t=0,s=0;picked().forEach(r=>{c+=q[r.id];t+=q[r.id]*r.p;s+=q[r.id]*r.sv});return{c,t,s}}
+function gifts(s){return Math.floor(s/600)}
+function sumUp(){const {c,t,s}=tots();$('#cnt').textContent=c;$('#cn').textContent=c;$('#tot').textContent=fmt(t);$('#svt').textContent=s;
+ const g=gifts(s),need=600-(s%600);$('#kkb').style.width=Math.min(100,(s%600)/6)+'%';
+ $('#kkt').textContent=g?`🎉 已達 ${s}SV，送康爾喜 ${g} 盒！再 ${need}SV 多送一盒`:`🎁 再選 ${need}SV 就送康爾喜一盒`;step()}
+function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').classList.contains('on');let s=1,h='👇 第1步：在想要的商品按紫色「＋」';
+ if(c&&!open)h='👉 選好了嗎？按「選好了，下一步」';
+ if(open&&!nm){s=2;h='✏️ 第2步：填上你在群組的名字'}
+ if(open&&nm&&!copied){s=3;h='📋 第3步：按「複製接龍文字」'}
+ if(open&&copied){s=4;h='✅ 第4步：回群組長按貼上送出'}
+ $('#hint').textContent=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
+function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(b){b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1);return}
+ const im=e.target.closest('[data-lb]');if(im){const r=P.find(x=>x.id==im.dataset.lb);$('#lbi').src=IMG+r.img;$('#lbn').textContent=r.n;$('#lb').classList.add('on')}});
+$('#lb').onclick=()=>$('#lb').classList.remove('on');
+$('#q').addEventListener('input',draw);
+function txt(){const nm=nmEl.value.trim()||'（名字）';const {t,s}=tots();const L=['葡眾好好玩 團購 ＋1',`【${nm}】`];
+ picked().forEach((r,i)=>L.push(`${i+1}. ${r.n}（${r.id}）X${q[r.id]}　${fmt(r.p*q[r.id])}　${r.sv*q[r.id]}SV`));
+ L.push('',`合計 ${picked().length} 項：${fmt(t)}・${s}SV`);
+ const g=gifts(s);if(g)L.push(`🎁 康康節：滿 600SV 送康爾喜 ×${g} 盒`);
+ return L.join('\n')}
+function sheet(){const ks=picked();$('#items').innerHTML=ks.length?ks.map(r=>`<div class="li"><div class="n">${esc(r.n)}<small>${fmt(r.p)}・${r.sv}SV／${esc(r.s)}・小計 ${fmt(r.p*q[r.id])}</small></div><div class="qty"><button class="m" data-m="${r.id}">−</button><b>${q[r.id]}</b><button data-p="${r.id}">＋</button></div></div>`).join(''):'<div class="empty">清單是空的，先回去挑商品喔</div>';$('#pre').textContent=txt();step()}
+let sy=0;
+function openS(){if(!picked().length)return toast('先按「＋」選商品喔');sy=scrollY;$('#sheet').classList.add('on');sheet()}
+function closeS(){$('#sheet').classList.remove('on');scrollTo(0,sy);step()}
+$('#next').onclick=openS;$('#cartBtn').onclick=openS;$('#back').onclick=closeS;
+$('#sheet').onclick=e=>{if(e.target.id=='sheet')closeS()};
+nmEl.addEventListener('input',()=>{copied=false;$('#done').style.display='none';save();$('#pre').textContent=txt();step()});
+function toast(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',2200)}
+$('#cp').onclick=async()=>{if(!picked().length)return toast('清單是空的');if(!nmEl.value.trim()){nmEl.focus();return toast('請先填上你的名字')}
+ const s=txt();try{await navigator.clipboard.writeText(s)}catch(e){const a=document.createElement('textarea');a.value=s;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
+ copied=true;$('#done').style.display='block';$('#done').scrollIntoView({behavior:'smooth'});toast('已複製！');step()};
+let ct=0;$('#clr').onclick=()=>{if(Date.now()-ct>3000){ct=Date.now();return toast('再按一次「清空」確認')}q={};copied=false;save();draw();sheet();$('#done').style.display='none';toast('已清空')};
+if(window.ResizeObserver)new ResizeObserver(()=>document.documentElement.style.setProperty('--barH',$('#bar').offsetHeight+'px')).observe($('#bar'));
+draw();
+</script>
+</body>
+</html>
