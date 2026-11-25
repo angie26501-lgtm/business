@@ -25,8 +25,8 @@ def cut(start, end, new=''):
 # ── 頁首 ──
 rep('<link rel="manifest" href="yl-bf-manifest.json">', '')
 rep('<meta name="apple-mobile-web-app-title" content="黑五美單">', '<meta name="apple-mobile-web-app-title" content="黑五主購">')
-rep('<title>芳療好生活 芸琪共學圈｜黑五美單代購</title>', '<title>黑五美單｜團隊主購夥伴版</title>')
-rep('🌹 芳療好生活 芸琪共學圈｜芸琪 Angie', '👥 團隊主購夥伴專用版｜整理購物清單用')
+rep('<title>芳療好生活 芸琪共學圈｜黑五美單代購</title>', '<title>芳療好生活 芸琪共學圈｜馥芸團隊專屬｜黑五美單</title>')
+rep('🌹 芳療好生活 芸琪共學圈｜芸琪 Angie', '🌹 芳療好生活 芸琪共學圈｜馥芸團隊專屬')
 cut('<div class="me">', '</div>', '<div class="me"><button class="mw" id="a2h" type="button">📲 加到手機桌面</button></div>')
 rep('群組接龍截止 <b>11/28（六）中午 12:00</b>', '美國官方黑五截止 <b>11/28 晚上（美國山區時間）</b><br><small style="color:var(--mut)">約台灣 11/29（日）下午 3 點</small>')
 rep("new Date('2026-11-28T12:00:00+08:00')", "new Date('2026-11-29T14:59:00+08:00')")
