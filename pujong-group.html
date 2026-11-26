@@ -71,7 +71,8 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 #done{display:none;background:var(--grn2);border:2px solid var(--grn);border-radius:14px;padding:12px;margin-top:10px}
 #done ol{margin:6px 0 0;padding-left:22px}
 .r2{display:flex;gap:8px;margin-top:10px}
-#lb{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.85);align-items:center;justify-content:center;flex-direction:column;padding:16px}#lb.on{display:flex}#lb img{max-width:92vw;max-height:70vh;border-radius:14px;background:#fff}#lb b{color:#fff;margin-top:10px;font-size:18px}#lb small{color:#ccc;margin-top:6px}
+#lb{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.85);align-items:center;justify-content:center;flex-direction:column;padding:16px}#lb.on{display:flex}#lb img{max-width:98vw;max-height:80vh;border-radius:14px;background:#fff}#lb b{color:#fff;margin-top:10px;font-size:18px}#lb small{color:#ccc;margin-top:6px}
+.dm{max-width:720px;margin:10px auto 0;padding:0 14px}.dm .in{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px}.dm b{font-size:16px}.dm .g{display:flex;gap:8px;margin-top:8px}.dm figure{flex:1;margin:0;text-align:center}.dm img{width:100%;border-radius:10px;border:1px solid var(--line);cursor:zoom-in}.dm a{display:inline-block;margin-top:4px;font-size:14px;color:var(--pur);font-weight:700;text-decoration:none;background:var(--pur2);border-radius:8px;padding:3px 10px}
 .toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--pur);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:40}
 .note{font-size:13px;color:var(--mut);margin-top:16px;text-align:center}
 </style>
@@ -83,6 +84,9 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div class="sub">主揪 耿德｜選好商品，複製後私訊傳給耿德</div>
 </header>
 <div class="promo"><div class="in">🎁 <b>康康節：單筆訂單滿 600SV 送「康爾喜」一盒</b>，可累贈（1,200SV 送兩盒，以此類推）<br><small>活動期間 2026/10/28～12/28 晚上 8:00（含補業績日）・11、12 月業績訂單・不同筆訂單不得合併計算</small><br>🎁 <b>DM 另標示：每項商品加贈康爾喜條數</b>（例：康爾喜一盒送 8 條，價值 $168）</div></div>
+<div class="dm"><div class="in"><b>📄 康康節 DM（點圖放大，可下載）</b>
+<div class="g"><figure><img src="pujong-img/kangkang-dm1.jpg" alt="康康節 DM 第 1 頁" data-dm="1"><a href="pujong-img/kangkang-dm1.jpg" download="葡眾康康節DM-1.jpg">⬇️ 下載第 1 頁</a></figure><figure><img src="pujong-img/kangkang-dm2.jpg" alt="康康節 DM 第 2 頁" data-dm="2"><a href="pujong-img/kangkang-dm2.jpg" download="葡眾康康節DM-2.jpg">⬇️ 下載第 2 頁</a></figure></div>
+<small style="color:var(--mut)">DM 註明為非官方製作，僅供參考；活動內容以葡眾公司正式公告為準</small></div></div>
 <div id="top"><div class="in">
 <div class="srch"><input id="q" type="search" placeholder="🔎 找商品：康爾喜、樟芝、餐包、995…"><button id="cartBtn" aria-label="查看清單">🛒<b id="cn">0</b></button></div>
 <div class="tabs" id="tabs"></div>
@@ -105,7 +109,7 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div class="r2"><button class="btn" id="cp">📋 複製訂購文字</button><button class="btn gh" id="clr" style="width:auto">清空</button></div>
 <div id="done"><b>✅ 已複製！第4步：私訊傳給耿德</b><ol><li>打開 LINE，進到<b>耿德的個人聊天室</b>（不是葡眾好好玩群組喔）</li><li>長按輸入框 →「貼上」→ 送出</li><li>耿德會私訊跟你確認 💜</li></ol></div>
 </div></div>
-<div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉</small></div>
+<div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉・手機可兩指放大</small></div>
 <div class="toast" id="toast"></div>
 <script>
 // 資料來源：2026 葡眾康康節 DM（芸琪提供，2026/11/26）售價／SV／加贈條數；商品圖片取自葡眾官網
@@ -144,6 +148,7 @@ function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').cl
  $('#hint').textContent=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
 function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
 document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(b){b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1);return}
+ const dm=e.target.closest('[data-dm]');if(dm){$('#lbi').src=dm.src;$('#lbn').textContent=dm.alt;$('#lb').classList.add('on');return}
  const im=e.target.closest('[data-lb]');if(im){const r=P.find(x=>x.id==im.dataset.lb);$('#lbi').src=IMG+r.img;$('#lbn').textContent=r.n;$('#lb').classList.add('on')}});
 $('#lb').onclick=()=>$('#lb').classList.remove('on');
 $('#q').addEventListener('input',draw);
