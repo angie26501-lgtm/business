@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#3d7a2a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>月曆記帳本｜金錢好生活芸琪共學圈</title>
+<title>綠芽對照月曆｜金錢好生活芸琪共學圈</title>
 <style>
 *{box-sizing:border-box}
 :root{--g:#3d7a2a;--gl:#eaf3e2;--a:#e07a3f;--b:#4a78b8;--c:#c2549a;--in:#2f8f6a;--t:#2b2f27;--m:#737a6c;--line:#e3e6dc;--bg:#f7f6f0}
@@ -112,8 +112,9 @@ h1{font-size:1.2rem;margin:4px 0 2px}
 </head>
 <body>
 <div class="wrap">
-<h1>🌱 月曆記帳本</h1>
-<p class="sub">一次看整個月每天的紀錄・紀錄只存在你自己的手機，別人看不到</p>
+<h1>🌱 綠芽對照月曆</h1>
+<p class="sub">搭配綠芽使用的月曆對照本・紀錄只存在你自己的手機，別人看不到</p>
+<div style="background:var(--gl);border-radius:12px;padding:8px 12px;font-size:.86rem;margin-bottom:10px"><b>綠芽是正式帳本，這裡是對照本</b><br>① 先在綠芽「記錄消費」　② 回這裡記一筆、勾 <b>✓ 已記綠芽</b>　③ 月底「對帳」，以綠芽為準</div>
 
 <div class="nav"><button id="prev">‹ 上個月</button><b id="ym"></b><button id="next">下個月 ›</button></div>
 <div class="sum"><div class="inc">本月收入<b id="sIn">0</b></div><div class="exp">本月支出<b id="sEx">0</b></div><div>本月結餘<b id="sBal">0</b></div></div>
@@ -127,6 +128,7 @@ h1{font-size:1.2rem;margin:4px 0 2px}
 <div class="cats" id="cats"></div>
 <div class="hx" id="hx"></div>
 
+<div class="tool" id="recon"></div>
 <div class="tool" id="gy"></div>
 
 <div class="tool">
@@ -142,8 +144,8 @@ h1{font-size:1.2rem;margin:4px 0 2px}
 </div>
 
 <div class="note-box">
-📌 這是芸琪提供給共學圈夥伴的輔助工具，不是綠芽官方功能。<br>
-分類照綠芽收支表；A 生活帳戶＝生活費、貸款、租金、撫育費用；B 年度帳戶＝保險費、稅賦、雜費；C 夢想帳戶＝儲蓄理財支出，對應五日營的 ABC 帳戶。<br>
+📌 這是芸琪提供給共學圈夥伴的對照工具，不是綠芽官方功能；記錄消費、ABC 可用餘額與健康值，都以綠芽為準。<br>
+帳戶與分類和綠芽「記錄消費」一樣：A 帳戶（每月）、B 帳戶（年度）、C 帳戶（理財），對應五日營的 ABC 帳戶。<br>
 本工具為記帳與理財觀念練習使用，非投資、保險或稅務建議。<br>
 馥芸財富學苑・財顧芸｜家族傳承生活顧問・智慧財產權聲明 reurl.cc/RRZRaG
 </div>
@@ -159,6 +161,7 @@ h1{font-size:1.2rem;margin:4px 0 2px}
 <label>分類（和綠芽「記錄消費」一樣）</label><div class="chips" id="fCat"></div>
 <div class="acc" id="fAcc"></div>
 <label>備註（之後可以用關鍵字找到）</label><input type="text" id="fNote" maxlength="60" placeholder="例如 午餐便當、全家">
+<label style="display:flex;align-items:center;gap:6px;color:var(--t)"><input type="checkbox" id="fGy" style="width:auto"> 這筆已經記到綠芽了</label>
 <div class="btns"><button class="no" id="cancel">取消</button><button class="ok" id="saveB">儲存</button></div>
 </div></div>
 
@@ -214,12 +217,12 @@ function gyPath(r){var f=info(r),a=acc(r);if(r.t==='in')return '收入＞'+(f?f[
 var fA='A';
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show')},1800)}
 function recRow(r,showDate){var a=acc(r);
- return '<div class="rec"><span class="tg" style="background:'+ACCC[a]+'">'+a+' '+esc(lbl(r.cat))+'</span><div>'+(showDate?'<b style="font-size:.8rem">'+r.d.slice(5).replace('-','/')+'</b> ':'')+'<span class="note">'+esc(r.note||'')+'</span><div style="font-size:.68rem;color:var(--m)">綠芽：'+esc(gyPath(r))+'</div></div><div class="amt'+(r.t==='in'?' inc':'')+'">'+(r.t==='in'?'+':'')+fmt(r.amt)+'<button data-e="'+r.id+'">改</button><button data-x="'+r.id+'">刪</button></div></div>'}
+ return '<div class="rec"><span class="tg" style="background:'+ACCC[a]+'">'+a+' '+esc(lbl(r.cat))+'</span><div>'+(showDate?'<b style="font-size:.8rem">'+r.d.slice(5).replace('-','/')+'</b> ':'')+'<span class="note">'+esc(r.note||'')+'</span><div style="font-size:.68rem;color:var(--m)">綠芽：'+esc(gyPath(r))+'</div></div><div class="amt'+(r.t==='in'?' inc':'')+'">'+(r.t==='in'?'+':'')+fmt(r.amt)+(r.t!=='in'?'<button data-g="'+r.id+'" style="color:'+(r.gy?'var(--g)':'#d9822b')+';font-weight:700">'+(r.gy?'✓已記綠芽':'○未記綠芽')+'</button>':'')+'<button data-e="'+r.id+'">改</button><button data-x="'+r.id+'">刪</button></div></div>'}
 function render(){
  var y=cur.getFullYear(),m=cur.getMonth(),pre=y+'-'+('0'+(m+1)).slice(-2);
  document.getElementById('ym').textContent=y+' 年 '+(m+1)+' 月';
  var mon=R.filter(function(r){return r.d.indexOf(pre)===0}),inc=0,ex=0,A=0,B=0,C=0,byDay={},byCat={};
- mon.forEach(function(r){var a=acc(r);if(!byDay[r.d])byDay[r.d]={ex:0,inc:0,c:0};
+ mon.forEach(function(r){var a=acc(r);if(!byDay[r.d])byDay[r.d]={ex:0,inc:0,c:0,un:0};if(r.t!=='in'&&!r.gy)byDay[r.d].un++;
   if(r.t==='in'){inc+=r.amt;byDay[r.d].inc+=r.amt}else{if(r.t==='ex'){ex+=r.amt;byDay[r.d].ex+=r.amt}else byDay[r.d].c+=r.amt;
    if(a==='A')A+=r.amt;if(a==='B')B+=r.amt;if(a==='C')C+=r.amt;
    if(r.t==='ex')byCat[r.cat]=(byCat[r.cat]||0)+r.amt}});
@@ -230,14 +233,14 @@ function render(){
  var first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),td=ymd(new Date());
  for(var i=0;i<first;i++)h+='<div class="d out"></div>';
  for(var d=1;d<=days;d++){var k=pre+'-'+('0'+d).slice(-2),v=byDay[k];
-  h+='<div class="d'+(v?' has':'')+(k===td?' today':'')+(k===sel?' sel':'')+'" data-d="'+k+'"><div class="n">'+d+'</div>'+(v&&v.ex?'<div class="x">-'+short(v.ex)+'</div>':'')+(v&&v.inc?'<div class="i">+'+short(v.inc)+'</div>':'')+(v&&v.c?'<div class="i" style="color:var(--c)">存'+short(v.c)+'</div>':'')+'</div>'}
+  h+='<div class="d'+(v?' has':'')+(k===td?' today':'')+(k===sel?' sel':'')+'" data-d="'+k+'"><div class="n">'+d+(v&&v.un?'<span title="有紀錄還沒記到綠芽" style="color:#d9822b;font-size:.7rem">●</span>':'')+'</div>'+(v&&v.ex?'<div class="x">-'+short(v.ex)+'</div>':'')+(v&&v.inc?'<div class="i">+'+short(v.inc)+'</div>':'')+(v&&v.c?'<div class="i" style="color:var(--c)">存'+short(v.c)+'</div>':'')+'</div>'}
  document.getElementById('cal').innerHTML=h;
  var dl=R.filter(function(r){return r.d===sel}).sort(function(a,b){return a.ts-b.ts});
  var p=sel.split('-');
  document.getElementById('day').innerHTML='<h2>'+(+p[1])+'/'+(+p[2])+' 的紀錄<button id="addDay" style="font:inherit;font-size:.82rem;border:0;background:var(--g);color:#fff;border-radius:10px;padding:4px 10px;cursor:pointer">＋ 記這天</button></h2>'+(dl.length?dl.map(function(r){return recRow(r,false)}).join(''):'<div class="empty">這天還沒有紀錄</div>');
  var ks=Object.keys(byCat).sort(function(a,b){return byCat[b]-byCat[a]}),mx=ks.length?byCat[ks[0]]:1;
  document.getElementById('cats').innerHTML='<h2>📊 本月支出分類</h2>'+(ks.length?ks.map(function(c){var a=acc({t:'ex',cat:c});return '<div class="bar"><span>'+esc(c)+'</span><i style="width:'+Math.max(4,byCat[c]/mx*100)+'%;background:'+ACCC[a]+'"></i><em>'+fmt(byCat[c])+'<small style="color:var(--m)"> '+(ex?Math.round(byCat[c]/ex*100):0)+'%</small></em></div>'}).join(''):'<div class="empty">本月還沒有支出</div>');
- _monCache=mon;renderABC(mon,y,m);renderGy(mon,y,m);search()}
+ _monCache=mon;renderABC(mon,y,m);renderRecon(mon,y,m);renderGy(mon,y,m);search()}
 
 // ===== ABC 帳戶可用餘額＋財務比例（對應綠芽）=====
 var KB='yun_cal_budget_v1',BUD={};try{BUD=JSON.parse(localStorage.getItem(KB)||'{}')||{}}catch(e){}
@@ -264,15 +267,29 @@ function renderABC(mon,y,m){
   ((+BUD.C||0)>0?'<div class="ref">年目標 '+fmt(+BUD.C)+'・已達 '+Math.round(cT/(+BUD.C)*100)+'%</div>':'')+'</div>';
  document.getElementById('abcx').innerHTML=h;
  renderHealth(tm,m)}
+
+// ===== 月底對帳（以綠芽為準）=====
+var KR='yun_cal_recon_v1',RC={};try{RC=JSON.parse(localStorage.getItem(KR)||'{}')||{}}catch(e){}
+function renderRecon(mon,y,m){var key=y+'-'+(m+1),v=RC[key]||{},ty=tally(R.filter(function(r){return r.d.indexOf(y+'-')===0})),tm=tally(mon);
+ var aB=(+BUD.Av||0)+(+BUD.Af||0),bB=(+BUD.Bv||0)+(+BUD.Bf||0);
+ var mine={A:aB>0?aB-(tm.Av+tm.Af):null,B:bB>0?bB-(ty.Bv+ty.Bf):null,C:ty.C};
+ var un=mon.filter(function(r){return r.t!=='in'&&!r.gy});
+ var h='<h2>🔍 月底對帳（'+(m+1)+' 月・以綠芽為準）</h2><div style="font-size:.8rem;color:var(--m)">打開綠芽，把畫面上的數字填進來，看兩邊差多少。</div>';
+ [['A','A 帳戶 可用餘額（本月）'],['B','B 帳戶 可用餘額（今年）'],['C','C 理財帳戶 支出累計（今年）']].forEach(function(x){var k=x[0],g=v[k],me=mine[k],d=(g!==undefined&&g!==''&&me!=null)?me-g:null;
+  h+='<div class="rec" style="grid-template-columns:1fr 7em"><span>'+x[1]+'<br><small style="color:var(--m)">這裡：'+(me==null?'先設定預算':fmt(me))+(d==null?'':'・差 <b style="color:'+(Math.abs(d)<1?'var(--g)':'#c0392b')+'">'+(Math.abs(d)<1?'0 ✓':fmt(d))+'</b>')+'</small></span><input type="number" inputmode="numeric" data-rc="'+k+'" value="'+(g===undefined?'':g)+'" placeholder="綠芽數字" style="font:inherit;width:100%;border:1px solid var(--line);border-radius:8px;padding:6px"></div>'});
+ h+='<div style="font-size:.8rem;margin-top:6px">'+(un.length?'⚠️ 本月還有 <b>'+un.length+'</b> 筆沒勾「已記綠芽」，可能就是差額來源：'+un.slice(0,8).map(function(r){return r.d.slice(5).replace('-','/')+' '+esc(lbl(r.cat))+' '+fmt(r.amt)}).join('、')+(un.length>8?'…':''):'✅ 本月每一筆都已記到綠芽')+'</div>';
+ h+='<div style="font-size:.75rem;color:var(--m);margin-top:4px">A、B 可用餘額要兩邊預算一樣才對得起來；有差額時，以綠芽為準，回頭找漏記或多記的那筆。</div>';
+ document.getElementById('recon').innerHTML=h;
+ document.querySelectorAll('[data-rc]').forEach(function(i){i.onchange=function(){var o=RC[key]||{};o[i.getAttribute('data-rc')]=i.value===''?undefined:+i.value;RC[key]=o;try{localStorage.setItem(KR,JSON.stringify(RC))}catch(e){}renderRecon(mon,y,m)}})}
 function pct(a,b){return b>0?Math.round(a/b*1000)/10+'%':'—'}
 function renderHealth(t,m){var inc=t.inc,ex=t.Av+t.Af+t.Bv+t.Bf;
  var rows=[['收入指標',[['理財收入比',pct(t.incF,inc),'理財收入 ÷ 總收入'],['財務自由度',pct(t.incF,ex),'理財收入 ÷ 總支出（不含 C）']]],
   ['變動支出',[['支出收入比',pct(ex,inc),'總支出（不含 C）÷ 總收入'],['生活費用比',pct(t.Av,inc),'生活費 ÷ 總收入']]],
   ['固定支出',[['貸款壓力比',pct(SUMG('貸款'),inc),'貸款 ÷ 總收入'],['租金壓力比',pct(SUMG('租金'),inc),'租金 ÷ 總收入'],['撫養責任比',pct(SUMG('撫育費用'),inc),'撫育費用 ÷ 總收入'],['保費支出比',pct(SUMG('保險費'),inc),'保險費 ÷ 總收入']]],
   ['儲蓄率',[['名目儲蓄率',pct(inc-ex,inc),'（收入 − 支出）÷ 收入'],['實質儲蓄率',pct(t.C,inc),'實際存進 C 的錢 ÷ 收入']]]];
- var h='<h2>📈 本月財務比例（對應綠芽健康值指標）</h2><div style="font-size:.76rem;color:var(--m)">用你 '+(m+1)+' 月的記帳算出的比例，讓你對照綠芽的健康值；綠芽的分數有自己的評分方式，以綠芽為準。消費隨性度、損益寬鬆度請看綠芽。</div>';
+ var h='<details><summary style="cursor:pointer;font-weight:700">📈 本月財務比例・對照參考（健康值分數請看綠芽）</summary><div style="font-size:.76rem;color:var(--m)">用你 '+(m+1)+' 月的記帳算出的比例，讓你對照綠芽的健康值；綠芽的分數有自己的評分方式，以綠芽為準。消費隨性度、損益寬鬆度請看綠芽。</div>';
  rows.forEach(function(g){h+='<h3>'+g[0]+'</h3>'+g[1].map(function(x){return '<div class="r"><span>'+x[0]+'<small>'+x[2]+'</small></span><b>'+x[1]+'</b></div>'}).join('')});
- document.getElementById('hx').innerHTML=h}
+ var op=document.querySelector('#hx details');h+='</details>';document.getElementById('hx').innerHTML=h;if(op&&op.open)document.querySelector('#hx details').open=true}
 var _monCache=[];function SUMG(g){var s=0;_monCache.forEach(function(r){var f=info(r);if(f&&f[3]===g&&r.t!=='in')s+=r.amt});return s}
 function openB(){var y=cur.getFullYear(),pre=y+'-'+('0'+(cur.getMonth()+1)).slice(-2);
  var tm=tally(R.filter(function(r){return r.d.indexOf(pre)===0})),ty=tally(R.filter(function(r){return r.d.indexOf(y+'-')===0}));
@@ -324,10 +341,11 @@ function chips(){var g='',h='';CAT[fT].forEach(function(c){if(c[3]!==g){g=c[3];h
  document.querySelectorAll('#seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-t')===fT&&(fT!=='ex'||b.getAttribute('data-a')===fA))})}
 function openForm(r){editId=r?r.id:null;fT=r?r.t:'ex';fC=r?r.cat:CAT[fT][0][0];fA=r?acc(r):'A';
  document.getElementById('mt').textContent=r?'修改紀錄':'記一筆';
- document.getElementById('fDate').value=r?r.d:sel;document.getElementById('fAmt').value=r?r.amt:'';document.getElementById('fNote').value=r?(r.note||''):'';
+ document.getElementById('fDate').value=r?r.d:sel;document.getElementById('fAmt').value=r?r.amt:'';document.getElementById('fNote').value=r?(r.note||''):'';document.getElementById('fGy').checked=r?!!r.gy:false;
  chips();document.getElementById('modal').classList.add('show');setTimeout(function(){document.getElementById('fAmt').focus()},50)}
 function close_(){document.getElementById('modal').classList.remove('show')}
-document.addEventListener('click',function(e){var v;if(e.target.id==='modal'){close_();return}var el=e.target.closest('[data-d],[data-t],[data-c],[data-e],[data-x],#addDay');if(!el)return;
+document.addEventListener('click',function(e){var v;if(e.target.id==='modal'){close_();return}var el=e.target.closest('[data-d],[data-t],[data-c],[data-e],[data-x],[data-g],#addDay');if(!el)return;
+ if((v=el.getAttribute('data-g'))){R.forEach(function(r){if(r.id===v)r.gy=!r.gy});save();render();return}
  if((v=el.getAttribute('data-d'))){sel=v;render();return}
  if((v=el.getAttribute('data-t'))){var keep=(v===fT);fT=v;fA=el.getAttribute('data-a')||'A';if(!keep)fC=CAT[fT][0][0];chips();return}
  if((v=el.getAttribute('data-c'))){fC=v;chips();return}
@@ -344,8 +362,8 @@ document.getElementById('saveB').onclick=function(){
  var d=document.getElementById('fDate').value,amt=parseFloat(document.getElementById('fAmt').value);
  if(!d){toast('請選日期');return}if(!(amt>0)){toast('請輸入金額');return}
  var note=document.getElementById('fNote').value.trim();
- if(editId){R.forEach(function(r){if(r.id===editId){r.d=d;r.amt=amt;r.t=fT;r.cat=fC;r.note=note;if(fT==='ex')r.acc=fA;else delete r.acc}})}
- else R.push({id:'r'+Date.now()+Math.random().toString(36).slice(2,6),d:d,amt:amt,t:fT,cat:fC,acc:fT==='ex'?fA:undefined,note:note,ts:Date.now()});
+ if(editId){R.forEach(function(r){if(r.id===editId){r.d=d;r.amt=amt;r.t=fT;r.cat=fC;r.note=note;r.gy=document.getElementById('fGy').checked;if(fT==='ex')r.acc=fA;else delete r.acc}})}
+ else R.push({id:'r'+Date.now()+Math.random().toString(36).slice(2,6),d:d,amt:amt,t:fT,cat:fC,acc:fT==='ex'?fA:undefined,note:note,gy:document.getElementById('fGy').checked,ts:Date.now()});
  save();sel=d;var p=d.split('-');cur=new Date(+p[0],+p[1]-1,1);close_();render();toast(editId?'已修改':'已記下 ✓')};
 document.getElementById('prev').onclick=function(){cur=new Date(cur.getFullYear(),cur.getMonth()-1,1);render()};
 document.getElementById('next').onclick=function(){cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);render()};
@@ -354,7 +372,7 @@ document.getElementById('q').oninput=search;
 document.addEventListener('click',function(e){if(e.target.id==='toLg'){toLedger();return}if(e.target.id!=='cpGy')return;var t=gyTxt;
  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('已複製，打開綠芽對照填入')},function(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('已複製')}catch(x){}a.remove()})});
 document.getElementById('exp').onclick=function(){
- var blob=new Blob([JSON.stringify({app:'yun-cal-ledger',v:1,at:new Date().toISOString(),records:R,budget:BUD},null,1)],{type:'application/json'});
+ var blob=new Blob([JSON.stringify({app:'yun-cal-ledger',v:1,at:new Date().toISOString(),records:R,budget:BUD,recon:RC},null,1)],{type:'application/json'});
  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='月曆記帳本備份_'+ymd(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();toast('已匯出備份檔')};
 document.getElementById('impB').onclick=function(){document.getElementById('imp').click()};
 document.getElementById('imp').onchange=function(){var f=this.files[0];if(!f)return;var rd=new FileReader();
@@ -367,13 +385,14 @@ render();
 // ===== 教學指引浮動框：可拖曳、可調大小、可放大縮小字、可收合 =====
 (function(){
 var STEPS=[
- {t:'歡迎使用月曆記帳本',h:'<p>這個框框可以<b>按住標題列拖曳</b>移動位置，<b>拉右下角</b>調整大小，<b>A－／A＋</b>調字的大小，<b>－</b>收合、<b>✕</b>關閉。</p><p>關掉後，左下角「📘 教學指引」可以再打開。</p>',sel:null},
+ {t:'歡迎使用綠芽對照月曆',h:'<p><b>綠芽是正式帳本，這裡是對照本。</b>用法三步：先在綠芽「記錄消費」→ 回這裡記一筆並勾「已記綠芽」→ 月底對帳。</p><p>這個框框可以<b>按住標題列拖曳</b>移動位置，<b>拉右下角</b>調整大小，<b>A－／A＋</b>調字的大小，<b>－</b>收合、<b>✕</b>關閉。</p><p>關掉後，左下角「📘 教學指引」可以再打開。</p>',sel:null},
  {t:'① 記一筆',h:'<p>按右下角綠色 <b>＋</b>。</p><p>先選 <b>A 帳戶（每月）／B 帳戶（年度）／C 帳戶（理財）／收入</b>，跟綠芽「記錄消費」一樣，再填日期、金額，選分類，備註寫清楚（例如「午餐便當」），之後才找得到。</p><p>分類就是綠芽收支表的項目，下面會顯示「對應綠芽」。</p>',sel:'#fab'},
  {t:'② 看整個月',h:'<p>每一格是一天：<span style="color:#b4472f">紅字</span>是支出、<span style="color:var(--in)">綠字</span>是收入、<span style="color:var(--c)">紫字</span>是存給自己。</p><p>點日期，下面就列出這天每一筆，可以「改」或「刪」（刪要連按兩次）。</p>',sel:'#cal'},
- {t:'③ 月結與 ABC 帳戶',h:'<p>最上面看本月收入、支出、結餘。</p><p>A 生活＝生活費、貸款、租金、撫育；B 年度＝保險、稅、雜費；C 存給自己＝儲蓄理財。對照五日營的 ABC 帳戶試算，看有沒有守在 631 內。</p>',sel:'.abc'},
+ {t:'③ 月結與 ABC 帳戶',h:'<p>最上面看本月收入、支出、結餘。</p><p>A、B、C 的金額，照你記帳時選的帳戶加總，跟綠芽「記錄消費」選帳戶的方式一樣。對照五日營的 ABC 帳戶試算，看有沒有守在 631 內。</p>',sel:'.abc'},
  {t:'③-2 ABC 帳戶可用餘額',h:'<p>按「⚙️ 設定 ABC 帳戶預算」，照綠芽的單位填：A 帳戶每月、B 和 C 帳戶每年，各分變動支出與固定支出。</p><p>之後每記一筆，就會自動扣掉，顯示還剩多少；超支會變紅色。C 理財帳戶照定存、儲蓄保險、定期定額、其他累計。</p><p>下面「本月財務比例」可以對照綠芽的健康值指標。</p>',sel:'#abcx'},
  {t:'④ 用關鍵字找紀錄',h:'<p>在搜尋框輸入備註或分類，例如「便當」「人壽保險」，會列出所有相關紀錄並算好合計。</p>',sel:'#q'},
  {t:'⑤ 月底填進綠芽',h:'<p>打開「🌱 對應綠芽」，已經照綠芽的表、大項、欄位加總好。</p><p>按「複製對照清單」，打開綠芽收支表，把金額填進<b>每月</b>欄就完成。</p><p>下面的「綠芽 ABC 帳戶參考」：A 是本月 /月，B、C 是今年累計 /年，對應綠芽「設定 ABC 帳戶」的單位。</p><p>按「一鍵帶入四張表」，四張表網頁的每月數字會自動填好（獎金、保險、稅這類一年幾次的項目，請到四張表填每年）。</p>',sel:'#gy'},
+ {t:'⑤-2 月底對帳',h:'<p>月底打開綠芽，把 A、B 可用餘額和 C 支出累計填進「🔍 月底對帳」，馬上看到兩邊差多少。</p><p>月曆上有橘色 ● 的日子，代表有紀錄還沒勾「已記綠芽」，通常就是差額的來源。</p><p>有差額時以綠芽為準。</p>',sel:'#recon'},
  {t:'⑥ 記得備份',h:'<p>紀錄只存在這支手機的瀏覽器裡。每個月按一次「匯出備份檔」，存到雲端或傳給自己；換手機時再「匯入」。</p><p>有問題截圖問芸琪 💛</p>',sel:'#exp'}
 ];
 var G=document.getElementById('guide'),KG='yun_cal_guide_v1',st={i:0,x:null,y:null,w:300,h:null,f:15,min:false,closed:false};
