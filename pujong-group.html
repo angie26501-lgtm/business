@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f1ecf8">
-<title>葡眾好好玩｜康康節團購小幫手</title>
+<title>葡眾好好玩｜至偉家臻組織・耿德團隊｜康康節團購</title>
 <style>
 :root{--bg:#f6f3fa;--card:#fff;--ink:#2a2140;--mut:#75708a;--pur:#6b3fa0;--pur2:#efe7f8;--grn:#2f8f5b;--grn2:#e5f5ec;--gold:#d4a017;--line:#e3dbef;--barH:130px}
 *{box-sizing:border-box}
@@ -80,18 +80,19 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <body>
 <header>
 <span class="tag">🎁 2026 葡眾康康節</span>
-<h1>葡眾好好玩・團購小幫手</h1>
-<div class="sub">主揪 耿德｜選好商品，複製後私訊傳給耿德</div>
+<div style="font-size:14px;opacity:.95;margin-top:6px">至偉家臻組織｜耿德團隊</div>
+<h1>葡眾好好玩・一起買更划算</h1>
+<div class="sub">挑好想要的，複製一下，私訊傳給耿德就搞定 💜</div>
 </header>
-<div class="promo"><div class="in">🎁 <b>康康節：單筆訂單滿 600SV 送「康爾喜」一盒</b>，可累贈（1,200SV 送兩盒，以此類推）<br><small>活動期間 2026/10/28～12/28 晚上 8:00（含補業績日）・11、12 月業績訂單・不同筆訂單不得合併計算</small><br>🎁 <b>DM 另標示：每項商品加贈康爾喜條數</b>（例：康爾喜一盒送 8 條，價值 $168）</div></div>
-<div class="dm"><div class="in"><b>📄 康康節 DM（點圖放大，可下載）</b>
+<div class="promo"><div class="in">🎁 <b>康康節好康：一次買滿 600SV，就送一盒「康爾喜」！</b>買越多送越多（滿 1,200SV 送兩盒，以此類推）<br><small>⏰ 活動到 12/28 晚上 8 點・要同一筆訂單買滿才算，分開下單不能加起來喔</small><br>🎁 <b>每樣商品還有加送康爾喜隨手條</b>（像買一盒康爾喜就多送 8 條）</div></div>
+<div class="dm"><div class="in"><b>📄 康康節優惠 DM（點圖看大張，也可以存到手機）</b>
 <div class="g"><figure><img src="pujong-img/kangkang-dm1.jpg" alt="康康節 DM 第 1 頁" data-dm="1"><a href="pujong-img/kangkang-dm1.jpg" download="葡眾康康節DM-1.jpg">⬇️ 下載第 1 頁</a></figure><figure><img src="pujong-img/kangkang-dm2.jpg" alt="康康節 DM 第 2 頁" data-dm="2"><a href="pujong-img/kangkang-dm2.jpg" download="葡眾康康節DM-2.jpg">⬇️ 下載第 2 頁</a></figure></div>
 <small style="color:var(--mut)">DM 註明為非官方製作，僅供參考；活動內容以葡眾公司正式公告為準</small></div></div>
 <div id="top"><div class="in">
-<div class="srch"><input id="q" type="search" placeholder="🔎 找商品：康爾喜、樟芝、餐包、995…"><button id="cartBtn" aria-label="查看清單">🛒<b id="cn">0</b></button></div>
+<div class="srch"><input id="q" type="search" placeholder="🔎 想找什麼？打康爾喜、樟芝、餐包、995…"><button id="cartBtn" aria-label="查看清單">🛒<b id="cn">0</b></button></div>
 <div class="tabs" id="tabs"></div>
 </div></div>
-<div id="steps"><div data-s="1">1 挑商品</div><div data-s="2">2 填名字</div><div data-s="3">3 複製</div><div data-s="4">4 傳給耿德</div></div>
+<div id="steps"><div data-s="1">1 挑喜歡的</div><div data-s="2">2 寫名字</div><div data-s="3">3 複製</div><div data-s="4">4 私訊耿德</div></div>
 <main><div id="list"></div>
 <div class="note">售價、SV 與加贈條數依康康節 DM（DM 註明為非官方製作，僅供參考），活動內容與贈送辦法以葡眾公司正式公告為準；團購方式以主揪耿德公告為準。<br>商品圖片來自葡眾官網。本頁只產生訂購文字，不會記錄任何個人資料。</div></main>
 <div id="bar"><div class="in">
@@ -102,12 +103,12 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div id="sheet"><div class="pn">
 <h2>🛒 我的清單 <button id="back">← 回去繼續挑</button></h2>
 <div id="items"></div>
-<div class="lbl">第2步｜填上你的名字（耿德認得的 LINE 名稱）</div>
+<div class="lbl">第2步｜寫上你的名字（耿德看得懂是你就好）</div>
 <input id="nm" placeholder="例如：小美" maxlength="20">
-<div class="lbl">第3步｜確認要傳給耿德的文字</div>
+<div class="lbl">第3步｜看一下清單對不對</div>
 <pre id="pre"></pre>
 <div class="r2"><button class="btn" id="cp">📋 複製訂購文字</button><button class="btn gh" id="clr" style="width:auto">清空</button></div>
-<div id="done"><b>✅ 已複製！第4步：私訊傳給耿德</b><ol><li>打開 LINE，進到<b>耿德的個人聊天室</b>（不是葡眾好好玩群組喔）</li><li>長按輸入框 →「貼上」→ 送出</li><li>耿德會私訊跟你確認 💜</li></ol></div>
+<div id="done"><b>✅ 複製好了！最後一步：傳給耿德</b><ol><li>打開 LINE，點進<b>跟耿德的私訊</b>（不是傳到群組喔）</li><li>在打字的地方長按 →「貼上」→ 送出</li><li>耿德收到會跟你確認，就完成囉 💜</li></ol></div>
 </div></div>
 <div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉・手機可兩指放大</small></div>
 <div class="toast" id="toast"></div>
@@ -139,12 +140,12 @@ function tots(){let c=0,t=0,s=0,g=0,gv=0;picked().forEach(r=>{c+=q[r.id];t+=q[r.
 function gifts(s){return Math.floor(s/600)}
 function sumUp(){const {c,t,s}=tots();$('#cnt').textContent=c;$('#cn').textContent=c;$('#tot').textContent=fmt(t);$('#svt').textContent=s;$('#gt').textContent=tots().g;
  const g=gifts(s),need=600-(s%600);$('#kkb').style.width=Math.min(100,(s%600)/6)+'%';
- $('#kkt').textContent=g?`🎉 已達 ${s}SV，送康爾喜 ${g} 盒！再 ${need}SV 多送一盒`:`🎁 再選 ${need}SV 就送康爾喜一盒`;step()}
-function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').classList.contains('on');let s=1,h='👇 第1步：在想要的商品按紫色「＋」';
- if(c&&!open)h='👉 選好了嗎？按「選好了，下一步」';
- if(open&&!nm){s=2;h='✏️ 第2步：填上你的名字'}
- if(open&&nm&&!copied){s=3;h='📋 第3步：按「複製訂購文字」'}
- if(open&&copied){s=4;h='✅ 第4步：打開耿德的私訊，長按貼上送出'}
+ $('#kkt').textContent=g?`🎉 太棒了！已經送 ${g} 盒康爾喜，再加 ${need}SV 多送一盒`:`🎁 再加 ${need}SV 就送一盒康爾喜`;step()}
+function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').classList.contains('on');let s=1,h='👇 看到喜歡的，按右邊紫色「＋」';
+ if(c&&!open)h='👉 挑好了嗎？按「選好了，下一步」';
+ if(open&&!nm){s=2;h='✏️ 寫上你的名字'}
+ if(open&&nm&&!copied){s=3;h='📋 按「複製訂購文字」'}
+ if(open&&copied){s=4;h='✅ 打開耿德的私訊，長按貼上送出就完成'}
  $('#hint').textContent=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
 function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
 document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(b){b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1);return}
@@ -152,7 +153,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],b
  const im=e.target.closest('[data-lb]');if(im){const r=P.find(x=>x.id==im.dataset.lb);$('#lbi').src=IMG+r.img;$('#lbn').textContent=r.n;$('#lb').classList.add('on')}});
 $('#lb').onclick=()=>$('#lb').classList.remove('on');
 $('#q').addEventListener('input',draw);
-function txt(){const nm=nmEl.value.trim()||'（名字）';const {t,s}=tots();const L=['葡眾好好玩 團購訂購',`【${nm}】`];
+function txt(){const nm=nmEl.value.trim()||'（名字）';const {t,s}=tots();const L=['葡眾好好玩 團購訂購（至偉家臻組織｜耿德團隊）',`【${nm}】`];
  picked().forEach((r,i)=>L.push(`${i+1}. ${r.n} X${q[r.id]}　${fmt(r.p*q[r.id])}　${r.sv*q[r.id]}SV　送${r.g*q[r.id]}條`));
  const T=tots();L.push('',`合計 ${picked().length} 項：${fmt(t)}・${s}SV`,`🎁 加贈康爾喜 ${T.g} 條（價值 $${T.gv.toLocaleString('en-US')}）`);
  const g=gifts(s);if(g)L.push(`🎁 康康節：單筆滿 600SV 送康爾喜 ×${g} 盒`);
