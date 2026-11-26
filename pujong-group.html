@@ -82,6 +82,8 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 .cdw.urgent .cdg div{color:#c0392b}
 .cdw .end{font-size:12px;opacity:.85;margin-top:6px}
 #cdm{font-size:13px;color:#c0392b;font-weight:700;margin-left:6px}
+.gd{display:block;text-align:center;background:#06c755;color:#fff!important;font-weight:800;font-size:18px;border-radius:14px;padding:13px;margin:8px 0 6px;text-decoration:none;box-shadow:0 4px 12px rgba(6,199,85,.35)}
+#hint a{color:#06a347;text-decoration:underline}
 .toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--pur);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:40}
 .note{font-size:13px;color:var(--mut);margin-top:16px;text-align:center}
 </style>
@@ -120,7 +122,7 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div class="lbl">第3步｜看一下清單對不對</div>
 <pre id="pre"></pre>
 <div class="r2"><button class="btn" id="cp">📋 複製訂購文字</button><button class="btn gh" id="clr" style="width:auto">清空</button></div>
-<div id="done"><b>✅ 複製好了！最後一步：傳給耿德</b><ol><li>打開 LINE，點進<b>跟耿德的私訊</b>（不是傳到群組喔）</li><li>在打字的地方長按 →「貼上」→ 送出</li><li>耿德收到會跟你確認，就完成囉 💜</li></ol></div>
+<div id="done"><b>✅ 複製好了！最後一步：傳給耿德</b><a class="gd" href="https://line.me/ti/p/i7nmMi9i6S" target="_blank" rel="noopener">💬 點我打開耿德的 LINE</a><ol><li>按上面綠色按鈕，會直接跳到耿德的 LINE（還不是好友的話先按「加入」）</li><li>在打字的地方長按 →「貼上」→ 送出</li><li>耿德收到會跟你確認，就完成囉 💜</li></ol></div>
 </div></div>
 <div id="lb"><img id="lbi" alt=""><b id="lbn"></b><small>點一下關閉・手機可兩指放大</small></div>
 <div class="toast" id="toast"></div>
@@ -157,8 +159,8 @@ function step(){const c=picked().length,nm=nmEl.value.trim(),open=$('#sheet').cl
  if(c&&!open)h='👉 挑好了嗎？按「選好了，下一步」';
  if(open&&!nm){s=2;h='✏️ 寫上你的名字'}
  if(open&&nm&&!copied){s=3;h='📋 按「複製訂購文字」'}
- if(open&&copied){s=4;h='✅ 打開耿德的私訊，長按貼上送出就完成'}
- $('#hint').textContent=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
+ if(open&&copied){s=4;h='✅ <a href="https://line.me/ti/p/i7nmMi9i6S" target="_blank" rel="noopener">點這裡打開耿德的 LINE</a>，長按貼上送出就完成'}
+ $('#hint').innerHTML=h;document.querySelectorAll('#steps div').forEach(d=>d.classList.toggle('on',+d.dataset.s<=s))}
 function bump(id,d){q[id]=Math.max(0,(q[id]||0)+d);if(!q[id])delete q[id];copied=false;$('#done').style.display='none';save();draw();if($('#sheet').classList.contains('on'))sheet()}
 document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],button[data-m]');if(b){b.dataset.p?bump(b.dataset.p,1):bump(b.dataset.m,-1);return}
  const dm=e.target.closest('[data-dm]');if(dm){$('#lbi').src=dm.src;$('#lbn').textContent=dm.alt;$('#lb').classList.add('on');return}
