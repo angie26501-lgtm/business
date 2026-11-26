@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f1ecf8">
-<title>葡眾好好玩｜至偉家臻組織・耿德團隊｜康康節團購</title>
+<title>葡眾好好玩｜至偉佳臻組織・耿德團隊｜康康節團購</title>
 <style>
 :root{--bg:#f6f3fa;--card:#fff;--ink:#2a2140;--mut:#75708a;--pur:#6b3fa0;--pur2:#efe7f8;--grn:#2f8f5b;--grn2:#e5f5ec;--gold:#d4a017;--line:#e3dbef;--barH:130px}
 *{box-sizing:border-box}
@@ -80,7 +80,7 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <body>
 <header>
 <span class="tag">🎁 2026 葡眾康康節</span>
-<div style="font-size:14px;opacity:.95;margin-top:6px">至偉家臻組織｜耿德團隊</div>
+<div style="font-size:14px;opacity:.95;margin-top:6px">至偉佳臻組織｜耿德團隊</div>
 <h1>葡眾好好玩・一起買更划算</h1>
 <div class="sub">挑好想要的，複製一下，私訊傳給耿德就搞定 💜</div>
 </header>
@@ -153,7 +153,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button[data-p],b
  const im=e.target.closest('[data-lb]');if(im){const r=P.find(x=>x.id==im.dataset.lb);$('#lbi').src=IMG+r.img;$('#lbn').textContent=r.n;$('#lb').classList.add('on')}});
 $('#lb').onclick=()=>$('#lb').classList.remove('on');
 $('#q').addEventListener('input',draw);
-function txt(){const nm=nmEl.value.trim()||'（名字）';const {t,s}=tots();const L=['葡眾好好玩 團購訂購（至偉家臻組織｜耿德團隊）',`【${nm}】`];
+function txt(){const nm=nmEl.value.trim()||'（名字）';const {t,s}=tots();const L=['葡眾好好玩 團購訂購（至偉佳臻組織｜耿德團隊）',`【${nm}】`];
  picked().forEach((r,i)=>L.push(`${i+1}. ${r.n} X${q[r.id]}　${fmt(r.p*q[r.id])}　${r.sv*q[r.id]}SV　送${r.g*q[r.id]}條`));
  const T=tots();L.push('',`合計 ${picked().length} 項：${fmt(t)}・${s}SV`,`🎁 加贈康爾喜 ${T.g} 條（價值 $${T.gv.toLocaleString('en-US')}）`);
  const g=gifts(s);if(g)L.push(`🎁 康康節：單筆滿 600SV 送康爾喜 ×${g} 盒`);
