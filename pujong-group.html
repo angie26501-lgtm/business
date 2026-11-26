@@ -73,6 +73,15 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 .r2{display:flex;gap:8px;margin-top:10px}
 #lb{display:none;position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.85);align-items:center;justify-content:center;flex-direction:column;padding:16px}#lb.on{display:flex}#lb img{max-width:98vw;max-height:80vh;border-radius:14px;background:#fff}#lb b{color:#fff;margin-top:10px;font-size:18px}#lb small{color:#ccc;margin-top:6px}
 .dm{max-width:720px;margin:10px auto 0;padding:0 14px}.dm .in{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px}.dm b{font-size:16px}.dm .g{display:flex;gap:8px;margin-top:8px}.dm figure{flex:1;margin:0;text-align:center}.dm img{width:100%;border-radius:10px;border:1px solid var(--line);cursor:zoom-in}.dm a{display:inline-block;margin-top:4px;font-size:14px;color:var(--pur);font-weight:700;text-decoration:none;background:var(--pur2);border-radius:8px;padding:3px 10px}
+.cdw{margin:12px auto 0;max-width:420px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:16px;padding:10px 12px}
+.cdw .lb{font-size:14px;opacity:.95}
+.cdg{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.cdg div{background:#fff;color:var(--pur);border-radius:12px;min-width:62px;padding:6px 4px 4px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.cdg b{display:block;font-size:28px;line-height:1.1;font-variant-numeric:tabular-nums}
+.cdg small{font-size:12px;color:var(--mut)}
+.cdw.urgent .cdg div{color:#c0392b}
+.cdw .end{font-size:12px;opacity:.85;margin-top:6px}
+#cdm{font-size:13px;color:#c0392b;font-weight:700;margin-left:6px}
 .toast{position:fixed;left:50%;top:20px;transform:translateX(-50%);background:var(--pur);color:#fff;padding:8px 18px;border-radius:20px;font-weight:700;display:none;z-index:40}
 .note{font-size:13px;color:var(--mut);margin-top:16px;text-align:center}
 </style>
@@ -83,6 +92,9 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <div style="font-size:14px;opacity:.95;margin-top:6px">至偉佳臻組織｜耿德團隊</div>
 <h1>葡眾好好玩・一起買更划算</h1>
 <div class="sub">挑好想要的，複製一下，私訊傳給耿德就搞定 💜</div>
+<div class="cdw" id="cdw"><div class="lb" id="cdl">⏰ 康康節倒數，送康爾喜只到 12/28</div>
+<div class="cdg"><div><b id="cdD">--</b><small>天</small></div><div><b id="cdH">--</b><small>時</small></div><div><b id="cdM">--</b><small>分</small></div><div><b id="cdS">--</b><small>秒</small></div></div>
+<div class="end">活動截止：2026/12/28（一）晚上 8:00</div></div>
 </header>
 <div class="promo"><div class="in">🎁 <b>康康節好康：一次買滿 600SV，就送一盒「康爾喜」！</b>買越多送越多（滿 1,200SV 送兩盒，以此類推）<br><small>⏰ 活動到 12/28 晚上 8 點・要同一筆訂單買滿才算，分開下單不能加起來喔</small><br>🎁 <b>每樣商品還有加送康爾喜隨手條</b>（像買一盒康爾喜就多送 8 條）</div></div>
 <div class="dm"><div class="in"><b>📄 康康節優惠 DM（點圖看大張，也可以存到手機）</b>
@@ -96,7 +108,7 @@ mark{background:#ffe27a;color:inherit;border-radius:3px}
 <main><div id="list"></div>
 <div class="note">售價、SV 與加贈條數依康康節 DM（DM 註明為非官方製作，僅供參考），活動內容與贈送辦法以葡眾公司正式公告為準；團購方式以主揪耿德公告為準。<br>商品圖片來自葡眾官網。本頁只產生訂購文字，不會記錄任何個人資料。</div></main>
 <div id="bar"><div class="in">
-<div class="kk"><span id="kkt">🎁 再選 600SV 就送康爾喜一盒</span><div class="tr"><i id="kkb"></i></div></div>
+<div class="kk"><span id="kkt">🎁 再加 600SV 就送一盒康爾喜</span><span id="cdm"></span><div class="tr"><i id="kkb"></i></div></div>
 <div id="hint">👇 第1步：在想要的商品按紫色「＋」</div>
 <div class="row" style="margin-top:0"><div id="sum">已選 <b id="cnt">0</b> 件・<b id="tot">$0</b>・<b id="svt">0</b>SV・送 <b id="gt">0</b> 條</div><button class="btn" id="next" style="width:auto;padding:12px 16px">選好了，下一步 ➜</button></div>
 </div></div>
@@ -172,6 +184,15 @@ $('#cp').onclick=async()=>{if(!picked().length)return toast('清單是空的');i
 let ct=0;$('#clr').onclick=()=>{if(Date.now()-ct>3000){ct=Date.now();return toast('再按一次「清空」確認')}q={};copied=false;save();draw();sheet();$('#done').style.display='none';toast('已清空')};
 if(window.ResizeObserver)new ResizeObserver(()=>document.documentElement.style.setProperty('--barH',$('#bar').offsetHeight+'px')).observe($('#bar'));
 draw();
+const END=new Date('2026-12-28T20:00:00+08:00').getTime();
+function cdTick(){const ms=END-Date.now(),p=n=>String(n).padStart(2,'0');
+ if(ms<=0){$('#cdl').textContent='康康節活動已經結束囉，謝謝大家的支持 💜';['D','H','M','S'].forEach(k=>$('#cd'+k).textContent='00');$('#cdm').textContent='';$('#cdw').classList.remove('urgent');return}
+ const d=Math.floor(ms/864e5),hh=Math.floor(ms/36e5)%24,mm=Math.floor(ms/6e4)%60,ss=Math.floor(ms/1e3)%60;
+ $('#cdD').textContent=d;$('#cdH').textContent=p(hh);$('#cdM').textContent=p(mm);$('#cdS').textContent=p(ss);
+ $('#cdw').classList.toggle('urgent',d<3);
+ if(d<3)$('#cdl').textContent='🔥 最後倒數！送康爾喜快結束了';
+ $('#cdm').textContent=d>=1?`⏰ 剩 ${d} 天`:`⏰ 剩 ${hh} 小時 ${mm} 分`}
+cdTick();setInterval(cdTick,1000);
 </script>
 </body>
 </html>
