@@ -9,7 +9,7 @@ header{padding:28px 18px 18px;background:radial-gradient(circle at 90% 0,#5a1b22
 .tag{display:inline-block;background:var(--gold2);color:#141210;font-weight:900;padding:4px 14px;border-radius:30px;font-size:13px;letter-spacing:1px}
 h1{color:var(--gold);font-size:30px;margin:12px 0 6px}
 .sub{color:var(--mut);font-size:14px}
-.cd{margin:14px auto 0;max-width:520px;background:rgba(255,255,255,.05);border:1px solid #5b4a2c;border-radius:14px;padding:12px;font-size:15px}
+.bfend .cd{border:2px solid #e0b252;background:rgba(224,178,82,.16)}.bfend #cd{color:#ffd98a!important;font-size:18px!important;font-weight:700}.cd{margin:14px auto 0;max-width:520px;background:rgba(255,255,255,.05);border:1px solid #5b4a2c;border-radius:14px;padding:12px;font-size:15px}
 .cd b{color:var(--hi);font-size:20px}
 
 #gsr{flex-wrap:wrap}#gql{flex-basis:100%;color:#e8c77d;font-weight:900;font-size:14px;margin-bottom:-2px}
@@ -152,7 +152,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
 <div class="sub">🌹 芸琪 Angie｜YL 美單代購・好友專屬</div>
 <div class="me"><a href="https://line.me/ti/p/KbrYxqk7Rq" target="_blank" rel="noopener" class="ml">💬 有問題私訊芸琪（LINE）</a><a href="https://www.allfreedom.info/" target="_blank" rel="noopener" class="mw">🌐 認識芸琪</a><button class="mw" id="a2h" type="button">📲 加到手機桌面</button><button class="mw" id="rfb" type="button" onclick="this.textContent='⏳ 更新中…';var u=new window.URL(window.location.href);u.searchParams.set('r',Date.now());window.location.replace(u.toString())">🔄 手動更新</button></div><div id="rft" style="text-align:center;font-size:12px;color:var(--mut);margin-top:4px"></div><script>(function(){try{var d=new Date();document.getElementById('rft').textContent='頁面更新時間：'+d.toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})+'（已選的品項會保留）'}catch(e){}})()</script>
-<div class="cd">代購截止 <b>11/28（六）中午 12:00</b><div id="cd" style="color:var(--mut);font-size:13px;margin-top:4px"></div></div>
+<div class="cd">代購截止 <b>11/28（六）中午 12:00</b><div id="cd" style="color:var(--mut);font-size:13px;margin-top:4px"></div><div id="cdx" hidden style="font-size:14px;margin-top:4px">錯過的夥伴請等下一次活動～</div></div>
 <div class="disc">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</div></header>
 <div id="prog"><div class="pg" data-s="1"><i>1</i>挑商品</div><div class="pg" data-s="2"><i>2</i>下一步</div><div class="pg" data-s="3"><i>3</i>填名字</div><div class="pg" data-s="4"><i>4</i>按複製</div><div class="pg" data-s="5"><i>5</i>貼上送出</div></div>
 <div id="topbar"><div id="gsr"><label for="gq" id="gql">🔎 找商品：打品名或編號，結果馬上跳出來</label><input id="gq" type="search" placeholder="例如：乳香、喉糖、薄荷糖、5760" enterkeyhint="search"><button id="gsx" type="button" hidden>✕</button><button id="topc" type="button" aria-label="查看購物車">🛒<b id="topn">0</b></button></div><nav><button data-t="bf" class="on">🔥 黑五</button><button data-t="rec">⭐ 推薦</button><button data-t="nw">✨ 新品</button><button data-t="us">US 美單</button><button data-t="how">📝 跟團</button></nav></div>
@@ -272,9 +272,9 @@ $('#sheet').onclick=e=>{if(e.target.id=='sheet')$('#sheet').style.display='none'
 $('#nm').oninput=()=>{$('#done').hidden=true;try{localStorage.setItem('bf26fnm',$('#nm').value)}catch(e){};drawSheet()};try{$('#nm').value=localStorage.getItem('bf26fnm')||''}catch(e){}
 const clrFn=b=>{if(b.dataset.arm){cart={};save();upd();toast('已清空，可以重新挑選');b.textContent=b.dataset.lbl;delete b.dataset.arm;return}b.dataset.lbl=b.textContent;b.dataset.arm=1;b.textContent='再按一次確認清空';b.classList.add('arm');setTimeout(()=>{if(b.dataset.arm){b.textContent=b.dataset.lbl;delete b.dataset.arm;b.classList.remove('arm')}},3000)};
 $('#clr').onclick=e=>clrFn(e.currentTarget);$('#clr2').onclick=e=>clrFn(e.currentTarget);$('#clr3').onclick=e=>clrFn(e.currentTarget);
-$('#cp').onclick=async()=>{if(!$('#nm').value.trim()){toast('請先填上你的名字喔');$('#nm').focus();return}const t=$('#out').value;if(!t){toast('還沒有選品項喔');return}let ok=true;try{await navigator.clipboard.writeText(t)}catch(e){$('#out').select();try{ok=document.execCommand('copy')}catch(e2){ok=false}}$('#dtx').textContent=t;$('#done').hidden=false;if(!ok)$('.ok').textContent='⚠️ 自動複製沒成功，請長按下面文字自己複製：';$('#done').scrollIntoView({behavior:'smooth'});setTimeout(()=>{const g=document.querySelector('.gogrp');g&&g.classList.add('pulse')},400);};
+$('#cp').onclick=async()=>{if(document.body.classList.contains('bfend')){toast('本次代購已截止，感謝大家！');return}if(!$('#nm').value.trim()){toast('請先填上你的名字喔');$('#nm').focus();return}const t=$('#out').value;if(!t){toast('還沒有選品項喔');return}let ok=true;try{await navigator.clipboard.writeText(t)}catch(e){$('#out').select();try{ok=document.execCommand('copy')}catch(e2){ok=false}}$('#dtx').textContent=t;$('#done').hidden=false;if(!ok)$('.ok').textContent='⚠️ 自動複製沒成功，請長按下面文字自己複製：';$('#done').scrollIntoView({behavior:'smooth'});setTimeout(()=>{const g=document.querySelector('.gogrp');g&&g.classList.add('pulse')},400);};
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',1600)}
-function tick(){const end=new Date('2026-11-28T12:00:00+08:00')-new Date();$('#cd').textContent=end>0?`還剩 ${Math.floor(end/864e5)} 天 ${Math.floor(end/36e5)%24} 小時`:'本次代購已截止，感謝大家！'}
+function tick(){const end=new Date('2026-11-28T12:00:00+08:00')-new Date();document.body.classList.toggle('bfend',end<=0);$('#cdx').hidden=end>0;$('#cd').textContent=end>0?`還剩 ${Math.floor(end/864e5)} 天 ${Math.floor(end/36e5)%24} 小時`:'本次代購已截止，感謝大家！'}
 let copied=false,finished=false;
 function step(){const n=Object.keys(cart).filter(k=>cart[k]>0&&all[k]).length,open=$('#sheet').style.display=='flex',nm=$('#nm').value.trim();
  let s=1,t='👇 第1步：在想買的商品右邊，按金色「＋」';
