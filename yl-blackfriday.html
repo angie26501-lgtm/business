@@ -130,6 +130,22 @@ button.mw{background:none;cursor:pointer;font-family:inherit}
 img.pic,.rc img{cursor:zoom-in}
 .chips{scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
 .toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--gold2);color:#141210;padding:8px 16px;border-radius:20px;font-weight:700;display:none;z-index:30}
+
+/* 手機排版（11/27）：不跟著 LINE 放大字體、底部列與提示泡泡縮小 */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media(max-width:600px){
+ #cart{padding:7px 10px calc(7px + env(safe-area-inset-bottom))}
+ #cart .row{flex-wrap:wrap;gap:6px}
+ #cart .sum{flex:1 1 100%;font-size:13px;line-height:1.45}#cart .sum b{font-size:16px}
+ #cart .pvw,#cart .refn{display:none}#cart #sv{font-size:12px}
+ #vc{font-size:12.5px;padding:4px 8px}#clr2{font-size:12px;padding:3px 8px}
+ #open{flex:1 1 100%;padding:9px 12px;font-size:15px}
+ #coach{left:8px;right:8px;font-size:13px;padding:7px 8px 7px 11px;border-radius:12px}
+ #ctx{line-height:1.35}#help{padding:6px 10px;font-size:12px}
+ #buzz{left:8px;max-width:min(62vw,250px);font-size:12px;line-height:1.4;padding:6px 9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+ #bzc{font-size:11px;padding:0 7px}
+ #soldbox{font-size:13px}
+}
 </style></head><body>
 <header><span class="tag">🖤 BLACK FRIDAY 美單代購</span><h1>美國黑五・美單專頁</h1>
 <div class="sub">🌹 芳療好生活 芸琪共學圈｜芸琪 Angie</div>
@@ -144,13 +160,14 @@ img.pic,.rc img{cursor:zoom-in}
 <div class="box"><h3>💰 代購價包含什麼</h3>代購價已包含：匯率、美國運費、國際運費、刷卡手續費、集運倉驗貨拍照、報關費。<b>只有台灣境內運費另計</b>，不會再加收其他費用。
 <div style="margin-top:6px">🍷 寧夏紅：1箱30包 $4,600｜1箱51包 $6,800｜2箱(30包×2) $9,160</div></div>
 <div class="box"><h3>📝 接龍格式</h3>姓名｜產品編號＋名稱｜數量｜金額<br><span style="color:var(--mut)">在這頁按「＋」選好品項，最下面按「選好了，下一步」，就會幫你排好格式，複製貼到群組就完成了！</span></div>
+<div class="box" id="soldbox" style="border-left:5px solid #8e1f2b"><h3>📢 售完公告</h3><div style="font-size:14px">美國官網黑五品項，芸琪會定期檢核，售完的品項會在這裡公告，清單上也會標示「已售完」不能再選。</div><ul style="margin:8px 0 0;padding-left:18px;font-size:14px"><li><b>11/27 17:40 檢核</b>：黑五 41 項目前<b>全部都還有貨</b>，價格與官網一致 ✅</li><li><b>11/27</b>：官網「Last Drop Deals 最後折扣」專區已結束（本頁沒有收錄這區品項，不受影響）</li><li>官方公告：黑五活動到 <b>11/28（六）晚上 11:59（美國山區時間）</b>結束，約台灣時間 <b>11/29（日）下午 2:59</b></li></ul></div>
 <div class="box"><h3>🔥 這次黑五重點</h3><ul><li>乳香 15ml 5 折（數量有限，售完為止）</li><li>人氣單方、複方、滾珠 7 折</li><li>盜賊居家清潔系列 7 折</li><li>盜賊洗碗精、薄荷糖「買一送一」已開放（1 份＝2 個）</li><li>美國官方活動到 11/28 晚上（美國山區時間）結束</li></ul></div>
 <div class="box"><h3>⚠️ 小提醒</h3><ul><li>本頁價格僅供參考，最終以官方金額及代購金額計算，芸琪統計後會私訊與您核對確認</li><li>美國缺貨的品項就無法訂購，敬請見諒</li><li>國際運輸報關審核嚴格，保守估 4～6 週到貨，到貨再通知大家</li><li>黑五品項的產品編號，下單時芸琪幫大家對</li><li>價格以美國官網為準，若官網調整會再公告</li></ul></div>
 <div class="box">有問題隨時問芸琪喔 💕</div>
 </section>
 <div class="note"><b style="color:var(--gold)">※ 免責聲明：本頁價格有代購規則，計算結果僅供參考；最終仍以官方金額及代購金額計算，芸琪會再統計後與您私訊核對確認。如有誤植，敬請見諒。</b><br>商品照片來源：悠樂芳美國官網。</div>
 </main>
-<div id="cart"><div class="row"><div class="sum"><button id="vc" type="button">🛒 查看購物車</button> 已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b>・<b id="tpv">0</b> PV<span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small style="color:var(--mut);font-size:11.5px">＊參考價，以私訊核對金額為主</small> <button id="clr2" hidden>🗑 清空</button></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
+<div id="cart"><div class="row"><div class="sum"><button id="vc" type="button">🛒 查看購物車</button> 已選 <b id="cnt">0</b> 項・約 NT$ <b id="tot">0</b><span class="pvw">・<b id="tpv">0</b> PV</span><span id="sv" style="color:#ff9b9b;font-weight:700;font-size:13px"></span><br><small class="refn" style="color:var(--mut);font-size:11.5px">＊參考價，以私訊核對金額為主</small> <button id="clr2" hidden>🗑 清空</button></div><button class="btn" id="open">選好了，下一步 ➜</button></div></div>
 <div id="sheet"><div class="in"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px"><h3 style="color:var(--gold);margin:0">🛒 我的購物車</h3><button class="btn gh" id="back" type="button" style="min-height:40px;padding:6px 12px">← 回原頁面繼續挑</button></div>
 <div class="stp">步驟 1｜確認品項與數量（可用 − ＋ 改）</div><div id="cl"></div>
 <div class="stp">步驟 2｜填上你的名字</div><input id="nm" placeholder="你的名字" style="width:100%">
@@ -215,12 +232,13 @@ const bfK=en=>{const i=D.bf.findIndex(x=>x.en===en);return i<0?null:'b'+i};
 REC.forEach((r,i)=>{if(r.refs){r.keys=r.refs.map(bfK).filter(Boolean);const it=r.keys.map(k=>D.bf[+k.slice(1)]);r.nt=it.reduce((a,x)=>a+x.nt,0);r.org=it.reduce((a,x)=>a+orig(x),0);r.img=it[0]&&it[0].img;r.en=it.map(x=>x.en).join('＋');r.usd=it.reduce((a,x)=>a+x.mem,0);r.wsd=it.reduce((a,x)=>a+x.ws,0)}else{all['r'+i]={k:'r'+i,code:r.code,n:r.n,nt:r.nt,pv:r.pv||0};r.keys=['r'+i]}});
 D.us.forEach((r,i)=>all['u'+i]={k:'u'+i,code:r.code,n:r.n,nt:r.nt,pv:r.pv||0});
 const HOT=["46590", "44655", "3525", "5760", "23801", "3259", "20557", "44029", "3204", "34347", "20240", "30998", "3243", "5764", "3234", "6201", "45718", "20223", "46964", "3251", "3248", "44024", "3288", "40578", "3055", "3295", "3289", "3388", "36014", "46956", "27201", "3064", "49902", "3330", "3414", "3373", "3377", "3396", "3332", "3060", "3369", "3620", "3566", "3405", "3539", "19341", "3363", "3381", "4835", "4471", "3534", "43981", "3540", "3089", "3542", "3085", "3426", "3340", "3374", "3395", "4661", "3408", "3360", "6350", "3596", "19174", "5268", "5270", "5273", "5271", "5269", "48420", "5759", "5165"];
+const SOLD=[]; /* 售完品項：填英文名 en，例如 'Frankincense'；同步更新上方 #soldbox 公告 */
 function list(el,rows,pre,kind){
  const isU=kind=='us',cats=[...(isU?['📸 群組熱門']:[]),'全部',...new Set(rows.filter(r=>kind!='bf'||r.d).map(r=>r.c))];let cur=cats[0],q='';
  el.innerHTML=`<div class="stk"><div class="tools"><input type="search" placeholder="搜尋品名、英文或編號"></div><div class="chips">${cats.map(c=>`<span class="chip${c==cur?' on':''}" data-c="${c}">${c}</span>`).join('')}</div></div><div class="ls"></div>`;
  const ls=el.querySelector('.ls');
  function draw(){const hm=cur=='📸 群組熱門';ls.innerHTML=(hm?'<div class="note" style="margin-bottom:8px">📸 芳療群組相本「熱門美單商品」裡的品項，依相本順序排列</div>':'')+rows.map((r,i)=>[r,i]).filter(([r])=>(kind!='bf'||r.d)&&(cur=='全部'||(hm?HOT.includes(r.code):r.c==cur))&&(!q||(r.n+' '+(r.en||'')+' '+(r.code||'')).toLowerCase().includes(q))).sort((a,b)=>hm?HOT.indexOf(a[0].code)-HOT.indexOf(b[0].code):0).map(([r,i])=>kind=='bf'?
- `<div class="item">${pic(r.img,r.c)}<div class="nm"><b>${r.n}</b>${r.d?`<span class="off">${r.d}</span>`:''}<small>${r.en}${r.code?'・#'+r.code:''}・${r.c}</small>${r.tip?`<small style="color:#e8c77d">⚠️ ${r.tip}</small>`:''}</div><div class="pr">${r.d?`<small class="was">原價 <s>NT$${fmt(orig(r))}</s></small>`:''}<div class="nt">NT$${fmt(r.nt)}</div>${r.d?`<small class="save">省 NT$${fmt(orig(r)-r.nt)}</small>`:''}<small><s>US$${r.ws.toFixed(2)}</s> → US$${r.mem.toFixed(2)}</small></div><button class="add" data-k="${pre+i}">＋</button></div>`:
+ `<div class="item">${pic(r.img,r.c)}<div class="nm"><b>${r.n}</b>${SOLD.includes(r.en)?'<span class="off" style="background:#555">已售完</span>':''}${r.d?`<span class="off">${r.d}</span>`:''}<small>${r.en}${r.code?'・#'+r.code:''}・${r.c}</small>${r.tip?`<small style="color:#e8c77d">⚠️ ${r.tip}</small>`:''}</div><div class="pr">${r.d?`<small class="was">原價 <s>NT$${fmt(orig(r))}</s></small>`:''}<div class="nt">NT$${fmt(r.nt)}</div>${r.d?`<small class="save">省 NT$${fmt(orig(r)-r.nt)}</small>`:''}<small><s>US$${r.ws.toFixed(2)}</s> → US$${r.mem.toFixed(2)}</small></div>${SOLD.includes(r.en)?'<button class="add" disabled style="opacity:.35" title="已售完">✕</button>':`<button class="add" data-k="${pre+i}">＋</button>`}</div>`:
  `<div class="item">${pic(r.img||'',r.c)}<div class="nm"><b>${r.n}</b>${HOT.includes(r.code)?'<span class="off" style="background:#2e5a8e">📸 熱門</span>':''}<small>#${r.code}・${r.c}・PV ${r.pv}</small></div><div class="pr">${r.bf!=null?`<span class="off big">🔥 黑五${D.bf[r.bf].d}</span><small class="was">原價 <s>NT$${fmt(orig(D.bf[r.bf]))}</s></small>`:''}<div class="nt">${r.ask?'請問芸琪':'NT$'+fmt(r.nt)}</div><small>US$${r.bf!=null?D.bf[r.bf].mem:r.usd}</small></div>${r.ask?'<button class="add" disabled style="opacity:.35">＋</button>':`<button class="add" data-k="${r.bf!=null?'b'+r.bf:pre+i}">＋</button>`}</div>`).join('')||'<div class="note">找不到符合的品項</div>'}
  el.querySelector('input').oninput=e=>{q=e.target.value.trim().toLowerCase();draw()};
  el.querySelector('.chips').onclick=e=>{const c=e.target.dataset.c;if(!c)return;cur=c;el.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.c==c));draw()};
